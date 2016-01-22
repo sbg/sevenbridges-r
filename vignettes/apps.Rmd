@@ -1,0 +1,49 @@
+---
+title: "How to Describe CWL Tools/Workflows in R and Execute it"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{How to Describe CWL Tools/Workflows in R and Excute it.}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+```{r global_options, include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Describe Tools in R
+
+The major interface provided by `sevenbridges` package is 
+
+```
+```
+
+

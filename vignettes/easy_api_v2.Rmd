@@ -1,0 +1,873 @@
+---
+title: "Complete Guide for API R Client"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{Complete Guide for API R Client}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+```{r global_options, include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Introduction
+
+This package is designed to support as many Seven Bridges supported platforms 
+as possible, as long as you provide the correct API URL, it should work normally. 
+
+Currently tested platform including
+
+- [Cancer Genomics Cloud Platform](http://www.cancergenomicscloud.org/)
+- [Seven Bridgs US platform](https://www.sbgenomics.com/)
+
+It will be helpful to read complete platform documentation 
+
+- [Full doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs)
+- [Full doc for Seven Bridgs US platform](https://docs.sbgenomics.com/display/developerhub/Seven+Bridges+Genomics+Developer+Hub)
+
+And it's API part if you want to understand details and use its full power:
+
+- [API doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
+- [API doc for Seven Bridgs US platform](https://docs.sbgenomics.com/display/developerhub/API)
+
+## Installation
+
+This package is in devel branch on bioconductor now, to install the package.
+
+To install the package from github
+
+This package is also availabe in docker image
+
+
+
+
+# Quickstart
+
+If you want to understand details how to use the API client in R, please go for the second section. This section, I am going to use a simple example for a quick start
+
+Set up the `Auth` object, it remembers your auth token and url, every action started from here
+
+```{r}
+library(sevenbridges)
+a <- Auth("1c0e6e202b544030870ccc147092c257")
+a
+```
+
+Quick cheet sheet before we proceddd, we use this style to access 
+
+```{r}
+## Filet
+### list all files
+a$file()
+### list all public files
+a$file(visibility = "public")
+### list all files belongs to one project
+### from Project
+a$project("demo")
+a$project("demo")$task()
+a$project("demo")$file()
+a$project("demo")$app()
+### 
+```
+
+```{r}
+## check your billing info
+a$billing()
+
+## create a new project with specified billing id
+bid <- a$billing()[[1]]$id
+a$project_new(name = "api testing", bid, description = "Just a testing")
+## confirm the new created project
+(p <- a$project("api testing", detail = TRUE))
+
+
+## Add an CWL file to your project
+fl.runif <- system.file("extdata", "runif.json", package = "sevenbridges")
+## name your app 
+p$app_add("runif_draft", fl.runif)
+## check it out
+(aid <- p$app("runif")$id)
+
+## draft your task
+p$task_add(name = "Draft runif", 
+                               description = "Description for runif", 
+                             app = aid,
+                            inputs = list(min = 1, max = 10))
+
+## confirm
+(tsk <- p$task(status = "draft"))
+
+## Run your task
+tsk$run()
+
+## Monitor your task (skip this part)
+## tsk$monitor()
+
+## get information about a task
+tsk$update()
+
+## abort a running task
+tsk$abort()
+
+## downlaod a file
+
+
+```
+
+# Low level API 
+
+You can always use single `api()` function combined with any API tutorials to get
+what you want, this is the core function. This will return raw response from calls 
+like GET(), DELETE() from httr package, without status checking!
+
+# Easy API
+
+This is what the package about, and a much more user-friendly interface that we suggest our users to use, so you don't have to combine several `api()` calls and refer to the API documentation all the times to finish a simple task. 
+
+## Construct the Auth object
+
+First thing first, you need to construct an Auth object, everything begins with
+this object, it stores
+
+- The authentification token
+- The platform (US platform, Cancer Genomics Cloud etc)
+- Version
+
+Then all actions are defined for this object. 
+
+```{r}
+library(sevenbridges)
+a <- Auth("1c0e6e202b544030870ccc147092c257")
+a
+```
+
+By default it points to Cancer Genomics Cloud platform, unless you specify
+
+- API URL (more flexible)
+- or Platform (currently support 'CGC', 'US')
+
+
+```{r}
+## NOT RUN
+## specify platform
+a <- Auth("4b6068016ab746c6bf6401ae69b80e1f", platform = "CGC")
+## or specify the url
+a <- Auth("4b6068016ab746c6bf6401ae69b80e1f",
+    url = "https://cgc-api.sbgenomics.com/v2/")
+
+```
+
+Note: when you construct the Auth object, make sure you input the correct platform or 
+API url for your authentifiation, where you get it from. 
+
+For the tutorial about how to get your authentifiation, please check
+
+- [Get token from US platform](https://docs.sbgenomics.com/display/developerhub/Authentication+Token)
+- [Get token from Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
+
+## List All API calls
+
+If we didn't pass any parameters to api() from Auth, it will list all API calls,
+and anything parameter we provided will pass on to api() function, but you don't 
+need to input token and url again! The Auth object will know that information already.\
+And this call from Auth object will check the response too. 
+
+```{r}
+a$api()
+```
+
+## Rate Limits
+
+This call returns information about your current rate limit. 
+This is the number of API calls you can make in one hour.
+
+```{r}
+a$rate_limit()
+
+```
+
+## Users
+
+This call returns a list of the resources, such as projects, billing groups, and 
+organizations, that are accessible to you. If you are not an administrator, this call will only return a successful response if {username} is replaced with your own username. If you are an administrator, you can replace {username} with the username of any CGC user, to return information on their resources.
+
+_Case sensitivity_: Don't forget to capitalize your username in the same way as you set it when you registered on the CGC.
+
+If you don't provide a username, your user information will be shown.
+
+```{r}
+## return your information
+a$user()
+## return user 'tengfei''s information
+a$user("tengfei")
+```
+
+
+## Billing Group and Invoices
+
+### For billing
+
+if no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. if `breakdown = TRUE`, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.
+
+
+```{r}
+## return a BillingList object
+b <- a$billing()
+a$billing(id = b[[1]]$id)
+a$billing(id = b[[1]]$id, breakdown = TRUE)
+```
+
+### For invoices
+
+If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
+
+```{r}
+a$invoices()
+a$invoice(id = "fake_id")
+```
+
+
+Note (TODO): Invoice is not a object yet, it currently just return a list.
+
+
+
+## Project Operation
+
+Project is the basic unit to organize different entities: files, tasks, apps, etc. So lots actions comes from this `Project' object. 
+
+### List All Projects 
+
+This call returns a list of all projects you are a member of. Each project's project_id and URL on the CGC will be returned.
+
+```{r}
+a$project()
+```
+
+Then if you want to list the projects owned by and accessible to a particular user, specify the `owner` argument. Each project's ID and URL will be returned.
+
+```{r}
+a$project(owner = "yintengfei")
+
+## unfixed bugs
+sevenbridges:::status_check(api(auth_token = a$auth_token, base_url = a$url, path = "projects/Rfranklin", method = "GET"))
+```
+
+To get details about a project, use `detail = TRUE`
+
+```{r}
+a$project(detail = TRUE)
+```
+
+### Partial Match Project Name
+
+For more friendly interface and conventient search, we support partial name match in this 
+interface. The first argument for the call is "name", 
+users can provide part of the name and we do a search for you automatically. 
+
+```{r}
+## want to return a project called
+a$project("hello")
+```
+
+### Create a New Project
+
+To create a new project, user need to specify
+
+- name (required)
+- billing_group_id (required)
+- description (optional)
+- tags (optional): this has to be a list(), only if you are "TCGA" user, you can 
+create TCGA project by passing tags list("tcga")
+- type (optional): by default, we are creating a cwl project "v2"
+
+
+
+```{r}
+a$project_new("api_testing", a$billing()[[1]]$id)
+a$project_new("api_testing_tcga", a$billing()[[1]]$id,
+              description = "Test for API", tags = c("tcga"))
+```
+
+### Delete a Project
+
+Next we delete what we created for testing, only *single* project could be deleted now, so
+please pay attention to the returned object from `a$project()`, sometimes if you are using partial matching by name, it will return a list and we don't support this operation on a list of project yet. 
+
+```{r}
+## remove it
+a$project("api_testing")$delete()
+## check
+a$project("api_testing")
+```
+
+### Update/Edit a Project
+
+You can update information about an existing project, including
+
+- name
+- description
+- billing_group
+
+```{r}
+a$project(id = "tengfei/helloworld")
+a$project(id = "tengfei/helloworld")$update(name = "Hello World Update", 
+                                                    description = "Update description")
+
+```
+
+### Project Member
+
+#### List members
+
+This call returns a list of the members of the specified project. For each member, the response lists:
+
+- The member's username on the CGC
+- The member's permissions in the project specified
+
+```{r}
+a$project(id = "tengfei/demo-project")$member()
+```
+
+#### Add a member
+This call adds a new user to a specified project. It can only be successfully made by a user who has admin permissions in the project.
+
+Requests to add a project member must include the key permissions. However, if you do not include a value for some permission, it will be set to false by default.
+
+Set permission by passing: copy, write, execute, admin, read argument. 
+
+Note: read is implicit and set by default, you can not be project member without having read permission
+
+```{r}
+a$project(id = "tengfei/demo-project")$member_add(username = "Controlled_Data_User")
+```
+
+### Update a member
+
+This call edits a user's permissions in a specified project. It can only be successfully made by a user who has admin permissions in the project.
+
+```{r}
+a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")
+a$project(id = "tengfei/demo-project")$
+    member(username = "Controlled_Data_User")$
+    update(copy = TRUE)
+a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")
+```
+
+#### Delete a member
+
+To delete an existing member, just to call `delete()` action on `Member` object.
+
+```{r}
+a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")$delete()
+## confirm
+a$project(id = "tengfei/demo-project")$member()
+```
+
+### List all Files
+
+To list all files belongs to a project simple use
+
+```{r}
+a$project(id = "tengfei/demo-project")$file()
+```
+## Files and Metadata
+
+### List all files
+
+This call returns a list of all files in a specified project that you can access. For each file, the call returns:
+
+- Its ID
+- Its filename
+
+The project is specified as a query parameter in the call.
+
+```{r}
+a$file(project = a$project(name = "hello")$id)
+a$file("omni", project = a$project(name = "hello")$id, detail = TRUE)
+```
+
+However we recommend user use cascading way to list files. It's the 'style' we 
+are using through all the tutorial. 
+
+```{r}
+a$project("hello")$file()
+```
+
+To get details about files, please use `detail = TRUE` in the call.
+
+```{r}
+a$project("hello")$file(detail = TRUE)
+```
+
+### Copy a file or group of files
+
+This call copies the specified file to a new project. Files retain their metadata when copied, but may be assigned new names in their target project.
+
+Note that Controlled Data files may not be copied to Open Data projects. To make this call, you should have copy permission within the project you are copying from.
+
+Let's try to copy a file from CGC public files, the id you can tell from the url is 
+"561e1b33e4b0aa6ec48167d7"
+
+You must provide 
+
+- `id` file id, or list/vector of files ids. 
+- `project` parameter: project id. 
+- `name` is optional, if omitted, use the same.
+
+```{r}
+## 1000G_omni2.5.b37.vcf
+fid <- "561e1b33e4b0aa6ec48167d7"
+fid2 <- "561e1b33e4b0aa6ec48167d3"
+pid <- a$project("demo")$id
+a$copyFile(c(fid, fid2), project = pid)
+a$project(id = pid)$file()
+```
+
+NOTE: to copy a group of files, you need `Auth$copyFile()` interface. The id of those fies in your project iwll be different from public id. 
+
+Alternatively you can do single file copy 
+
+```{r}
+a$project("hello")$file(id = fid)$copyTo(pid)
+```
+
+### Delete a file
+
+Note: the `delete` action only work for single file now, make sure your `file` call return 
+a single file not a file list.
+
+```{r}
+a$project("demo")$file(id = fid)$delete()
+## confirm the deletion
+a$project("demo")$file()
+```
+
+You can also delete a group of files or `FilesList` object, __be careful__ with this function! 
+
+```{r}
+## return 5 files
+a$project("demo")$file("phase1")
+## delete all of them
+delete(a$project("demo")$file("phase1"))
+a$project("demo")$file("phase1")
+```
+
+### Download files
+
+To get the download information, basically a url, please use
+
+```{r}
+a$project("demo")$file()[[1]]$download_url()
+```
+
+To download directly from R, use `download` call directly from single File object.
+
+```{r}
+fid3 <- a$project("demo")$file()[[1]]$id
+a$project("demo")$file(id = fid3)$download("~/Downloads/")
+```
+
+I also created `download` function for `FilesList` object to save your time
+
+```{r}
+fid3 <- a$project("demo")$file()[[1]]$id
+a$project("demo")$file(id = fid3)$download("~/Downloads/")
+```
+
+To download all files from a project.
+
+```{r}
+a$project("demo")$download("~/Downloads")
+```
+
+### Upload files
+
+TODO: currently only v1 supported.
+
+Seven Brdiges platforms provide couple different ways for data import
+
+- command line uploader
+- graphic UI uploader
+- from ftp, http etc from interface directly
+
+Here an upload function is implemented directly in R for easy usage. 
+
+You need to specify the project you need first. 
+
+```{r}
+fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
+fl
+a$project("demo")$upload(fl)
+library(httr)
+ufo <- upload_file(fl)
+POST()
+
+```
+
+### Public files
+
+The only way you can list public files now via API is from `Auth$file()` call, and for now, 
+the project id is "admin/sbg-public-data". This may be updated later. Alternative, just click the file from our GUI, you will see the id in the url link.
+
+```
+a$file(project = "admin/sbg-public-data")
+```
+
+### Update a file
+
+You can call `update()` function from Files object, following things could be updated
+
+- name
+- metadata (list): this is going to overwrite all meta for the file, so please provide the full list. For more flexible operation, please check next section about Metadata. 
+
+If no parameters provided, will just get detail for the same file and update the object
+itself. 
+
+```
+fl <- a$project("demo")$file()[[1]]
+## show metadata
+fl$meta()
+fl$update(name = "newb37.vcf", metadata = list(new_item1 = "item1", new_item2 = "item2"))
+## check it out
+fl
+```
+
+
+### Metadata Operation
+
+A full list of metadata fields and their permissible values on the CGC is available on the page [TCGA Metadata](http://docs.cancergenomicscloud.org/v1.0/docs/tcga-metadata-on-the-cgc).
+ 
+Note that the file name is not the same as its ID. The ID is a hexadecimal string, automatically assigned to a file in a project. The file's name is a human-readable string. For information, please see the API overview.
+
+
+To get metdata for a file call `meta()`. 
+
+```{r}
+## meta is pulling the latest information via API
+fl$meta()
+## field meta data saved the previous saved one
+fl$metadata
+```
+
+
+Although CGC defined a set of meta schema, which is visible on the UI of the platform, but you can pass any free form of meta for the file, it's just not visible on UI, but it's stored with the data. 
+
+Only the value being specfied stored with files, to set metadata please call `setMeta()` from
+Files object. 
+
+__Important__:
+
+- By default, we are not overwriting the meta field using `setMeta` call, unless you pass
+the `overwrite = TRUE` argument
+
+```{r}
+fl$setMeta(new_item3 = "item3")
+fl
+## oops it removed rest of the meta
+fl$setMeta(new_item4 = "item4", overwrite = TRUE)
+fl
+```
+
+Let's keep playing with meta, if you are really interested in the default schema that shon on the UI, you can use `Metadata()` constructor and check details of each meta; Simply call the function (name of meta), it will show description and enumerated items. Please pay attention to `suggested_values` field.
+
+```{r}
+## check which schema we have
+Metadata()$show(full = TRUE)
+## check details for each, play with it
+platform()
+paired_end()
+quality_scale()
+```
+
+To construct the Metadata, we encourage you use `Metadata()` directly, pass metadata directly into the call, it will do the validation. 
+
+```{r}
+m <- Metadata(platform = "nanopore", quality_scale = "solexa", new_item = "newnew")
+m
+```
+
+## App
+
+From now on we are going to have fun with Apps! The CWL(Common Workflow Language) based 
+approach. It gets more and more popular and really designed for reproducible pipeline description and execution. All Seven Bridges platforms support cwl natively in the cloud. 
+So in this section, I will introduce how we are going to do this via API and inside R. 
+
+### List all apps 
+
+This call lists all the apps available to you.
+
+```{r}
+a$app()
+## or show details
+## FIXME: detail is long
+a$app(detail = TRUE)
+```
+
+To search a name, please pass a pattern for the `name` argument; or provide a unique `id`.
+```{r}
+## pattern match
+a$app(name = "STAR")
+## unique id
+aid <- a$app()[[1]]$id
+aid
+a$app(id = aid)
+## get a specific revision from an app
+a$app(id = aid, revision = 0)
+``` 
+
+
+
+To list all apps belong to one project use `project` argument
+
+```{r}
+## my favorite, always
+a$project("demo")$app()
+
+## or alternatviely
+pid <- a$project("demo")$id
+a$app(project = pid)
+```
+
+To list all public apps, use `visibility` argument
+
+```{r}
+## show 100 items from public
+a$app(visibility = "public", limit = 100)
+```
+
+TODO: To search an app cross all published apps (this may take a while)
+when limit is NULL, show everything. 
+
+```{r}
+a$app(visibility = "public")
+```
+
+### Copy an App
+
+This call copies the specified app to the specified project. The app should be one in a project that you can access; this could be an app that has been uploaded to the CGC by a project member, or a publicly available app that has been copied to the project.
+
+Need two arguments
+
+- project: id character
+- name: optional, to re-name your app
+
+```{r}
+aid <- a$app(visibility = "public")[[1]]$id
+aid
+a$copyApp(aid, project = pid, name = "copy-rename-test")
+## check it is copied
+a$app(project = pid)
+```
+
+### Get CWL from an App
+
+This call returns information about the specified app, as raw CWL. The call differs from the call to GET details of an app by returning a JSON object that is the CWL.
+
+The app should be one in a project that you can access; this could be an app that has been uploaded to the CGC by a project member, or a publicly available app that has been copied to the project.
+
+To get a specific revision, pass `revision` argument. 
+
+```{r}
+ap <- a$app(visibility = "public")[[1]]
+a$project("demo")$app("index")
+## get a specific revision
+a$project("demo")$app("index", revision = 0)
+
+```
+
+TODO: convert it to an CWL object
+
+### Add CWL as an APP
+
+Use `app_add` function call from a `Project` object, two parameteres requried
+
+- short_name: a short id for your app, alphanumeric character, no spacings; this not name field. 
+- file: you json file for cwl.
+
+```{r}
+cwl.fl <- system.file("extdata", "bam_index.json", package = "sevenbridges")
+a$project("demo")$app_add(short_name = "new_bam_index_app", file = cwl.fl)
+a$project("demo")$app_add(short_name = "new_bam_index_app", revision = 2, file = cwl.fl)
+```
+
+
+
+### Directly Describe CWL in R
+
+This is fun and is introduced in another tutorial. 
+
+
+## Task Operation
+
+### List tasks
+
+This call returns a list of tasks that you can access. You are able to filter by status
+
+```{r}
+## all tasks
+a$task()
+## filter
+a$task(status = "completed")
+a$task(status = "running")
+```
+
+To list all tasks in a project
+
+```{r}
+## FIXME;
+a$project("demo")$task()
+pid <- a$project("demo")$id
+pid
+a$task(project = pid)
+```
+
+### Create a draft task
+
+To create a draft, you need to call the `task_add` function from Project object. And you need to pass following arguments
+
+- name: name for this task
+- description: description for this task
+- app: app id you have access to
+- inputs: inputs list for this task
+
+```{r}
+## push an app first
+fl.runif <- system.file("extdata", "runif.json", package = "sbgr")
+a$project("demo")$app_add("runif_draft", fl.runif)
+runif_id <- "tengfei/demo-project/runif_draft"
+## create a draft task
+a$project("demo")$task_add(name = "Draft runif 3", 
+                           description = "Description for runif 3", 
+                           app = runif_id,
+                           inputs = list(min = 1, max = 10))
+## confirm
+a$project("demo")$task(status = "draft")
+```
+
+### Modify a task
+
+Call `update` function fro a Task object, you can update
+
+- name
+- description
+- inputs list (only update items you provided.)
+
+```{r}
+## get the single task you want to update
+tsk <- a$project("demo")$task("Draft runif 3")
+tsk
+tsk$update(name = "Draft runif update", description = "draft 2", 
+           inputs = list(max = 100))
+## alternative way to check all inputs
+tsk$getInputs()
+```
+
+### Run a task
+
+This call runs (executes) the specified task. Only tasks whose status is "DRAFT" may be run.
+
+```{r}
+tsk$run()
+## run update without information just return latest information
+tsk$update()
+```
+
+### Monitor a running task and set function hook
+
+To monitor a running task, call `monitor` from a task object
+
+- first arugent set interval time to check the status
+- rest arugments might be used for hook function
+
+
+
+```{r}
+tsk$monitor()
+```
+
+get and set default hook function for task status, currently failed, completed taskss
+will break the monitoring. 
+
+Note: Hook functio has to return `TRUE` (break monitoring) or `FALSE` (continuing) in the end. 
+
+```{r}
+getTaskHook("completed")
+getTaskHook("draft")
+setTaskHook("draft", function(){message("never happens"); return(TRUE)})
+getTaskHook("draft")
+```
+
+### Abort a runing task
+
+This call aborts the specified task. Only tasks whose status is "RUNNING" may be aborted.
+
+```{r}
+## abort
+tsk$abort()
+## check
+tsk$update()
+```
+
+
+
+### Delete a task
+
+Note that you can only delete draft tasks, not running tasks.
+
+```{r}
+tsklst <- a$task(status = "draft")
+## delete a single task
+tsklst[[1]]$delete()
+## confirm
+a$task(status = "draft")
+## delete a list of tasks
+delete(tsklst)
+```
+
+
+
+## Get Raw Response from httr
+
+In easy API, we return an object which contains the raw response from httr as a field,
+you can either call `response()` on that object or just get the field out of it
+
+## Batch operation on project/files/tasks
+
+Right now,  users have to use `lapply` to do those operations themsevles. It's simple 
+
+# Quick Start Tutorial
+
+The goal of this package is to make the API calls easier to operate and remember, 
+so users don't have to refer back to docuementation every now and then. In this section 
+we are going to use a full example to demonstrate how it works.
+
+
