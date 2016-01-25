@@ -1,5 +1,3 @@
-
-
 ## SBG extesion
 
 .sbg.items <- c("sbg:homepage" , 
@@ -81,11 +79,8 @@ SBG <- setRefClass("SBG", fields = list(
                            .self$field(paste0("sbg:", nm), args[[nm]])                           
                        }
 
-                   },
-                       show = function(...){
-                           .showFields(.self, values = .sbg.items, ...)
-                       }
-                                  ))
+                   }))
+
 
 
 #' Rabix specifc Requirements
@@ -100,10 +95,11 @@ SBG <- setRefClass("SBG", fields = list(
 #'
 #' @rdname requirements
 #'
-#' @export CPURequirement
+#' @export CPURequirement cpu
 #' @exportClass CPURequirement
-#' @aliases CPURequirement CPURequirement-class
+#' @aliases CPURequirement CPURequirement-class cpu
 #' @examples
+#' cpu(1)
 #' CPURequirement(value = 1L)
 CPURequirement <-
     setRefClass("CPURequirement", contains = "ProcessRequirement",
@@ -129,13 +125,66 @@ CPURequirement <-
                 ))
 
 
+cpu <- CPURequirement
+
+#' @rdname requirements
+#' @aliases docker
+#' @export docker
+#' @examples
+#' docker("rocker/r-base")
+docker <- function(pull = "", imageId = "", load = "", file = "", output = ""){
+    DockerRequirement(
+        dockerImageId = imageId,
+        dockerPull = pull,
+        dockerLoad = load,
+        dockerFile = file,
+        dockerOutputDirectory = output)    
+}
+
+#' requirements and hints
+#'
+#' requirements and hints
+#'
+#' @export requirements
+#' @examples
+#' requirements(docker("rocker/r-base"), cpu(1), mem(1024))
+requirements <- function(...){
+    listData <- .dotargsAsList(...)
+    ## process
+    listData <- lapply(listData, function(x){
+        if(is.list(x)){
+            if(all(sapply(x, is, "FileDef"))){
+                return(FileDefList(x))
+            }else{
+                stop("not all FileDefList are FileDef object")
+            }
+        }else{
+            return(x)
+        }
+    })
+    ## validation
+    idx <- sapply(listData, function(x){
+        is(x, "ProcessRequirement") | is(x, "FileDefList")
+    })
+    if(!all(idx)){
+        print(listData[!idx])
+        stop("Has to be ProcessRequirement class, use docker(), cpu(), mem(), fileDef(), function to help")
+    }
+    ProcessRequirementList(listData)
+}
+
+fileDef <- function(name = NULL, content = NULL, filename = name, fileContent = content){
+    stopifnot(is.null(filename) || is.null(fileContent))
+    FileDef(filename = filename, fileContent = content)
+}
 
 
 #' @rdname requirements
-#' @aliases MemRequirement MemRequirement-class
-#' @export MemRequirement
+#' @aliases MemRequirement MemRequirement-class mem
+#' @export MemRequirement mem
 #' @exportClass MemRequirement
 #' @examples
+#' mem(2000)
 #' MemRequirement(value = 2000L)
 MemRequirement <-
     setRefClass("MemRequirement", contains = "ProcessRequirement",
@@ -151,6 +200,7 @@ MemRequirement <-
                     }
                 ))
 
+mem <- MemRequirement
 
 
 
@@ -170,107 +220,65 @@ MemRequirement <-
 #' @field owner [list] a list of owner names. 
 #' @field contributor [list] a list of contributor names.
 #'
-#' @section other fields:
-#' \describe{
-#' \item{\code{cpu}}{cpu 0 or 1, for any value >1 will be converted to 1L, passed to CPURequirement}
-#' \item{\code{mem}}{Positive integer. Passed to MemRequirement.}
-#' \item{\code{dockerPull}}{[character] Get a Docker image using
-#' docker pull}
-#' 
-#' \item{\code{dockerLoad}}{[character] Specify a HTTP URL from which
-#' to download a Docker image using docker load.}
-#' 
-#' \item{\code{dockerFile}}{[character] Supply the contents of a
-#' Dockerfile which will be build using docker build.}
-#' 
-#' \item{\code{dockerImageId}}{[character] The image id that will be
-#' used for docker run. May be a human-readable image name or the
-#' image identifier hash. May be skipped if dockerPull is specified,
-#' in which case the dockerPull image id will be used.}
-#' 
-#' \item{\code{dockerOutputDirectory}}{ [character] Set the designated
-#' output directory to a specific location inside the Docker
-#' container.}}
-#' 
 #' @import methods
 #' @importFrom docopt docopt
 #' @export Tool
 #' @exportClass Tool
 Tool <-
     setRefClass("Tool",
-                contains = c("CommandLineTool", "SBG", "App"),
-                fields = list(context = "character",
-                    owner = "list",
-                    contributor = "list"),
+                contains = c("CommandLineTool", "SBG"),
+                fields = list(context = "character"),
                 methods = list(
                     initialize = function(...,
-                        inputs = NULL,
-                        outputs = NULL,
-                        cpu = 1L, mem = 1000L,                        
-                        dockerImageId = "",
-                        dockerPull = "",
-                        dockerLoad = "",
-                        dockerFile = "",
-                        dockerOut = "",
-                        requirements = NULL,
                         context = "https://github.com/common-workflow-language/common-workflow-language/blob/draft-1/specification/tool-description.md"){
 
 
+
                         
 
-                        stopifnot(is.numeric(cpu))
-                        .v <- as.integer(cpu)
-                        if(!.v %in% c(1L, 0L)){
-                            warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
-                            if(.v > 0){
-                                message("Convert CPU value ", .v, " to", 1L)
-                                .v <- 1L
-                            }
-                        }
+                        ## if(is.null(requirements)){
+                        ##     requirements <<-
+                        ##         ProcessRequirementList(
+                        ##             list(DockerRequirement(
+                        ##                 dockerImageId = dockerImageId,
+                        ##                 dockerPull = dockerPull,
+                        ##                 dockerLoad = dockerLoad,
+                        ##                 dockerFile = dockerFile,
+                        ##                 dockerOutputDirectory = dockerOut),
+                        ##                  CPURequirement(value = .v),
+                        ##                  MemRequirement(value = as.integer(mem))))
+                        ## }
                         
-
-                        if(is.null(requirements)){
-                            requirements <<-
-                                ProcessRequirementList(
-                                    list(DockerRequirement(
-                                        dockerImageId = dockerImageId,
-                                        dockerPull = dockerPull,
-                                        dockerLoad = dockerLoad,
-                                        dockerFile = dockerFile,
-                                        dockerOutputDirectory = dockerOut),
-                                         CPURequirement(value = .v),
-                                         MemRequirement(value = as.integer(mem))))
-                        }
                         context <<- context
 
 
-                        ## inputs
-                        stopifnot(is(inputs, "InputParameterList") ||
-                                  (is.list(inputs) &&
-                                       all(sapply(inputs, is, "InputParameter"))))
+                        ## ## inputs
+                        ## stopifnot(is(inputs, "InputParameterList") ||
+                        ##           (is.list(inputs) &&
+                        ##                all(sapply(inputs, is, "InputParameter"))))
                         
-                        if(is.list(inputs) &&
-                           all(sapply(inputs, is, "InputParameter"))){
-                            inputs <<- IPList(inputs)
-                        }
+                        ## if(is.list(inputs) &&
+                        ##    all(sapply(inputs, is, "InputParameter"))){
+                        ##     inputs <<- IPList(inputs)
+                        ## }
 
-                        if(is(inputs, "InputParameterList")){
-                            inputs <<- inputs
-                        }
+                        ## if(is(inputs, "InputParameterList")){
+                        ##     inputs <<- inputs
+                        ## }
 
-                        ## outputs
-                        stopifnot(is(outputs, "OutputParameterList") ||
-                                  (is.list(outputs) &&
-                                       all(sapply(outputs, is, "OutputParameter"))))
+                        ## ## outputs
+                        ## stopifnot(is(outputs, "OutputParameterList") ||
+                        ##           (is.list(outputs) &&
+                        ##                all(sapply(outputs, is, "OutputParameter"))))
                         
-                        if(is.list(outputs) &&
-                           all(sapply(outputs, is, "OutputParameter"))){
-                            outputs <<- OPList(outputs)
-                        }
+                        ## if(is.list(outputs) &&
+                        ##    all(sapply(outputs, is, "OutputParameter"))){
+                        ##     outputs <<- OPList(outputs)
+                        ## }
 
-                        if(is(outputs, "OutputParameterList")){
+                        ## if(is(outputs, "OutputParameterList")){
                             
-                        }
+                        ## }
                         
                         
                         callSuper(...)

@@ -25,27 +25,4 @@ with more fields.
 \describe{
 \item{\code{toList(...)}}{Convert object to a list of simple data types}
 }}
-\section{other fields}{
-
-\describe{
-\item{\code{cpu}}{cpu 0 or 1, for any value >1 will be converted to 1L, passed to CPURequirement}
-\item{\code{mem}}{Positive integer. Passed to MemRequirement.}
-\item{\code{dockerPull}}{[character] Get a Docker image using
-docker pull}
-
-\item{\code{dockerLoad}}{[character] Specify a HTTP URL from which
-to download a Docker image using docker load.}
-
-\item{\code{dockerFile}}{[character] Supply the contents of a
-Dockerfile which will be build using docker build.}
-
-\item{\code{dockerImageId}}{[character] The image id that will be
-used for docker run. May be a human-readable image name or the
-image identifier hash. May be skipped if dockerPull is specified,
-in which case the dockerPull image id will be used.}
-
-\item{\code{dockerOutputDirectory}}{ [character] Set the designated
-output directory to a specific location inside the Docker
-container.}}
-}
 

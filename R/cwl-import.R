@@ -654,11 +654,13 @@ Expression <- setRefClass("Expression",
 #' ProcessRequirement Class
 #'
 #' @section ProcessRequirement:
-#' \describe{
-#' A process requirement declares a prerequisite that may or must be
-#' fufilled before executing a process. See Process.hints and
-#' Process.requirements. Process requirements are the primary
-#' mechanism for specifying extensions to the CWL core specification. 
+#'
+#' \describe{ A process requirement
+#' modifies the semantics or runtime environment of a process. If an
+#' implementation cannot satisfy all requirements, or a requirement is
+#' listed which is not recognized by the implementation, it is a fatal
+#' error and the implementation must not attempt to run the process,
+#' unless overridden at user option.
 #'
 #' 
 #' \item{\code{class}}{(character) The specific requirement type.}
@@ -685,7 +687,6 @@ Expression <- setRefClass("Expression",
 ProcessRequirement <- setRefClass("ProcessRequirement",
                                   contains = c("VIRTUAL", "CWL"),
                                   field = list(class = "character"))
-
 
 
 
@@ -719,7 +720,7 @@ ProcessRequirement <- setRefClass("ProcessRequirement",
 #' \item{\code{dockerLoad}}{[character] Specify a HTTP URL from which
 #' to download a Docker image using docker load.}
 #' 
-#' \item{\code{dockerFile}}{[character] Supply the contents of a
+#' \item{\code{dockerFil}{[character] Supply the contents of a
 #' Dockerfile which will be build using docker build.}
 #' 
 #' \item{\code{dockerImageId}}{[character] The image id that will be
@@ -1235,7 +1236,7 @@ Process <- setRefClass("Process", contains = "CWL",
                            inputs = "InputParameterList",
                            outputs = "OutputParameterList",
                            requirements = "ProcessRequirementList", 
-                           hints = "ANY", 
+                           hints = "ProcessRequirementList",
                            label = "character",
                            description = "character"
                        ),
@@ -2120,7 +2121,7 @@ WorkflowStep <-
                     inputs = "WorkflowStepInputList",
                     outputs = "WorkflowStepOutputList",
                     requirements = "ProcessRequirement",
-                    hints = "ANY", 
+                    hints = "ProcessRequirementList",                    
                     label = "character",
                     description = "character",
                     run = "CommandLineToolORExpressionToolORWorkflow",

@@ -6,10 +6,21 @@
 \alias{CPURequirement-class}
 \alias{MemRequirement}
 \alias{MemRequirement-class}
+\alias{cpu}
+\alias{docker}
+\alias{mem}
+\alias{requirements}
 \title{Rabix specifc Requirements}
+\usage{
+docker(pull = "", imageId = "", load = "", file = "", output = "")
+
+requirements(...)
+}
 \description{
 Extends ProcessRequirements. CPURequirement and MemRequirement to
 setup CPU and Memory requiremnts.
+
+requirements and hints
 }
 \section{Fields}{
 
@@ -20,7 +31,11 @@ multi-tread, and non-zero value will be converted to 1L, which
 means single thread.}
 }}
 \examples{
+cpu(1)
 CPURequirement(value = 1L)
+docker("rocker/r-base")
+requirements(docker("rocker/r-base"), cpu(1), mem(1024))
+mem(2000)
 MemRequirement(value = 2000L)
 }
 

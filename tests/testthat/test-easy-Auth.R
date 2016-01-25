@@ -1,4 +1,4 @@
-library(sbgr)
+library(sevenbridges)
 
 context("Auth Class")
 
@@ -8,7 +8,7 @@ context("Auth Class")
 ##   }
 ## }
 
-test_that("Test Auth constructor",{
-    expect_is(Auth("fake_token"), "Auth")
-    expect_error(Auth(token))
-})
+## test_that("Test Auth constructor",{
+##     expect_is(Auth("fake_token"), "Auth")
+##     expect_error(Auth(token))
+## })

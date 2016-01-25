@@ -47,59 +47,16 @@ ProcessRequirementList
 }
 \section{ProcessRequirement}{
 
-\describe{
-A process requirement declares a prerequisite that may or must be
-fufilled before executing a process. See Process.hints and
-Process.requirements. Process requirements are the primary
-mechanism for specifying extensions to the CWL core specification. 
+
+\describe{ A process requirement
+modifies the semantics or runtime environment of a process. If an
+implementation cannot satisfy all requirements, or a requirement is
+listed which is not recognized by the implementation, it is a fatal
+error and the implementation must not attempt to run the process,
+unless overridden at user option.
 
 
 \item{\code{class}}{(character) The specific requirement type.}
-}
-}
-
-\section{DockerRequirement Class}{
-
-\describe{
-Indicates that a workflow component should be run in a Docker
-container, and specifies how to fetch or build the image.
-
-If a CommandLineTool lists DockerRequirement under hints or
-requirements, it may (or must) be run in the specified Docker
-container. The platform must first acquire or install the correct
-Docker image, as described by DockerRequirement. The platform must
-execute the tool in the container using docker run with the
-appropriate Docker image and the tool command line. The workflow
-platform may provide input files and the designated output
-directory through the use of volume bind mounts. The platform may
-rewrite file paths in the input object to correspond to the Docker
-bind mounted locations. When running a tool contained in Docker,
-the workflow platform must not assume anything about the contents
-of the Docker container,such as the presence or absence of specific
-software, except to assume that the generated command line
-represents a valid command within the runtime environment of the
-container.
-
-
-
-\item{\code{dockerPull}}{[character] Get a Docker image using
-docker pull}
-
-\item{\code{dockerLoad}}{[character] Specify a HTTP URL from which
-to download a Docker image using docker load.}
-
-\item{\code{dockerFile}}{[character] Supply the contents of a
-Dockerfile which will be build using docker build.}
-
-\item{\code{dockerImageId}}{[character] The image id that will be
-used for docker run. May be a human-readable image name or the
-image identifier hash. May be skipped if dockerPull is specified,
-in which case the dockerPull image id will be used.}
-
-\item{\code{dockerOutputDirectory}}{ [character] Set the designated
-output directory to a specific location inside the Docker
-container.}
-
 }
 }
 
