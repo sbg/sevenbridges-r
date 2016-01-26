@@ -1,0 +1,51 @@
+Package: sevenbridges
+Type: Package
+Title: R Client for Seven Bridges Platform API
+Version: 1.1.7
+Date: 2015-05-01
+Author: Nan Xiao <road2stat@gmail.com>, Tengfei Yin <tengfei.yin@sbgenomics.com>
+Maintainer: Tengfei Yin <tengfei.yin@sbgenomics.com>
+Description: R client and utilities for Seven Bridges platoform API, from cancer genomics cloud to other Seven Bridges supported platforms.
+License: MIT + file LICENSE
+VignetteBuilder: knitr
+URL: https://www.sbgenomics.com
+BugReports: https://github.com/road2stat/sbgr/issues
+biocViews: Software, DataImport, ThirdPartyClient
+Depends:
+    methods,
+    utils,
+    stats
+Imports:
+    httr,
+    jsonlite,
+    yaml,
+    objectProperties,
+    stringr,
+    S4Vectors,
+    docopt,
+    curl
+Suggests:
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    testthat
+NeedsCompilation: no
+RoxygenNote: 5.0.0
+Collate: sevenbridges-package.R
+	 core.R
+	 utils.R
+	 cwl-import.R	 	 
+	 AllClasses.R
+	 Auth-class.R
+	 Item-class.R
+	 Meta-class.R
+	 RateLimit-class.R
+	 User-class.R
+	 Billing-class.R
+	 Project-class.R
+	 File-class.R
+	 Upload-class.R
+	 App-class.R
+	 Tool-class.R
+	 Task-class.R
+	 zzz.R

@@ -1,0 +1,106 @@
+---
+title: "Describe CWL Tools/Workflows in R and Execute it on Seven Bridges Supported Platform"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{How to Describe CWL Tools/Workflows in R and Excute it on Seven Bridges Supported Platform}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+```{r global_options, include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Describe Tools in R
+
+The major interface provided by `sevenbridges` package is 
+
+## Hello world
+
+## Direct add file 
+
+## Formal 
+
+```{r}
+library(sevenbridges)
+# rbx <- Tool(id = "runif", 
+#     hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)), 
+#     baseCommand = "Rscript -e 'runif(100)'")
+# 
+# rbx <- Tool(id = "runif", 
+#     hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
+#     requirements = requirements(fileDef(
+#         name = "runif.R"
+#         content = "sed.seed(1)
+#                    runif(100)"
+#     )),
+#     baseCommand = "Rscript runif.R")   
+    
+# rbx <- RabixTool(id = "runif",
+#                  label = "Random number generator",
+#                  description = "Random number generator",
+#                  dockerPull = "tengfei/runif",
+#                  cpu = 1, mem = 1024,
+#                  baseCommand = "runif.R",
+#                  inputs = list(input(id = "number",
+#                      description = "number of observations",
+#                      type = "integer",
+#                      label = "number",
+#                      prefix = "--n",
+#                      default = 1,
+#                      required = TRUE),
+#                      input(id = "min",
+#                            description = "lower limits of the distribution",
+#                            type = "float",
+#                            label = "min",
+#                            prefix = "--min",
+#                            default = 0),
+#                      input(id = "max",
+#                            description = "upper limits of the distribution",
+#                            type = "float",
+#                            label = "max",
+#                            prefix = "--max",
+#                            default = 1),
+#                      input(id = "seed",
+#                            description = "seed with set.seed",
+#                            type = "float",
+#                            label = "seed",
+#                            prefix = "--seed",
+#                            default = 1)),
+#                  outputs = list(output(id = "random_file",
+#                      type = "file",
+#                      label = "output", 
+#                      description = "random number file",
+#                      glob = "*.txt")))
+# rbx$toJSON()
+```
+
+

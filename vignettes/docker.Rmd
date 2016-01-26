@@ -1,0 +1,249 @@
+---
+title: "Tutorials: Creating Your First Docker App with Command Line Interfqce and Report."
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{Tutorials: Creating Your First Docker App and Command Line Interface and Report.}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+```{r global_options, include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Introduction
+
+
+In this tutorial, we will go through couple different ways to 
+
+- Creating Your CWL App
+- Make native command line interface in R
+
+There are many fun ways to do it, here I am more focused for R developers. 
+
+I will start from the easiest one to most formal one. 
+
+- When you have a docker image ready, just need to describe a tool
+- You want to create your own docker container with command line interface
+
+## Existing docker images
+
+Usually it's recommended you may want to always start with a 'core' image in your group
+or communty to serve as the basis for your tool chain. 
+
+Fortunately, for R developers, there are official R and Biocondcutor docker images already
+I will introduce briefly in following section.
+
+### Rocker Project
+
+Official R Docker images is called "Rocker"" project and is on [github](https://github.com/rocker-org/rocker), please visit the 
+page to find more details and Dockerfile.
+
+| Image         | Description          | 
+| ------------- |:-------------:|
+| rocker/r-base     | base package to build from| 
+| rocker/r-devel     | base plus R-devel from SVN |  
+| rocker/rstudio | base plus RStudio Server  |    
+| rocker/hadleyverse | rstudio + Hadley's packages, LaTeX |
+| rocker/ropensci | hadleyverse + rOpenSci packages |
+| rocker/r-devel-san | base, SVN's R-devel and SAN |
+
+
+### Bioconductor Images
+
+Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official docker images, please read for more details.
+
+| Image | 
+| ---- | 
+| bioconductor/devel_base
+| bioconductor/devel_core
+| bioconductor/devel_flow |
+| bioconductor/devel_microarray |
+| bioconductor/devel_proteomics |
+| bioconductor/devel_sequencing |
+| bioconductor/release_base |
+| bioconductor/release_core |
+| bioconductor/release_flow |
+| bioconductor/release_microarray |
+| bioconductor/release_proteomics |
+| bioconductor/release_sequencing |
+
+To understand the image quickly here is the short instruction for the image name:
+
+- __release__ images are based on `rocker/rstudio`
+- __devel__ images are based on `rocker/rstudio-daily`
+- __base__: Contains R, RStudio, and BiocInstaller + system dependencies.
+- __core__: base + a selection of core.
+- __flow__: core + all packages tagged with the _FlowCytometry_ biocView.
+- __microarray__: core + all packages tagged with the _Microarray_ biocView.
+- __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
+- __sequencing__: core + all packages tagged with the _Sequencing_ biocView.
+
+### Dockerhub 
+
+[Dockerhub](https://hub.docker.com/) also provide public/private repos, you can search
+existing tools without building yourself, it's very likely some popular tool already have
+docker container well maintained there.
+
+### Seven Bridges Docker Registry
+
+If you plan to develop/execute/deploy on any of Seven Bridges Platforms, including cancer genomics cloud. Users are encouraged to use Seven Bridges Registry, so the push and pulling with be faster. 
+
+# Tutorial: random number generator 
+
+Ok not "hello world"" example this time : ) will leave that as exercise to users, this time I  will start with another simple example for R users, but with more arguments to play with. 
+
+Our goal here is to making a cwl app to generate unif random numbers, yes, the core
+function is `runif()`, it's native function in R. 
+
+```{r}
+runif
+runif(10)
+```
+
+## Using exiting images
+
+## Building your own contains and app
+
+### Using docopt package
+
+In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on github.
+
+So let's quickly create a command line interface for our R scripts with a dummy example. Let's turn the uniform distribution function `runif` into a command line tool.
+
+when you check out the help page for `runif`, here is the key information you want to mark down. 
+
+```
+Usage
+
+runif(n, min = 0, max = 1)
+
+Arguments
+
+n	
+number of observations. If length(n) > 1, the length is taken to be the number required.
+
+min, max	
+lower and upper limits of the distribution. Must be finite.
+```
+
+I will add one more parameter to set seed, here is the R script file called `runif.R`. 
+
+At the beginning, I use docopt standard to write my tool help. 
+```{r}
+'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
+
+options:
+ --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].
+ --min=<float>   lower limits of the distribution. Must be finite [default: 0].
+ --max=<float>   upper limits of the distribution. Must be finite [default: 1].
+ --seed=<float>  seed for set.seed() function [default: 1]' -> doc
+
+library(docopt)
+
+```
+Let's first do some testing in R session before you make it a full functional command line tool.
+
+```{r}
+docopt(doc) #with no argumetns provided
+docopt(doc, "--n 10 --min=3 --max=5")
+```
+
+Add my command line function
+
+```{r}
+opts <- docopt(doc)
+set.seed(opts$seed)
+runif(n = as.integer(opts$n), 
+      min = as.numeric(opts$min), 
+      max = as.numeric(opts$max))
+```
+
+Add Shebang at the top of the file, and a complete example for `runif.R` command line will be like this
+
+```{r, eval=FALSE}
+#!/usr/bin/Rscript
+'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
+
+options:
+ --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].
+ --min=<float>   lower limits of the distribution. Must be finite [default: 0].
+ --max=<float>   upper limits of the distribution. Must be finite [default: 1].
+ --seed=<float>  seed for set.seed() function [default: 1]' -> doc
+
+library(docopt)
+opts <- docopt(doc)
+set.seed(opts$seed)
+runif(n = as.integer(opts$n), 
+      min = as.numeric(opts$min), 
+      max = as.numeric(opts$max))
+```
+
+OK seems good, now let's test it in our terminal, don't forget to make it executable by doing something like `chmod 755 runif.R`
+
+```
+$ ./runif.R --help
+Loading required package: methods
+usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
+
+options:
+ --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].
+ --min=<float>   lower limits of the distribution. Must be finite [default: 0].
+ --max=<float>   upper limits of the distribution. Must be finite [default: 1].
+ --seed=<float>  seed for set.seed() function [default: 1]
+$ ./runif.R
+Loading required package: methods
+[1] 0.2655087
+$ ./runif.R
+Loading required package: methods
+[1] 0.2655087
+$ ./runif.R --seed=123 --n 10 --min=1 --max=100
+Loading required package: methods
+ [1] 29.470174 79.042208 41.488715 88.418723 94.106261  5.510093 53.282443
+ [8] 89.349485 55.592066 46.204859
+```
+
+# Exercise
+
+I leave this as excercise to users, please have fun. anwsers will be added later. Please email me your solution or share with us. 
+
+## Produce graphics
+
+- Try to use default graphic device
+- Try ggplot2 to generate a png file and capture it in output
+
+## Produce report 
+
+- Try produce a report based on your knitr template
+
+## Deploy shiny apps
+
+- Try to deploy a shiny report on shinyapps.io

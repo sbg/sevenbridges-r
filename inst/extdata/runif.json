@@ -1,0 +1,321 @@
+{
+  "sbg:contributors": [
+    "tengfei"
+  ],
+  "sbg:modifiedOn": 1440029774,
+  "sbg:createdOn": 1439849504,
+  "description": "",
+  "arguments": [],
+  "sbg:createdBy": "tengfei",
+  "sbg:latestRevision": 35,
+  "sbg:id": "tengfei/cwl-test/runif/35",
+  "sbg:project": "tengfei/cwl-test",
+  "sbg:job": {
+    "inputs": {
+      "min": 10,
+      "seed": 30,
+      "max": 20,
+      "number": 500
+    },
+    "allocatedResources": {
+      "mem": 1000,
+      "cpu": 0
+    }
+  },
+  "baseCommand": [
+    "runif.R"
+  ],
+  "sbg:validationErrors": [],
+  "stdout": "",
+  "sbg:revision": 35,
+  "class": "CommandLineTool",
+  "hints": [
+    {
+      "dockerPull": "tengfei/runif",
+      "dockerImageId": "",
+      "class": "DockerRequirement"
+    },
+    {
+      "value": 1,
+      "class": "sbg:CPURequirement"
+    },
+    {
+      "value": 1000,
+      "class": "sbg:MemRequirement"
+    }
+  ],
+  "temporaryFailCodes": [],
+  "stdin": "",
+  "sbg:sbgMaintained": false,
+  "requirements": [],
+  "id": "https://api.sbgenomics.com/tengfei/cwl-test/runif/35/raw/",
+  "sbg:modifiedBy": "tengfei",
+  "inputs": [
+    {
+      "sbg:category": "",
+      "inputBinding": {
+        "separate": true,
+        "prefix": "--n",
+        "sbg:cmdInclude": "true"
+      },
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "number",
+      "description": "number",
+      "id": "#number"
+    },
+    {
+      "sbg:category": "",
+      "inputBinding": {
+        "separate": true,
+        "prefix": "--min",
+        "sbg:cmdInclude": "true"
+      },
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "min",
+      "description": "min",
+      "id": "#min"
+    },
+    {
+      "sbg:category": "",
+      "inputBinding": {
+        "separate": true,
+        "prefix": "--max",
+        "sbg:cmdInclude": "true"
+      },
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "max",
+      "description": "max",
+      "id": "#max"
+    },
+    {
+      "sbg:category": "",
+      "inputBinding": {
+        "separate": true,
+        "prefix": "--seed",
+        "sbg:cmdInclude": "true"
+      },
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "seed",
+      "description": "seed",
+      "id": "#seed"
+    }
+  ],
+  "label": "runif",
+  "successCodes": [],
+  "outputs": [
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "id": "#report",
+      "outputBinding": {
+        "glob": "*.html"
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "id": "#random",
+      "outputBinding": {
+        "glob": "*.txt"
+      }
+    }
+  ],
+  "sbg:revisionsInfo": [
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 7,
+      "sbg:modifiedOn": 1440023772
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 8,
+      "sbg:modifiedOn": 1440023813
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 20,
+      "sbg:modifiedOn": 1440028250
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 21,
+      "sbg:modifiedOn": 1440028328
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 22,
+      "sbg:modifiedOn": 1440028379
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 23,
+      "sbg:modifiedOn": 1440028409
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 24,
+      "sbg:modifiedOn": 1440028473
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 25,
+      "sbg:modifiedOn": 1440028477
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 9,
+      "sbg:modifiedOn": 1440026387
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 16,
+      "sbg:modifiedOn": 1440027083
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 17,
+      "sbg:modifiedOn": 1440027107
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 18,
+      "sbg:modifiedOn": 1440027661
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 0,
+      "sbg:modifiedOn": 1439849504
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 10,
+      "sbg:modifiedOn": 1440026669
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 26,
+      "sbg:modifiedOn": 1440028482
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 34,
+      "sbg:modifiedOn": 1440029465
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 1,
+      "sbg:modifiedOn": 1439850295
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 2,
+      "sbg:modifiedOn": 1439850995
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 3,
+      "sbg:modifiedOn": 1439851286
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 4,
+      "sbg:modifiedOn": 1439851429
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 5,
+      "sbg:modifiedOn": 1440019333
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 6,
+      "sbg:modifiedOn": 1440020912
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 11,
+      "sbg:modifiedOn": 1440026767
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 12,
+      "sbg:modifiedOn": 1440026820
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 13,
+      "sbg:modifiedOn": 1440026924
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 14,
+      "sbg:modifiedOn": 1440026945
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 15,
+      "sbg:modifiedOn": 1440027040
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 19,
+      "sbg:modifiedOn": 1440027699
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 27,
+      "sbg:modifiedOn": 1440028575
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 28,
+      "sbg:modifiedOn": 1440028629
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 29,
+      "sbg:modifiedOn": 1440028675
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 30,
+      "sbg:modifiedOn": 1440028964
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 31,
+      "sbg:modifiedOn": 1440029331
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 32,
+      "sbg:modifiedOn": 1440029352
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 33,
+      "sbg:modifiedOn": 1440029456
+    },
+    {
+      "sbg:modifiedBy": "tengfei",
+      "sbg:revision": 35,
+      "sbg:modifiedOn": 1440029774
+    }
+  ]
+}

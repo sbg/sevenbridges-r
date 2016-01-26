@@ -1,0 +1,156 @@
+{
+  "stdout": "",
+  "sbg:toolkit": "BamTools",
+  "sbg:categories": [
+    "SAM/BAM-Processing",
+    "Indexing"
+  ],
+  "sbg:sbgMaintained": false,
+  "sbg:job": {
+    "inputs": {
+      "input_bam_file": {
+        "path": "input/input_bam.bam",
+        "class": "File",
+        "size": 0,
+        "secondaryFiles": []
+      },
+      "bti_format": true
+    },
+    "allocatedResources": {
+      "mem": 1000,
+      "cpu": 1
+    }
+  },
+  "description": "BamTools Index creates an index file (BAI or BTI) for a BAM file.",
+  "outputs": [
+    {
+      "outputBinding": {
+        "sbg:inheritMetadataFrom": "#input_bam_file",
+        "secondaryFiles": [
+          ".bai",
+          ".bti"
+        ],
+        "glob": {
+          "class": "Expression",
+          "script": "$job.inputs.input_bam_file.path\n \n",
+          "engine": "#cwl-js-engine"
+        },
+        "sbg:metadata": {}
+      },
+      "description": "Output BAM file with index (BAI or BTI) file.",
+      "sbg:fileTypes": "BAM",
+      "id": "#output_bam_file",
+      "type": [
+        "File"
+      ],
+      "label": "Output BAM file"
+    }
+  ],
+  "sbg:revision": 0,
+  "temporaryFailCodes": [],
+  "sbg:validationErrors": [],
+  "sbg:links": [
+    {
+      "id": "https://github.com/pezmaster31/bamtools",
+      "label": "Homepage"
+    },
+    {
+      "id": "https://github.com/pezmaster31/bamtools/wiki",
+      "label": "Wiki"
+    }
+  ],
+  "baseCommand": [
+    "/opt/bamtools/bin/bamtools",
+    "index"
+  ],
+  "sbg:license": "The MIT License",
+  "sbg:contributors": [
+    "markop"
+  ],
+  "sbg:copyOf": "markop/bamtools-2-4-0-demo-new/bamtools-index-2-4-0/1",
+  "requirements": [
+    {
+      "class": "ExpressionEngineRequirement",
+      "id": "#cwl-js-engine",
+      "requirements": [
+        {
+          "class": "DockerRequirement",
+          "dockerPull": "rabix/js-engine"
+        }
+      ]
+    }
+  ],
+  "stdin": "",
+  "arguments": [],
+  "sbg:id": "djordje_klisic/public-apps-by-seven-bridges/bamtools-index-2-4-0/0",
+  "inputs": [
+    {
+      "sbg:category": "Input & Output",
+      "sbg:fileTypes": "BAM",
+      "description": "The input BAM file.",
+      "inputBinding": {
+        "position": 0,
+        "sbg:cmdInclude": true,
+        "prefix": "-in",
+        "separate": true
+      },
+      "id": "#input_bam_file",
+      "type": [
+        "File"
+      ],
+      "label": "Input BAM file"
+    },
+    {
+      "sbg:category": "Input & Output",
+      "description": "Create (non-standard) BamTools index file (*.BTI). Default behavior is to create standard BAM index (*.BAI).",
+      "inputBinding": {
+        "position": 1,
+        "sbg:cmdInclude": true,
+        "prefix": "-bti",
+        "separate": true
+      },
+      "id": "#bti_format",
+      "type": [
+        "null",
+        "boolean"
+      ],
+      "label": "BTI format"
+    }
+  ],
+  "sbg:latestRevision": 0,
+  "sbg:modifiedOn": 1447782640,
+  "sbg:revisionsInfo": [
+    {
+      "sbg:revision": 0,
+      "sbg:modifiedBy": "markop",
+      "sbg:modifiedOn": 1447782640
+    }
+  ],
+  "sbg:project": "djordje_klisic/public-apps-by-seven-bridges",
+  "successCodes": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerImageId": "f808163d4cd3",
+      "dockerPull": "images.sbgenomics.com/markop/bamtools:2.4.0"
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 1000
+    }
+  ],
+  "label": "BamTools Index",
+  "sbg:toolAuthor": "Derek Barnett, Erik Garrison, Gabor Marth, and Michael Stromberg",
+  "sbg:toolkitVersion": "2.4.0",
+  "class": "CommandLineTool",
+  "sbg:cmdPreview": "/opt/bamtools/bin/bamtools index -in input/input_bam.bam -bti  input/input_bam.bam",
+  "sbg:createdBy": "markop",
+  "sbg:createdOn": 1447782640,
+  "id": "https://cgc-api.sbgenomics.com/djordje_klisic/public-apps-by-seven-bridges/bamtools-index-2-4-0/0/raw/",
+  "sbg:homepage": "https://github.com/pezmaster31/bamtools/wiki",
+  "sbg:modifiedBy": "markop"
+}
