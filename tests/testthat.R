@@ -1,3 +1,3 @@
 library(testthat)
-library(sbgr)
-test_check("sbgr")
+library(sevenbridges)
+test_check("sevenbridges")
