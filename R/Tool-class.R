@@ -25,12 +25,12 @@
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
-SBG <- setRefClass("SBG", fields = list(
+SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                               "sbg:homepage" = "characterORNULL", 
-                              "sbg:validationErrors" = "characterORNULL",
+                              "sbg:validationErrors" = "listORNULL",
                               "sbg:sbgMaintained" = "logicalORNULL",
                               "sbg:latestRevision" = "integerORNULL",
-                              "sbg:job" = "ANY",
+                              "sbg:job" = "listORNULL",
                               "sbg:toolAuthor" = "characterORNULL",
                               "sbg:copyOf" = "characterORNULL",
                               "sbg:createdOn" = "integerORNULL",
@@ -46,30 +46,30 @@ SBG <- setRefClass("SBG", fields = list(
                               "sbg:cmdPreview" = "characterORNULL",
                               "sbg:modifiedOn" = "integerORNULL",
                               "sbg:modifiedBy" = "characterORNULL", 
-                              "sbg:revisionInfo" = "ANY",
+                              "sbg:revisionInfo" = "listORNULL",
                               "sbg:toolkit" = "characterORNULL"),
-                   methods = list(initialize = function(homepage = character(), 
-                                      validationErrors = character(),
-                                      sbgMaintained = FALSE,
-                                      latestRevision = integer(),
-                                      job = list(),
-                                      toolAuthor = character(),
-                                      copyOf = character(), 
-                                      createdOn = integer(), 
-                                      categories = character(), 
-                                      contributors = character(), 
-                                      links = character(), 
-                                      project = character(), 
-                                      createdBy = character(), 
-                                      toolkitVersion = character(), 
-                                      id  = character(), 
-                                      license = character(), 
-                                      revision = character(), 
-                                      cmdPreview = character(), 
-                                      modifiedOn = integer(), 
-                                      modifiedBy = character(), 
-                                      revisionInfo = character(), 
-                                      toolkit = character()){
+                   methods = list(initialize = function(homepage = NULL, 
+                                      validationErrors = NULL,
+                                      sbgMaintained = NULL,
+                                      latestRevision = NULL,
+                                      job = NULL, 
+                                      toolAuthor = NULL,
+                                      copyOf = NULL, 
+                                      createdOn = NULL, 
+                                      categories = NULL, 
+                                      contributors = NULL, 
+                                      links = NULL, 
+                                      project = NULL, 
+                                      createdBy = NULL, 
+                                      toolkitVersion = NULL, 
+                                      id  = NULL, 
+                                      license = NULL, 
+                                      revision = NULL, 
+                                      cmdPreview = NULL, 
+                                      modifiedOn = NULL, 
+                                      modifiedBy = NULL, 
+                                      revisionInfo = NULL, 
+                                      toolkit = NULL, ...){
 
                        args <- mget(names(formals()),sys.frame(sys.nframe()))
 
@@ -78,6 +78,8 @@ SBG <- setRefClass("SBG", fields = list(
                        for(nm in nms){
                            .self$field(paste0("sbg:", nm), args[[nm]])                           
                        }
+
+                       callSuper(...)
 
                    }))
 
@@ -107,8 +109,8 @@ CPURequirement <-
                     value = "integer"
                 ),
                 methods = list(
-                    initialize = function(..., value = 1L,
-                        class = "CPURequirement"){
+                    initialize = function(value = 1L,
+                        class = "sbg:CPURequirement", ...){
                         class <<- class
                         stopifnot(is.numeric(value))
                         .v <- as.integer(value)
@@ -129,16 +131,23 @@ cpu <- CPURequirement
 
 #' @rdname requirements
 #' @aliases docker
+#' @param pull Docker Repository[:Tag] like rocker/r-base
+#' @param imageId The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
+#' @param load Specify a HTTP URL from which to download a Docker image using docker load
+#' @param file Supply the contents of a Dockerfile which will be built using docker build.
+#' @param output Set the designated output directory to a specific location inside the Docker container
+#' @param ... extra aguments passed
 #' @export docker
 #' @examples
 #' docker("rocker/r-base")
-docker <- function(pull = "", imageId = "", load = "", file = "", output = ""){
+docker <- function(pull = "", imageId = "", load = "", 
+                   file = "", output = "", ...){
     DockerRequirement(
         dockerImageId = imageId,
         dockerPull = pull,
         dockerLoad = load,
         dockerFile = file,
-        dockerOutputDirectory = output)    
+        dockerOutputDirectory = output, ...)    
 }
 
 #' requirements and hints
@@ -154,17 +163,19 @@ requirements <- function(...){
     listData <- lapply(listData, function(x){
         if(is.list(x)){
             if(all(sapply(x, is, "FileDef"))){
-                return(FileDefList(x))
+                return(CreateFileRequirement(fileDef = FileDefList(x)))
             }else{
                 stop("not all FileDefList are FileDef object")
             }
+        }else if(is(x, "FileDef")){
+            return(CreateFileRequirement(fileDef = FileDefList(x)))
         }else{
             return(x)
         }
     })
     ## validation
     idx <- sapply(listData, function(x){
-        is(x, "ProcessRequirement") | is(x, "FileDefList")
+        is(x, "ProcessRequirement")
     })
     if(!all(idx)){
         print(listData[!idx])
@@ -173,9 +184,15 @@ requirements <- function(...){
     ProcessRequirementList(listData)
 }
 
-fileDef <- function(name = NULL, content = NULL, filename = name, fileContent = content){
-    stopifnot(is.null(filename) || is.null(fileContent))
-    FileDef(filename = filename, fileContent = content)
+#' @param name file name
+#' @param content file content, could be script
+#' 
+#' @rdname requirements
+#' @aliases fileDef
+#' @export fileDef
+fileDef <- function(name = NULL, content = NULL){
+    stopifnot(!is.null(name) && !is.null(content))
+    FileDef(filename = name, fileContent = content)
 }
 
 
@@ -192,8 +209,8 @@ MemRequirement <-
                     value = "integer"
                 ),
                 methods = list(
-                    initialize = function(..., value = 1000L,
-                                          class = "MemRequirement"){
+                    initialize = function(value = 1000L,
+                                          class = "sbg:MemRequirement", ...){
                         value <<- as.integer(value)
                         class <<- class
                         callSuper(...)
@@ -220,8 +237,6 @@ mem <- MemRequirement
 #' @field owner [list] a list of owner names. 
 #' @field contributor [list] a list of contributor names.
 #'
-#' @import methods
-#' @importFrom docopt docopt
 #' @export Tool
 #' @exportClass Tool
 Tool <-
@@ -230,64 +245,89 @@ Tool <-
                 fields = list(context = "character"),
                 methods = list(
                     initialize = function(...,
-                        context = "https://github.com/common-workflow-language/common-workflow-language/blob/draft-1/specification/tool-description.md"){
+                        id = NULL, 
+                        label = NULL, 
+                        inputs = NULL, 
+                        outputs = NULL){
 
+                        stopifnot(!is.null(id))
+                        id <<- id
+                        stopifnot(!is.null(label))
+                        label <<- label
 
+                        if(is(inputs, "InputParameterList") ||
+                           (is.list(inputs) &&
+                                all(sapply(inputs, is, "InputParameter")))){
 
-                        
+                            if(is.list(inputs) &&
+                               all(sapply(inputs, is, "InputParameter"))){
+                                inputs <<- IPList(inputs)
+                            }
 
-                        ## if(is.null(requirements)){
-                        ##     requirements <<-
-                        ##         ProcessRequirementList(
-                        ##             list(DockerRequirement(
-                        ##                 dockerImageId = dockerImageId,
-                        ##                 dockerPull = dockerPull,
-                        ##                 dockerLoad = dockerLoad,
-                        ##                 dockerFile = dockerFile,
-                        ##                 dockerOutputDirectory = dockerOut),
-                        ##                  CPURequirement(value = .v),
-                        ##                  MemRequirement(value = as.integer(mem))))
-                        ## }
-                        
-                        context <<- context
+                            if(is(inputs, "InputParameterList")){
+                                inputs <<- inputs
+                            }
+                        }else if(is.data.frame(inputs)){
+                            lst <- lapply(1:nrow(inputs), function(i){
+                                para <- as.list(inputs[i, ])
+                                lst <- lapply(para, function(x){
+                                    
+                                    if(is.factor(x)){
+                                        return(as.character(x))
+                                    }else{
+                                        return(x)
+                                    }
+                                })
+                                do.call(input, lst)
+                            })
+                            inputs <<- IPList(lst)
+                        }else if(is(inputs, "InputParameter")){
+                            inputs <<- IPList(inputs)
+                        }else if(is.null(inputs)){
+                            inputs <<- IPList()
+                        }else{
+                            stop("wrong inputs type")
+                        }
 
+                        ## outputs
+                        if(is(outputs, "OutputParameterList") ||
+                           (is.list(outputs) &&
+                                all(sapply(outputs, is, "OutputParameter")))){
 
-                        ## ## inputs
-                        ## stopifnot(is(inputs, "InputParameterList") ||
-                        ##           (is.list(inputs) &&
-                        ##                all(sapply(inputs, is, "InputParameter"))))
-                        
-                        ## if(is.list(inputs) &&
-                        ##    all(sapply(inputs, is, "InputParameter"))){
-                        ##     inputs <<- IPList(inputs)
-                        ## }
+                            if(is.list(outputs) &&
+                               all(sapply(outputs, is, "OutputParameter"))){
+                                outputs <<- OPList(outputs)
+                            }
 
-                        ## if(is(inputs, "InputParameterList")){
-                        ##     inputs <<- inputs
-                        ## }
+                            if(is(outputs, "OutputParameterList")){
+                                outputs <<- outputs
+                            }
 
-                        ## ## outputs
-                        ## stopifnot(is(outputs, "OutputParameterList") ||
-                        ##           (is.list(outputs) &&
-                        ##                all(sapply(outputs, is, "OutputParameter"))))
-                        
-                        ## if(is.list(outputs) &&
-                        ##    all(sapply(outputs, is, "OutputParameter"))){
-                        ##     outputs <<- OPList(outputs)
-                        ## }
+                        }else if(is.data.frame(outputs)){
 
-                        ## if(is(outputs, "OutputParameterList")){
+                            lst <- lapply(1:nrow(outputs), function(i){
+                                para <- as.list(outputs[i, ])
+                                lst <- lapply(para, function(x){
+                                    if(is.factor(x)){
+                                        return(as.character(x))
+                                    }else{
+                                        return(x)
+                                    }
+                                })
+                                do.call(output, lst)
+                            })
+                            outputs <<- OPList(lst)
                             
-                        ## }
+                        }else if(is(outputs, "OutputParameter")){
+                            outputs <<- OPList(outputs)
+                        }else if(is.null(outputs)){
+                            outputs <<- OPList()
+                        }else{
+                            stop("wrong output")
+                        }                       
                         
                         
                         callSuper(...)
                     }
                 ))
 
-## override toJSON and to YAML
-Tool$methods(toList = function(...){
-    res <- callSuper(...)
-    names(res)[which(names(res) == "context")] <- "@context"
-    res
-})

@@ -36,71 +36,211 @@ code2 <- function(...) {
 
 ```{r global_options, include=FALSE}
 library(BiocStyle)
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
 # Describe Tools in R
 
-The major interface provided by `sevenbridges` package is 
+The main interface provided by `sevenbridges` package is `Tool` function, it's basically a R interface similar to Seven Bridges's graphic user interface to describe tools, which I also highly recommend because it's very easy. 
 
-## Hello world
+For R users who want to script in everythinghere is alternative solution. I also did some work trying to make it simpler to use, any suggestions are welcomed. 
 
-## Direct add file 
+So I highly recommend user go over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for cancer genomic cloud to understand how it works, and even try it on the platform with the GUI. This will help use our R interface better and easier. 
 
-## Formal 
+Or you just want to create tools quickly, please keep reading. 
+
+
+## Example: give me some randome number
+
+Let's start from the most simple case
+
+- Use exiting docker container
+- directly execute from command line using `Rscript`
+
+ 
+
+Some basic arguments used in `Tool` function.
+
+- baseCommand: Specifies the program to execute. 
+- stdout: Capture the command's standard output stream to a file written to the designated output directory. 
+- inputs: inputs for your command line
+- outputs: outputs you want to collect
+
+For more accepted parameter, please check `help(CommandLineTool)` and `help(Tool)` for more details. Again we basically conform to CWL standard, you can always check their manua.
+
+### Requirement and hints
+
+In short, hints are not _required_ for execution. We now accept following requirement items `cpu`, `mem`, `docker`, `fileDef`; and you can easily construct them via `requirements()` constructor. 
+
+The downside of this is clear, you have much less control over your script and command line interface. 
+
+### Specify inputs and outpus
+
+Most likely your command line interface accept extra arguments, for example, 
+
+- file
+- string
+- enum
+- int
+- float
+- boolean
+
+So to specify that in your tool, you can use `input` function, then pass it to the `inputs` arguments as a list or single item. You can even construct them as data.frame, but in that way, you usually have to provide equal arguments, less typing but less flexible. 
+
+`input()`  require arguments `id` and `type`. `output()`  require arguments `id` because `type` by default is file. 
+
+### Using existing docker image and command
+
+If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
 
 ```{r}
 library(sevenbridges)
-# rbx <- Tool(id = "runif", 
-#     hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)), 
-#     baseCommand = "Rscript -e 'runif(100)'")
-# 
-# rbx <- Tool(id = "runif", 
-#     hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
-#     requirements = requirements(fileDef(
-#         name = "runif.R"
-#         content = "sed.seed(1)
-#                    runif(100)"
-#     )),
-#     baseCommand = "Rscript runif.R")   
-    
-# rbx <- RabixTool(id = "runif",
-#                  label = "Random number generator",
-#                  description = "Random number generator",
-#                  dockerPull = "tengfei/runif",
-#                  cpu = 1, mem = 1024,
-#                  baseCommand = "runif.R",
-#                  inputs = list(input(id = "number",
-#                      description = "number of observations",
-#                      type = "integer",
-#                      label = "number",
-#                      prefix = "--n",
-#                      default = 1,
-#                      required = TRUE),
-#                      input(id = "min",
-#                            description = "lower limits of the distribution",
-#                            type = "float",
-#                            label = "min",
-#                            prefix = "--min",
-#                            default = 0),
-#                      input(id = "max",
-#                            description = "upper limits of the distribution",
-#                            type = "float",
-#                            label = "max",
-#                            prefix = "--max",
-#                            default = 1),
-#                      input(id = "seed",
-#                            description = "seed with set.seed",
-#                            type = "float",
-#                            label = "seed",
-#                            prefix = "--seed",
-#                            default = 1)),
-#                  outputs = list(output(id = "random_file",
-#                      type = "file",
-#                      label = "output", 
-#                      description = "random number file",
-#                      glob = "*.txt")))
-# rbx$toJSON()
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)), 
+            baseCommand = "Rscript -e 'runif(100)'", 
+            stdout = "output.txt",
+            outputs = output(id = "random", glob = "*.txt"))
+
+rbx
+rbx$toJSON()
 ```
 
+By defaut the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON. 
+
+```{r}
+rbx$toJSON()
+rbx$toJSON(pretty = TRUE)
+rbx$toYAML()
+```
+
+### Add-on script
+
+If you want to create simple script based on existing image, use `fileDef`. 
+
+```{r}
+## Make a new file
+fd <- fileDef(name = "runif.R",
+              content = "sed.seed(1)
+                   runif(100)")
+
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd),
+            baseCommand = "Rscript runif.R",
+            stdout = "output.txt",
+            outputs = output(id = "random", glob = "*.txt"))   
+rbx
+```
+
+
+
+
+```{r}
+## pass a input list
+in.lst <- list(input(id = "number",
+                     description = "number of observations",
+                     type = "integer",
+                     label = "number",
+                     prefix = "--n",
+                     default = 1,
+                     required = TRUE, 
+                     include = TRUE),
+               input(id = "min",
+                     description = "lower limits of the distribution",
+                     type = "float",
+                     label = "min",
+                     prefix = "--min",
+                     default = 0),
+               input(id = "max",
+                     description = "upper limits of the distribution",
+                     type = "float",
+                     label = "max",
+                     prefix = "--max",
+                     default = 1),
+               input(id = "seed",
+                     description = "seed with set.seed",
+                     type = "float",
+                     label = "seed",
+                     prefix = "--seed",
+                     default = 1))
+
+
+## the same method for outputs
+out.lst <- list(output(id = "random",
+                       type = "file",
+                       label = "output", 
+                       description = "random number file",
+                       glob = "*.txt"),
+                output(id = "report",
+                       type = "file",
+                       label = "report", 
+                       glob = "*.html"))
+
+
+rbx <- Tool(id = "runif",
+            label = "Random number generator",
+            hints = requirements(docker(pull = "tengfei/runif"), 
+                                 cpu(1), mem(2000)),
+            baseCommand = "runif.R",
+            inputs = in.lst, ## or ins.df
+            outputs = out.lst)
+
+```
+
+Here I use data.frame as example for input and output. 
+
+```{r}
+in.df <- data.frame(id = c("number", "min", "max", "seed"),
+                    description = c("number of observation", 
+                                    "lower limits of the distribution",
+                                    "upper limits of the distribution",
+                                    "seed with set.seed"),
+                    type = c("integer", "float", "float", "float"),
+                    label = c("number" ,"min", "max", "seed"), 
+                    prefix = c("--n", "--min", "--max", "--seed"),
+                    default = c(1, 0, 10, 123), 
+                    required = c(TRUE, FALSE, FALSE, FALSE))
+
+out.df <- data.frame(id = c("random", "report"),
+                     type = c("file", "file"),
+                     glob = c("*.txt", "*.html"))
+
+rbx <- Tool(id = "runif",
+            label = "Random number generator",
+            hints = requirements(docker(pull = "tengfei/runif"), 
+                                 cpu(1), mem(2000)),
+            baseCommand = "runif.R",
+            inputs = in.df, ## or ins.df
+            outputs = out.df)
+
+
+```
+
+### Execute the tool in the cloud
+
+With API function, you can direcly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
+
+```{r, eval = FALSE}
+a <- Auth(platform = "cgc", username = "tengfei")
+p <- a$project("demo")
+app.runif <- p$app_add("runif555", rbx)
+aid <- app.runif$id
+p$task_add(name = "Draft runif simple", 
+           description = "Description for runif", 
+           app = aid,
+           inputs = list(min = 1, max = 10))
+## confirm, show all task status is draft
+(tsk <- p$task(status = "draft"))
+tsk$run()
+tsk$download("~/Downloads/")
+```
+
+
+## Wokrflow
+
+Workflow interface is still under development, to construct the workflow easily, it's alwasy better to just use our graphical interface, it's much easier for complex worklfow. 
 

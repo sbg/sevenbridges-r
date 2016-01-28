@@ -2,7 +2,27 @@
 
 <!-- [![Build Status](https://travis-ci.org/road2stat/sevenbridges.png?branch=master)](https://travis-ci.org/tengfei/sevenbridges) -->
 
-The `sevenbridges` package provides an R client for accessing the [Seven Bridges Genomics API](http://developer.sbgenomics.com/) and describe tools in CWL.
+Please checkout the [bioductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
+
+## Features
+
+- Complete API R client with user friendly API like a$project("demo")$file("sample.tz")$delete()
+
+- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project
+
+- Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
+
+- Cross platform support, if it's cwl compatible platform from Seven
+  Bridges, like Cancer genomics cloud or Seven bridges on google and
+  AWS, you can use it.
+
+- Authentification management for multiple platforms/users via config file.
+
+
+## Tutorials
+
+Tutorials are listed on  [bioductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
+
 
 ## Installation
 

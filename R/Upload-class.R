@@ -136,7 +136,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               callSuper(...)
                           },
                           upload_init = function(){
-                              res <- sevenbridges::upload_init(auth_token = auth$auth_token,
+                              res <- sevenbridges::upload_init(token = auth$token,
                                                        project_id = project_id,
                                                        name = name,
                                                        size = size,
@@ -151,7 +151,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               if(is.null(upload_id)){
                                   stop("Upload is not initialized yet")
                               }
-                              res <- sevenbridges::upload_info(auth$auth_token, upload_id,
+                              res <- sevenbridges::upload_info(auth$token, upload_id,
                                                        base_url = auth$url)
                               show()
                               invisible(res)
@@ -162,7 +162,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                                   stop("par_number has to be a number in the range 1- 10000.")
                               }
                               cl <- c("Content-Length" = as.character(part[[part_number]]$part_size))
-                              res <- status_check(api(auth$auth_token,
+                              res <- status_check(api(auth$token,
                                                          base_url = auth$url,
                                                          path = paste0("upload/multipart/",
                                                                        upload_id, "/", part_number),
@@ -209,7 +209,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               meta <- .self$metadata$asList()
                               if(length(meta)){
                                   message("Adding metadata ...")
-                                  req <- api(auth_token = auth$auth_token,
+                                  req <- api(token = auth$token,
                                                 base_url = auth$url,
                                                 path = paste0('project/',
                                                               project_id,
@@ -224,7 +224,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                           },
                           upload_complete_part = function(part_number = NULL,
                                                           etag = NULL){
-                              res <- sevenbridges::upload_complete_part(auth$auth_token,
+                              res <- sevenbridges::upload_complete_part(auth$token,
                                                                 upload_id,
                                                                 part_number,
                                                                 etag, base_url = auth$url)
@@ -232,7 +232,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                           },
                           upload_complete_all = function(){
                               ## fixme:
-                              req <- api(auth_token = auth$auth_token,
+                              req <- api(token = auth$token,
                                             base_url = auth$url,
                                             path = paste0("upload/multipart/",
                                                           upload_id, "/complete"),
@@ -241,7 +241,7 @@ Upload <- setRefClass("Upload", contains = "Item",
 
                           },
                           upload_delete = function(){
-                              sevenbridges::upload_delete(auth$auth_token, upload_id,
+                              sevenbridges::upload_delete(auth$token, upload_id,
                                                   base_url = auth$url)
                           },
                           show = function(){
@@ -265,7 +265,7 @@ Upload$methods(list(
 
 .asUpload <- function(x){
     Upload(
-        ## auth = Auth(x$auth_token),
+        ## auth = Auth(x$token),
         project_id = x$project_id,
         name = x$name,
         size = x$size,

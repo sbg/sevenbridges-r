@@ -6,16 +6,16 @@
 ##' could start from this object using cascading style. Please check vignette
 ##' 'easy-api' for more information.
 ##'
-##' @field auth_token [character] your auth token.
+##' @field token [character] your auth token.
 ##' @field url [character] basic url used for API, by default
 ##' it's \url{https://api.sbgenomics.com/1.1/}
 ##'
-##' @param auth_token [character] your auth token.
-##' @param platform [character %in% 'CGC', 'US'] which platform you are
-##'  using, by default it is sbg us platform.
+##' @param token [character] your auth token.
 ##' @param url [chracter] a URL for the API, default is \code{NULL},
 ##'  will use \code{api} parameter to switch to the right one.
-##' @param version [character] default: 1.1 version used for api.
+##' @param platform [character %in% 'cgc', 'us'] which platform you are
+##'  using, by default it is sbg us platform.
+##' @param username username in the config file for authentification.
 ##'
 ##' @importFrom stringr str_match 
 ##'
@@ -25,45 +25,88 @@
 ##' ## replace it with real token
 ##' token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
 ##' a <- Auth(token)
-Auth <- setRefClass("Auth", fields = list(auth_token = "character",
+Auth <- setRefClass("Auth", fields = list(token = "character",
                                 url = "character",
                                 version = "character"),
                     methods = list(
                         initialize = function(
-                            auth_token = NULL,
-                            platform = c("CGC", "US"),
+                            token = NULL,
                             url = NULL,
-                            version = c("1.1", "v2"), ...){
+                            platform = NULL,
+                            username = NULL, 
+                            ...){
 
-                            platform <- match.arg(platform)
-                            .v <- match.arg(version)
-                        
-                            if(is.null(auth_token)){
-                                stop("missing token")
-                            }
-                            
-                            auth_token <<- auth_token
-
-                            stopifnot(is.null(url) | is.character(url))
-
+                            ## get API URL first
+                            ## logic:
+                            ## no url, guess from platform, no platform, retrieve first entry, nothing, error.
+                          
                             if(is.null(url)){
-                                url <<- switch(platform,
-                                               'US' =
-                                                   paste0('https://api.sbgenomics.com/', .v, '/'),
-                                               'CGC' =
-                                                   paste0('https://cgc-api.sbgenomics.com/', "v2", '/')
-                                               )
-                                ## if(platform %in% c("cgc")){
-                                ##     ## V2 only platform?
-                                ##     version <<- "v2"
-                                ## }else{
-                                ##     version <<- .v
-                                ## }                                
+                                if(is.null(platform)){
+                                    .p <- getToken(platform = platform)
+                                    if(is.null(.p)){
+                                        stop("please provide url")
+                                    }else{
+                                        .url <- .p[[1]]$url
+                                        if(is.null(.url)){
+                                            stop("you config file is wrong, don't have url")
+                                        }else{
+                                            platform <- names(.p)[1]
+                                            url <<-  .url
+                                        }
+                                    }
+                                }else{
+                                    .p <- getToken(platform = platform)
+                                    if(is.null(.p)){
+                                        ## try match default public platform
+                                        if(platform %in% c("cgc", "us", "china", "gcp")){
+                                            url <<- switch(platform,
+                                                           'us' = "https://api.sbgenomics.com/v2/",
+                                                           'cgc'= "https://cgc-api.sbgenomics.com/v2/",
+                                                           'gcp' = "https://gcp-api.sbgenomics.com/v2/",
+                                                           'china' = "https://cn-api.sbgenomics.com/v2/")
+                                        }else{
+                                            stop("platform doesn't exist, please setup config or provide url")
+                                        }
+                                    }else{
+                                        ## exist in config file
+                                        .url <- .p$url
+                                        if(is.null(.url)){
+                                            stop("you config file is wrong, don't have url")
+                                        }else{
+                                            url <<-  .url
+                                        }
+                                    }
+                                }
                             }else{
                                 url <<- url
-                                ## platform 
                             }
-                            version <<- .ver(.self$url)
+                            ## we should know platform or ulr at least
+                            ## get token
+                            .token <- NULL
+                            if(is.null(token)){
+                                ## try to read from config first
+                                if(!is.null(username)){
+                                    .token <- getToken(platform = platform, username = username)
+                                    token <<- .token
+                                }else{
+                                    ## use the first token and user
+                                    .p <- getToken(platform = platform)
+                                    if(!is.null(.p[[1]])){
+                                        ## use the first one
+                                        message("use username: ", names(.p$user)[1])
+                                        .token <- .p$user[[1]]$token
+                                    }else{
+                                        stop("cannot find any existing authentification information.")
+                                    }
+                                    if(is.null(.token)){
+                                        stop("cannot set token")
+                                    }else{
+                                        token <<- .token
+                                    }
+                                }
+                            }else{
+                                token <<- token                                
+                            }
 
                         },
                         project_owner = function(owner = NULL, ...){
@@ -73,8 +116,8 @@ Auth <- setRefClass("Auth", fields = list(auth_token = "character",
                             if(is.null(owner)){
                                 stop("owner must be provided. For example, Nate. ")
                             }
-                            v2Check(version)
-                            req <- api(auth_token = auth_token,
+
+                            req <- api(token = token,
                                           base_url = url, 
                                           path = paste0('projects/', owner),
                                           method = 'GET', ...)
@@ -97,26 +140,18 @@ Auth <- setRefClass("Auth", fields = list(auth_token = "character",
                             'Create new projects, required parameters: name, billing_group_id,
 optional parameteres: tags and description, type. '
 
-                            if(version == "1.1"){
-                                res <- sevenbridges::project_new(auth_token, name = name,
-                                                         base_url = url,
-                                                         description = description,
-                                                         billing_group_id = billing_group_id)
-                            }
-                            if(version == "v2"){
-                                if (is.null(name) || is.null(billing_group_id))
-                                    stop('name, description, and billing_group_id must be provided')
+                            if (is.null(name) || is.null(billing_group_id))
+                                stop('name, description, and billing_group_id must be provided')
 
-                                body = list('name' = name,
-                                    'type' = type, 
-                                    'description' = description,
-                                    'tags' = tags,
-                                    'billing_group' = billing_group_id)
+                            body = list('name' = name,
+                                'type' = type, 
+                                'description' = description,
+                                'tags' = tags,
+                                'billing_group' = billing_group_id)
 
 
-                                res <- api(path = 'projects', body = body,
-                                    method = 'POST', ...)
-                            }
+                            res <- api(path = 'projects', body = body,
+                                       method = 'POST', ...)
 
                             res <- .asProject(res)
                             res <- setAuth(res, .self, "Project")
@@ -128,52 +163,47 @@ optional parameteres: tags and description, type. '
                             
                             'If no id or name provided, this call returns a list of all projects you are a member of. Each project\'s project_id and URL on the CGC will be returned. If name or id provided, we did a match search the list'
 
-                            if(version == "1.1"){
-                                req <- api(path = 'project', method = 'GET', ...) 
-                                pl <- .asProjectList(req[[1]])
-                                res <- m.match(pl, id = id, name = name, exact = exact,
-                                               ignore.case = ignore.case)
+                            ## check owner
+                            if(is.null(owner)){
+                                ## show all projects
+                                req <- api(path = "projects", method = "GET", ...)
+                                res <- .asProjectList(req)
+                            }else{
+                                message("Owner: ", owner)
+                                req <- api(path = paste0("projects/", owner),
+                                           method = "GET", ...)
+                                res <- .asProjectList(req)
                             }
-                            if(version == "v2"){
-                                ## check owner
-                                if(is.null(owner)){
-                                    ## show all projects
-                                    req <- api(path = "projects", method = "GET", ...)
-                                    res <- .asProjectList(req)
+
+                            res <- m.match(res, id = id, name = name, exact = exact,
+                                           ignore.case = ignore.case)
+
+                            if(!length(res)) return(NULL)
+                            
+                            if(length(res) == 1){
+                                .id <- res$id
+                                req <- api(path = paste0("projects/", .id), method = "GET",  ...)
+                                res <- .asProject(req)
+                                res <- setAuth(res, .self, "Project")
+                                return(res)                                
+                            }
+
+                            
+                            if(detail && length(res)){
+                                if(is(res, "SimpleList")){
+                                    ids <- sapply(res, function(x){ x$id })
                                 }else{
-                                    message("Owner: ", owner)
-                                    req <- api(path = paste0("projects/", owner),
-                                               method = "GET", ...)
-                                    res <- .asProjectList(req)
+                                    ids <- res$id
                                 }
 
-                                res <- m.match(res, id = id, name = name, exact = exact,
-                                               ignore.case = ignore.case)
-
-                                if(length(res) == 1){
-                                    .id <- res$id
-                                    req <- api(path = paste0("projects/", .id), method = "GET",  ...)
-                                    res <- .asProject(req)
-                                    res <- setAuth(res, .self, "Project")
-                                    return(res)                                
-                                }
-                                
-                                if(detail && length(res)){
-                                    if(is(res, "SimpleList")){
-                                        ids <- sapply(res, function(x){ x$id })
-                                    }else{
-                                        ids <- res$id
-                                    }
-
-                                    lst <- lapply(ids, function(id){
-                                        req <- api(path = paste0("projects/", id), method = "GET", ...)
-                                        .asProject(req)
-                                    })
-                                    res <- ProjectList(lst)
-                                }
-                                
-
+                                lst <- lapply(ids, function(id){
+                                    req <- api(path = paste0("projects/", id), method = "GET", ...)
+                                    .asProject(req)
+                                })
+                                res <- ProjectList(lst)
                             }
+                            
+
                             res <- setAuth(res, .self, "Project")
                             res
                                
@@ -184,36 +214,25 @@ information via the API. else, This call lists all your billing groups, includin
 if breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.
 '
                             if(is.null(id)){
-                                if(version == "1.1"){
-                                    req <- api(path = 'billing', method = 'GET', ...)
-                                    res <- .asBillingList(req[[1]])
-                                    lapply(res, function(x){
-                                        x$auth <- .self
-                                        x
-                                    })
-                                    return(res)
-                                }
-                                if(version == "v2"){
-                                    ## show api
-                                    req <- api(path = 'billing/groups', method = 'GET', ...)
-                                    req <- .asBillingList(req)
-                                    return(req)
-                                    
-                                }}else{
-                                    
-                                    v2Check(version)
+                                ## show api
+                                req <- api(path = 'billing/groups', method = 'GET', ...)
+                                req <- .asBillingList(req)
+                                return(req)
+                                
+                            }else{
+                                
 
-                                    if(breakdown){
-                                        req = api(path = paste0('billing/groups/', id, "/breakdown"),
-                                            method = 'GET', ...)
-                                    }else{
-                                        req = api(path = paste0('billing/groups/', id), method = 'GET', ...)
+                                if(breakdown){
+                                    req = api(path = paste0('billing/groups/', id, "/breakdown"),
+                                        method = 'GET', ...)
+                                }else{
+                                    req = api(path = paste0('billing/groups/', id), method = 'GET', ...)
 
-                                    }
-                                        req <- .asBilling(req)
-                                        
-                                    return(req)
                                 }
+                                req <- .asBilling(req)
+                                
+                                return(req)
+                            }
                         },
                         invoice = function(id = NULL, ...){
                             'no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
@@ -222,7 +241,6 @@ The call returns information about all your available invoices, unless you use t
 
 if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
 '
-                            v2Check(version)
 
                             if(is.null(id)){
                                 req = api(path = 'billing/invoices', method = 'GET', ...)    
@@ -234,13 +252,12 @@ if id provided, This call retrieves information about a selected invoice, includ
                         },
                         api = function(...){
                             'This call returns all API paths, and pass arguments to api() function and input token and url automatically'
-                            v2Check(version)
-                            req <- sevenbridges::api(auth_token, base_url = url, ...)
+                            req <- sevenbridges::api(token, base_url = url, ...)
                             status_check(req)
                         },
                         show = function(){
                             .showFields(.self, "== Auth ==",
-                                        values = c("auth_token", "url"))
+                                        values = c("token", "url"))
                         },
                         ## v2 only feature
                         rate_limit = function(...){
@@ -248,7 +265,6 @@ if id provided, This call retrieves information about a selected invoice, includ
                             rate limit. This is the number of API calls you can 
                             make in one hour.'
                             
-                            v2Check(version)
                           
                             
                             req <- api(path = "rate_limit", method = "GET", ...)
@@ -267,16 +283,15 @@ if id provided, This call retrieves information about a selected invoice, includ
                             {username} with the username of any CGC user, to return 
                             information on their resources.'
                             
-                            v2Check(version)
                             
                             if(is.null(username)){
-                                req <- api(auth_token = auth_token, 
+                                req <- api(token = token, 
                                        path = "user/",
                                        method = "GET", ...)
                                 message("username is not provided, show run user information instead")
                             }else{
                                 
-                                req <- api(auth_token = auth_token, 
+                                req <- api(token = token, 
                                            path = paste0("users/", username), 
                                            method = "GET", ...)
                             }
@@ -516,3 +531,89 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 
                                 
                                
+#' get Token
+#'
+#' get Token from config files and option list
+#'
+#' Current config file is set on home directory with the name .sbg.auth.yml
+#'
+#' @param platform In your configure file, platform you want to access via API. 
+#' @param username username to specify the token associated with.
+#' @aliases getToken 
+#' @export getToken 
+getToken <- function(platform = NULL, username = NULL){
+    message("loading from options")
+    o <- options("sevenbridges")$sevenbridges$auth
+    if(is.null(o)){
+        message("nothing found in options, loading from config file")
+        o <- .parseToken()
+    }
+    if(is.null(platform)){
+        return(o)
+    }else{
+        if(is.null(username)){
+            o <- options("sevenbridges")$sevenbridges$auth[[platform]]
+        }else{
+            o <- options("sevenbridges")$sevenbridges$auth[[platform]]$user[[username]]$token            
+        }
+    }
+    o
+}
+
+.parseToken <- function(f = ".sbg.auth.yml", p = path.expand("~")){
+    fl <- file.path(p, f)
+    if(file.exists(fl)){
+        message("loading ", fl)
+        res <- yaml.load_file(fl)        
+    }else{
+        res <- NULL
+    }
+    res
+}
+
+
+## getAuth <- function(platform = NULL, username = NULL, ...){
+##     .url <- getToken(platform = platform)$url    
+##     if(!is.null(username)){
+##         .token <- getToken(platform = platform, username = username)
+##         res <- Auth(token = .token , url = .url, ...)
+##     }else{
+##         .p <- getToken(platform = platform)
+##         if(!is.null(.p[[1]])){
+##             ## use the first one
+##             message("username: ", names(.p)[1])
+##             .token <- .p[[1]]$token
+##             res <- Auth(token = .token, url = .url, ...)
+##         }else{
+##             stop("cannot find any existing authentification information.")
+##         }
+##     }
+##     res
+## }
+
+setAuth <- function(res, auth, className = NULL){
+    stopifnot(!is.null(className))
+    rps <- response(res)
+    if(is(res, className)){
+        res$auth <- auth
+    }else if(is(res, "SimpleList")){
+        res <- endoapply(res, function(x){
+            x$auth <- auth
+            x
+        })
+    }
+    response(res) <- rps
+    res
+}
+
+## setToken <- function(platform = NULL, username = NULL, token = NULL){
+##     if(is.null(platform) || is.null(username) || is.null(token))
+##         stop("platform ,username, token must be provided")
+##     .old <- options("sevenbridges")$sevenbridges
+##     .old$auth[[platform]] <- .update_list(.old$auth[[platform]],
+##                                           list(username = username,
+##                                                token = token))
+##     options(sevenbridges = .old)
+## }
+
+

@@ -6,15 +6,15 @@
 \alias{Auth-class}
 \title{Class Auth}
 \arguments{
-\item{auth_token}{[character] your auth token.}
-
-\item{platform}{[character %in% 'CGC', 'US'] which platform you are
-using, by default it is sbg us platform.}
+\item{token}{[character] your auth token.}
 
 \item{url}{[chracter] a URL for the API, default is \code{NULL},
 will use \code{api} parameter to switch to the right one.}
 
-\item{version}{[character] default: 1.1 version used for api.}
+\item{platform}{[character %in% 'cgc', 'us'] which platform you are
+using, by default it is sbg us platform.}
+
+\item{username}{username in the config file for authentification.}
 }
 \description{
 Auth token object
@@ -27,7 +27,7 @@ could start from this object using cascading style. Please check vignette
 \section{Fields}{
 
 \describe{
-\item{\code{auth_token}}{[character] your auth token.}
+\item{\code{token}}{[character] your auth token.}
 
 \item{\code{url}}{[character] basic url used for API, by default
 it's \url{https://api.sbgenomics.com/1.1/}}
