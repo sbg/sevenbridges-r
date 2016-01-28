@@ -47,7 +47,9 @@ as possible, including the NCI Cancer Genomic Cloud Pilot developed by Seven Bri
 Currently tested platform including
 
 - [Cancer Genomics Cloud Platform](http://www.cancergenomicscloud.org/)
-- [Seven Bridgs US platform](https://www.sbgenomics.com/)
+- [Seven Bridgs US platform on AWS](https://www.sbgenomics.com/)
+- [Seven Bridgs US platform on Google Cloud](https://gcp.sbgenomics.com/)
+
 
 It will be helpful to read complete platform documentation 
 
@@ -64,6 +66,13 @@ And it's API part if you want to understand details and use its full power:
 Plesae note, `sevenbridges` package doesn't support old API, please use `sbgr` package instead if you need to operate on old project type. `sbgr` package will be under maintainance mode. 
 
 ## API V2 and beyond
+
+Current public v2 API
+
+- Cancer Genomics Cloud : https://cgc-api.sbgenomics.com/v2/
+- Seven Bridges on AWS: https://api.sbgenomics.com/v2/
+- Seven Bridges on Google: https://gcp-api.sbgenomics.com/v2/
+
 
 `sevenbbridges` package only support V2 and later API, which support CWL compatible project. 
 
@@ -183,12 +192,13 @@ Draft your task, you need to specify
 I want to generate 1 number (default) between 1 and 10. 
 
 ```{r}
-p$task_add(name = "Draft runif", 
+(tsk <- p$task_add(name = "Draft runif 3", 
            description = "Description for runif", 
            app = aid,
-           inputs = list(min = 1, max = 10))
+           inputs = list(min = 1, max = 10)))
+
 ## confirm, show all task status is draft
-(tsk <- p$task(status = "draft"))
+p$task(status = "draft")
 ```
 
 Now you have your draft task, you can delete your draft task or update it.
@@ -196,6 +206,18 @@ Now you have your draft task, you can delete your draft task or update it.
 ```{r}
 ## not run
 ## tsk$delete()
+```
+
+looks like there is only a single number, oops, I want 100 numbers, so 
+let me update my draft task 
+
+```{r}
+tsk <- p$task(status = "draft")
+tsk <- p$task(id = "504de3b7-4a8f-4755-a039-e1ec12ddd3fa")
+tsk$update()
+tsk$getInputs()
+## missing number input
+tsk$update(inputs = list(number = 200, min = 1, max = 10))
 ```
 
 Or we just want to run it in the cloud!
@@ -229,9 +251,13 @@ To about running task just  all
 
 To download all files from a completed tasks
 
-```
+```{r}
 tsk$download("~/Downloads")
 ```
+
+
+
+
 
 # Low level API 
 

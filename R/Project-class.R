@@ -290,7 +290,9 @@ Project <- setRefClass("Project", contains = "Item",
                                 app = app,
                                 inputs = inputs)
                             
-                            auth$api(path = "tasks", body = body, method = "POST", ...)                               
+                            res <- auth$api(path = "tasks", body = body, method = "POST", ...)
+                            res <- .asTask(res)
+                            setAuth(res, .self$auth, "Task")
                                
                            },
                            task_run = function(...){

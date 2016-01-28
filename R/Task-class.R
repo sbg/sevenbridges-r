@@ -34,6 +34,14 @@ Task <- setRefClass("Task", contains = "Item",
                             description = NULL,
                             inputs = NULL, ...){
 
+                            if(is.null(name) && is.null(description) && !is.null(inputs)){
+                             
+                                res = auth$api(path = paste0("tasks/", id, "/inputs"),
+                                    body = inputs, method = "PATCH", ...)
+                                return(update())
+                            }
+
+
                             body = list(name = name,
                                 description = description,
                                 inputs = inputs)
