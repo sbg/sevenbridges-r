@@ -7,20 +7,20 @@
 #'
 #' @return auth token
 #'
-#' @export misc_get_auth_token
+#' @export misc_get_token
 #' @importFrom utils browseURL
 #' @examples
 #' # Paste the auth token into R
 #' # console then press enter:
 #' token = NULL
-#' \donttest{token = misc_get_auth_token()}
-misc_get_auth_token = function () {
+#' \donttest{token = misc_get_token()}
+misc_get_token = function () {
 
     browseURL('https://igor.sbgenomics.com/account/?current=developer#developer')
     cat("\nEnter the generated authentication token:")
-    auth_token = scan(what = character(), nlines = 1L, quiet = TRUE)
+    token = scan(what = character(), nlines = 1L, quiet = TRUE)
 
-    return(auth_token)
+    return(token)
 
 }
 
@@ -162,7 +162,7 @@ misc_make_metadata = function (output = c('list', 'json', 'metafile'),
 #'
 #' @return The uploaded file's ID number.
 #'
-#' @param auth_token auth token
+#' @param token auth token
 #' @param uploader The directory where the SBG uploader is located
 #' (the directory that contains the bin/ directory).
 #' @param file The location of the file to upload.
@@ -179,25 +179,25 @@ misc_make_metadata = function (output = c('list', 'json', 'metafile'),
 #'
 #' @examples
 #' token = '420b4672ebfc43bab48dc0d18a32fb6f'
-#' \donttest{misc_upload_cli(auth_token = token,
+#' \donttest{misc_upload_cli(token = token,
 #'                           uploader = '~/sbg-uploader/',
 #'                           file = '~/example.fastq', project_id = '1234')}
-misc_upload_cli = function (auth_token = NULL, uploader = NULL,
+misc_upload_cli = function (token = NULL, uploader = NULL,
                             file = NULL, project_id = NULL,
                             proxy = NULL) {
 
-    if (is.null(auth_token)) stop('auth_token must be provided')
+    if (is.null(token)) stop('token must be provided')
     if (is.null(uploader)) stop('SBG uploader location must be provided')
     if (is.null(file)) stop('File location must be provided')
 
-    auth_token = paste('-t', auth_token)
+    token = paste('-t', token)
     uploader = file.path(paste0(uploader, '/bin/sbg-uploader.sh'))
     file = file.path(file)
 
     if (!is.null(project_id)) project_id = paste('-p', project_id)
     if (!is.null(proxy)) proxy = paste('-x', proxy)
 
-    cmd = paste(uploader, auth_token, project_id, proxy, file)
+    cmd = paste(uploader, token, project_id, proxy, file)
     res = system(command = cmd, intern = TRUE)
     fid = strsplit(res, '\t')[[1]][1]
     return(fid)
@@ -418,21 +418,6 @@ ptype <- function(x){
     ifelse(grepl("\\/", x), "v2", "1.1")
 }
 
-setAuth <- function(res, auth, className = NULL){
-    stopifnot(!is.null(className))
-    rps <- response(res)
-    if(is(res, className)){
-        res$auth <- auth
-    }else if(is(res, "SimpleList")){
-        res <- endoapply(res, function(x){
-            x$auth <- auth
-            x
-        })
-    }
-    response(res) <- rps
-    res
-}
-
 
 isv2 <- function(version){
     version == "v2"
@@ -468,11 +453,12 @@ setListClass <- function(elementType = NULL, suffix = "List",
     setClass(name, contains = c("SimpleList", contains), where = where,
              prototype = prototype(elementType = elementType))
     setMethod("show", name, function(object){
-        for(i in 1:length(object)){
-            message("[[", i, "]]")
-            show(object[[i]])
+        if(length(object)){
+            for(i in 1:length(object)){
+                message("[[", i, "]]")
+                show(object[[i]])
+            }
         }
-
     })
     ## constructor
     function(...){

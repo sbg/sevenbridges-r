@@ -20,9 +20,4 @@ with more fields.
 
 \item{\code{contributor}}{[list] a list of contributor names.}
 }}
-\section{Methods}{
-
-\describe{
-\item{\code{toList(...)}}{Convert object to a list of simple data types}
-}}
 

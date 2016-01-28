@@ -40,7 +40,6 @@ Member <- setRefClass("Member", contains = "Item",
                               execute = NULL,
                               admin = NULL, read = NULL, ...){
                               
-                              v2Check(auth$version)
                               if(is.null(pid)){
                                   stop("cannot find project id")
                               }
@@ -59,7 +58,7 @@ Member <- setRefClass("Member", contains = "Item",
                              
 
 
-                              req <- api(auth_token = auth$auth_token,
+                              req <- api(token = auth$token,
                                   base_url = auth$url, 
                                   path = paste0('projects/', pid, '/members/', username, '/permissions'),
                                   body = body, method = 'PATCH', ...)
@@ -84,17 +83,12 @@ Member <- setRefClass("Member", contains = "Item",
                           delete = function(...){
                               stopifnot(!is.null(auth$version))
                               
-                              if(auth$version == "1.1"){
-                                  stop("not supported for v1.1 yet, please use project$member_delete() instead")
-                              }
-                              
-                              if(auth$version == "v2"){
-                                  req <- api(auth_token = auth$auth_token,
-                                      base_url = auth$url,
-                                      path = paste0('projects/', pid, '/members/', username),
-                                      method = 'DELETE', ...)
-                                  res <- status_check(req)
-                              }
+                              req <- api(token = auth$token,
+                                         base_url = auth$url,
+                                         path = paste0('projects/', pid, '/members/', username),
+                                         method = 'DELETE', ...)
+                              res <- status_check(req)
+
                           },
                           show = function(){
                               .showFields(.self, "== Member ==",
@@ -164,7 +158,7 @@ Project <- setRefClass("Project", contains = "Item",
                                 .self$field(nm, body[[nm]])
                                }
 
-                               req <- api(auth_token = auth$auth_token,
+                               req <- api(token = auth$token,
                                    base_url = auth$url, 
                                    path = paste0('projects/', id),
                                    body = body, method = 'PATCH', ...)
@@ -184,12 +178,12 @@ Project <- setRefClass("Project", contains = "Item",
                                ## depends on owner information to decide which version we use
                                if(ptype(id) == "1.1"){
                                    ## use V1.1
-                                   res <- project_members(auth$auth_token, id)
+                                   res <- project_members(auth$token, id)
                                    ms <- .asMemberList(res[[1]])                                   
                                }
                                if(ptype(id) == "v2"){
                                    ## use v2
-                                   req = api(auth_token = auth$auth_token,
+                                   req = api(token = auth$token,
                                        base_url = auth$url, 
                                        path = paste0('projects/', id, '/members'),
                                        method = 'GET', ...)
@@ -223,7 +217,7 @@ Project <- setRefClass("Project", contains = "Item",
                                                     'read' = read,
                                                     'execute' = execute, 'admin' = admin))
 
-                                   req = api(auth_token = auth$auth_token,
+                                   req = api(token = auth$token,
                                        base_url = auth$url,
                                        path = paste0('projects/', id, '/members'),
                                        body = body, method = 'POST', ...)
@@ -241,29 +235,30 @@ Project <- setRefClass("Project", contains = "Item",
                                res
                            },
                            upload = function(file = NULL, metadata = list()){
-                               if(auth$version == "v2")
-                                   stop("API V2 doesn't support uploading yet, only v1.1 supported now")
-                               u <- Upload(auth = auth,
-                                           file,
-                                           project_id = id,
-                                           metadata = metadata)
-                               u$upload()
+                               stop("API V2 doesn't support uploading yet, only v1.1 supported now")
                            },
                            ## app
                            app = function(...){
                                auth$app(project = id, ...)
                            },
-                           app_add = function(short_name = NULL, file = NULL, revision = NULL, ...){
-                               if(is.null(file)){
+                           app_add = function(short_name = NULL, filename  = NULL, revision = NULL, ...){
+                               if(is.null(filename)){
                                    stop("file (cwl json) need to be provided")
                                }
-                               if(is.name(NULL)){
+                               if(is.null(short_name)){
                                    stop("app short name has to be provided (alphanumeric character with no spaces)")
                                }
+                               
+                               if(is(filename, "Tool")){
+                                   fl <- tempfile(fileext = ".json")
+                                   writeLines(filename$toJSON(), con = fl)
+                                   filename <- fl
+                               }
+
                                if(is.null(revision)){
                                    res <- auth$api(path = paste0("apps/", id, "/", short_name, "/raw"),
                                                    method = "POST",
-                                                   body = upload_file(file), ...)
+                                                   body = upload_file(filename), ...)
                                }else{
                                    ## latest check revision first
                                    .id <- paste0(id, "/", short_name)
@@ -272,9 +267,11 @@ Project <- setRefClass("Project", contains = "Item",
                                        stop("latest revision is: ", .r, ", you have to bump to: ", .r + 1)
                                    res <- auth$api(path = paste0("apps/", id, "/", short_name, "/", revision, "/raw"),
                                                    method = "POST",
-                                                   body = upload_file(file), ...)
+                                                   body = upload_file(filename),  ...)
                                }
-                               res
+                               file.remove(filename)
+                               .id <- res[["sbg:id"]]
+                               app(id = .id)
 
                            },
                            ## task

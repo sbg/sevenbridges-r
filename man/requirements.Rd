@@ -8,6 +8,7 @@
 \alias{MemRequirement-class}
 \alias{cpu}
 \alias{docker}
+\alias{fileDef}
 \alias{mem}
 \alias{requirements}
 \title{Rabix specifc Requirements}
@@ -15,6 +16,13 @@
 docker(pull = "", imageId = "", load = "", file = "", output = "")
 
 requirements(...)
+
+fileDef(name = NULL, content = NULL)
+}
+\arguments{
+\item{name}{file name}
+
+\item{content}{file content, could be script}
 }
 \description{
 Extends ProcessRequirements. CPURequirement and MemRequirement to

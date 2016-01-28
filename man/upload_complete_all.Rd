@@ -4,10 +4,10 @@
 \alias{upload_complete_all}
 \title{Reports the complete file upload}
 \usage{
-upload_complete_all(auth_token = NULL, upload_id = NULL, ...)
+upload_complete_all(token = NULL, upload_id = NULL, ...)
 }
 \arguments{
-\item{auth_token}{auth token}
+\item{token}{auth token}
 
 \item{upload_id}{ID of the upload}
 

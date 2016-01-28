@@ -4,11 +4,11 @@
 \alias{misc_upload_cli}
 \title{Upload files using SBG uploader}
 \usage{
-misc_upload_cli(auth_token = NULL, uploader = NULL, file = NULL,
+misc_upload_cli(token = NULL, uploader = NULL, file = NULL,
   project_id = NULL, proxy = NULL)
 }
 \arguments{
-\item{auth_token}{auth token}
+\item{token}{auth token}
 
 \item{uploader}{The directory where the SBG uploader is located
 (the directory that contains the bin/ directory).}
@@ -31,7 +31,7 @@ Upload files using SBG uploader.
 }
 \examples{
 token = '420b4672ebfc43bab48dc0d18a32fb6f'
-\donttest{misc_upload_cli(auth_token = token,
+\donttest{misc_upload_cli(token = token,
                           uploader = '~/sbg-uploader/',
                           file = '~/example.fastq', project_id = '1234')}
 }

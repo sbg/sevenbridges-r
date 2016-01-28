@@ -4,14 +4,14 @@
 \alias{api}
 \title{wrapper of http logic for SBG API}
 \usage{
-api(auth_token = NULL, version = "1.1", path = NULL, method = c("GET",
+api(token = NULL, version = "1.1", path = NULL, method = c("GET",
   "POST", "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
   encode = "json", limit = getOption("limit"),
   offset = getOption("offset"),
   base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
 }
 \arguments{
-\item{auth_token}{authenticate token string.}
+\item{token}{authenticate token string.}
 
 \item{version}{API version number, default 1.1.}
 
@@ -55,7 +55,7 @@ vignettes pages for more convenient usage.
 token <- "fake_token"
 \donttest{
 ## list projects
-api(auth_token = token, path = 'project', method = "GET")
+api(token = token, path = 'project', method = "GET")
 }
 }
 \references{

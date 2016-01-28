@@ -4,10 +4,10 @@
 \alias{project_details}
 \title{Returns the details of the project}
 \usage{
-project_details(auth_token = NULL, project_id = NULL, ...)
+project_details(token = NULL, project_id = NULL, ...)
 }
 \arguments{
-\item{auth_token}{auth token}
+\item{token}{auth token}
 
 \item{project_id}{ID of a project you want to access.}
 

@@ -4,10 +4,10 @@
 \alias{upload_info}
 \title{Returns upload information for the ongoing upload}
 \usage{
-upload_info(auth_token = NULL, upload_id = NULL, ...)
+upload_info(token = NULL, upload_id = NULL, ...)
 }
 \arguments{
-\item{auth_token}{auth token}
+\item{token}{auth token}
 
 \item{upload_id}{ID of the upload}
 
