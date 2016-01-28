@@ -13,13 +13,26 @@
 \alias{requirements}
 \title{Rabix specifc Requirements}
 \usage{
-docker(pull = "", imageId = "", load = "", file = "", output = "")
+docker(pull = "", imageId = "", load = "", file = "", output = "",
+  ...)
 
 requirements(...)
 
 fileDef(name = NULL, content = NULL)
 }
 \arguments{
+\item{pull}{Docker Repository[:Tag] like rocker/r-base}
+
+\item{imageId}{The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
+
+\item{load}{Specify a HTTP URL from which to download a Docker image using docker load}
+
+\item{file}{Supply the contents of a Dockerfile which will be built using docker build.}
+
+\item{output}{Set the designated output directory to a specific location inside the Docker container}
+
+\item{...}{extra aguments passed}
+
 \item{name}{file name}
 
 \item{content}{file content, could be script}

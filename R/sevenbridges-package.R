@@ -11,12 +11,11 @@
 #' @docType package
 #' @author Nan Xiao <\email{nan.xiao@@sbgenomics.com}>
 #'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
-#' @import httr
+#' @import httr methods
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
 #' @importFrom yaml yaml.load_file as.yaml
 #' @importFrom jsonlite toJSON prettify unbox
-#' @importFrom methods showDefault
 #' @importFrom docopt docopt
 #' @importClassesFrom S4Vectors characterORNULL List SimpleList
 #' @importFrom S4Vectors elementType endoapply

@@ -131,16 +131,23 @@ cpu <- CPURequirement
 
 #' @rdname requirements
 #' @aliases docker
+#' @param pull Docker Repository[:Tag] like rocker/r-base
+#' @param imageId The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
+#' @param load Specify a HTTP URL from which to download a Docker image using docker load
+#' @param file Supply the contents of a Dockerfile which will be built using docker build.
+#' @param output Set the designated output directory to a specific location inside the Docker container
+#' @param ... extra aguments passed
 #' @export docker
 #' @examples
 #' docker("rocker/r-base")
-docker <- function(pull = "", imageId = "", load = "", file = "", output = ""){
+docker <- function(pull = "", imageId = "", load = "", 
+                   file = "", output = "", ...){
     DockerRequirement(
         dockerImageId = imageId,
         dockerPull = pull,
         dockerLoad = load,
         dockerFile = file,
-        dockerOutputDirectory = output)    
+        dockerOutputDirectory = output, ...)    
 }
 
 #' requirements and hints
