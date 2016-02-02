@@ -1,5 +1,5 @@
 ---
-title: "Tutorials: Creating Your First Docker App with Command Line Interfqce and Report."
+title: "Creating Your Docker App with Command Line Interfqce and Auto-build on Dockerhub"
 output:
   BiocStyle::html_document:
     toc: true
@@ -9,7 +9,7 @@ output:
 ---
 
 <!--
-%\VignetteIndexEntry{Tutorials: Creating Your First Docker App and Command Line Interface and Report.}
+%\VignetteIndexEntry{Creating Your Docker App with Command Line Interfqce and Auto-build on Dockerhub}
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
@@ -41,27 +41,18 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # Introduction
 
-__ In progress __
+__In progress__
 
-In this tutorial, we will go through couple different ways to 
+In this tutorial, we will go through ways to 
 
-- Creating Your CWL App
 - Make native command line interface in R
 
 There are many fun ways to do it, here I am more focused for R developers. 
 
-I will start from the easiest one to most formal one. 
+## Existing docker repos
 
-- When you have a docker image ready, just need to describe a tool
-- You want to create your own docker container with command line interface
-
-## Existing docker images
-
-Usually it's recommended you may want to always start with a 'core' image in your group
-or communty to serve as the basis for your tool chain. 
-
-Fortunately, for R developers, there are official R and Biocondcutor docker images already
-I will introduce briefly in following section.
+Before you create any, make sure you don't re-invent the wheel and use the best
+base image for your container as your tool chain may save your lots of time later on. 
 
 ### Rocker Project
 
@@ -118,6 +109,23 @@ docker container well maintained there.
 
 If you plan to develop/execute/deploy on any of Seven Bridges Platforms, including cancer genomics cloud. Users are encouraged to use Seven Bridges Registry, so the push and pulling with be faster. 
 
+- Q: Can I push a docker hub image to SBG registry?
+- A: Yes. make sure you login (sbg login or cgc login), Please rename the tag and do a docker push. for example, if you have a image called runif and logged in as 'yintengfei'. When you do `sbg docker-push` you don't need full name, <repository>[:<tag>] will do the trick, and for now `docker push` don't work on this. 
+
+```
+docker tag runif images.sbgenomics.com/yintengfie/runif
+sbg login
+sbg docker-push yintengfie/runif
+```
+
+will do the trick.
+
+Our own image registry:
+
+- __SevenBridges__ : `images.sbgenomics.com/<repository>[:<tag>]`
+- __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
+
+
 # Tutorial: random number generator 
 
 Ok not "hello world"" example this time : ) will leave that as exercise to users, this time I  will start with another simple example for R users, but with more arguments to play with. 
@@ -130,7 +138,7 @@ runif
 runif(10)
 ```
 
-### Using docopt package
+## Using docopt package
 
 In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on github.
 
@@ -204,10 +212,10 @@ runif(n = as.integer(opts$n),
       max = as.numeric(opts$max))
 ```
 
-OK seems good, now let's test it in our terminal, don't forget to make it executable by doing something like `chmod 755 runif.R`
+OK seems good, now let's test it in our terminal, don't forget to make it executable by doing something like `cp runif.R /usr/local/bin; chmod 755 runif.R`
 
 ```
-$ ./runif.R --help
+$ runif.R --help
 Loading required package: methods
 usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
 
@@ -216,23 +224,35 @@ options:
  --min=<float>   lower limits of the distribution. Must be finite [default: 0].
  --max=<float>   upper limits of the distribution. Must be finite [default: 1].
  --seed=<float>  seed for set.seed() function [default: 1]
-$ ./runif.R
+$ runif.R
 Loading required package: methods
 [1] 0.2655087
-$ ./runif.R
+$ runif.R
 Loading required package: methods
 [1] 0.2655087
-$ ./runif.R --seed=123 --n 10 --min=1 --max=100
+$ runif.R --seed=123 --n 10 --min=1 --max=100
 Loading required package: methods
  [1] 29.470174 79.042208 41.488715 88.418723 94.106261  5.510093 53.282443
  [8] 89.349485 55.592066 46.204859
 ```
 
-# Setup dockerhub hook
+For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
+
+# Setup dockerhub automated build
+
+To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on docker hub. Here is what I do
+
+1. I created some project called 'docker' on my github and it has all container that crated from a Dockerfile, for example, tengfei/docker/runif, please go [here](https://github.com/tengfei/docker/tree/master/runif) to check it out
+2. This folder root has a Dockerfile and subfolders for extra materials I added at build time, like script or report template. 
+3. login your dockerhub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your github account. Make sure you input the right location for your Dockerfile, by customizing it. 
+4. Then you will have auto-build every time you push a new update in github. 
+5. Start using your docker image like 'tengfei/runif'
+6. Feel free to push it onto your SevenBridges platform registry as well. 
+
 
 # Exercise
 
-I leave this as excercise to users, please have fun. anwsers will be added later. Please email me your solution or share with us. 
+I leave this as excercise to users, please have fun, anwsers will be added later. Please email me your solution or share with us. 
 
 ## Produce graphics
 
@@ -246,3 +266,5 @@ I leave this as excercise to users, please have fun. anwsers will be added later
 ## Deploy shiny apps
 
 - Try to deploy a shiny report on shinyapps.io
+
+
