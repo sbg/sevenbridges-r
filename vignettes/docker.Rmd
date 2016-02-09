@@ -238,6 +238,40 @@ Loading required package: methods
 
 For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
 
+# Upgraded way: writing executable report with R markdown
+
+We cannot really make a Rmarkdown file executable in it by simply put 
+
+```
+#!/bin/bash/Rscript
+```
+
+In your markdown
+
+Of course, we can figure out a way to do it in `liftr` or `knitr`. But rmarkdown allow you to pass parameters to your Rmardown template, please read this tutorial [Parameterized Reports](http://rmarkdown.rstudio.com/developer_parameterized_reports.html). This doesn't solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:
+
+Create an command line interaface to pass `params` from docopt into `rmarkdown::render()` function. In this way, we can pass as many as possible parameters from command line interface into our Rmarkdown template. 
+
+So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow. 
+
+```{r, eval = TRUE}
+fl <- system.file("docker/runif/src/", "runif.R", package = "sevenbridges")
+fl
+```
+
+Here is the current content of command line interface
+```{r, comment='', eval = TRUE}
+cat(readLines(fl), sep = '\n')
+```
+
+And here is the report template
+
+```{r, comment='', eval = TRUE}
+fl <- system.file("docker/runif/report/", "report.Rmd", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+
 # Setup dockerhub automated build
 
 To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on docker hub. Here is what I do

@@ -1,0 +1,143 @@
+---
+title: "Tutorial: Make the Best of Bioconductor Workflows"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{Tutorial: make the best of bioconductor workflows}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+
+
+# Introduction
+
+__In Progess!!!!__
+
+__Goal__: I really want to encourage Biocondcutor developer and R developers to find a formal way to make their tool/flow into a reproducible container with standard command line interface or provide official "executable" report template with knitr. (Hope to have more fun with liftr soon later).
+
+In this tutorial, I will show you 
+
+1. Wrap existing bioconductor workflow into a container
+2. Provide command line interface for your container app
+3. Provide template report for your container app
+4. Run it anywhere include
+    - Locally
+    - Cancer genomics cloud
+    - Google 
+    - AWS 
+5. Check they are the same
+
+# RNA-seq analysis pipeline
+
+
+## Creat a Tool: from Bam to report
+
+### Step 1: have a plan 
+To demonstrate I will use a RNA-seq [workfow](https://www.bioconductor.org/help/workflows/rnaseqGene/) from Bioconductor, I want to finish two tasks
+
+- Input raw bam and design matrics
+- Give two outputs
+    - Report
+    - Graphics
+    - DE table
+
+
+
+### Step 2: Create docker container for your tool
+
+Why we do this first? Building a development environment is essential for developing your flow command line interface, so we should get everything prepared. Saved thousands words here, please check what do in my Dockerfile, 
+I installed the official "workflow" first from Bioconducotr. 
+
+```{r}
+fl <- system.file("docker/rnaseqgene/release", "Dockerfile", package = "sevenbridges")
+fl
+```
+Here is the current content of Dockerfile
+```{r comment=''}
+cat(readLines(fl), sep = '\n')
+```
+
+
+### Step 3: Create your command line interface.
+
+In this step, I am going to
+
+1. Use docopt to make R command line interface
+2. Insert my script into the container I made
+3. Test function inside container or
+4. Test function locally using rabix
+
+### Step 4: Describe your tool in R into CWL.
+
+### Step 5: Execute it.
+
+Please read next section about execution. 
+
+## Execute it anywhere
+
+### Create a project
+
+I am going to create a project that host my apps and test data.
+
+```{r, eval = FALSE}
+a <- Auth(platform = "cgc", username = "tengfei")
+bid <- a$billing()[[1]]$id
+a$project_new("Bioconductor RNA-seq Workflow", billing_group_id = bid,
+              description = "An bam to report workflow for RNA-seq analysis")
+```
+
+### Uplaod your test data
+
+```{r, eval = FALSE}
+
+```
+
+### Push your apps 
+
+### Run it!
+
+
+
+### Cancer Genomics Cloud
+
+### Google cloud and other seven bridges platforms
+
+
+
+## Connecting with existing App  
+
+Don't always reinvent the wheel, unless you can produce something better. 
+
+For example, now I want to create a workflow that use STAR aligner to do the aignments first. Then I searched on line, I found "oh yes, there is already an app on Cancer Genomics Cloud public app repos."
+
+## Share your tools
+
+
+    

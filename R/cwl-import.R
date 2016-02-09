@@ -1920,8 +1920,6 @@ WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL",
                                          default <<- default
                                          if(is.character(source)){
                                              source <<- as.list(source)                                                                                          
-                                         }else{
-                                             stop("please provide charcter")
                                          }
                                          callSuper(...)
                                      }
