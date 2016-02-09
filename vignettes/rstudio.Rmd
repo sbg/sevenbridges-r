@@ -1,0 +1,101 @@
+---
+title: "Running sevenbridges SDK image and launch Rstudio server"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+---
+
+<!--
+%\VignetteIndexEntry{Running sevenbridges SDK image and launch Rstudio server}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+<!-- override white background for classless code chunks -->
+<style type="text/css" scoped>
+  pre:not([class]) { background-color: #F8F8F8; }
+  pre code { background-color: transparent; }
+</style>
+
+```{r code, echo = FALSE}
+code <- function(...) {
+    cat(paste(..., sep = "\n"))
+}
+
+code2 <- function(...) {
+    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
+}
+```
+
+```{r global_options, include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = TRUE)
+```
+
+# Introduction
+
+The goal of this docker image is to provide
+
+- SDK environment that includes
+    - Rabix python package
+    - Command line uploader
+    - Seven Bridgs Command line tools
+    - sevenbridges R package
+    - In API you can call uploader
+- Rstudio: you can launch the server, I will show you how later in this tutorial
+
+## Dockerfile
+
+The Dockerfile is included with the package in `inst/docker` folder. 
+
+```{r}
+fl <- system.file("docker/sevenbridges/devel", "Dockerfile", package = "sevenbridges")
+fl
+```
+Here is the current content of Dockerfile
+```{r comment=''}
+cat(readLines(fl), sep = '\n')
+```
+
+# Docker hub autobuild
+
+A hook is added to build the docker image automatically from my [github](https://github.com/tengfei/sevenbridges), it's under `inst/docker`, it's automatically build on my dockerhub [page](https://hub.docker.com/r/tengfei/sevenbridges/). you can directly use this `tengfei/sevenbridges`
+
+# Launch Rstudio server 
+
+For example, you can ssh into your AWS instance, here I suppose you already have docker installed,  and pull the image 
+
+```
+docker pull tengfei/sevenbridges
+```
+
+To launch sevenbridges Rstudio server image, I recommend you read this [tutorial](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
+
+Or following the quick instruction here
+
+```
+docker run -d -p 8787:8787 tengfei/sevenbridges
+docker run -d -p 8787:8787 -e USER=<username> -e PASSWORD=<password> rocker/rstudio
+```
+
+You will be able to access the Rstudio in the browser by something like
+
+`http://<your ip address>:8787`
+
+Sometimes you want to add more users, to add users
+
+```
+## Enter the container
+docker exec -it <container-id> bash
+## Interactively input password and everything else
+adduser <username>
+```
+
+

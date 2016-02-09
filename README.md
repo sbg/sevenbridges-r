@@ -1,4 +1,4 @@
-# R Client for Seven Bridges Genomics API
+# R Package for Seven Bridges Platform
 
 <!-- [![Build Status](https://travis-ci.org/road2stat/sevenbridges.png?branch=master)](https://travis-ci.org/tengfei/sevenbridges) -->
 
@@ -8,7 +8,8 @@ Please checkout the [bioductor page](http://bioconductor.org/packages/3.3/bioc/h
 
 - Complete API R client with user friendly API like a$project("demo")$file("sample.tz")$delete()
 
-- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project
+- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
+of CWL object.
 
 - Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
 

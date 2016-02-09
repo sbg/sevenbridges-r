@@ -1,0 +1,26 @@
+---
+title: "Uniform randome number generator example"
+output:
+  BiocStyle::html_document:
+    toc: true
+    number_sections: true
+    highlight: haddock
+    css: style.css
+    includes:
+      in_header: logo.md
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = "custom.css")
+```
+
+
+## Summary
+```{r}
+set.seed(params$seed)
+r <- runif(n = as.integer(params$n), 
+           min = as.numeric(params$min), 
+           max = as.numeric(params$max))
+summary(r)
+hist(r)
+```
