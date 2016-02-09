@@ -148,7 +148,7 @@ in.lst <- list(input(id = "number",
                      prefix = "--n",
                      default = 1,
                      required = TRUE, 
-                     include = TRUE),
+                     cmdInclude = TRUE),
                input(id = "min",
                      description = "lower limits of the distribution",
                      type = "float",
@@ -224,6 +224,8 @@ rbx <- Tool(id = "runif",
 
 With API function, you can direcly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
 
+Following section, please for now skip. 
+
 ```{r, eval = FALSE}
 a <- Auth(platform = "cgc", username = "tengfei")
 p <- a$project("demo")
@@ -240,7 +242,146 @@ tsk$download("~/Downloads/")
 ```
 
 
-## Wokrflow
+# Wokrflow
 
-Workflow interface is still under development, to construct the workflow easily, it's alwasy better to just use our graphical interface, it's much easier for complex worklfow. 
+__Graphic User Interface on Seven Bridges Platform is way more conventient__
+
+## Introduction
+
+To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
+
+- Simple linear tool connection
+- Ouput and input match at lest have one match, then we will connect it automatically.
+
+
+__Note__ for complicated workflow construction, I highly recommend using our graphical interface to do it, there is no better way. 
+
+## Example
+
+Here I will give a quick example
+
+1. Tool 1 output 1000 random number
+2. Tool 2 take log on it 
+3. Tool 3 do a mean calculation of everything
+
+Here are methods we support
+
+- Maximize the flexibility please use `Flow` constructor to construct your flow, then pass steps using `+` sign to connect your object. `+` only outputs `StepList` and support operation
+    - Tool + Tool 
+    - StepList + Tool
+    - StepList + StepList
+- Alternatively `%>%` will output `Flow` not `StepList`, if you connect tools with `%>%` we will create id for you. it always output `Workflow`
+    - Tool %>% Tool 
+    - Workflow %>% Tool
+    - Workflow %>% Tool
+    
+### Construct tools first    
+
+```{r}
+library(sevenbridges)
+## A tool that generate a 100 random number
+t1 <- Tool(id = "runif new test 3", label = "random number",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'", 
+           outputs = output(id = "random", 
+                            type = "file", 
+                            glob = "random.txt"))
+
+## A tool that take log
+fd <- fileDef(name = "log.R",
+              content = "args = commandArgs(TRUE)
+                         x = read.table(args[1], header = TRUE)[,'x']
+                         x = log(x)
+                         write.csv(x, file = 'random_log.txt', row.names = FALSE)
+                         ")
+
+t2 <- Tool(id = "log new test 3", label = "get log",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           requirements = requirements(fd),
+           baseCommand = "Rscript log.R", 
+           inputs = input(id = "number",
+                           type = "file"),
+           outputs = output(id = "log", 
+                            type = "file", 
+                            glob = "*.txt"))
+
+## A tool that do a mean
+fd <- fileDef(name = "mean.R",
+              content = "args = commandArgs(TRUE)
+                         x = read.table(args[1], header = TRUE)[,'x']
+                         x = mean(x)
+                         write.csv(x, file = 'random_mean.txt', row.names = FALSE)
+                          ")
+
+t3 <- Tool(id = "mean new test 3", label = "get mean",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           requirements = requirements(fd),
+           baseCommand = "Rscript mean.R", 
+           inputs = input(id = "number",
+                           type = "file"),
+           outputs = output(id = "mean", 
+                            type = "file", 
+                            glob = "*.txt"))
+
+steplist <- t1 + t2 + t3
+steplist
+
+
+
+
+
+```
+
+
+### Connect tools to a flow
+
+To create a Flow we suggest you using `Flow` function, so that you can pass id and label to it. 
+
+```{r}
+f <- Flow(id = "Random-log-mean-new-test-2", 
+          label = "random log mean new test", 
+          steps = steplist)
+f$toJSON()
+f$toJSON(pretty = TRUE)
+
+```
+
+Or use %>% 
+
+```{r}
+f <- t1 %>% t2 %>% t3
+f$toJSON()
+```
+
+If it's the first time you upload those tools, following script will push both 
+tools and the workfow to your project. 
+
+```{r, eval = FALSE}
+## need id, full, sbg:id
+library(sevenbridges)
+a <- Auth(platform = "cgc", username = "tengfei")
+p <- a$project("hello")
+app.runif <- p$app_add("ramdom_log_mean_new_test_3", f)
+aid <- app.runif$id
+p$task_add(name = "Draft flow", 
+           description = "Flow test", 
+           app = aid)
+## confirm, show all task status is draft
+(tsk <- p$task('Draft flow'))
+```
+
+
+You can get App from your repos and connect it in R to build flow.
+
+```{r, eval = FALSE}
+app1 <- p$app("random number")[[1]]
+app2<- p$app("get log")[[1]]
+app3 <- p$app("get mean")[[1]]
+f <- app1 %>% app2 %>% app3
+f$id <- "randome number test flow"
+f$toJSON()
+```
+
+
+Workflow interface is still under intensive development, to construct the workflow easily, it's alwasy better to just use our graphical interface, it's much easier for complex worklfow. 
 

@@ -27,7 +27,8 @@
 ##' a <- Auth(token)
 Auth <- setRefClass("Auth", fields = list(token = "character",
                                 url = "character",
-                                version = "character"),
+                                version = "character",
+                                platform = "characterORNULL"),
                     methods = list(
                         initialize = function(
                             token = NULL,
@@ -39,18 +40,30 @@ Auth <- setRefClass("Auth", fields = list(token = "character",
                             ## get API URL first
                             ## logic:
                             ## no url, guess from platform, no platform, retrieve first entry, nothing, error.
-                          
+
+                            .default.url <- "https://cgc-api.sbgenomics.com/v2/"
+
+                            platform <<- platform
+                            
                             if(is.null(url)){
                                 if(is.null(platform)){
+                                    ## try to get token from config and option
                                     .p <- getToken(platform = platform)
                                     if(is.null(.p)){
-                                        stop("please provide url")
+                                        # get nothing preset
+                                        if(is.null(token)){
+                                            stop("please provide url and token")
+                                        }else{
+                                            message("url not provied, use: ", .default.url)
+                                            url <<- .default.url
+                                        }
+                                            
                                     }else{
                                         .url <- .p[[1]]$url
                                         if(is.null(.url)){
                                             stop("you config file is wrong, don't have url")
                                         }else{
-                                            platform <- names(.p)[1]
+                                            platform <<- names(.p)[1]
                                             url <<-  .url
                                         }
                                     }
@@ -566,6 +579,7 @@ getToken <- function(platform = NULL, username = NULL){
         message("loading ", fl)
         res <- yaml.load_file(fl)        
     }else{
+        message("configuration file: ", fl, " not found")
         res <- NULL
     }
     res
