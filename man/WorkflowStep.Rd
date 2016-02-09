@@ -91,7 +91,7 @@ The input of a workflow step connects an upstream parameter (from
 the workflow inputs, or the outputs of other workflows steps) with
 the input parameters of the underlying process.
 
-#' If the sink parameter is an array, or named in a workflow scatter
+If the sink parameter is an array, or named in a workflow scatter
 operation, there may be multiple inbound data links listed in the
 connect field. The values from the input links are merged depending
 on the method specified in the linkMerge field. If not specified,

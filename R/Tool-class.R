@@ -21,7 +21,8 @@
                 "sbg:modifiedOn" ,
                 "sbg:modifiedBy" ,
                 "sbg:revisionInfo" ,
-                "sbg:toolkit" )
+                "sbg:toolkit",
+                "sbg:projectId")
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
@@ -34,19 +35,20 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                               "sbg:toolAuthor" = "characterORNULL",
                               "sbg:copyOf" = "characterORNULL",
                               "sbg:createdOn" = "integerORNULL",
-                              "sbg:categories" = "characterORNULL",
-                              "sbg:contributors" = "characterORNULL",
-                              "sbg:links" = "characterORNULL",
-                              "sbg:project" = "characterORNULL",
+                              "sbg:categories" = "characterORlistORNULL",
+                              "sbg:contributors" = "listORNULL",
+                              "sbg:links" = "listORNULL",
+                                             "sbg:project" = "characterORNULL",
+                                                 "sbg:projectId" = "characterORNULL",
                               "sbg:createdBy" = "characterORNULL",
                               "sbg:toolkitVersion" = "characterORNULL",
                               "sbg:id"  = "characterORNULL", 
                               "sbg:license" = "characterORNULL",
-                              "sbg:revision" = "characterORNULL",
+                              "sbg:revision" = "integerORNULL",
                               "sbg:cmdPreview" = "characterORNULL",
                               "sbg:modifiedOn" = "integerORNULL",
                               "sbg:modifiedBy" = "characterORNULL", 
-                              "sbg:revisionInfo" = "listORNULL",
+                              "sbg:revisionsInfo" = "listORNULL",
                               "sbg:toolkit" = "characterORNULL"),
                    methods = list(initialize = function(homepage = NULL, 
                                       validationErrors = NULL,
@@ -68,7 +70,7 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                       cmdPreview = NULL, 
                                       modifiedOn = NULL, 
                                       modifiedBy = NULL, 
-                                      revisionInfo = NULL, 
+                                      revisionsInfo = NULL, 
                                       toolkit = NULL, ...){
 
                        args <- mget(names(formals()),sys.frame(sys.nframe()))
@@ -82,144 +84,6 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                        callSuper(...)
 
                    }))
-
-
-
-#' Rabix specifc Requirements
-#'
-#' Extends ProcessRequirements. CPURequirement and MemRequirement to
-#' setup CPU and Memory requiremnts.
-#'
-#' @field value [Integer] for CPU default is 1L, if 0L, use all
-#' CPU. For mem, default is 1000L. Note: for CPU, 0L means
-#' multi-tread, and non-zero value will be converted to 1L, which
-#' means single thread.
-#'
-#' @rdname requirements
-#'
-#' @export CPURequirement cpu
-#' @exportClass CPURequirement
-#' @aliases CPURequirement CPURequirement-class cpu
-#' @examples
-#' cpu(1)
-#' CPURequirement(value = 1L)
-CPURequirement <-
-    setRefClass("CPURequirement", contains = "ProcessRequirement",
-                fields = list(
-                    value = "integer"
-                ),
-                methods = list(
-                    initialize = function(value = 1L,
-                        class = "sbg:CPURequirement", ...){
-                        class <<- class
-                        stopifnot(is.numeric(value))
-                        .v <- as.integer(value)
-                        if(!.v %in% c(1L, 0L)){
-                            warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
-                            if(.v > 0){
-                                message("Convert CPU value ", .v, " to", 1L)
-                                .v <- 1L
-                            }
-                        }
-                        value <<- .v
-                        callSuper(...)
-                    }
-                ))
-
-
-cpu <- CPURequirement
-
-#' @rdname requirements
-#' @aliases docker
-#' @param pull Docker Repository[:Tag] like rocker/r-base
-#' @param imageId The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
-#' @param load Specify a HTTP URL from which to download a Docker image using docker load
-#' @param file Supply the contents of a Dockerfile which will be built using docker build.
-#' @param output Set the designated output directory to a specific location inside the Docker container
-#' @param ... extra aguments passed
-#' @export docker
-#' @examples
-#' docker("rocker/r-base")
-docker <- function(pull = "", imageId = "", load = "", 
-                   file = "", output = "", ...){
-    DockerRequirement(
-        dockerImageId = imageId,
-        dockerPull = pull,
-        dockerLoad = load,
-        dockerFile = file,
-        dockerOutputDirectory = output, ...)    
-}
-
-#' requirements and hints
-#'
-#' requirements and hints
-#'
-#' @export requirements
-#' @examples
-#' requirements(docker("rocker/r-base"), cpu(1), mem(1024))
-requirements <- function(...){
-    listData <- .dotargsAsList(...)
-    ## process
-    listData <- lapply(listData, function(x){
-        if(is.list(x)){
-            if(all(sapply(x, is, "FileDef"))){
-                return(CreateFileRequirement(fileDef = FileDefList(x)))
-            }else{
-                stop("not all FileDefList are FileDef object")
-            }
-        }else if(is(x, "FileDef")){
-            return(CreateFileRequirement(fileDef = FileDefList(x)))
-        }else{
-            return(x)
-        }
-    })
-    ## validation
-    idx <- sapply(listData, function(x){
-        is(x, "ProcessRequirement")
-    })
-    if(!all(idx)){
-        print(listData[!idx])
-        stop("Has to be ProcessRequirement class, use docker(), cpu(), mem(), fileDef(), function to help")
-    }
-    ProcessRequirementList(listData)
-}
-
-#' @param name file name
-#' @param content file content, could be script
-#' 
-#' @rdname requirements
-#' @aliases fileDef
-#' @export fileDef
-fileDef <- function(name = NULL, content = NULL){
-    stopifnot(!is.null(name) && !is.null(content))
-    FileDef(filename = name, fileContent = content)
-}
-
-
-#' @rdname requirements
-#' @aliases MemRequirement MemRequirement-class mem
-#' @export MemRequirement mem
-#' @exportClass MemRequirement
-#' @examples
-#' mem(2000)
-#' MemRequirement(value = 2000L)
-MemRequirement <-
-    setRefClass("MemRequirement", contains = "ProcessRequirement",
-                fields = list(
-                    value = "integer"
-                ),
-                methods = list(
-                    initialize = function(value = 1000L,
-                                          class = "sbg:MemRequirement", ...){
-                        value <<- as.integer(value)
-                        class <<- class
-                        callSuper(...)
-                    }
-                ))
-
-mem <- MemRequirement
-
-
 
 
 
@@ -251,9 +115,8 @@ Tool <-
                         outputs = NULL){
 
                         stopifnot(!is.null(id))
-                        id <<- id
+                        ## .self$field("sbg:id", addIdNum(id))
                         stopifnot(!is.null(label))
-                        label <<- label
 
                         if(is(inputs, "InputParameterList") ||
                            (is.list(inputs) &&
@@ -326,8 +189,8 @@ Tool <-
                             stop("wrong output")
                         }                       
                         
-                        
-                        callSuper(...)
+                        callSuper(id = id, label  = label, ...)
+
                     }
                 ))
 

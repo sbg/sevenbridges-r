@@ -34,8 +34,8 @@ RoxygenNote: 5.0.0
 Collate: sevenbridges-package.R
 	 core.R
 	 utils.R
+	 AllClasses.R	 
 	 cwl-import.R	 	 
-	 AllClasses.R
 	 Auth-class.R
 	 Item-class.R
 	 Meta-class.R
@@ -47,5 +47,6 @@ Collate: sevenbridges-package.R
 	 Upload-class.R
 	 App-class.R
 	 Tool-class.R
+	 Flow-class.R
 	 Task-class.R
 	 zzz.R

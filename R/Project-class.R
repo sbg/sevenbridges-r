@@ -234,31 +234,94 @@ Project <- setRefClass("Project", contains = "Item",
                                                 detail = detail, ...)
                                res
                            },
-                           upload = function(file = NULL, metadata = list()){
-                               stop("API V2 doesn't support uploading yet, only v1.1 supported now")
+                           upload = function(filename = NULL, metadata = list(), baseCMD = NULL){
+                               ## check
+                               if(!file.exists(filename)){
+                                   stop("file not found")
+                               }
+                               fm <- paste0(filename, ".meta")
+                               if(!file.exists(fm)){
+                                   if(length(metadata)){
+                                       ## write a meta
+                                       message("create meta file: ", fm)
+                                       con <- base::file(fm, raw = TRUE)
+                                       writeLines(toJSON(metadata), con = con)
+                                       close(con)
+                                   }
+                               }
+                               if(!(auth$platform %in% c("us", "cgc"))){
+                                   stop("not supported yet")
+                               }
+                               if(is.null(baseCMD)){
+                                   baseCMD <- switch(auth$platform,
+                                                     us = "sbg-uploader.sh",
+                                                     cgc = "cgc-uploader.sh")
+                               }
+                               ## sbg-uploader.sh [-h] [-l] [-p id] [-t token] [-u username] [-x url] file
+                               cmd <- paste(baseCMD, "-p", id, "-t", auth$token, filename)
+                               print(cmd)
+                               system(cmd)
+                               
                            },
                            ## app
                            app = function(...){
                                auth$app(project = id, ...)
                            },
                            app_add = function(short_name = NULL, filename  = NULL, revision = NULL, ...){
+                               
                                if(is.null(filename)){
                                    stop("file (cwl json) need to be provided")
                                }
                                if(is.null(short_name)){
                                    stop("app short name has to be provided (alphanumeric character with no spaces)")
+                               }else{
+                                   if(grepl("[[:space:]]+", short_name)){
+                                       stop("id cannot have white space")
+                                       ## short_name <- parseLabel(short_name)
+                                       ## message("remove white space of shortname to :", short_name)
+                                   }
                                }
                                
-                               if(is(filename, "Tool")){
+                               if(is(filename, "Tool") || is(filename, "Workflow")){
+                                   if(is(filename, "Workflow")){
+                                       ## push apps and update run
+                                     
+                                       steplst <- filename$steps
+                                       lst <- lapply(steplst, function(x){
+                                      
+                                           .name <- gsub("#", "",x$run$id)
+                                           message(.name)
+                                           new.app <- app_add(short_name = .name,
+                                                              filename = x$run)
+                                           ## FIXME: need to be unique
+                                           ## x$run <- convertApp(new.app)
+                                           new.app
+                                       })
+                                       slst <- lst[[1]]
+                                       for(i in 1:(length(lst) -1)){
+                                           slst <- slst + lst[[i + 1]]
+                                       }
+                                      filename$steps <- slst
+                                   }
+
+
                                    fl <- tempfile(fileext = ".json")
-                                   writeLines(filename$toJSON(), con = fl)
+                                   con <- base::file(fl, raw = TRUE)
+                                   writeLines(filename$toJSON(), con = con)
                                    filename <- fl
+                                   on.exit(close(con))
+                                
+                                   
                                }
 
+                               
+
                                if(is.null(revision)){
+                                
                                    res <- auth$api(path = paste0("apps/", id, "/", short_name, "/raw"),
                                                    method = "POST",
                                                    body = upload_file(filename), ...)
+            
                                }else{
                                    ## latest check revision first
                                    .id <- paste0(id, "/", short_name)
@@ -269,6 +332,7 @@ Project <- setRefClass("Project", contains = "Item",
                                                    method = "POST",
                                                    body = upload_file(filename),  ...)
                                }
+
                                file.remove(filename)
                                .id <- res[["sbg:id"]]
                                app(id = .id)

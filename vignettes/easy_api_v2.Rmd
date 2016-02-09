@@ -126,6 +126,9 @@ when you provide url, please don't forget `/` in the end.
 ```{r}
 library(sevenbridges)
 ## direct setup
+a <- Auth()
+a <- Auth(token = "aef7e9e3f6c54fb1b338ac4ecddf1a56")
+a
 a <- Auth(token = "1c0e6e202b544030870ccc147092c257",
           url = "https://cgc-api.sbgenomics.com/v2/")
 ## or load default, deafult url is cgc  API, more safe
@@ -216,8 +219,8 @@ tsk <- p$task(status = "draft")
 tsk <- p$task(id = "504de3b7-4a8f-4755-a039-e1ec12ddd3fa")
 tsk$update()
 tsk$getInputs()
-## missing number input
-tsk$update(inputs = list(number = 200, min = 1, max = 10))
+## missing number input, only update number
+tsk$update(inputs = list(number = 300))
 ```
 
 Or we just want to run it in the cloud!
@@ -253,6 +256,15 @@ To download all files from a completed tasks
 
 ```{r}
 tsk$download("~/Downloads")
+```
+
+More fun to set task hook, so when it's complete download the files
+
+```{r}
+setTaskHook("completed", function(){
+    tsk$download("~/Downloads")
+})
+tsk$monitor()
 ```
 
 
