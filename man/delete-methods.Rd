@@ -4,11 +4,8 @@
 \name{delete}
 \alias{delete}
 \alias{delete,Files-method}
-\alias{delete,FilesList-method}
 \alias{delete,SimpleList-method}
 \alias{delete,Task-method}
-\alias{download,Files-method}
-\alias{download,FilesList-method}
 \title{Delete file or files}
 \usage{
 delete(obj)
@@ -17,14 +14,13 @@ delete(obj)
 
 \S4method{delete}{Files}(obj)
 
-\S4method{download}{FilesList}(obj, ...)
-
-\S4method{download}{Files}(obj, ...)
-
 \S4method{delete}{Task}(obj)
 }
 \arguments{
 \item{obj}{single File or FileList}
+}
+\value{
+system message
 }
 \description{
 Delete file

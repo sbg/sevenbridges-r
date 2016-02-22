@@ -37,7 +37,7 @@ RUN apt-get update \
    emacs \
 && R CMD javareconf 
 
-RUN Rscript -e 'library(BiocInstaller); biocLite("sevenbridges")'
+RUN Rscript -e 'library(BiocInstaller); biocLite("sevenbridges", dep = TRUE)'
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
 RUN apt-get clean \
@@ -66,4 +66,12 @@ RUN pip install cgc-cli
 RUN wget https://cgc.sbgenomics.com/cgc-uploader/cgc-uploader.tgz \
     && tar zxvf cgc-uploader.tgz -C ~ \
     && ln -s  ~/cgc-uploader/bin/cgc-uploader.sh /usr/local/bin/cgc-uploader.sh
-    
+
+
+## start insert command line interface and report template needed
+ADD src/runif.R /usr/local/bin/
+RUN mkdir /report/ 
+ADD report/report.Rmd /report/
+
+## RUN Rscript -e 'source("https://bioconductor.org/biocLite.R");biocLite("BiocStyle")'
+

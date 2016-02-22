@@ -577,3 +577,80 @@ POST2 <- function (url = NULL, config = list(), ..., body = NULL, encode = c("mu
     }
     res
 }
+
+
+### lift lift lift!!!
+
+lift.rabix = function(input = NULL, output_dir = NULL, 
+                      shebang = "#!/usr/local/bin/Rscript") {
+    ## learn from Nan's liftr package : ) 
+    if (is.null(input))
+        stop('missing input file')
+    if (!file.exists(normalizePath(input)))
+        stop('input file does not exist')
+    
+    # locate YAML metadata block
+    doc_content = readLines(normalizePath(input))
+    header_pos = which(doc_content == '---')
+    
+    # handling YAML blocks ending with three dots
+    if (length(header_pos) == 1L) {
+        header_dot_pos = which(doc_content == '...')
+        if (length(header_dot_pos) == 0L) {
+            stop('Cannot correctly locate YAML metadata block.
+                 Please use three hyphens (---) as start line & end line,
+                 or three hyphens (---) as start line with three dots (...)
+                 as end line.')
+        } else {
+            header_pos[2L] = header_dot_pos[1L]
+        }
+    }
+    
+    doc_yaml = paste(doc_content[(header_pos[1L] + 1L):
+                                     (header_pos[2L] - 1L)],
+                     collapse = '\n')
+    opt_all_list = yaml.load(doc_yaml)
+    
+    ol <- lapply(inl, function(x){
+        .nm <- x$inputBinding$prefix
+        .t <- setdiff(x$type[[1]], "null")[[1]]
+        .type <- paste0('<', deType(.t), '>')
+        .o <- paste(.nm, .type, sep = "=")
+        .des <- x$description
+        .default <- x$default
+        if(!is.null(.default)){
+            .des <- paste0(.des, " [default: ", .default, " ]")
+        }
+        list(name = .o, description = .des)
+    })
+    
+   
+    if (is.null(output_dir)) 
+        output_dir = dirname(normalizePath(input))
+    tmp <- file.path(output_dir, opt_all_list$rabix$baseCommand)
+    con = file(tmp)
+    txt <- c(shebang, "'")
+    txt <- c(txt, paste("usage:", opt_all_list$rabix$baseCommand, 
+                        do.call(paste,lapply(ol, function(o) paste("[", o$name, "]")))))
+    txt <- c(txt, "options:")
+    for(i in 1:length(ol)){
+        txt <- c(txt, paste(" ", ol[[i]]$name, ol[[i]]$description))
+        
+    }
+    txt <- c(txt, "' -> doc")
+    
+    
+    
+    "library(docopt)
+    opts <- docopt(doc)
+    rmarkdown::render('/report/report.Rmd', BiocStyle::html_document(toc = TRUE),
+    output_dir = '.', params = lst)
+    " -> .final
+    
+    txt <- c(txt, .final)
+    
+    writeLines(txt, con = con)
+    close(con)
+}
+
+

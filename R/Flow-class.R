@@ -1,8 +1,19 @@
 #' Build workflow
 #'
 #' Build workflow
+#' 
+#' @param graph if add graph coordinates or not, used for visualization on seven bridges platform.
+#' @param x.width x scale width
+#' @param y.width y scale width
+#' @param x.start node x start point for a flow
+#' @param y.start node y start point for a flow
+#' @param canvas_zoom zoom factor
+#' @param canvas_x canvas x 
+#' @param canvas_y canvas y
+#' @param ... extra arguments passed to SBGWorkflow
 #'
 #' @rdname Flow
+#' @return a SBGWorkflow object.
 #' @export SBGWorkflow
 #' @exportClass SBGWorkflow
 #' @aliases SBGWorkflow
@@ -91,6 +102,8 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                     ))
 
 #' @rdname Flow
+#' 
+#' 
 #' @export Flow
 #' @aliases Flow
 Flow <- function(..., graph = TRUE,
@@ -116,6 +129,8 @@ Flow <- function(..., graph = TRUE,
 
 #' @rdname Flow
 #' @export
+#' @param e1 either Tool App or Workflow object
+#' @param e2 either Tool App or Workflow object
 #' @docType methods
 #' @aliases "+",Tool,Tool-method
 setMethod("+", c("Tool", "Tool"), function(e1, e2){
@@ -129,14 +144,20 @@ setMethod("+", c("Tool", "Tool"), function(e1, e2){
             ## return a Workflow
             .out.id <- getOutputId(e1)[[which(!is.na(idx))]]
             .in.id <- getInputId(e2)[[idx[!is.na(idx)]]]
+            .out1 <- getOutputId(e1)
+            .out2 <- getOutputId(e2)
+            o1 <- do.call("WorkflowStepOutputList",
+                          lapply(.out1, function(oid) WorkflowStepOutput(id = oid)))
+            o2 <- do.call("WorkflowStepOutputList",
+                          lapply(.out2, function(oid) WorkflowStepOutput(id = oid)))
+            
             ## insert int id
             steplst <- SBGStepList(SBGStep(id = getId(e1), 
                                            run = e1,
-                                           outputs = WorkflowStepOutputList(
-                                               WorkflowStepOutput(id = .out.id)
-                                           )),
+                                           outputs = o1),
                                    SBGStep(id = getId(e2),
                                            run = e2,
+                                           outputs = o2,
                                            inputs = WorkflowStepInputList(
                                                WorkflowStepInput(id = .in.id,
                                                                  source = c(.out.id))
@@ -149,8 +170,6 @@ setMethod("+", c("Tool", "Tool"), function(e1, e2){
     }else{
         stop("no input match ouput types")
     }
-    
-    
 })
 
 #' @rdname Flow
@@ -198,9 +217,12 @@ setMethod("+", c("WorkflowStepList", "App"), function(e1, e2){
 #' @export
 #' @docType methods
 #' @aliases "%>%"
-#' @aliases "%>%",Tool,Tool-method
 setGeneric("%>%", function(e1, e2) standardGeneric("%>%"))
 
+#' @rdname Flow
+#' @export
+#' @docType methods
+#' @aliases "%>%",Tool,Tool-method
 setMethod("%>%", c("Tool", "Tool"), function(e1, e2){
     .id <- paste(parseLabel(e1$label), parseLabel(e2$label), sep = "_")
     .label <- paste(parseLabel(e1$label), parseLabel(e2$label))
@@ -213,7 +235,11 @@ setMethod("%>%", c("Tool", "Tool"), function(e1, e2){
 #' @docType methods
 #' @aliases "%>%",Workflow,Tool-method
 setMethod("%>%", c("Workflow", "Tool"), function(e1, e2){
-    e1$steps <- e1$steps + e2
+    ## fix
+    slist <- e1$steps + e2
+    new.flow <- Flow(id = e1$id, label = e1$label, steps = slist)
+    e1$steps <- slist
+    e1$outputs <- new.flow$outputs
     e1
 })
 
@@ -240,7 +266,12 @@ setMethod("%>%", c("App", "App"), function(e1, e2){
 #' @docType methods
 #' @aliases "%>%",Workflow,App-method
 setMethod("%>%", c("Workflow", "App"), function(e1, e2){
-    e1$steps <- e1$steps + convertApp(e2)
+    slist <- e1$steps + convertApp(e2)
+    new.flow <- Flow(id = e1$id, label = e1$label, steps = slist)
+    ## udpate step list
+    e1$steps <- slist
+    ## update workflow
+    e1$outputs <- new.flow$outputs
     e1
 })
 
@@ -314,13 +345,14 @@ setMethod("addGraph", "SBGStepList", function(obj,
                                               x.start = 100,
                                               y.start = 200){
     N <- length(obj)
-    x.step <- x.width/(N+1)
-    ## x from 100
-    ## y from 200
-    for(i in 1:N){
-        obj[[i]]$field("sbg:x", x.start + x.step * (i - 1))
-        obj[[i]]$field("sbg:y", y.start)
-    }
+    if(N){
+        x.step <- x.width/(N+1)
+        ## x from 100
+        ## y from 200
+        for(i in 1:N){
+            obj[[i]]$field("sbg:x", x.start + x.step * (i - 1))
+            obj[[i]]$field("sbg:y", y.start)
+        }}
     obj
 })
 
@@ -332,20 +364,23 @@ setMethod("addGraph", "SBGWorkflow", function(obj,
                                               canvas_zoom = 1,
                                               canvas_x = 40,
                                               canvas_y = 130){
-  
+    
     obj$steps <- addGraph(obj$steps)
     slst <- obj$steps
     x.step <- x.width/(length(slst)+1)
     os <- obj$outputs
     N <- length(os)
-    y.step <- y.width/(N + 1)
-    for(i in 1:N){
-        obj$outputs[[i]]$field("sbg:x", x.width - x.step)
-        obj$outputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
+    if(N){
+        y.step <- y.width/(N + 1)
+        for(i in 1:N){
+            obj$outputs[[i]]$field("sbg:x", x.width - x.step)
+            obj$outputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
+        }
     }
     obj$field("sbg:canvas_zoom", canvas_zoom)
     obj$field("sbg:canvas_x", canvas_x)
     obj$field("sbg:canvas_y", canvas_y)
+
     obj
 })
 

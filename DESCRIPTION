@@ -5,7 +5,7 @@ Version: 1.1.10
 Date: 2015-05-01
 Author: Nan Xiao <road2stat@gmail.com>, Tengfei Yin <tengfei.yin@sbgenomics.com>
 Maintainer: Tengfei Yin <tengfei.yin@sbgenomics.com>
-Description: R client and utilities for Seven Bridges platoform API, from cancer genomics cloud to other Seven Bridges supported platforms.
+Description: R client and utilities for Seven Bridges platform API, from cancer genomics cloud to other Seven Bridges supported platforms.
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 URL: https://www.sbgenomics.com

@@ -47,23 +47,23 @@ as possible, including the NCI Cancer Genomic Cloud Pilot developed by Seven Bri
 Currently tested platform including
 
 - [Cancer Genomics Cloud Platform](http://www.cancergenomicscloud.org/)
-- [Seven Bridgs US platform on AWS](https://www.sbgenomics.com/)
-- [Seven Bridgs US platform on Google Cloud](https://gcp.sbgenomics.com/)
+- [Seven Bridges US platform on AWS](https://www.sbgenomics.com/)
+- [Seven Bridges US platform on Google Cloud](https://gcp.sbgenomics.com/)
 
 
 It will be helpful to read complete platform documentation 
 
 - [Full doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs)
-- [Full doc for Seven Bridgs US platform](https://docs.sbgenomics.com/display/developerhub/Seven+Bridges+Genomics+Developer+Hub)
+- [Full doc for Seven Bridges US platform](https://docs.sbgenomics.com/display/developerhub/Seven+Bridges+Genomics+Developer+Hub)
 
 And it's API part if you want to understand details and use its full power:
 
 - [API doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
-- [API doc for Seven Bridgs US platform](https://docs.sbgenomics.com/display/developerhub/API)
+- [API doc for Seven Bridges US platform](https://docs.sbgenomics.com/display/developerhub/API)
 
 ## API V1
 
-Plesae note, `sevenbridges` package doesn't support old API, please use `sbgr` package instead if you need to operate on old project type. `sbgr` package will be under maintainance mode. 
+Please note, `sevenbridges` package doesn't support old API, please use `sbgr` package instead if you need to operate on old project type. `sbgr` package will be under maintenance mode. 
 
 ## API V2 and beyond
 
@@ -90,11 +90,17 @@ To install the package from github
 
 ```{r}
 # install.packages("devtools") if devtools was not installed
-library("devtools")
-install_github("tengfei/sevenbridges")
+## Install from github for development version  
+source("http://bioconductor.org/biocLite.R")
+useDevel()
+biocLite("BiocUpgrade")
+library(devtools)
+install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+  repos=BiocInstaller::biocinstallRepos(),
+  dependencies=TRUE, type = "source")
 ```
 
-This package is also availabe in docker image `tengfei/sevenbridges`, which the latest is build on `bioconductor/devel_base` on dockerhub.
+This package is also available in docker image `tengfei/sevenbridges`, which the latest is build on `bioconductor/devel_base` on dockerhub.
 
 Checkout he _Dockerfile_ at 
 
@@ -149,7 +155,7 @@ a$rate_limit()
 ```
 
 ## Show billing information
-Billing information, every project is associted with a billing group
+Billing information, every project is associated with a billing group
 
 ```{r}
 ## check your billing info
@@ -171,9 +177,9 @@ a$project_new(name = "api testing", bid, description = "Just a testing")
 ```
 
 ## Import CWL app and run a task
-Then we want to run a task, and you want to upload your json file that describe your tool, here we use an randome number generator example saved in this package. 
+Then we want to run a task, and you want to upload your json file that describe your tool, here we use an random number generator example saved in this package. 
 
-Note: alternatively you can directly describe your CWL tool in R with this pacakge, please read another vignettes on "Describe CWL Tools/Workflows in R and Execute it on Seven Bridges Supported Platform"
+Note: alternatively you can directly describe your CWL tool in R with this package, please read another vignettes on "Describe CWL Tools/Workflows in R and Execute it on Seven Bridges Supported Platform"
 
 ```{r}
 ## Add an CWL file to your project
@@ -187,7 +193,7 @@ p$app_add("runif_draft", fl.runif)
 Draft your task, you need to specify
 
 - name of the task
-- descfiption
+- description
 - app id
 - inputs of your task: you need to know about the app you are running, in this case, the cwl app accept 4 parameters (number, min, max, seed). 
 
@@ -235,7 +241,7 @@ To monitor the task, you can always call `update` on task object to check the st
 tsk$update()
 ```
 
-Or more fun, you can monitor a running task with hook function, so trigger a function when that status is "compeleted", "running" etc, please check the 
+Or more fun, you can monitor a running task with hook function, so trigger a function when that status is "completed", "running" etc, please check the 
 details in section about hook of task. 
 
 By default it just show message when the task is completed. 
@@ -273,7 +279,7 @@ tsk$monitor()
 
 # Low level API 
 
-- You can always use "httr"" package to explore API at full capabiity. This pacakge provides functions like `POST`, `GET`, `DELETE`, `PUT`, `PATCH` and other utitlies, I recommend for advanced R users. This pacakge is also "sevenbridges" package dpends on.
+- You can always use "httr"" package to explore API at full capability. This package provides functions like `POST`, `GET`, `DELETE`, `PUT`, `PATCH` and other utilities, I recommend for advanced R users. This package is also "sevenbridges" package depends on.
 - you can use single `api()` function in "sevenbridges".
 - you can use `Auth$api()` call to save your time retype url and token. 
 
@@ -328,7 +334,7 @@ getToken(platform = "cgc", username = "tengfei")
 First thing first, you need to construct an Auth object, everything begins with
 this object, it stores
 
-- The authentification token
+- The authentication token
 - The API URL
 - The platform (US platform, Cancer Genomics Cloud etc), this is optional, will translate into API url.
 
@@ -367,9 +373,9 @@ a <- Auth("4b6068016ab746c6bf6401ae69b80e1f",
 ```
 
 Note: when you construct the Auth object, make sure you input the correct platform or 
-API url for your authentifiation, where you get it from. 
+API url for your authentication, where you get it from. 
 
-For the tutorial about how to get your authentifiation, please check
+For the tutorial about how to get your authentication, please check
 
 - [Get token from US platform](https://docs.sbgenomics.com/display/developerhub/Authentication+Token)
 - [Get token from Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
@@ -469,7 +475,7 @@ a$project(detail = TRUE)
 
 ### Partial Match Project Name
 
-For more friendly interface and conventient search, we support partial name match in this 
+For more friendly interface and convenient search, we support partial name match in this 
 interface. The first argument for the call is "name", 
 users can provide part of the name and we do a search for you automatically. 
 
@@ -632,7 +638,7 @@ a$copyFile(c(fid, fid2), project = pid)
 a$project(id = pid)$file()
 ```
 
-NOTE: to copy a group of files, you need `Auth$copyFile()` interface. The id of those fies in your project iwll be different from public id. 
+NOTE: to copy a group of files, you need `Auth$copyFile()` interface. The id of those files in your project will be different from public id. 
 
 Alternatively you can do single file copy 
 
@@ -693,7 +699,7 @@ a$project("demo")$download("~/Downloads")
 
 TODO: currently only v1 supported.
 
-Seven Brdiges platforms provide couple different ways for data import
+Seven Bridges platforms provide couple different ways for data import
 
 - command line uploader
 - graphic UI uploader
@@ -705,12 +711,7 @@ You need to specify the project you need first.
 
 ```{r}
 fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
-fl
 a$project("demo")$upload(fl)
-library(httr)
-ufo <- upload_file(fl)
-POST()
-
 ```
 
 ### Public files
@@ -732,7 +733,7 @@ You can call `update()` function from Files object, following things could be up
 If no parameters provided, will just get detail for the same file and update the object
 itself. 
 
-```
+```{r}
 fl <- a$project("demo")$file()[[1]]
 ## show metadata
 fl$meta()
@@ -749,7 +750,7 @@ A full list of metadata fields and their permissible values on the CGC is availa
 Note that the file name is not the same as its ID. The ID is a hexadecimal string, automatically assigned to a file in a project. The file's name is a human-readable string. For information, please see the API overview.
 
 
-To get metdata for a file call `meta()`. 
+To get metadata for a file call `meta()`. 
 
 ```{r}
 ## meta is pulling the latest information via API
@@ -761,7 +762,7 @@ fl$metadata
 
 Although CGC defined a set of meta schema, which is visible on the UI of the platform, but you can pass any free form of meta for the file, it's just not visible on UI, but it's stored with the data. 
 
-Only the value being specfied stored with files, to set metadata please call `setMeta()` from
+Only the value being specified stored with files, to set metadata please call `setMeta()` from
 Files object. 
 
 __Important__:
@@ -777,7 +778,7 @@ fl$setMeta(new_item4 = "item4", overwrite = TRUE)
 fl
 ```
 
-Let's keep playing with meta, if you are really interested in the default schema that shon on the UI, you can use `Metadata()` constructor and check details of each meta; Simply call the function (name of meta), it will show description and enumerated items. Please pay attention to `suggested_values` field.
+Let's keep playing with meta, if you are really interested in the default schema that shown on the UI, you can use `Metadata()` constructor and check details of each meta; Simply call the function (name of meta), it will show description and enumerated items. Please pay attention to `suggested_values` field.
 
 ```{r}
 ## check which schema we have
@@ -798,7 +799,7 @@ m
 ## App
 
 From now on we are going to have fun with Apps! The CWL(Common Workflow Language) based 
-approach. It gets more and more popular and really designed for reproducible pipeline description and execution. All Seven Bridges platforms support cwl natively in the cloud. 
+approach. It gets more and more popular and really designed for reproducible pipeline description and execution. All Seven Bridges platforms support cwl naively in the cloud. 
 So in this section, I will introduce how we are going to do this via API and inside R. 
 
 ### List all apps 
@@ -841,7 +842,11 @@ To list all public apps, use `visibility` argument
 
 ```{r}
 ## show 100 items from public
-a$app(visibility = "public", limit = 100)
+a$app(visibility = "public", limit = 5)
+a$app(visibility = "public", limit = 120)
+a$app(visibility = "public", limit = 2)
+a$app(visibility = "public", limit = 2, offset = 2)
+a$app(visibility = "public", all = TRUE)
 ```
 
 TODO: To search an app cross all published apps (this may take a while)
@@ -888,9 +893,9 @@ TODO: convert it to an CWL object
 
 ### Add CWL as an APP
 
-Use `app_add` function call from a `Project` object, two parameteres requried
+Use `app_add` function call from a `Project` object, two parameters required
 
-- short_name: a short id for your app, alphanumeric character, no spacings; this not name field. 
+- short_name: a short id for your app, alphanumeric character, no spacing; this not name field. 
 - filename: you json file for cwl.
 
 ```{r}
@@ -985,8 +990,8 @@ tsk$update()
 
 To monitor a running task, call `monitor` from a task object
 
-- first arugent set interval time to check the status
-- rest arugments might be used for hook function
+- first argument set interval time to check the status
+- rest arguments might be used for hook function
 
 
 
@@ -994,10 +999,10 @@ To monitor a running task, call `monitor` from a task object
 tsk$monitor()
 ```
 
-get and set default hook function for task status, currently failed, completed taskss
+get and set default hook function for task status, currently failed, completed tasks
 will break the monitoring. 
 
-Note: Hook functio has to return `TRUE` (break monitoring) or `FALSE` (continuing) in the end. 
+Note: Hook function has to return `TRUE` (break monitoring) or `FALSE` (continuing) in the end. 
 
 ```{r}
 getTaskHook("completed")
@@ -1047,13 +1052,13 @@ you can either call `response()` on that object or just get the field out of it
 
 ## Batch operation on project/files/tasks
 
-Right now,  users have to use `lapply` to do those operations themsevles. It's simple implementation. 
+Right now,  users have to use `lapply` to do those operations themselves. It's simple implementation. 
 
-In this package, we impelemnt `delete` and `download` for some object like task and project or file. 
+In this package, we implement `delete` and `download` for some object like task and project or file. 
 
 # Cheatsheet
 
-Quick cheet sheet (in progress)
+Quick cheat sheet (in progress)
 
 ```{r}
 ## Authentification

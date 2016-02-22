@@ -9,6 +9,12 @@
 \usage{
 appType(x)
 }
+\arguments{
+\item{x}{a App object}
+}
+\value{
+App object.
+}
 \description{
 App class
 }

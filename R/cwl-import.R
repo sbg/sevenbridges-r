@@ -29,6 +29,8 @@
 ## .dotargsAsList <- function(...) {
 ##     listData <- list(...)
 ##   if (length(listData) == 1) {
+
+
 ##       arg1 <- listData[[1]]
 ##       if (is.list(arg1) || is(arg1, "List"))
 ##         listData <- arg1
@@ -770,13 +772,14 @@ ProcessRequirement <- setRefClass("ProcessRequirement",
 
 
 
-#' @section DockerRequirement Class:
+#' DockerRequirement Class
 #' 
+#' 
+#' @section DockerRequirement Class:
 #' \describe{
+#' 
 #' Indicates that a workflow component should be run in a Docker
-#' container, and specifies how to fetch or build the image.
-#'
-#' If a CommandLineTool lists DockerRequirement under hints or
+#' container, and specifies how to fetch or build the image.If a CommandLineTool lists DockerRequirement under hints or
 #' requirements, it may (or must) be run in the specified Docker
 #' container. The platform must first acquire or install the correct
 #' Docker image, as described by DockerRequirement. The platform must
@@ -794,21 +797,21 @@ ProcessRequirement <- setRefClass("ProcessRequirement",
 #' 
 #' 
 #' 
-#' \item{\code{dockerPull}}{[character] Get a Docker image using
+#' \item{\code{dockerPull}}{(character) Get a Docker image using
 #' docker pull}
 #' 
-#' \item{\code{dockerLoad}}{[character] Specify a HTTP URL from which
+#' \item{\code{dockerLoad}}{(character) Specify a HTTP URL from which
 #' to download a Docker image using docker load.}
 #' 
-#' \item{\code{dockerFil}{[character] Supply the contents of a
+#' \item{\code{dockerFile}}{(character) Supply the contents of a
 #' Dockerfile which will be build using docker build.}
 #' 
-#' \item{\code{dockerImageId}}{[character] The image id that will be
+#' \item{\code{dockerImageId}}{(character) The image id that will be
 #' used for docker run. May be a human-readable image name or the
 #' image identifier hash. May be skipped if dockerPull is specified,
 #' in which case the dockerPull image id will be used.}
 #' 
-#' \item{\code{dockerOutputDirectory}}{ [character] Set the designated
+#' \item{\code{dockerOutputDirectory}}{(character) Set the designated
 #' output directory to a specific location inside the Docker
 #' container.}
 #' 
@@ -2029,6 +2032,34 @@ WorkflowOutputParameter <-
 #'
 #' @rdname Workflow
 WorkflowOutputParameterList <- setListClass("WorkflowOutputParameter", contains = "OutputParameterList")
+## WorkflowOutputParameterList <- setListClass("WorkflowOutputParameter") #
+
+##
+SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
+                                          contains = "WorkflowOutputParameter",
+                                          fields = list(
+                                              "sbg:x" = "numericORNULL",
+                                              "sbg:y" = "numericORNULL",
+                                              "sbg:includeInPorts" = "logicalORNULL"
+                                          ),
+                                          methods = list(
+                                              initialize = function(x = NULL, y = NULL, 
+                                                                    includeInPorts = TRUE, ...){
+                                                  args <- mget(names(formals()),
+                                                               sys.frame(sys.nframe()))
+                                                  nms <- c("x", "y", "includeInPorts")
+                                                  for(nm in nms){
+                                                      .self$field(paste0("sbg:", nm),
+                                                                  args[[nm]])
+                                                  }
+                                                  callSuper(...)
+                                              }
+                                          ))
+
+SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
+                                               contains = "OutputParameterList") 
+## setClassUnion("WorkflowOutputParameterListORSBGWorkflowOutputParameterList", c("WorkflowOutputParameterList", "SBGWorkflowOutputParameterList"))
+
 
 
 
@@ -2082,7 +2113,8 @@ Workflow <-
     setRefClass("Workflow", contains = "Process",
                 fields = list(
                     class = "character",
-                    outputs = "WorkflowOutputParameterList", 
+                    outputs = "OutputParameterList",
+                    ## outputs = "WorkflowOutputParameterListORSBGWorkflowOutputParameterList",
                     steps = "WorkflowStepList"
                 ),
                 method = list(
@@ -2540,6 +2572,7 @@ output <- function(id = NULL, type = "file", label = "", description = "",
             o <- c(o[!names(o) %in% 
                      c("sbg:fileTypes", "outputBinding", "type")],
                    list(type = as.character(o$type),
+                        outputBinding = ob,
                         fileTypes = o[["sbg:fileTypes"]]))
 
             do.call(SBGCommandOutputParameter, o)
@@ -2615,23 +2648,34 @@ cpu <- CPURequirement
 
 #' @rdname requirements
 #' @aliases docker
-#' @param pull Docker Repository[:Tag] like rocker/r-base
-#' @param imageId The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
-#' @param load Specify a HTTP URL from which to download a Docker image using docker load
-#' @param file Supply the contents of a Dockerfile which will be built using docker build.
-#' @param output Set the designated output directory to a specific location inside the Docker container
+#' @param pull [short form argument] Docker Repository[:Tag] like rocker/r-base
+#' @param imageId [short form argument] The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
+#' @param load [short form argument] Specify a HTTP URL from which to download a Docker image using docker load
+#' @param file [short form argument] Supply the contents of a Dockerfile which will be built using docker build.
+#' @param output [short form argument] Set the designated output directory to a specific location inside the Docker container
+#' @param dockerPull Docker Repository[:Tag] like rocker/r-base
+#' @param dockerImageId The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK
+#' @param dockerLoad Specify a HTTP URL from which to download a Docker image using docker load
+#' @param dockerFile Supply the contents of a Dockerfile which will be built using docker build.
+#' @param dockerOutputDirectory Set the designated output directory to a specific location inside the Docker container
 #' @param ... extra aguments passed
+#' @return A Requirement subclass.
 #' @export docker
 #' @examples
 #' docker("rocker/r-base")
 docker <- function(pull = "", imageId = "", load = "", 
-                   file = "", output = "", ...){
+                   file = "", output = "",
+                   dockerPull = pull,
+                   dockerImageId = imageId,
+                   dockerLoad = load,
+                   dockerFile = file,
+                   dockerOutputDirectory = output, ...){
     DockerRequirement(
-        dockerImageId = imageId,
-        dockerPull = pull,
-        dockerLoad = load,
-        dockerFile = file,
-        dockerOutputDirectory = output, ...)    
+        dockerImageId = dockerImageId,
+        dockerPull = dockerPull,
+        dockerLoad = dockerLoad,
+        dockerFile = dockerFile,
+        dockerOutputDirectory = dockerOutputDirectory, ...)    
 }
 
 #' requirements and hints
@@ -2640,6 +2684,7 @@ docker <- function(pull = "", imageId = "", load = "",
 #'
 #' It constructs ProesssRequirementList object, or from a returned raw list contains or requirements.
 #'
+#' @rdname requirements
 #' @export requirements
 #' @examples
 #' requirements(docker("rocker/r-base"), cpu(1), mem(1024))
@@ -2816,28 +2861,21 @@ SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
 
 SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
 
-##
-SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
-                             contains = "WorkflowOutputParameter",
-                             fields = list(
-                                 "sbg:x" = "numericORNULL",
-                                 "sbg:y" = "numericORNULL",
-                                 "sbg:includeInPorts" = "logicalORNULL"
-                             ),
-                             methods = list(
-                                 initialize = function(x = NULL, y = NULL, 
-                                     includeInPorts = TRUE, ...){
-                                     args <- mget(names(formals()),
-                                                  sys.frame(sys.nframe()))
-                                     nms <- c("x", "y", "includeInPorts")
-                                     for(nm in nms){
-                                         .self$field(paste0("sbg:", nm),
-                                                     args[[nm]])
-                                     }
-                                     callSuper(...)
-                                 }
-                             ))
 
-SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
-                                       contains = "WorkflowOutputParameterList")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

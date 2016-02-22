@@ -552,7 +552,8 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 #'
 #' @param platform In your configure file, platform you want to access via API. 
 #' @param username username to specify the token associated with.
-#' @aliases getToken 
+#' @aliases getToken
+#' @return a token string.
 #' @export getToken 
 getToken <- function(platform = NULL, username = NULL){
     message("loading from options")

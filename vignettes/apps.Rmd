@@ -43,7 +43,7 @@ knitr::opts_chunk$set(eval = TRUE)
 
 The main interface provided by `sevenbridges` package is `Tool` function, it's basically a R interface similar to Seven Bridges's graphic user interface to describe tools, which I also highly recommend because it's very easy. 
 
-For R users who want to script in everythinghere is alternative solution. I also did some work trying to make it simpler to use, any suggestions are welcomed. 
+For R users who want to script in everything here is alternative solution. I also did some work trying to make it simpler to use, any suggestions are welcomed. 
 
 So I highly recommend user go over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for cancer genomic cloud to understand how it works, and even try it on the platform with the GUI. This will help use our R interface better and easier. 
 
@@ -66,7 +66,7 @@ Some basic arguments used in `Tool` function.
 - inputs: inputs for your command line
 - outputs: outputs you want to collect
 
-For more accepted parameter, please check `help(CommandLineTool)` and `help(Tool)` for more details. Again we basically conform to CWL standard, you can always check their manua.
+For more accepted parameter, please check `help(CommandLineTool)` and `help(Tool)` for more details. Again we basically conform to CWL standard, you can always check their manual.
 
 ### Requirement and hints
 
@@ -107,7 +107,7 @@ rbx
 rbx$toJSON()
 ```
 
-By defaut the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON. 
+By default the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON. 
 
 ```{r}
 rbx$toJSON()
@@ -188,7 +188,6 @@ rbx <- Tool(id = "runif",
             baseCommand = "runif.R",
             inputs = in.lst, ## or ins.df
             outputs = out.lst)
-
 ```
 
 Here I use data.frame as example for input and output. 
@@ -222,7 +221,7 @@ rbx <- Tool(id = "runif",
 
 ### Execute the tool in the cloud
 
-With API function, you can direcly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
+With API function, you can directly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
 
 Following section, please for now skip. 
 
@@ -251,7 +250,7 @@ __Graphic User Interface on Seven Bridges Platform is way more conventient__
 To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
 
 - Simple linear tool connection
-- Ouput and input match at lest have one match, then we will connect it automatically.
+- Output and input match at lest have one match, then we will connect it automatically.
 
 
 __Note__ for complicated workflow construction, I highly recommend using our graphical interface to do it, there is no better way. 
@@ -325,11 +324,6 @@ t3 <- Tool(id = "mean new test 3", label = "get mean",
 
 steplist <- t1 + t2 + t3
 steplist
-
-
-
-
-
 ```
 
 
@@ -343,7 +337,6 @@ f <- Flow(id = "Random-log-mean-new-test-2",
           steps = steplist)
 f$toJSON()
 f$toJSON(pretty = TRUE)
-
 ```
 
 Or use %>% 
@@ -354,34 +347,39 @@ f$toJSON()
 ```
 
 If it's the first time you upload those tools, following script will push both 
-tools and the workfow to your project. 
+tools and the workflow to your project.
 
 ```{r, eval = FALSE}
 ## need id, full, sbg:id
 library(sevenbridges)
 a <- Auth(platform = "cgc", username = "tengfei")
-p <- a$project("hello")
-app.runif <- p$app_add("ramdom_log_mean_new_test_3", f)
+p <- a$project(id = "tengfei/helloworld")
+app.runif <- p$app_add("new_flow", f)
 aid <- app.runif$id
 p$task_add(name = "Draft flow", 
            description = "Flow test", 
            app = aid)
 ## confirm, show all task status is draft
 (tsk <- p$task('Draft flow'))
+tsk$run()
 ```
-
 
 You can get App from your repos and connect it in R to build flow.
 
 ```{r, eval = FALSE}
-app1 <- p$app("random number")[[1]]
-app2<- p$app("get log")[[1]]
-app3 <- p$app("get mean")[[1]]
+app1 <- p$app(id = "tengfei/helloworld/runif_new_test/0")
+app2 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
+app3 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
+
 f <- app1 %>% app2 %>% app3
-f$id <- "randome number test flow"
-f$toJSON()
+
+f$id <- "randome number test flow 2"
+f$"sbg:id" <- "tengfei/helloworld/testtesttest"
+f$toJSON(pretty = TRUE)
 ```
 
+** Important ** 
 
-Workflow interface is still under intensive development, to construct the workflow easily, it's alwasy better to just use our graphical interface, it's much easier for complex worklfow. 
+This flow construction method is easy for linear flow, your best choice is always our graphic user interface and editor. 
+
 

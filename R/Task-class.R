@@ -225,6 +225,7 @@ TaskHook <- setRefClass("TaskHook", fields = list(
 #' @param fun function 
 #' 
 #' @rdname TaskHook
+#' @return object from setHook and getHook.
 #' @export setTaskHook
 #' @examples
 #' getTaskHook("completed")

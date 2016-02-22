@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript
+#!/usr/local/bin/Rscript
 'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
 
 options:

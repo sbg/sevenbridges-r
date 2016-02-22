@@ -1,5 +1,4 @@
 ## SBG extesion
-
 .sbg.items <- c("sbg:homepage" , 
                 "sbg:validationErrors" ,
                 "sbg:sbgMaintained" ,
@@ -102,6 +101,7 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #' @field contributor [list] a list of contributor names.
 #'
 #' @export Tool
+#' @return a Tool object.
 #' @exportClass Tool
 Tool <-
     setRefClass("Tool",

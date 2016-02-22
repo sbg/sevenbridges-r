@@ -12,9 +12,10 @@
 #' @author Nan Xiao <\email{nan.xiao@@sbgenomics.com}>
 #'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
 #' @import httr methods
+#' @importFrom utils modifyList
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
-#' @importFrom yaml yaml.load_file as.yaml
+#' @importFrom yaml yaml.load_file as.yaml yaml.load
 #' @importFrom jsonlite toJSON prettify unbox
 #' @importFrom docopt docopt
 #' @importClassesFrom S4Vectors characterORNULL List SimpleList
