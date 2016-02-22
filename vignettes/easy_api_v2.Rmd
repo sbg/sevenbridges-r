@@ -7,7 +7,6 @@ output:
     highlight: haddock
     css: style.css
 ---
-
 <!--
 %\VignetteIndexEntry{Complete Guide for API R Client}
 %\VignettePackage{sevenbridges}
@@ -390,6 +389,42 @@ And this call from Auth object will check the response too.
 ```{r}
 a$api()
 ```
+
+## Offset and Limit and Search 
+
+`offset` specify where it is started, and `limit` specify how many you want to show from there (max: 100). Because the item could be thousands of files and apps, so by default the offset and limit is set to 0 and 100 accordingly.
+
+```{r, eval = TRUE}
+getOption("sevenbridges")$offset
+getOption("sevenbridges")$limit
+```
+
+Please pay attention to this
+
+- Search by `id` is most accurate and fast. 
+- Search by name will only search across current pulled content, so use `complete = TRUE` if you want to search across everything, this might be slow. 
+
+For example, to list all public apps, use `visibility` argument, but make sure you pass `complete = TRUE` to it, to show every single things. This arguments generally works for items like "App", "Project", "Task", "File" etc 
+
+```{r}
+## first, search by id is fast
+x = a$app(visibility = "public", id = "djordje_klisic/public-apps-by-seven-bridges/sbg-ucsc-b37-bed-converter/0")
+
+## show 100 items from public
+x = a$app(visibility = "public")
+length(x)
+
+x = a$app(visibility = "public", complete = TRUE)
+length(x)
+## this return nothing, because it's not in the first 100 
+a$app(visibility = "public", name = "bed converter")
+## this return an app, because it pulls all apps and did serach.
+a$app(visibility = "public", name = "bed converter", complete = TRUE)
+x = a$app(project = "tengfei/helloworld", complete = TRUE)
+length(x)
+a$app(visibility = "public", limit = 5, offset = 150)
+```
+
 
 ## Rate Limits
 
@@ -842,11 +877,13 @@ To list all public apps, use `visibility` argument
 
 ```{r}
 ## show 100 items from public
-a$app(visibility = "public", limit = 5)
-a$app(visibility = "public", limit = 120)
-a$app(visibility = "public", limit = 2)
-a$app(visibility = "public", limit = 2, offset = 2)
-a$app(visibility = "public", all = TRUE)
+x = a$app(visibility = "public")
+length(x)
+x = a$app(visibility = "public", complete = TRUE)
+length(x)
+x = a$app(project = "tengfei/helloworld", complete = TRUE)
+length(x)
+a$app(visibility = "public", limit = 5, offset = 150)
 ```
 
 TODO: To search an app cross all published apps (this may take a while)
