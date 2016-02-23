@@ -12,6 +12,7 @@
 #' @field raw raw cwl list, if doesn't have any, call cwl() method.
 #' 
 #' @export App
+#' @return App object.
 #' @aliases App
 App <- setRefClass("App", contains = "Item",
                    fields = list(id = "characterORNULL",
@@ -169,11 +170,13 @@ convertApp <- function(from){
     res$field("requirements", res.req)
     res$field("stdin", res.stdin)
     res$field("stdout", res.stdout)
+    ## for the reason you convert from App, don't add #
+    res$id <- gsub("^#", "", res$id)
     res
 }
 
 .asFlow <- function(obj){
-    ## 
+    ##
     args.inputs <- obj$inputs
     args.outputs <- obj$outputs
     args.requirements <- obj$requirements
@@ -234,12 +237,16 @@ convertApp <- function(from){
 
     ## steps
     steplst <- obj$steps
-    lst <- lapply(steplst, function(x){
-        .convertApp(x$run)
-    })
-    slst <- lst[[1]]
-    for(i in 1:(length(lst) -1)){
-        slst <- slst + lst[[i + 1]]
+    if(length(steplst)){
+        lst <- lapply(steplst, function(x){
+            .convertApp(x$run)
+        })
+        slst <- lst[[1]]
+        for(i in 1:(length(lst) -1)){
+            slst <- slst + lst[[i + 1]]
+        }
+    }else{
+        slst <- SBGStepList()
     }
     nms <- names(obj)
     .obj.nms <- setdiff(nms, .diy)
@@ -258,6 +265,7 @@ convertApp <- function(from){
 #' @rdname App-class
 #' @aliases appType
 #' @export appType
+#' @param x a App object
 #' @section appType:
 #' \describe{
 #'  this function return class of a App object.

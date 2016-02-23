@@ -11,6 +11,9 @@ getToken(platform = NULL, username = NULL)
 
 \item{username}{username to specify the token associated with.}
 }
+\value{
+a token string.
+}
 \description{
 get Token from config files and option list
 }

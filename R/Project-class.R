@@ -252,16 +252,27 @@ Project <- setRefClass("Project", contains = "Item",
                                if(!(auth$platform %in% c("us", "cgc"))){
                                    stop("not supported yet")
                                }
+                               .p <- getwd()                               
                                if(is.null(baseCMD)){
-                                   baseCMD <- switch(auth$platform,
-                                                     us = "sbg-uploader.sh",
-                                                     cgc = "cgc-uploader.sh")
+                                   switch(auth$platform,
+                                          us = {
+                                              setwd("~/sbg-uploader/")
+                                              baseCMD <- "bin/sbg-uploader.sh"
+                                          },
+                                          cgc = {
+                                              setwd("~/cgc-uploader/")
+                                              baseCMD <- "bin/cgc-uploader.sh"
+                                          })
                                }
+
+                               x <- system(paste(baseCMD, "-t", auth$token, "-l"), intern = TRUE)
+                               d <- do.call(rbind, lapply(x, function(i) strsplit(i, "\t")[[1]]))
+                               pid <- d[d[,2] == name, 1]
                                ## sbg-uploader.sh [-h] [-l] [-p id] [-t token] [-u username] [-x url] file
-                               cmd <- paste(baseCMD, "-p", id, "-t", auth$token, filename)
+                               cmd <- paste(baseCMD, "-p", pid, "-t", auth$token, filename)
                                print(cmd)
                                system(cmd)
-                               
+                               setwd(.p)
                            },
                            ## app
                            app = function(...){
@@ -272,6 +283,7 @@ Project <- setRefClass("Project", contains = "Item",
                                if(is.null(filename)){
                                    stop("file (cwl json) need to be provided")
                                }
+                               
                                if(is.null(short_name)){
                                    stop("app short name has to be provided (alphanumeric character with no spaces)")
                                }else{
@@ -287,20 +299,25 @@ Project <- setRefClass("Project", contains = "Item",
                                        ## push apps and update run
                                      
                                        steplst <- filename$steps
+                                       isSBGApp <- function(x){
+                                           length(x$"sbg:id")
+                                       }
                                        lst <- lapply(steplst, function(x){
-                                      
-                                           .name <- gsub("#", "",x$run$id)
-                                           message(.name)
-                                           new.app <- app_add(short_name = .name,
-                                                              filename = x$run)
-                                           ## FIXME: need to be unique
-                                           ## x$run <- convertApp(new.app)
-                                           new.app
+                                           if(!isSBGApp(x$run)){
+                                               .name <- gsub("#", "",x$run$id)
+                                               message(.name)
+                                               new.app <- app_add(short_name = .name,
+                                                                  filename = x$run)
+                                               new.app
+                                           }else{
+                                               x
+                                           }
                                        })
                                        slst <- lst[[1]]
                                        for(i in 1:(length(lst) -1)){
                                            slst <- slst + lst[[i + 1]]
                                        }
+                                       ## udpate steplist
                                       filename$steps <- slst
                                    }
 
@@ -310,11 +327,8 @@ Project <- setRefClass("Project", contains = "Item",
                                    writeLines(filename$toJSON(), con = con)
                                    filename <- fl
                                    on.exit(close(con))
-                                
                                    
                                }
-
-                               
 
                                if(is.null(revision)){
                                 

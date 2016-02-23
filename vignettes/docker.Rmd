@@ -1,5 +1,5 @@
 ---
-title: "Creating Your Docker App with Command Line Interfqce and Auto-build on Dockerhub"
+title: "Creating Your Docker App with Command Line Interface and Auto-build on Dockerhub"
 output:
   BiocStyle::html_document:
     toc: true
@@ -250,7 +250,7 @@ In your markdown
 
 Of course, we can figure out a way to do it in `liftr` or `knitr`. But rmarkdown allow you to pass parameters to your Rmardown template, please read this tutorial [Parameterized Reports](http://rmarkdown.rstudio.com/developer_parameterized_reports.html). This doesn't solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:
 
-Create an command line interaface to pass `params` from docopt into `rmarkdown::render()` function. In this way, we can pass as many as possible parameters from command line interface into our Rmarkdown template. 
+Create an command line interface to pass `params` from docopt into `rmarkdown::render()` function. In this way, we can pass as many as possible parameters from command line interface into our Rmarkdown template. 
 
 So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow. 
 
@@ -283,10 +283,24 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 5. Start using your docker image like 'tengfei/runif'
 6. Feel free to push it onto your SevenBridges platform registry as well. 
 
+```{r}
+fl = "/Users/tengfei/Code/svnrepos/bioc-devel/sevenbridges/inst/liftr/runif.Rmd"
+library(knitr)
+library(yaml)
+lift.rabix(fl)
+rabix.lst
+inl <- IPList(lapply(rabix.lst$rabix$inputs, function(i){
+    do.call(input, i)
+}))
+
+asDoc
+## let's convert a inl into docopt command line
+
+```
 
 # Exercise
 
-I leave this as excercise to users, please have fun, anwsers will be added later. Please email me your solution or share with us. 
+I leave this as exercise to users, please have fun, answers will be added later. Please email me your solution or share with us. 
 
 ## Produce graphics
 

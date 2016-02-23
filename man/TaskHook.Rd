@@ -16,6 +16,9 @@ getTaskHook(status = c("queued", "draft", "running", "completed", "aborted",
 
 \item{fun}{function}
 }
+\value{
+object from setHook and getHook.
+}
 \description{
 set task function hoook according to
 }

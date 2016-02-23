@@ -56,6 +56,27 @@ In this tutorial, I will show you
 
 # RNA-seq analysis pipeline
 
+```
+## Install released version from bioc (not supported yet)
+source("http://bioconductor.org/biocLite.R")
+biocLite("sevenbridges")
+
+## Install devel version from bioc
+source("http://bioconductor.org/biocLite.R")
+useDevel(devel = TRUE)
+biocLite("sevenbridges")
+
+## Install from github for development version  
+source("http://bioconductor.org/biocLite.R")
+useDevel()
+biocLite("BiocUpgrade")
+library(devtools)
+install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+  repos=BiocInstaller::biocinstallRepos(),
+  dependencies=TRUE, type = "source")
+
+```
+
 
 ## Creat a Tool: from Bam to report
 

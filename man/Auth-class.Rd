@@ -35,7 +35,8 @@ it's \url{https://api.sbgenomics.com/1.1/}}
 \section{Methods}{
 
 \describe{
-\item{\code{api(...)}}{This call returns all API paths, and pass arguments to api() function and input token and url automatically}
+\item{\code{api(..., limit = getOption("sevenbridges")$limit,
+  offset = getOption("sevenbridges")$offset, complete = FALSE)}}{This call returns all API paths, and pass arguments to api() function and input token and url automatically}
 
 \item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{if no id provided, This call returns a list of paths used to access billing
 information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled.

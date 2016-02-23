@@ -20,28 +20,42 @@
 \title{Rabix specifc Requirements}
 \usage{
 docker(pull = "", imageId = "", load = "", file = "", output = "",
-  ...)
+  dockerPull = pull, dockerImageId = imageId, dockerLoad = load,
+  dockerFile = file, dockerOutputDirectory = output, ...)
 
 requirements(...)
 
 fileDef(name = NULL, content = NULL)
 }
 \arguments{
-\item{pull}{Docker Repository[:Tag] like rocker/r-base}
+\item{pull}{[short form argument] Docker Repository[:Tag] like rocker/r-base}
 
-\item{imageId}{The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
+\item{imageId}{[short form argument] The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
 
-\item{load}{Specify a HTTP URL from which to download a Docker image using docker load}
+\item{load}{[short form argument] Specify a HTTP URL from which to download a Docker image using docker load}
 
-\item{file}{Supply the contents of a Dockerfile which will be built using docker build.}
+\item{file}{[short form argument] Supply the contents of a Dockerfile which will be built using docker build.}
 
-\item{output}{Set the designated output directory to a specific location inside the Docker container}
+\item{output}{[short form argument] Set the designated output directory to a specific location inside the Docker container}
+
+\item{dockerPull}{Docker Repository[:Tag] like rocker/r-base}
+
+\item{dockerImageId}{The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
+
+\item{dockerLoad}{Specify a HTTP URL from which to download a Docker image using docker load}
+
+\item{dockerFile}{Supply the contents of a Dockerfile which will be built using docker build.}
+
+\item{dockerOutputDirectory}{Set the designated output directory to a specific location inside the Docker container}
 
 \item{...}{extra aguments passed}
 
 \item{name}{file name}
 
 \item{content}{file content, could be script}
+}
+\value{
+A Requirement subclass.
 }
 \description{
 Extends ProcessRequirements. CPURequirement and MemRequirement to

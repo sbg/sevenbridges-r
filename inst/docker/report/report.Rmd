@@ -8,6 +8,11 @@ output:
     css: style.css
     includes:
       in_header: logo.md
+params:
+  seed: 1
+  n: 1
+  min: 0
+  max: 1
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}

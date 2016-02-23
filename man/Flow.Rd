@@ -9,6 +9,7 @@
 \alias{"+",WorkflowStepList,WorkflowStepList-method}
 \alias{"\%>\%"}
 \alias{"\%>\%",App,App-method}
+\alias{"\%>\%",Tool,Tool-method}
 \alias{"\%>\%",Workflow,App-method}
 \alias{"\%>\%",Workflow,Tool-method}
 \alias{"\%>\%",Workflow,Workflow-method}
@@ -22,6 +23,7 @@
 \alias{SBGWorkflow-class}
 \alias{\%>\%}
 \alias{\%>\%,App,App-method}
+\alias{\%>\%,Tool,Tool-method}
 \alias{\%>\%,Workflow,App-method}
 \alias{\%>\%,Workflow,Tool-method}
 \alias{\%>\%,Workflow,Workflow-method}
@@ -42,6 +44,8 @@ Flow(..., graph = TRUE, x.width = 1000, y.width = 400, x.start = 100,
 
 e1 \%>\% e2
 
+\S4method{\%>\%}{Tool,Tool}(e1, e2)
+
 \S4method{\%>\%}{Workflow,Tool}(e1, e2)
 
 \S4method{\%>\%}{Workflow,Workflow}(e1, e2)
@@ -49,6 +53,32 @@ e1 \%>\% e2
 \S4method{\%>\%}{App,App}(e1, e2)
 
 \S4method{\%>\%}{Workflow,App}(e1, e2)
+}
+\arguments{
+\item{...}{extra arguments passed to SBGWorkflow}
+
+\item{graph}{if add graph coordinates or not, used for visualization on seven bridges platform.}
+
+\item{x.width}{x scale width}
+
+\item{y.width}{y scale width}
+
+\item{x.start}{node x start point for a flow}
+
+\item{y.start}{node y start point for a flow}
+
+\item{canvas_zoom}{zoom factor}
+
+\item{canvas_x}{canvas x}
+
+\item{canvas_y}{canvas y}
+
+\item{e1}{either Tool App or Workflow object}
+
+\item{e2}{either Tool App or Workflow object}
+}
+\value{
+a SBGWorkflow object.
 }
 \description{
 Build workflow

@@ -12,6 +12,9 @@ convertApp(from)
 \arguments{
 \item{from}{an App object}
 }
+\value{
+a Tool object.
+}
 \description{
 Rabix subclass for CommandLineTool used by rabix.org or sbg
 platform. \code{Tool} class extends \code{CommandLineTool}

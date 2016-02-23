@@ -159,7 +159,7 @@ FilesList <- setListClass("Files", contains = "Item0")
 #' @export
 #' @docType methods
 #' @rdname delete-methods
-#' @return NULL
+#' @return system message
 #' @examples
 #' \dontrun{
 #' a$project("demo")$file("omni")$delete()
@@ -193,6 +193,7 @@ setMethod("delete", "Files", function(obj){
 #' @export
 #' @docType methods
 #' @rdname download-methods
+#' @return system message
 #' @examples
 #' \dontrun{
 #' a$project("demo")$file("omni")$download()
@@ -201,14 +202,14 @@ setMethod("delete", "Files", function(obj){
 #' }
 setGeneric("download", function(obj, ...) standardGeneric("download"))
 
-#' @rdname delete-methods
-#' @aliases delete,FilesList-method
+#' @rdname download-methods
+#' @aliases download,FilesList-method
 setMethod("download", "FilesList", function(obj, ...){
     lapply(obj, function(x) x$download(...))
 })
 
-#' @rdname delete-methods
-#' @aliases delete,Files-method
+#' @rdname download-methods
+#' @aliases download,Files-method
 setMethod("download", "Files", function(obj, ...){
     obj$download(...)
 })

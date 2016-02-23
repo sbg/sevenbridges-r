@@ -40,7 +40,8 @@
 api = function (token = NULL, version = '1.1', path = NULL,
     method = c('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
     query = NULL, body = list(), encode = "json", 
-    limit = getOption("limit"), offset = getOption("offset"), 
+    limit = getOption("sevenbridges")$limit,
+    offset = getOption("sevenbridges")$offset, 
     base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...) {
 
     if (is.null(token))

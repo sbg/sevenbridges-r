@@ -2,7 +2,7 @@
 
 <!-- [![Build Status](https://travis-ci.org/road2stat/sevenbridges.png?branch=master)](https://travis-ci.org/tengfei/sevenbridges) -->
 
-Please checkout the [bioductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
+Please checkout the [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
 
 ## Features
 
@@ -22,12 +22,12 @@ of CWL object.
 
 ## Tutorials
 
-Tutorials are listed on  [bioductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
+Tutorials are listed on  [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
 
 
 ## Installation
 
-The package is currently not availble in the Bioconductor `release` branch yet until next Bioc release cycle, please switch to the `devel` branch by following code to install.
+The package is currently not available in the Bioconductor `release` branch yet until next Bioc release cycle, please switch to the `devel` branch by following code to install.
 
 ```
 source("http://bioconductor.org/biocLite.R")
@@ -39,8 +39,13 @@ Alternatively, you can install the latest development version of the package fro
 
 ```
 # install.packages("devtools") if devtools was not installed
-library("devtools")
-install_github("tengfei/sevenbridges")
+source("http://bioconductor.org/biocLite.R")
+useDevel()
+biocLite("BiocUpgrade")
+library(devtools)
+install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+  repos=BiocInstaller::biocinstallRepos(),
+  dependencies=TRUE, type = "source")
 ```
 
 To load the package in R, simply call

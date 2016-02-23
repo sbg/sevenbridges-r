@@ -3,14 +3,23 @@
 \docType{methods}
 \name{download}
 \alias{download}
+\alias{download,Files-method}
+\alias{download,FilesList-method}
 \title{Download file or files}
 \usage{
 download(obj, ...)
+
+\S4method{download}{FilesList}(obj, ...)
+
+\S4method{download}{Files}(obj, ...)
 }
 \arguments{
 \item{obj}{single File or FileList}
 
 \item{...}{passed to download()}
+}
+\value{
+system message
 }
 \description{
 Download file
