@@ -107,28 +107,15 @@ docker container well maintained there.
 
 ### Seven Bridges Docker Registry
 
-If you plan to develop/execute/deploy on any of Seven Bridges Platforms, including cancer genomics cloud. Users are encouraged to use Seven Bridges Registry, so the push and pulling with be faster. 
+Tutorial comming soon. 
 
-- Q: Can I push a docker hub image to SBG registry?
-- A: Yes. make sure you login (sbg login or cgc login), Please rename the tag and do a docker push. for example, if you have a image called runif and logged in as 'yintengfei'. When you do `sbg docker-push` you don't need full name, <repository>[:<tag>] will do the trick, and for now `docker push` don't work on this. 
-
-```
-docker tag runif images.sbgenomics.com/yintengfie/runif
-sbg login
-sbg docker-push yintengfie/runif
-```
-
-will do the trick.
-
-Our own image registry:
+Example Seven Bridges registry:
 
 - __SevenBridges__ : `images.sbgenomics.com/<repository>[:<tag>]`
 - __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
 
 
 # Tutorial: random number generator 
-
-Ok not "hello world"" example this time : ) will leave that as exercise to users, this time I  will start with another simple example for R users, but with more arguments to play with. 
 
 Our goal here is to making a cwl app to generate unif random numbers, yes, the core
 function is `runif()`, it's native function in R. 
@@ -162,7 +149,8 @@ lower and upper limits of the distribution. Must be finite.
 
 I will add one more parameter to set seed, here is the R script file called `runif.R`. 
 
-At the beginning, I use docopt standard to write my tool help. 
+At the beginning of the commadn line script, I use docopt standard to write my tool help. 
+
 ```{r}
 'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
 
@@ -175,14 +163,15 @@ options:
 library(docopt)
 
 ```
-Let's first do some testing in R session before you make it a full functional command line tool.
+
+Let's first do some testing in your R session before you make it a full functional command line tool.
 
 ```{r}
 docopt(doc) #with no argumetns provided
 docopt(doc, "--n 10 --min=3 --max=5")
 ```
 
-Add my command line function
+Looks like it works, now let's add main function script for this command line tool.
 
 ```{r}
 opts <- docopt(doc)
@@ -192,7 +181,7 @@ runif(n = as.integer(opts$n),
       max = as.numeric(opts$max))
 ```
 
-Add Shebang at the top of the file, and a complete example for `runif.R` command line will be like this
+Add Shebang at the top of the file, this is a complete example for `runif.R` command line will be like this
 
 ```{r, eval=FALSE}
 #!/usr/bin/Rscript
@@ -212,7 +201,7 @@ runif(n = as.integer(opts$n),
       max = as.numeric(opts$max))
 ```
 
-OK seems good, now let's test it in our terminal, don't forget to make it executable by doing something like `cp runif.R /usr/local/bin; chmod 755 runif.R`
+Let's test this command line. 
 
 ```
 $ runif.R --help
@@ -238,7 +227,7 @@ Loading required package: methods
 
 For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
 
-# Upgraded way: writing executable report with R markdown
+# Executable report with R markdown
 
 We cannot really make a Rmarkdown file executable in it by simply put 
 
@@ -255,22 +244,20 @@ Create an command line interface to pass `params` from docopt into `rmarkdown::r
 So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow. 
 
 ```{r, eval = TRUE}
-fl <- system.file("docker/runif/src/", "runif.R", package = "sevenbridges")
-fl
+fl <- system.file("docker/src/", "runif.R", package = "sevenbridges")
 ```
 
 Here is the current content of command line interface
-```{r, comment='', eval = TRUE}
+```{r, comment='', eval = TRUE, echo = FALSE}
 cat(readLines(fl), sep = '\n')
 ```
 
 And here is the report template
 
-```{r, comment='', eval = TRUE}
-fl <- system.file("docker/runif/report/", "report.Rmd", package = "sevenbridges")
+```{r, comment='', eval = TRUE, echo = FALSE}
+fl <- system.file("docker/report/", "report.Rmd", package = "sevenbridges")
 cat(readLines(fl), sep = '\n')
 ```
-
 
 # Setup dockerhub automated build
 
@@ -283,20 +270,6 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 5. Start using your docker image like 'tengfei/runif'
 6. Feel free to push it onto your SevenBridges platform registry as well. 
 
-```{r}
-fl = "/Users/tengfei/Code/svnrepos/bioc-devel/sevenbridges/inst/liftr/runif.Rmd"
-library(knitr)
-library(yaml)
-lift.rabix(fl)
-rabix.lst
-inl <- IPList(lapply(rabix.lst$rabix$inputs, function(i){
-    do.call(input, i)
-}))
-
-asDoc
-## let's convert a inl into docopt command line
-
-```
 
 # Exercise
 
