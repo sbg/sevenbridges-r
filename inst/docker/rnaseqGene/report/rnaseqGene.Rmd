@@ -2,13 +2,9 @@
 title: "Uniform randome number generator example"
 date: September 9, 2015
 output:
-  BiocStyle::html_document:
+  pdf_document:
     toc: true
-    number_sections: true
-    highlight: haddock
-    css: style.css
-    includes:
-      in_header: logo.md
+    toc_depth: 2
 params:
   bamfiles: ""
   design: ""
@@ -516,6 +512,7 @@ function restricts the output to the first few lines.)
 
 ```{r}
 countdata <- assay(se)
+write.csv(countdata[[1]], file = "/count.csv")
 head(countdata, 3)
 ```
 
@@ -714,6 +711,15 @@ pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
          col=colors)
+```
+
+```{r echo = FALSE}
+png("/heatmap.png", 800, 800)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+dev.off()
 ```
 
 **Heatmap of sample-to-sample distances using the rlog-transformed values.**

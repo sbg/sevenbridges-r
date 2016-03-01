@@ -1,4 +1,4 @@
-FROM bioconductor/release_base
+FROM rocker/hadleyverse
 
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 

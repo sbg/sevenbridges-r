@@ -128,7 +128,9 @@ rbx <- Tool(id = "rnaseqGene",
                 prefix = "--gtffile"
             )
             ),
-            outputs = output(id = "report", glob = "*.html"))
+            outputs = list(output(id = "report", glob = "*.pdf"),
+                           output(id = "heatmap", glob = "*.png"),
+                           output(id = "count", glob = "*.csv")))
 fl <- "~/Code/svnrepos/bioc-devel/sevenbridges/inst/docker/rnaseqGene/rabix/rnaseqGene.json"
 rbx$toJSON(pretty = F)
 write(rbx$toJSON(), fl)
