@@ -264,7 +264,7 @@ CWL <- setRefClass("CWL",
                            'Convert object to a list of simple data types'
                            ## simple assumption here
                            ## need to be override to make sure everything is list
-                           res <- .self$getFields()
+                           res <- .self$getFields(...)
                            res <- lapply(res, function(x){
                                    asList(x) ## until it's not s4 or cwl or SimpleLi
                                })

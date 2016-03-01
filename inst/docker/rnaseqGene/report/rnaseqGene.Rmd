@@ -42,8 +42,8 @@ library("BiocStyle")
 library("knitr")
 library("rmarkdown")
 options(width=100)
+opts_knit$set(root.dir = params$currentPath)
 opts_chunk$set(message = FALSE, error = FALSE, warning = FALSE, fig.width=5, fig.height=5)
-setwd(params$currentPath)
 ```
 
 # Contents
