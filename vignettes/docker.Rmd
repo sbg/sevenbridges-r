@@ -244,7 +244,7 @@ Create an command line interface to pass `params` from docopt into `rmarkdown::r
 So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow. 
 
 ```{r, eval = TRUE}
-fl <- system.file("docker/src/", "runif.R", package = "sevenbridges")
+fl <- system.file("docker/sevenbridges/src/", "runif.R", package = "sevenbridges")
 ```
 
 Here is the current content of command line interface
@@ -255,7 +255,7 @@ cat(readLines(fl), sep = '\n')
 And here is the report template
 
 ```{r, comment='', eval = TRUE, echo = FALSE}
-fl <- system.file("docker/report/", "report.Rmd", package = "sevenbridges")
+fl <- system.file("docker/sevenbridges/report/", "report.Rmd", package = "sevenbridges")
 cat(readLines(fl), sep = '\n')
 ```
 

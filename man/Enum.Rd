@@ -6,6 +6,8 @@
 \alias{ComplexSingleEnum-class}
 \alias{DatatypeEnum}
 \alias{DatatypeSingleEnum-class}
+\alias{ItemArray}
+\alias{ItemArray-class}
 \alias{PrimitiveEnum}
 \alias{PrimitiveSingleEnum-class}
 \title{Pre-defiend enums}

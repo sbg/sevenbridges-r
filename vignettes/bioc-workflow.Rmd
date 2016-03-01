@@ -40,7 +40,7 @@ code2 <- function(...) {
 
 __In Progess!!!!__
 
-__Goal__: I really want to encourage Biocondcutor developer and R developers to find a formal way to make their tool/flow into a reproducible container with standard command line interface or provide official "executable" report template with knitr. (Hope to have more fun with liftr soon later).
+__Goal__: I hope to encourage Biocondcutor developer and R developers to find a formal way to make their tool/flow into a reproducible container with standard command line interface or provide official "executable" report template with knitr. (Hope to have more fun with liftr soon later).
 
 In this tutorial, I will show you 
 
@@ -56,26 +56,7 @@ In this tutorial, I will show you
 
 # RNA-seq analysis pipeline
 
-```
-## Install released version from bioc (not supported yet)
-source("http://bioconductor.org/biocLite.R")
-biocLite("sevenbridges")
 
-## Install devel version from bioc
-source("http://bioconductor.org/biocLite.R")
-useDevel(devel = TRUE)
-biocLite("sevenbridges")
-
-## Install from github for development version  
-source("http://bioconductor.org/biocLite.R")
-useDevel()
-biocLite("BiocUpgrade")
-library(devtools)
-install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
-  repos=BiocInstaller::biocinstallRepos(),
-  dependencies=TRUE, type = "source")
-
-```
 
 
 ## Creat a Tool: from Bam to report
@@ -97,9 +78,11 @@ Why we do this first? Building a development environment is essential for develo
 I installed the official "workflow" first from Bioconducotr. 
 
 ```{r}
-fl <- system.file("docker/rnaseqgene/release", "Dockerfile", package = "sevenbridges")
+fl <- system.file("docker/rnaseqgene", "Dockerfile", 
+                  package = "sevenbridges")
 fl
 ```
+
 Here is the current content of Dockerfile
 ```{r comment=''}
 cat(readLines(fl), sep = '\n')
@@ -117,6 +100,45 @@ In this step, I am going to
 
 ### Step 4: Describe your tool in R into CWL.
 
+```{r}
+library(sevenbridges)
+
+ItemArray(items = "File")
+
+rbx <- Tool(id = "rnaseqGene", 
+            label = "rnaseqgene",
+            hints = requirements(docker(pull = "tengfei/rnaseqgene"), 
+                                 cpu(1), mem(2000)), 
+            baseCommand = "performDE", 
+            inputs = list(input(
+                id = "bamfiles",
+                description = "bam files",
+                type = ItemArray("File"),
+                prefix = "--bamfiles",
+                itemSeparator = ","
+            ), 
+            input(
+                id = "design",
+                type = "File",
+                prefix = "--design"
+            ),
+            input(
+                id = "gtffile",
+                type = "File",
+                prefix = "--gtffile"
+            )
+            ),
+            outputs = output(id = "report", glob = "*.html"))
+fl <- "~/Code/svnrepos/bioc-devel/sevenbridges/inst/docker/rnaseqGene/rabix/rnaseqGene.json"
+rbx$toJSON(pretty = F)
+write(rbx$toJSON(), fl)
+file.show(fl)
+```
+
+```
+rabix ~/Code/svnrepos/bioc-devel/sevenbridges/inst/docker/rnaseqGene/rabix/rnaseqGene.json -- --bamfiles SRR1039508_subset.bam,SRR1039509_subset.bam,SRR1039512_subset.bam,SRR1039513_subset.bam,SRR1039516_subset.bam,SRR1039517_subset.bam,SRR1039520_subset.bam,SRR1039521_subset.bam --design sample_table.csv --gtffile Homo_sapiens.GRCh37.75_subset.gtf
+```
+
 ### Step 5: Execute it.
 
 Please read next section about execution. 
@@ -132,13 +154,12 @@ a <- Auth(platform = "cgc", username = "tengfei")
 bid <- a$billing()[[1]]$id
 a$project_new("Bioconductor RNA-seq Workflow", billing_group_id = bid,
               description = "An bam to report workflow for RNA-seq analysis")
-```
-
-### Uplaod your test data
-
-```{r, eval = FALSE}
 
 ```
+
+### Upload your test data
+
+
 
 ### Push your apps 
 
