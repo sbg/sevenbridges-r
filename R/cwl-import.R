@@ -57,27 +57,32 @@ deType <- function(x){
     ## enum
     enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
 
+    if(is.character(x)){
+        if(grepl("...", x)){
+            .array <- TRUE
+            x <- gsub("[^[:alnum:]]", "", x)
+        }
+        res <- ""
+        
+        if(x %in% str_type){
+            res <- "string"
+        }
 
-
-    res <- ""
-    
-    if(x %in% str_type){
-        res <- "string"
+        if(x %in% int_type){
+            res <- "int"
+        }
+        if(x %in% float_type){
+            res <- "float"
+        }
+        if(x %in% file_type){
+            res <- "File"
+        }
+        if(x %in% enum_type){
+            res <- "enum"
+        }
+    }else{
+        res <- x
     }
-
-    if(x %in% int_type){
-        res <- "int"
-    }
-    if(x %in% float_type){
-        res <- "float"
-    }
-    if(x %in% file_type){
-        res <- "File"
-    }
-    if(x %in% enum_type){
-        res <- "enum"
-    }
-    
    res
 }
 
@@ -282,6 +287,8 @@ CWL <- setRefClass("CWL",
                                    }else{
                                        return(x)
                                    }
+                               }else if(is(x, "SingleEnum")){
+                                   return(as.character(x))
                                }else{
                                    return(x)
                                }
@@ -303,7 +310,6 @@ CWL <- setRefClass("CWL",
                        },
                        show = function(format = c("YAML", "JSON"), ...){
                            'pretty print YAML (default) or JSON format of an object'
-
                            format <- match.arg(format)
                            switch(format,
                                   YAML = {
@@ -406,6 +412,15 @@ setMethod("asList", "CWL", function(object, ...){
     object$toList(...)
 })
 
+
+#' @rdname as-methods
+#' @aliases asList,SingleEnum-method
+setMethod("asList", "SingleEnum", function(object, ...){
+    ## sorry object, I have to make you a character ...
+    as.character(object)
+})
+
+
 #' @rdname as-methods
 #' @aliases asList,SimpleList-method
 setMethod("asList", "SimpleList", function(object, ...){
@@ -416,6 +431,8 @@ setMethod("asList", "SimpleList", function(object, ...){
     }
     res
 })
+
+
 
 #' @docType methods
 #' @export asYAML
@@ -463,20 +480,42 @@ DSCList <- setListClass("DSC")
 #' @rdname as-methods
 #' @aliases asList,DSCList-method
 setMethod("asList", "DSCList", function(object, ...){
+    
+    if(length(object) ==1 && is.character(object[[1]])){
+            return(object[[1]])
+        }
+    
     if(length(object)){
-        res <- lapply(object, asList)         
+        res <- lapply(object, function(x){
+            if(is.character(x)){
+                if(length(x) == 1){
+                    r <- unbox(x)                    
+                }else{
+                    r <- x
+                }
+            }else if(is(x, "ItemArray")){
+                r <- list(items = as.character(x$items),
+                          type = as.character(x$type))
+            }else{
+                r <- x
+            }
+            r
+        })
+        
     }else{
         res <- list()
     }
-    res <- rapply(res, function(x){
-        class(x) <- c(class(x), "DSCList")
-        x
-    }, how = "replace")
-    ## hack
+
+
+    ## res <- rapply(res, function(x){
+    ##     class(x) <- c(class(x), "DSCList")
+    ##     x
+    ## }, how = "replace")
+    ## ## hack
     
-    if(length(res) == 1 || all(sapply(res, is.character)))
-        res <- unlist(res)
-    class(res) <- c(class(res), "DSCList")
+    ## if(length(res) == 1 || all(sapply(res, is.character)))
+    ##     res <- unlist(res)
+    ## class(res) <- c(class(res), "DSCList")
     res
 })
 
@@ -533,11 +572,11 @@ Schema <- setRefClass("Schema",  contains = "CWL",
                               if(is(type, "DSCList")){
                                   type <<- type
                               }else{
-                                  ## if(is.character(type)){
-                                  ##     .type <- deType(type)
-                                  ## }else{
+                                  if(is.character(type)){
+                                       .type <- deType(type)
+                                  }else{
                                       .type <- type
-                                  ## }
+                                  }
                                   type <<- DSCList(.type)
                               }
                               callSuper(...)
@@ -599,18 +638,22 @@ ComplexEnum <- setSingleEnum("Complex" , levels = .CWL.Complex)
 
 #' @rdname Enum
 #' @aliases DatatypeEnum
-#' @export DatatypeEnum
+#' @export DatatypeEnum 
 #' @exportClass DatatypeSingleEnum
 DatatypeEnum <- setSingleEnum("Datatype",
                               levels = c(.CWL.Primitive, .CWL.Complex, "File"))
 
 
-
-ItemArray <- setRefClass("ItemArray", fields = list(
+#' @rdname Enum
+#' @aliases ItemArray
+#' @export ItemArray
+#' @exportClass ItemArray
+ItemArray <- setRefClass("ItemArray", contains = "CWL", 
+                         fields = list(
                                           items = "DatatypeSingleEnum",
                                           type = "character"),
                          methods = list(
-                             initialize = function(type = "array", items = ""){
+                             initialize = function(items = "", type = "array"){
                                  type <<- type
                                  items <<- DatatypeEnum(deType(items))
                              }
@@ -2860,8 +2903,6 @@ SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
                        ))
 
 SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
-
-
 
 
 

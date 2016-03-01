@@ -9,6 +9,7 @@
 \alias{asList,CWL-method}
 \alias{asList,DSCList-method}
 \alias{asList,SimpleList-method}
+\alias{asList,SingleEnum-method}
 \alias{asYAML}
 \alias{asYAML,ANY-method}
 \title{Convert a object slots/fields to a list, json, yaml file}
@@ -18,6 +19,8 @@ asList(object, ...)
 \S4method{asList}{ANY}(object, ...)
 
 \S4method{asList}{CWL}(object, ...)
+
+\S4method{asList}{SingleEnum}(object, ...)
 
 \S4method{asList}{SimpleList}(object, ...)
 

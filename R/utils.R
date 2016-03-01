@@ -611,6 +611,10 @@ lift.rabix = function(input = NULL, output_dir = NULL,
                      collapse = '\n')
     opt_all_list = yaml.load(doc_yaml)
     
+    inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i){
+        do.call(sevenbridges::input, i)
+    }))
+    
     ol <- lapply(inl, function(x){
         .nm <- x$inputBinding$prefix
         .t <- setdiff(x$type[[1]], "null")[[1]]
@@ -651,6 +655,170 @@ lift.rabix = function(input = NULL, output_dir = NULL,
     
     writeLines(txt, con = con)
     close(con)
+    
+    opt_list = opt_all_list$liftr
+    
+    # base image
+    if (!is.null(opt_list$from)) {
+        liftr_from = opt_list$from
+    } else {
+        liftr_from = 'rocker/r-base:latest'
+    }
+    
+    # maintainer name
+    if (!is.null(opt_list$maintainer)) {
+        liftr_maintainer = opt_list$maintainer
+    } else {
+        stop('Cannot find `maintainer` option in file header')
+    }
+    
+    if (!is.null(opt_list$maintainer_email)) {
+        liftr_maintainer_email = opt_list$maintainer_email
+    } else {
+        stop('Cannot find `maintainer_email` option in file header')
+    }
+    
+    # system dependencies
+    if (!is.null(opt_list$syslib)) {
+        liftr_syslib =
+            paste(readLines(system.file('syslib.Rmd', package = 'liftr')),
+                  paste(opt_list$syslib, collapse = ' '), sep = ' ')
+    } else {
+        liftr_syslib = NULL
+    }
+    
+    # texlive
+    if (!is.null(opt_list$latex)) {
+        if (opt_list$latex == TRUE) {
+            liftr_texlive =
+                paste(readLines(system.file('texlive.Rmd', package = 'liftr')),
+                      collapse = '\n')
+        } else {
+            liftr_texlive = NULL
+        }
+    } else {
+        liftr_texlive = NULL
+    }
+    
+    # pandoc
+    # this solves https://github.com/road2stat/liftr/issues/12
+#     if (liftr:::is_from_bioc(liftr_from) | liftr:::is_from_rstudio(liftr_from)) {
+#         liftr_pandoc = NULL
+#     } else {
+#         if (!is.null(opt_list$pandoc)) {
+#             if (opt_list$pandoc == FALSE) {
+#                 liftr_pandoc = NULL
+#             } else {
+#                 liftr_pandoc = paste(readLines(
+#                     system.file('pandoc.Rmd', package = 'liftr')), collapse = '\n')
+#             }
+#         } else {
+#             liftr_pandoc = paste(readLines(
+#                 system.file('pandoc.Rmd', package = 'liftr')), collapse = '\n')
+#         }
+#     }
+    liftr_pandoc = NULL
+    # Factory packages
+    liftr_factorypkgs = c('devtools', 'knitr', 'rmarkdown', 'shiny', 'RCurl')
+    liftr_factorypkg = liftr:::quote_str(liftr_factorypkgs)
+    
+    # CRAN packages
+    if (!is.null(opt_list$cranpkg)) {
+        liftr_cranpkgs = liftr:::quote_str(opt_list$cranpkg)
+        tmp = tempfile()
+        invisible(knit(input = system.file('cranpkg.Rmd', package = 'liftr'),
+                       output = tmp, quiet = TRUE))
+        liftr_cranpkg = readLines(tmp)
+    } else {
+        liftr_cranpkg = NULL
+    }
+    
+    # Bioconductor packages
+    if (!is.null(opt_list$biocpkg)) {
+        liftr_biocpkgs = liftr:::quote_str(opt_list$biocpkg)
+        tmp = tempfile()
+        invisible(knit(input = system.file('biocpkg.Rmd', package = 'liftr'),
+                       output = tmp, quiet = TRUE))
+        liftr_biocpkg = readLines(tmp)
+    } else {
+        liftr_biocpkg = NULL
+    }
+    
+    # GitHub packages
+    if (!is.null(opt_list$ghpkg)) {
+        liftr_ghpkgs = liftr:::quote_str(opt_list$ghpkg)
+        tmp = tempfile()
+        invisible(knit(input = system.file('ghpkg.Rmd', package = 'liftr'),
+                       output = tmp,
+                       quiet = TRUE))
+        liftr_ghpkg = readLines(tmp)
+    } else {
+        liftr_ghpkg = NULL
+    }
+    
+    # write Dockerfile
+    if (is.null(output_dir)) output_dir = liftr:::file_dir(input)
+    
+    invisible(knit(system.file('Dockerfile.Rmd',
+                               package = 'liftr'),
+                   output = paste0(normalizePath(output_dir),
+                                   '/Dockerfile'),
+                   quiet = TRUE))
+    
+    # handling rabix info
+    if (!is.null(opt_list$rabix)) {
+        if (opt_list$rabix == TRUE) {
+            
+            if (is.null(opt_list$rabix_d))
+                stop('Cannot find `rabix_d` option in file header')
+            
+            liftr_rabix_d = paste0('\"', normalizePath(opt_list$rabix_d,
+                                                       mustWork = FALSE), '\"')
+            
+            if (is.null(opt_list$rabix_json))
+                stop('Cannot find `rabix_json` option in file header')
+            
+            liftr_rabix_json = paste0('\"', opt_list$rabix_json, '\"')
+            
+            if (!is.null(opt_list$rabix_args)) {
+                
+                liftr_rabix_with_args = '-- '
+                rabix_args_vec = unlist(opt_list$rabix_args)
+                liftr_rabix_args =
+                    paste(paste0('--', paste(names(rabix_args_vec),
+                                             rabix_args_vec)),
+                          collapse = ' ')
+            } else {
+                liftr_rabix_with_args = NULL
+                liftr_rabix_args = NULL
+            }
+            
+            invisible(knit(system.file('Rabixfile.Rmd',
+                                       package = 'liftr'),
+                           output = paste0(normalizePath(output_dir),
+                                           '/Rabixfile'),
+                           quiet = TRUE))
+        }}
+    
+    ## insert the script
+    docker.fl <- file.path(normalizePath(output_dir), 'Dockerfile')
+    message(docker.fl)
+    
+    
+    ## add script
+    write(paste("COPY", basename(normalizePath(tmp)), "/usr/local/bin/"), 
+          file = docker.fl, 
+          append = TRUE)
+    write("RUN mkdir /report/", 
+          file = normalizePath(docker.fl), 
+          append = TRUE)
+    ## add report
+    report.file <- file.path(normalizePath(output_dir), basename(input))
+    file.copy(input, report.file)
+    write(paste("COPY", basename(input), "/report/"), 
+          file = docker.fl, 
+          append = TRUE)
+    
 }
 
 
