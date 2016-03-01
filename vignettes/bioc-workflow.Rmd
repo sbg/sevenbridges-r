@@ -105,34 +105,81 @@ library(sevenbridges)
 
 rbx <- Tool(id = "rnaseqGene", 
             label = "rnaseqgene",
-            hints = requirements(docker(pull = "tengfei/rnaseqgene"), 
-                                 cpu(1), mem(2000)), 
+            description = "A RNA-seq Differiencial Expression Flow and Report",
+            hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)), 
             baseCommand = "performDE.R", 
-            inputs = list(input(
-                id = "bamfiles",
-                description = "bam files",
-                type = ItemArray("File"),
-                prefix = "--bamfiles",
-                itemSeparator = ","
-            ), 
-            input(
-                id = "design",
-                type = "File",
-                prefix = "--design"
+            inputs = list(
+                input(
+                    id = "bamfiles", label = "bam files",
+                    description = "a list of bam files",
+                    type = ItemArray("File"),
+                    prefix = "--bamfiles",
+                    itemSeparator = ","
+                ), 
+                input(
+                    id = "design", label = "design matrix",
+                    type = "File",
+                    prefix = "--design"
+                ),
+                input(
+                    id = "gtffile", label =  "genefeature files",
+                    type = "File",
+                    prefix = "--gtffile"
+                )
             ),
-            input(
-                id = "gtffile",
-                type = "File",
-                prefix = "--gtffile"
-            )
-            ),
-            outputs = list(output(id = "report", glob = "*.pdf"),
-                           output(id = "heatmap", glob = "*.png"),
-                           output(id = "count", glob = "*.csv")))
-fl <- "~/Code/svnrepos/bioc-devel/sevenbridges/inst/docker/rnaseqGene/rabix/rnaseqGene.json"
-rbx$toJSON(pretty = F)
+            outputs = list(
+                output(id = "report", label = "report", 
+                       description = "A reproducible report created by Rmarkdown",
+                       glob = "*.pdf"),
+                output(id = "heatmap", label = "heatmap", 
+                       description = "A heatmap plot to show the Euclidean distance between samples",
+                       glob = "*.png"),
+                output(id = "count", label = "count", 
+                       description = "Reads counts matrix",
+                       glob = "*.csv")))
+
+
+rbx$toJSON()
+
+rbx$toJSON(pretty = TRUE)
+
+## or write to external file
+fl <- "~/Downloads/rnaseqGene.json"
 write(rbx$toJSON(), fl)
 file.show(fl)
+```
+
+Now let's create a task and execute it with example files. 
+
+```{r}
+library(sevenbridges)
+## load from preset authentification
+a <- Auth(username = "tengfei", platform = "cgc")
+
+## Load the project
+(p <- a$project(id = "tengfei/rnaseqgene"))
+
+## get files you need as inout
+(bamfiles.in <- p$file(".bam"))
+(design.in <- p$file("sample_table.csv"))
+(gtf.in <- p$file("Homo_sapiens.GRCh37.75_subset.gtf"))
+
+## add App you just created 
+(rna.app <- p$app_add("rnaseqgene7", rbx))
+
+## add a new Task
+(tsk <- p$task_add(name = "RNA DE report 3", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in)))
+
+## run the task
+tsk$run()
+
+## monitor the task
+tsk$monitor()
 ```
 
 ```

@@ -254,3 +254,19 @@ getTaskHook = function(status = c("queued", "draft", "running",
 setMethod("delete", "Task", function(obj){
     obj$delete()
 })
+
+
+setGeneric("asTaskInput", function(object) standardGeneric("asTaskInput"))
+setMethod("asTaskInput", "Files", function(object){
+        list(class = unbox("File"), 
+             path = unbox(object$id), 
+             name = unbox(object$name))
+})
+setMethod("asTaskInput", "FilesList", function(object){
+     lapply(object, function(x){
+         asTaskInput(x)
+    })
+})
+setMethod("asTaskInput", "ANY", function(object){
+    return(as.list(object))
+})

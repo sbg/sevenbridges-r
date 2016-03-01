@@ -361,13 +361,13 @@ Project <- setRefClass("Project", contains = "Item",
                                description = NULL,
                                app = NULL,
                                inputs = NULL, ...){
-
+                   
                             body = list(name = name,
                                 description = description,
                                 project = id,
                                 app = app,
-                                inputs = inputs)
-                            
+                                inputs = lapply(inputs, asTaskInput))
+                    
                             res <- auth$api(path = "tasks", body = body, method = "POST", ...)
                             res <- .asTask(res)
                             setAuth(res, .self$auth, "Task")

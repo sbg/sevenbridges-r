@@ -358,18 +358,15 @@ if id provided, This call retrieves information about a selected invoice, includ
                             exact = FALSE, detail = FALSE, ...){
                             'This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.'
 
-                            if(is.null(project)){
-                                stop("please provide project id")
+                            if(is.null(id)){
+                                if(is.null(project)){
+                                    stop("When file id is not provided, project id need to be provided.")
+                                }                                
                             }else{
-
-                                if(is.null(id)){
-                                    stop("When file id is not provided, Porject id need to be provided.")
-                                }else{
-                                    req <- api(path = paste0("files/", id), method = "GET", ...)
-                                    res <- .asFiles(req)
-                                    res <- setAuth(res, .self, "Files")
-                                    return(res)                                
-                                }
+                                req <- api(path = paste0("files/", id), method = "GET", ...)
+                                res <- .asFiles(req)
+                                res <- setAuth(res, .self, "Files")
+                                return(res)                                
                             }
 
                             ## list all files

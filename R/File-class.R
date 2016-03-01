@@ -126,6 +126,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                          show = function(){
                             .showFields(.self, "== File ==", .response_files)
                         }
+
                     ))
 
 .asFiles <- function(x){
