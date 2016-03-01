@@ -122,7 +122,7 @@ rbx <- Tool(id = "rnaseqGene",
                     prefix = "--design"
                 ),
                 input(
-                    id = "gtffile", label =  "genefeature files",
+                    id = "gtffile", label =  "gene feature files",
                     type = "File",
                     prefix = "--gtffile"
                 )
@@ -133,7 +133,7 @@ rbx <- Tool(id = "rnaseqGene",
                        glob = "*.pdf"),
                 output(id = "heatmap", label = "heatmap", 
                        description = "A heatmap plot to show the Euclidean distance between samples",
-                       glob = "*.png"),
+                       glob = "*.pdf"),
                 output(id = "count", label = "count", 
                        description = "Reads counts matrix",
                        glob = "*.csv")))
@@ -154,8 +154,8 @@ Now let's create a task and execute it with example files.
 ```{r}
 library(sevenbridges)
 ## load from preset authentification
-a <- Auth(username = "tengfei", platform = "cgc")
-
+a <- Auth(username = "tengfei", platform = "us")
+a
 ## Load the project
 (p <- a$project(id = "tengfei/rnaseqgene"))
 
