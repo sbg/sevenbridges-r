@@ -32,10 +32,11 @@ lst <- list(design = normalizePath(.design),
             bamfiles = normalizePath(.bamfiles),
             currentPath = normalizePath("."))
 
-## execute your Rmarkdown with these parameters
-## rmarkdown::render("/report/rnaseqGene.Rmd", BiocStyle::pdf_document(toc = TRUE),
-##                  output_dir = ".", params = lst)
 
+## render the report
 rmarkdown::render("/report/rnaseqGene.Rmd", "pdf_document", 
                   output_dir = ".",
                   params = lst)
+
+## For rabix execution in the cloud, this is now a workaround to move intermediate files 
+
