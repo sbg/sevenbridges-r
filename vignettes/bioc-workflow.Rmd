@@ -103,13 +103,11 @@ In this step, I am going to
 ```{r}
 library(sevenbridges)
 
-ItemArray(items = "File")
-
 rbx <- Tool(id = "rnaseqGene", 
             label = "rnaseqgene",
             hints = requirements(docker(pull = "tengfei/rnaseqgene"), 
                                  cpu(1), mem(2000)), 
-            baseCommand = "performDE", 
+            baseCommand = "performDE.R", 
             inputs = list(input(
                 id = "bamfiles",
                 description = "bam files",
