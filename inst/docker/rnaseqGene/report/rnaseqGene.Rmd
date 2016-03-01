@@ -9,6 +9,7 @@ params:
   bamfiles: ""
   design: ""
   gtffile: ""
+  currentPath: "."
 ---
 
 # Acknowledgement
@@ -42,6 +43,7 @@ library("knitr")
 library("rmarkdown")
 options(width=100)
 opts_chunk$set(message = FALSE, error = FALSE, warning = FALSE, fig.width=5, fig.height=5)
+setwd(params$currentPath)
 ```
 
 # Contents
@@ -512,7 +514,7 @@ function restricts the output to the first few lines.)
 
 ```{r}
 countdata <- assay(se)
-write.csv(countdata[[1]], file = "/count.csv")
+write.csv(countdata[[1]], file = "count.csv")
 head(countdata, 3)
 ```
 
@@ -714,7 +716,7 @@ pheatmap(sampleDistMatrix,
 ```
 
 ```{r echo = FALSE}
-png("/heatmap.png", 800, 800)
+png("heatmap.png", 800, 800)
 pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,

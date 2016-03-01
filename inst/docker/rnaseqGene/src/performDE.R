@@ -29,7 +29,8 @@ if(is.null(.gtffile))
 ## create param list
 lst <- list(design = normalizePath(.design), 
             gtffile = normalizePath(.gtffile), 
-            bamfiles = normalizePath(.bamfiles))
+            bamfiles = normalizePath(.bamfiles),
+            currentPath = normalizePath("."))
 
 ## execute your Rmarkdown with these parameters
 ## rmarkdown::render("/report/rnaseqGene.Rmd", BiocStyle::pdf_document(toc = TRUE),
