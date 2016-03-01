@@ -717,7 +717,6 @@ pheatmap(sampleDistMatrix,
 
 ```{r echo = FALSE}
 pdf("heatmap.pdf")
-plot(mtcars)
 pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
