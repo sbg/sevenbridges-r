@@ -43,7 +43,7 @@ information via the API. else, This call lists all your billing groups, includin
 if breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
 
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
-  detail = FALSE, ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
+  detail = FALSE, metadata = list(), origin.task = NULL, ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
 
 \item{\code{invoice(id = NULL, ...)}}{no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
 

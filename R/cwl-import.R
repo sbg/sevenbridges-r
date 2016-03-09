@@ -54,31 +54,29 @@ deType <- function(x){
     float_type <- c('FLOAT', '<float>', 'float', 'Float')
     ## File
     file_type <- c('FILE', '<file>', 'File', 'file')
+    
     ## enum
     enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
 
     if(is.character(x)){
+        res <- ""        
         if(grepl("...", x)){
             .array <- TRUE
             x <- gsub("[^[:alnum:]]", "", x)
         }
-        res <- ""
-        
+
         if(x %in% str_type){
             res <- "string"
-        }
-
-        if(x %in% int_type){
+        }else if(x %in% int_type){
             res <- "int"
-        }
-        if(x %in% float_type){
+        }else if(x %in% float_type){
             res <- "float"
-        }
-        if(x %in% file_type){
+        }else if(x %in% file_type){
             res <- "File"
-        }
-        if(x %in% enum_type){
+        }else if(x %in% enum_type){
             res <- "enum"
+        }else{
+            res <- x
         }
     }else{
         res <- x
@@ -2493,6 +2491,10 @@ input <- function(id = NULL, type = NULL, label = "",
         stop("id has to be provided")
     }
 
+    if(!length(label)){
+        label <- id
+    }
+
     if(is.list(id)){
         in.lst <- lapply(id, function(o){
             o.b <- o$inputBinding
@@ -2576,6 +2578,10 @@ output <- function(id = NULL, type = "file", label = "", description = "",
 
     if(is.null(id)){
         stop("id has to be provided")
+    }
+
+    if(!length(label)){
+        label <- id
     }
 
     if(is.list(id)){

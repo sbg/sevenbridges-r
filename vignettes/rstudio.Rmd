@@ -99,3 +99,16 @@ adduser <username>
 ```
 
 
+# Shiny Apps
+
+## User ShinyApp app
+
+
+
+## Add hook on the Rstudio server
+
+```
+
+```
+
+

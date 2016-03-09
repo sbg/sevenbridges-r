@@ -732,7 +732,7 @@ a$project("demo")$download("~/Downloads")
 
 ### Upload files
 
-TODO: currently only v1 supported.
+TODO: V2 uploader not supported yet.
 
 Seven Bridges platforms provide couple different ways for data import
 
@@ -748,6 +748,27 @@ You need to specify the project you need first.
 fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
 a$project("demo")$upload(fl)
 ```
+
+You can also get all files from a task, or by a metadata filter. 
+
+
+```{r}
+## list all outputs file from a task id
+a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
+
+## alternative way to list files under specific project
+a$file(project = "tengfei/re",
+       origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
+
+
+## you can filter by metadata as well
+a$file(project = "tengfei/re", 
+       origin.task = "53020538-6936-422f-80de-02fa65ae4b39", 
+       metadata = list(experimental_strategy = "RNA-Seq"))
+```
+
+
+
 
 ### Public files
 

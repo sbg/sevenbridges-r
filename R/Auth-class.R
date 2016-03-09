@@ -355,7 +355,8 @@ if id provided, This call retrieves information about a selected invoice, includ
                         },
                         ## File API
                         file = function(name = NULL, id = NULL, project = NULL,
-                            exact = FALSE, detail = FALSE, ...){
+                            exact = FALSE, detail = FALSE,
+                            metadata = list(), origin.task = NULL, ...){
                             'This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.'
 
                             if(is.null(id)){
@@ -369,9 +370,32 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 return(res)                                
                             }
 
+                            .query <- list(project = project)
+                            if(length(metadata)){
+                                new.meta <- unlist(metadata)
+                                names(new.meta) <- sapply(names(new.meta), 
+                                                          function(nm) paste("metadata", nm, sep = "."))
+                                
+                                .query <- c(.query, as.list(new.meta))
+                            }
+
+                            if(!is.null(origin.task)){
+                                .query <- c(.query, list(origin.task = origin.task))
+                            }
                             ## list all files
-                            req <- api(path = 'files',  method = 'GET', query = list(project = project), ...)
+                           
+                            req <- api(path = 'files',  method = 'GET', 
+                                       query = .query, ...)
                             res <- .asFilesList(req)
+                            if(is.null(name)){
+                                res <- setAuth(res, .self, "Files")  
+                                if(length(res) == 1){
+                                    return(res[[1]]) 
+                                }else{
+                                    return(res)
+                                }
+                                
+                            }
 
                             ## matching
                             res <- m.match(res, id = id, name = name, exact = exact)

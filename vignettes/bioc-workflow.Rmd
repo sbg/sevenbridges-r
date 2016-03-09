@@ -130,32 +130,32 @@ rbx <- Tool(id = "rnaseqGene",
             outputs = list(
                 output(id = "report", label = "report", 
                        description = "A reproducible report created by Rmarkdown",
-                       glob = "*.pdf"),
+                       glob = "*rnaseqGene.pdf"),
                 output(id = "heatmap", label = "heatmap", 
                        description = "A heatmap plot to show the Euclidean distance between samples",
-                       glob = "*.pdf"),
+                       glob = "heatmap.pdf"),
                 output(id = "count", label = "count", 
                        description = "Reads counts matrix",
                        glob = "*.csv")))
 
 
+rbx
+rbx$toJSON(pretty = TRUE)
 rbx$toJSON()
 
-rbx$toJSON(pretty = TRUE)
+
 
 ## or write to external file
-fl <- "~/Downloads/rnaseqGene.json"
-write(rbx$toJSON(), fl)
-file.show(fl)
+## fl <- "~/Downloads/rnaseqGene.json"
+## write(rbx$toJSON(pretty = TRUE), fl)
 ```
 
 Now let's create a task and execute it with example files. 
 
-```{r}
+```{r, eval = FALSE}
 library(sevenbridges)
 ## load from preset authentification
 a <- Auth(username = "tengfei", platform = "us")
-a
 ## Load the project
 (p <- a$project(id = "tengfei/rnaseqgene"))
 
@@ -165,10 +165,10 @@ a
 (gtf.in <- p$file("Homo_sapiens.GRCh37.75_subset.gtf"))
 
 ## add App you just created 
-(rna.app <- p$app_add("rnaseqgene7", rbx))
+(rna.app <- p$app_add("rnaseqgene", rbx))
 
 ## add a new Task
-(tsk <- p$task_add(name = "RNA DE report 3", 
+(tsk <- p$task_add(name = "RNA DE report", 
                    description = "RNA DE analysis report", 
                    app = rna.app$id,
                    inputs = list(bamfiles = bamfiles.in, 
@@ -182,9 +182,6 @@ tsk$run()
 tsk$monitor()
 ```
 
-```
-rabix ~/Code/svnrepos/bioc-devel/sevenbridges/inst/docker/rnaseqGene/rabix/rnaseqGene.json -- --bamfiles SRR1039508_subset.bam,SRR1039509_subset.bam,SRR1039512_subset.bam,SRR1039513_subset.bam,SRR1039516_subset.bam,SRR1039517_subset.bam,SRR1039520_subset.bam,SRR1039521_subset.bam --design sample_table.csv --gtffile Homo_sapiens.GRCh37.75_subset.gtf
-```
 
 ### Step 5: Execute it.
 

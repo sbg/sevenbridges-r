@@ -13,6 +13,7 @@
 #'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
 #' @import httr methods
 #' @importFrom utils modifyList
+#' @importFrom rstudioapi getActiveDocumentContext
 #' @importFrom liftr lift drender
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape

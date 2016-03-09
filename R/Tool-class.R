@@ -151,7 +151,6 @@ Tool <-
                         }else{
                             stop("wrong inputs type")
                         }
-
                         ## outputs
                         if(is(outputs, "OutputParameterList") ||
                            (is.list(outputs) &&

@@ -98,6 +98,9 @@ Task <- setRefClass("Task", contains = "Item",
                                 Sys.sleep(time)
                             }
                         },
+                        file = function(...){
+                            auth$file(project = project, origin.task = id, ...)
+                        },
                         download = function(destfile, ..., method = "curl"){
                             if(is.null(outputs)){
                                 update()
