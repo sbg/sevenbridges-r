@@ -23,7 +23,9 @@ Imports:
     stringr,
     S4Vectors,
     docopt,
-    curl
+    curl,
+    liftr,
+    rstudioapi
 Suggests:
     BiocStyle,
     knitr,
@@ -49,4 +51,5 @@ Collate: sevenbridges-package.R
 	 Tool-class.R
 	 Flow-class.R
 	 Task-class.R
+	 addins.R
 	 zzz.R

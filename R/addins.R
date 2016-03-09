@@ -1,6 +1,6 @@
 ToolUI <- function(){
-    # Get the document context.
-    context <- rstudioapi::getActiveDocumentContext()
+    ## Get the document context.
+    context <- getActiveDocumentContext()
     
     # Set the default data to use based on the selection.
     text <- context$selection[[1]]$text

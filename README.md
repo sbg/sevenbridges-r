@@ -54,6 +54,27 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
+## Launch Rstudio Server and Shiny Server with sevenbridges utils
+
+```
+docker run  -d -p 8787:8787 -p 80:3838 tengfei/sevenbridges:local &
+```
+
+check out the ip
+
+```
+docker-machine ip default
+```
+`http://<url>:8787/` for Rstudio
+`http://<url>:8787/<username of rstudio>/` for Shiny server
+
+For example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
+
+Note: for users of that Rstudio, just create `ShinyApps` folder under
+your home folder, then put your apps under that folder, so you can
+visit `http://<url>:8787/<username of rstudio>/<app name>` for your
+shiny apps. For example ``http://192.168.99.100:8787/tengfei/hello`
+
 <hr>
 
 © Seven Bridges Genomics 2012 - 2016. Licensed under the MIT license.
