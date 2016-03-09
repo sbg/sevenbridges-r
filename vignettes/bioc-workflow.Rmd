@@ -151,10 +151,10 @@ file.show(fl)
 
 Now let's create a task and execute it with example files. 
 
-```{r}
+```{r, eval = FALSE}
 library(sevenbridges)
 ## load from preset authentification
-a <- Auth(username = "tengfei", platform = "us")
+a <- Auth(username = "tengfei", platform = "us", token="token")
 a
 ## Load the project
 (p <- a$project(id = "tengfei/rnaseqgene"))
@@ -197,7 +197,7 @@ Please read next section about execution.
 I am going to create a project that host my apps and test data.
 
 ```{r, eval = FALSE}
-a <- Auth(platform = "cgc", username = "tengfei")
+a <- Auth(platform = "cgc", username = "tengfei", token="token")
 bid <- a$billing()[[1]]$id
 a$project_new("Bioconductor RNA-seq Workflow", billing_group_id = bid,
               description = "An bam to report workflow for RNA-seq analysis")
