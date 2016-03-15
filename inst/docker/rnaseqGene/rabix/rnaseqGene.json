@@ -1,1 +1,149 @@
-{"id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"","description":"bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","sbg:cmdInclude":true}},{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"sbg:cmdInclude":true}},{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"sbg:cmdInclude":true}}],"outputs":[{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#report","outputBinding":{"glob":"*.html"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"tengfei/rnaseqgene","dockerLoad":"","dockerFile":"","dockerImageId":"","dockerOutputDirectory":""},{"class":"sbg:CPURequirement","value":1},{"class":"sbg:MemRequirement","value":2000}],"label":"rnaseqgene","class":"CommandLineTool","baseCommand":"performDE","arguments":[],"context":""}
+{
+  "sbg:id": "rnaseqGene",
+  "id": "#rnaseqGene",
+  "inputs": [
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "bam files",
+      "description": "a list of bam files",
+      "streamable": false,
+      "default": "",
+      "id": "#bamfiles",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--bamfiles",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "design matrix",
+      "description": "",
+      "streamable": false,
+      "default": "",
+      "id": "#design",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--design",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "gene feature files",
+      "description": "",
+      "streamable": false,
+      "default": "",
+      "id": "#gtffile",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--gtffile",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "name": "format",
+          "symbols": ["pdf", "html"],
+          "type": "enum"
+        }
+      ],
+      "label": "report foramt html or pdf",
+      "description": "",
+      "streamable": false,
+      "default": "",
+      "id": "#format",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--format",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "type": ["null", "File"],
+      "label": "report",
+      "description": "A reproducible report created by Rmarkdown",
+      "streamable": false,
+      "default": "",
+      "id": "#report",
+      "outputBinding": {
+        "glob": "*rnaseqGene.pdf"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "heatmap",
+      "description": "A heatmap plot to show the Euclidean distance between samples",
+      "streamable": false,
+      "default": "",
+      "id": "#heatmap",
+      "outputBinding": {
+        "glob": "heatmap.pdf"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "count",
+      "description": "Reads counts matrix",
+      "streamable": false,
+      "default": "",
+      "id": "#count",
+      "outputBinding": {
+        "glob": "count.csv"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "Differential expression table",
+      "description": "Differential expression table",
+      "streamable": false,
+      "default": "",
+      "id": "#de",
+      "outputBinding": {
+        "glob": "de.csv"
+      }
+    }
+  ],
+  "requirements": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "tengfei/rnaseqgene",
+      "dockerLoad": "",
+      "dockerFile": "",
+      "dockerImageId": "",
+      "dockerOutputDirectory": ""
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 2000
+    }
+  ],
+  "label": "rnaseqgene",
+  "description": "A RNA-seq Differiencial Expression Flow and Report",
+  "class": "CommandLineTool",
+  "baseCommand": [
+    "performDE.R"
+  ],
+  "arguments": [],
+  "context": ""
+}

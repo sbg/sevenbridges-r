@@ -1,10 +1,11 @@
 #!/usr/bin/Rscript
-"usage: performDE.R [--design=<file> --gtffile=<file> --bamfiles=<file>]
+"usage: performDE.R [--design=<file> --gtffile=<file> --bamfiles=<file> --format=<string>]
 
 options:
 --bamfiles=<file> bamfiles
 --design=<file> design data frame
 --gtffile=<file> gene feature file
+--format=<string> pdf or htrml. [default: pdf]
 " -> doc
 
 library(docopt)
@@ -34,7 +35,12 @@ lst <- list(design = normalizePath(.design),
 
 
 ## render the report
-rmarkdown::render("/report/rnaseqGene.Rmd", "pdf_document", 
+.format <- switch(opts$format, 
+                  "pdf" = "pdf_document", 
+                  "html" = "html_document",
+                  {"pdf_document"}) 
+
+rmarkdown::render("/report/rnaseqGene.Rmd", .format, 
                   output_dir = ".",
                   params = lst)
 
