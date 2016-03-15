@@ -480,14 +480,18 @@ DSCList <- setListClass("DSC")
 setMethod("asList", "DSCList", function(object, ...){
     
     if(length(object) ==1 && is.character(object[[1]])){
+        if(length(object[[1]]) ==1){
+            return(list(object[[1]]))
+        }else{
             return(object[[1]])
         }
-    
+        }
     if(length(object)){
         res <- lapply(object, function(x){
             if(is.character(x)){
                 if(length(x) == 1){
-                    r <- unbox(x)                    
+                   ## double check, do not unbox it.  
+                    r <- unbox(x)
                 }else{
                     r <- x
                 }
@@ -504,16 +508,6 @@ setMethod("asList", "DSCList", function(object, ...){
         res <- list()
     }
 
-
-    ## res <- rapply(res, function(x){
-    ##     class(x) <- c(class(x), "DSCList")
-    ##     x
-    ## }, how = "replace")
-    ## ## hack
-    
-    ## if(length(res) == 1 || all(sapply(res, is.character)))
-    ##     res <- unlist(res)
-    ## class(res) <- c(class(res), "DSCList")
     res
 })
 
@@ -1767,7 +1761,17 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                method = list(
                                    initialize = function(class = "CommandLineTool",
                                        arguments = "",
+                                       baseCommand = NULL,
                                        ...){
+                                       
+                                       if(is.null(baseCommand)){
+                                           stop("baseCommand has to be provided")
+                                       }
+                                       if(!is.list(baseCommand)){
+                                           if(is.character(baseCommand)){
+                                               baseCommand <<- list(baseCommand)
+                                           }
+                                       }
                                        if(is.character(arguments)){
                                            if(nchar(arguments)){
                                                arguments <<- CCBList(
@@ -2073,7 +2077,6 @@ WorkflowOutputParameter <-
 #'
 #' @rdname Workflow
 WorkflowOutputParameterList <- setListClass("WorkflowOutputParameter", contains = "OutputParameterList")
-## WorkflowOutputParameterList <- setListClass("WorkflowOutputParameter") #
 
 ##
 SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
@@ -2521,10 +2524,15 @@ input <- function(id = NULL, type = NULL, label = "",
     }
 
     type <- deType(type)
-    
-    if(!required && length(type) == 1){
-        type = c("null", type)
+
+    if(length(type) == 1){
+        if(!required){
+            type = c("null", type)            
+        }else{
+            type <- list(type)
+        }
     }
+    
 
     lstData <- .dotargsAsList(...)
     if(length(lstData)){
@@ -2572,7 +2580,8 @@ SBGCommandOutputParameter <- setRefClass("SBGCommandOutputParameter",
                                              }
                                          ))
 
-output <- function(id = NULL, type = "file", label = "", description = "", 
+output <- function(id = NULL, type = "file", label = "", description = "",
+                   required = FALSE, 
                    streamable = FALSE, default = "", fileTypes = NULL, ...){
 
 
@@ -2637,8 +2646,13 @@ output <- function(id = NULL, type = "file", label = "", description = "",
     type <- deType(type)
 
     if(length(type) == 1){
-        type = c("null", type)
+        if(!required){
+            type = c("null", type)            
+        }else{
+            type <- list(type)
+        }
     }
+
     
     SBGCommandOutputParameter(id = id, type = type, label = label,
                               description = description,
