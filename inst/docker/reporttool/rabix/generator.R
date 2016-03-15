@@ -106,4 +106,4 @@ rbx <- Tool(id = "reporttool",
 
 
 rbx$toJSON(pretty = TRUE)
-
+rbx$toJSON()

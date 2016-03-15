@@ -885,6 +885,8 @@ the first level. This comparison is printed at the top of the output:
 
 ```{r}
 (res <- results(dds))
+res.df <- as.data.frame(res)
+write.csv(res.df, file = "de.csv")
 ```
 
 As `res` is a *DataFrame* object, it carries metadata

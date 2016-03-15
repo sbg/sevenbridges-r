@@ -58,9 +58,10 @@ deType <- function(x){
     ## enum
     enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
 
+    .array <- FALSE
     if(is.character(x)){
         res <- ""        
-        if(grepl("...", x)){
+        if(grepl("\\.\\.\\.", x)){
             .array <- TRUE
             x <- gsub("[^[:alnum:]]", "", x)
         }
@@ -77,6 +78,9 @@ deType <- function(x){
             res <- "enum"
         }else{
             res <- x
+        }
+        if(.array){
+            res <- ItemArray(res)
         }
     }else{
         res <- x
@@ -165,71 +169,6 @@ getOutputType <- function(x){
         NULL
     }
 }
-
-## ## How to de-bioc dependencies
-## ## to do define a
-## ## Acknowledgement to S4 vectors, to reduce the dependency, use simple approach
-## ## So far I only need things:
-## ## 1. validation of types
-## ## 2. lappy
-
-
-
-## SList <- setRefClass("SList", 
-##                      fields = list(elementType = "character",
-##                          listData = "list"))
-
-## setMethod("lapply", "SList",
-##           function(X, FUN, ...)
-##               lapply(as.list(X), FUN = FUN, ...))
-
-## setMethod("length", "SList", function(x) length(as.list(x)))
-
-## setMethod("names", "SList", function(x) names(as.list(x)))
-
-## setReplaceMethod("names", "SimpleList",
-##                  function(x, value) {
-##                      names(x@listData) <- value
-##                      x
-##                  })
-
-## setListClass <- function(elementType = NULL, suffix = "List",
-##                          contains = NULL, where = topenv(parent.frame())){
-##     stopifnot(is.character(elementType))
-##     name <- paste0(elementType, suffix)
-##     res <- setRefClass(name, contains = c("SList", contains),
-##                        where = where)
-##     ## setMethod("show", name, function(object){
-##     ##     lapply(object, show)
-##     ## })
-##     function(...){
-##         x <- .dotargsAsList(...)
-##         ## validation
-##         if (!is.list(x)) 
-##             stop("'x' must be a list")
-##         if (is.array(x)) {
-##             tmp_names <- names(x)
-##             dim(x) <- NULL
-##             names(x) <- tmp_names
-##         }
-##         class(x) <- "list"
-##         if (!all(sapply(x,
-##                         function(xi)
-##                             extends(class(xi),
-##                                     elementType)))) 
-##             stop("all elements in 'x' must be ", elementType, 
-##                  " objects")
-##         res(elementType = elementType, listData = x)
-##     }
-## }
-
-## A <- setClass("A", slots = list(x = "character", y = "numeric"))
-## a <- A(x = "a", y = 123)
-
-## AList <- setListClass("A")
-## AList()$elementType
-## lapply(AList(a, a, a), is)
-
 
 #' Class CWL
 #'
@@ -498,6 +437,10 @@ setMethod("asList", "DSCList", function(object, ...){
             }else if(is(x, "ItemArray")){
                 r <- list(items = as.character(x$items),
                           type = as.character(x$type))
+            }else if(is(x, "enum")){
+                r <- list(name = as.character(x$name),
+                          symbols = as.character(x$symbols),
+                          type = as.character(x$type))
             }else{
                 r <- x
             }
@@ -636,14 +579,15 @@ DatatypeEnum <- setSingleEnum("Datatype",
                               levels = c(.CWL.Primitive, .CWL.Complex, "File"))
 
 
+
 #' @rdname Enum
 #' @aliases ItemArray
 #' @export ItemArray
 #' @exportClass ItemArray
 ItemArray <- setRefClass("ItemArray", contains = "CWL", 
                          fields = list(
-                                          items = "DatatypeSingleEnum",
-                                          type = "character"),
+                             items = "DatatypeSingleEnum",
+                             type = "character"),
                          methods = list(
                              initialize = function(items = "", type = "array"){
                                  type <<- type
@@ -651,7 +595,27 @@ ItemArray <- setRefClass("ItemArray", contains = "CWL",
                              }
                          ))
 
-setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray"))
+#' @rdname Enum
+#' @aliases enum
+#' @export enum
+#' @exportClass enum
+enum <- setRefClass("enum", contains = "CWL", 
+                         fields = list(
+                             name = "character",
+                             symbols = "character",
+                             type = "character"),
+                         methods = list(
+                             initialize = function(name = NULL, symbols = NULL, type = "enum"){
+                                 stopifnot(!is.null(name))
+                                 stopifnot(!is.null(symbols))
+                                 name <<- name
+                                 type <<- type
+                                 symbols <<- symbols
+                             }
+                         ))
+
+## TODO: singleEnum <> Enum
+setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray", "enum"))
 
 ########################################################################
 ## Data Type
