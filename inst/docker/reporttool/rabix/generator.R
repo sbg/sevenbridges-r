@@ -22,7 +22,6 @@ rbx <- Tool(id = "reporttool",
                       description = "Files to be included in data folder of app",
                       type = ItemArray("File"),
                       prefix = "--data",
-                      required = TRUE,
                       itemSeparator = ",",                     
                       cmdInclude = TRUE                      
                       ),
