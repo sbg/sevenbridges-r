@@ -26,29 +26,29 @@
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
 SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
-                              "sbg:homepage" = "characterORNULL", 
-                              "sbg:validationErrors" = "listORNULL",
-                              "sbg:sbgMaintained" = "logicalORNULL",
-                              "sbg:latestRevision" = "integerORNULL",
-                              "sbg:job" = "listORNULL",
-                              "sbg:toolAuthor" = "characterORNULL",
-                              "sbg:copyOf" = "characterORNULL",
-                              "sbg:createdOn" = "integerORNULL",
-                              "sbg:categories" = "characterORlistORNULL",
-                              "sbg:contributors" = "listORNULL",
-                              "sbg:links" = "listORNULL",
-                                             "sbg:project" = "characterORNULL",
+                                                 "sbg:homepage" = "characterORNULL", 
+                                                 "sbg:validationErrors" = "listORNULL",
+                                                 "sbg:sbgMaintained" = "logicalORNULL",
+                                                 "sbg:latestRevision" = "integerORNULL",
+                                                 "sbg:job" = "listORNULL",
+                                                 "sbg:toolAuthor" = "characterORNULL",
+                                                 "sbg:copyOf" = "characterORNULL",
+                                                 "sbg:createdOn" = "integerORNULL",
+                                                 "sbg:categories" = "characterORlistORNULL",
+                                                 "sbg:contributors" = "listORNULL",
+                                                 "sbg:links" = "listORNULL",
+                                                 "sbg:project" = "characterORNULL",
                                                  "sbg:projectId" = "characterORNULL",
-                              "sbg:createdBy" = "characterORNULL",
-                              "sbg:toolkitVersion" = "characterORNULL",
-                              "sbg:id"  = "characterORNULL", 
-                              "sbg:license" = "characterORNULL",
-                              "sbg:revision" = "integerORNULL",
-                              "sbg:cmdPreview" = "characterORNULL",
-                              "sbg:modifiedOn" = "integerORNULL",
-                              "sbg:modifiedBy" = "characterORNULL", 
-                              "sbg:revisionsInfo" = "listORNULL",
-                              "sbg:toolkit" = "characterORNULL"),
+                                                 "sbg:createdBy" = "characterORNULL",
+                                                 "sbg:toolkitVersion" = "characterORNULL",
+                                                 "sbg:id"  = "characterORNULL", 
+                                                 "sbg:license" = "characterORNULL",
+                                                 "sbg:revision" = "integerORNULL",
+                                                 "sbg:cmdPreview" = "characterORNULL",
+                                                 "sbg:modifiedOn" = "integerORNULL",
+                                                 "sbg:modifiedBy" = "characterORNULL", 
+                                                 "sbg:revisionsInfo" = "listORNULL",
+                                                 "sbg:toolkit" = "characterORNULL"),
                    methods = list(initialize = function(homepage = NULL, 
                                       validationErrors = NULL,
                                       sbgMaintained = NULL,
@@ -115,8 +115,12 @@ Tool <-
                         outputs = NULL){
 
                         stopifnot(!is.null(id))
-                        ## .self$field("sbg:id", addIdNum(id))
-                        stopifnot(!is.null(label))
+                        
+                        if(is.null(label)){
+                            .label <- id
+                        }else{
+                            .label <- label
+                        }
 
                         if(is(inputs, "InputParameterList") ||
                            (is.list(inputs) &&
@@ -188,8 +192,9 @@ Tool <-
                             stop("wrong output")
                         }                       
                         
-                        callSuper(id = id, label  = label, ...)
-
+                        res <- callSuper(id = id, label  = .label, ...)
+                        res$field("sbg:id", id)
+                        res
                     }
                 ))
 

@@ -104,7 +104,6 @@ Upload <- setRefClass("Upload", contains = "Item",
                               project_id <<- project_id
                               ## fixme: try manual part-size
                               if(is.null(part_size))
-
                                   if(is.null(part_length)){
                                       if(is.null(part_size)){
                                           part_size <<- as.integer(5 * 1024^2)
@@ -210,16 +209,16 @@ Upload <- setRefClass("Upload", contains = "Item",
                               if(length(meta)){
                                   message("Adding metadata ...")
                                   req <- api(token = auth$token,
-                                                base_url = auth$url,
-                                                path = paste0('project/',
-                                                              project_id,
-                                                              '/file/', res$id),
-                                                body = meta,
-                                                method = 'PUT')
+                                             base_url = auth$url,
+                                             path = paste0('project/',
+                                                 project_id,
+                                                 '/file/', res$id),
+                                             body = meta,
+                                             method = 'PUT')
                                   res <- status_check(req)
                                   message("Metadata complete")
                               }
-                              res <- .asFile(res)
+                              res <- .asFiles(res)
                               res
                           },
                           upload_complete_part = function(part_number = NULL,

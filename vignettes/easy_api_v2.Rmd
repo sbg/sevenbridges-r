@@ -3,42 +3,25 @@ title: "Complete Guide for Seven Bridges API R Client"
 output:
   BiocStyle::html_document:
     toc: true
-    number_sections: true
+    toc_depth: 4
+    number_sections: false
     highlight: haddock
     css: style.css
 ---
+
+
 <!--
 %\VignetteIndexEntry{Complete Guide for API R Client}
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown(css.files = "custom.css")
-```
 
-<!-- override white background for classless code chunks -->
-<style type="text/css" scoped>
-  pre:not([class]) { background-color: #F8F8F8; }
-  pre code { background-color: transparent; }
-</style>
-
-```{r code, echo = FALSE}
-code <- function(...) {
-    cat(paste(..., sep = "\n"))
-}
-
-code2 <- function(...) {
-    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
-}
-```
-
-```{r global_options, include=FALSE}
-library(BiocStyle)
+```{r include=FALSE}
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-# Introduction
+## Introduction
 
 This package is designed to support as many Seven Bridges supported platforms 
 as possible, including the NCI Cancer Genomic Cloud Pilot developed by Seven Bridges, as long as you provide the correct API URL, it should work normally. 
@@ -60,22 +43,57 @@ And it's API part if you want to understand details and use its full power:
 - [API doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
 - [API doc for Seven Bridges US platform](https://docs.sbgenomics.com/display/developerhub/API)
 
-## API V1
+### API URL
 
-Please note, `sevenbridges` package doesn't support old API, please use `sbgr` package instead if you need to operate on old project type. `sbgr` package will be under maintenance mode. 
+Most commonly used API url, choose the correct one depends on which platforms you are using
 
-## API V2 and beyond
+
+- __Seven Bridges US platform on AWS__ 
+    1. V2 (new):  https://api.sbgenomics.com/v2/
+    2. V1: https://api.sbgenomics.com/1.1/
+- __Seven Bridges US platform on Google Cloud__ :  https://gcp-api.sbgenomics.com/v2/
+- __Cancer Genomics Cloud Platform__ : https://cgc-api.sbgenomics.com/v2/
+
+### API V1
+
+The difference of V1 and V2 is that, V2 project is CWL(common workflow language) compatible, on NCI
+cancer genomics cloud, google cloud, or any newer platforms, you should not have such a problem. But
+for Seven Bridges Platofrm, currently users are able to create old project (V1) and new developer project (v2). For this group
+of users, please note, `sevenbridges` package doesn't support old API at higher level, alterntatively
+there are two ways if you are still using the old project type
+
+- Use old `sbgr` package `sbgr` package will be under maintenance mode. 
+- You can still use our lower api function as shown in following section, but higher level API 
+calls like the chained action are not supported for v1. 
+
+For advanced users, you can still use our lower API call for all V1 APIs like this, the most used 
+arguments are "path", "query", "body", you can also check the function `api`. 
+
+```{r}
+library(sevenbridges)
+a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", url = "https://api.sbgenomics.com/1.1/")
+## Get projects: GET /1.1/project
+a$api(path = "project")
+## higher level doesn't work for v1
+## a$project() won't work
+```
+
+Principle: I will recommend all users switch to new project type if possible, 
+it will have more features and much better support from this package. 
+
+
+### API V2 and beyond
 
 Current public v2 API
 
-- Cancer Genomics Cloud : https://cgc-api.sbgenomics.com/v2/
-- Seven Bridges on AWS: https://api.sbgenomics.com/v2/
-- Seven Bridges on Google: https://gcp-api.sbgenomics.com/v2/
+- __NCI Cancer Genomics Cloud__ : https://cgc-api.sbgenomics.com/v2/
+- __Seven Bridges on AWS__: https://api.sbgenomics.com/v2/
+- __Seven Bridges on Google__: https://gcp-api.sbgenomics.com/v2/
 
 
 `sevenbbridges` package only support V2 and later API, which support CWL compatible project. 
 
-## Installation
+### Installation
 
 This package is in devel branch on bioconductor now, to install the package.
 
@@ -85,18 +103,19 @@ useDevel(devel = TRUE)
 biocLite("sevenbridges")
 ```
 
-To install the package from github
+If you cannot install it because you are not running latest R, you can install the package from github
 
 ```{r}
 # install.packages("devtools") if devtools was not installed
 ## Install from github for development version  
 source("http://bioconductor.org/biocLite.R")
-useDevel()
-biocLite("BiocUpgrade")
+## if useDevel() and biocLite("BiocUpgrade")doesn't work, run following code
+## useDevel()  
+## biocLite("BiocUpgrade")
 library(devtools)
 install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
-  dependencies=TRUE, type = "source")
+  dependencies=TRUE)
 ```
 
 This package is also available in docker image `tengfei/sevenbridges`, which the latest is build on `bioconductor/devel_base` on dockerhub.
@@ -104,56 +123,87 @@ This package is also available in docker image `tengfei/sevenbridges`, which the
 Checkout he _Dockerfile_ at 
 
 ```{r}
-system.file("docker", "Dockerfile", package = "sevenbridges")
+system.file("docker", "sevenbridges/Dockerfile", package = "sevenbridges")
 ```
 
 
 
-# Quickstart
+## Quickstart
 
-If you want to understand details how to use the API client in R, please go for the second section for complete guide. This section, I am going to use a simple example for a quick start.
+For more details about how to use the API client in R, please go for the second section for complete guide. This section, I am going to use a simple example for a quick start.
 
 
-## Create Auth object
+### Create Auth object
 
-Set up the `Auth` object, it remembers your auth token and url, every action started from this object. 
+Everything starts from an `Auth` object, so let's set up the `Auth` object, it remembers your auth token and url, every action started from this object. 
 
 You have three different ways to setup the token. 
 
-1. configuration file in home folder
-2. option in R session
-3. direct setup
+1. Direct setup via `Auth` function, explicityly setup token and url. 
+2. Configuration file in your home folder ".sbg.auth.yml", very easy to manage and implicitly loaded, everytime you start a 
+new R session.
+3. Tempoerary setup via option in R session
 
-The first one is most safe and easy way, you don't save your token in your script. Please check out the complete guide section for more details. 
 
-when you provide url, please don't forget `/` in the end. 
 
 ```{r}
 library(sevenbridges)
 ## direct setup
-a <- Auth()
-a <- Auth(token = "aef7e9e3f6c54fb1b338ac4ecddf1a56")
-a
-a <- Auth(token = "1c0e6e202b544030870ccc147092c257",
+a <- Auth(token = "<fake_token>",
           url = "https://cgc-api.sbgenomics.com/v2/")
-## or load default, deafult url is cgc  API, more safe
-a <- Auth(platform = "cgc", username = "tengfei")
-a
+## or load default from config file (autoloaded into options)
+library(sevenbridges)
+a <- Auth(platform = "us", username = "tengfei")
 ```
 
-## About a user
+```
+== Auth ==
+token : <fake_token>
+url : https://cgc-api.sbgenomics.com/v2/
+```
+
+### Infomation about a user
+
+This call returns information about your account.
 
 ```{r}
 a$user()
 ```
 
-## Rate limit
+```
+== User ==
+href : https://cgc-api.sbgenomics.com/v2/users/tengfei
+username : tengfei
+email : tengfei.yin@sbgenomics.com
+first_name : Tengfei
+last_name : Yin
+affiliation : Seven Bridges Genomics
+country : United States
+```
+
+To list user resrouces, This call returns information about the specified user. Note that currently you can view only your own user information, and so this call is equivalent to the call to Get my information.
+
+```{r}
+a$user(username = "tengfei")
+```
+
+### Rate limit
+
+This call returns information about your current rate limit. This is the number of API calls you can make in one hour.
 
 ```{r}
 a$rate_limit()
 ```
 
-## Show billing information
+```
+== Rate Limit ==
+limit : 1000
+remaining : 993
+reset : 1457980957
+```
+
+### Show billing information
+
 Billing information, every project is associated with a billing group
 
 ```{r}
@@ -163,33 +213,82 @@ a$billing()
 a$invoice()
 ```
 
-## Create a project
+### Create a project
+
 Create a new project called "api testing", with the billing group id. 
 
 ```{r}
 ## get billing group id
-bid <- a$billing()[[1]]$id
+bid <- a$billing()$id
 ## create new project
-a$project_new(name = "api testing", bid, description = "Just a testing")
-## confirm the new created project
-(p <- a$project("api testing", detail = TRUE))
+(p <- a$project_new(name = "api testing", bid, description = "Just a testing"))
 ```
 
-## Import CWL app and run a task
+```
+== Project ==
+id : tengfei/api-testing
+name : api testing
+description : Just a testing
+billing_group_id : <fake_bid>
+type : v2
+-- Permission --
+```
+
+### Import CWL app and run a task
 Then we want to run a task, and you want to upload your json file that describe your tool, here we use an random number generator example saved in this package. 
 
-Note: alternatively you can directly describe your CWL tool in R with this package, please read another vignettes on "Describe CWL Tools/Workflows in R and Execute it on Seven Bridges Supported Platform"
+Note: alternatively you can directly describe your CWL tool in R with this package, please read another vignettes on "Describe CWL Tools/Workflows in R and Execution"
 
-```{r}
+```{r, eval = TRUE}
 ## Add an CWL file to your project
-fl.runif <- system.file("extdata", "runif.json", package = "sevenbridges")
-## name your app 
-p$app_add("runif_draft", fl.runif)
-## check it out and get app id
-(aid <- p$app("runif")$id)
+fl.runif <- system.file("docker", "sevenbridges/rabix/runif.json", package = "sevenbridges")
 ```
 
-Draft your task, you need to specify
+Let's take a look at the content of this json file
+
+```{r comment='', eval = TRUE}
+cat(readLines(fl.runif), sep = '\n')
+```
+
+Now let's add this json file to your projct as a new app.
+
+```{r}
+## name your app 
+(aid <- p$app_add("runif", fl.runif)$id)
+```
+
+You get an id like this
+
+```
+"tengfei/api-testing/runif/0"
+```
+
+It's composed of 
+
+1. __project id__ : tengfei/api
+2. __app short name__ : runif 
+3. __revision__ : 0
+
+
+Alternatively, you can describe tools like this
+
+```{r comment='', eval = TRUE}
+fl <- system.file("docker", "sevenbridges/rabix/generator.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+And add it like this
+
+```{r}
+## rbx is the object returned by Tool function
+(aid <- p$app_add("runif", rbx)$id)
+```
+
+Please read another tutorial about how to describe tools and flows in R. 
+
+### Excute a new task
+
+Now we draft a new task, you need to specify
 
 - name of the task
 - description
@@ -197,16 +296,19 @@ Draft your task, you need to specify
 - inputs of your task: you need to know about the app you are running, in this case, the cwl app accept 4 parameters (number, min, max, seed). 
 
 
-I want to generate 1 number (default) between 1 and 10. 
+I want to generate 1 random number (default) between 1 and 10. 
 
 ```{r}
-(tsk <- p$task_add(name = "Draft runif 3", 
-           description = "Description for runif", 
+(tsk <- p$task_add(name = "randome number 5", 
+           description = "Generate some random number", 
            app = aid,
-           inputs = list(min = 1, max = 10)))
+           inputs = list(min = 1, max = 10, number = 1, seed = 4)))
 
 ## confirm, show all task status is draft
 p$task(status = "draft")
+
+## or just list the task
+tsk$update()
 ```
 
 Now you have your draft task, you can delete your draft task or update it.
@@ -216,16 +318,15 @@ Now you have your draft task, you can delete your draft task or update it.
 ## tsk$delete()
 ```
 
-looks like there is only a single number, oops, I want 100 numbers, so 
+looks like there is only a single number, oops, I want 100 numbers instead, so 
 let me update my draft task 
 
 ```{r}
-tsk <- p$task(status = "draft")
-tsk <- p$task(id = "504de3b7-4a8f-4755-a039-e1ec12ddd3fa")
-tsk$update()
 tsk$getInputs()
 ## missing number input, only update number
-tsk$update(inputs = list(number = 300))
+tsk$update(inputs = list(number = 500, seed = 1))
+## double check 
+tsk$getInputs()
 ```
 
 Or we just want to run it in the cloud!
@@ -273,25 +374,14 @@ tsk$monitor()
 ```
 
 
+## User-friendly API
+
+This is what the package try to help, and provide a user-friendly interface that we suggest our users to use, so you don't have to combine several `api()` calls and refer to the API documentation all the times to finish a simple task. 
 
 
+### Authentification
 
-# Low level API 
-
-- You can always use "httr"" package to explore API at full capability. This package provides functions like `POST`, `GET`, `DELETE`, `PUT`, `PATCH` and other utilities, I recommend for advanced R users. This package is also "sevenbridges" package depends on.
-- you can use single `api()` function in "sevenbridges".
-- you can use `Auth$api()` call to save your time retype url and token. 
-
-__However__ I recommend you use easy API that is introduced for rest of the guide. 
-
-# User-friendly API
-
-This is what the package try to help, and a much more user-friendly interface that we suggest our users to use, so you don't have to combine several `api()` calls and refer to the API documentation all the times to finish a simple task. 
-
-
-## Authentification
-
-### Set up default token for different platforms
+#### Set up default token for different platforms
 
 You can create a file called '.sbg.auth.yml' in your home folder, and maintain multiple account for a list of platforms, including private or public ones. 
 
@@ -318,6 +408,8 @@ gcp:
 When you load sevenbridges package, it will first try to parse your token configuration file first into an options list. 
 
 ```{r}
+## Create Auth object from config file
+a <- Auth(username = "yintengfei", platform = "us")
 ## show all 
 getToken()
 ## show all pre-set user token for platform 
@@ -326,9 +418,10 @@ getToken("cgc")
 getToken(platform = "cgc", username = "tengfei")
 ```
 
+Note: when you edit your .sbg.auth.yml, you have to reload your package. 
 
 
-### Create Auth object
+#### Create Auth object directly
 
 First thing first, you need to construct an Auth object, everything begins with
 this object, it stores
@@ -348,38 +441,23 @@ library(sevenbridges)
 ## direct setup
 a <- Auth(token = "1c0e6e202b544030870ccc147092c257",
           url = "https://cgc-api.sbgenomics.com/v2/")
-## or load default, deafult url is cgc  API, more safe
-Auth()
-Auth(platform = "us")
-Auth(platform = "us", username = "yintengfei")
-
 ```
 
 By default it points to Cancer Genomics Cloud platform, unless you specify
 
 - API URL (more flexible)
-- or Platform (currently support 'CGC', 'US')
+- or Platform (currently support 'cgc', 'us', 'gcp')
 
 
-```{r}
-## NOT RUN
-## specify platform
-a <- Auth("4b6068016ab746c6bf6401ae69b80e1f", platform = "us")
-## or specify the url
-a <- Auth("4b6068016ab746c6bf6401ae69b80e1f",
-    url = "https://cgc-api.sbgenomics.com/v2/")
-
-```
-
-Note: when you construct the Auth object, make sure you input the correct platform or 
-API url for your authentication, where you get it from. 
+Note: when you construct the Auth object, make sure you input the correct platform or API url for your authentication. On Seven Bridges related platforms, 
+you can always find it under your account setting and developer tab. 
 
 For the tutorial about how to get your authentication, please check
 
 - [Get token from US platform](https://docs.sbgenomics.com/display/developerhub/Authentication+Token)
 - [Get token from Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
 
-## List All API calls
+### List All API calls
 
 If we didn't pass any parameters to api() from Auth, it will list all API calls,
 and anything parameter we provided will pass on to api() function, but you don't 
@@ -390,53 +468,50 @@ And this call from Auth object will check the response too.
 a$api()
 ```
 
-## Offset and Limit and Search 
+### Offset and Limit and Search 
 
 `offset` specify where it is started, and `limit` specify how many you want to show from there (max: 100). Because the item could be thousands of files and apps, so by default the offset and limit is set to 0 and 100 accordingly.
 
-```{r, eval = TRUE}
+```{r}
 getOption("sevenbridges")$offset
 getOption("sevenbridges")$limit
 ```
 
 Please pay attention to this
 
-- Search by `id` is most accurate and fast. 
+- Search by `id` is most accurate and fast for any Item like Project, App, Task, File. 
 - Search by name will only search across current pulled content, so use `complete = TRUE` if you want to search across everything, this might be slow. 
 
 For example, to list all public apps, use `visibility` argument, but make sure you pass `complete = TRUE` to it, to show every single things. This arguments generally works for items like "App", "Project", "Task", "File" etc 
 
 ```{r}
 ## first, search by id is fast
-x = a$app(visibility = "public", id = "djordje_klisic/public-apps-by-seven-bridges/sbg-ucsc-b37-bed-converter/0")
+x <- a$app(visibility = "public", id = "djordje_klisic/public-apps-by-seven-bridges/sbg-ucsc-b37-bed-converter/0")
 
 ## show 100 items from public
-x = a$app(visibility = "public")
-length(x)
+x <-  a$app(visibility = "public")
+length(x) ## 100
 
-x = a$app(visibility = "public", complete = TRUE)
-length(x)
+
+x <- a$app(visibility = "public", complete = TRUE)
+length(x) ## 211 by March, 2016
 ## this return nothing, because it's not in the first 100 
 a$app(visibility = "public", name = "bed converter")
 ## this return an app, because it pulls all apps and did serach.
 a$app(visibility = "public", name = "bed converter", complete = TRUE)
-x = a$app(project = "tengfei/helloworld", complete = TRUE)
-length(x)
-a$app(visibility = "public", limit = 5, offset = 150)
 ```
 
 
-## Rate Limits
+### Rate Limits
 
 This call returns information about your current rate limit. 
 This is the number of API calls you can make in one hour.
 
 ```{r}
 a$rate_limit()
-
 ```
 
-## Users
+### Users
 
 This call returns a list of the resources, such as projects, billing groups, and 
 organizations, that are accessible to you. If you are not an administrator, this call will only return a successful response if {username} is replaced with your own username. If you are an administrator, you can replace {username} with the username of any CGC user, to return information on their resources.
@@ -453,21 +528,20 @@ a$user("tengfei")
 ```
 
 
-## Billing Group and Invoices
+### Billing Group and Invoices
 
-### For billing
+#### For billing
 
 if no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. if `breakdown = TRUE`, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.
 
 
 ```{r}
 ## return a BillingList object
-b <- a$billing()
-a$billing(id = b[[1]]$id)
-a$billing(id = b[[1]]$id, breakdown = TRUE)
+(b <- a$billing())
+a$billing(id = b$id, breakdown = TRUE)
 ```
 
-### For invoices
+#### For invoices
 
 If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
 
@@ -477,15 +551,15 @@ a$invoice(id = "fake_id")
 ```
 
 
-Note (TODO): Invoice is not a object yet, it currently just return a list.
+Note (TODO): Invoice is not an object yet, it currently just return a list.
 
 
 
-## Project Operation
+### Project Operation
 
 Project is the basic unit to organize different entities: files, tasks, apps, etc. So lots actions comes from this `Project' object. 
 
-### List All Projects 
+#### List All Projects 
 
 This call returns a list of all projects you are a member of. Each project's project_id and URL on the CGC will be returned.
 
@@ -496,22 +570,19 @@ a$project()
 Then if you want to list the projects owned by and accessible to a particular user, specify the `owner` argument. Each project's ID and URL will be returned.
 
 ```{r}
+a$project(owner = "tengfei")
 a$project(owner = "yintengfei")
-
-## unfixed bugs
-sevenbridges:::status_check(api(token = a$token, base_url = a$url, path = "projects/Rfranklin", method = "GET"))
 ```
 
-To get details about a project, use `detail = TRUE`
+To get details about project(s), use `detail = TRUE`
 
 ```{r}
 a$project(detail = TRUE)
 ```
 
-### Partial Match Project Name
+#### Partial Match Project Name
 
-For more friendly interface and convenient search, we support partial name match in this 
-interface. The first argument for the call is "name", 
+For more friendly interface and convenient search, we support partial name match in this interface. The first argument for the call is "name", 
 users can provide part of the name and we do a search for you automatically. 
 
 ```{r}
@@ -519,7 +590,7 @@ users can provide part of the name and we do a search for you automatically.
 a$project("hello")
 ```
 
-### Create a New Project
+#### Create a New Project
 
 To create a new project, user need to specify
 
@@ -533,24 +604,24 @@ create TCGA project by passing tags list("tcga")
 
 
 ```{r}
-a$project_new("api_testing", a$billing()[[1]]$id)
-a$project_new("api_testing_tcga", a$billing()[[1]]$id,
-              description = "Test for API", tags = c("tcga"))
+a$project_new("api_testing_tcga", b$id,
+              description = "Test for API")
 ```
 
-### Delete a Project
+#### Delete a Project
 
-Next we delete what we created for testing, only *single* project could be deleted now, so
-please pay attention to the returned object from `a$project()`, sometimes if you are using partial matching by name, it will return a list and we don't support this operation on a list of project yet. 
+Next we delete what we created for testing, only *single* project could be deleted now by call `$delete()`, so
+please pay attention to the returned object from `a$project()`, sometimes if you are using partial matching by name, it will return a list. If you want to operate on a list of object, we provide some batch function, please read relevant section.
 
 ```{r}
-## remove it
+## remove it, not run
 a$project("api_testing")$delete()
 ## check
-a$project("api_testing")
+## will delete all projects matcht the name
+delete(a$project("api_testing_donnot_delete_me"))
 ```
 
-### Update/Edit a Project
+#### Update/Edit a Project
 
 You can update information about an existing project, including
 
@@ -565,9 +636,9 @@ a$project(id = "tengfei/helloworld")$update(name = "Hello World Update",
 
 ```
 
-### Project Member
+#### Project Member
 
-#### List members
+##### List members
 
 This call returns a list of the members of the specified project. For each member, the response lists:
 
@@ -578,7 +649,7 @@ This call returns a list of the members of the specified project. For each membe
 a$project(id = "tengfei/demo-project")$member()
 ```
 
-#### Add a member
+##### Add a member
 This call adds a new user to a specified project. It can only be successfully made by a user who has admin permissions in the project.
 
 Requests to add a project member must include the key permissions. However, if you do not include a value for some permission, it will be set to false by default.
@@ -588,41 +659,51 @@ Set permission by passing: copy, write, execute, admin, read argument.
 Note: read is implicit and set by default, you can not be project member without having read permission
 
 ```{r}
-a$project(id = "tengfei/demo-project")$member_add(username = "Controlled_Data_User")
+m <- a$project(id = "tengfei/demo-project")$member_add(username = "yintengfei")
 ```
 
-### Update a member
+#### Update a member
 
 This call edits a user's permissions in a specified project. It can only be successfully made by a user who has admin permissions in the project.
 
 ```{r}
-a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")
-a$project(id = "tengfei/demo-project")$
-    member(username = "Controlled_Data_User")$
-    update(copy = TRUE)
-a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")
+m <- a$project(id = "tengfei/demo-project")$
+       member(username = "yintengfei")
+m$update(copy = TRUE)
 ```
 
-#### Delete a member
+```
+== Member ==
+username : yintengfei
+-- Permission --
+read : TRUE
+write : FALSE
+copy_permission : TRUE
+execute : FALSE
+admin : FALSE
+```
+
+##### Delete a member
 
 To delete an existing member, just to call `delete()` action on `Member` object.
 
 ```{r}
-a$project(id = "tengfei/demo-project")$member(username = "Controlled_Data_User")$delete()
+m$delete()
 ## confirm
 a$project(id = "tengfei/demo-project")$member()
 ```
 
-### List all Files
+#### List all Files
 
 To list all files belongs to a project simple use
 
 ```{r}
-a$project(id = "tengfei/demo-project")$file()
+p <- a$project(id = "tengfei/demo-project")
+p$file()
 ```
-## Files and Metadata
+### Files and Metadata
 
-### List all files
+#### List all files
 
 This call returns a list of all files in a specified project that you can access. For each file, the call returns:
 
@@ -632,24 +713,24 @@ This call returns a list of all files in a specified project that you can access
 The project is specified as a query parameter in the call.
 
 ```{r}
-a$file(project = a$project(name = "hello")$id)
-a$file("omni", project = a$project(name = "hello")$id, detail = TRUE)
+a$file(project = p$id)
+a$file("omni", project = p$id, detail = TRUE)
 ```
 
-However we recommend user use cascading way to list files. It's the 'style' we 
-are using through all the tutorial. 
+However we recommend user use cascading way to list files. 
 
 ```{r}
-a$project("hello")$file()
+p$file()
 ```
 
 To get details about files, please use `detail = TRUE` in the call.
 
 ```{r}
-a$project("hello")$file(detail = TRUE)
+## need to check
+p$file(detail = TRUE)
 ```
 
-### Copy a file or group of files
+#### Copy a file or group of files
 
 This call copies the specified file to a new project. Files retain their metadata when copied, but may be assigned new names in their target project.
 
@@ -675,19 +756,19 @@ a$project(id = pid)$file()
 
 NOTE: to copy a group of files, you need `Auth$copyFile()` interface. The id of those files in your project will be different from public id. 
 
-Alternatively you can do single file copy 
+Alternatively you can do __single file__ copy like this
 
 ```{r}
 a$project("hello")$file(id = fid)$copyTo(pid)
 ```
 
-### Delete a file
+#### Delete file(s)
 
 Note: the `delete` action only work for single file now, make sure your `file` call return 
 a single file not a file list.
 
 ```{r}
-a$project("demo")$file(id = fid)$delete()
+a$project("demo")$file()[[1]]$delete()
 ## confirm the deletion
 a$project("demo")$file()
 ```
@@ -702,7 +783,7 @@ delete(a$project("demo")$file("phase1"))
 a$project("demo")$file("phase1")
 ```
 
-### Download files
+#### Download files
 
 To get the download information, basically a url, please use
 
@@ -713,15 +794,15 @@ a$project("demo")$file()[[1]]$download_url()
 To download directly from R, use `download` call directly from single File object.
 
 ```{r}
-fid3 <- a$project("demo")$file()[[1]]$id
+fid <- a$project("demo")$file()[[1]]$id
 a$project("demo")$file(id = fid3)$download("~/Downloads/")
 ```
 
 I also created `download` function for `FilesList` object to save your time
 
 ```{r}
-fid3 <- a$project("demo")$file()[[1]]$id
-a$project("demo")$file(id = fid3)$download("~/Downloads/")
+fls <- a$project("demo")$file()
+download(fls, "~/Downloads/")
 ```
 
 To download all files from a project.
@@ -730,24 +811,19 @@ To download all files from a project.
 a$project("demo")$download("~/Downloads")
 ```
 
-### Upload files
-
-TODO: V2 uploader not supported yet.
+#### Upload files
 
 Seven Bridges platforms provide couple different ways for data import
 
 - command line uploader
 - graphic UI uploader
 - from ftp, http etc from interface directly
+- api uploader that you can directly call with sevenbridges package
 
-Here an upload function is implemented directly in R for easy usage. 
+API client uploader not implemented yet.
 
-You need to specify the project you need first. 
 
-```{r}
-fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
-a$project("demo")$upload(fl)
-```
+#### Files filter from a task
 
 You can also get all files from a task, or by a metadata filter. 
 
@@ -770,16 +846,16 @@ a$file(project = "tengfei/re",
 
 
 
-### Public files
+#### Public files
 
 The only way you can list public files now via API is from `Auth$file()` call, and for now, 
 the project id is "admin/sbg-public-data". This may be updated later. Alternative, just click the file from our GUI, you will see the id in the url link.
 
-```
+```{r}
 a$file(project = "admin/sbg-public-data")
 ```
 
-### Update a file
+#### Update a file
 
 You can call `update()` function from Files object, following things could be updated
 
@@ -790,16 +866,33 @@ If no parameters provided, will just get detail for the same file and update the
 itself. 
 
 ```{r}
-fl <- a$project("demo")$file()[[1]]
+(fl <- a$project(id = "tengfei/demo-project")$file(name = "sample.fastq"))
+```
+
+```
+== File ==
+id : 56c7916ae4b03b56a7d7
+name : sample.fastq
+project : tengfei/demo-project
+```
+
+Show metadata
+
+```{r}
 ## show metadata
 fl$meta()
-fl$update(name = "newb37.vcf", metadata = list(new_item1 = "item1", new_item2 = "item2"))
+```
+
+Update meta
+
+```{r}
+fl$update(name = "sample.fastq", metadata = list(new_item1 = "item1", new_item2 = "item2", file_extension = "fastq"))
 ## check it out
-fl
+fl$meta()
 ```
 
 
-### Metadata Operation
+#### Metadata Operation
 
 A full list of metadata fields and their permissible values on the CGC is available on the page [TCGA Metadata](http://docs.cancergenomicscloud.org/v1.0/docs/tcga-metadata-on-the-cgc).
  
@@ -852,24 +945,23 @@ m <- Metadata(platform = "nanopore", quality_scale = "solexa", new_item = "newne
 m
 ```
 
-## App
+### App
 
-From now on we are going to have fun with Apps! The CWL(Common Workflow Language) based 
-approach. It gets more and more popular and really designed for reproducible pipeline description and execution. All Seven Bridges platforms support cwl naively in the cloud. 
+From now on we are going to have fun with Apps! The CWL(Common Workflow Language) based approach. It gets more and more popular and really designed for reproducible pipeline description and execution. All Seven Bridges platforms support cwl naively in the cloud. 
 So in this section, I will introduce how we are going to do this via API and inside R. 
 
-### List all apps 
+#### List all apps 
 
 This call lists all the apps available to you.
 
 ```{r}
 a$app()
 ## or show details
-## FIXME: detail is long
 a$app(detail = TRUE)
 ```
 
 To search a name, please pass a pattern for the `name` argument; or provide a unique `id`.
+
 ```{r}
 ## pattern match
 a$app(name = "STAR")
@@ -907,14 +999,14 @@ length(x)
 a$app(visibility = "public", limit = 5, offset = 150)
 ```
 
-TODO: To search an app cross all published apps (this may take a while)
-when limit is NULL, show everything. 
+To search an app cross all published apps (this may take a while)
+
 
 ```{r}
-a$app(visibility = "public")
+a$app("STAR", visibility = "public", complete = TRUE)
 ```
 
-### Copy an App
+#### Copy an App
 
 This call copies the specified app to the specified project. The app should be one in a project that you can access; this could be an app that has been uploaded to the CGC by a project member, or a publicly available app that has been copied to the project.
 
@@ -925,13 +1017,12 @@ Need two arguments
 
 ```{r}
 aid <- a$app(visibility = "public")[[1]]$id
-aid
 a$copyApp(aid, project = pid, name = "copy-rename-test")
 ## check it is copied
 a$app(project = pid)
 ```
 
-### Get CWL from an App
+#### Get CWL from an App
 
 This call returns information about the specified app, as raw CWL. The call differs from the call to GET details of an app by returning a JSON object that is the CWL.
 
@@ -949,7 +1040,7 @@ a$project("demo")$app("index", revision = 0)
 
 TODO: convert it to an CWL object
 
-### Add CWL as an APP
+#### Add CWL as an APP
 
 Use `app_add` function call from a `Project` object, two parameters required
 
@@ -962,16 +1053,16 @@ a$project("demo")$app_add(short_name = "new_bam_index_app", filename = cwl.fl)
 a$project("demo")$app_add(short_name = "new_bam_index_app", revision = 2, filename = cwl.fl)
 ```
 
+Note: provide the same short_name will add new revision
 
-
-### Directly Describe CWL in R
+#### Directly Describe CWL in R
 
 This is fun and is introduced in another vignette. 
 
 
-## Task Operation
+### Task Operation
 
-### List tasks
+#### List tasks
 
 This call returns a list of tasks that you can access. You are able to filter by status
 
@@ -986,14 +1077,16 @@ a$task(status = "running")
 To list all tasks in a project
 
 ```{r}
-## FIXME;
+## better way
 a$project("demo")$task()
+
+## alternatively
 pid <- a$project("demo")$id
 pid
 a$task(project = pid)
 ```
 
-### Create a draft task
+#### Create a draft task
 
 To create a draft, you need to call the `task_add` function from Project object. And you need to pass following arguments
 
@@ -1016,7 +1109,7 @@ a$project("demo")$task_add(name = "Draft runif 3",
 a$project("demo")$task(status = "draft")
 ```
 
-### Modify a task
+#### Modify a task
 
 Call `update` function fro a Task object, you can update
 
@@ -1034,7 +1127,7 @@ tsk$update(name = "Draft runif update", description = "draft 2",
 tsk$getInputs()
 ```
 
-### Run a task
+#### Run a task
 
 This call runs (executes) the specified task. Only tasks whose status is "DRAFT" may be run.
 
@@ -1044,7 +1137,7 @@ tsk$run()
 tsk$update()
 ```
 
-### Monitor a running task and set function hook
+#### Monitor a running task and set function hook
 
 To monitor a running task, call `monitor` from a task object
 
@@ -1069,7 +1162,7 @@ setTaskHook("draft", function(){message("never happens"); return(TRUE)})
 getTaskHook("draft")
 ```
 
-### Abort a runing task
+#### Abort a runing task
 
 This call aborts the specified task. Only tasks whose status is "RUNNING" may be aborted.
 
@@ -1082,7 +1175,7 @@ tsk$update()
 
 
 
-### Delete a task
+#### Delete a task
 
 Note that you can only delete draft tasks, not running tasks.
 
@@ -1096,25 +1189,25 @@ a$task(status = "draft")
 delete(tsklst)
 ```
 
-### Download all files from a completed task
+#### Download all files from a completed task
 
 ```
 tsk$download("~/Downloads")
 ```
 
 
-## Get Raw Response from httr
+### Get Raw Response from httr
 
 In easy API, we return an object which contains the raw response from httr as a field,
 you can either call `response()` on that object or just get the field out of it
 
-## Batch operation on project/files/tasks
+### Batch operation on project/files/tasks
 
 Right now,  users have to use `lapply` to do those operations themselves. It's simple implementation. 
 
 In this package, we implement `delete` and `download` for some object like task and project or file. 
 
-# Cheatsheet
+## Cheatsheet
 
 Quick cheat sheet (in progress)
 
@@ -1210,8 +1303,6 @@ tsk$monitor()
 
 getTaskHook()
 setTaskHook(statis = , fun  =)
-
-
 ```
 
 

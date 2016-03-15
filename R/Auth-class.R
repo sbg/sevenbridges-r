@@ -93,6 +93,7 @@ Auth <- setRefClass("Auth", fields = list(token = "character",
                             }else{
                                 url <<- url
                             }
+                            url <<- normalizeUrl(.self$url)
                             ## we should know platform or ulr at least
                             ## get token
                             .token <- NULL
@@ -225,7 +226,10 @@ optional parameteres: tags and description, type. '
                                 res <- ProjectList(lst)
                             }
                             
-
+                            ## double check
+                            if(length(res) == 1 && is(res, "SimpleList")){
+                                res <- res[[1]]
+                            }
                             res <- setAuth(res, .self, "Project")
                             res
                                
@@ -239,6 +243,9 @@ if breakdown = TRUE, This call returns a breakdown of spending per-project for t
                                 ## show api
                                 req <- api(path = 'billing/groups', method = 'GET', ...)
                                 req <- .asBillingList(req)
+                                if(length(req) == 1 && is(req, "SimpleList")){
+                                    req <- req[[1]]
+                                }
                                 return(req)
                                 
                             }else{
@@ -278,13 +285,12 @@ if id provided, This call retrieves information about a selected invoice, includ
                             'This call returns all API paths, and pass arguments to api() function and input token and url automatically'
                             req <- sevenbridges::api(token, base_url = url, limit = limit, offset = offset, ...)
                             req <- status_check(req)
-                            N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
-                            if(length(N)){
-                                .item <- length(req$items)
-
-                            }
-                            
                             if(complete){
+                                N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
+                                if(length(N)){
+                                    .item <- length(req$items)
+
+                                }
                                 if(.item < N){
                                     pb <- txtProgressBar(min = 1, max = N%/%100 + 1, style = 3)
                                     res <- NULL
@@ -302,11 +308,6 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 }
                                 return(res)
                             }else{
-                                ## if(length(N)){
-                                ##     .item <- length(req$items)
-                                ##     ## message(ifelse(.item < N, .item, N), " out of ", N)
-                                ##     message("x-total-matching-query: ", N)
-                                ## }
                                 return(req)
                             }
                         },
@@ -656,7 +657,6 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 #' @return a token string.
 #' @export getToken 
 getToken <- function(platform = NULL, username = NULL){
-    message("loading from options")
     o <- options("sevenbridges")$sevenbridges$auth
     if(is.null(o)){
         message("nothing found in options, loading from config file")

@@ -1,74 +1,52 @@
 ---
-title: "Running sevenbridges SDK image and launch Rstudio server"
+title: "Using Rstudio and Shiny"
 output:
   BiocStyle::html_document:
     toc: true
-    number_sections: true
+    toc_depth: 4
+    number_sections: false
     highlight: haddock
     css: style.css
 ---
 
 <!--
-%\VignetteIndexEntry{Running sevenbridges SDK image and launch Rstudio server}
+%\VignetteIndexEntry{Using Rstudio and Shiny}
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown(css.files = "custom.css")
-```
 
-<!-- override white background for classless code chunks -->
-<style type="text/css" scoped>
-  pre:not([class]) { background-color: #F8F8F8; }
-  pre code { background-color: transparent; }
-</style>
 
-```{r code, echo = FALSE}
-code <- function(...) {
-    cat(paste(..., sep = "\n"))
-}
+## Introduction
 
-code2 <- function(...) {
-    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
-}
-```
-
-```{r global_options, include=FALSE}
-library(BiocStyle)
-knitr::opts_chunk$set(eval = TRUE)
-```
-
-# Introduction
-
-The goal of this docker image is to provide
+The goal of this `tengfei/sevenbridges` docker image is to provide
 
 - SDK environment that includes
-    - Rabix python package
     - Command line uploader
     - Seven Bridgs Command line tools
     - sevenbridges R package
-    - In API you can call uploader
-- Rstudio: you can launch the server, I will show you how later in this tutorial
+- Rstudio: you can launch the server
+- Shiny: you can launch shiny server 
 
-## Dockerfile
+For professional version of Rstudio server and Shiny server please contact Rstudio. 
+
+## Docker container
+
+### Dockerfile
 
 The Dockerfile is included with the package in `inst/docker` folder. 
 
-```{r}
-fl <- system.file("docker/sevenbridges/devel", "Dockerfile", package = "sevenbridges")
-fl
-```
 Here is the current content of Dockerfile
 ```{r comment=''}
+fl <- system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges")
 cat(readLines(fl), sep = '\n')
 ```
 
-# Docker hub autobuild
+### Docker hub autobuild
 
 A hook is added to build the docker image automatically from my [github](https://github.com/tengfei/sevenbridges), it's under `inst/docker`, it's automatically build on my dockerhub [page](https://hub.docker.com/r/tengfei/sevenbridges/). you can directly use this `tengfei/sevenbridges`
 
-# Launch Rstudio server 
+### Launch Rstudio server from docker
 
 For example, you can ssh into your AWS instance, here I suppose you already have docker installed,  and pull the image 
 
@@ -98,17 +76,13 @@ docker exec -it <container-id> bash
 adduser <username>
 ```
 
+### Launch Shiny server from docker
 
-# Shiny Apps
-
-## User ShinyApp app
-
+### Launch both Rstudio and Shiny server from same docker container
 
 
-## Add hook on the Rstudio server
 
-```
 
-```
+
 
 

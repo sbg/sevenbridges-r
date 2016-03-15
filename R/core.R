@@ -82,7 +82,7 @@ api = function (token = NULL, version = '1.1', path = NULL,
                ## body_json = toJSON(body, auto_unbox = TRUE)
                PUT(paste0(base_url, path),
                    add_headers(.headers = headers),
-                   body = body, encode = encdoe, ...)
+                   body = body, encode = encode, ...)
            },
            DELETE = {
                DELETE(paste0(base_url, path),

@@ -40,12 +40,12 @@ Alternatively, you can install the latest development version of the package fro
 ```
 # install.packages("devtools") if devtools was not installed
 source("http://bioconductor.org/biocLite.R")
-useDevel()
-biocLite("BiocUpgrade")
+##  useDevel() ## ignore the erro if you cannot use devel
+## biocLite("BiocUpgrade") ## don't have to run
 library(devtools)
 install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
-  dependencies=TRUE, type = "source")
+  dependencies=TRUE)
 ```
 
 To load the package in R, simply call
