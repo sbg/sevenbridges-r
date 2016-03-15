@@ -1,0 +1,114 @@
+{
+  "sbg:id": "runif",
+  "id": "#runif",
+  "inputs": [
+    {
+      "type": [
+        "int"
+      ],
+      "label": "number",
+      "description": "number of observations",
+      "streamable": false,
+      "default": 1,
+      "id": "#number",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--n",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "float"],
+      "label": "min",
+      "description": "lower limits of the distribution",
+      "streamable": false,
+      "default": 0,
+      "id": "#min",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--min",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "float"],
+      "label": "max",
+      "description": "upper limits of the distribution",
+      "streamable": false,
+      "default": 1,
+      "id": "#max",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--max",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "float"],
+      "label": "seed",
+      "description": "seed with set.seed",
+      "streamable": false,
+      "default": 1,
+      "id": "#seed",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--seed",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "type": ["null", "File"],
+      "label": "output",
+      "description": "random number file",
+      "streamable": false,
+      "default": "",
+      "id": "#random",
+      "outputBinding": {
+        "glob": "*.txt"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "report",
+      "description": "",
+      "streamable": false,
+      "default": "",
+      "id": "#report",
+      "outputBinding": {
+        "glob": "*.html"
+      }
+    }
+  ],
+  "requirements": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "tengfei/runif",
+      "dockerLoad": "",
+      "dockerFile": "",
+      "dockerImageId": "",
+      "dockerOutputDirectory": ""
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 2000
+    }
+  ],
+  "label": "Random number generator",
+  "class": "CommandLineTool",
+  "baseCommand": [
+    "runif.R"
+  ],
+  "arguments": [],
+  "context": ""
+}
