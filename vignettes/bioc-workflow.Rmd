@@ -3,7 +3,8 @@ title: "Tutorial: Make the Best of Bioconductor Workflows"
 output:
   BiocStyle::html_document:
     toc: true
-    number_sections: true
+    toc_depth: 4
+    number_sections: false
     highlight: haddock
     css: style.css
 ---
@@ -14,31 +15,7 @@ output:
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown(css.files = "custom.css")
-```
-
-<!-- override white background for classless code chunks -->
-<style type="text/css" scoped>
-  pre:not([class]) { background-color: #F8F8F8; }
-  pre code { background-color: transparent; }
-</style>
-
-```{r code, echo = FALSE}
-code <- function(...) {
-    cat(paste(..., sep = "\n"))
-}
-
-code2 <- function(...) {
-    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
-}
-```
-
-
-
-# Introduction
-
-__In Progess!!!!__
+## Introduction
 
 __Goal__: I hope to encourage Biocondcutor developer and R developers to find a formal way to make their tool/flow into a reproducible container with standard command line interface or provide official "executable" report template with knitr. (Hope to have more fun with liftr soon later).
 
@@ -54,28 +31,48 @@ In this tutorial, I will show you
     - AWS 
 5. Check they are the same
 
-# RNA-seq analysis pipeline
+## RNA-seq analysis pipeline
 
 
 
 
-## Creat a Tool: from Bam to report
+### Creat a Tool: from Bam to report
 
-### Step 1: have a plan 
-To demonstrate I will use a RNA-seq [workfow](https://www.bioconductor.org/help/workflows/rnaseqGene/) from Bioconductor, I want to finish two tasks
+#### Step 1: have a plan 
 
-- Input raw bam and design matrics
-- Give two outputs
-    - Report
+To demonstrate I will use a RNA-seq [workfow](https://www.bioconductor.org/help/workflows/rnaseqGene/) from Bioconductor, I want to 
+make it into a tool and allow you to input new files and generate new report. 
+
+Before you build a tool, you have to have a plan in mind
+
+1. What Input, Output and Parameter you want to define for the tool
+2. Is there a container available for your tool? do you want to build one with command line interface?
+
+First thing first, let's define our tool first, here is a diagram generated with Seven Bridges' graphical user interface. 
+
+![rnaseq-diagram](fig/diagram_rnaseq.png)
+
+- Input 
+    - Gene feature file
+    - A list of bamfiles
+    - Desgin matrix
+- Output
+    - Report in pdf, using the Rmarkdown associated with this workflow and example
     - Graphics
     - DE table
 
 
 
-### Step 2: Create docker container for your tool
+#### Step 2: Create docker container for your tool
 
-Why we do this first? Building a development environment is essential for developing your flow command line interface, so we should get everything prepared. Saved thousands words here, please check what do in my Dockerfile, 
-I installed the official "workflow" first from Bioconducotr. 
+Why we do this first? Building a development environment is essential for developing your command line interface, so we should get everything prepared. There
+are some principles 
+
+1. First you need to check is there any existing container you can directly use, so you don't have to make a new one. 
+2. If you don't want to make a new container with command line interface and you just want making a working cwl app and could be exeucte somewhere, then you can you simply insert script in cwl.
+3. If you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will be a better idea. this allow you to provide much formal interface at both command line level or container level. 
+
+Her is Dockerfile I used to generate the workflow I need
 
 ```{r}
 fl <- system.file("docker/rnaseqgene", "Dockerfile", 
@@ -88,17 +85,51 @@ Here is the current content of Dockerfile
 cat(readLines(fl), sep = '\n')
 ```
 
+I does couple things
 
-### Step 3: Create your command line interface.
+1. Install workflow I need and all dependencies
+2. Insert command line interface I created, make it executable and in PATH
+3. Insert report template I am using 
+
+In next section, I will show you how to create command line interface
+
+#### Step 3: Create your command line interface.
 
 In this step, I am going to
 
 1. Use docopt to make R command line interface
 2. Insert my script into the container I made
-3. Test function inside container or
-4. Test function locally using rabix
+3. Test function inside container 
 
-### Step 4: Describe your tool in R into CWL.
+Here is the command line I am using it's called "performDE.R"
+
+```{r}
+fl <- system.file("docker/rnaseqgene/src", "performDE.R", 
+                  package = "sevenbridges")
+fl
+```
+
+Here is the current content of Dockerfile
+```{r comment=''}
+cat(readLines(fl), sep = '\n')
+```
+
+I am using `docopt` package instead of `commandArgs` because it allows you to create
+a formal interface. 
+
+Sometime you want to produce a report, so in the end you will notice how I pass parameters from command line to a report. 
+
+#### Step 4: Describe your tool in R into CWL.
+
+Tool is the simple basic unit of a workflow, you can put the whole flow in one 
+container and one tool, it of course works, just make it hard to factorize components. 
+This is the exact example, I can make one tool for DESeq2 and one tool for Rsamtools, I can also 
+put everything I need in one tool and provide single functionality. 
+
+Note: you can use single docker image, but describe as many tools as you want if it contains what you need. 
+
+Follow the example to create Tool with `Tool` function. It's straightforward. Especially if you are 
+familiar with Seven Bridges Tool editor already. 
 
 ```{r}
 library(sevenbridges)
@@ -138,17 +169,20 @@ rbx <- Tool(id = "rnaseqGene",
                        description = "Reads counts matrix",
                        glob = "*.csv")))
 
+```
 
+By default it output YAML, but you can print it into JSON as well. 
+
+```{r}
 rbx
 rbx$toJSON(pretty = TRUE)
 rbx$toJSON()
-
-
-
 ## or write to external file
 ## fl <- "~/Downloads/rnaseqGene.json"
 ## write(rbx$toJSON(pretty = TRUE), fl)
 ```
+
+#### Step 5: Execute your tool with a new task.
 
 Now let's create a task and execute it with example files. 
 
@@ -165,10 +199,10 @@ a <- Auth(username = "tengfei", platform = "us")
 (gtf.in <- p$file("Homo_sapiens.GRCh37.75_subset.gtf"))
 
 ## add App you just created 
-(rna.app <- p$app_add("rnaseqgene", rbx))
+(rna.app <- p$app_add("rnaseqgene6", rbx))
 
 ## add a new Task
-(tsk <- p$task_add(name = "RNA DE report", 
+(tsk <- p$task_add(name = "RNA DE report new", 
                    description = "RNA DE analysis report", 
                    app = rna.app$id,
                    inputs = list(bamfiles = bamfiles.in, 
@@ -183,47 +217,36 @@ tsk$monitor()
 ```
 
 
-### Step 5: Execute it.
 
-Please read next section about execution. 
+#### Step 6: Execute it anywhere
 
-## Execute it anywhere
-
-### Create a project
-
-I am going to create a project that host my apps and test data.
-
-```{r, eval = FALSE}
-a <- Auth(platform = "cgc", username = "tengfei")
-bid <- a$billing()[[1]]$id
-a$project_new("Bioconductor RNA-seq Workflow", billing_group_id = bid,
-              description = "An bam to report workflow for RNA-seq analysis")
-
-```
-
-### Upload your test data
+You can simply copy paste your JSON file to any platform that support cwl execution. 
 
 
 
-### Push your apps 
-
-### Run it!
 
 
 
-### Cancer Genomics Cloud
+#### Step 7: Share your tools
 
-### Google cloud and other seven bridges platforms
+Sharing is as easy as share a plain text file of JSON. You can email, or just forward a link to your 
+collaborators. 
 
 
+### Create a workflow
 
-## Connecting with existing App  
+__In progress__
 
-Don't always reinvent the wheel, unless you can produce something better. 
+Next we want to connect what we have here with existing tools. So let's assume your input file
+now is not a list of bams, but a list of fastq, so you need to do alignment first. 
 
-For example, now I want to create a workflow that use STAR aligner to do the aignments first. Then I searched on line, I found "oh yes, there is already an app on Cancer Genomics Cloud public app repos."
+It's quite easy, just connect another tool that do the job for you, which translate
+a fastq to bam. 
 
-## Share your tools
+Down here is the example. I just connect _bwa-mem_ with this tool 
+
+![bwa-mem](fig/bwa-mem.png)
+
 
 
     

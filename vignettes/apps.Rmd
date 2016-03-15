@@ -1,45 +1,22 @@
 ---
-title: "Describe CWL Tools/Workflows in R and Execute it on Seven Bridges Supported Platform"
+title: "Describe CWL Tools/Workflows in R and Execution"
 output:
   BiocStyle::html_document:
     toc: true
-    number_sections: true
+    toc_depth: 4
+    number_sections: false
     highlight: haddock
     css: style.css
 ---
 
 <!--
-%\VignetteIndexEntry{How to Describe CWL Tools/Workflows in R and Excute it on Seven Bridges Supported Platform}
+%\VignetteIndexEntry{Describe CWL Tools/Workflows and Execution}
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown(css.files = "custom.css")
-```
 
-<!-- override white background for classless code chunks -->
-<style type="text/css" scoped>
-  pre:not([class]) { background-color: #F8F8F8; }
-  pre code { background-color: transparent; }
-</style>
-
-```{r code, echo = FALSE}
-code <- function(...) {
-    cat(paste(..., sep = "\n"))
-}
-
-code2 <- function(...) {
-    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
-}
-```
-
-```{r global_options, include=FALSE}
-library(BiocStyle)
-knitr::opts_chunk$set(eval = TRUE)
-```
-
-# Describe Tools in R
+## Describe Tools in R
 
 The main interface provided by `sevenbridges` package is `Tool` function, it's basically a R interface similar to Seven Bridges's graphic user interface to describe tools, which I also highly recommend because it's very easy. 
 
@@ -50,7 +27,7 @@ So I highly recommend user go over documentation [The Tool Editor](http://docs.c
 Or you just want to create tools quickly, please keep reading. 
 
 
-## Example: give me some randome number
+### Example: give me some randome number
 
 Let's start from the most simple case
 
@@ -68,13 +45,13 @@ Some basic arguments used in `Tool` function.
 
 For more accepted parameter, please check `help(CommandLineTool)` and `help(Tool)` for more details. Again we basically conform to CWL standard, you can always check their manual.
 
-### Requirement and hints
+#### Requirement and hints
 
 In short, hints are not _required_ for execution. We now accept following requirement items `cpu`, `mem`, `docker`, `fileDef`; and you can easily construct them via `requirements()` constructor. 
 
 The downside of this is clear, you have much less control over your script and command line interface. 
 
-### Specify inputs and outpus
+#### Specify inputs and outpus
 
 Most likely your command line interface accept extra arguments, for example, 
 
@@ -89,7 +66,7 @@ So to specify that in your tool, you can use `input` function, then pass it to t
 
 `input()`  require arguments `id` and `type`. `output()`  require arguments `id` because `type` by default is file. 
 
-### Using existing docker image and command
+#### Using existing docker image and command
 
 If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
 
@@ -115,7 +92,7 @@ rbx$toJSON(pretty = TRUE)
 rbx$toYAML()
 ```
 
-### Add-on script
+#### Add-on script
 
 If you want to create simple script based on existing image, use `fileDef`. 
 
@@ -219,7 +196,7 @@ rbx <- Tool(id = "runif",
 
 ```
 
-### Execute the tool in the cloud
+#### Execute the tool in the cloud
 
 With API function, you can directly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
 
@@ -241,11 +218,11 @@ tsk$download("~/Downloads/")
 ```
 
 
-# Wokrflow
+## Describe Wokrflow in R
 
 __Graphic User Interface on Seven Bridges Platform is way more conventient__
 
-## Introduction
+### Introduction
 
 To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
 
@@ -255,7 +232,7 @@ To create a workflow, we provide simple interface to pipe your tool into a singl
 
 __Note__ for complicated workflow construction, I highly recommend using our graphical interface to do it, there is no better way. 
 
-## Example
+### Example
 
 Here I will give a quick example
 
@@ -274,7 +251,7 @@ Here are methods we support
     - Workflow %>% Tool
     - Workflow %>% Tool
     
-### Construct tools first    
+#### Construct tools first    
 
 ```{r}
 library(sevenbridges)
@@ -327,7 +304,7 @@ steplist
 ```
 
 
-### Connect tools to a flow
+#### Connect tools to a flow
 
 To create a Flow we suggest you using `Flow` function, so that you can pass id and label to it. 
 

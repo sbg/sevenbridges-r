@@ -1,45 +1,29 @@
 ---
-title: "Creating Your Docker App with Command Line Interface and Auto-build on Dockerhub"
+title: "Creating Your Docker Container and Command Line Interface (with docopt) "
 output:
   BiocStyle::html_document:
     toc: true
-    number_sections: true
+    toc_depth: 4
+    number_sections: false
     highlight: haddock
     css: style.css
 ---
 
+
+
 <!--
-%\VignetteIndexEntry{Creating Your Docker App with Command Line Interfqce and Auto-build on Dockerhub}
+%\VignetteIndexEntry{Creating Your Docker Container and Command Line Interface (with docopt) }
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown(css.files = "custom.css")
-```
 
-<!-- override white background for classless code chunks -->
-<style type="text/css" scoped>
-  pre:not([class]) { background-color: #F8F8F8; }
-  pre code { background-color: transparent; }
-</style>
-
-```{r code, echo = FALSE}
-code <- function(...) {
-    cat(paste(..., sep = "\n"))
-}
-
-code2 <- function(...) {
-    cat(paste("```markdown", ..., "\n", "```", sep = "\n"))
-}
-```
-
-```{r global_options, include=FALSE}
+```{r include=FALSE}
 library(BiocStyle)
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
-# Introduction
+## Introduction
 
 __In progress__
 
@@ -49,12 +33,12 @@ In this tutorial, we will go through ways to
 
 There are many fun ways to do it, here I am more focused for R developers. 
 
-## Existing docker repos
+### Existing docker repos
 
 Before you create any, make sure you don't re-invent the wheel and use the best
 base image for your container as your tool chain may save your lots of time later on. 
 
-### Rocker Project
+#### Rocker Project
 
 Official R Docker images is called "Rocker"" project and is on [github](https://github.com/rocker-org/rocker), please visit the 
 page to find more details and Dockerfile.
@@ -69,7 +53,7 @@ page to find more details and Dockerfile.
 | rocker/r-devel-san | base, SVN's R-devel and SAN |
 
 
-### Bioconductor Images
+#### Bioconductor Images
 
 Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official docker images, please read for more details.
 
@@ -99,13 +83,13 @@ To understand the image quickly here is the short instruction for the image name
 - __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
 - __sequencing__: core + all packages tagged with the _Sequencing_ biocView.
 
-### Dockerhub 
+#### Dockerhub 
 
 [Dockerhub](https://hub.docker.com/) also provide public/private repos, you can search
 existing tools without building yourself, it's very likely some popular tool already have
 docker container well maintained there.
 
-### Seven Bridges Docker Registry
+#### Seven Bridges Docker Registry
 
 Tutorial comming soon. 
 
@@ -115,7 +99,7 @@ Example Seven Bridges registry:
 - __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
 
 
-# Tutorial: random number generator 
+## Tutorial: random number generator 
 
 Our goal here is to making a cwl app to generate unif random numbers, yes, the core
 function is `runif()`, it's native function in R. 
@@ -125,7 +109,7 @@ runif
 runif(10)
 ```
 
-## Using docopt package
+### Using docopt package
 
 In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on github.
 
@@ -227,7 +211,7 @@ Loading required package: methods
 
 For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
 
-# Executable report with R markdown
+## Executable report with R markdown
 
 We cannot really make a Rmarkdown file executable in it by simply put 
 
@@ -259,7 +243,7 @@ fl <- system.file("docker/sevenbridges/report/", "report.Rmd", package = "sevenb
 cat(readLines(fl), sep = '\n')
 ```
 
-# Setup dockerhub automated build
+## Setup dockerhub automated build
 
 To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on docker hub. Here is what I do
 
@@ -271,21 +255,13 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 6. Feel free to push it onto your SevenBridges platform registry as well. 
 
 
-# Exercise
+## More examples
 
-I leave this as exercise to users, please have fun, answers will be added later. Please email me your solution or share with us. 
+There are more examples under 'inst/docker' folder, you can check out how to describe 
+command line and build docker, how to make report template. You can read the online github
+[code](https://github.com/tengfei/sevenbridges/tree/master/inst/docker). Or you can read another tutorial about how we wrap RNA-seq workflow from
+bioconductor. 
 
-## Produce graphics
 
-- Try to use default graphic device
-- Try ggplot2 to generate a png file and capture it in output
-
-## Produce report 
-
-- Try produce a report based on your knitr template
-
-## Deploy shiny apps
-
-- Try to deploy a shiny report on shinyapps.io
 
 
