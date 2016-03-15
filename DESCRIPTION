@@ -1,11 +1,12 @@
 Package: sevenbridges
 Type: Package
 Title: R Client for Seven Bridges Platform API and CWL Tool builder in R
-Version: 1.1.12
+Version: 1.1.13
 Date: 2015-05-01
 Author: Nan Xiao <road2stat@gmail.com>, Tengfei Yin <tengfei.yin@sbgenomics.com>
 Maintainer: Tengfei Yin <tengfei.yin@sbgenomics.com>
-Description: R client and utilities for Seven Bridges platform API, from cancer genomics cloud to other Seven Bridges supported platforms.
+Description: R client and utilities for Seven Bridges platform API, from cancer
+    genomics cloud to other Seven Bridges supported platforms.
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 URL: https://www.sbgenomics.com
@@ -32,24 +33,25 @@ Suggests:
     rmarkdown,
     testthat
 NeedsCompilation: no
-RoxygenNote: 5.0.0
-Collate: sevenbridges-package.R
-	 core.R
-	 utils.R
-	 AllClasses.R	 
-	 cwl-import.R	 	 
-	 Auth-class.R
-	 Item-class.R
-	 Meta-class.R
-	 RateLimit-class.R
-	 User-class.R
-	 Billing-class.R
-	 Project-class.R
-	 File-class.R
-	 Upload-class.R
-	 App-class.R
-	 Tool-class.R
-	 Flow-class.R
-	 Task-class.R
-	 addins.R
-	 zzz.R
+RoxygenNote: 5.0.1
+Collate:
+    sevenbridges-package.R
+    core.R
+    utils.R
+    AllClasses.R
+    cwl-import.R
+    Auth-class.R
+    Item-class.R
+    Meta-class.R
+    RateLimit-class.R
+    User-class.R
+    Billing-class.R
+    Project-class.R
+    File-class.R
+    Upload-class.R
+    App-class.R
+    Tool-class.R
+    Flow-class.R
+    Task-class.R
+    addins.R
+    zzz.R
