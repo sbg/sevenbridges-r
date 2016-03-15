@@ -10,6 +10,8 @@
 \alias{ItemArray-class}
 \alias{PrimitiveEnum}
 \alias{PrimitiveSingleEnum-class}
+\alias{enum}
+\alias{enum-class}
 \title{Pre-defiend enums}
 \description{
 Please check \code{cwl:::.CWL.Pritimive}, \code{cwl:::.CWL.Complex}.
