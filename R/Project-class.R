@@ -234,8 +234,8 @@ Project <- setRefClass("Project", contains = "Item",
                                                 detail = detail, ...)
                                res
                            },
-                           upload = function(filename = NULL, metadata = list(), baseCMD = NULL){
-                               ## check
+                           upload = function(filename = NULL, metadata = list(), baseCMD = NULL, api = TRUE){
+                               ## check 
                                if(!file.exists(filename)){
                                    stop("file not found")
                                }
@@ -249,30 +249,39 @@ Project <- setRefClass("Project", contains = "Item",
                                        close(con)
                                    }
                                }
-                               if(!(auth$platform %in% c("us", "cgc"))){
-                                   stop("not supported yet")
-                               }
-                               .p <- getwd()                               
-                               if(is.null(baseCMD)){
-                                   switch(auth$platform,
-                                          us = {
-                                              setwd("~/sbg-uploader/")
-                                              baseCMD <- "bin/sbg-uploader.sh"
-                                          },
-                                          cgc = {
-                                              setwd("~/cgc-uploader/")
-                                              baseCMD <- "bin/cgc-uploader.sh"
-                                          })
-                               }
 
-                               x <- system(paste(baseCMD, "-t", auth$token, "-l"), intern = TRUE)
-                               d <- do.call(rbind, lapply(x, function(i) strsplit(i, "\t")[[1]]))
-                               pid <- d[d[,2] == name, 1]
-                               ## sbg-uploader.sh [-h] [-l] [-p id] [-t token] [-u username] [-x url] file
-                               cmd <- paste(baseCMD, "-p", pid, "-t", auth$token, filename)
-                               print(cmd)
-                               system(cmd)
-                               setwd(.p)
+                               ##
+                               if(!api){
+                                   message("try to use command line uploader")
+                                   .p <- getwd()                               
+                                   if(is.null(baseCMD)){
+                                       switch(auth$platform,
+                                              us = {
+                                                  setwd("~/sbg-uploader/")
+                                                  baseCMD <- "bin/sbg-uploader.sh"
+                                              },
+                                              cgc = {
+                                                  setwd("~/cgc-uploader/")
+                                                  baseCMD <- "bin/cgc-uploader.sh"
+                                              })
+                                   }
+
+                                   x <- system(paste(baseCMD, "-t", auth$token, "-l"), intern = TRUE)
+                                   d <- do.call(rbind, lapply(x, function(i) strsplit(i, "\t")[[1]]))
+                                   pid <- d[d[,2] == name, 1]
+                                   ## sbg-uploader.sh [-h] [-l] [-p id] [-t token] [-u username] [-x url] file
+                                   cmd <- paste(baseCMD, "-p", pid, "-t", auth$token, filename)
+                                   print(cmd)
+                                   system(cmd)
+                                   setwd(.p)
+                               }else{
+                                   ## by default use API uploader
+                                   u <- Upload(auth = auth,
+                                               filename,
+                                               project_id = id,
+                                               metadata = metadata)
+                                   u$upload_file()
+                               }
                            },
                            ## app
                            app = function(...){
@@ -289,8 +298,6 @@ Project <- setRefClass("Project", contains = "Item",
                                }else{
                                    if(grepl("[[:space:]]+", short_name)){
                                        stop("id cannot have white space")
-                                       ## short_name <- parseLabel(short_name)
-                                       ## message("remove white space of shortname to :", short_name)
                                    }
                                }
                                
@@ -326,15 +333,29 @@ Project <- setRefClass("Project", contains = "Item",
                                    con <- base::file(fl, raw = TRUE)
                                    writeLines(filename$toJSON(), con = con)
                                    filename <- fl
-                                   on.exit(close(con))
+                                   close(con)
                                    
                                }
 
                                if(is.null(revision)){
-                                
-                                   res <- auth$api(path = paste0("apps/", id, "/", short_name, "/raw"),
-                                                   method = "POST",
-                                                   body = upload_file(filename), ...)
+                                   ## latest check revision first
+                                   .id <- paste0(id, "/", short_name)
+                                   msg <- try(.r <- as.integer(app(id = .id, detail = TRUE)$revision),
+                                              silent = TRUE)
+                                   if(!inherits(msg, "try-error") && is.integer(.r)){
+                                       .r <- .r + 1
+                                       message("create new revision ", .r)
+                                       res <- auth$api(path = paste0("apps/", id, "/", short_name, "/", .r, "/raw"),
+                                                       method = "POST",
+                                                       body = upload_file(filename),  ...)
+                                   }else{
+                                       res <- auth$api(path = paste0("apps/", id, "/", short_name, "/raw"),
+                                                       method = "POST",
+                                                       body = upload_file(filename), ...)            
+                                   }
+                                   
+
+                         
             
                                }else{
                                    ## latest check revision first
@@ -347,9 +368,12 @@ Project <- setRefClass("Project", contains = "Item",
                                                    body = upload_file(filename),  ...)
                                }
 
-                               file.remove(filename)
+                               ## file.remove(filename)
                                .id <- res[["sbg:id"]]
-                               app(id = .id)
+                               res <- app(id = .id)
+                               ## check error message
+                               validateApp(response(res))
+                               res
 
                            },
                            ## task
@@ -361,13 +385,13 @@ Project <- setRefClass("Project", contains = "Item",
                                description = NULL,
                                app = NULL,
                                inputs = NULL, ...){
-                   
+
                             body = list(name = name,
                                 description = description,
                                 project = id,
                                 app = app,
                                 inputs = lapply(inputs, asTaskInput))
-                    
+                            
                             res <- auth$api(path = "tasks", body = body, method = "POST", ...)
                             res <- .asTask(res)
                             setAuth(res, .self$auth, "Task")
