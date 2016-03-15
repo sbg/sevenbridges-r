@@ -66,6 +66,20 @@ So to specify that in your tool, you can use `input` function, then pass it to t
 
 `input()`  require arguments `id` and `type`. `output()`  require arguments `id` because `type` by default is file. 
 
+#### Specia type: ItemArray and enum
+
+The type could be an array of single type, the most common case is that if your input is 
+a list of files, you can do something like `type = ItemArray("File")` or as simple as 
+`type = "File..."` to diffenciate from a single file input. 
+
+We also provide an enum type, when you specify the enum, please pass the required name and symbols like this
+`type = enum("format", c("pdf", "html"))` then in the interface you will be poped with drop down when you execute the 
+task. 
+
+For complete example, please check the "Make the best of bioconductor workflow" tutorial, or if you are advanced user, you can simply check `inst/docker` folder or check the github example [here](https://github.com/tengfei/sevenbridges/tree/master/inst/docker/rnaseqGene)
+
+
+
 #### Using existing docker image and command
 
 If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
