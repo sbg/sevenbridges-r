@@ -1,0 +1,272 @@
+{
+  "sbg:id": "reporttool",
+  "id": "#reporttool",
+  "inputs": [
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Shinay app template as zipped(.zip) or tar(tar.gz) file.",
+      "streamable": false,
+      "default": "",
+      "id": "#shinyTemplate",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--shinyTemplate",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Rmarkdown file template will be rendered by knitr",
+      "streamable": false,
+      "default": "",
+      "id": "#knitrTemplate",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--knitrTemplate",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Files to be included in data folder of app",
+      "streamable": false,
+      "default": "",
+      "id": "#data",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--data",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Files to be included in www folder of app",
+      "streamable": false,
+      "default": "",
+      "id": "#www",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--www",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Files to be included in src folder of app",
+      "streamable": false,
+      "default": "",
+      "id": "#src",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--src",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "label": "",
+      "description": "Files to be included in root of app folder",
+      "streamable": false,
+      "default": "",
+      "id": "#appFiles",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--appFiles",
+        "separate": true,
+        "itemSeparator": ",",
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "Name of account to save or remove, check shinyapps::setAccountInfo",
+      "streamable": false,
+      "default": "",
+      "id": "#name",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--name",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "User token for the account, check shinyapps::setAccountInfo",
+      "streamable": false,
+      "default": "",
+      "id": "#token",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--token",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "User secret for the account, check shinyapps::setAccountInfo",
+      "streamable": false,
+      "default": "",
+      "id": "#secret",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--secret",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "Optional; the kind of content being deployed (e.g. 'plot', 'document', or 'application').",
+      "streamable": false,
+      "default": "",
+      "id": "#contentCategory",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--contentCategory",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "Account to deploy application to. This parameter is only required for the initial deployment of an application when there are multiple accounts configured on the system (see accounts).",
+      "streamable": false,
+      "default": "",
+      "id": "#account",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--account",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "string"],
+      "label": "",
+      "description": "Server name. Required only if you use the same account name on multiple servers.",
+      "streamable": false,
+      "default": "",
+      "id": "#server",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--server",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    },
+    {
+      "type": ["null", "boolean"],
+      "label": "",
+      "description": "Request that no status information be printed to the console during the deployment.",
+      "streamable": false,
+      "default": "",
+      "id": "#quiet",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--quiet",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "type": ["null", "File"],
+      "label": "",
+      "description": "compressed shiny app folder",
+      "streamable": false,
+      "default": "",
+      "id": "#shinyapp",
+      "outputBinding": {
+        "glob": "*.tar.gz"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "",
+      "description": "report rendered from knitr template",
+      "streamable": false,
+      "default": "",
+      "id": "#knitrreport",
+      "outputBinding": {
+        "glob": "{*.pdf, *.html}"
+      }
+    }
+  ],
+  "requirements": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "tengfei/reporttool",
+      "dockerLoad": "",
+      "dockerFile": "",
+      "dockerImageId": "",
+      "dockerOutputDirectory": ""
+    }
+  ],
+  "label": "reporttool",
+  "description": "Reporiting tools support you pass shiny app and knitr Rmakrdown template",
+  "class": "CommandLineTool",
+  "baseCommand": [
+    "report.R"
+  ],
+  "arguments": [],
+  "context": ""
+}

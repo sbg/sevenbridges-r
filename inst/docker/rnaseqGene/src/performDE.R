@@ -9,7 +9,7 @@ options:
 " -> doc
 
 library(docopt)
-opts <- docopt(doc)
+opts <- docopt(doc, "--format=html")
 
 .design <- opts$design
 if(is.null(.design))

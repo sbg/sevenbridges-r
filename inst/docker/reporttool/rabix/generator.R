@@ -45,12 +45,6 @@ rbx <- Tool(id = "reporttool",
                       itemSeparator = ",",                    
                       cmdInclude = TRUE                      
                       ),
-                input(id = "setAccountInfo",
-                      description = "Source you copy-paste from shinyapp.io like rsconnect::setAccountInfo(name='tengfei', token='<TOKEN>', secret='<SECRET>')",
-                      type = "string",
-                      prefix = "--setAccountInfo",
-                      cmdInclude = TRUE                      
-                      ),
                 input(id = "name",
                       description = "Name of account to save or remove, check shinyapps::setAccountInfo",
                       type = "string",
@@ -105,5 +99,6 @@ rbx <- Tool(id = "reporttool",
             ))
 
 
-rbx$toJSON(pretty = TRUE)
-rbx$toJSON()
+
+fl <- "inst/docker/reporttool/rabix/reporttool.json"
+write(rbx$toJSON(pretty = TRUE), fl)

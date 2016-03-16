@@ -31,6 +31,8 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
 RUN R -e "install.packages(c('shiny', 'rmarkdown'), repos='https://cran.rstudio.com/')"
 RUN R -e "devtools::install_github('rstudio/addinexamples', type = 'source')"
 
+RUN R -e "devtools::install_github('rstudio/rsconnect')"
+
 RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
 EXPOSE 3838
