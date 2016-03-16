@@ -86,7 +86,9 @@ if(!is.null(opts$shinyTemplate)){
     ## application ready
     if(toDeploy){
         message("deployApps ...")
-        shinyapps::deployApp(.fullPath)
+        message("current path: ", getwd())
+        message(".fullPath: ", .fullPath)
+        rsconnect::deployApp(.fullPath)
     }
 
     ## output compressed app
