@@ -1,7 +1,5 @@
 # R Package for Seven Bridges Platform
 
-<!-- [![Build Status](https://travis-ci.org/road2stat/sevenbridges.png?branch=master)](https://travis-ci.org/tengfei/sevenbridges) -->
-
 Please checkout the [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
 
 ## Features
