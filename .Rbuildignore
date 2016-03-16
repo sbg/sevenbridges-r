@@ -3,5 +3,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^.*~$
+hooks
 
 
