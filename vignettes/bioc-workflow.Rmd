@@ -131,6 +131,12 @@ Note: you can use single docker image, but describe as many tools as you want if
 Follow the example to create Tool with `Tool` function. It's straightforward. Especially if you are 
 familiar with Seven Bridges Tool editor already. 
 
+Hints: please pay attention to how I create 
+
+- File list: via ItemArray("File") or "File..."
+- Single File: just "File"
+- Expression to specify the javascript expression
+
 ```{r}
 library(sevenbridges)
 
@@ -143,7 +149,7 @@ rbx <- Tool(id = "rnaseqGene",
                 input(
                     id = "bamfiles", label = "bam files",
                     description = "a list of bam files",
-                    type = ItemArray("File"),
+                    type = "File...",  ## or type = ItemArray("File")
                     prefix = "--bamfiles",
                     itemSeparator = ","
                 ), 
@@ -156,18 +162,29 @@ rbx <- Tool(id = "rnaseqGene",
                     id = "gtffile", label =  "gene feature files",
                     type = "File",
                     prefix = "--gtffile"
+                ),
+                input(
+                    id = "format", label =  "report foramt html or pdf",
+                    type = enum("format", c("pdf", "html")),
+                    prefix = "--format"
                 )
             ),
             outputs = list(
                 output(id = "report", label = "report", 
                        description = "A reproducible report created by Rmarkdown",
-                       glob = "*rnaseqGene.pdf"),
+                       glob = Expression(engine = "#cwl-js-engine",
+                                         script = "'rnaseqGene.' + $job[['inputs']][['format']]")),
                 output(id = "heatmap", label = "heatmap", 
                        description = "A heatmap plot to show the Euclidean distance between samples",
                        glob = "heatmap.pdf"),
                 output(id = "count", label = "count", 
                        description = "Reads counts matrix",
-                       glob = "*.csv")))
+                       glob = "count.csv"),
+                output(id = "de", label = "Differential expression table", 
+                       description = "Differential expression table",
+                       glob = "de.csv")
+                ))
+
 
 ```
 

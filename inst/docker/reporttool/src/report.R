@@ -9,7 +9,6 @@ options:
 --www=<file>                Files to be included in www folder under app folder.
 --src=<file>                Files to be included in src folder under app folder.
 --appFiles=<file>           Files to be included in root at your app folder.
---setAccountInfo=<string>   Source you copy-paste from shinyapp.io like rsconnect::setAccountInfo(name='tengfei', token='<TOKEN>', secret='<SECRET>')
 --name=<string>             Name of account to save or remove, check shinyapps::setAccountInfo
 --token=<string>            User token for the account, check shinyapps::setAccountInfo
 --secret=<string>           User secret for the account, check shinyapps::setAccountInfo
@@ -22,7 +21,6 @@ options:
 
 library(docopt)
 opts <- docopt(doc)
-
 deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]    
 }

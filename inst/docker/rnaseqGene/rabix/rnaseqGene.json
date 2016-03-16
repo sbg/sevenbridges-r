@@ -82,7 +82,11 @@
       "default": "",
       "id": "#report",
       "outputBinding": {
-        "glob": "*rnaseqGene.pdf"
+        "glob": {
+          "engine": "#cwl-js-engine",
+          "script": "'rnaseqGene.' + $job[['inputs']][['format']]",
+          "class": "Expression"
+        }
       }
     },
     {
