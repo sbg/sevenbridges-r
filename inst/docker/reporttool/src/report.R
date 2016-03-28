@@ -9,6 +9,7 @@ options:
 --www=<file>                Files to be included in www folder under app folder.
 --src=<file>                Files to be included in src folder under app folder.
 --appFiles=<file>           Files to be included in root at your app folder.
+--setAccountInfo=<string>   shinyapps::setAccountInfo
 --name=<string>             Name of account to save or remove, check shinyapps::setAccountInfo
 --token=<string>            User token for the account, check shinyapps::setAccountInfo
 --secret=<string>           User secret for the account, check shinyapps::setAccountInfo
@@ -25,19 +26,47 @@ deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]    
 }
 
+
+## copy file over
+if(!is.null(opts$data)){
+    message("copy to data folder")
+    .data <- file.path(.fullPath, "data")
+    dir.create(.data)
+    file.copy(deFiles(opts$data), .data, overwrite = TRUE, recursive = TRUE)        
+}
+
+if(!is.null(opts$www)){
+    message("copy to www folder")        
+    .www <- file.path(.fullPath, "www")
+    dir.create(.www)
+    file.copy(deFiles(opts$www), .www,  overwrite = TRUE, recursive = TRUE)        
+}
+
+if(!is.null(opts$src)){
+    message("copy to src folder")                
+    .src <- file.path(.fullPath, "src")
+    dir.create(.src)
+    file.copy(deFiles(opts$src), .src,  overwrite = TRUE, recursive = TRUE)        
+}
+
+if(!is.null(opts$appFiles)){
+    message("copy to root folder")                        
+    file.copy(deFiles(opts$appFiles), file.path(.fullPath))        
+}
+
 ## Set account info for Shiny apps
 toDeploy <- TRUE
 if(is.null(opts$setAccountInfo)){
     if(any(is.null(opts$name), is.null(opts$token), is.null(opts$secret))){
         toDeploy <- FALSE
     }else{
-        rsconnect::setAccountInfo(name = opts$name,
-                                  token = opts$token,
-                                  secret = opts$secret)
+        rs = paste("rsconnect::setAccountInfo(name =", opts$name,
+                                  "token = ", opts$token,
+                                  "secret = ", opts$secret)
     }
 }else{
     ## allow you to copy-paste from shinyapps.io or other services
-    source(opts$setAccountInfo)        
+    rs = opts$setAccountInfo        
 }
 
 ## make working directory
@@ -56,43 +85,22 @@ if(!is.null(opts$shinyTemplate)){
            gz = {untar(opts$shinyTemplate, exdir = .fullPath)},
            {stop("unsupported compressed shiny template format, try tar.gz or zip")})
     ## template is ready
-    ## copy file over
-    if(!is.null(opts$data)){
-        message("copy to data folder")
-        .data <- file.path(.fullPath, "data")
-        dir.create(.data)
-        file.copy(deFiles(opts$data), .data, overwrite = TRUE, recursive = TRUE)        
-    }
-
-    if(!is.null(opts$www)){
-        message("copy to www folder")        
-        .www <- file.path(.fullPath, "www")
-        dir.create(.www)
-        file.copy(deFiles(opts$www), .www,  overwrite = TRUE, recursive = TRUE)        
-    }
-
-    if(!is.null(opts$src)){
-        message("copy to src folder")                
-        .src <- file.path(.fullPath, "src")
-        dir.create(.src)
-        file.copy(deFiles(opts$src), .src,  overwrite = TRUE, recursive = TRUE)        
-    }
-
-    if(!is.null(opts$appFiles)){
-        message("copy to root folder")                        
-        file.copy(deFiles(opts$appFiles), file.path(.fullPath))        
-    }
-
-    ## application ready
-    if(toDeploy){
-        message("deployApps ...")
-        message("current path: ", getwd())
-        message(".fullPath: ", .fullPath)
-        rsconnect::deployApp(.fullPath)
-    }
+    
+    # ## application ready
+    # if(toDeploy){
+    #     message("deployApps ...")
+    #     message("current path: ", getwd())
+    #     message(".fullPath: ", .fullPath)
+    #     list.files(.fullPath)
+    #     rsconnect::deployApp(.fullPath, lint = FALSE)
+    # }
 
     ## output compressed app
     tar(paste0(.fullPath, ".tar.gz"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
+
+    library(liftr)
+    o <- Onepunch(input = .fullPath)
+    o$deploy(script = rs)
 }
 
 

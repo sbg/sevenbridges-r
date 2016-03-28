@@ -68,8 +68,10 @@ RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
     
 
 ## install SBG rabix
-RUN apt-get install -y python-dev python-pip docker.io phantomjs libyaml-dev
-RUN pip install rabix
+RUN wget https://github.com/rabix/bunny/releases/download/v0.1.0-alpha/rabix-0.1.1-alpha.tar.gz \
+    && tar -zvxf rabix-0.1.1-alpha.tar.gz \
+    && ln -s  /rabix-0.1.1-alpha/rabix.sh /usr/local/bin/rabix.sh
+
 
 ## install SBG Command line uploader
 RUN wget https://cgc.sbgenomics.com/cgc-uploader/cgc-uploader.tgz \
@@ -86,5 +88,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ## ~/ShinyApps
 RUN yes | /opt/shiny-server/bin/deploy-example user-dirs
+
+## liftr
+RUN R -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
