@@ -26,6 +26,8 @@ deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]    
 }
 
+dir.create(appName)
+.fullPath <- normalizePath(appName)
 
 ## copy file over
 if(!is.null(opts$data)){
@@ -75,8 +77,8 @@ if(!is.null(opts$shinyTemplate)){
     appName <- tools::file_path_sans_ext(basename(opts$shinyTemplate), compression = TRUE)
     extName <- tools::file_ext(basename(opts$shinyTemplate))
 
-    dir.create(appName)
-    .fullPath <- normalizePath(appName)
+    ## dir.create(appName)
+    ## .fullPath <- normalizePath(appName)
 
     ## extract
     message("Uncompress ....")
