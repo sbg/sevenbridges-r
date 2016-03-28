@@ -26,6 +26,18 @@ deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]    
 }
 
+## make working directory
+if(!is.null(opts$shinyTemplate)){
+    ## working on shiny apps
+    appName <- tools::file_path_sans_ext(basename(opts$shinyTemplate), compression = TRUE)
+    extName <- tools::file_ext(basename(opts$shinyTemplate))
+}else if(!is.null(opts$knitrTemplate)){
+    appName <- tools::file_path_sans_ext(basename(opts$shinyTemplate), compression = TRUE)
+}else{
+    message("no app name")
+    appName <- "reportdir"
+}
+
 dir.create(appName)
 .fullPath <- normalizePath(appName)
 
