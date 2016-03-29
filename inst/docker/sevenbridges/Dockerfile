@@ -91,6 +91,7 @@ RUN yes | /opt/shiny-server/bin/deploy-example user-dirs
 
 ## liftr
 RUN R -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
+RUN R -e "devtools::install_github('rstudio/packrat')"
 
 RUN apt-get -y install unp
 
