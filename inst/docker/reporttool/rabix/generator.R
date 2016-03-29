@@ -20,7 +20,7 @@ rbx <- Tool(id = "reporttool",
                       ),
                 input(id = "data",
                       description = "Files to be included in data folder of app",
-                      type = ItemArray("File"),
+                      type = "File...", # the same as ItemArray("File")
                       prefix = "--data",
                       itemSeparator = ",",                     
                       cmdInclude = TRUE                      
@@ -86,6 +86,12 @@ rbx <- Tool(id = "reporttool",
                       type = "boolean",
                       prefix = "--quiet",
                       cmdInclude = TRUE                      
+                      ),
+                input(id = "engine",
+                      description = "packrat or liftr (docker in docker) or NA [default: packrat]",
+                      type = enum("engine", c("packrat", "liftr")),
+                      prefix = "--engine",
+                      cmdInclude = TRUE
                       )),
             outputs = list(
                 output(id = "shinyapp",
