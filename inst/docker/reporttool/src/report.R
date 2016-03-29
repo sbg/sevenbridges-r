@@ -166,14 +166,14 @@ if(!is.null(opts$knitrTemplate)){
                    ## build in temp dir
                    file.copy(x, .dd,  overwrite = TRUE, recursive = TRUE)
                    packrat::init(.dd)
-                   install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
-                   library(devtools)
+                   install.packages(c('shiny', 'rmarkdown', 'devtools'), 
+                                    repos='https://cran.rstudio.com/')
                    devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
-                   rmarkdown::render(x, output_dir = "/")
+                   rmarkdown::render(x, output_dir = ".")
                    packrat::off()
                },
                {
-                   rmarkdown::render(x, output_dir = "/")
+                   rmarkdown::render(x, output_dir = ".")
                })
         file.remove(x)
     })
@@ -191,7 +191,8 @@ if(!is.null(opts$shinyTemplate)){
        unpackShiny(x)
        .fullPath <- copyFiles(x, opts)
        message("tar shiny app ", basename(x), "...")
-       tar(paste0("/", basename(.fullPath), ".tar"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
+       message("tar file saved at: ", paste0("./", basename(.fullPath), ".tar"))
+       tar(paste0("./", basename(.fullPath), ".tar"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
        
        if(toDeploy){
            switch(engine, 
