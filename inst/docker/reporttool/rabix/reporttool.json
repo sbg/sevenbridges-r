@@ -224,6 +224,27 @@
         "separate": true,
         "sbg:cmdInclude": true
       }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "name": "engine",
+          "symbols": ["packrat", "liftr"],
+          "type": "enum"
+        }
+      ],
+      "label": "",
+      "description": "packrat or liftr (docker in docker) or NA [default: packrat]",
+      "streamable": false,
+      "default": "",
+      "id": "#engine",
+      "inputBinding": {
+        "position": 0,
+        "prefix": "--engine",
+        "separate": true,
+        "sbg:cmdInclude": true
+      }
     }
   ],
   "outputs": [

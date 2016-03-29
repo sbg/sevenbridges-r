@@ -1,10 +1,10 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
 "usage: report.R [options]
 
 options:
 
---appName=<string>          app name
---engine=<string>           packrat or liftr (docker in docker) [default: packrat]
+
+--engine=<string>           packrat or liftr (docker in docker) or NA [default: packrat]
 --shinyTemplate=<file>      Shinay app template as zipped(.zip) or tar(tar.gz) file.
 --knitrTemplate=<file>      Rmarkdown file template will be rendered by knitr.
 --data=<file>               Files to be included in data folder under app folder.
@@ -23,40 +23,67 @@ options:
 
 
 library(docopt)
+## a hack for packrat
+install.packages(c('shiny', 'rsconnect', 'packrat'), repos='https://cran.rstudio.com/')
+
 opts <- docopt(doc)
 deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]
 }
 
 engine <- opts$engine
-stopifnot(engine %in% c("packrat", "liftr"))
+
 ## make working directory
-if(!is.null(opts$shinyTemplate)){
-    ## working on shiny apps
-    appName <- tools::file_path_sans_ext(basename(opts$shinyTemplate), compression = TRUE)
-    extName <- tools::file_ext(basename(opts$shinyTemplate))
-}else if(!is.null(opts$knitrTemplate)){
-    appName <- tools::file_path_sans_ext(basename(opts$knitrTemplate), compression = TRUE)
-}else{
-    message("no app name")
-    appName <- "reportdir"
+
+copyFiles <- function(fl, opts){
+    
+
+    appName <- tools::file_path_sans_ext(basename(fl), compression = TRUE)
+    dir.create(appName)
+    .fullPath <- normalizePath(appName)
+    
+    ## copy file over
+    if(!is.null(opts$data)){
+        message("copy to data folder")
+        .data <- file.path(.fullPath, "data")
+        dir.create(.data)
+        file.copy(deFiles(opts$data), .data, overwrite = TRUE, recursive = TRUE)
+    }
+    
+    if(!is.null(opts$www)){
+        message("copy to www folder")
+        .www <- file.path(.fullPath, "www")
+        dir.create(.www)
+        file.copy(deFiles(opts$www), .www,  overwrite = TRUE, recursive = TRUE)
+    }
+    
+    if(!is.null(opts$src)){
+        message("copy to src folder")
+        .src <- file.path(.fullPath, "src")
+        dir.create(.src)
+        file.copy(deFiles(opts$src), .src,  overwrite = TRUE, recursive = TRUE)
+    }
+    
+    if(!is.null(opts$appFiles)){
+        message("copy to root folder")
+        file.copy(deFiles(opts$appFiles), file.path(.fullPath))
+    }
+    
+    .fullPath
 }
 
-dir.create(appName)
-.fullPath <- normalizePath(appName)
 
 
+unpackShiny <- function(input, outdir = NULL){
+  # ## extract
 
-unpackShiny <- function(input, outdir){
-  if(!dir.exists(outdir)){
-    if(file.exists(outdir)){
-      stop("same file name exists")
-    }
-    dir.create(outdir)
-  }
-  ## extract
   appName <- tools::file_path_sans_ext(basename(input), compression = TRUE)
   extName <- tools::file_ext(basename(input))
+  if(is.null(outdir)){
+      dir.create(appName)
+      outdir <- normalizePath(appName)
+  }
+
   .d <- tempfile()
   dir.create(.d)
 
@@ -66,6 +93,7 @@ unpackShiny <- function(input, outdir){
          zip = {unzip(input, exdir = .d)},
          gz = {untar(input, exdir = .d)},
          tar = {untar(input, exdir = .d)},
+         tar.gz = {untar(input, exdir = .d)},
            { .cur <- getwd()
              setwd(.d)
              system(paste("unp", normalizePath(input)))
@@ -75,21 +103,25 @@ unpackShiny <- function(input, outdir){
   .ds <- list.dirs(.d, recursive = FALSE)
 
   if(liftr:::is_shinyapp(.d)){
-    cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
-                                    normalizePath(outdir))
-    message("just app", cmd)
-    system(cmd)
+      cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
+                   normalizePath(outdir))
+      message(cmd)
+      system(cmd)
   }else if(length(.ds) == 1 &&
            liftr:::is_shinyapp(.ds[1])){
-    cmd <- paste("cp -R", file.path(dirname(.ds[1]), basename(.ds[1]), "*"),
-          normalizePath(outdir))
-    message(cmd)
-    system(cmd)
-
+      cmd <- paste("cp -R", file.path(dirname(.ds[1]), basename(.ds[1]), "*"),
+                   normalizePath(outdir))
+      message(cmd)
+      system(cmd)
+      
   }else{
-    stop("it's not shiny app")
+      warning("it's probably not shiny app")
+      cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
+                   normalizePath(outdir))
+      message(cmd)
+      system(cmd)
   }
-
+  
 }
 
 ## Set account info for Shiny apps
@@ -107,115 +139,94 @@ if(is.null(opts$setAccountInfo)){
     rs = opts$setAccountInfo
 }
 
-## make working directory
-if(!is.null(opts$shinyTemplate)){
-  unpackShiny(opts$shinyTemplate, .fullPath)
-}
-
-## copy file over
-if(!is.null(opts$data)){
-    message("copy to data folder")
-    .data <- file.path(.fullPath, "data")
-    dir.create(.data)
-    file.copy(deFiles(opts$data), .data, overwrite = TRUE, recursive = TRUE)
-}
-
-if(!is.null(opts$www)){
-    message("copy to www folder")
-    .www <- file.path(.fullPath, "www")
-    dir.create(.www)
-    file.copy(deFiles(opts$www), .www,  overwrite = TRUE, recursive = TRUE)
-}
-
-if(!is.null(opts$src)){
-    message("copy to src folder")
-    .src <- file.path(.fullPath, "src")
-    dir.create(.src)
-    file.copy(deFiles(opts$src), .src,  overwrite = TRUE, recursive = TRUE)
-}
-
-if(!is.null(opts$appFiles)){
-    message("copy to root folder")
-    file.copy(deFiles(opts$appFiles), file.path(.fullPath))
-}
 
 
-.dd <- tempfile()
-dir.create(.dd)
 
+
+
+## Start with knitr template
 if(!is.null(opts$knitrTemplate)){
     ## create rmarkdown
     fls <- deFiles(opts$knitrTemplate)
-    file.copy(fls, file.path(.fullPath),  overwrite = TRUE, recursive = TRUE)
-    file.copy(fls, .dd,  overwrite = TRUE, recursive = TRUE)
-    fls <- file.path(.fullPath, basename(fls))
 
-    if(engine == "packrat"){
-
-       
-        packrat::init(.dd)
-        install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
-        library(devtools)
-        devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
-    }
     sapply(fls, function(x){
+        .fullPath <- copyFiles(x, opts)
+        file.copy(x, file.path(.fullPath),  overwrite = TRUE, recursive = TRUE)
+        x <- file.path(.fullPath, basename(x))
         message("Rendering ...", x)
         switch(engine,
                liftr = {
-                   library(liftr) 
+                   library(liftr)
                    o <- Onepunch(input = x)
                    o$onepunch(script = rs)
                },
                packrat = {
+                   .dd <- tempfile()
+                   dir.create(.dd)
+                   ## build in temp dir
+                   file.copy(x, .dd,  overwrite = TRUE, recursive = TRUE)
+                   packrat::init(.dd)
+                   install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
+                   library(devtools)
+                   devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
+                   rmarkdown::render(x, output_dir = "/")
+                   packrat::off()
+               },
+               {
                    rmarkdown::render(x, output_dir = "/")
                })
         file.remove(x)
     })
-    
+
 }
-# if(engine == "packrat"){
-#     packrat::init(.fullPath)
-#     install.packages(c('shiny', 'rmarkdown', 'devtool'), repos='https://cran.rstudio.com/')
-#     devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
-# }
+
+# Start with shiny template
 if(!is.null(opts$shinyTemplate)){
-    ## output compressed app
-    tar(paste0(.fullPath, ".tar.gz"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
-    ## deploy
-    
-    if(toDeploy){
-        switch(engine, 
-               liftr = {
-                   system("service docker start")
-                   library(liftr)   
-                   
-                   o <- Onepunch(input = .fullPath)
-                   o$deploy(script = rs)
-               },
-               packrat = {
-                   .dd <- tempfile()
-                   dir.create(.dd)
-                   unpackShiny(opts$shinyTemplate, .dd)
-                
-                   packrat::init(.dd)
-                   install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
-                 
-                   devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
-                   rsconnect::setAccountInfo(name =opts$name, 
-                                             token = opts$token, 
-                                             secret = opts$secret)
-                   rsconnect::deployApp(.fullPath)
-               })
+    ## make working directory
+
+   fls <- deFiles(opts$shinyTemplate)
+   sapply(fls, function(x){
+  
+       message("unpacking shiny app ", basename(x), " ...")
+       unpackShiny(x)
+       .fullPath <- copyFiles(x, opts)
+       message("tar shiny app ", basename(x), "...")
+       tar(paste0("/", basename(.fullPath), ".tar"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
        
-    }
+       if(toDeploy){
+           switch(engine, 
+                  liftr = {
+                      system("service docker start")
+                      library(liftr)   
+                      
+                      o <- Onepunch(input = .fullPath)
+                      o$deploy(script = rs)
+                  },
+                  packrat = {
+                      .dd <- tempfile()
+                      dir.create(.dd)
+                      unpackShiny(x, .dd)
+                      
+                      packrat::init(.dd)
+                    
+                      install.packages(c('shiny', 'rsconnect'), repos='https://cran.rstudio.com/')
+                      
+                     
+                      rsconnect::setAccountInfo(name =opts$name, 
+                                                token = opts$token, 
+                                                secret = opts$secret)
+                      rsconnect::deployApp(.fullPath)
+                      packrat::off()
+                  },
+                  {
+                      rsconnect::deployApp(.fullPath)  
+                  })
+           
+       }
+   })
+        
+
 }
-## create knitr template
-
-
-if(engine == "packrat"){
-    packrat::off()
-}
-
 
 
 
