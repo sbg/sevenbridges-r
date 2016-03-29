@@ -4,6 +4,7 @@
 options:
 
 --appName=<string>          app name
+--engine=<string>           packrat or liftr (docker in docker) [default: packrat]
 --shinyTemplate=<file>      Shinay app template as zipped(.zip) or tar(tar.gz) file.
 --knitrTemplate=<file>      Rmarkdown file template will be rendered by knitr.
 --data=<file>               Files to be included in data folder under app folder.
@@ -27,6 +28,8 @@ deFiles <- function(x, split = ","){
     strsplit(x, split)[[1]]
 }
 
+engine <- opts$engine
+stopifnot(engine %in% c("packrat", "liftr"))
 ## make working directory
 if(!is.null(opts$shinyTemplate)){
     ## working on shiny apps
@@ -95,8 +98,8 @@ if(is.null(opts$setAccountInfo)){
     if(any(is.null(opts$name), is.null(opts$token), is.null(opts$secret))){
         toDeploy <- FALSE
     }else{
-        rs = paste("rsconnect::setAccountInfo(name =", opts$name,
-                                  "token = ", opts$token,
+        rs = paste("rsconnect::setAccountInfo(name =", opts$name, ",",
+                                  "token = ", opts$token, ",",
                                   "secret = ", opts$secret)
     }
 }else{
@@ -137,31 +140,83 @@ if(!is.null(opts$appFiles)){
 }
 
 
+.dd <- tempfile()
+dir.create(.dd)
+
+if(!is.null(opts$knitrTemplate)){
+    ## create rmarkdown
+    fls <- deFiles(opts$knitrTemplate)
+    file.copy(fls, file.path(.fullPath),  overwrite = TRUE, recursive = TRUE)
+    file.copy(fls, .dd,  overwrite = TRUE, recursive = TRUE)
+    fls <- file.path(.fullPath, basename(fls))
+
+    if(engine == "packrat"){
+
+       
+        packrat::init(.dd)
+        install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
+        library(devtools)
+        devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
+    }
+    sapply(fls, function(x){
+        message("Rendering ...", x)
+        switch(engine,
+               liftr = {
+                   library(liftr) 
+                   o <- Onepunch(input = x)
+                   o$onepunch(script = rs)
+               },
+               packrat = {
+                   rmarkdown::render(x, output_dir = "/")
+               })
+        file.remove(x)
+    })
+    
+}
+# if(engine == "packrat"){
+#     packrat::init(.fullPath)
+#     install.packages(c('shiny', 'rmarkdown', 'devtool'), repos='https://cran.rstudio.com/')
+#     devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
+# }
 if(!is.null(opts$shinyTemplate)){
     ## output compressed app
     tar(paste0(.fullPath, ".tar.gz"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
     ## deploy
+    
     if(toDeploy){
-        ## start docker
-        system("service docker start")
-        library(liftr)
-        print(.fullPath)
-        o <- Onepunch(input = .fullPath)
-        o$deploy(script = rs)
+        switch(engine, 
+               liftr = {
+                   system("service docker start")
+                   library(liftr)   
+                   
+                   o <- Onepunch(input = .fullPath)
+                   o$deploy(script = rs)
+               },
+               packrat = {
+                   .dd <- tempfile()
+                   dir.create(.dd)
+                   unpackShiny(opts$shinyTemplate, .dd)
+                
+                   packrat::init(.dd)
+                   install.packages(c('shiny', 'rmarkdown', 'devtools'), repos='https://cran.rstudio.com/')
+                 
+                   devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
+                   rsconnect::setAccountInfo(name =opts$name, 
+                                             token = opts$token, 
+                                             secret = opts$secret)
+                   rsconnect::deployApp(.fullPath)
+               })
+       
     }
 }
 ## create knitr template
-if(!is.null(opts$knitrTemplate)){
-    ## create rmarkdown
-    message("copy knitr template to app root")
-    fls <- deFiles(opts$knitrTemplate)
-    file.copy(fls, file.path(.fullPath),  overwrite = TRUE, recursive = TRUE)
-    fls <- file.path(.fullPath, basename(fls))
-    sapply(fls, function(x){
-        message("Rendering ...", x)
-        rmarkdown::render(x, output_dir = ".")
-    })
+
+
+if(engine == "packrat"){
+    packrat::off()
 }
+
+
 
 
 
