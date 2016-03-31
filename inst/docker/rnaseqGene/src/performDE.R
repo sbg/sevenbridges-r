@@ -1,15 +1,15 @@
 #!/usr/bin/Rscript
-"usage: performDE.R [--design=<file> --gtffile=<file> --bamfiles=<file> --format=<string>]
+"usage: performDE.R [options]
 
 options:
 --bamfiles=<file> bamfiles
 --design=<file> design data frame
 --gtffile=<file> gene feature file
---format=<string> pdf or htrml. [default: pdf]
+--format=<string> pdf or html. [default: html]
 " -> doc
 
 library(docopt)
-opts <- docopt(doc, "--format=html")
+opts <- docopt(doc)
 
 .design <- opts$design
 if(is.null(.design))

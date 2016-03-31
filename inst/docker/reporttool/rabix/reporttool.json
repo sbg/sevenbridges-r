@@ -256,7 +256,7 @@
       "default": "",
       "id": "#shinyapp",
       "outputBinding": {
-        "glob": "*.tar.gz"
+        "glob": "shiny_*.tar"
       }
     },
     {
@@ -267,7 +267,7 @@
       "default": "",
       "id": "#knitrreport",
       "outputBinding": {
-        "glob": "{*.pdf, *.html}"
+        "glob": "knitr_*"
       }
     }
   ],

@@ -97,14 +97,15 @@ rbx <- Tool(id = "reporttool",
                 output(id = "shinyapp",
                        description = "compressed shiny app folder",
                        type = "file",
-                       glob = "*.tar"),
+                       glob = "shiny_*.tar"),
                 output(id = "knitrreport",
                        description = "report rendered from knitr template",
                        type = "file",
-                       glob = "{*.pdf, *.html}")
+                       glob = "knitr_*")
             ))
 
 
 
 fl <- "inst/docker/reporttool/rabix/reporttool.json"
 write(rbx$toJSON(pretty = TRUE), fl)
+
