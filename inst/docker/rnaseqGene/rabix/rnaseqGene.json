@@ -84,7 +84,7 @@
       "outputBinding": {
         "glob": {
           "engine": "#cwl-js-engine",
-          "script": "'rnaseqGene.' + $job[['inputs']][['format']]",
+          "script": "x = $job[['inputs']][['format']];\nif(x == 'undefined' || x == null){\nx = 'html';\n};\n'rnaseqGene.' +  x",
           "class": "Expression"
         }
       }

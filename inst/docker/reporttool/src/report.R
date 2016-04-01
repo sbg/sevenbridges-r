@@ -21,10 +21,11 @@ options:
 --quiet	                    Request that no status information be printed to the console during the deployment.
 " -> doc
 
-
+.curPath <- normalizePath(".")
 library(docopt)
 ## a hack for packrat
-install.packages(c('shiny', 'rsconnect', 'packrat'), repos='https://cran.rstudio.com/')
+install.packages(c('shiny', 'rsconnect', 'packrat'), 
+                 repos='https://cran.rstudio.com/', quiet = TRUE)
 
 opts <- docopt(doc)
 deFiles <- function(x, split = ","){
@@ -34,33 +35,40 @@ deFiles <- function(x, split = ","){
 engine <- opts$engine
 
 ## make working directory
+app_name <- function(x, prefix = NULL, suffix = NULL,...){
+    nm <- tools::file_path_sans_ext(basename(x), ...)
+    paste0(prefix, nm, suffix)
+}
+
+
 
 copyFiles <- function(fl, opts){
     
-
+    
     appName <- tools::file_path_sans_ext(basename(fl), compression = TRUE)
-    dir.create(appName)
-    .fullPath <- normalizePath(appName)
+    ## dir.create(appName)
+    .fullPath <- file.path(.curPath, appName)
+    dir.create(.fullPath, FALSE)
     
     ## copy file over
     if(!is.null(opts$data)){
         message("copy to data folder")
         .data <- file.path(.fullPath, "data")
-        dir.create(.data)
+        dir.create(.data, FALSE)
         file.copy(deFiles(opts$data), .data, overwrite = TRUE, recursive = TRUE)
     }
     
     if(!is.null(opts$www)){
         message("copy to www folder")
         .www <- file.path(.fullPath, "www")
-        dir.create(.www)
+        dir.create(.www, FALSE)
         file.copy(deFiles(opts$www), .www,  overwrite = TRUE, recursive = TRUE)
     }
     
     if(!is.null(opts$src)){
         message("copy to src folder")
         .src <- file.path(.fullPath, "src")
-        dir.create(.src)
+        dir.create(.src, FALSE)
         file.copy(deFiles(opts$src), .src,  overwrite = TRUE, recursive = TRUE)
     }
     
@@ -75,53 +83,55 @@ copyFiles <- function(fl, opts){
 
 
 unpackShiny <- function(input, outdir = NULL){
-  # ## extract
-
-  appName <- tools::file_path_sans_ext(basename(input), compression = TRUE)
-  extName <- tools::file_ext(basename(input))
-  if(is.null(outdir)){
-      dir.create(appName)
-      outdir <- normalizePath(appName)
-  }
-
-  .d <- tempfile()
-  dir.create(.d)
-
-  message("Uncompress into ", .d)
-
-  switch(extName,
-         zip = {unzip(input, exdir = .d)},
-         gz = {untar(input, exdir = .d)},
-         tar = {untar(input, exdir = .d)},
-         tar.gz = {untar(input, exdir = .d)},
-           { .cur <- getwd()
-             setwd(.d)
-             system(paste("unp", normalizePath(input)))
-             setwd(.cur)
+    # ## extract
+    
+    appName <- tools::file_path_sans_ext(basename(input), compression = TRUE)
+    extName <- tools::file_ext(basename(input))
+    if(is.null(outdir)){
+        
+        outdir <- file.path(.curPath, appName)
+        
+    }
+    dir.create(outdir, FALSE)
+    ## .d <- tempfile()
+    .d <- file.path(.curPath,basename(tempfile()))
+    dir.create(.d, FALSE)
+    
+    message("Uncompress into ", .d)
+    
+    switch(extName,
+           zip = {unzip(input, exdir = .d)},
+           gz = {untar(input, exdir = .d)},
+           tar = {untar(input, exdir = .d)},
+           tar.gz = {untar(input, exdir = .d)},
+           { 
+               setwd(.d)
+               system(paste("unp", input))
+               setwd(.curPath)
            })
-
-  .ds <- list.dirs(.d, recursive = FALSE)
-
-  if(liftr:::is_shinyapp(.d)){
-      cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
-                   normalizePath(outdir))
-      message(cmd)
-      system(cmd)
-  }else if(length(.ds) == 1 &&
-           liftr:::is_shinyapp(.ds[1])){
-      cmd <- paste("cp -R", file.path(dirname(.ds[1]), basename(.ds[1]), "*"),
-                   normalizePath(outdir))
-      message(cmd)
-      system(cmd)
-      
-  }else{
-      warning("it's probably not shiny app")
-      cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
-                   normalizePath(outdir))
-      message(cmd)
-      system(cmd)
-  }
-  
+    
+    .ds <- list.dirs(.d, recursive = FALSE)
+    
+    if(liftr:::is_shinyapp(.d)){
+        cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
+                     outdir)
+        message(cmd)
+        system(cmd)
+    }else if(length(.ds) == 1 &&
+             liftr:::is_shinyapp(.ds[1])){
+        cmd <- paste("cp -R", file.path(dirname(.ds[1]), basename(.ds[1]), "*"),
+                     outdir)
+        message(cmd)
+        system(cmd)
+        
+    }else{
+        warning("it's probably not shiny app")
+        cmd <- paste("cp -R", file.path(dirname(.d), basename(.d), "*"),
+                     outdir)
+        message(cmd)
+        system(cmd)
+    }
+    
 }
 
 ## Set account info for Shiny apps
@@ -131,8 +141,8 @@ if(is.null(opts$setAccountInfo)){
         toDeploy <- FALSE
     }else{
         rs = paste("rsconnect::setAccountInfo(name =", opts$name, ",",
-                                  "token = ", opts$token, ",",
-                                  "secret = ", opts$secret)
+                   "token = ", opts$token, ",",
+                   "secret = ", opts$secret)
     }
 }else{
     ## allow you to copy-paste from shinyapps.io or other services
@@ -148,7 +158,7 @@ if(is.null(opts$setAccountInfo)){
 if(!is.null(opts$knitrTemplate)){
     ## create rmarkdown
     fls <- deFiles(opts$knitrTemplate)
-
+    
     sapply(fls, function(x){
         .fullPath <- copyFiles(x, opts)
         file.copy(x, file.path(.fullPath),  overwrite = TRUE, recursive = TRUE)
@@ -162,71 +172,84 @@ if(!is.null(opts$knitrTemplate)){
                },
                packrat = {
                    .dd <- tempfile()
-                   dir.create(.dd)
+                   dir.create(.dd, FALSE)
                    ## build in temp dir
                    file.copy(x, .dd,  overwrite = TRUE, recursive = TRUE)
-                   packrat::init(.dd)
-                   install.packages(c('shiny', 'rmarkdown', 'devtools'), 
-                                    repos='https://cran.rstudio.com/')
-                   devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'))
-                   rmarkdown::render(x, output_dir = ".")
+                   suppressMessages({
+                       packrat::init(.dd)
+                       install.packages(c('shiny', 'rmarkdown', 'devtools'), 
+                                        repos='https://cran.rstudio.com/',
+                                        quiet = TRUE)
+                       devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'),
+                                                quiet = TRUE)
+                   })
+                   ## fixme
+                   rmarkdown::render(x, output_dir = .curPath)
                    packrat::off()
+                   
+                   
                },
                {
-                   rmarkdown::render(x, output_dir = ".")
+                   rmarkdown::render(x, output_dir = .curPath)
                })
-        file.remove(x)
     })
-
+    
 }
 
 # Start with shiny template
 if(!is.null(opts$shinyTemplate)){
     ## make working directory
-
-   fls <- deFiles(opts$shinyTemplate)
-   sapply(fls, function(x){
-  
-       message("unpacking shiny app ", basename(x), " ...")
-       unpackShiny(x)
-       .fullPath <- copyFiles(x, opts)
-       message("tar shiny app ", basename(x), "...")
-       message("tar file saved at: ", paste0("./", basename(.fullPath), ".tar"))
-       tar(paste0("./", basename(.fullPath), ".tar"), files = list.files(.fullPath, recursive = TRUE, full.names = TRUE))
-       
-       if(toDeploy){
-           switch(engine, 
-                  liftr = {
-                      system("service docker start")
-                      library(liftr)   
-                      
-                      o <- Onepunch(input = .fullPath)
-                      o$deploy(script = rs)
-                  },
-                  packrat = {
-                      .dd <- tempfile()
-                      dir.create(.dd)
-                      unpackShiny(x, .dd)
-                      
-                      packrat::init(.dd)
-                    
-                      install.packages(c('shiny', 'rsconnect'), repos='https://cran.rstudio.com/')
-                      
-                     
-                      rsconnect::setAccountInfo(name =opts$name, 
-                                                token = opts$token, 
-                                                secret = opts$secret)
-                      rsconnect::deployApp(.fullPath)
-                      packrat::off()
-                  },
-                  {
-                      rsconnect::deployApp(.fullPath)  
-                  })
-           
-       }
-   })
+    
+    fls <- deFiles(opts$shinyTemplate)
+    sapply(fls, function(x){
         
-
+        message("unpacking shiny app ", basename(x), " ...")
+        unpackShiny(x)
+        .fullPath <- copyFiles(x, opts)
+        
+        
+    
+        tar(file.path(.curPath, paste0(basename(.fullPath), ".tar")), .fullPath)
+        
+        
+        if(toDeploy){
+            switch(engine,
+                   liftr = {
+                       system("service docker start")
+                       library(liftr)
+                       
+                       o <- Onepunch(input = .fullPath)
+                       o$deploy(script = rs)
+                   },
+                   packrat = {
+                       .dd <- file.path(.curPath,basename(tempfile()))
+                       dir.create(.dd, FALSE)
+                       unpackShiny(x, .dd)
+                       
+                       packrat::init(.dd)
+                       
+                       install.packages(c('shiny', 'rsconnect'),
+                                        repos='https://cran.rstudio.com/',
+                                        quiet = TRUE)
+                       
+                       
+                       rsconnect::setAccountInfo(name =opts$name,
+                                                 token = opts$token,
+                                                 secret = opts$secret)
+                       message("deploy shiny app: ", .fullPath)
+                       rsconnect::deployApp(.fullPath)
+                       packrat::off()
+                       
+                   },
+                   {
+                       message("deploy shiny app: ", .fullPath)
+                       rsconnect::deployApp(.fullPath)
+                   })
+            
+        }
+    })
+    
+    
 }
 
 

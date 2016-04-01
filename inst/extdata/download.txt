@@ -1,0 +1,15 @@
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/example_report.Rmd
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello-markdown.Rmd
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello.tar
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/Homo_sapiens.GRCh37.75_subset.gtf
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/sample_table.csv
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/scatter_plot.tar
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039508_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039509_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039512_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039513_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039516_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039517_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039520_subset.bam
+https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039521_subset.bam
+
