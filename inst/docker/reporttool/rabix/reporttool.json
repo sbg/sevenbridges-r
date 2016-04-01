@@ -256,18 +256,29 @@
       "default": "",
       "id": "#shinyapp",
       "outputBinding": {
-        "glob": "shiny_*.tar"
+        "glob": "*.tar"
       }
     },
     {
       "type": ["null", "File"],
       "label": "",
-      "description": "report rendered from knitr template",
+      "description": "report rendered as html from knitr template",
       "streamable": false,
       "default": "",
-      "id": "#knitrreport",
+      "id": "#html_report",
       "outputBinding": {
-        "glob": "knitr_*"
+        "glob": "*.html"
+      }
+    },
+    {
+      "type": ["null", "File"],
+      "label": "",
+      "description": "report rendered as pdf from knitr template",
+      "streamable": false,
+      "default": "",
+      "id": "#pdf_report",
+      "outputBinding": {
+        "glob": "*.pdf"
       }
     }
   ],

@@ -97,11 +97,15 @@ rbx <- Tool(id = "reporttool",
                 output(id = "shinyapp",
                        description = "compressed shiny app folder",
                        type = "file",
-                       glob = "shiny_*.tar"),
-                output(id = "knitrreport",
-                       description = "report rendered from knitr template",
+                       glob = "*.tar"),
+                output(id = "html_report",
+                       description = "report rendered as html from knitr template",
                        type = "file",
-                       glob = "knitr_*")
+                       glob = "*.html"),
+                output(id = "pdf_report",
+                       description = "report rendered as pdf from knitr template",
+                       type = "file",
+                       glob = "*.pdf")
             ))
 
 

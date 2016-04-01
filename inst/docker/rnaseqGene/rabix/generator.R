@@ -33,7 +33,11 @@ rbx <- Tool(id = "rnaseqGene",
                 output(id = "report", label = "report", 
                        description = "A reproducible report created by Rmarkdown",
                        glob = Expression(engine = "#cwl-js-engine",
-                                         script = "'rnaseqGene.' + $job[['inputs']][['format']]")),
+                                         script = "x = $job[['inputs']][['format']];
+                                                  if(x == 'undefined' || x == null){
+                                                   x = 'html';
+                                                    };
+                                                  'rnaseqGene.' +  x")),
                 output(id = "heatmap", label = "heatmap", 
                        description = "A heatmap plot to show the Euclidean distance between samples",
                        glob = "heatmap.pdf"),
@@ -47,3 +51,4 @@ rbx <- Tool(id = "rnaseqGene",
 
 fl <- "inst/docker/rnaseqGene/rabix/rnaseqGene.json"
 write(rbx$toJSON(pretty = TRUE), fl)
+
