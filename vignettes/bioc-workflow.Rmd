@@ -45,6 +45,9 @@ Now we are ready to go!
 
 ### Installation 
 
+First download the [R markdown file](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
+or your favorite IDE to run through all examples and tweak setup.
+
 This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be April 15th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/tengfei/sevenbridges)
 
 For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
