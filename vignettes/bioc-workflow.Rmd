@@ -6,7 +6,6 @@ output:
     toc_depth: 4
     number_sections: false
     highlight: haddock
-    css: style.css
 ---
 
 <!--
@@ -31,8 +30,8 @@ In this tutorial, you will learn
 1. API client in R with __sevenbridges__ R package to fully automate analysis
 2. Describe command line interface with docopt R package
 3. Make your own docker app
-4. Desribe a standard RNA-seq Bioconductor workflow in CWL with pre-defined report template
-5. Excecute it in the cloud
+4. Describe a standard RNA-seq Bioconductor workflow in CWL with pre-defined report template
+5. Execute it in the cloud
 6. Reporting tool to generate as many R markdown report or Shiny apps report as you want
 7. Deploy directly on shiny server like shinyapps.io from a "report" tool
 
@@ -40,7 +39,7 @@ In this tutorial, you will learn
 
 This tutorial doesn't require you to be an advanced R user, everything you need is  R or even better, a cool IDE like Rstudio (or Emacs+ESS), then just open this Rmarkdown in Rstudio. It's easy to learn!
 
-Suggeste learning for all users: docker.
+Suggest learning for all users: docker.
 
 Now we are ready to go!
 
@@ -48,7 +47,7 @@ Now we are ready to go!
 
 This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be April 15th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/tengfei/sevenbridges)
 
-For now I recommend you to install the latest version of 'sevenbridges' from github directly by runing the script:
+For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
 
 ```{r}
 if(!require("devtools", quietly = TRUE)){
@@ -71,28 +70,27 @@ browseVignettes(package = 'sevenbridges')
 
 ![cgc-home](http://i.imgur.com/p52wIsi.png)
 
-You can find login/registration on NCI Cacner Genomics Cloud homepage [http://www.cancergenomicscloud.org/](http://www.cancergenomicscloud.org/), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
+You can find login/registration on NCI Cancer Genomics Cloud homepage [http://www.cancergenomicscloud.org/](http://www.cancergenomicscloud.org/), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
 
 ### Get your authentifiation
 
-After you login, you can get your authentification under yoru account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
+After you login, you can get your authentication under your account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
 
 
 
 ### (optional) register on shinyapps.io
 
-In this tutorial, if you want to try to deploy the application automatially on shiny server like shinyapps.io, please viist [http://www.shinyapps.io/](http://www.shinyapps.io/) register and login. 
+In this tutorial, if you want to try to deploy the application automatically on shiny server like shinyapps.io, please visit [http://www.shinyapps.io/](http://www.shinyapps.io/) register and login. 
 
 Get you token and secret ready to deploy
 
-![shiny-token](http://shiny.rstudio.com/images/tokens.png)
 
 ![shiny-token-open](http://shiny.rstudio.com/images/tokens2.png)
 
 
 ### Issues report
 
-This packge is under active development, will bring many new features as well, at 
+This package is under active development, will bring many new features as well, at 
 any moment, if you have questions or problem about this R package, please file issue on [github issue page here](https://github.com/tengfei/sevenbridges/issues)
 
 If you have question about the cancer genomics cloud platform or other seven bridges platform, we have a different channel for each platform, for example, cancer genomics cloud have lots [documentation](http://docs.cancergenomicscloud.org/docs) and a [forum](http://docs.cancergenomicscloud.org/discuss) 
@@ -101,16 +99,16 @@ Please, feedback is always welcomed!
 
 ## Quickstart
 
-The final goal is make a worflow that 
+The final goal is make a workflow that 
 
-1. Input gene feature, design matrix, bam files, and generate differential experession report and output full report, a picture and a count table as example. 
-2. Add report tool with two Shiny app template and two R markdown template to collect files from previsous flow and generate new reprot, even deploy on shinyapps.io autmatically after a task is finished.
+1. Input gene feature, design matrix, bam files, and generate differential expression report and output full report, a picture and a count table as example. 
+2. Add report tool with two Shiny app template and two R markdown template to collect files from previous flow and generate new report, even deploy on shinyapps.io automatically after a task is finished.
 
 The final workflow looks like this, it's composed of two tools: RNA-seq analysis tool and reporting tool.
 
 ![quickstart-flow](http://i.imgur.com/OkgB2tl.png)
 
-The shiny app report with ggvis module on the shinyapps.io server looks like this
+The shiny app report with ggvis module on the shinyapps.io server looks like [this](https://tengfei.shinyapps.io/scatter_plot/)
 
 A ggvis interactive scatter plot
 
@@ -120,7 +118,7 @@ A differential expression table
 
 ![Imgur](http://i.imgur.com/wQ9O3Ys.png)
 
-A full html report included, it's also output from the first tool, in this way, you can orchastrate many tools output into single report for your task.
+A full html report included, it's also output from the first tool, in this way, you can orchestrate many tools output into single report for your task.
 
 ![Imgur](http://i.imgur.com/9vgBQQC.png)
 ![Imgur](http://i.imgur.com/l5Xgq9R.png)
@@ -141,8 +139,8 @@ vignette("api", package = "sevenbridges")
 Now let's do some simple steps, first thing to do is to create an _Auth_ object,
 almost everything started from this object. Our API client follow a style like this "Auth$properties$action". On the platform, Auth is your account, and it contains projects, billing groups, users, project contains tasks, apps, files etc, so it's easy to imagine your API call.
 
-To create Auth, just pass token and url, by default url is setto CGC. Good news you can
-use 'sevenridges' package to access any seven bridges platform with V2 API. 
+To create Auth, just pass token and url, by default url is set to CGC. Good news you can
+use 'sevenbridges' package to access any seven bridges platform with V2 API. 
 
 This is the main way to create an Auth object, replace "fake_token" wit your own token.
 
@@ -150,7 +148,7 @@ This is the main way to create an Auth object, replace "fake_token" wit your own
 a <- Auth(token = "fake_token", url = "https://cgc-api.sbgenomics.com/v2/")
 ```
 
-Alternatively you can save your authentification cross different platforms in a configuration file called ".sbg.auth.yml" at home folder. This allow you to manage multiple users on multiple platforms. 
+Alternatively you can save your authentication cross different platforms in a configuration file called ".sbg.auth.yml" at home folder. This allow you to manage multiple users on multiple platforms. 
 
 ```
 us:
@@ -188,7 +186,7 @@ credit.
 ## a single billing group is showing
 ```
 
-Now let's create a new project called "hackson", save it to a 'p' object for conventient usage for any call related to this project.
+Now let's create a new project called "hackathon", save it to a 'p' object for convenient usage for any call related to this project.
 
 ```{r}
 (p <- a$project_new("hackathon", 
@@ -237,7 +235,7 @@ First thing first, let's define our tool first, here is a diagram generated with
 
 Building a development environment is essential for developing your command line interface and your app. There are some principles 
 
-1. First you need to check is there any existing container you can directly use, so you don't have to make a new one. If you don't know what to use, I will suggest you start with "rocker/hadleyverse", it has lots stuff markdown, kntir need and other hadley's popular packages. 
+1. First you need to check is there any existing container you can directly use, so you don't have to make a new one. If you don't know what to use, I will suggest you start with "rocker/hadleyverse", it has lots stuff markdown, knitr need and other hadley's popular packages. 
 
 Official R Docker images is called "Rocker" project and is on [github](https://github.com/rocker-org/rocker), please visit the 
 page to find more details and Dockerfile.
@@ -269,7 +267,7 @@ Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the 
 | bioconductor/release_proteomics |
 | bioconductor/release_sequencing |
 
-For example, you know there is 'runif' function in rocker/r-base container, you can just do something like this.  Please read another tutorial called "Describe CWL Tools/Workflows in R and Execution", it introduces you a simpler example with randome number generator. 
+For example, you know there is 'runif' function in rocker/r-base container, you can just do something like this.  Please read another tutorial called "Describe CWL Tools/Workflows in R and Execution", it introduces you a simpler example with random number generator. 
 
 ```{r, comment = "", eval = TRUE}
 rbx <- Tool(id = "runif", 
@@ -307,7 +305,7 @@ rbx <- Tool(id = "runif",
 
 I will introduce "Tool" function, in the later section, don't worry.
 
-3. For advnaced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level. 
+3. For advanced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level. 
 
 Here is Dockerfile I used to generate the workflow I need
 
@@ -369,8 +367,8 @@ Sometime you want to produce a report, so in the end you will notice how I pass 
 #### Step 4: Add default report template to your app
 
 As a developer, if you always have a fixed report template provided for you tool,
-you can hard-code your template into your docker container, like you noticed in the Dockerfile I created, I insert a report R markdown tempalte. And in the commadn line 
-interface, in the end, I pass it to `rmarkdown::render` function as parameters 'param'. In this way, you define your input in the header of R markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor's Rna-seq worklfow [website](http://www.bioconductor.org/help/workflows/rnaseqGene/)
+you can hard-code your template into your docker container, like you noticed in the Dockerfile I created, I insert a report R markdown template. And in the command line 
+interface, in the end, I pass it to `rmarkdown::render` function as parameters 'param'. In this way, you define your input in the header of R markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor's RNA-seq workflow [website](http://www.bioconductor.org/help/workflows/rnaseqGene/)
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/rnaseqGene/report", "rnaseqGene.Rmd", 
@@ -396,7 +394,7 @@ Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/d
 
 Finally it's time to describe your tool in R (cwl format)!
 
-Well, you are always encouraged to use graphical user interacce like this
+Well, you are always encouraged to use graphical user interface like this
 
 ![rabix-ui](https://www.filepicker.io/api/file/lRKPOLKhQE6ctWzWd0Qv)
 
@@ -423,14 +421,14 @@ Hints: please pay attention to how I create
 - Single File: just "File", only single file allowed.
 - Expression to specify the javascript expression (note:it's convenient to do it
 with graphic user interface, because you can directly see the result of the expression)
-- Emum: call 'enum'.
+- Enum: call 'enum'.
 
 ```{r, eval = TRUE}
+
 rbx <- Tool(id = "rnaseqGene", 
             label = "rnaseqgene",
             description = "A RNA-seq Differiencial Expression Flow and Report",
-            hints = requirements(docker(pull = "tengfei/rnaseqgene"), 
-                                 cpu(1), mem(2000)), 
+            hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)), 
             baseCommand = "performDE.R", 
             inputs = list(
                 input(
@@ -460,7 +458,11 @@ rbx <- Tool(id = "rnaseqGene",
                 output(id = "report", label = "report", 
                        description = "A reproducible report created by Rmarkdown",
                        glob = Expression(engine = "#cwl-js-engine",
-                                         script = "'rnaseqGene.' +  $job[['inputs']][['format']]")),
+                                         script = "x = $job[['inputs']][['format']];
+                                                  if(x == 'undefined' || x == null){
+                                                   x = 'html';
+                                                    };
+                                                  'rnaseqGene.' +  x")),
                 output(id = "heatmap", label = "heatmap", 
                        description = "A heatmap plot to show the Euclidean distance between samples",
                        glob = "heatmap.pdf"),
@@ -483,6 +485,16 @@ rbx$toJSON()
 ## fl <- "~/Downloads/rnaseqGene.json"
 ## write(rbx$toJSON(pretty = TRUE), fl)
 ```
+
+Now you want to add app to your project 'p', by call 'app_add' method, the first 
+argument is name, the second is either a cwl json file, or Tool object or Workflow object. 
+
+```{r}
+## add App you just created 
+(rna.app <- p$app_add("rnaseqgene", rbx))
+```
+
+Please go check your app in your project, check input output and how it maps to the UI.
 
 #### Step 6: Execute your tool with a new task via R API
 
@@ -510,13 +522,7 @@ When it's finished, refresh your file page, you will be able to see all of them.
 (gtf.in <- p$file("Homo_sapiens.GRCh37.75_subset.gtf"))
 ```
 
-Now you want to add app to your project 'p', by call 'app_add' method, the first 
-argument is name, the second is either a cwl json file, or Tool object or Workflow object. 
 
-```{r}
-## add App you just created 
-(rna.app <- p$app_add("rnaseqgene", rbx))
-```
 
 Now create a new draft task in your project, don't forget to pass input.
 
@@ -573,7 +579,7 @@ But how about this, instead of coding template into docker, I want to
 - collect report from different tools of a single workflow and do a summary report 
 
 Here I am developing a report tool to support all these in a single tool and it 
-uses two different engines to provide isolated environment to generate report, because each report has different dependendies.
+uses two different engines to provide isolated environment to generate report, because each report has different dependencies.
 
 - packrat engine: isolated libraries
 - liftr engine (in progress): docker in docker
@@ -585,7 +591,7 @@ __Requirement for your report template__
 this is how it works
 
 1. An app folder is created for each template
-2. In this root foler, you have "data", "src", "www", foler, on the interface, you can
+2. In this root folder, you have "data", "src", "www", folder, on the interface, you can
 connect output into those folders, so data flows into it. 
 3. First copy what's in your template, then copy those task output into those folders. 
 4. Now create isolated environment by packrat or liftr. 
@@ -595,14 +601,23 @@ connect output into those folders, so data flows into it.
 
 
 
-If you are interest, you can stil read my dockerfile, commandline, tool generator and json. 
+If you are interest, you can still read my dockerfile, command line, tool generator and json. 
 
-__I will suggest you directly copy the json into your project.__
+_I will suggest you directly copy the json into your project._ just to try add an app
+in different way.
 
 ```{r comment = "", eval = TRUE}
 fl <- system.file("docker/reporttool/rabix/reporttool.json", 
-                  package = "sevenbriges")
+                  package = "sevenbridges")
 cat(readLines(fl), sep= "\n")
+```
+
+Or just use API to add the raw JSON file
+
+```{r}
+## directly add json file
+p <- a$project(id = "tengfei/hackathon")
+(report.app <- p$app_add("report-tool", fl))
 ```
 
 Checkout the dockerfile
@@ -631,18 +646,29 @@ cat(readLines(fl), sep= "\n")
 
 ### Compose a full workflow
 
-Even though in R with 'sevenbridges' package you can use `%>%` to connect two Tool object, but this only works for lineawr simple flow. For complicated flow, we recommend you to use graphic user interface, it's lot fun. 
+Even though in R with 'sevenbridges' package you can use `%>%` to connect two Tool object, but this only works for linear simple flow. For complicated flow, we recommend you to use graphic user interface, it's lot fun. 
 
-Now connect your RNA-seq tool with the report tool you just add it to your project, 
-then make a workflow like this:
+Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-pipeline-editor), then make a workflow like this:
 
+![Imgur](http://i.imgur.com/dTKvLdt.png)
 
 And next run a task on the platform via UI like this:
 
+![Imgur](http://i.imgur.com/6VsC69W.png)
 
 ## Exercise: bring your own tool
 
 Now use either graphic user interface or R to describe your tool, your workflow, 
-write report template for your tool (hard coded) and then share your flow with yoru friends. 
+write report template for your tool (hard coded) and then share your flow with your friends. 
+
+## More tutorials
+
+After you install the package
+
+```{r}
+browseVignettes("sevenbridges")
+```
+
+or on Bioconductor devel branch sevenbridges [page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
 
     
