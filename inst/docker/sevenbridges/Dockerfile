@@ -7,7 +7,9 @@ MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
 ## thanks to official shiny docker file
 
-RUN apt-get update && apt-get install -y -t unstable \
+RUN apt-get autoclean \
+    && apt-get clean \
+    && apt-get update && apt-get install -y -t unstable \
     sudo \
     gdebi-core \
     pandoc \
@@ -55,10 +57,7 @@ RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
 
 ## RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller); ## biocLite("sevenbridges", dep = TRUE)'
 
-## (because --deps TRUE can fail when packages are added/removed from CRAN)
-RUN apt-get clean \
-##     && rm -rf /var/lib/apt/lists/ \
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
 
 
 ##################
@@ -97,7 +96,7 @@ RUN yes | /opt/shiny-server/bin/deploy-example user-dirs
 RUN R -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
 RUN R -e "devtools::install_github('rstudio/packrat')"
 
-RUN apt-get -y install unp
+RUN apt-get -y install unp emacs
 
 ## install docker
 RUN apt-get update \
@@ -109,8 +108,11 @@ RUN echo "deb https://apt.dockerproject.org/repo debian-stretch main" > /etc/apt
     && apt-get update \
     && apt-get install -y docker-engine
 
-## emacs
 
-RUN apt-get install -y emacs
+## (because --deps TRUE can fail when packages are added/removed from CRAN)
+RUN apt-get autoclean \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/ \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
