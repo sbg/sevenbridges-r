@@ -39,6 +39,7 @@ Collate:
     core.R
     utils.R
     AllClasses.R
+    FS-class.R      
     cwl-import.R
     Auth-class.R
     Item-class.R
