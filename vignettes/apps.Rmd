@@ -113,7 +113,7 @@ If you want to create simple script based on existing image, use `fileDef`.
 ```{r}
 ## Make a new file
 fd <- fileDef(name = "runif.R",
-              content = "sed.seed(1)
+              content = "set.seed(1)
                    runif(100)")
 
 rbx <- Tool(id = "runif", 
