@@ -208,8 +208,10 @@ if(!is.null(opts$shinyTemplate)){
         .fullPath <- copyFiles(x, opts)
         
         
-    
-        tar(file.path(.curPath, paste0(basename(.fullPath), ".tar")), .fullPath)
+        setwd(.curPath)
+        tar.name <- paste0(basename(.fullPath), ".tar")
+        message("tarname: ", tar.name)
+        tar(tar.name, .fullPath)
         
         
         if(toDeploy){
@@ -248,7 +250,8 @@ if(!is.null(opts$shinyTemplate)){
             
         }
     })
-    
+    message("list.files:\n ", 
+            paste(list.files(.curPath), collapse = "\n"))
     
 }
 

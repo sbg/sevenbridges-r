@@ -504,8 +504,38 @@ Please go check your app in your project, check input output and how it maps to 
 Now let's create a task and execute it with example files. You need to pass unique
 file id as input, so the first thing is to get file id you need for that project. 
 
-Now let's import some files to your project for this tutorial, unfortunately, you 
-can use API to do it right now, but in the future, we will soon implement API uploader in R as well. 
+Now let's import some files to your project for this tutorial, you can also do it
+via our API client by call `upload` function on project object. It supports 
+
+- single file, multiple file, and folder (recursively all files) as first arugment
+- name: a new name (with single file upload)
+- overwrite = TRUE to overwrite existing file
+- metadata: a list of meta otherwise search for the same file name ended with ".meta"
+
+For example
+
+```{r}
+fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
+(p <- a$project(id = "tengfei/quickstart"))
+## by default load .meta for the file
+p$upload(fl, overwrite = TRUE)
+## pass metadata
+p$upload(fl, overwrite = TRUE, metadata = list(library_id = "testid2", platform = "Illumina x11"))
+## rename
+p$upload(fl, overwrite = TRUE, name = "sample_new_name.fastq", 
+         metadata = list(library_id = "new_id"))
+
+## upload folder
+dir.ext <- system.file("extdata", package = "sevenbridges")
+p$upload(dir.ext, overwrite = TRUE)
+
+## upload file list
+fls <- list.files(dir.ext, recursive = TRUE, full.names = TRUE)
+p$upload(fls, overwrite = TRUE)
+```
+
+
+For now try use our graphic user interface to import all files listed here:
 
 ```{r, comment = "", eval = TRUE}
 download.fl <- system.file("extdata/download.txt", package = "sevenbridges")

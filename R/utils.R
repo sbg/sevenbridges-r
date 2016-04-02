@@ -571,7 +571,13 @@ POST2 <- function (url = NULL, config = list(), ..., body = NULL, encode = c("mu
 
 .update_revision <- function(id, revision = NULL){
     if(!is.null(revision)){
-        res <- gsub("[0-9]+$", revision, id, perl = TRUE)        
+        if(grepl("/[0-9]+$", id)){
+            res <- gsub("/[0-9]+$", revision, id, perl = TRUE)   
+        }else{
+            id = gsub("/$", "", id)
+            res <- paste0(id, "/", revision)
+        }
+               
     }else{
         res <- id
     }
@@ -583,33 +589,8 @@ POST2 <- function (url = NULL, config = list(), ..., body = NULL, encode = c("mu
 
 lift.rabix = function(input = NULL, output_dir = NULL, 
                       shebang = "#!/usr/local/bin/Rscript") {
-    ## learn from Nan's liftr package : ) 
-    if (is.null(input))
-        stop('missing input file')
-    if (!file.exists(normalizePath(input)))
-        stop('input file does not exist')
-    
-    # locate YAML metadata block
-    doc_content = readLines(normalizePath(input))
-    header_pos = which(doc_content == '---')
-    
-    # handling YAML blocks ending with three dots
-    if (length(header_pos) == 1L) {
-        header_dot_pos = which(doc_content == '...')
-        if (length(header_dot_pos) == 0L) {
-            stop('Cannot correctly locate YAML metadata block.
-                 Please use three hyphens (---) as start line & end line,
-                 or three hyphens (---) as start line with three dots (...)
-                 as end line.')
-        } else {
-            header_pos[2L] = header_dot_pos[1L]
-        }
-    }
-    
-    doc_yaml = paste(doc_content[(header_pos[1L] + 1L):
-                                     (header_pos[2L] - 1L)],
-                     collapse = '\n')
-    opt_all_list = yaml.load(doc_yaml)
+   
+    opt_all_list = liftr::parse_rmd(input)
     
     inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i){
         do.call(sevenbridges::input, i)
@@ -656,149 +637,7 @@ lift.rabix = function(input = NULL, output_dir = NULL,
     writeLines(txt, con = con)
     close(con)
     
-    opt_list = opt_all_list$liftr
     
-    # base image
-    if (!is.null(opt_list$from)) {
-        liftr_from = opt_list$from
-    } else {
-        liftr_from = 'rocker/r-base:latest'
-    }
-    
-    # maintainer name
-    if (!is.null(opt_list$maintainer)) {
-        liftr_maintainer = opt_list$maintainer
-    } else {
-        stop('Cannot find `maintainer` option in file header')
-    }
-    
-    if (!is.null(opt_list$maintainer_email)) {
-        liftr_maintainer_email = opt_list$maintainer_email
-    } else {
-        stop('Cannot find `maintainer_email` option in file header')
-    }
-    
-    # system dependencies
-    if (!is.null(opt_list$syslib)) {
-        liftr_syslib =
-            paste(readLines(system.file('syslib.Rmd', package = 'liftr')),
-                  paste(opt_list$syslib, collapse = ' '), sep = ' ')
-    } else {
-        liftr_syslib = NULL
-    }
-    
-    # texlive
-    if (!is.null(opt_list$latex)) {
-        if (opt_list$latex == TRUE) {
-            liftr_texlive =
-                paste(readLines(system.file('texlive.Rmd', package = 'liftr')),
-                      collapse = '\n')
-        } else {
-            liftr_texlive = NULL
-        }
-    } else {
-        liftr_texlive = NULL
-    }
-    
-    # pandoc
-    # this solves https://github.com/road2stat/liftr/issues/12
-#     if (liftr:::is_from_bioc(liftr_from) | liftr:::is_from_rstudio(liftr_from)) {
-#         liftr_pandoc = NULL
-#     } else {
-#         if (!is.null(opt_list$pandoc)) {
-#             if (opt_list$pandoc == FALSE) {
-#                 liftr_pandoc = NULL
-#             } else {
-#                 liftr_pandoc = paste(readLines(
-#                     system.file('pandoc.Rmd', package = 'liftr')), collapse = '\n')
-#             }
-#         } else {
-#             liftr_pandoc = paste(readLines(
-#                 system.file('pandoc.Rmd', package = 'liftr')), collapse = '\n')
-#         }
-#     }
-    liftr_pandoc = NULL
-    # Factory packages
-    liftr_factorypkgs = c('devtools', 'knitr', 'rmarkdown', 'shiny', 'RCurl')
-    liftr_factorypkg = liftr:::quote_str(liftr_factorypkgs)
-    
-    # CRAN packages
-    if (!is.null(opt_list$cranpkg)) {
-        liftr_cranpkgs = liftr:::quote_str(opt_list$cranpkg)
-        tmp = tempfile()
-        invisible(knit(input = system.file('cranpkg.Rmd', package = 'liftr'),
-                       output = tmp, quiet = TRUE))
-        liftr_cranpkg = readLines(tmp)
-    } else {
-        liftr_cranpkg = NULL
-    }
-    
-    # Bioconductor packages
-    if (!is.null(opt_list$biocpkg)) {
-        liftr_biocpkgs = liftr:::quote_str(opt_list$biocpkg)
-        tmp = tempfile()
-        invisible(knit(input = system.file('biocpkg.Rmd', package = 'liftr'),
-                       output = tmp, quiet = TRUE))
-        liftr_biocpkg = readLines(tmp)
-    } else {
-        liftr_biocpkg = NULL
-    }
-    
-    # GitHub packages
-    if (!is.null(opt_list$ghpkg)) {
-        liftr_ghpkgs = liftr:::quote_str(opt_list$ghpkg)
-        tmp = tempfile()
-        invisible(knit(input = system.file('ghpkg.Rmd', package = 'liftr'),
-                       output = tmp,
-                       quiet = TRUE))
-        liftr_ghpkg = readLines(tmp)
-    } else {
-        liftr_ghpkg = NULL
-    }
-    
-    # write Dockerfile
-    if (is.null(output_dir)) output_dir = liftr:::file_dir(input)
-    
-    invisible(knit(system.file('Dockerfile.Rmd',
-                               package = 'liftr'),
-                   output = paste0(normalizePath(output_dir),
-                                   '/Dockerfile'),
-                   quiet = TRUE))
-    
-    # handling rabix info
-    if (!is.null(opt_list$rabix)) {
-        if (opt_list$rabix == TRUE) {
-            
-            if (is.null(opt_list$rabix_d))
-                stop('Cannot find `rabix_d` option in file header')
-            
-            liftr_rabix_d = paste0('\"', normalizePath(opt_list$rabix_d,
-                                                       mustWork = FALSE), '\"')
-            
-            if (is.null(opt_list$rabix_json))
-                stop('Cannot find `rabix_json` option in file header')
-            
-            liftr_rabix_json = paste0('\"', opt_list$rabix_json, '\"')
-            
-            if (!is.null(opt_list$rabix_args)) {
-                
-                liftr_rabix_with_args = '-- '
-                rabix_args_vec = unlist(opt_list$rabix_args)
-                liftr_rabix_args =
-                    paste(paste0('--', paste(names(rabix_args_vec),
-                                             rabix_args_vec)),
-                          collapse = ' ')
-            } else {
-                liftr_rabix_with_args = NULL
-                liftr_rabix_args = NULL
-            }
-            
-            invisible(knit(system.file('Rabixfile.Rmd',
-                                       package = 'liftr'),
-                           output = paste0(normalizePath(output_dir),
-                                           '/Rabixfile'),
-                           quiet = TRUE))
-        }}
     
     ## insert the script
     docker.fl <- file.path(normalizePath(output_dir), 'Dockerfile')
@@ -836,5 +675,60 @@ validateApp <- function(req){
         message("App pushed but cannot be ran, because it doesn't pass validation")
         lapply(res, function(x) stop(x))
     }
+}
+
+
+
+.flowsummary <- function(a, id, revision = NULL, includeFile = FALSE){
+    ## developed for Andrew : )
+    app <- a$app(id = id, revision = revision)
+    cwl <- app$raw
+    .name <- app$name
+    if(cwl$class == "Workflow"){
+    .arg <- sum(sapply(cwl$steps, function(x){
+        ins <- x$run$input
+        if(includeFile){
+            length(ins)
+        }else{
+            idx = sapply(ins, function(i){
+                any(sapply(i$type, function(tp){
+                    "File" %in% tp 
+                }))
+            })
+            if(sum(idx)){
+                length(ins[!idx])
+            }else{
+                length(ins)
+            }
+        }
+    }))
+    .tool <- length(cwl$steps)
+    message("name: ", .name)
+    message("id: ", id)
+    message("Total tool: ", .tool)
+    message("Total arguments: ", .arg)
+    c('id' = id, 'tool' = .tool, 'arg' = .arg, 'name' = .name)
+    }else{
+        return(NULL)
+    }
+}
+
+# res = lapply(x, function(app){
+#     id = app$id
+#     .flowsummary(a = a, id = id)   
+# })
+
+iterId <- function(ids, fun, ...){
+    res <- lapply(ids, function(id){
+        fun(id = id, ...)
+    })
+    ## try convert it into a simple list
+    .class <- class(res[[1]])
+    .newclass <- paste0(.class, "List")
+    if(!is.null(tryNew(.newclass,where = topenv(parent.frame())))){
+        ## exists
+        res <- do.call(.newclass, res)
+    }
+    res
 }
 

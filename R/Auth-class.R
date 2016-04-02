@@ -9,6 +9,7 @@
 ##' @field token [character] your auth token.
 ##' @field url [character] basic url used for API, by default
 ##' it's \url{https://api.sbgenomics.com/1.1/}
+##' @field fs FS object, for mount and unmount file system.
 ##'
 ##' @param token [character] your auth token.
 ##' @param url [chracter] a URL for the API, default is \code{NULL},
@@ -28,13 +29,15 @@
 Auth <- setRefClass("Auth", fields = list(token = "character",
                                 url = "character",
                                 version = "character",
-                                platform = "characterORNULL"),
+                                platform = "characterORNULL",
+                                fs = "FSORNULL"),
                     methods = list(
                         initialize = function(
                             token = NULL,
                             url = NULL,
                             platform = NULL,
                             username = NULL, 
+                            fs = NULL,
                             ...){
 
                             ## get API URL first
@@ -44,7 +47,7 @@ Auth <- setRefClass("Auth", fields = list(token = "character",
                             .default.url <- "https://cgc-api.sbgenomics.com/v2/"
 
                             platform <<- platform
-                            
+                            fs <<- fs
                             if(is.null(url)){
                                 if(is.null(platform)){
                                     ## try to get token from config and option
@@ -356,15 +359,20 @@ if id provided, This call retrieves information about a selected invoice, includ
                         },
                         ## File API
                         file = function(name = NULL, id = NULL, project = NULL,
-                            exact = FALSE, detail = FALSE,
+                            exact = FALSE, detail = FALSE,  
                             metadata = list(), origin.task = NULL, ...){
                             'This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.'
 
+                            
                             if(is.null(id)){
                                 if(is.null(project)){
                                     stop("When file id is not provided, project id need to be provided.")
                                 }                                
                             }else{
+                                if(length(id) > 1){
+                                    res <- iterId(id, .self$file, exact = exact, ...)
+                                    return(res)
+                                }
                                 req <- api(path = paste0("files/", id), method = "GET", ...)
                                 res <- .asFiles(req)
                                 res <- setAuth(res, .self, "Files")
@@ -637,6 +645,19 @@ if id provided, This call retrieves information about a selected invoice, includ
                             
                             res <- setAuth(res, .self, "Task")
                             res
+                        },
+                        mount = function(mountPoint = NULL, 
+                                         projectId = NULL, 
+                                         ignore.stdout = TRUE, 
+                                         sudo = TRUE, ...){
+                            fs <<- FS(authToken = token, ...)
+                            fs$mount(mountPoint = mountPoint, 
+                                     projectId = projectId, 
+                                     ignore.stdout = ignore.stdout, 
+                                     sudo = sudo)
+                        },
+                        unmount = function(...){
+                            fs$unmount(...)
                         }
                     ))
 
@@ -650,7 +671,7 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 #' get Token from config files and option list
 #'
 #' Current config file is set on home directory with the name .sbg.auth.yml
-#'
+#' @rdname Auth-class
 #' @param platform In your configure file, platform you want to access via API. 
 #' @param username username to specify the token associated with.
 #' @aliases getToken
@@ -687,24 +708,6 @@ getToken <- function(platform = NULL, username = NULL){
 }
 
 
-## getAuth <- function(platform = NULL, username = NULL, ...){
-##     .url <- getToken(platform = platform)$url    
-##     if(!is.null(username)){
-##         .token <- getToken(platform = platform, username = username)
-##         res <- Auth(token = .token , url = .url, ...)
-##     }else{
-##         .p <- getToken(platform = platform)
-##         if(!is.null(.p[[1]])){
-##             ## use the first one
-##             message("username: ", names(.p)[1])
-##             .token <- .p[[1]]$token
-##             res <- Auth(token = .token, url = .url, ...)
-##         }else{
-##             stop("cannot find any existing authentification information.")
-##         }
-##     }
-##     res
-## }
 
 setAuth <- function(res, auth, className = NULL){
     stopifnot(!is.null(className))
@@ -721,14 +724,17 @@ setAuth <- function(res, auth, className = NULL){
     res
 }
 
-## setToken <- function(platform = NULL, username = NULL, token = NULL){
-##     if(is.null(platform) || is.null(username) || is.null(token))
-##         stop("platform ,username, token must be provided")
-##     .old <- options("sevenbridges")$sevenbridges
-##     .old$auth[[platform]] <- .update_list(.old$auth[[platform]],
-##                                           list(username = username,
-##                                                token = token))
-##     options(sevenbridges = .old)
-## }
+
+#' Read Auth config file to options 
+#' 
+#' @rdname Auth-class
+#' @aliases updateAuthList
+#' @export updateAuthList
+updateAuthList <- function(){
+    lst <- options("sevenbridges")
+    lst$auth <- suppressMessages(.parseToken())
+    cat(as.yaml(lst$auth))
+    options(sevenbridges = lst)
+}
 
 

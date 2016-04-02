@@ -4,25 +4,45 @@
 \name{Auth-class}
 \alias{Auth}
 \alias{Auth-class}
+\alias{getToken}
+\alias{updateAuthList}
 \title{Class Auth}
+\usage{
+getToken(platform = NULL, username = NULL)
+
+updateAuthList()
+}
 \arguments{
+\item{platform}{[character %in% 'cgc', 'us'] which platform you are
+using, by default it is sbg us platform.}
+
+\item{username}{username in the config file for authentification.}
+
 \item{token}{[character] your auth token.}
 
 \item{url}{[chracter] a URL for the API, default is \code{NULL},
 will use \code{api} parameter to switch to the right one.}
 
-\item{platform}{[character %in% 'cgc', 'us'] which platform you are
-using, by default it is sbg us platform.}
+\item{platform}{In your configure file, platform you want to access via API.}
 
-\item{username}{username in the config file for authentification.}
+\item{username}{username to specify the token associated with.}
+}
+\value{
+a token string.
 }
 \description{
 Auth token object
+
+get Token from config files and option list
+
+Read Auth config file to options
 }
 \details{
 Every object could be requested from this Auth object and any action
 could start from this object using cascading style. Please check vignette
 'easy-api' for more information.
+
+Current config file is set on home directory with the name .sbg.auth.yml
 }
 \section{Fields}{
 
@@ -31,6 +51,8 @@ could start from this object using cascading style. Please check vignette
 
 \item{\code{url}}{[character] basic url used for API, by default
 it's \url{https://api.sbgenomics.com/1.1/}}
+
+\item{\code{fs}}{FS object, for mount and unmount file system.}
 }}
 \section{Methods}{
 

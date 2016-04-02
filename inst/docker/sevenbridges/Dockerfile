@@ -49,7 +49,13 @@ RUN R -e "install.packages(c('rstudioapi', 'miniUI'), type = 'source'); "
 ### Bioc
 #################
 
-RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller); biocLite("sevenbridges", dep = TRUE)'
+## install from github instead of bioc for latest version
+source("http://bioconductor.org/biocLite.R")
+devtools::install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+  repos=BiocInstaller::biocinstallRepos(),
+  dependencies=TRUE)
+
+## RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller); biocLite("sevenbridges", dep = TRUE)'
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
 RUN apt-get clean \

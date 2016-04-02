@@ -23,10 +23,10 @@ regErrFun("asdf")
 
 metadata_groups_order <- list(
     File = c("experimental_strategy", "library_id", "platform",
-        "platform_unit_id", "file_segment_number", "quality_scale",
-        "paired_end", "data_format", "file_extension",
-        "reference_genome", "data_type", "data_subtype",
-        "analysis_uuid", "gdc_file_uuid", "access_level"),
+             "platform_unit_id", "file_segment_number", "quality_scale",
+             "paired_end", "data_format", "file_extension",
+             "reference_genome", "data_type", "data_subtype",
+             "analysis_uuid", "gdc_file_uuid", "access_level"),
     General = "investigation",
     Case = c("case_id", "case_uuid"),
     Case_Demographic = c("gender", "race", "ethnicity"),
@@ -78,7 +78,7 @@ Meta <- setRefClass("Meta",
                             suggested_values = NULL,
                             regex = NULL,
                             regexErrMsg = NULL){
-
+                            
                             data <<- transformData(data)
                             
                             ## fixme::validation
@@ -97,6 +97,9 @@ Meta <- setRefClass("Meta",
                         transformData = function(x){
                             x
                         },
+                        # asList = function(){
+                        #     
+                        # },
                         show = function(short = FALSE, full = TRUE){
                             if(short){
                                 .nms <- "data"
@@ -121,10 +124,10 @@ setMetaClass <- function(className = NULL,
                          type = "ANY",
                          transformData = NULL,
                          contains = NULL, ...
-                         ){
-
+){
+    
     stopifnot(!is.null(className))
-
+    
     cls <- setRefClass(className, contains = c(contains, "Meta"), 
                        fields = list(
                            data = type
@@ -135,7 +138,7 @@ setMetaClass <- function(className = NULL,
             transformData = transformData
         )
     }
-
+    
     ## constructor
     x <- list(...)
     category <- find_meta_group(className)
@@ -271,12 +274,12 @@ quality_scale_enum <- setSingleEnum("QualityScale",
 
 quality_scale <- setMetaClass("quality_scale", type = "QualityScaleSingleEnum",
                               transformData = quality_scale_enum,
-        name = "Quality scale",
-        description =  "For raw reads, this value denotes the sequencing\"
+                              name = "Quality scale",
+                              description =  "For raw reads, this value denotes the sequencing\"
         technology and quality format. For BAM and SAM\
         files, this value should always be 'Sanger'.",
                               suggested_values =  c(NA, "sanger", "illumina13", "illumina15", "illumina18", "solexa"),
-        locked = FALSE)
+                              locked = FALSE)
 
 investigation <- setMetaClass("investigation", type = "characterORNULL", 
                               name = "Investigation",
@@ -301,7 +304,7 @@ case_uuid <- setMetaClass("case_uuid", type = "characterORNULL",
 
 case_id <- setMetaClass("case_id", type = "characterORNULL", 
                         name =  "Case ID",
-        description = "An identifier, such as a number or a string that may\
+                        description = "An identifier, such as a number or a string that may\
                        contain metadata information, for a subject who has\
                        taken part in the investigation or study. See NCI\
                        Thesaurus Code: C54269.",
@@ -349,73 +352,73 @@ primary_site <- setMetaClass("primary_site", type = "characterORNULL",
                              regex = max_length(max_chars),
                              regexErrMsg = regErrFun("Primary site"))
 
-                             
+
 
 disease_type <- setMetaClass("disease_type", type = "characterORNULL",
-        name =  "Disease type",
-        description =  "The type of the disease or condition studied. \
+                             name =  "Disease type",
+                             description =  "The type of the disease or condition studied. \
                        See NCI Thesaurus Code: C2991.",
-        locked = FALSE, 
-        suggested_values = c(
-            "Acute Myeloid Leukemia",
-            "Adrenocortical Carcinoma",
-            "Bladder Urothelial Carcinoma",
-            "Brain Lower Grade Glioma",
-            "Breast Invasive Carcinoma",
-            "Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma",
-            "Cholangiocarcinoma",
-            "Chronic Myelogenous Leukemia",
-            "Colon Adenocarcinoma",
-            "Esophageal Carcinoma",
-            "Glioblastoma Multiforme",
-            "Head and Neck Squamous Cell Carcinoma",
-            "Kidney Chromophobe",
-            "Kidney Renal Clear Cell Carcinoma",
-            "Kidney Renal Papillary Cell Carcinoma",
-            "Liver Hepatocellular Carcinoma",
-            "Lung Adenocarcinoma",
-            "Lung Squamous Cell Carcinoma",
-            "Lymphoid Neoplasm Diffuse Large B-cell Lymphoma",
-            "Mesothelioma",
-            "Ovarian Serous Cystadenocarcinoma",
-            "Pancreatic Adenocarcinoma",
-            "Pheochromocytoma and Paraganglioma",
-            "Prostate Adenocarcinoma",
-            "Rectum Adenocarcinoma",
-            "Sarcoma",
-            "Skin Cutaneous Melanoma",
-            "Stomach Adenocarcinoma",
-            "Testicular Germ Cell Tumors",
-            "Thymoma",
-            "Thyroid Carcinoma",
-            "Uterine Carcinosarcoma",
-            "Uterine Corpus Endometrial Carcinoma",
-            "Uveal Melanoma"),
+                             locked = FALSE, 
+                             suggested_values = c(
+                                 "Acute Myeloid Leukemia",
+                                 "Adrenocortical Carcinoma",
+                                 "Bladder Urothelial Carcinoma",
+                                 "Brain Lower Grade Glioma",
+                                 "Breast Invasive Carcinoma",
+                                 "Cervical Squamous Cell Carcinoma and Endocervical Adenocarcinoma",
+                                 "Cholangiocarcinoma",
+                                 "Chronic Myelogenous Leukemia",
+                                 "Colon Adenocarcinoma",
+                                 "Esophageal Carcinoma",
+                                 "Glioblastoma Multiforme",
+                                 "Head and Neck Squamous Cell Carcinoma",
+                                 "Kidney Chromophobe",
+                                 "Kidney Renal Clear Cell Carcinoma",
+                                 "Kidney Renal Papillary Cell Carcinoma",
+                                 "Liver Hepatocellular Carcinoma",
+                                 "Lung Adenocarcinoma",
+                                 "Lung Squamous Cell Carcinoma",
+                                 "Lymphoid Neoplasm Diffuse Large B-cell Lymphoma",
+                                 "Mesothelioma",
+                                 "Ovarian Serous Cystadenocarcinoma",
+                                 "Pancreatic Adenocarcinoma",
+                                 "Pheochromocytoma and Paraganglioma",
+                                 "Prostate Adenocarcinoma",
+                                 "Rectum Adenocarcinoma",
+                                 "Sarcoma",
+                                 "Skin Cutaneous Melanoma",
+                                 "Stomach Adenocarcinoma",
+                                 "Testicular Germ Cell Tumors",
+                                 "Thymoma",
+                                 "Thyroid Carcinoma",
+                                 "Uterine Carcinosarcoma",
+                                 "Uterine Corpus Endometrial Carcinoma",
+                                 "Uveal Melanoma"),
                              regex = max_length(max_chars),
                              regexErrMsg = regErrFun("Disease type"))
 
 
 
 gender <- setMetaClass("gender", type = "characterORNULL", 
-        name  =  "Gender",
-        description = "The collection of behaviors and attitudes that\
+                       name  =  "Gender",
+                       description = "The collection of behaviors and attitudes that\
                        distinguish people n the basis of the societal roles\
                        expected for the two sexes. See NCI Thesaurus Code:\
                        C17357.", ### bug?
-        locked = FALSE,
+                       locked = FALSE,
                        suggested_values = c("Male", "Female"),
                        regex = max_length(max_chars),
                        regexErrMsg = regErrFun("Gender type"))
 
 
 age_at_diagnosis <- setMetaClass("age_at_diagnosis", type = "integer",
-        name = "Age at diagnosis",
-        description = "The age in years of the case at the initial \
+                                 name = "Age at diagnosis",
+                                 description = "The age in years of the case at the initial \
                        pathological diagnosis of disease or cancer. \
                        See NCI Thesaurus Code: C15220.",
-        locked = FALSE,
-        regex = "(^$)|(^[0-9]+$)",
-        regexErrMsg =  "Age at diagnosis has to be non-negative integer.")
+                                 locked = FALSE,
+                                 regex = "(^$)|(^[0-9]+$)",
+                                 regexErrMsg =  "Age at diagnosis has to be non-negative integer.")
 
 vital_status <- setMetaClass("vital_status", type = "characterORNULL", 
                              name =  "Vital status",
@@ -434,13 +437,13 @@ vital_status <- setMetaClass("vital_status", type = "characterORNULL",
 
 
 days_to_death <- setMetaClass("days_to_death", type = "integer", 
-        name  = "Days to death",
-        description =  "The number of days from the date of the initial \
+                              name  = "Days to death",
+                              description =  "The number of days from the date of the initial \
                        pathological diagnosis to the date of death for the \
                        case in the investigation. ",
-        locked = FALSE, 
-        regex =  "(^$)|(^[0-9]+$)",
-        regexErrMsg =  "Days to death has to be non-negative integer.")
+                              locked = FALSE, 
+                              regex =  "(^$)|(^[0-9]+$)",
+                              regexErrMsg =  "Days to death has to be non-negative integer.")
 
 
 
@@ -450,17 +453,17 @@ race <- setMetaClass("race", type = "characterORNULL",
                      heritable traits, common history, nationality, or \
                      geographic distribution. See NCI Thesaurus Code: \
                      C17049.",
-        locked = FALSE, 
-        suggested_values = c(
-            "White",
-            "American Indian or Alaska Native",
-            "Black or African American",
-            "Asian",
-            "Native Hawaiian or other Pacific Islander",
-            "Not reported",
-            "NA"
-        ),
-           regex = max_length(max_chars),
+                     locked = FALSE, 
+                     suggested_values = c(
+                         "White",
+                         "American Indian or Alaska Native",
+                         "Black or African American",
+                         "Asian",
+                         "Native Hawaiian or other Pacific Islander",
+                         "Not reported",
+                         "NA"
+                     ),
+                     regex = max_length(max_chars),
                      regexErrMsg = regErrFun("Race"))                  
 
 
@@ -522,8 +525,8 @@ sample_type <- setMetaClass("sample_type", type = "characterORNULL",
                             ),
                             regex = max_length(max_chars),
                             regexErrMsg = regErrFun("Sample type"))
-                            
-                            
+
+
 aliquot_uuid <- setMetaClass("aliquot_uuid", type = "characterORNULL", 
                              name =  "Aliquot UUID",
                              description = "The unique identifier for an aliquot, such as a \
@@ -637,7 +640,7 @@ data_subtype <- setMetaClass("data_subtype", type = "characterORNULL",
                              regexErrMsg = regErrFun("Data subtype"))
 
 
-                             
+
 reference_genome <- setMetaClass("reference_genome", type = "characterORNULL", 
                                  name = "Reference genome",
                                  description = "The reference assembly (such as HG19 or GRCh37) to \
@@ -663,7 +666,7 @@ reference_genome <- setMetaClass("reference_genome", type = "characterORNULL",
                                  regex = max_length(max_chars),
                                  regexErrMsg = regErrFun("Reference genome"))
 
-                                 
+
 analysis_uuid <- setMetaClass("analysis_uuid", type = "characterORNULL",
                               name = "Analysis UUID",
                               description = "The unique identifier for the analysis that \
@@ -687,27 +690,27 @@ data_format <- setMetaClass("data_format", type = "characterORNULL" ,
                             description = "Format that determines data content.",
                             locked = FALSE,
                             suggested_values = c(
-                                          "TXT",
-                                          "BAM",
-                                          "BAI",
-                                          "SAM",
-                                          "Idat",
-                                          "CEL",
-                                          "XML",
-                                          "VCF",
-                                          "TARGZ",
-                                          "TIF",
-                                          "FSA",
-                                          "TAR",
-                                          "Dat",
-                                          "FA",
-                                          "MAF",
-                                          "BED",
-                                          "DGE-Tag",
-                                          "FATSQ",
-                                          "FASTA",
-                                          "GTF",
-                                          "GFF"
+                                "TXT",
+                                "BAM",
+                                "BAI",
+                                "SAM",
+                                "Idat",
+                                "CEL",
+                                "XML",
+                                "VCF",
+                                "TARGZ",
+                                "TIF",
+                                "FSA",
+                                "TAR",
+                                "Dat",
+                                "FA",
+                                "MAF",
+                                "BED",
+                                "DGE-Tag",
+                                "FATSQ",
+                                "FASTA",
+                                "GTF",
+                                "GFF"
                             ), regex = max_length(max_chars),
                             regexErrMsg = regErrFun("Data format"))
 
@@ -718,13 +721,13 @@ access_level_enum <- setSingleEnum("AccessLevel", c(NA_character_, "Controlled",
 access_level <- setMetaClass("access_level", type = "AccessLevelSingleEnum",
                              transformData = access_level_enum, 
                              name =  "Access level",
-        description  =  "Controlled data is the data from the public datasets \
+                             description  =  "Controlled data is the data from the public datasets \
                        that has limitations on use and requires approval by \
                        a data access committee or similar. Open data is data \
                        from the public datasets that doesn't have \
                        limitations on use.",
                              suggested_values = c(NA_character_, "Controlled", "Open"),
-        locked = FALSE)
+                             locked = FALSE)
 
 ## set classandnull
 sapply(key_order, function(nm){
@@ -763,72 +766,92 @@ lst <- as.list(nm.cls)
 #' @export age_at_diagnosis vital_status days_to_death sample_id
 #' @export sample_uuid sample_type aliquot_id aliquot_uuid
 Metadata <- setRefClass("Metadata",
-                          fields = c(lst, list(extra = "listORNULL")),
-                          methods = list(
-                              initialize = function(
-                                  experimental_strategy = NULL, 
-                                  library_id = NULL, 
-                                  platform = NULL, 
-                                  platform_unit_id = NULL, 
-                                  file_segment_number = NULL, 
-                                  quality_scale = NULL ,
-                                  paired_end = NULL, 
-                                  data_format = NULL, 
-                                  file_extension = NULL, 
-                                  reference_genome = NULL, 
-                                  data_type = NULL, 
-                                  data_subtype = NULL ,
-                                  analysis_uuid = NULL, 
-                                  gdc_file_uuid = NULL,  
-                                  access_level = NULL, 
-                                  investigation = NULL, 
-                                  case_id = NULL, 
-                                  case_uuid = NULL, 
-                                  gender = NULL, 
-                                  race = NULL, 
-                                  ethnicity = NULL, 
-                                  primary_site = NULL, 
-                                  disease_type = NULL, 
-                                  age_at_diagnosis = NULL, 
-                                  vital_status = NULL, 
-                                  days_to_death = NULL, 
-                                  sample_id = NULL, 
-                                  sample_uuid = NULL, 
-                                  sample_type = NULL, 
-                                  aliquot_id = NULL, 
-                                  aliquot_uuid = NULL,
-                                  ...){
-
-                                  args <- as.list(match.call())[-1]
-                                  args <- args[names(args)[names(args) %in% key_order]]
-
-
-                                  .l <- list(...)
-                                  if(length(.l))
-                                      extra <<- .l
-                                  
-                                  for(nm in names(args)){
-                                      .self$field(nm, do.call(nm, list(data = args[[nm]])))
-                                  }
-
-                              },
-                              asList = function(){
-                                  lst <- .getFields(.self, key_order)
-                                  res <- c(lst, extra)
-                                  ## names(res) <- "metadata"
-                                  res
-                              },                              
-                              show = function(short = FALSE, full = FALSE){
-                                  l <- asList()
-                                  .showList(l, full = full)
-                                  ## sapply(key_order, function(x){
-                                  ##     obj <- .self$field(x)
-                                  ##     if(!is.null(obj))
-                                  ##         obj$show(short = short, full = full)
-                                  ## })
-                                  ## .showList(extra)
-                              }
-                          ))
+                        fields = c(lst, list(extra = "listORNULL")),
+                        methods = list(
+                            initialize = function(
+                                # experimental_strategy = NULL, 
+                                # library_id = NULL, 
+                                # platform = NULL, 
+                                # platform_unit_id = NULL, 
+                                # file_segment_number = NULL, 
+                                # quality_scale = NULL ,
+                                # paired_end = NULL, 
+                                # data_format = NULL, 
+                                # file_extension = NULL, 
+                                # reference_genome = NULL, 
+                                # data_type = NULL, 
+                                # data_subtype = NULL ,
+                                # analysis_uuid = NULL, 
+                                # gdc_file_uuid = NULL,  
+                                # access_level = NULL, 
+                                # investigation = NULL, 
+                                # case_id = NULL, 
+                                # case_uuid = NULL, 
+                                # gender = NULL, 
+                                # race = NULL, 
+                                # ethnicity = NULL, 
+                                # primary_site = NULL, 
+                                # disease_type = NULL, 
+                                # age_at_diagnosis = NULL, 
+                                # vital_status = NULL, 
+                                # days_to_death = NULL, 
+                                # sample_id = NULL, 
+                                # sample_uuid = NULL, 
+                                # sample_type = NULL, 
+                                # aliquot_id = NULL, 
+                                # aliquot_uuid = NULL,
+                                ...){
+                                
+                                args <- .dotargsAsList(...)
+  
+                                args.key <- args[names(args)[names(args) %in% key_order]]
+                                args.extra <- args[names(args)[!names(args) %in% key_order]]
+                                if(length(args.extra))
+                                    extra <<- args.extra
+                                
+                           
+                                
+                                for(nm in names(args.key)){
+                                    .self$field(nm, do.call(nm, list(data = args.key[[nm]])))
+                                }
+                                
+                            },
+                            asList = function(full = FALSE){
+                                lst <- .getFields(.self, key_order)
+                                
+                                res <- c(lst, extra)
+                                
+                                res <- lapply(res, function(x){
+                                    if(is(x, "Meta")){
+                                        x$data
+                                    }else{
+                                        x
+                                    }
+                                })
+                                if(!full){
+                                    idx <- sapply(res, is.null)
+                                    if(length(!idx)){
+                                        res[!idx]
+                                    }else{
+                                        list()
+                                    }
+                                    
+                                }else{
+                                    res
+                                }
+                                
+                            },                              
+                            show = function(short = FALSE, full = FALSE){
+                                l <- asList()
+                                .showList(l, full = full)
+                                ## sapply(key_order, function(x){
+                                ##     obj <- .self$field(x)
+                                ##     if(!is.null(obj))
+                                ##         obj$show(short = short, full = full)
+                                ## })
+                                ## .showList(extra)
+                            }
+                        ))
 
 
 
@@ -841,7 +864,12 @@ normalizeMeta <- function(x){
         if(length(x) > 1){
             res <- do.call(Metadata, x)
         }else if(length(x) == 1){
-            res <- do.call(Metadata, x[[1]])
+            if(is.list(x[[1]])){
+                res <- do.call(Metadata, x[[1]])
+            }else{
+                res <- do.call(Metadata, x)
+            }
+            
         }else{
             res <- Metadata()
         }
