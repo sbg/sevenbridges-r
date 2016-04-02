@@ -4,12 +4,18 @@ Part <- setRefClass("Part", contains = "Item",
                     fields = list(
                         part_number = "numericORNULL",
                         part_size = "numericORNULL",
-                        uri = "characterORNULL",
+                        url = "characterORNULL",
+                        expires = "characterORNULL",
+                        success_codes = "listORNULL",
+                        report = "listORNULL",
                         etag = "characterORNULL"),
                     methods = list(
                         initialize = function(part_number = NULL,
                                               part_size = NULL,
-                                              uri = NULL,
+                                              url = NULL,
+                                              expries = NULL,
+                                              success_codes = NULL,
+                                              report = NULL,
                                               etag = NULL, ...){
 
                             .part_number <- as.integer(as.character(part_number))
@@ -17,16 +23,19 @@ Part <- setRefClass("Part", contains = "Item",
                             if(.part_number >  10000 | .part_number <1){
                                 stop("par_number has to be a number in the range 1-10000.")
                             }
-                            uri <<- uri
+                            url <<- url
                             part_number <<- .part_number
                             part_size <<- .part_size
                             etag <<- etag
+                            expires <<- expires
+                            success_codes <<- success_codes
+                            report <<- report
 
                             callSuper(...)
                         },
                         show = function(){
                             .showFields(.self, "== Part ==",
-                                        c("part_number", "uri"))
+                                        c("part_number", "url"))
 
                         }
                     ))
@@ -35,7 +44,7 @@ Part <- setRefClass("Part", contains = "Item",
 
 Upload <- setRefClass("Upload", contains = "Item",
                       fields = list(
-                          ## filepath = "characterORNULL",
+                    
                           file = "characterORNULL",
                           project_id = "characterORNULL",
                           name = "characterORNULL",
@@ -46,6 +55,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                           part_length = "integer",
                           part_finished = "integer",
                           initialized = "logical",
+                          parallel_uploads = "logicalORNULL",
                           metadata = "Metadata"
                       ),
                       methods = list(
@@ -58,10 +68,12 @@ Upload <- setRefClass("Upload", contains = "Item",
                               part_finished = 0L,
                               initialized = FALSE,
                               part_length = NULL,
+                              parallel_uploads = NULL, 
                               metadata = list(), ...){
 
                               metadata <<- normalizeMeta(metadata)
 
+                              parallel_uploads <<-  parallel_uploads
                               initialized <<- initialized
                               part_finished <<- part_finished
                               ## validation
@@ -134,69 +146,81 @@ Upload <- setRefClass("Upload", contains = "Item",
                               }
                               callSuper(...)
                           },
-                          upload_init = function(){
-                              res <- sevenbridges::upload_init(token = auth$token,
-                                                       project_id = project_id,
-                                                       name = name,
-                                                       size = size,
-                                                       base_url = auth$url)
+                          upload_init = function(overwrite = FALSE, ...){
 
+                              body = list('project' = project_id, 
+                                              'name' = name, 
+                                              'size' = size,
+                                              'part_size' = part_size)
+                              
+                              res <- auth$api(path = "upload/multipart", 
+                                              query = list(overwrite = overwrite), 
+                                              body = body, method = 'POST', ...)
+                          
                               upload_id <<- res$upload_id
+                       
                               initialized <<- TRUE
+                              part_size <<- res$part_size
+                              parallel_uploads <<-  res$parallel_uploads
                               message("Initialized")
                               invisible(res)
                           },
-                          upload_info = function(){
+                          upload_info = function(list_parts = TRUE, ...){
                               if(is.null(upload_id)){
                                   stop("Upload is not initialized yet")
                               }
-                              res <- sevenbridges::upload_info(auth$token, upload_id,
-                                                       base_url = auth$url)
-                              show()
-                              invisible(res)
+                              res <- auth$api(path = paste0("upload/multipart/",
+                                                     upload_id), 
+                                              query = list(list_parts = list_parts),
+                                              method = "GET")
+                              
+                           
+                              # show()
+                              # invisible(res)
                           },
-                          upload_info_part = function(part_number = NULL){
+                          upload_info_part = function(part_number = NULL, ...){
                               stopifnot_provided(!is.null(part_number))
                               if(part_number >  10000 | part_number <1){
-                                  stop("par_number has to be a number in the range 1- 10000.")
+                                  stop("part_number has to be a number in the range 1- 10000.")
                               }
-                              cl <- c("Content-Length" = as.character(part[[part_number]]$part_size))
-                              res <- status_check(api(auth$token,
-                                                         base_url = auth$url,
-                                                         path = paste0("upload/multipart/",
-                                                                       upload_id, "/", part_number),
-                                                         method = "GET"))
 
+                              ## cl <- c("Content-Length" = as.character(part[[part_number]]$part_size))
+                              res <- auth$api(path = paste0("upload/multipart/",
+                                                     upload_id, "/part/", part_number), 
+                                              method = "GET")
 
-                              ## update that part
-                              part[[part_number]]$uri <<- res$uri
+                              part[[part_number]]$url <<- res$url
                               part[[part_number]]$etag <<- res$etag
                               part[[part_number]]$response <<- response(res)
-                              part[[part_number]]
+                              part[[part_number]]$expires <<- res$expries
+                              part[[part_number]]$success_codes <<- res$success_codes
+                              part[[part_number]]$report <<- res$report
+                              res
                           },
-                          upload_file = function(metadata = list()){
-                              if(length(metadata)){
-                                  metadata <<- list(metadata)
-                                  names(metadata) <<- "metadata"
-                              }
+                          upload_file = function(metadata = list(), overwrite = FALSE){
+                            
                               ## make this one easy to use
                               N <- part_length
-                              res <- upload_init()
+                              res <- upload_init(overwrite = overwrite)
+                          
                               pb <- txtProgressBar(min = 0, max = N, style = 3)
+                        
                               con <- file(file, "rb")
+                             
                               for(i in 1:N){
+                           
                                   p <- upload_info_part(i)
-                                  ## hack
-                                  uri <- p$uri
+                                  url <- p$url
                                   b <- readBin(con, "raw", part_size)
-                                  res <- PUT(uri, body = b)
+                                  res <- PUT(url, body = b)
                                   rm(b)
 
-                                  
+                     
                                   etag <- headers(res)$etag
+                                  
                                   part[[i]]$etag <<- etag
                                   upload_complete_part(i, etag)
-                                  part_finished <<- as.integer(i)
+                                  # part_finished <<- as.integer(i)
                                   setTxtProgressBar(pb, i)
                               }
                               close(pb)
@@ -205,43 +229,69 @@ Upload <- setRefClass("Upload", contains = "Item",
                               message("file uploading complete")
 
                               ## when we complete we could add meta
-                              meta <- .self$metadata$asList()
-                              if(length(meta)){
+                              # meta <- .self$metadata$asList()
+                              fl.id <- res$id
+                              fl.meta <- paste0(file, ".meta")
+                              if(length(metadata)){
+                                  if(file.exists(fl.meta)){
+                                      message("Ignore meta file: ", fl.meta)
+                                     
+                                  }
                                   message("Adding metadata ...")
-                                  req <- api(token = auth$token,
-                                             base_url = auth$url,
-                                             path = paste0('project/',
-                                                 project_id,
-                                                 '/file/', res$id),
-                                             body = meta,
-                                             method = 'PUT')
-                                  res <- status_check(req)
+                                  auth$file(id = fl.id)$setMeta(metadata)
                                   message("Metadata complete")
+                                
+                                  metadata <<- normalizeMeta(metadata)
+                         
+                              }else{
+                                 
+                                  if(file.exists(fl.meta)){
+                                      message("loading meta from: ", fl.meta)
+                                      metalist <- jsonlite::fromJSON(fl.meta)
+                                      auth$file(id = fl.id)$setMeta(metalist)
+                                      # browser()
+                                      # metalist
+                                      # do.call(Metadata, metalist)
+                                      # 
+                                      # metadata <<- do.call(Metadata, metalist)
+                                      metadata <<- normalizeMeta(metalist)
+                                  }
                               }
                               res <- .asFiles(res)
-                              res
+                              invisible(res)
                           },
                           upload_complete_part = function(part_number = NULL,
                                                           etag = NULL){
-                              res <- sevenbridges::upload_complete_part(auth$token,
-                                                                upload_id,
-                                                                part_number,
-                                                                etag, base_url = auth$url)
+                              
+                              body = list(
+                                  part_number = unbox(part_number),
+                                  response = list(headers = list(ETag = unbox(etag)))
+                              )
+                              
+                              res <- auth$api(path = paste0("upload/multipart/",
+                                                             upload_id, "/part"),
+                                              body = body,
+                                              method = "POST")
 
                           },
-                          upload_complete_all = function(){
+                          upload_complete_all = function(...){
                               ## fixme:
-                              req <- api(token = auth$token,
-                                            base_url = auth$url,
-                                            path = paste0("upload/multipart/",
+                              pl <- lapply(part, function(p){
+                                  list(part_number = unbox(p$part_number),
+                                       response = list(headers = list(ETag = unbox(p$etag))))
+                              })
+                              body = list(parts = pl)
+                 
+                              res <- auth$api(path = paste0("upload/multipart/",
                                                           upload_id, "/complete"),
-                                            method = "POST")
-                              status_check(req)
-
+                                              body = body,
+                                            method = "POST", ...)
                           },
                           upload_delete = function(){
-                              sevenbridges::upload_delete(auth$token, upload_id,
-                                                  base_url = auth$url)
+
+                              auth$api(path = paste0("/upload/multipart/", upload_id),
+                                       method = "DELETE")
+
                           },
                           show = function(){
                               .showFields(.self, "== Upload ==",

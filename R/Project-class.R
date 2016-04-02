@@ -234,54 +234,45 @@ Project <- setRefClass("Project", contains = "Item",
                                                 detail = detail, ...)
                                res
                            },
-                           upload = function(filename = NULL, metadata = list(), baseCMD = NULL, api = TRUE){
+                           upload = function(filename = NULL, 
+                                             name = NULL,
+                                             metadata = list(),
+                                             overwrite = FALSE, ...){
+                               ## if filename is a list
+                               if(length(filename) > 1){
+                 
+                                   for(fl in filename){
+                                       message(fl)
+                                       upload(fl, metadata = metadata, 
+                                              overwrite = overwrite,
+                                              ...)
+                                   }
+                                   return()
+                               }
+                               ## if filename is a folder
+                               if(!is.na(file.info(filename)$isdir) && file.info(filename)$isdir){
+                                   message("Upload all files in the folder: ", filename)
+                                   fls <- list.files(filename, recursive = TRUE, full.names = TRUE)
+                                   upload(fls, metadata = metadata, 
+                                          overwrite = overwrite,
+                                          ...)
+                               }
+                               
                                ## check 
                                if(!file.exists(filename)){
                                    stop("file not found")
                                }
-                               fm <- paste0(filename, ".meta")
-                               if(!file.exists(fm)){
-                                   if(length(metadata)){
-                                       ## write a meta
-                                       message("create meta file: ", fm)
-                                       con <- base::file(fm, raw = TRUE)
-                                       writeLines(toJSON(metadata), con = con)
-                                       close(con)
-                                   }
-                               }
-
-                               ##
-                               if(!api){
-                                   message("try to use command line uploader")
-                                   .p <- getwd()                               
-                                   if(is.null(baseCMD)){
-                                       switch(auth$platform,
-                                              us = {
-                                                  setwd("~/sbg-uploader/")
-                                                  baseCMD <- "bin/sbg-uploader.sh"
-                                              },
-                                              cgc = {
-                                                  setwd("~/cgc-uploader/")
-                                                  baseCMD <- "bin/cgc-uploader.sh"
-                                              })
-                                   }
-
-                                   x <- system(paste(baseCMD, "-t", auth$token, "-l"), intern = TRUE)
-                                   d <- do.call(rbind, lapply(x, function(i) strsplit(i, "\t")[[1]]))
-                                   pid <- d[d[,2] == name, 1]
-                                   ## sbg-uploader.sh [-h] [-l] [-p id] [-t token] [-u username] [-x url] file
-                                   cmd <- paste(baseCMD, "-p", pid, "-t", auth$token, filename)
-                                   print(cmd)
-                                   system(cmd)
-                                   setwd(.p)
-                               }else{
-                                   ## by default use API uploader
-                                   u <- Upload(auth = auth,
-                                               filename,
-                                               project_id = id,
-                                               metadata = metadata)
-                                   u$upload_file()
-                               }
+                              
+                              
+                               u <- Upload(auth = auth,
+                                           file = filename,
+                                           name = name, 
+                                           project_id = id,
+                                           metadata = metadata, 
+                                           ...)
+                               
+                               u$upload_file(metadata = metadata, overwrite = overwrite)
+                          
                            },
                            ## app
                            app = function(...){
