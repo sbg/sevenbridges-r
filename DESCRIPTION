@@ -26,7 +26,8 @@ Imports:
     docopt,
     curl,
     liftr,
-    rstudioapi
+    rstudioapi,
+    uuid
 Suggests:
     BiocStyle,
     knitr,
