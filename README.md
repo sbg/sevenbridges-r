@@ -1,16 +1,16 @@
 # NCI Cancer Genomics Cloud Hackathon Tutorials
 
-[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)
-[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)
-[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)
+Workshop tutorial: [[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)] [[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)]
 
 # R Package for Seven Bridges Platform
 
-Please checkout the [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
+You can also checkout the [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
 
 ## Features
 
-- Complete API R client with user friendly API like a$project("demo")$file("sample.tz")$delete()
+- Complete API R client with user friendly API like 
+`a$project("demo")$file("sample.tz")$delete()` `a$project(id = "tengfei/quickstart")$upload("folder_path", metadata = list(platform = "Illumina"))`
+
 
 - CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
 of CWL object.
@@ -27,6 +27,10 @@ of CWL object.
 ## Tutorials
 
 Tutorials are listed on  [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
+
+```
+browseVignettes("sevenbridges")
+```
 
 
 ## Installation
