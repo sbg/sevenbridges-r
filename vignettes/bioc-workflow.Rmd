@@ -48,6 +48,12 @@ Now we are ready to go!
 First download the [R markdown file](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
 
+In R you can do this
+
+```{r}
+download.file("https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd", destfile = "~/bioc-workflow.Rmd")
+```
+
 This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be April 15th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/tengfei/sevenbridges)
 
 For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
@@ -306,6 +312,8 @@ rbx <- Tool(id = "runif",
             outputs = output(id = "random", glob = "*.txt"))   
 ```
 
+__Note__: in the above example, I made a mistake on purpose, so try to debug on the platform if the task fails : ) 
+
 I will introduce "Tool" function, in the later section, don't worry.
 
 3. For advanced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level. 
@@ -540,6 +548,20 @@ For now try use our graphic user interface to import all files listed here:
 ```{r, comment = "", eval = TRUE}
 download.fl <- system.file("extdata/download.txt", package = "sevenbridges")
 cat(readLines(download.fl), sep = '\n')
+```
+
+To use the API to uplaod, let's download it to a folder and upload via API.
+
+```{r}
+td <- tempfile()
+dir.create(td)
+for(f in readLines(download.fl)){
+    download.file(f, file.path(td, basename(f)))
+}
+## double check
+list.files(td)
+## upload to the project you created
+p$upload(td)
 ```
 
 Copy this list, and then in your project, click "add files", and choose "import from ftp" ([tutorial](http://docs.cancergenomicscloud.org/docs/copy-files-to-a-project))

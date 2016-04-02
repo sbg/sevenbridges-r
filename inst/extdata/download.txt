@@ -12,4 +12,3 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039517_subset.bam
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039520_subset.bam
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039521_subset.bam
-

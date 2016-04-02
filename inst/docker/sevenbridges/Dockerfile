@@ -7,9 +7,7 @@ MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
 ## thanks to official shiny docker file
 
-RUN apt-get autoclean \
-    && apt-get clean \
-    && apt-get update && apt-get install -y -t unstable \
+RUN apt-get update && apt-get install -y -t unstable \
     sudo \
     gdebi-core \
     pandoc \
@@ -110,9 +108,7 @@ RUN echo "deb https://apt.dockerproject.org/repo debian-stretch main" > /etc/apt
 
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
-RUN apt-get autoclean \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/ \
+RUN rm -rf /var/lib/apt/lists/ \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
