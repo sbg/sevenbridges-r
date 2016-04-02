@@ -249,7 +249,13 @@
   ],
   "outputs": [
     {
-      "type": ["null", "File"],
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
       "label": "",
       "description": "compressed shiny app folder",
       "streamable": false,
@@ -260,7 +266,13 @@
       }
     },
     {
-      "type": ["null", "File"],
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
       "label": "",
       "description": "report rendered as html from knitr template",
       "streamable": false,
@@ -271,7 +283,13 @@
       }
     },
     {
-      "type": ["null", "File"],
+      "type": [
+        "null",
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
       "label": "",
       "description": "report rendered as pdf from knitr template",
       "streamable": false,

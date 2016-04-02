@@ -1,1 +1,1 @@
-{"file_type": "fastq", "seq_tech": "Illumina", "sample": "sample1"}
+{"file_type": "fastq", "platform": "Illumina HiSeq", "sample": "sample1"}
