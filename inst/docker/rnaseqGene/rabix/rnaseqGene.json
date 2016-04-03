@@ -4,7 +4,6 @@
   "inputs": [
     {
       "type": [
-        "null",
         {
           "items": "File",
           "type": "array"
@@ -24,7 +23,9 @@
       }
     },
     {
-      "type": ["null", "File"],
+      "type": [
+        "File"
+      ],
       "label": "design matrix",
       "description": "",
       "streamable": false,
@@ -38,7 +39,9 @@
       }
     },
     {
-      "type": ["null", "File"],
+      "type": [
+        "File"
+      ],
       "label": "gene feature files",
       "description": "",
       "streamable": false,
@@ -84,7 +87,7 @@
       "outputBinding": {
         "glob": {
           "engine": "#cwl-js-engine",
-          "script": "x = $job[['inputs']][['format']];\nif(x == 'undefined' || x == null){\nx = 'html';\n};\n'rnaseqGene.' +  x",
+          "script": "x = $job[['inputs']][['format']];\n                                                  if(x == 'undefined' || x == null){\n                                                   x = 'html';\n                                                    };\n                                                  'rnaseqGene.' +  x",
           "class": "Expression"
         }
       }
