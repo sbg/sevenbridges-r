@@ -7,12 +7,12 @@
 \alias{"+",WorkflowStepList,App-method}
 \alias{"+",WorkflowStepList,Tool-method}
 \alias{"+",WorkflowStepList,WorkflowStepList-method}
-\alias{"\%>\%"}
-\alias{"\%>\%",App,App-method}
-\alias{"\%>\%",Tool,Tool-method}
-\alias{"\%>\%",Workflow,App-method}
-\alias{"\%>\%",Workflow,Tool-method}
-\alias{"\%>\%",Workflow,Workflow-method}
+\alias{"\%>>\%"}
+\alias{"\%>>\%",App,App-method}
+\alias{"\%>>\%",Tool,Tool-method}
+\alias{"\%>>\%",Workflow,App-method}
+\alias{"\%>>\%",Workflow,Tool-method}
+\alias{"\%>>\%",Workflow,Workflow-method}
 \alias{+,App,App-method}
 \alias{+,Tool,Tool-method}
 \alias{+,WorkflowStepList,App-method}
@@ -21,12 +21,12 @@
 \alias{Flow}
 \alias{SBGWorkflow}
 \alias{SBGWorkflow-class}
-\alias{\%>\%}
-\alias{\%>\%,App,App-method}
-\alias{\%>\%,Tool,Tool-method}
-\alias{\%>\%,Workflow,App-method}
-\alias{\%>\%,Workflow,Tool-method}
-\alias{\%>\%,Workflow,Workflow-method}
+\alias{\%>>\%}
+\alias{\%>>\%,App,App-method}
+\alias{\%>>\%,Tool,Tool-method}
+\alias{\%>>\%,Workflow,App-method}
+\alias{\%>>\%,Workflow,Tool-method}
+\alias{\%>>\%,Workflow,Workflow-method}
 \title{Build workflow}
 \usage{
 Flow(..., graph = TRUE, x.width = 1000, y.width = 400, x.start = 100,
@@ -42,17 +42,17 @@ Flow(..., graph = TRUE, x.width = 1000, y.width = 400, x.start = 100,
 
 \S4method{+}{WorkflowStepList,App}(e1, e2)
 
-e1 \%>\% e2
+e1 \%>>\% e2
 
-\S4method{\%>\%}{Tool,Tool}(e1, e2)
+\S4method{\%>>\%}{Tool,Tool}(e1, e2)
 
-\S4method{\%>\%}{Workflow,Tool}(e1, e2)
+\S4method{\%>>\%}{Workflow,Tool}(e1, e2)
 
-\S4method{\%>\%}{Workflow,Workflow}(e1, e2)
+\S4method{\%>>\%}{Workflow,Workflow}(e1, e2)
 
-\S4method{\%>\%}{App,App}(e1, e2)
+\S4method{\%>>\%}{App,App}(e1, e2)
 
-\S4method{\%>\%}{Workflow,App}(e1, e2)
+\S4method{\%>>\%}{Workflow,App}(e1, e2)
 }
 \arguments{
 \item{...}{extra arguments passed to SBGWorkflow}

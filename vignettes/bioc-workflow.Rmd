@@ -701,7 +701,7 @@ cat(readLines(fl), sep= "\n")
 
 ### Compose a full workflow
 
-Even though in R with 'sevenbridges' package you can use `%>%` to connect two Tool object, but this only works for linear simple flow. For complicated flow, we recommend you to use graphic user interface, it's lot fun. 
+Even though in R with 'sevenbridges' package you can use `%>>%` to connect two Tool object, but this only works for linear simple flow. For complicated flow, we recommend you to use graphic user interface, it's lot fun. 
 
 Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-pipeline-editor), then make a workflow like this:
 

@@ -260,10 +260,10 @@ Here are methods we support
     - Tool + Tool 
     - StepList + Tool
     - StepList + StepList
-- Alternatively `%>%` will output `Flow` not `StepList`, if you connect tools with `%>%` we will create id for you. it always output `Workflow`
-    - Tool %>% Tool 
-    - Workflow %>% Tool
-    - Workflow %>% Tool
+- Alternatively `%>>%` will output `Flow` not `StepList`, if you connect tools with `%>>%` we will create id for you. it always output `Workflow`
+    - Tool %>>% Tool 
+    - Workflow %>>% Tool
+    - Workflow %>>% Tool
     
 #### Construct tools first    
 
@@ -330,10 +330,10 @@ f$toJSON()
 f$toJSON(pretty = TRUE)
 ```
 
-Or use %>% 
+Or use %>>% 
 
 ```{r}
-f <- t1 %>% t2 %>% t3
+f <- t1 %>>% t2 %>>% t3
 f$toJSON()
 ```
 
@@ -363,7 +363,7 @@ app1 <- p$app(id = "tengfei/helloworld/runif_new_test/0")
 app2 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
 app3 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
 
-f <- app1 %>% app2 %>% app3
+f <- app1 %>>% app2 %>>% app3
 
 f$id <- "randome number test flow 2"
 f$"sbg:id" <- "tengfei/helloworld/testtesttest"
