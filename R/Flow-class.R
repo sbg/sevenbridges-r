@@ -216,14 +216,14 @@ setMethod("+", c("WorkflowStepList", "App"), function(e1, e2){
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%"
-setGeneric("%>%", function(e1, e2) standardGeneric("%>%"))
+#' @aliases "%>>%"
+setGeneric("%>>%", function(e1, e2) standardGeneric("%>>%"))
 
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%",Tool,Tool-method
-setMethod("%>%", c("Tool", "Tool"), function(e1, e2){
+#' @aliases "%>>%",Tool,Tool-method
+setMethod("%>>%", c("Tool", "Tool"), function(e1, e2){
     .id <- paste(parseLabel(e1$label), parseLabel(e2$label), sep = "_")
     .label <- paste(parseLabel(e1$label), parseLabel(e2$label))
     lst <- e1 + e2
@@ -233,8 +233,8 @@ setMethod("%>%", c("Tool", "Tool"), function(e1, e2){
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%",Workflow,Tool-method
-setMethod("%>%", c("Workflow", "Tool"), function(e1, e2){
+#' @aliases "%>>%",Workflow,Tool-method
+setMethod("%>>%", c("Workflow", "Tool"), function(e1, e2){
     ## fix
     slist <- e1$steps + e2
     new.flow <- Flow(id = e1$id, label = e1$label, steps = slist)
@@ -246,8 +246,8 @@ setMethod("%>%", c("Workflow", "Tool"), function(e1, e2){
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%",Workflow,Workflow-method
-setMethod("%>%", c("Workflow", "Workflow"), function(e1, e2){
+#' @aliases "%>>%",Workflow,Workflow-method
+setMethod("%>>%", c("Workflow", "Workflow"), function(e1, e2){
     e1$steps <- e1$steps + e2$steps
     e1
 })
@@ -255,17 +255,17 @@ setMethod("%>%", c("Workflow", "Workflow"), function(e1, e2){
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%",App,App-method
-setMethod("%>%", c("App", "App"), function(e1, e2){
-    convertApp(e1) %>% convertApp(e2)
+#' @aliases "%>>%",App,App-method
+setMethod("%>>%", c("App", "App"), function(e1, e2){
+    convertApp(e1) %>>% convertApp(e2)
 })
 
 
 #' @rdname Flow
 #' @export
 #' @docType methods
-#' @aliases "%>%",Workflow,App-method
-setMethod("%>%", c("Workflow", "App"), function(e1, e2){
+#' @aliases "%>>%",Workflow,App-method
+setMethod("%>>%", c("Workflow", "App"), function(e1, e2){
     slist <- e1$steps + convertApp(e2)
     new.flow <- Flow(id = e1$id, label = e1$label, steps = slist)
     ## udpate step list
