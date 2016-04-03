@@ -698,8 +698,8 @@ getToken <- function(platform = NULL, username = NULL){
 .parseToken <- function(f = ".sbg.auth.yml", p = path.expand("~")){
     fl <- file.path(p, f)
     if(file.exists(fl)){
-        err <- try(res <- yaml.load_file(fl), silent = TRUE)  
-        if(inherits(err, "try-error")){
+        res <- try(yaml.load_file(fl), silent = TRUE)  
+        if(inherits(res, "try-error")){
             warning("something wrong with your auth config file")
             message("try debug with yaml.load_file")
             res <- NULL
