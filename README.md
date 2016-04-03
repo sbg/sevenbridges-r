@@ -9,7 +9,10 @@ You can also checkout the [bioconductor page](http://bioconductor.org/packages/3
 ## Features
 
 - Complete API R client with user friendly API like 
-`a$project("demo")$file("sample.tz")$delete()` `a$project(id = "tengfei/quickstart")$upload("folder_path", metadata = list(platform = "Illumina"))`
+
+`a$project("demo")$file("sample.tz")$delete()` 
+
+`a$project(id = "tengfei/quickstart")$upload("folder_path", metadata = list(platform = "Illumina"))`
 
 
 - CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
@@ -56,6 +59,8 @@ install_github("tengfei/sevenbridges", build_vignettes=TRUE,
   dependencies=TRUE)
 ```
 
+If you have trouble with pandoc, either instal it or set `build_vignettes = FALSE`, 
+
 To load the package in R, simply call
 
 ```
@@ -65,7 +70,7 @@ library("sevenbridges")
 ## Launch Rstudio Server and Shiny Server with sevenbridges utils
 
 ```
-docker run  -d -p 8787:8787 -p 80:3838 tengfei/sevenbridges:local &
+docker run  -d -p 8787:8787 -p 80:3838 tengfei/sevenbridges:local 
 ```
 
 check out the ip
@@ -74,14 +79,14 @@ check out the ip
 docker-machine ip default
 ```
 `http://<url>:8787/` for Rstudio
-`http://<url>:8787/<username of rstudio>/` for Shiny server
+`http://<url>:80/<username of rstudio>/` for Shiny server
 
 For example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
 
 Note: for users of that Rstudio, just create `ShinyApps` folder under
 your home folder, then put your apps under that folder, so you can
-visit `http://<url>:8787/<username of rstudio>/<app name>` for your
-shiny apps. For example ``http://192.168.99.100:8787/tengfei/hello`
+visit `http://<url>:80/<username of rstudio>/<app name>` for your
+shiny apps. For example ``http://192.168.99.100:80/tengfei/hello`
 
 <hr>
 

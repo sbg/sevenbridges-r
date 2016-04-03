@@ -11,16 +11,19 @@ rbx <- Tool(id = "rnaseqGene",
                     description = "a list of bam files",
                     type = "File...",  ## or type = ItemArray("File")
                     prefix = "--bamfiles",
+                    required = TRUE,
                     itemSeparator = ","
                 ), 
                 input(
                     id = "design", label = "design matrix",
                     type = "File",
+                    required = TRUE,
                     prefix = "--design"
                 ),
                 input(
                     id = "gtffile", label =  "gene feature files",
                     type = "File",
+                    required = TRUE,
                     prefix = "--gtffile"
                 ),
                 input(

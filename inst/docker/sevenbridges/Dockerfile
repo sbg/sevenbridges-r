@@ -36,7 +36,9 @@ RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
 EXPOSE 3838
 
-COPY src/shiny-server.sh /usr/bin/shiny-server.sh
+## COPY src/shiny-server.sh /usr/bin/shiny-server.sh
+
+COPY src/userconf.sh /usr/bin/userconf.sh
 
 ####################
 ### addin

@@ -680,7 +680,7 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 getToken <- function(platform = NULL, username = NULL){
     o <- options("sevenbridges")$sevenbridges$auth
     if(is.null(o)){
-        message("nothing found in options, loading from config file")
+ 
         o <- .parseToken()
     }
     if(is.null(platform)){
@@ -698,8 +698,12 @@ getToken <- function(platform = NULL, username = NULL){
 .parseToken <- function(f = ".sbg.auth.yml", p = path.expand("~")){
     fl <- file.path(p, f)
     if(file.exists(fl)){
-        message("loading ", fl)
-        res <- yaml.load_file(fl)        
+        err <- try(res <- yaml.load_file(fl), silent = TRUE)  
+        if(inherits(err, "try-error")){
+            warning("something wrong with your auth config file")
+            message("try debug with yaml.load_file")
+            res <- NULL
+        }
     }else{
         message("configuration file: ", fl, " not found")
         res <- NULL

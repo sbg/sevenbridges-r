@@ -105,11 +105,11 @@ Task <- setRefClass("Task", contains = "Item",
                             if(is.null(outputs)){
                                 update()
                             }
-                            fids <- sapply(outputs, function(x) x$path)
-                            p <- auth$project(id = project, exact = TRUE)
+                            fids <- sapply(outputs$output, function(x) x$path)
+                            p <- auth$project(id = project)
 
                             for(fid in fids){
-                                fl <- p$file(id = fid, exact = TRUE)
+                                fl <- p$file(id = fid)
                                 message("downloading: ", fl$name)
                                 fl$download(destfile, ..., method = method)
                             }
