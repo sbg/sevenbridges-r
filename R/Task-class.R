@@ -105,7 +105,7 @@ Task <- setRefClass("Task", contains = "Item",
                             if(is.null(outputs)){
                                 update()
                             }
-                            fids <- sapply(outputs$output, function(x) x$path)
+                            fids <- sapply(outputs, function(x) x$path)
                             p <- auth$project(id = project)
 
                             for(fid in fids){
