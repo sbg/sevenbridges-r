@@ -116,6 +116,11 @@ fd <- fileDef(name = "runif.R",
               content = "set.seed(1)
                    runif(100)")
 
+## or simply readLines
+.srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
+fd <- fileDef(name = "runif.R",
+              content = paste(readLines(.srcfile), collapse = "\n"))
+
 rbx <- Tool(id = "runif", 
             label = "runif",
             hints = requirements(docker(pull = "rocker/r-base"), 
@@ -124,9 +129,33 @@ rbx <- Tool(id = "runif",
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))   
-rbx
+
+
 ```
 
+How bout multiple script?
+
+```{r}
+## or simply readLines
+.srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
+fd1 <- fileDef(name = "runif.R",
+              content = paste(readLines(.srcfile), collapse = "\n"))
+
+fd2 <- fileDef(name = "runif2.R",
+              content = "set.seed(1)
+                   runif(100)")
+
+rbx <- Tool(id = "runif_twoscript", 
+            label = "runif_twoscript",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd1, fd2),
+            baseCommand = "Rscript runif.R",
+            stdout = "output.txt",
+            outputs = output(id = "random", glob = "*.txt"))   
+
+
+```
 
 
 
