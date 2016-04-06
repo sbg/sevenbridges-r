@@ -2717,8 +2717,18 @@ docker <- function(pull = "", imageId = "", load = "",
 #' requirements(docker("rocker/r-base"), cpu(1), mem(1024))
 requirements <- function(...){
     listData <- .dotargsAsList(...)
+    idx.fd <- sapply(listData, is, "FileDef")
+    if(all(idx.fd)){
+        return(ProcessRequirementList(CreateFileRequirement(fileDef = FileDefList(listData))))
+    }else if(sum(idx.fd)){
+        fdef <- listData[idx.fd]
+        fdef <- CreateFileRequirement(fileDef = FileDefList(fdef))
+    }else{
+        fdef <- NULL
+    }
+
     ## process
-    listData <- lapply(listData, function(x){
+    listData <- lapply(listData[!idx.fd], function(x){
         ## check to see if it's a convertable class
         if("class" %in% names(x)){
             cls <- x$class
@@ -2773,12 +2783,11 @@ requirements <- function(...){
             }else{
                 stop("not all FileDefList are FileDef object")
             }
-        }else if(is(x, "FileDef")){
-            return(CreateFileRequirement(fileDef = FileDefList(x)))
         }else{
             return(x)
         }
     })
+    
     ## validation
     idx <- sapply(listData, function(x){
         is(x, "ProcessRequirement")
@@ -2787,6 +2796,7 @@ requirements <- function(...){
         print(listData[!idx])
         stop("Has to be ProcessRequirement class, use docker(), cpu(), mem(), fileDef(), function to help")
     }
+    listData <- c(fdef, listData)
     ProcessRequirementList(listData)
 }
 
