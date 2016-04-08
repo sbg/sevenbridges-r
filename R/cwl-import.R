@@ -2502,11 +2502,19 @@ input <- function(id = NULL, type = NULL, label = "",
     if(length(lstData)){
         cmdInclude <- TRUE
     }
-    SBGInputParameter(id = id, type = type, label = label,
-                   description = description,
-                   streamable = streamable,
-                   default = default, category = category, fileTypes = fileTypes,
-                   inputBinding = SCLB(cmdInclude = cmdInclude, ...))
+    if(cmdInclude){
+        SBGInputParameter(id = id, type = type, label = label,
+                          description = description,
+                          streamable = streamable,
+                          default = default, category = category, fileTypes = fileTypes,
+                          inputBinding = SCLB(cmdInclude = cmdInclude, ...))
+    }else{
+        SBGInputParameter(id = id, type = type, label = label,
+                          description = description,
+                          streamable = streamable,
+                          default = default, category = category, fileTypes = fileTypes,
+                          inputBinding = NULL)
+    }
 }
 
 
