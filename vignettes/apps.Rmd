@@ -157,7 +157,7 @@ rbx <- Tool(id = "runif_twoscript",
 
 ```
 
-
+#### Create regular input/output interface
 
 ```{r}
 ## pass a input list
@@ -237,6 +237,30 @@ rbx <- Tool(id = "runif",
             outputs = out.df)
 
 
+```
+
+#### Inherit metadata and additional metadata
+
+Sometimes if you want your output files inherit from particular input file, just 
+use `inheritMetadataFrom` in your output() call and pass the input file id. If 
+you want to add additional metadata, you could pass `metadata` a list in your output() function call. For example, I want my output report inherit all metadata 
+from my "bam_file" input node (which I don't have in this example though) with two 
+additional metadata fields.
+
+```{r}
+out.lst <- list(output(id = "random",
+                       type = "file",
+                       label = "output", 
+                       description = "random number file",
+                       glob = "*.txt"),
+                output(id = "report",
+                       type = "file",
+                       label = "report", 
+                       glob = "*.html",
+                       inheritMetadataFrom = "bam_file",
+                       metadata = list(author = "tengfei",
+                                       sample = "random")))
+out.lst
 ```
 
 #### Execute the tool in the cloud

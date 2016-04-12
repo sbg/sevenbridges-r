@@ -101,12 +101,16 @@ deType <- function(x){
 #' @examples
 #' addIdNum("bam")
 addIdNum <- function(x){
-    x <- parseLabel(x)
-    .first <- substr(x, 1, 1)
-    if(.first != "#"){
-        return(paste0("#", x))
+    if(!is.null(x)){
+        x <- parseLabel(x)
+        .first <- substr(x, 1, 1)
+        if(.first != "#"){
+            return(paste0("#", x))
+        }else{
+            return(x)
+        }
     }else{
-        return(x)
+        return(NULL)
     }
 }
 
@@ -709,7 +713,7 @@ setClassUnion("JsonPointerORcharacter", c("JsonPointer", "character"))
 #' @exportClass Expression
 #'
 #' @examples
-#' Expression(engine = "cwl:JsonPointer", script = "$job.inputs['threads']")
+#' Expression(engine = "#cwl-js-engine", script = "$job.inputs['threads']")
 Expression <- setRefClass("Expression",
                           contains = "CWL",
                           fields = list(
@@ -718,9 +722,15 @@ Expression <- setRefClass("Expression",
                               class = "characterORNULL"
                           ),
                           methods = list(
-                              initialize = function(class = "Expression", ...){
+                              initialize = function(
+                                  script = NULL,
+                                  engine = "#cwl-js-engine",
+                                  class = "Expression"){
+                                  
+                                  script <<- script
+                                  engine <<- engine
                                   class <<- class
-                                  callSuper(...)
+                           
                               }
                           ))
 setClassUnion("ExpressionORNULL", c("Expression", "NULL"))
@@ -2527,12 +2537,11 @@ SBGCommandOutputBinding <- setRefClass("SBGCommandOutputBinding", contains = "Co
                                            initialize = function(inheritMetadataFrom = NULL,
                                                                  metadata = NULL, ...){
 
-                                               args <- mget(names(formals()),sys.frame(sys.nframe()))
-                                               nms <- c("metadata", "inheritMetadataFrom")
-                                               for(nm in nms){
-                                                   .self$field(paste0("sbg:", nm), args[[nm]])                           
-                                               }
-
+                                               ## args <- mget(names(formals()),sys.frame(sys.nframe()))
+                                               ## nms <- c("metadata", "inheritMetadataFrom")
+                                               .self$field("sbg:metadata", metadata) 
+                                               .self$field("sbg:inheritMetadataFrom", addIdNum(inheritMetadataFrom)) 
+                                               
                                                callSuper(...)
 
                                            }

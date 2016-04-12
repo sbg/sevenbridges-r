@@ -67,26 +67,40 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
-## Launch Rstudio Server and Shiny Server with sevenbridges utils
+## Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
 ```
-docker run  -d -p 8787:8787 -p 80:3838 tengfei/sevenbridges:local 
+docker run  -d -p 8787:8787 -p 3838:3838 tengfei/sevenbridges
 ```
 
-check out the ip
+check out the ip from docker machine if you are on mac os.
 
 ```
 docker-machine ip default
 ```
+
+In your browser, 
+
 `http://<url>:8787/` for Rstudio
-`http://<url>:80/<username of rstudio>/` for Shiny server
+
+`http://<url>:3838/<username of rstudio>/app_dir` for Shiny server
 
 For example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
 
 Note: for users of that Rstudio, just create `ShinyApps` folder under
 your home folder, then put your apps under that folder, so you can
-visit `http://<url>:80/<username of rstudio>/<app name>` for your
-shiny apps. For example ``http://192.168.99.100:80/tengfei/hello`
+visit `http://<url>:3838/<username of rstudio>/<app name>` for your
+shiny apps. For example 
+
+In your Rstudio server launched from container, please run
+
+```
+file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps/", recursive = TRUE)
+```
+
+If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be
+able to see the hello example.
+
 
 <hr>
 
