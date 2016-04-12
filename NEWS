@@ -1,6 +1,20 @@
-Version 1.0.0 (2015-05-01)
+CHANGES IN VERSION 1.1.16
+------------------------
+
+NEW FEATURES
+
+    o Full support for API V2, user-friendly call from R
+    o CWL Draft 2+ generator in R, create JSON/YAML tool directly
+    o 5 Vignettes added for comprehensive tutorials and reference
+    o Three examples inlcuded under inst/docker for cwl app examples
+    o Auth configuration file to maintain multiple platforms and user account
+    o Works for multiple Seven Bridges supported platforms
+    o More features like task hook function to ease the automation
+
+    
+CHANGES IN VERSION 1.0.0
 ------------------------------------------------------------------------------
 
-  * Initial version
-  * All the APIs of the SBG platform are supported
-  * First vignette added
+    o Initial version
+    o All the APIs of the SBG platform are supported
+    o First vignette added
