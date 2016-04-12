@@ -9,14 +9,11 @@
 ##' @field token [character] your auth token.
 ##' @field url [character] basic url used for API, by default
 ##' it's \url{https://api.sbgenomics.com/1.1/}
+##' @field version url version number
+##' @field platform which platform you are using, by default it is cgc platform, it tries
+##' to search your .sbg.auth.yml file to parse platform id your deinfed there.
 ##' @field fs FS object, for mount and unmount file system.
 ##'
-##' @param token [character] your auth token.
-##' @param url [chracter] a URL for the API, default is \code{NULL},
-##'  will use \code{api} parameter to switch to the right one.
-##' @param platform [character %in% 'cgc', 'us'] which platform you are
-##'  using, by default it is sbg us platform.
-##' @param username username in the config file for authentification.
 ##'
 ##' @importFrom stringr str_match 
 ##'
@@ -671,9 +668,11 @@ setClassUnion("AuthORNULL", c("Auth", "NULL"))
 #' get Token from config files and option list
 #'
 #' Current config file is set on home directory with the name .sbg.auth.yml
+#' @param platform which platform you are using, by default it is cgc platform, it tries
+#' to search your .sbg.auth.yml file to parse platform id your deinfed there.
+#' @param username username defined in .sbg.auth.yml file
+#' 
 #' @rdname Auth-class
-#' @param platform In your configure file, platform you want to access via API. 
-#' @param username username to specify the token associated with.
 #' @aliases getToken
 #' @return a token string.
 #' @export getToken 
@@ -730,6 +729,7 @@ setAuth <- function(res, auth, className = NULL){
 
 
 #' Read Auth config file to options 
+#' 
 #' 
 #' @rdname Auth-class
 #' @aliases updateAuthList

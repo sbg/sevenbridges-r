@@ -1,44 +1,29 @@
 FROM rocker/rstudio-daily:verse
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
-####################
-### shiny
-###################
+## install docker (docker in docker)
 
-## thanks to official shiny docker file
-
-RUN apt-get update && apt-get install -y -t unstable \
+RUN apt-get update && apt-get install -y  \
     sudo \
     gdebi-core \
     pandoc \
     pandoc-citeproc \
     libcurl4-gnutls-dev \
-    libcairo2-dev/unstable \
+    libcairo2-dev \
     libxt-dev \
-    libssl1.0.2:amd64
-			    
-# Download and install shiny server
-RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
-    VERSION=$(cat version.txt)  && \
-    wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && \
-    gdebi -n ss-latest.deb && \
-    rm -f version.txt ss-latest.deb
+    unp \
+    emacs \
+    supervisor 
+    
+## install docker
+RUN apt-get install -y apt-transport-https ca-certificates \
+    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
+    && echo "deb https://apt.dockerproject.org/repo debian-stretch main" > /etc/apt/sources.list.d/docker.list \
+    && echo "//APT::Default-Release \"testing\";" > /etc/apt/apt.conf.d/default   \
+    && apt-get update \
+    && apt-get install -y docker-engine
 
-RUN R -e "install.packages(c('shiny', 'rmarkdown'), repos='https://cran.rstudio.com/')"
 
-RUN R -e "devtools::install_github('rstudio/addinexamples', type = 'source')"
-
-RUN R -e "devtools::install_github('rstudio/rsconnect')"
-
-RUN R -e "devtools::install_github('rstudio/shinyapps')"
-
-RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
-
-EXPOSE 3838
-
-## COPY src/shiny-server.sh /usr/bin/shiny-server.sh
-
-COPY src/userconf.sh /usr/bin/userconf.sh
 
 ####################
 ### addin
@@ -53,7 +38,7 @@ RUN R -e "install.packages(c('rstudioapi', 'miniUI'), type = 'source'); "
 
 ## install from github instead of bioc for latest version
 RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
-    devtools::install_github('tengfei/sevenbridges', build_vignettes=TRUE, repos=BiocInstaller::biocinstallRepos(),  dependencies=TRUE)"
+    devtools::install_github('tengfei/sevenbridges', build_vignettes=FALSE, repos=BiocInstaller::biocinstallRepos(),  dependencies=TRUE)"
 
 ## RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller); ## biocLite("sevenbridges", dep = TRUE)'
 
@@ -86,31 +71,60 @@ ADD src/runif.R /usr/local/bin/
 RUN mkdir /report/ 
 ADD report/report.Rmd /report/
 
-RUN apt-get install -y supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-## ~/ShinyApps
-RUN yes | /opt/shiny-server/bin/deploy-example user-dirs
+
+
+
 
 ## liftr
 RUN R -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
 RUN R -e "devtools::install_github('rstudio/packrat')"
 
-RUN apt-get -y install unp emacs
-
-## install docker
-RUN apt-get update \
-    && apt-get install -y apt-transport-https ca-certificates \
-    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-
-RUN echo "deb https://apt.dockerproject.org/repo debian-stretch main" > /etc/apt/sources.list.d/docker.list \
-    && echo "//APT::Default-Release \"testing\";" > /etc/apt/apt.conf.d/default   \
-    && apt-get update \
-    && apt-get install -y docker-engine
 
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
 RUN rm -rf /var/lib/apt/lists/ \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
+
+####################
+### shiny
+###################
+
+## thanks to official shiny docker file
+
+# Download and install libssl 0.9.8
+RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.0.0-dbg_1.0.2d-1_amd64.deb && \
+    dpkg -i libssl1.0.0-dbg_1.0.2d-1_amd64.deb && \
+    rm -f libssl1.0.0-dbg_1.0.2d-1_amd64.deb
+
+# Download and install shiny server
+RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
+    VERSION=$(cat version.txt)  && \
+    wget --no-verbose "https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/shiny-server-$VERSION-amd64.deb" -O ss-latest.deb && \
+    gdebi -n ss-latest.deb && \
+    rm -f version.txt ss-latest.deb
+
+RUN R -e "install.packages(c('shiny', 'rmarkdown'), repos='https://cran.rstudio.com/')"
+
+RUN R -e "devtools::install_github('rstudio/addinexamples', type = 'source')"
+
+RUN R -e "devtools::install_github('rstudio/rsconnect')"
+
+RUN R -e "devtools::install_github('rstudio/shinyapps')"
+
+RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
+
+EXPOSE 3838 8787
+
+## COPY src/shiny-server.sh /usr/bin/shiny-server.sh
+## COPY src/shiny-server.conf  /etc/shiny-server/shiny-server.conf
+COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+## ~/ShinyApps
+## RUN yes | /opt/shiny-server/bin/deploy-example user-dirs
+## RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* ~/ShinyApps/
+
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+## CMD ["/init;/usr/bin/shiny-server.sh"]
+## CMD ["sh", "-c", "/usr/bin/shiny-server.sh;/init"]

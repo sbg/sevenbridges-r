@@ -22,6 +22,6 @@ to use.}
 engine.}
 }}
 \examples{
-Expression(engine = "cwl:JsonPointer", script = "$job.inputs['threads']")
+Expression(engine = "#cwl-js-engine", script = "$job.inputs['threads']")
 }
 

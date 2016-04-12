@@ -13,19 +13,10 @@ getToken(platform = NULL, username = NULL)
 updateAuthList()
 }
 \arguments{
-\item{platform}{[character %in% 'cgc', 'us'] which platform you are
-using, by default it is sbg us platform.}
+\item{platform}{which platform you are using, by default it is cgc platform, it tries
+to search your .sbg.auth.yml file to parse platform id your deinfed there.}
 
-\item{username}{username in the config file for authentification.}
-
-\item{token}{[character] your auth token.}
-
-\item{url}{[chracter] a URL for the API, default is \code{NULL},
-will use \code{api} parameter to switch to the right one.}
-
-\item{platform}{In your configure file, platform you want to access via API.}
-
-\item{username}{username to specify the token associated with.}
+\item{username}{username defined in .sbg.auth.yml file}
 }
 \value{
 a token string.
@@ -51,6 +42,11 @@ Current config file is set on home directory with the name .sbg.auth.yml
 
 \item{\code{url}}{[character] basic url used for API, by default
 it's \url{https://api.sbgenomics.com/1.1/}}
+
+\item{\code{version}}{url version number}
+
+\item{\code{platform}}{which platform you are using, by default it is cgc platform, it tries
+to search your .sbg.auth.yml file to parse platform id your deinfed there.}
 
 \item{\code{fs}}{FS object, for mount and unmount file system.}
 }}
