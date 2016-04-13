@@ -1,3 +1,4 @@
 language: r
-sudo: required
-bioc_required: true
+r: bioc-devel
+
+
