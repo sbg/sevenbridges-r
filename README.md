@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tengfei/sevenbridges.svg?branch=master)](https://travis-ci.org/tengfei/sevenbridges)
+
 # NCI Cancer Genomics Cloud Hackathon Tutorials
 
 Workshop tutorial: [[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)] [[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)]
