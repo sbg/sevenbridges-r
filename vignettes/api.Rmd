@@ -1226,10 +1226,34 @@ delete(tsklst)
 
 #### Download all files from a completed task
 
-```
+```{r}
 tsk$download("~/Downloads")
 ```
 
+#### Run task in bacth mode
+
+To run task in batch mode, (check `?batch`) for more details, here is an mock running
+
+```{r}
+## batch by items
+(tsk <- p$task_add(name = "RNA DE report new batch 2", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   batch = batch(input = "bamfiles"),
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in)))
+
+## batch by metadata, input files has to have metadata fields specified
+(tsk <- p$task_add(name = "RNA DE report new batch 3", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   batch = batch(input = "fastq", 
+                                 c("metadata.sample_id", "metadata.library_id")),
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in)))
+```
 
 ### Get Raw Response from httr
 
