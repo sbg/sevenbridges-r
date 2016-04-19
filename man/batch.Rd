@@ -16,7 +16,7 @@ If left out, default batching criteria defined in the app is used.}
 above batch_by dictionary is - group inputs (usually files) first on sample ID 
 and then on library ID. If NULL, using type "ITEM" by default.}
 
-\item{Criteria}{on which to batch on - can be in two formats."ITEM" and 
+\item{type}{Criteria on which to batch on - can be in two formats."ITEM" and 
 "CRITERIA". If you wish to batch per item in the input (usually a file) 
 using "ITEM". If you wish a more complex criteria, specify the "CRITERIA"
 on which you wish to group inputs on. Please check examples.}
