@@ -3,20 +3,6 @@
          "execution_status", "price", "inputs", "outputs", "project",
          "batch", "batch_input", "batch_by",  "parent", "batch_group")
 
-# 
-# EStatus = setRefClass("EStatus", contains = "CWL",
-#                                fields = list(message = "characterORNULL",
-#                                              steps_completed = "numericORNULL",
-#                                              steps_total = "numericORNULL",
-#                                              queued = "numericORNULL",
-#                                              running = "numericORNULL",
-#                                              completed = "numericORNULL",
-#                                              failed = "numericORNULL",
-#                                              aborted = "numericORNULL"
-#                                ))
-# setClassUnion("EStatusORNULL", c("EStatus", NULL))
-
-
 
 Task <- setRefClass("Task", contains = "Item",
                     fields = list(id = "characterORNULL",

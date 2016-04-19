@@ -1,46 +1,57 @@
 [![Build Status](https://travis-ci.org/tengfei/sevenbridges.svg?branch=master)](https://travis-ci.org/tengfei/sevenbridges)
 
-# NCI Cancer Genomics Cloud Hackathon Tutorials
 
-Workshop tutorial: [[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)] [[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)]
 
-# R Package for Seven Bridges Platform
+# sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
 
-You can also checkout the [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) for more information
+[[official bioconductor devel page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)] 
+[[github homepage](http://www.tengfei.name/sevenbridges/)]
 
-## Features
+### Events
 
-- Complete API R client with user friendly API like 
+- May 27 - 29, 2016 [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html) @ Remin University, Beijng, China. (talk)
+- June 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/) @ Stanford University, Stanford, CA (workshop)
+- June 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) @ Stanford University, Stanford, CA (talk)
+- (Past) [NCI Cancer Genomics Cloud Hackathon Tutorials](http://www.cancergenomicscloud.org/hacking-cancer/) @ Boston 2016
+[[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)] 
+[[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)] 
+[[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)]
 
-`a$project("demo")$file("sample.tz")$delete()` 
+### Features
 
-`a$project(id = "tengfei/quickstart")$upload("folder_path", metadata = list(platform = "Illumina"))`
+- Complete API R client with user friendly API in object-oriented fashion with user friendly printing, support operation on users, billing, project, file, app, task etc, short example.
 
+```
+## get project
+p = a$project("demo")
+## detele files from a project
+p$file("sample.tz")$delete()
+## upload fies from a folder to a project with metadata
+p$upload("folder_path", metadata = list(platform = "Illumina"))`
+```
 
 - CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
 of CWL object.
 
 - Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
 
-- Cross platform support, if it's cwl compatible platform from Seven
-  Bridges, like Cancer genomics cloud or Seven bridges on google and
+- Cross platform support from Seven
+  Bridges, such as [NCI Cancer genomics cloud](http://www.cancergenomicscloud.org/) or [Seven bridges](https://www.sbgenomics.com/) on google and
   AWS, you can use it.
 
 - Authentification management for multiple platforms/users via config file.
 
 
-## Tutorials
+### Installation
 
-Tutorials are listed on  [bioconductor page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
+After bioconductor 3.3 [release](http://bioconductor.org/developers/release-schedule/) on May 5th, you will be able to install like this
 
 ```
-browseVignettes("sevenbridges")
+source("http://bioconductor.org/biocLite.R")
+biocLite("sevenbridges")
 ```
 
-
-## Installation
-
-The package is currently not available in the Bioconductor `release` branch yet until next Bioc release cycle, please switch to the `devel` branch by following code to install.
+Install from `devel` branch by following code to install.
 
 ```
 source("http://bioconductor.org/biocLite.R")
@@ -48,20 +59,18 @@ useDevel(devel = TRUE)
 biocLite("sevenbridges")
 ```
 
-Alternatively, you can install the latest development version of the package from GitHub too:
+Alternatively, you can always install the latest development version of the package from GitHub too:
 
 ```
 # install.packages("devtools") if devtools was not installed
 source("http://bioconductor.org/biocLite.R")
-##  useDevel() ## ignore the erro if you cannot use devel
-## biocLite("BiocUpgrade") ## don't have to run
 library(devtools)
 install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
 
-If you have trouble with pandoc, either instal it or set `build_vignettes = FALSE`, 
+If you have trouble with pandoc, either install it or set `build_vignettes = FALSE` to avoid vignettes build, 
 
 To load the package in R, simply call
 
@@ -69,7 +78,7 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
-## Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
+### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
 ```
 docker run  -d -p 8787:8787 -p 3838:3838 tengfei/sevenbridges
@@ -102,6 +111,23 @@ file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps
 
 If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be
 able to see the hello example.
+
+### Issue report
+
+All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/tengfei/sevenbridges/issues) here on github, we wil 
+try to respond asap.
+
+### Q&A
+
+- __Q__: Does this package support older API which is not cwl compatible?<br />
+  __A__: No it only supports API v2 +, for older version, please check [sbgr](https://github.com/road2stat/sbgr) package, but 
+please note that the old API or project type will be deprecated. 
+
+- __Q__: Which version of CWL (common worklfow language) supported now? <br />
+  __A__: draft 2, progress on draft 3.
+  
+- __Q__: Is there a python binding for the API? <br />
+  __A__: Yes, coming soon! Developed by other developers. And lots pyton recipes are now [here](https://github.com/sbg/okAPI)
 
 
 <hr>
