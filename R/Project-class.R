@@ -243,9 +243,14 @@ Project <- setRefClass("Project", contains = "Item",
                  
                                    for(fl in filename){
                                        message(fl)
-                                       upload(fl, metadata = metadata, 
-                                              overwrite = overwrite,
-                                              ...)
+                                       if(file.info(fl)$size > 0){
+                                           upload(fl, metadata = metadata, 
+                                                  overwrite = overwrite,
+                                                  ...)
+                                       }else{
+                                           warning("skip uploading: empty file")
+                                       }
+                                      
                                    }
                                    return()
                                }

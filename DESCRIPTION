@@ -55,5 +55,6 @@ Collate:
     Tool-class.R
     Flow-class.R
     Task-class.R
+    handler.R
     addins.R
     zzz.R

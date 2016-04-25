@@ -587,79 +587,6 @@ POST2 <- function (url = NULL, config = list(), ..., body = NULL, encode = c("mu
 
 ### lift lift lift!!!
 
-lift.rabix = function(input = NULL, output_dir = NULL, 
-                      shebang = "#!/usr/local/bin/Rscript") {
-   
-    opt_all_list = liftr::parse_rmd(input)
-    
-    inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i){
-        do.call(sevenbridges::input, i)
-    }))
-    
-    ol <- lapply(inl, function(x){
-        .nm <- x$inputBinding$prefix
-        .t <- setdiff(x$type[[1]], "null")[[1]]
-        .type <- paste0('<', deType(.t), '>')
-        .o <- paste(.nm, .type, sep = "=")
-        .des <- x$description
-        .default <- x$default
-        if(!is.null(.default)){
-            .des <- paste0(.des, " [default: ", .default, " ]")
-        }
-        list(name = .o, description = .des)
-    })
-    
-   
-    if (is.null(output_dir)) 
-        output_dir = dirname(normalizePath(input))
-    tmp <- file.path(output_dir, opt_all_list$rabix$baseCommand)
-    con = file(tmp)
-    txt <- c(shebang, "'")
-    txt <- c(txt, paste("usage:", opt_all_list$rabix$baseCommand, 
-                        do.call(paste,lapply(ol, function(o) paste("[", o$name, "]")))))
-    txt <- c(txt, "options:")
-    for(i in 1:length(ol)){
-        txt <- c(txt, paste(" ", ol[[i]]$name, ol[[i]]$description))
-        
-    }
-    txt <- c(txt, "' -> doc")
-    
-    
-    
-    "library(docopt)
-    opts <- docopt(doc)
-    rmarkdown::render('/report/report.Rmd', BiocStyle::html_document(toc = TRUE),
-    output_dir = '.', params = lst)
-    " -> .final
-    
-    txt <- c(txt, .final)
-    
-    writeLines(txt, con = con)
-    close(con)
-    
-    
-    
-    ## insert the script
-    docker.fl <- file.path(normalizePath(output_dir), 'Dockerfile')
-    message(docker.fl)
-    
-    
-    ## add script
-    write(paste("COPY", basename(normalizePath(tmp)), "/usr/local/bin/"), 
-          file = docker.fl, 
-          append = TRUE)
-    write("RUN mkdir /report/", 
-          file = normalizePath(docker.fl), 
-          append = TRUE)
-    ## add report
-    report.file <- file.path(normalizePath(output_dir), basename(input))
-    file.copy(input, report.file)
-    write(paste("COPY", basename(input), "/report/"), 
-          file = docker.fl, 
-          append = TRUE)
-    
-}
-
 
 normalizeUrl <- function(x){
     if(!grepl("/$", x)){
@@ -732,3 +659,190 @@ iterId <- function(ids, fun, ...){
     res
 }
 
+
+#' lift a docopt string
+#'
+#' lift a docopt string used for command line
+#'
+#' parse Rmarkdown header from rabix field
+#'
+#' @param input input Rmarkdown file or a function name (character)
+#' @export lift_docopt
+#' @aliases lift_docopt
+#' @return a string used for docopt
+#' @examples
+#' fl = system.file("examples/runif.Rmd", package = "liftr")
+#' opts = lift_docopt(fl)
+#' \dontrun{
+#' require(docopt)
+#' docopt(opts)
+#' docopt(lift_docopt("mean.default"))
+#' }
+lift_docopt = function(input){
+
+  if(file.exists(input)){
+    res = lift_docopt_from_header(input)
+  }else{
+    message("file doesn't exist, try to try this as a function")
+    res = lift_docopt_from_function(input)
+  }
+  res
+}
+
+
+lift_docopt_from_header = function(input){
+  opt_all_list = parse_rmd(input)
+  ol <- opt_all_list$rabix
+  .in <- ol$inputs
+  txt <- paste("usage:", ol$baseCommand, "[options]")
+  txt <- c(txt, "options:")
+
+  ol <- lapply(.in, function(x){
+    .nm <- x$prefix
+    .t <- x$type
+    .type <- paste0('<', deType(.t), '>')
+    .o <- paste(.nm, .type, sep = "=")
+    .des <- x$description
+    .default <- x$default
+    if(!is.null(.default)){
+      .des <- paste0(.des, " [default: ", .default, "]")
+    }
+    list(name = .o, description = .des)
+  })
+  for(i in 1:length(ol)){
+    txt <- c(txt, paste(" ", ol[[i]]$name, ol[[i]]$description))
+  }
+  paste(txt, collapse = "\n")
+}
+
+lift_docopt_from_function = function(input){
+
+  ol = opt_all_list = rdarg(input)
+
+  txt <- paste0("usage: ", input, ".R",  " [options]")
+
+
+  nms <- names(ol)
+  lst <- NULL
+
+  for(nm in nms){
+    .nm = paste0("--", nm)
+    .t = guess_type(nm, input)
+    .type = paste0('<', deType(.t), '>')
+    .o = paste(.nm, .type, sep = "=")
+    .des = ol[[nm]]
+    .def  = guess_default(nm, input)
+    if(!is.null(.def)){
+      .des <- paste0(.des, " [default: ", .def, "]")
+    }
+    lst = c(lst, list(list(name = .o, description = .des)))
+  }
+
+  for(i in 1:length(lst)){
+    txt <- c(txt, paste(" ", lst[[i]]$name, lst[[i]]$description))
+  }
+  ## Fixme:
+  paste(txt, collapse = "\n")
+}
+
+
+lift_cmd = function(input, output_dir = NULL, shebang = "#!/usr/local/bin/Rscript",
+                    docker_root = "/"){
+
+  if(file.exists(input)){
+    opt_all_list = parse_rmd(input)
+    if (is.null(output_dir))
+      output_dir = dirname(normalizePath(input))
+
+    tmp = file.path(output_dir, opt_all_list$rabix$baseCommand)
+    message("command line file: ", tmp)
+    con = file(tmp)
+    txt = lift_docopt(input)
+    txt = c(shebang, "'", paste0(txt, " ' -> doc"))
+    paste("library(docopt)\n opts <- docopt(doc) \n
+        rmarkdown::render('",
+          docker_root, basename(input), "', BiocStyle::html_document(toc = TRUE),
+        output_dir = '.', params = lst)
+    " )-> .final
+    txt <- c(txt, .final)
+    writeLines(txt, con = con)
+    close(con)
+  }else{
+    message("consider you passed a function name (character)")
+    if (is.null(output_dir))
+      output_dir = getwd()
+    .baseCommand <- paste0(input, ".R")
+    tmp = file.path(output_dir, .baseCommand)
+    message("command line file: ", tmp)
+    con = file(tmp)
+    txt = lift_docopt(input)
+    txt = c(shebang, "'", paste0(txt, " ' -> doc"))
+    txt = c(txt, "library(docopt)\n opts <- docopt(doc)")
+    .final = gen_list(input)
+    txt <- c(txt, .final)
+    writeLines(txt, con = con)
+    close(con)
+  }
+  Sys.chmod(tmp)
+  tmp
+}
+
+con_fun = function(type){
+  res = switch(deType(type),
+          int = "as.integer",
+          float = "as.numeric",
+          boolean = "as.logical",
+          NULL)
+  res
+}
+
+
+gen_list = function(fun){
+  lst = rdarg(fun)
+  lst = lst[names(lst) != "..."]
+  nms = names(lst)
+  txt = NULL
+  for(nm in nms){
+    .t = con_fun(guess_type(nm, fun))
+    if(!is.null(.t)){
+      txt = c(txt, paste0(nm, " = ", .t, "(", "opts$", nm, ")"))
+    }else{
+      txt = c(txt, paste0(nm, " = ", "opts$", nm))
+    }
+
+  }
+  txt = paste("list(", paste(txt, collapse = ","), ")")
+  paste("do.call(", fun, ",", txt, ")")
+
+}
+
+
+guess_type = function(nm, fun){
+  dl = formals(fun)
+  if(!is.null(dl[[nm]])){
+    .c <- class(dl[[nm]])
+    if(.c == "name"){
+      return("string")
+    }else{
+      return(deType(.c))
+    }
+
+  }else{
+    return("string")
+  }
+}
+
+guess_default = function(nm, fun){
+  dl = formals(fun)
+  if(!is.null(dl[[nm]])){
+    .c <- class(dl[[nm]])
+    if(.c == "name"){
+      return(NULL)
+    }else{
+      return(dl[[nm]])
+    }
+
+  }else{
+    return(NULL)
+  }
+}

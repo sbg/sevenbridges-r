@@ -4,8 +4,7 @@
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
 
-[[official bioconductor devel page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)] 
-[[github homepage](http://www.tengfei.name/sevenbridges/)]
+[Homepage](http://www.tengfei.name/sevenbridges/) | Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
 
 ### Events
 
@@ -44,14 +43,15 @@ of CWL object.
 
 ### Installation
 
-After bioconductor 3.3 [release](http://bioconductor.org/developers/release-schedule/) on May 5th, you will be able to install like this
+__[Recommended: Stable]__ After bioconductor 3.3 [release](http://bioconductor.org/developers/release-schedule/) on May 5th, 2016, you will be able to install like this. For most users, I will recommend this installation, it's most stable. 
 
 ```
 source("http://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-Install from `devel` branch by following code to install.
+__[Recommended: Devel]__ Install from bioconductor `devel` branch by following code to install, if you are developing tools in devel branch
+or if you are users who use devel version for Bioconductor.
 
 ```
 source("http://bioconductor.org/biocLite.R")
@@ -59,7 +59,8 @@ useDevel(devel = TRUE)
 biocLite("sevenbridges")
 ```
 
-Alternatively, you can always install the latest development version of the package from GitHub too:
+__[Latest]__ Alternatively, you can always install the latest development version of the package from GitHub, it's always the most latest 
+version, fresh new but not fully tested,  with all new features and hot fixes, before we push to any bioconductor branch (release/devel) 
 
 ```
 # install.packages("devtools") if devtools was not installed

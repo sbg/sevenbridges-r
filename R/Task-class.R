@@ -4,6 +4,7 @@
          "batch", "batch_input", "batch_by",  "parent", "batch_group")
 
 
+
 Task <- setRefClass("Task", contains = "Item",
                     fields = list(id = "characterORNULL",
                         name = "characterORNULL",
@@ -277,13 +278,13 @@ setMethod("asTaskInput", "FilesList", function(object){
     })
 })
 
-setMethod("asTaskInput", "logical", function(object){
+setMethod("asTaskInput", "ANY", function(object){
     object
 })
 
-setMethod("asTaskInput", "ANY", function(object){
-    return(as.list(object))
-})
+# setMethod("asTaskInput", "ANY", function(object){
+#     return(as.list(object))
+# })
 
 
 #' batch function for task batch execution

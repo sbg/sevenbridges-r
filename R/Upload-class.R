@@ -1,5 +1,3 @@
-## Upload: Tuesday
-## Kind of complex, think about how to make it easier?
 Part <- setRefClass("Part", contains = "Item",
                     fields = list(
                         part_number = "numericORNULL",
@@ -51,10 +49,10 @@ Upload <- setRefClass("Upload", contains = "Item",
                           size = "numericORNULL",
                           part_size = "numericORNULL",
                           upload_id = "characterORNULL",
-                          part = "list",
-                          part_length = "integer",
-                          part_finished = "integer",
-                          initialized = "logical",
+                          part = "listORNULL",
+                          part_length = "integerORNULL",
+                          part_finished = "integerORNULL",
+                          initialized = "logicalORNULL",
                           parallel_uploads = "logicalORNULL",
                           metadata = "Metadata"
                       ),
@@ -105,45 +103,61 @@ Upload <- setRefClass("Upload", contains = "Item",
 
 
                               if(is.numeric(.self$size)){
-                                  if(!(.self$size <= 5497558138880 &
-                                           .self$size >= 0))
-                                      stop("size must be between 0 - 5497558138880, inclusive")
-                              }else{
-                                  stop("size must be between 0 - 5497558138880, inclusive")
-                              }
-
-
-                              project_id <<- project_id
-                              ## fixme: try manual part-size
-                              if(is.null(part_size))
-                                  if(is.null(part_length)){
-                                      if(is.null(part_size)){
-                                          part_size <<- as.integer(5 * 1024^2)
-                                      }
-                                      part_length <<- as.integer(ceiling(.self$size/.self$part_size))
-                                  }else{
-                                      ## go with priority part_length
-                                      ## let's reuire integer here
-                                      part_size <<- as.integer(ceiling(.self$size/part_length))
-                                      ## round the length number
-                                      part_length <<- as.integer(ceiling(.self$size/.self$part_size))
-
+                                  if(.self$size == 0){
+                                      stop("your file is empty file")
                                   }
-
-                              .part_size <- rep(.self$part_size, .self$part_length)
-                              ## last part
-                              .part_size[.self$part_length] <- .self$size -
-                                  .self$part_size * (.self$part_length - 1)
-
-                              part <<- vector("list", .self$part_length)
-
-                              part <<- lapply(1:.self$part_length, function(idx){
-                                  Part(part_number = idx,
-                                       part_size = .part_size[idx])
-                              })
-                              if(.self$part_length == 1){
-                                  .self$part_size <<- .self$size
+                                  if(!(.self$size <= 5*1024^4 &
+                                           .self$size > 0))
+                                      stop("size must be between 0 - 5497558138880 (5TB), inclusive")
+                              }else{
+                                  stop("size must be numeric between 0 - 5497558138880 (5TB), inclusive")
                               }
+
+                              if(!is.null(part_size)){
+                                  if(!(part_size <= 5*1024^3 && part_size >= 5*1024^2)){
+                                      stop("part_size must be 5 MB to 5 GB, last part can be < 5 MB")
+                                  }
+                              }
+                              if(!is.null(part_length)){
+                                  if(!(part_length <= 1 && part_length >= 10000)){
+                                      stop("part_length must be from 1 to 10,000 (inclusive)")
+                                  }
+                              }
+                           
+                              
+                              project_id <<- project_id
+                              .self$part_size <<- part_size
+                              .self$part_length <<- part_length
+                              ## fixme: try manual part-size
+                              # if(is.null(part_size))
+                              #     if(is.null(part_length)){
+                              #         if(is.null(part_size)){
+                              #             part_size <<- as.integer(5 * 1024^2)
+                              #         }
+                              #         part_length <<- as.integer(ceiling(.self$size/.self$part_size))
+                              #     }else{
+                              #         ## go with priority part_length
+                              #         ## let's reuire integer here
+                              #         part_size <<- as.integer(ceiling(.self$size/part_length))
+                              #         ## round the length number
+                              #         part_length <<- as.integer(ceiling(.self$size/.self$part_size))
+                              # 
+                              #     }
+                              # 
+                              # .part_size <- rep(.self$part_size, .self$part_length)
+                              # ## last part
+                              # .part_size[.self$part_length] <- .self$size -
+                              #     .self$part_size * (.self$part_length - 1)
+                              # 
+                              # part <<- vector("list", .self$part_length)
+                              # 
+                              # part <<- lapply(1:.self$part_length, function(idx){
+                              #     Part(part_number = idx,
+                              #          part_size = .part_size[idx])
+                              # })
+                              # if(.self$part_length == 1){
+                              #     .self$part_size <<- .self$size
+                              # }
                               callSuper(...)
                           },
                           upload_init = function(overwrite = FALSE, ...){
@@ -160,8 +174,10 @@ Upload <- setRefClass("Upload", contains = "Item",
                               upload_id <<- res$upload_id
                        
                               initialized <<- TRUE
-                              part_size <<- res$part_size
-                              parallel_uploads <<-  res$parallel_uploads
+                              part_size <<- as.integer(res$part_size)
+                              ## size <<- res$size
+                              parallel_uploads <<-  as.logical(res$parallel_uploads)
+                              part_length <<- as.integer(ceiling(.self$size/part_size))
                               message("Initialized")
                               invisible(res)
                           },
@@ -180,45 +196,49 @@ Upload <- setRefClass("Upload", contains = "Item",
                           },
                           upload_info_part = function(part_number = NULL, ...){
                               stopifnot_provided(!is.null(part_number))
-                              if(part_number >  10000 | part_number <1){
-                                  stop("part_number has to be a number in the range 1- 10000.")
-                              }
+                              # if(part_number >  10000 | part_number <1){
+                              #     stop("part_number has to be a number in the range 1- 10000.")
+                              # }
 
                               ## cl <- c("Content-Length" = as.character(part[[part_number]]$part_size))
                               res <- auth$api(path = paste0("upload/multipart/",
                                                      upload_id, "/part/", part_number), 
                                               method = "GET")
 
-                              part[[part_number]]$url <<- res$url
-                              part[[part_number]]$etag <<- res$etag
-                              part[[part_number]]$response <<- response(res)
-                              part[[part_number]]$expires <<- res$expries
-                              part[[part_number]]$success_codes <<- res$success_codes
-                              part[[part_number]]$report <<- res$report
+                              # part[[part_number]]$url <<- res$url
+                              # part[[part_number]]$etag <<- res$etag
+                              # part[[part_number]]$response <<- response(res)
+                              # part[[part_number]]$expires <<- res$expries
+                              # part[[part_number]]$success_codes <<- res$success_codes
+                              # part[[part_number]]$report <<- res$report
                               res
                           },
                           upload_file = function(metadata = list(), overwrite = FALSE){
                             
                               ## make this one easy to use
-                              N <- part_length
+                            
+           
                               res <- upload_init(overwrite = overwrite)
-                          
+                              N <- part_length
+                              message("size: ", size)
+                              message("part_size: ", part_size)
+                              message("part_length: ", part_length)
+                              message("parallel_uploads: ", parallel_uploads)
+                             
                               pb <- txtProgressBar(min = 0, max = N, style = 3)
-                        
+                              
+                              .start = Sys.time()
                               con <- file(file, "rb")
                              
                               for(i in 1:N){
                            
                                   p <- upload_info_part(i)
                                   url <- p$url
-                                  b <- readBin(con, "raw", part_size)
-                                  res <- PUT(url, body = b)
-                                  rm(b)
-
-                     
+                                  ## b = httr::upload_file(file)
+                                  res <- PUT(url, body = readBin(con, "raw", part_size))
                                   etag <- headers(res)$etag
                                   
-                                  part[[i]]$etag <<- etag
+                                  ## part[[i]]$etag <<- etag
                                   upload_complete_part(i, etag)
                                   # part_finished <<- as.integer(i)
                                   setTxtProgressBar(pb, i)
@@ -226,7 +246,15 @@ Upload <- setRefClass("Upload", contains = "Item",
                               close(pb)
                               res <- upload_complete_all()
                               close(con)
-                              message("file uploading complete")
+                              .end = Sys.time()
+                              .diff = .end - .start
+                              message("file uploading complete in: ", 
+                                      round(as.numeric(.diff)),  " ", attr(.diff, "unit") )
+                              
+                              message("Average uploading speed: ", 
+                                      round(size/1024/1024/as.numeric(.diff)), 
+                                      " Mb/", attr(.diff, "unit"))
+                              
 
                               ## when we complete we could add meta
                               # meta <- .self$metadata$asList()
