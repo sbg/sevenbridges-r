@@ -352,8 +352,12 @@ m.match <- function(obj, id = NULL, name = NULL,
     }
 }
 
+## full = TRUE, show empty filed as well
 .showList <- function(x, space = "", full = FALSE){
     if(length(x)){
+        if(all(sapply(x, is.list))){
+            sapply(x, .showList, space = paste0(space, ""))
+        }
         if(!full){
             idx <- sapply(x, function(s){
                 if(is.character(s)){
@@ -365,6 +369,7 @@ m.match <- function(obj, id = NULL, name = NULL,
             })
             x <- x[idx]
         }
+
         for (fld in names(x)){
             if(all(is.character(x[[fld]]))){
                 msg <- paste0(x[[fld]], collapse = " \n ")
@@ -372,10 +377,15 @@ m.match <- function(obj, id = NULL, name = NULL,
             }else{
                 if(is(x[[fld]], "Meta")){
                     msg <- as.character(x[[fld]]$data)
+                    message(space, fld, " : ", msg) 
+                }else if(is.list(x[[fld]])){
+                    message(space, fld, " : ", length(x[[fld]]), " items")
+                    .showList(x[[fld]], space = paste0(space, "  "))
                 }else{
                     msg <- as.character(x[[fld]])
+                    message(space, fld, " : ", msg) 
                 }
-                message(space, fld, " : ", msg)                
+                             
             }
         }
     }

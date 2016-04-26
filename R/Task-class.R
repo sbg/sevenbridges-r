@@ -278,6 +278,15 @@ setMethod("asTaskInput", "FilesList", function(object){
     })
 })
 
+setMethod("asTaskInput", "list", function(object){
+    if(all(sapply(object, is, "Files"))){
+        asTaskInput(FilesList(object))
+    }else{
+        stop("Not every list entries are Files object")
+    }
+
+})
+
 setMethod("asTaskInput", "ANY", function(object){
     object
 })
