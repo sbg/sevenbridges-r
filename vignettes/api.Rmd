@@ -209,9 +209,15 @@ Billing information, every project is associated with a billing group
 ```{r}
 ## check your billing info
 a$billing()
-## check invoices
 a$invoice()
 ```
+
+For more information, use `breakdown = TRUE`
+
+```{r}
+a$billing(id = "your_billing_id", breakdown = TRUE)
+```
+
 
 ### Create a project
 
