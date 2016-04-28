@@ -32,7 +32,8 @@ Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    readr
 NeedsCompilation: no
 RoxygenNote: 5.0.1
 Collate:

@@ -211,7 +211,156 @@ Loading required package: methods
 
 For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
 
-## Executable report with R markdown
+### Quick command line interface with commandArgs (position and named args)
+
+For advanced users, please read another tutorial "Creating Your Docker Container and Command Line Interface (with docopt)", "docopt" is more formal way to construct your command line interface, but there is a quick way to make command line
+interface here using just `commandArgs`
+
+Suppose I already have a R script like this using position mapping the arguments
+
+1. numbers
+2. min
+3. max
+
+```{r, eval = TRUE, comment=''}
+fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+Ignore the comment part, I will introduce spin/stich later. My base command will be somethine like
+
+```
+Rscript runif2spin.R 10 30 50
+```
+
+I just describe my tool in this way
+
+```{r}
+library(sevenbridges)
+library(readr)
+fd <- fileDef(name = "runif.R",
+              content = read_file(fl))
+
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd),
+            baseCommand = "Rscript runif.R",
+            stdout = "output.txt",
+            inputs = list(input(id = "number",
+                                type = "integer",
+                                position = 1),
+                          input(id = "min",
+                                type = "float",
+                                position = 2),
+                          input(id = "max",
+                                type = "float",
+                                position = 3)),
+            outputs = output(id = "random", glob = "output.txt"))   
+```
+
+Now copy-paste the json into your project app and run it in the cloud to test it
+
+How about named argumentments? I will still recommend use "docopt" package, but for simple
+way.
+
+```{r, eval = TRUE, comment=''}
+fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+
+```
+Rscript runif_args.R --n=10 --min=30 --max=50
+```
+I just describe my tool in this way, note, I use `separate=FALSE` and add `=` to my prefix
+as a hack.
+
+```{r}
+library(readr)
+fd <- fileDef(name = "runif.R",
+              content = read_file(fl))
+
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd),
+            baseCommand = "Rscript runif.R",
+            stdout = "output.txt",
+            inputs = list(input(id = "number",
+                                type = "integer",
+                                separate = FALSE,
+                                prefix = "--n="),
+                          input(id = "min",
+                                type = "float",
+                                separate = FALSE,
+                                prefix = "--min="),
+                          input(id = "max",
+                                type = "float",
+                                 separate = FALSE,
+                                prefix = "--max=")),
+            outputs = output(id = "random", glob = "output.txt"))   
+
+```
+
+
+
+### Quick report: Spin and Stich
+
+Alternative, you can use spin/stich from knitr to generate report directly from a 
+Rscript with special format. For example, let's use above example
+
+
+
+```{r, eval = TRUE, comment=''}
+fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+You command is something like this
+
+```
+Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50
+```
+
+And so I describe my tool like this with docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
+
+```{r}
+library(readr)
+fd <- fileDef(name = "runif.R",
+              content = read_file(fl))
+
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/hadleyverse"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd),
+            baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
+            stdout = "output.txt",
+            inputs = list(input(id = "number",
+                                type = "integer",
+                                 separate = FALSE,
+                                prefix = "--n"),
+                          input(id = "min",
+                                type = "float",
+                                 separate = FALSE,
+                                prefix = "--min="),
+                          input(id = "max",
+                                type = "float",
+                                separate = FALSE,
+                                prefix = "--max=")),
+            outputs = list(output(id = "stdout", type = "file", glob = "output.txt"),
+                           output(id = "random", type = "file", glob = "*.csv"),
+                           output(id = "report", type = "file", glob = "*.html")))
+```
+
+
+You will get a report in the end
+
+
+### Executable report with R markdown (advanced)
 
 We cannot really make a Rmarkdown file executable in it by simply put 
 
