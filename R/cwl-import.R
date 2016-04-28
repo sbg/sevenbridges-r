@@ -1516,7 +1516,7 @@ CommandLineBinding <- setRefClass("CommandLineBinding",
                                           if(is.list(valueFrom)){
                                               valueFrom <<- do.call(Expression, valueFrom)
                                           }
-                                          position <<- position
+                                          position <<- as.integer(position)
                                           separate <<- separate
                                           callSuper(...)
                                       }
