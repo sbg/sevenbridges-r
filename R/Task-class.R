@@ -279,10 +279,30 @@ setMethod("asTaskInput", "FilesList", function(object){
 })
 
 setMethod("asTaskInput", "list", function(object){
-    if(all(sapply(object, is, "Files"))){
-        asTaskInput(FilesList(object))
+
+    id.file <- sapply(object, is, "Files")
+    id.lst <- sapply(object, is, "FilesList")
+    if(sum(id.file)){
+        res.f <- object[id.file]
     }else{
-        stop("Not every list entries are Files object")
+        res.f <- NULL
+    }
+    if(sum(id.lst)){
+
+        res.l <- object[id.lst]
+        res.l <- do.call(c, lapply(object[id.lst], function(x){
+            # x here is FilesList
+            lapply(x, function(x) x)
+            # return a pure list
+        }))
+    }else{
+        res.l <- NULL
+    }
+    res <- c(res.f, res.l)
+    if(length(res)){
+        return(asTaskInput(FilesList(res)))
+    }else{
+        stop("Not every list entries are Files or FilesList object")
     }
 
 })
