@@ -45,16 +45,10 @@ Now we are ready to go!
 
 ### Installation 
 
-First download the [R markdown file](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
+First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
 
-In R you can do this
-
-```{r}
-download.file("https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd", destfile = "~/bioc-workflow.Rmd")
-```
-
-This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be April 15th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/tengfei/sevenbridges)
+This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be May 4th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/sbg/sevenbridges-r)
 
 For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
 
@@ -62,9 +56,9 @@ For now I recommend you to install the latest version of 'sevenbridges' from git
 if(!require("devtools", quietly = TRUE)){
     install.packages("devtools") 
 }
-## Install from github for development version  
 source("http://bioconductor.org/biocLite.R")
-devtools::install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+library(devtools)
+install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
@@ -100,7 +94,7 @@ Get you token and secret ready to deploy
 ### Issues report
 
 This package is under active development, will bring many new features as well, at 
-any moment, if you have questions or problem about this R package, please file issue on [github issue page here](https://github.com/tengfei/sevenbridges/issues)
+any moment, if you have questions or problem about this R package, please file issue on [github issue page here](https://github.com/sbg/sevenbridges-r/issues)
 
 If you have question about the cancer genomics cloud platform or other seven bridges platform, we have a different channel for each platform, for example, cancer genomics cloud have lots [documentation](http://docs.cancergenomicscloud.org/docs) and a [forum](http://docs.cancergenomicscloud.org/discuss) 
 
@@ -184,6 +178,8 @@ only need to provide platform name and username.
 
 ```{r}
 a <- Auth(user = "tengfei", platform = "cgc")
+## remove old project 
+## a$project(id = "tengfei/hackathon")$delete()
 ```
 
 To create a project, you need to know your billing group id, cost related to
@@ -413,7 +409,7 @@ But it's at the same time fun to learn how to do it in R, so you could script
 how you build it together, like what I did here, for every single tool json, I have a 
 R script called generator.R in the same folder, so I can always trace back. 
 
-For example, you can see the same in my github page, under [inst/docker](https://github.com/tengfei/sevenbridges/tree/master/inst/docker), you will see three examples, 1. package docker 2. rna-seq tool 3. report tool, under each folder, you will see 1. one dockerfile, 2. src/ for command line 3. report/ for report template and 4. rabix a generator file and a json.
+For example, you can see the same in my github page, under [inst/docker](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker), you will see three examples, 1. package docker 2. rna-seq tool 3. report tool, under each folder, you will see 1. one dockerfile, 2. src/ for command line 3. report/ for report template and 4. rabix a generator file and a json.
 
 ![Imgur](http://i.imgur.com/Wnf015S.png)
 ![Imgur](http://i.imgur.com/OYoa6kq.png)
@@ -577,7 +573,13 @@ When it's finished, refresh your file page, you will be able to see all of them.
 (gtf.in <- p$file("Homo_sapiens.GRCh37.75_subset.gtf"))
 ```
 
+Note: you can also passed a list of files like this, to give exact file names
 
+```{r}
+bam1 <- p$file("SRR1039516_subset.bam")
+bam2 <- p$file("SRR1039512_subset.bam")
+bamfiles.in2 <- list(bam1, bam2)
+```
 
 Now create a new draft task in your project, don't forget to pass input.
 

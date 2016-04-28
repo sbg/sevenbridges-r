@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/tengfei/sevenbridges.svg?branch=master)](https://travis-ci.org/tengfei/sevenbridges)
+[![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 
 
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
 
-[Homepage](http://www.tengfei.name/sevenbridges/) | Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
+Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
 
 ### Events
 
@@ -66,7 +66,7 @@ version, fresh new but not fully tested,  with all new features and hot fixes, b
 # install.packages("devtools") if devtools was not installed
 source("http://bioconductor.org/biocLite.R")
 library(devtools)
-install_github("tengfei/sevenbridges", build_vignettes=TRUE, 
+install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
@@ -115,7 +115,7 @@ able to see the hello example.
 
 ### Issue report
 
-All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/tengfei/sevenbridges/issues) here on github, we wil 
+All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/sbg/sevenbridges-r/issues) here on github, we wil 
 try to respond asap.
 
 ### Q&A
@@ -128,7 +128,7 @@ please note that the old API or project type will be deprecated.
   __A__: draft 2, progress on draft 3.
   
 - __Q__: Is there a python binding for the API? <br />
-  __A__: Yes, coming soon! Developed by other developers. And lots pyton recipes are now [here](https://github.com/sbg/okAPI)
+  __A__: Yes, official python client is [here](https://github.com/sbg/sevenbridges-python). And lots pyton recipes are now [here](https://github.com/sbg/okAPI)
 
 
 <hr>

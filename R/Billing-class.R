@@ -48,7 +48,7 @@ Billing <- setRefClass("Billing", contains = "Item",
                                                "owner", "privileges", "type",
                                                "disabled", "active", "balance",
                                                "project_breakdown",
-                                                      "total_spending"))
+                                               "total_spending"))
 
                            }
                        ))

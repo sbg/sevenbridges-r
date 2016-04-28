@@ -259,7 +259,7 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 
 There are more examples under 'inst/docker' folder, you can check out how to describe 
 command line and build docker, how to make report template. You can read the online github
-[code](https://github.com/tengfei/sevenbridges/tree/master/inst/docker). Or you can read another tutorial about how we wrap RNA-seq workflow from
+[code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you can read another tutorial about how we wrap RNA-seq workflow from
 bioconductor. 
 
 

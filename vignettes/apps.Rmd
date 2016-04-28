@@ -76,7 +76,7 @@ We also provide an enum type, when you specify the enum, please pass the require
 `type = enum("format", c("pdf", "html"))` then in the interface you will be poped with drop down when you execute the 
 task. 
 
-For complete example, please check the "Make the best of bioconductor workflow" tutorial, or if you are advanced user, you can simply check `inst/docker` folder or check the github example [here](https://github.com/tengfei/sevenbridges/tree/master/inst/docker/rnaseqGene)
+For complete example, please check the "Make the best of bioconductor workflow" tutorial, or if you are advanced user, you can simply check `inst/docker` folder or check the github example [here](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/rnaseqGene)
 
 
 
