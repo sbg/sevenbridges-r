@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
-
+![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)
+![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)
 
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
@@ -112,6 +113,17 @@ file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps
 
 If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be
 able to see the hello example.
+
+### More tutorials
+
+- Complete Guide for API R Client [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/api.html)]
+- Master Tutorial: use R for Cancer Genomics Cloud [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
+- Creating Your Docker Container and Command Line Interface [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
+- Describe CWL Tools/Workflows in R and Execution [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
+- Using Rstudio and Shiny [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
+- Reference [[devel](http://www.bioconductor.org/packages/3.3/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+
+
 
 ### Issue report
 
