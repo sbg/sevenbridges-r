@@ -251,7 +251,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               message("file uploading complete in: ", 
                                       ceiling(as.numeric(.diff)),  " ", attr(.diff, "unit") )
                               
-                              message("Average uploading speed: ", 
+                              message("Estimated uploading speed: ", 
                                       ceiling(size/1024/1024/as.numeric(.diff)), 
                                       " Mb/", attr(.diff, "unit"))
                               
