@@ -34,6 +34,39 @@ p$upload("folder_path", metadata = list(platform = "Illumina"))
 
 - Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
 
+
+```r
+setTaskHook("completed", function(){
+    tsk$download("~/Downloads")
+})
+tsk$monitor()
+```
+
+- Task batching by item and metadata
+
+```r
+## batch by items
+(tsk <- p$task_add(name = "RNA DE report new batch 2", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   batch = batch(input = "bamfiles"),
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in)))
+
+## batch by metadata, input files has to have metadata fields specified
+(tsk <- p$task_add(name = "RNA DE report new batch 3", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   batch = batch(input = "fastq", 
+                                 c("metadata.sample_id", 
+                                 "metadata.library_id")),
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in)))
+```
+
+
 - Cross platform support from Seven
   Bridges, such as [NCI Cancer genomics cloud](http://www.cancergenomicscloud.org/) or [Seven bridges](https://www.sbgenomics.com/) on google and
   AWS, you can use it.
