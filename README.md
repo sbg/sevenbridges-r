@@ -22,8 +22,10 @@ Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3
 - Complete API R client with user friendly API in object-oriented fashion with user friendly printing, support operation on users, billing, project, file, app, task etc, short example.
 
 ```r
-## get project
+## get project by pattern matching name
 p = a$project("demo")
+## get exact project by id
+p = a$project(id = "tengfei/demo")
 ## detele files from a project
 p$file("sample.tz")$delete()
 ## upload fies from a folder to a project with metadata
