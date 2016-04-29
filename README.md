@@ -188,10 +188,13 @@ try to respond asap.
 please note that the old API or project type will be deprecated. 
 
 - __Q__: Which version of CWL (common worklfow language) supported now? <br />
-  __A__: draft 2, progress on draft 3.
+  __A__: Draft 2, progress on draft 3.
   
 - __Q__: Is there a python binding for the API? <br />
   __A__: Yes, official python client is [here](https://github.com/sbg/sevenbridges-python). And lots pyton recipes are now [here](https://github.com/sbg/okAPI)
+  
+- __Q__: Why I always get warning message when I use API R client?
+- __A__: It only exists in Rstudio, potentially a bug in Rstudio. To ignore it use `options(warn = -1)`
 
 
 <hr>
