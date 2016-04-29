@@ -13,9 +13,9 @@ Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3
 - June 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/) @ Stanford University, Stanford, CA (workshop)
 - June 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) @ Stanford University, Stanford, CA (talk)
 - (Past) [NCI Cancer Genomics Cloud Hackathon Tutorials](http://www.cancergenomicscloud.org/hacking-cancer/) @ Boston 2016
-[[html](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.html)] 
-[[R markdown](https://raw.githubusercontent.com/tengfei/sevenbridges/master/vignettes/bioc-workflow.Rmd)] 
-[[R script](http://www.tengfei.name/sevenbridges/cgc-hackathon-2016-04/bioc-workflow.R)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] 
+[[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] 
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
 
 ### Features
 
@@ -80,14 +80,24 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
-### More tutorials
+### More tutorials 
 
-- Complete Guide for API R Client [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/api.html)]
-- Master Tutorial: use R for Cancer Genomics Cloud [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
-- Creating Your Docker Container and Command Line Interface [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
-- Describe CWL Tools/Workflows in R and Execution [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
-- Using Rstudio and Shiny [[devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
-- Reference [[devel](http://www.bioconductor.org/packages/3.3/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+- Complete Guide for API R Client
+[[github](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/api.html)]
+- Master Tutorial: use R for Cancer Genomics Cloud
+[[github](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
+- Creating Your Docker Container and Command Line Interface
+[[github](http://www.tengfei.name/sevenbridges/vignettes/docker.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
+- Describe CWL Tools/Workflows in R and Execution
+[[github](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
+- Using Rstudio and Shiny
+[[github](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
+- Reference [[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
 
 ### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
