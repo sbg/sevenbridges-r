@@ -21,17 +21,14 @@ Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3
 
 - Complete API R client with user friendly API in object-oriented fashion with user friendly printing, support operation on users, billing, project, file, app, task etc, short example.
 
-```
+```r
 ## get project
 p = a$project("demo")
 ## detele files from a project
 p$file("sample.tz")$delete()
 ## upload fies from a folder to a project with metadata
-p$upload("folder_path", metadata = list(platform = "Illumina"))`
+p$upload("folder_path", metadata = list(platform = "Illumina"))
 ```
-
-- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
-of CWL object.
 
 - Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
 
@@ -41,20 +38,62 @@ of CWL object.
 
 - Authentification management for multiple platforms/users via config file.
 
+```r
+## standard 
+a = Auth(token = "fake_token", url = "api_url")
+## OR from config file, multiple platform/user support
+a = Auth(username = "tengfei", platform = "cgc")
+```
+
+- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
+of CWL object. So you can describe tools like this
+
+```r
+library(readr)
+fd <- fileDef(name = "runif.R",
+              content = read_file(fl))
+rbx <- Tool(id = "runif", 
+            label = "runif",
+            hints = requirements(docker(pull = "rocker/r-base"), 
+                                 cpu(1), mem(2000)),
+            requirements = requirements(fd),
+            baseCommand = "Rscript runif.R",
+            stdout = "output.txt",
+            inputs = list(input(id = "number",
+                                type = "integer",
+                                position = 1),
+                          input(id = "min",
+                                type = "float",
+                                position = 2),
+                          input(id = "max",
+                                type = "float",
+                                position = 3)),
+            outputs = output(id = "random", glob = "output.txt")) 
+## output cwl JSON            
+rbx$toJSON(pretty = TRUE) 
+## output cwl YAML
+rbx$toYAML()
+```
+
+- Describe simple linear workflow by connect Tool objects like this
+
+```r
+tool1 %>>% tool2 %>>% tool3
+```
+
 
 ### Installation
 
 __[Recommended: Stable]__ After bioconductor 3.3 [release](http://bioconductor.org/developers/release-schedule/) on May 5th, 2016, you will be able to install like this. For most users, I will recommend this installation, it's most stable. 
 
-```
+```r
 source("http://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-__[Recommended: Devel]__ Install from bioconductor `devel` branch by following code to install, if you are developing tools in devel branch
-or if you are users who use devel version for Bioconductor.
+__[Recommended: Devel]__ Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. 
 
-```
+```r
 source("http://bioconductor.org/biocLite.R")
 useDevel(devel = TRUE)
 biocLite("sevenbridges")
@@ -63,7 +102,7 @@ biocLite("sevenbridges")
 __[Latest]__ Alternatively, you can always install the latest development version of the package from GitHub, it's always the most latest 
 version, fresh new but not fully tested,  with all new features and hot fixes, before we push to any bioconductor branch (release/devel) 
 
-```
+```r
 # install.packages("devtools") if devtools was not installed
 source("http://bioconductor.org/biocLite.R")
 library(devtools)
@@ -76,7 +115,7 @@ If you have trouble with pandoc, either install it or set `build_vignettes = FAL
 
 To load the package in R, simply call
 
-```
+```r
 library("sevenbridges")
 ```
 
