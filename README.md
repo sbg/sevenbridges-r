@@ -140,13 +140,13 @@ library("sevenbridges")
 
 ### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
-```
+```shell
 docker run  -d -p 8787:8787 -p 3838:3838 tengfei/sevenbridges
 ```
 
 check out the ip from docker machine if you are on mac os.
 
-```
+```bash
 docker-machine ip default
 ```
 
@@ -165,7 +165,7 @@ shiny apps. For example
 
 In your Rstudio server launched from container, please run
 
-```
+```r
 file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps/", recursive = TRUE)
 ```
 
