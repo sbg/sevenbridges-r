@@ -435,6 +435,61 @@ tsk$run()
 tsk$download("~/Downloads/")
 ```
 
+#### Execute the tool in Rabix - test locally
+
+**1. from CLI**  
+While developing tools it is useful to test them locally first. For that we can use rabix -  reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use docker image **tengfei/testenv**:
+
+```
+docker pull tengfei/testenv
+```
+
+Dump your rabix tool as json into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:
+
+```
+docker run --privileged --name bunny -v </path/to/data_dir>:/bunny_data -dit tengfei/testenv
+```
+
+Execute tool
+
+```
+docker exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_data/<tool>.json /bunny_data/inputs.json'
+```
+
+You'll see running logs from within container, and also output dir inside <data_dir> in home system.
+
+NOTE: tengfei/testenv has R, python, Java... so many tools can work without docker requirement set. If you however set docker requirement you need to pull image inside container first to run docker container inside running bunny docker.  
+NOTE: inputs.json can also be inputs.yaml if you find it easier to declare inputs in YAML.
+
+**2. from R**  
+```{r, eval=F}
+library(sevenbridges)
+
+in.df <- data.frame(id = c("number", "min", "max", "seed"),
+                    description = c("number of observation", 
+                                    "lower limits of the distribution",
+                                    "upper limits of the distribution",
+                                    "seed with set.seed"),
+                    type = c("integer", "float", "float", "float"),
+                    label = c("number" ,"min", "max", "seed"), 
+                    prefix = c("--n", "--min", "--max", "--seed"),
+                    default = c(1, 0, 10, 123), 
+                    required = c(TRUE, FALSE, FALSE, FALSE))
+out.df <- data.frame(id = c("random", "report"),
+                     type = c("file", "file"),
+                     glob = c("*.txt", "*.html"))
+rbx <- Tool(id = "runif",
+            label = "Random number generator",
+            hints = requirements(docker(pull = "tengfei/runif"), 
+                                 cpu(1), mem(2000)),
+            baseCommand = "runif.R",
+            inputs = in.df, ## or ins.df
+            outputs = out.df)
+params <- list(number=3, max=5)
+
+set_test_env("tengfei/testenv", "mount_dir")
+test_tool(rbx, params)
+```
 
 ## Describe Wokrflow in R
 

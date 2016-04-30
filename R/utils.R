@@ -856,3 +856,68 @@ guess_default = function(nm, fun){
     return(NULL)
   }
 }
+
+
+#' Set testing env
+#'
+#' Check if docker is installed, is running and has required images downloaded and if do creates container 
+#'
+#' @param docker_image required docker image with pre-installed bunny, default: tengfei/testenv
+#' @param data_dir direcotry with data which is mounted with container creation
+#' @export set_test_env
+#' @return docker stdout
+#' @examples
+#' \dontrun{
+#' set_test_env("tengfei/testenv")
+#' }
+
+set_test_env = function(docker_image, data_dir){
+  docker_machine_args <- "ls --filter state=Running --format '{{.Name}}'"
+  docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
+  envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
+  envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
+  Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
+  
+  docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+  system2("docker", c(docker_run_args), stdout=T, stderr=T)
+  
+  #TODO some problems with docker inside docker (could be set from Dockerfile maybe)
+  system2("docker", c("exec bash -c 'usermod -aG docker root'"))
+  system2("docker", c("exec bash -c 'service docker start'"))
+}
+
+
+#' Test tools in rabix
+#'
+#' Test tools locally in rabix/bunny inside docker container
+#'
+#' @param rabix_tool rabix tool from Tool class 
+#' @param inputs input parameters declared as json (or yaml) string
+#' @export test_tool
+#' @return bunny stdout
+#' @examples
+#' \dontrun{
+#' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
+#' test_tool(bunny, write(rbx$toJSON, file="/data_dir/tool.json"), write(inputs, file="/data_dir/inputs.json"))
+#' }
+
+test_tool = function(rabix_tool, inputs){
+  check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
+  container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+  if (identical(container, character(0))){
+      message("Test container not running. Try setting testing env first (set_test_env())")
+  } else {
+      message("Trying the execution...")
+      check_cmd <- "inspect --format '{{(index .Mounts 0).Source}}' bunny"
+      mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+      tool_path <- paste(mount_point, "/tool.json", sep="")
+      inputs_path <- paste(mount_point, "/inputs.json", sep="")
+      write(rabix_tool$toJSON(pretty=T), file=tool_path)
+      write(toJSON(inputs, pretty=T), file=inputs_path)
+      
+      #TODO add simple call to pull images if don't exist on `docker images`
+      run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
+      system2("docker", run_cmd)
+  }
+}
+
