@@ -681,9 +681,9 @@ iterId <- function(ids, fun, ...){
 #' @aliases lift_docopt
 #' @return a string used for docopt
 #' @examples
+#' \dontrun{
 #' fl = system.file("examples/runif.Rmd", package = "liftr")
 #' opts = lift_docopt(fl)
-#' \dontrun{
 #' require(docopt)
 #' docopt(opts)
 #' docopt(lift_docopt("mean.default"))
