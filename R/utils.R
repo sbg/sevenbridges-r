@@ -872,6 +872,9 @@ guess_default = function(nm, fun){
 #' }
 
 set_test_env = function(docker_image, data_dir){
+  # this setup works atm by calling docker-machine first to ensure docker client is up
+  # at least one docker-machine must be running (for example: docker-machine start default)   
+  #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
   docker_machine_args <- "ls --filter state=Running --format '{{.Name}}'"
   docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
   envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
@@ -881,9 +884,11 @@ set_test_env = function(docker_image, data_dir){
   docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
   system2("docker", c(docker_run_args), stdout=T, stderr=T)
   
-  #TODO some problems with docker inside docker (could be set from Dockerfile maybe)
-  system2("docker", c("exec bash -c 'usermod -aG docker root'"))
-  system2("docker", c("exec bash -c 'service docker start'"))
+  #TODO: some problems with docker inside docker (should be set from Dockerfile)
+  #system2("docker", c("exec bash -c 'usermod -aG docker root'"))
+  #system2("docker", c("exec bash -c 'service docker start'"))
+  
+  #TODO: check bunny using docker images locally first - it seemed to me that it always tries to run in host OS only
 }
 
 
