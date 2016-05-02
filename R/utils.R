@@ -881,6 +881,7 @@ set_test_env = function(docker_image, data_dir){
   envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
   Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
   
+  #TODO: add simple call to pull images if don't exist on `docker images`
   docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
   system2("docker", c(docker_run_args), stdout=T, stderr=T)
   
@@ -920,7 +921,6 @@ test_tool = function(rabix_tool, inputs){
       write(rabix_tool$toJSON(pretty=T), file=tool_path)
       write(toJSON(inputs, pretty=T), file=inputs_path)
       
-      #TODO add simple call to pull images if don't exist on `docker images`
       run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
       system2("docker", run_cmd)
   }
