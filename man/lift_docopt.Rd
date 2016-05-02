@@ -19,9 +19,9 @@ lift a docopt string used for command line
 parse Rmarkdown header from rabix field
 }
 \examples{
+\dontrun{
 fl = system.file("examples/runif.Rmd", package = "liftr")
 opts = lift_docopt(fl)
-\dontrun{
 require(docopt)
 docopt(opts)
 docopt(lift_docopt("mean.default"))
