@@ -38,7 +38,7 @@ RUN R -e "install.packages(c('rstudioapi', 'miniUI'), type = 'source'); "
 
 ## install from github instead of bioc for latest version
 RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
-    devtools::install_github('sbg/sevenbridges', build_vignettes=FALSE, repos=BiocInstaller::biocinstallRepos(),  dependencies=TRUE)"
+    devtools::install_github('sbg/sevenbridges-r', build_vignettes=FALSE, repos=BiocInstaller::biocinstallRepos(),  dependencies=TRUE)"
 
 ## RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller); ## biocLite("sevenbridges", dep = TRUE)'
 
