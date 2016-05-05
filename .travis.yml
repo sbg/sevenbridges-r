@@ -1,12 +1,31 @@
 language: r
-r: bioc-devel
+sudo: false
 cache: packages
 
-before_install:
-  - Rscript -e "if (!require('covr')) install.packages('covr')"
-  - Rscript -e 'update.packages(.libPaths()[1], ask = FALSE)'
+r: 
+  - bioc-devel
+  - bioc-release
 
-script:
-  - echo "R CMD BiocCheck ..."
-  - R CMD BiocCheck 
+r_packages:
+  - covr
+
+bioc_required: true
+
+bioc_packages:
+  - BiocCheck
+  
+after_script:
+  - ls -lah
+  - FILE=$(ls -1t *.tar.gz | head -n 1)
+  - Rscript -e "library(BiocCheck); BiocCheck(\"${FILE}\")"
+  
+after_success:
+  - Rscript -e 'library(covr);package_coverage()'
+  - Rscript -e 'library(covr);codecov()'
+
+notifications:
+  email:
+    on_failure: yintengfei@gmail.com
+
+
   
