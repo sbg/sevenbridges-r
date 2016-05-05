@@ -5,7 +5,7 @@
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
 
-Bioconductor-Stable |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
+[Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
 
 ### Events
 
@@ -119,22 +119,16 @@ tool1 %>>% tool2 %>>% tool3
 
 ### Installation
 
-__[Recommended: Stable]__ After bioconductor 3.3 [release](http://bioconductor.org/developers/release-schedule/) on May 5th, 2016, you will be able to install like this. For most users, I will recommend this installation, it's most stable. 
+__[Recommended: Stable]__  For most users, I will recommend this installation, it's most stable. 
 
 ```r
 source("http://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-__[Recommended: Devel]__ Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. 
 
-```r
-source("http://bioconductor.org/biocLite.R")
-useDevel(devel = TRUE)
-biocLite("sevenbridges")
-```
 
-__[Latest]__ Alternatively, you can always install the latest development version of the package from GitHub, it's always the most latest 
+__[Latest]__ you can always install the latest development version of the package from GitHub, it's always the most latest 
 version, fresh new but not fully tested,  with all new features and hot fixes, before we push to any bioconductor branch (release/devel) 
 
 ```r
@@ -146,7 +140,15 @@ install_github("sbg/sevenbridges-r", build_vignettes=TRUE,
   dependencies=TRUE)
 ```
 
-If you have trouble with pandoc, either install it or set `build_vignettes = FALSE` to avoid vignettes build, 
+__If you have trouble with pandoc__,  set `build_vignettes = FALSE` to avoid vignettes build, 
+
+__[Bioconductor: Devel]__ Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instructino.
+
+```r
+source("http://bioconductor.org/biocLite.R")
+useDevel(devel = TRUE)
+biocLite("sevenbridges")
+```
 
 To load the package in R, simply call
 
@@ -156,22 +158,31 @@ library("sevenbridges")
 
 ### More tutorials 
 
+We have 3 different version (from stable to latest), 1) bioconductor stable 2) bioconductor devel 3) github for different levels of users and developers, so here are all tutorials and their coresponding version:
+
 - Complete Guide for API R Client
 [[github](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/api.html)]
-- Master Tutorial: use R for Cancer Genomics Cloud
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/api.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/api.html)]
+- Tutorial: use R for Cancer Genomics Cloud
 [[github](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
 - Creating Your Docker Container and Command Line Interface
 [[github](http://www.tengfei.name/sevenbridges/vignettes/docker.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
 - Describe CWL Tools/Workflows in R and Execution
 [[github](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
 - Using Rstudio and Shiny
 [[github](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
-- Reference [[bioc-devel](http://www.bioconductor.org/packages/3.3/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
+- Reference 
+[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
 
 ### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 

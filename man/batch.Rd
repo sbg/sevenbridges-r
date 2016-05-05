@@ -21,6 +21,9 @@ and then on library ID. If NULL, using type "ITEM" by default.}
 using "ITEM". If you wish a more complex criteria, specify the "CRITERIA"
 on which you wish to group inputs on. Please check examples.}
 }
+\value{
+a list of 'batch_input' and 'batch_by' used for task batch
+}
 \description{
 batch function for task batch execution
 }

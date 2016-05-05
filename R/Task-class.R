@@ -331,7 +331,7 @@ setMethod("asTaskInput", "ANY", function(object){
 #' "CRITERIA". If you wish to batch per item in the input (usually a file) 
 #' using "ITEM". If you wish a more complex criteria, specify the "CRITERIA"
 #' on which you wish to group inputs on. Please check examples. 
-#' 
+#' @return a list of 'batch_input' and 'batch_by' used for task batch
 #' @export batch
 #' @examples 
 #' batch(input = "fastq") # by ITEM
