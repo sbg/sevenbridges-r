@@ -6,13 +6,18 @@ r:
   - bioc-devel
   - bioc-release
 
+os:
+  - linux
+  
 r_packages:
   - covr
 
 bioc_required: true
 
 bioc_packages:
+  - BiocStyle
   - BiocCheck
+
   
 after_script:
   - ls -lah
