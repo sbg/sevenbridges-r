@@ -2,10 +2,6 @@ language: r
 r: bioc-devel
 cache: packages
 
-bioc_packages:
-  - BiocCheck
-  - BiocStyle
-  
 before_install:
   - Rscript -e "if (!require('covr')) install.packages('covr')"
   - Rscript -e 'update.packages(.libPaths()[1], ask = FALSE)'
