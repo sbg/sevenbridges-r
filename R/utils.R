@@ -677,7 +677,6 @@ iterId <- function(ids, fun, ...){
 #' parse Rmarkdown header from rabix field
 #'
 #' @param input input Rmarkdown file or a function name (character)
-#' @export lift_docopt
 #' @aliases lift_docopt
 #' @return a string used for docopt
 #' @examples
@@ -857,6 +856,30 @@ guess_default = function(nm, fun){
   }
 }
 
+parse_rmd = function(input){
+    # locate YAML metadata block
+    doc_content = readLines(normalizePath(input))
+    header_pos = which(doc_content == '---')
+    
+    # handling YAML blocks ending with three dots
+    if (length(header_pos) == 1L) {
+        header_dot_pos = which(doc_content == '...')
+        if (length(header_dot_pos) == 0L) {
+            stop('Cannot correctly locate YAML metadata block.
+                 Please use three hyphens (---) as start line & end line,
+                 or three hyphens (---) as start line with three dots (...)
+                 as end line.')
+        } else {
+            header_pos[2L] = header_dot_pos[1L]
+        }
+    }
+    
+    doc_yaml = paste(doc_content[(header_pos[1L] + 1L):
+                                     (header_pos[2L] - 1L)],
+                     collapse = '\n')
+    yaml.load(doc_yaml)
+    }
+
 
 #' Set testing env
 #'
@@ -873,13 +896,13 @@ guess_default = function(nm, fun){
 
 set_test_env = function(docker_image, data_dir){
   docker_machine_args <- "ls --filter state=Running --format '{{.Name}}'"
-  docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
-  envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
-  envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
+  docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=TRUE, stderr=TRUE)
+  envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=TRUE, stderr=TRUE)[1:4], 8)
+  envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(FALSE,TRUE)])
   Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
   
   docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-  system2("docker", c(docker_run_args), stdout=T, stderr=T)
+  system2("docker", c(docker_run_args), stdout=TRUE, stderr=TRUE)
   
   #TODO some problems with docker inside docker (could be set from Dockerfile maybe)
   system2("docker", c("exec bash -c 'usermod -aG docker root'"))
@@ -903,17 +926,17 @@ set_test_env = function(docker_image, data_dir){
 
 test_tool = function(rabix_tool, inputs){
   check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
-  container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+  container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
   if (identical(container, character(0))){
       message("Test container not running. Try setting testing env first (set_test_env())")
   } else {
       message("Trying the execution...")
       check_cmd <- "inspect --format '{{(index .Mounts 0).Source}}' bunny"
-      mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+      mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
       tool_path <- paste(mount_point, "/tool.json", sep="")
       inputs_path <- paste(mount_point, "/inputs.json", sep="")
-      write(rabix_tool$toJSON(pretty=T), file=tool_path)
-      write(toJSON(inputs, pretty=T), file=inputs_path)
+      write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
+      write(toJSON(inputs, pretty=TRUE), file=inputs_path)
       
       #TODO add simple call to pull images if don't exist on `docker images`
       run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
