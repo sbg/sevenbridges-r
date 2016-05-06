@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 ![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)
 ![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)
+![posts](http://www.bioconductor.org/shields/posts/sevenbridges.svg)
+![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)
+![cov](http://www.bioconductor.org/shields/coverage/release/sevenbridges.svg)
 
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
@@ -268,6 +271,9 @@ try to respond asap.
 <a name="qa"/>
 
 ### Q&A
+
+To ask a question about this package, the best place will be Bioconductor support website,
+go visit support [website](https://support.bioconductor.org/), and tag your post with package name __sevenbridges__. 
 
 - __Q__: Does this package support older API which is not cwl compatible?<br />
   __A__: No it only supports API v2 +, for older version, please check [sbgr](https://github.com/road2stat/sbgr) package, but 
