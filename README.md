@@ -23,7 +23,7 @@
 
 ### Events
 
-- May 27 - 29, 2016 [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html) @ Remin University, Beijng, China. (talk)
+- May 27 - 29, 2016 [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html) @ Renmin University, Beijng, China. (talk)
 - June 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/) @ Stanford University, Stanford, CA (workshop)
 - June 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) @ Stanford University, Stanford, CA (talk)
 - (Past) [NCI Cancer Genomics Cloud Hackathon Tutorials](http://www.cancergenomicscloud.org/hacking-cancer/) @ Boston 2016
@@ -87,7 +87,7 @@ tsk$monitor()
   Bridges, such as [NCI Cancer genomics cloud](http://www.cancergenomicscloud.org/) or [Seven bridges](https://www.sbgenomics.com/) on google and
   AWS, you can use it.
 
-- Authentification management for multiple platforms/users via config file.
+- Authentication management for multiple platforms/users via config file.
 
 ```r
 ## standard 
@@ -147,7 +147,7 @@ Now check your R version
 ```
 
 If you are not running latest R, first install R 3.3 following instruction [here](http://www.bioconductor.org/install/#install-R), after you successfully installed
-R 3.3, if you are using Rstudio, please close and restart Rstudio, it will detech the 
+R 3.3, if you are using Rstudio, please close and restart Rstudio, it will detect the 
 new install. Then install `sevenbridges` package. 
 
 ```r
@@ -175,7 +175,7 @@ If you have trouble with pandoc,  set `build_vignettes = FALSE` to avoid vignett
 
 __[Bioconductor: Devel]__ 
 
-Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instructino.
+Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instruction.
 
 ```r
 source("http://bioconductor.org/biocLite.R")
@@ -193,7 +193,7 @@ library("sevenbridges")
 
 ### Tutorials 
 
-We have 3 different version (from stable to latest), 1) bioconductor stable 2) bioconductor devel 3) github for different levels of users and developers, so here are all tutorials and their coresponding version:
+We have 3 different version (from stable to latest), 1) bioconductor stable 2) bioconductor devel 3) github for different levels of users and developers, so here are all tutorials and their corresponding version:
 
 - Complete Guide for API R Client
 [[github](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
@@ -262,7 +262,7 @@ able to see the hello example.
 
 ### Issue report
 
-All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/sbg/sevenbridges-r/issues) here on github, we wil 
+All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/sbg/sevenbridges-r/issues) here on github, we will 
 try to respond asap.
 
 <a name="qa"/>
@@ -273,11 +273,11 @@ try to respond asap.
   __A__: No it only supports API v2 +, for older version, please check [sbgr](https://github.com/road2stat/sbgr) package, but 
 please note that the old API or project type will be deprecated. 
 
-- __Q__: Which version of CWL (common worklfow language) supported now? <br />
+- __Q__: Which version of CWL (common workflow language) supported now? <br />
   __A__: Draft 2, progress on draft 3.
   
 - __Q__: Is there a python binding for the API? <br />
-  __A__: Yes, official python client is [here](https://github.com/sbg/sevenbridges-python). And lots pyton recipes are now [here](https://github.com/sbg/okAPI)
+  __A__: Yes, official python client is [here](https://github.com/sbg/sevenbridges-python). And lots python recipes are now [here](https://github.com/sbg/okAPI)
   
 - __Q__: Why I always get warning message when I use API R client?<br />
   __A__: It only exists in Rstudio, potentially a bug in Rstudio. To ignore it use `options(warn = -1)`
