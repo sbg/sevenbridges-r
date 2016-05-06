@@ -444,7 +444,7 @@ While developing tools it is useful to test them locally first. For that we can 
 docker pull tengfei/testenv
 ```
 
-Dump your rabix tool as json into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:
+Dump your rabix tool as json into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use paths relative to execution dir (which is mounted dir)). Create container:
 
 ```
 docker run --privileged --name bunny -v </path/to/data_dir>:/bunny_data -dit tengfei/testenv

@@ -9,13 +9,13 @@ set_test_env(docker_image, data_dir)
 \arguments{
 \item{docker_image}{required docker image with pre-installed bunny, default: tengfei/testenv}
 
-\item{data_dir}{direcotry with data which is mounted with container creation}
+\item{data_dir}{directory with data to mount (also will be execution directory)}
 }
 \value{
 docker stdout
 }
 \description{
-Check if docker is installed, is running and has required images downloaded and if do creates container
+Checks if docker is installed, is running and has required images downloaded and if do creates container
 }
 \examples{
 \dontrun{

@@ -860,10 +860,10 @@ guess_default = function(nm, fun){
 
 #' Set testing env
 #'
-#' Check if docker is installed, is running and has required images downloaded and if do creates container 
+#' Checks if docker is installed, is running and has required images downloaded and if do creates container 
 #'
 #' @param docker_image required docker image with pre-installed bunny, default: tengfei/testenv
-#' @param data_dir direcotry with data which is mounted with container creation
+#' @param data_dir directory with data to mount (also will be execution directory)
 #' @export set_test_env
 #' @return docker stdout
 #' @examples
@@ -872,7 +872,7 @@ guess_default = function(nm, fun){
 #' }
 
 set_test_env = function(docker_image, data_dir){
-  # this setup works atm by calling docker-machine first to ensure docker client is up
+  # this setup works atm by calling docker-machine first to ensure docker server is up and client callable
   # at least one docker-machine must be running (for example: docker-machine start default)   
   #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
   docker_machine_args <- "ls --filter state=Running --format '{{.Name}}'"
@@ -881,40 +881,41 @@ set_test_env = function(docker_image, data_dir){
   envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
   Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
   
-  #TODO: add simple call to pull images if don't exist on `docker images`
-  docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+  system2("docker", c("rm -f bunny"), stdout=F, stderr = F)
+  
+  #TODO: SHOULD REALLY BE DOCKER-beside-DOCKER instead: http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/ by mapping sockets: bunny would be able to run sibling containers that way
+  # https://hub.docker.com/_/docker/ with Docker-R it would be possible to read host sock location, but it should be always mapped to same location inside container with docker executables
+  docker_run_args <- paste("run --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
   system2("docker", c(docker_run_args), stdout=T, stderr=T)
   
-  #TODO: some problems with docker inside docker (should be set from Dockerfile)
-  #system2("docker", c("exec bash -c 'usermod -aG docker root'"))
-  #system2("docker", c("exec bash -c 'service docker start'"))
-  
-  #TODO: check bunny using docker images locally first - it seemed to me that it always tries to run in host OS only
+  #TODO: Bunny still always runs local cmds, not creating containers - v0.3.0
 }
 
 
-#' Test tools in rabix
+#' Test tools in rabix/bunny
 #'
 #' Test tools locally in rabix/bunny inside docker container
 #'
 #' @param rabix_tool rabix tool from Tool class 
 #' @param inputs input parameters declared as json (or yaml) string
-#' @export test_tool
+#' @export test_tool_bunny
 #' @return bunny stdout
 #' @examples
 #' \dontrun{
 #' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
-#' test_tool(bunny, write(rbx$toJSON, file="/data_dir/tool.json"), write(inputs, file="/data_dir/inputs.json"))
+#' rbx <- <define rabix tool>
+#' set_test_env("tengfei/testenv", "<mount_dir>")
+#' test_tool_bunny(rbx, inputs)
 #' }
 
-test_tool = function(rabix_tool, inputs){
+test_tool_bunny = function(rabix_tool, inputs){
   check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
   container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
   if (identical(container, character(0))){
       message("Test container not running. Try setting testing env first (set_test_env())")
   } else {
       message("Trying the execution...")
-      check_cmd <- "inspect --format '{{(index .Mounts 0).Source}}' bunny"
+      check_cmd <- "inspect --format '{{(index .Mounts 1).Source}}' bunny"
       mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
       tool_path <- paste(mount_point, "/tool.json", sep="")
       inputs_path <- paste(mount_point, "/inputs.json", sep="")
@@ -924,5 +925,39 @@ test_tool = function(rabix_tool, inputs){
       run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
       system2("docker", run_cmd)
   }
+}
+
+#' Test tools in rabix/rabix-devel
+#'
+#' Test tools locally in rabix/rabix-devel python executor inside docker container
+#'
+#' @param rabix_tool rabix tool from Tool class 
+#' @param inputs input parameters declared as json (or yaml) string
+#' @export test_tool_rabix
+#' @return rabix stdout
+#' @examples
+#' \dontrun{
+#' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
+#' rbx <- <define rabix tool>
+#' set_test_env("tengfei/testenv", "<mount_dir>")
+#' test_tool_rabix(rbx, inputs)
+#' }
+test_tool_rabix = function(rabix_tool, inputs=list()){
+    check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
+    container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+    if (identical(container, character(0))){
+        message("Test container not running. Try setting testing env first (set_test_env())")
+    } else {
+        message("Trying the execution...")
+        check_cmd <- "inspect --format '{{(index .Mounts 1).Source}}' bunny"
+        mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+        tool_path <- paste(mount_point, "/tool.json", sep="")
+        inputs_path <- paste(mount_point, "/inputs.json", sep="")
+        write(rabix_tool$toJSON(pretty=T), file=tool_path)
+        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
+        
+        run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /tmp /bunny_data/tool.json -i /bunny_data/inputs.json'"
+        system2("docker", run_cmd)
+    }
 }
 

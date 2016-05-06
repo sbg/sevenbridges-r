@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 hooks
+.DS_Store
