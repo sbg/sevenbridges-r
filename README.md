@@ -5,7 +5,21 @@
 
 # sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
 
+
+
 [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioconductor-Devel](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html) 
+
+##### Table of Contents  
+
+[Events](#events)  <br />
+[Features](#features) <br />
+[Installation](#install) <br />
+[Tutorial](#tutorial) <br />
+[IDE docker image](#rstudio) <br />
+[Issues report](#issue) <br />
+[Q and A](#qa) <br />
+
+<a name="events"/>
 
 ### Events
 
@@ -16,6 +30,8 @@
 [[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] 
 [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] 
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
+
+<a name="features"/>
 
 ### Features
 
@@ -116,10 +132,23 @@ rbx$toYAML()
 tool1 %>>% tool2 %>>% tool3
 ```
 
+<a name="install"/>
 
 ### Installation
 
-__[Recommended: Stable]__  For most users, I will recommend this installation, it's most stable. 
+__[Bioconductor: Stable]__  
+
+For most users, I will recommend this installation, it's most stable. The current release of Bioconductor is version 3.3; it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features. If you don't want to update your R, please install from github directly as introduced in next section. It's quite easy.
+
+Now check your R version 
+
+```r
+ R.version.string
+```
+
+If you are not running latest R, first install R 3.3 following instruction [here](http://www.bioconductor.org/install/#install-R), after you successfully installed
+R 3.3, if you are using Rstudio, please close and restart Rstudio, it will detech the 
+new install. Then install `sevenbridges` package. 
 
 ```r
 source("http://bioconductor.org/biocLite.R")
@@ -128,8 +157,10 @@ biocLite("sevenbridges")
 
 
 
-__[Latest]__ you can always install the latest development version of the package from GitHub, it's always the most latest 
-version, fresh new but not fully tested,  with all new features and hot fixes, before we push to any bioconductor branch (release/devel) 
+__[Latest]__ 
+
+You can always install the latest development version of the package from GitHub, it's always the most latest 
+version, fresh new,  with all new features and hot fixes, we push to bioconductor branch (release/devel) regularly.
 
 ```r
 # install.packages("devtools") if devtools was not installed
@@ -140,9 +171,11 @@ install_github("sbg/sevenbridges-r", build_vignettes=TRUE,
   dependencies=TRUE)
 ```
 
-__If you have trouble with pandoc__,  set `build_vignettes = FALSE` to avoid vignettes build, 
+If you have trouble with pandoc,  set `build_vignettes = FALSE` to avoid vignettes build, 
 
-__[Bioconductor: Devel]__ Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instructino.
+__[Bioconductor: Devel]__ 
+
+Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instructino.
 
 ```r
 source("http://bioconductor.org/biocLite.R")
@@ -156,7 +189,9 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
-### More tutorials 
+<a name="tutorial"/>
+
+### Tutorials 
 
 We have 3 different version (from stable to latest), 1) bioconductor stable 2) bioconductor devel 3) github for different levels of users and developers, so here are all tutorials and their coresponding version:
 
@@ -183,6 +218,8 @@ We have 3 different version (from stable to latest), 1) bioconductor stable 2) b
 - Reference 
 [[bioc-stable](http://www.bioconductor.org/packages/release/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
 [[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+
+<a name="rstudio"/>
 
 ### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
@@ -221,11 +258,14 @@ able to see the hello example.
 
 
 
+<a name="issue"/>
 
 ### Issue report
 
 All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/sbg/sevenbridges-r/issues) here on github, we wil 
 try to respond asap.
+
+<a name="qa"/>
 
 ### Q&A
 
