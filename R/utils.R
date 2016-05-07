@@ -868,27 +868,56 @@ guess_default = function(nm, fun){
 #' @return docker stdout
 #' @examples
 #' \dontrun{
-#' set_test_env("tengfei/testenv")
+#' set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")
 #' }
 
-set_test_env = function(docker_image, data_dir){
-  # this setup works atm by calling docker-machine first to ensure docker server is up and client callable
-  # at least one docker-machine must be running (for example: docker-machine start default)   
-  #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
-  docker_machine_args <- "ls --filter state=Running --format '{{.Name}}'"
-  docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
-  envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
-  envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
-  Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
+set_test_env = function(type, docker_image, data_dir){
+  stopifnot(type %in% c("dind", "host"))
   
-  system2("docker", c("rm -f bunny"), stdout=F, stderr = F)
+  switch(Sys.info()[['sysname']],
+    Windows= {
+        message("[INFO]: Windows OS detected: trying docker-machine ...")
+        .docker_env_vars()
+    },
+    Linux  = {
+        message("[INFO]: Linux OS detected: ensure docker server and client are connected")
+    },
+    Darwin = {
+        message("[INFO]: OS X detected: trying docker-machine ...")
+        .docker_env_vars()
+    }
+  )
   
-  #TODO: SHOULD REALLY BE DOCKER-beside-DOCKER instead: http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/ by mapping sockets: bunny would be able to run sibling containers that way
-  # https://hub.docker.com/_/docker/ with Docker-R it would be possible to read host sock location, but it should be always mapped to same location inside container with docker executables
-  docker_run_args <- paste("run --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-  system2("docker", c(docker_run_args), stdout=T, stderr=T)
+  # cleanup
+  system2("docker", c("rm -f bunny"), stdout=T, stderr=T)
+  system2("docker", "rm $(docker ps -q -f status=exited)", stdout = T, stderr = T)
+  system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=T, stderr=T)
   
-  #TODO: Bunny still always runs local cmds, not creating containers - v0.3.0
+  #TODO: investigate DOCKER-beside-DOCKER: 
+  # http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/ 
+  # https://hub.docker.com/_/docker/ but for now only DinD works because of mount shared volumes problem
+  if (type == "dind"){
+    docker_run_args <- paste("run --privileged=true --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+    system2("docker", c(docker_run_args), stdout=T, stderr=T)
+    system2("docker", c("exec bunny bash -c 'service docker start'"), stdout=T, stderr=T)
+  } else {
+    docker_run_args <- paste("run --privileged=true --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+    system2("docker", c(docker_run_args), stdout=T, stderr=T)
+  }
+  
+  #TODO: Dockerize latest bunny: Bunny still only runs local cmds, not creating containers - v0.3.0
+}
+
+.docker_env_vars = function(){    
+    #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
+    docker_machine_args <- "ls --filter state=Running --format '{{ .Name }}'"
+    docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
+    if (identical(docker.vm, character(0))){
+        message("[ERROR]: docker-machine not running.")
+    }
+    envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
+    envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
+    Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
 }
 
 
@@ -915,7 +944,7 @@ test_tool_bunny = function(rabix_tool, inputs){
       message("Test container not running. Try setting testing env first (set_test_env())")
   } else {
       message("Trying the execution...")
-      check_cmd <- "inspect --format '{{(index .Mounts 1).Source}}' bunny"
+      check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
       mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
       tool_path <- paste(mount_point, "/tool.json", sep="")
       inputs_path <- paste(mount_point, "/inputs.json", sep="")
@@ -949,14 +978,23 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
-        check_cmd <- "inspect --format '{{(index .Mounts 1).Source}}' bunny"
+        check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
         mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
-        tool_path <- paste(mount_point, "/tool.json", sep="")
-        inputs_path <- paste(mount_point, "/inputs.json", sep="")
+        
+        tool_path <- paste0(mount_point, "/tool.json")
+        inputs_path <- paste0(mount_point, "/inputs.json")
+        
+        # cleanup
+        if (file.exists(tool_path)){
+            system2("docker", "exec bunny bash -c 'rm /bunny_data/tool.json'")
+        } 
+        if (file.exists(inputs_path)){
+            system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
+        }
+        
         write(rabix_tool$toJSON(pretty=T), file=tool_path)
         write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
-        
-        run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /tmp /bunny_data/tool.json -i /bunny_data/inputs.json'"
+        run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /bunny_data /bunny_data/tool.json -i /bunny_data/inputs.json'"
         system2("docker", run_cmd)
     }
 }
