@@ -1,6 +1,31 @@
 .response_files <- c("id", "name",  "size", "project", "created_on",
                      "modified_on", "origin", "metadata")
 ## Files: let's extend File class from CWL package
+
+#' Files class
+#' 
+#' Files Class
+#' 
+#' Files class (has 's') contains CWL File class, it's usally returned by the API call which 
+#' returns Files. A group of Files is defined as FilesList. Users don't usually
+#' need to construct Files or FilesList manually, most time it's generated from a API 
+#' call.
+#' 
+#' @field id character used as file id
+#' @field name string used as file name
+#' @field metdata a list for metdata associated with the file
+#' @field project project id if any, when returned by a API call, it usually return the 
+#' project id and stored with the object. 
+#' @field url url
+#' @field created_on date created on
+#' @field modifield_on data modified on
+#' @field origin list as origin
+#' 
+#' @return Files object
+#' @export Files FilesList
+#' @exportClass Files FilesList
+#' @examples 
+#' Files(id = "test_id", name = "test.bam")
 Files <- setRefClass("Files", contains = c("Item", "File"),
                      fields = list(id = "characterORNULL",
                          name = "characterORNULL",
