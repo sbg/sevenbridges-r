@@ -1,5 +1,5 @@
-
-.response_app <- c("href", "id", "name", "project", "revision", "raw")
+.response_app <- c("href", "id", "name", "project", "revision")
+## remove "raw" from default showing methods
 
 #' App class
 #'
@@ -24,9 +24,6 @@ App <- setRefClass("App", contains = "Item",
                        copyTo = function(project = NULL, name = NULL){
                            auth$copyApp(id, project = project, name = name)
                        },
-                       ## getLatestRevision = function(){
-                       ##     app(id = .id, detail = TRUE)$revision
-                       ## },
                        cwl = function(revision = NULL, ...){
                            if(!is.null(revision)){
                                .id <- .update_revision(id, revision)
