@@ -154,7 +154,7 @@ getInputType <- function(x){
     if(length(ins)){
         sapply(ins, function(i){
             .t <- i$type
-            .id <- i$id
+            .id <- gsub("^#", "", i$id)
             .t <- sapply(.t, function(s){
                 ## file array problem
                 if("type" %in% names(s)){
@@ -184,7 +184,7 @@ getOutputType <- function(x){
         sapply(os, function(i){
             
             .t <- i$type
-            .id <- i$id
+            .id <- gsub("^#", "", i$id)
             .t <- sapply(.t, function(s){
                 ## file array problem
                 if("type" %in% names(s)){
