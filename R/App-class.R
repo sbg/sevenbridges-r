@@ -37,13 +37,13 @@ App <- setRefClass("App", contains = "Item",
                                             methods = "GET", ...)
                            raw
                        },
-                       input = function(){
+                       input_type = function(){
                            if(is.null(raw)){
                                stop("missing raw cwl detail, run apps$cwl()")
                            }
                            getInputType(raw)
                        },
-                       output = function(){
+                       output_type = function(){
                            if(is.null(raw)){
                                stop("missing raw cwl detail, run apps$cwl()")
                            }

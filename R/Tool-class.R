@@ -195,6 +195,12 @@ Tool <-
                         res <- callSuper(id = id, label  = .label, ...)
                         res$field("sbg:id", id)
                         res
+                    },
+                    input_type = function(){
+                        getInputType(toList())
+                    },
+                    output_type = function(){
+                        getOutputType(toList())
                     }
                 ))
 
