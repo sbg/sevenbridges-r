@@ -22,8 +22,8 @@
 #' @field origin list as origin
 #' 
 #' @return Files object
-#' @export Files FilesList
-#' @exportClass Files FilesList
+#' @export Files
+#' @exportClass Files 
 #' @examples 
 #' Files(id = "test_id", name = "test.bam")
 Files <- setRefClass("Files", contains = c("Item", "File"),
@@ -166,6 +166,11 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
           response = response(x))
 }
 
+#' @rdname Files-class
+#' @export FilesList
+#' @aliases FilesList-class
+#' @param ... one or more Files objects
+#' @exportClass FilesList
 FilesList <- setListClass("Files", contains = "Item0")
 
 .asFilesList <- function(x){

@@ -4,7 +4,15 @@
 \name{Files-class}
 \alias{Files}
 \alias{Files-class}
+\alias{FilesList}
+\alias{FilesList-class}
 \title{Files class}
+\usage{
+FilesList(...)
+}
+\arguments{
+\item{...}{one or more Files objects}
+}
 \value{
 Files object
 }
