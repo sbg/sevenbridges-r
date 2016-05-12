@@ -30,9 +30,24 @@ App <- setRefClass("App", contains = "Item",
                            }else{
                                .id <- id
                            }
+                           if(is.null(auth)){
+                               stop("auth missing")
+                           }
                            raw <<- auth$api(path = paste0("apps/", .id, "/raw"),
                                             methods = "GET", ...)
                            raw
+                       },
+                       input = function(){
+                           if(is.null(raw)){
+                               stop("missing raw cwl detail, run apps$cwl()")
+                           }
+                           getInputType(raw)
+                       },
+                       output = function(){
+                           if(is.null(raw)){
+                               stop("missing raw cwl detail, run apps$cwl()")
+                           }
+                           getOutputType(raw)
                        },
                        show = function(){
                            .showFields(.self, "== App ==", .response_app)
