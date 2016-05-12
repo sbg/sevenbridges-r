@@ -476,8 +476,8 @@ if id provided, This call retrieves information about a selected invoice, includ
                             if(!is.null(id)){
                                 req <- api(path = paste0("apps/", .update_revision(id, revision)),
                                            method = "GET", query = query, ...)
-                                
-                                return(.asApp(req))
+                           
+                                return(setAuth(.asApp(req), .self, "App"))
                             }
 
 
