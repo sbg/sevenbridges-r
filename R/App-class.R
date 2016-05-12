@@ -49,6 +49,56 @@ App <- setRefClass("App", contains = "Item",
                            }
                            getOutputType(raw)
                        },
+                       input_check = function(input){
+
+                           message("check id match")
+                           in_type = input_type()
+                           in_id = names(in_type)
+                           cus_id = names(input)
+                           idx = cus_id %in% in_id
+                           if(sum(!idx)){
+                               stop("id not matched: ", paste(cus_id[!idx], collapse = " "), 
+                                    ".", "\n Inputs id should be \n", paste(in_id, collapse = " "))
+                           }
+                           .type = in_type[match(cus_id, in_id)]
+                           ## conversion for single file trick
+                           id.fl = which("File" == .type)
+                           id.fls = which("File..." == .type)
+                           if(length(id.fl)){
+                               ## solve edge case 
+                               for(i in id.fl){
+                                   if(is(input[[i]], "FilesList")){
+                                       if(length(input[[i]]) == 1){
+                                           message("Converting to single Files type: ", names(input[[i]]))
+                                           input[[i]] = input[[i]][[1]]
+                                       }else{
+                                           stop(in_id[i], " only accept single File")
+                                       }
+                                   }
+                                 
+                                   if(is.list(input[[i]])){
+                                       if(length(input[[i]]) == 1 && is(input[[i]][[1]], "Files")){
+                                           message("Converting to single Files type: ", names(input[[i]]))
+                                           input[[i]] = input[[i]][[1]]
+                                       }
+                                       if(length(input[[i]]) > 1){
+                                           stop(in_id[i], " only accept single File")
+                                       }
+                                   }
+                               }
+                           }
+                           if(length(id.fls)){
+                               ## solve edge case
+                               for(i in id.fls){
+           
+                                   if(is(input[[i]], "Files")){
+                                       message("Coverting your single File to a FileList")
+                                       input[[i]] = list(input[[i]])
+                                   }
+                               }
+                           }
+                           input
+                       },
                        show = function(){
                            .showFields(.self, "== App ==", .response_app)
                        }

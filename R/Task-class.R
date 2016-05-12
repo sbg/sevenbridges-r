@@ -311,9 +311,6 @@ setMethod("asTaskInput", "ANY", function(object){
     object
 })
 
-# setMethod("asTaskInput", "ANY", function(object){
-#     return(as.list(object))
-# })
 
 
 #' batch function for task batch execution
@@ -374,6 +371,5 @@ batch = function(input = NULL,
            })
     c(list(batch_input = input), list(batch_by = res))
 }
-
 
 

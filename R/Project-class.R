@@ -381,9 +381,18 @@ Project <- setRefClass("Project", contains = "Item",
                                description = NULL,
                                batch = NULL,
                                app = NULL,
-                               inputs = NULL, ...){
+                               inputs = NULL, 
+                               input_check = getOption("sevenbridges")$input_check, ...){
 
-                               
+                              
+                            if(input_check){
+                                message("checking inputs ...")
+                                message("API: getting app input information ...")
+                                apps = auth$app(id = app)
+                                message("checking ...")
+                                inputs = apps$input_check(inputs)
+                            }
+                            message("Task drafting ...")
                             body = list(name = name,
                                 description = description,
                                 project = id,
