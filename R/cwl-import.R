@@ -157,7 +157,7 @@ getInputType <- function(x){
             .id <- gsub("^#", "", i$id)
             .t <- sapply(.t, function(s){
                 ## file array problem
-                if("type" %in% names(s)){
+                if(!is.null(names(s)) && "type" %in% names(s)){
                     if(s$type == "array"){
                         return(paste0(s$items, "..."))
                     }else if(s$type == "enum"){
@@ -166,7 +166,12 @@ getInputType <- function(x){
                         return(NULL)
                     }
                 }else{
-                    return(s[[1]])
+                    if(is.list(s)){
+                        return(s[[1]])
+                    }else{
+                        return(s[s != "null"])
+                    }
+                    
                 }
             })
             res <- .t[.t != "null"]
@@ -178,7 +183,7 @@ getInputType <- function(x){
 }
 
 getOutputType <- function(x){
-    
+    browser()
     os <- x$outputs
     if(length(os)){
         sapply(os, function(i){
@@ -187,7 +192,8 @@ getOutputType <- function(x){
             .id <- gsub("^#", "", i$id)
             .t <- sapply(.t, function(s){
                 ## file array problem
-                if("type" %in% names(s)){
+                ## need to consider CWL app and our Tool object
+                if(!is.null(names(s)) && "type" %in% names(s)){
                     if(s$type == "array"){
                         return(paste0(s$items, "..."))
                     }else if(s$type == "enum"){
@@ -196,7 +202,12 @@ getOutputType <- function(x){
                         return(NULL)
                     }
                 }else{
-                    return(s[[1]])
+                    if(is.list(s)){
+                        return(s[[1]])
+                    }else{
+                        return(s[s != "null"])
+                    }
+                   
                 }
             })
             res <- .t[.t != "null"]
