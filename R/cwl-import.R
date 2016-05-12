@@ -159,7 +159,7 @@ getInputType <- function(x){
                 ## file array problem
                 if("type" %in% names(s)){
                     if(s$type == "array"){
-                        return(s$items)
+                        return(paste0(s$items, "..."))
                     }else if(s$type == "enum"){
                         return("enum")
                     }else{
@@ -189,7 +189,7 @@ getOutputType <- function(x){
                 ## file array problem
                 if("type" %in% names(s)){
                     if(s$type == "array"){
-                        return(s$items)
+                        return(paste0(s$items, "..."))
                     }else if(s$type == "enum"){
                         return("enum")
                     }else{
