@@ -152,26 +152,59 @@ getOutputId <- function(x){
 getInputType <- function(x){
     ins <- x$inputs
     if(length(ins)){
-    lapply(ins, function(i){
-        ## fixme: why
-        .t <- i$type[[1]]
-        .t[.t != "null"]
-    })}else{
-        NULL
-    }
+        sapply(ins, function(i){
+            .t <- i$type
+            .id <- i$id
+            .t <- sapply(.t, function(s){
+                ## file array problem
+                if("type" %in% names(s)){
+                    if(s$type == "array"){
+                        return(s$items)
+                    }else if(s$type == "enum"){
+                        return("enum")
+                    }else{
+                        return(NULL)
+                    }
+                }else{
+                    return(s[[1]])
+                }
+            })
+            res <- .t[.t != "null"]
+            names(res) <- .id
+            res
+        })}else{
+            NULL
+        }
 }
 
 getOutputType <- function(x){
-
+    
     os <- x$outputs
     if(length(os)){
-    lapply(os, function(i){
-          .t <- i$type[[1]]
-        .t[.t != "null"]
-
-    })}else{
-        NULL
-    }
+        sapply(os, function(i){
+            
+            .t <- i$type
+            .id <- i$id
+            .t <- sapply(.t, function(s){
+                ## file array problem
+                if("type" %in% names(s)){
+                    if(s$type == "array"){
+                        return(s$items)
+                    }else if(s$type == "enum"){
+                        return("enum")
+                    }else{
+                        return(NULL)
+                    }
+                }else{
+                    return(s[[1]])
+                }
+            })
+            res <- .t[.t != "null"]
+            names(res) <- .id
+            res
+        })}else{
+            NULL
+        }
 }
 
 #' Class CWL
