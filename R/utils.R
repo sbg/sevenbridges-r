@@ -367,27 +367,55 @@ m.match <- function(obj, id = NULL, name = NULL,
                 }
                 !is.null(s) && idx
             })
-            x <- x[idx]
+            x <- x[which(idx)]
         }
-
-        for (fld in names(x)){
-            if(all(is.character(x[[fld]]))){
-                msg <- paste0(x[[fld]], collapse = " \n ")
-                message(space, fld, " : ", msg)                                
-            }else{
-                if(is(x[[fld]], "Meta")){
-                    msg <- as.character(x[[fld]]$data)
-                    message(space, fld, " : ", msg) 
-                }else if(is.list(x[[fld]])){
-                    message(space, fld, " : ", length(x[[fld]]), " items")
-                    .showList(x[[fld]], space = paste0(space, "  "))
+        if(is.null(names(x))){
+            
+        }
+        for (i in seq_len(length(x))){
+            fld <- names(x[[i]])
+            if(all(is.character(x[[i]]))){
+                msg <- paste0(x[[i]], collapse = " \n ")
+                if(is.null(fld)){
+                    message(space, " - ",  msg)  
                 }else{
-                    msg <- as.character(x[[fld]])
-                    message(space, fld, " : ", msg) 
+                    message(space, fld, " : ", msg)  
                 }
-                             
+                                              
+            }else{
+                if(is(x[[i]], "Meta")){
+                    msg <- as.character(x[[i]]$data)
+                    if(is.null(fld)){
+                        message(space, " - ",  msg)  
+                    }else{
+                        message(space, fld, " : ", msg)  
+                    }
+
+                }else if(is.list(x[[i]])){
+                    if(is.null(fld)){
+                        message(space, " - ", length(x[[i]]), " items")
+                        
+                    }else{
+                        message(space, fld, " : ", length(x[[i]]), " items")
+                       
+                    }
+                    
+                    
+                    .showList(x[[i]], space = paste0(space, "  "))
+                }else{
+                    msg <- as.character(x[[i]])
+                    if(is.null(fld)){
+                        message(space, " - ",  msg)  
+                    }else{
+                        message(space, fld, " : ", msg)  
+                    }
+                }
+                
             }
         }
+        
+        
+        
     }
 }
 
