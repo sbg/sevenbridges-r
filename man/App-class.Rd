@@ -4,14 +4,7 @@
 \name{App-class}
 \alias{App}
 \alias{App-class}
-\alias{appType}
 \title{App class}
-\usage{
-appType(x)
-}
-\arguments{
-\item{x}{a App object}
-}
 \value{
 App object.
 }
@@ -31,10 +24,4 @@ App class
 
 \item{\code{raw}}{raw cwl list, if doesn't have any, call cwl() method.}
 }}
-\section{appType}{
-
-\describe{
- this function return class of a App object.
-}
-}
 

@@ -1,0 +1,2332 @@
+{
+  "sbg:contributors": [
+    "sevenbridges"
+  ],
+  "successCodes": [],
+  "sbg:createdBy": "sevenbridges",
+  "description": "STAR is an ultrafast universal RNA-seq aligner. It has very high mapping speed, accurate alignment of contiguous and spliced reads, detection of polyA-tails, non-canonical splices and chimeric (fusion) junctions. It works with reads starting from lengths ~15 bases up to ~300 bases. In case of having longer reads, use of STAR Long is recommended.",
+  "sbg:id": "sevenbridges/public-apps/star/4",
+  "class": "CommandLineTool",
+  "hints": [
+    {
+      "dockerImageId": "a4b0ad2c3cae",
+      "class": "DockerRequirement",
+      "dockerPull": "images.sbgenomics.com/ana_d/star:2.4.2a"
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 60000
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 15
+    }
+  ],
+  "baseCommand": [
+    "tar",
+    "-xvf",
+    {
+      "class": "Expression",
+      "script": "$job.inputs.genome.path",
+      "engine": "#cwl-js-engine"
+    },
+    "&&",
+    "/opt/STAR",
+    "--runThreadN",
+    {
+      "class": "Expression",
+      "script": "{\n  return $job.allocatedResources.cpu\n}",
+      "engine": "#cwl-js-engine"
+    }
+  ],
+  "sbg:modifiedOn": 1462904151,
+  "requirements": [
+    {
+      "id": "#cwl-js-engine",
+      "requirements": [
+        {
+          "class": "DockerRequirement",
+          "dockerPull": "rabix/js-engine"
+        }
+      ],
+      "class": "ExpressionEngineRequirement"
+    }
+  ],
+  "stdout": "",
+  "sbg:links": [
+    {
+      "id": "https://github.com/alexdobin/STAR",
+      "label": "Homepage"
+    },
+    {
+      "id": "https://github.com/alexdobin/STAR/releases",
+      "label": "Releases"
+    },
+    {
+      "id": "https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf",
+      "label": "Manual"
+    },
+    {
+      "id": "https://groups.google.com/forum/#!forum/rna-star",
+      "label": "Support"
+    },
+    {
+      "id": "http://www.ncbi.nlm.nih.gov/pubmed/23104886",
+      "label": "Publication"
+    }
+  ],
+  "sbg:cmdPreview": "tar -xvf genome.ext && /opt/STAR --runThreadN 15  --readFilesCommand bzcat  --sjdbGTFfile /demo/test-data/chr20.gtf  --sjdbGTFchrPrefix chrPrefix --sjdbInsertSave Basic  --twopass1readsN 0  --chimOutType WithinBAM  --outSAMattrRGline ID:1 CN:illumina PI:rg_mfl PL:Ion_Torrent_PGM PU:rg_platform_unit SM:rg_sample  --quantMode TranscriptomeSAM --outFileNamePrefix ./mate_1.fastq.bz2.  --readFilesIn /test-data/mate_1.fastq.bz2  && tar -vcf mate_1.fastq.bz2._STARgenome.tar ./mate_1.fastq.bz2._STARgenome  && mv mate_1.fastq.bz2.Unmapped.out.mate1 mate_1.fastq.bz2.Unmapped.out.mate1.fastq",
+  "sbg:toolAuthor": "Alexander Dobin/CSHL",
+  "sbg:image_url": null,
+  "sbg:revision": 4,
+  "inputs": [
+    {
+      "sbg:category": "Basic",
+      "type": [
+        {
+          "name": "reads",
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "label": "Read sequence",
+      "description": "Read sequence.",
+      "id": "#reads",
+      "sbg:fileTypes": "FASTA, FASTQ, FA, FQ, FASTQ.GZ, FQ.GZ, FASTQ.BZ2, FQ.BZ2",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "position": 10,
+        "valueFrom": {
+          "class": "Expression",
+          "script": "{\t\n  var list = [].concat($job.inputs.reads)\n  \n  var resp = []\n  \n  if (list.length == 1){\n    resp.push(list[0].path)\n    \n  }else if (list.length == 2){    \n    \n    left = \"\"\n    right = \"\"\n      \n    for (index = 0; index < list.length; ++index) {\n      \n      if (list[index].metadata != null){\n        if (list[index].metadata.paired_end == 1){\n          left = list[index].path\n        }else if (list[index].metadata.paired_end == 2){\n          right = list[index].path\n        }\n      }\n    }\n    \n    if (left != \"\" && right != \"\"){      \n      resp.push(left)\n      resp.push(right)\n    }\n  }\n  else if (list.length > 2){\n    left = []\n    right = []\n      \n    for (index = 0; index < list.length; ++index) {\n      \n      if (list[index].metadata != null){\n        if (list[index].metadata.paired_end == 1){\n          left.push(list[index].path)\n        }else if (list[index].metadata.paired_end == 2){\n          right.push(list[index].path)\n        }\n      }\n    }\n    left_join = left.join()\n    right_join = right.join()\n    if (left != [] && right != []){      \n      resp.push(left_join)\n      resp.push(right_join)\n    }\t\n  }\n  \n  if(resp.length > 0){    \n    return \"--readFilesIn \".concat(resp.join(\" \"))\n  }\n}",
+          "engine": "#cwl-js-engine"
+        }
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#readMatesLengthsIn",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "NotEqual",
+            "Equal"
+          ],
+          "type": "enum",
+          "name": "readMatesLengthsIn"
+        }
+      ],
+      "label": "Reads lengths",
+      "description": "Equal/Not equal - lengths of names, sequences, qualities for both mates are the same/not the same. \"Not equal\" is safe in all situations.",
+      "sbg:toolDefaultValue": "NotEqual",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--readMatesLengthsIn"
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#readMapNumber",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Reads to map",
+      "description": "Number of reads to map from the beginning of the file.",
+      "sbg:toolDefaultValue": "-1",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--readMapNumber"
+      }
+    },
+    {
+      "sbg:category": "Limits",
+      "id": "#limitOutSJoneRead",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Junctions max number",
+      "description": "Max number of junctions for one read (including all multi-mappers).",
+      "sbg:toolDefaultValue": "1000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--limitOutSJoneRead"
+      }
+    },
+    {
+      "sbg:category": "Limits",
+      "id": "#limitOutSJcollapsed",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Collapsed junctions max number",
+      "description": "Max number of collapsed junctions.",
+      "sbg:toolDefaultValue": "1000000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--limitOutSJcollapsed"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outReadsUnmapped",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "None",
+            "Fastx"
+          ],
+          "type": "enum",
+          "name": "outReadsUnmapped"
+        }
+      ],
+      "label": "Output unmapped reads",
+      "description": "Output of unmapped reads (besides SAM). None: no output; Fastx: output in separate fasta/fastq files, Unmapped.out.mate1/2.",
+      "sbg:toolDefaultValue": "None",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outReadsUnmapped"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outQSconversionAdd",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Quality conversion",
+      "description": "Add this number to the quality score (e.g. to convert from Illumina to Sanger, use -31).",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outQSconversionAdd"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMtype",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "SAM",
+            "BAM"
+          ],
+          "type": "enum",
+          "name": "outSAMtype"
+        }
+      ],
+      "label": "Output format",
+      "description": "Format of output alignments.",
+      "sbg:toolDefaultValue": "SAM",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "valueFrom": {
+          "class": "Expression",
+          "script": "{\n  SAM_type = $job.inputs.outSAMtype\n  SORT_type = $job.inputs.outSortingType\n  if (SAM_type && SORT_type) {\n    return \"--outSAMtype \".concat(SAM_type, \" \", SORT_type)\n  }\n}",
+          "engine": "#cwl-js-engine"
+        }
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSortingType",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Unsorted",
+            "SortedByCoordinate",
+            "Unsorted SortedByCoordinate"
+          ],
+          "type": "enum",
+          "name": "outSortingType"
+        }
+      ],
+      "label": "Output sorting type",
+      "description": "Type of output sorting.",
+      "sbg:toolDefaultValue": "SortedByCoordinate"
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMmode",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Full",
+            "NoQS"
+          ],
+          "type": "enum",
+          "name": "outSAMmode"
+        }
+      ],
+      "label": "SAM mode",
+      "description": "Mode of SAM output. Full: full SAM output; NoQS: full SAM but without quality scores.",
+      "sbg:toolDefaultValue": "Full",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMmode"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMstrandField",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "None",
+            "intronMotif"
+          ],
+          "type": "enum",
+          "name": "outSAMstrandField"
+        }
+      ],
+      "label": "Strand field flag",
+      "description": "Cufflinks-like strand field flag. None: not used; intronMotif: strand derived from the intron motif. Reads with inconsistent and/or non-canonical introns are filtered out.",
+      "sbg:toolDefaultValue": "None",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMstrandField"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMattributes",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Standard",
+            "NH",
+            "All",
+            "None"
+          ],
+          "type": "enum",
+          "name": "outSAMattributes"
+        }
+      ],
+      "label": "SAM attributes",
+      "description": "Desired SAM attributes, in the order desired for the output SAM. NH: any combination in any order; Standard: NH HI AS nM; All: NH HI AS nM NM MD jM jI; None: no attributes.",
+      "sbg:toolDefaultValue": "Standard",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMattributes"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMunmapped",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "None",
+            "Within"
+          ],
+          "type": "enum",
+          "name": "outSAMunmapped"
+        }
+      ],
+      "label": "Write unmapped in SAM",
+      "description": "Output of unmapped reads in the SAM format. None: no output Within: output unmapped reads within the main SAM file (i.e. Aligned.out.sam).",
+      "sbg:toolDefaultValue": "None",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMunmapped"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMorder",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Paired",
+            "PairedKeepInputOrder"
+          ],
+          "type": "enum",
+          "name": "outSAMorder"
+        }
+      ],
+      "label": "Sorting in SAM",
+      "description": "Type of sorting for the SAM output. Paired: one mate after the other for all paired alignments; PairedKeepInputOrder: one mate after the other for all paired alignments, the order is kept the same as in the input FASTQ files.",
+      "sbg:toolDefaultValue": "Paired",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMorder"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMprimaryFlag",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "OneBestScore",
+            "AllBestScore"
+          ],
+          "type": "enum",
+          "name": "outSAMprimaryFlag"
+        }
+      ],
+      "label": "Primary alignments",
+      "description": "Which alignments are considered primary - all others will be marked with 0x100 bit in the FLAG. OneBestScore: only one alignment with the best score is primary; AllBestScore: all alignments with the best score are primary.",
+      "sbg:toolDefaultValue": "OneBestScore",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMprimaryFlag"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMreadID",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Standard",
+            "Number"
+          ],
+          "type": "enum",
+          "name": "outSAMreadID"
+        }
+      ],
+      "label": "Read ID",
+      "description": "Read ID record type. Standard: first word (until space) from the FASTx read ID line, removing /1,/2 from the end; Number: read number (index) in the FASTx file.",
+      "sbg:toolDefaultValue": "Standard",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMreadID"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMmapqUnique",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "MAPQ value",
+      "description": "MAPQ value for unique mappers (0 to 255).",
+      "sbg:toolDefaultValue": "255",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMmapqUnique"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMflagOR",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "OR SAM flag",
+      "description": "Set specific bits of the SAM FLAG.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMflagOR"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMflagAND",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "AND SAM flag",
+      "description": "Set specific bits of the SAM FLAG.",
+      "sbg:toolDefaultValue": "65535",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMflagAND"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMheaderHD",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "SAM header @HD",
+      "description": "@HD (header) line of the SAM header.",
+      "sbg:toolDefaultValue": "-",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMheaderHD"
+      }
+    },
+    {
+      "sbg:category": "Output",
+      "id": "#outSAMheaderPG",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "SAM header @PG",
+      "description": "Extra @PG (software) line of the SAM header (in addition to STAR).",
+      "sbg:toolDefaultValue": "-",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSAMheaderPG"
+      }
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_seq_center",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Sequencing center",
+      "description": "Specify the sequencing center for RG line.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_library_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Library ID",
+      "description": "Specify the library ID for RG line.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_mfl",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Median fragment length",
+      "description": "Specify the median fragment length for RG line.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_platform",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "LS 454",
+            "Helicos",
+            "Illumina",
+            "ABI SOLiD",
+            "Ion Torrent PGM",
+            "PacBio"
+          ],
+          "type": "enum",
+          "name": "rg_platform"
+        }
+      ],
+      "label": "Platform",
+      "description": "Specify the version of the technology that was used for sequencing or assaying.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_platform_unit_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Platform unit ID",
+      "description": "Specify the platform unit ID for RG line.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Read group",
+      "id": "#rg_sample_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Sample ID",
+      "description": "Specify the sample ID for RG line.",
+      "sbg:toolDefaultValue": "Inferred from metadata"
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterType",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Normal",
+            "BySJout"
+          ],
+          "type": "enum",
+          "name": "outFilterType"
+        }
+      ],
+      "label": "Filtering type",
+      "description": "Type of filtering. Normal: standard filtering using only current alignment; BySJout: keep only those reads that contain junctions that passed filtering into SJ.out.tab.",
+      "sbg:toolDefaultValue": "Normal",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterType"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMultimapScoreRange",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Multimapping score range",
+      "description": "The score range below the maximum score for multimapping alignments.",
+      "sbg:toolDefaultValue": "1",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMultimapScoreRange"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMultimapNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max number of mappings",
+      "description": "Read alignments will be output only if the read maps fewer than this value, otherwise no alignments will be output.",
+      "sbg:toolDefaultValue": "10",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMultimapNmax"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMismatchNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max number of mismatches",
+      "description": "Alignment will be output only if it has fewer mismatches than this value.",
+      "sbg:toolDefaultValue": "10",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMismatchNmax"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMismatchNoverLmax",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Mismatches to *mapped* length",
+      "description": "Alignment will be output only if its ratio of mismatches to *mapped* length is less than this value.",
+      "sbg:toolDefaultValue": "0.3",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMismatchNoverLmax"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMismatchNoverReadLmax",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Mismatches to *read* length",
+      "description": "Alignment will be output only if its ratio of mismatches to *read* length is less than this value.",
+      "sbg:toolDefaultValue": "1",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMismatchNoverReadLmax"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterScoreMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min score",
+      "description": "Alignment will be output only if its score is higher than this value.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterScoreMin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterScoreMinOverLread",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Min score normalized",
+      "description": "'Minimum score' normalized to read length (sum of mates' lengths for paired-end reads).",
+      "sbg:toolDefaultValue": "0.66",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterScoreMinOverLread"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMatchNmin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min matched bases",
+      "description": "Alignment will be output only if the number of matched bases is higher than this value.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMatchNmin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterMatchNminOverLread",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Min matched bases normalized",
+      "description": "'Minimum matched bases' normalized to read length (sum of mates lengths for paired-end reads).",
+      "sbg:toolDefaultValue": "0.66",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterMatchNminOverLread"
+      }
+    },
+    {
+      "sbg:category": "Output filtering",
+      "id": "#outFilterIntronMotifs",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "None",
+            "RemoveNoncanonical",
+            "RemoveNoncanonicalUnannotated"
+          ],
+          "type": "enum",
+          "name": "outFilterIntronMotifs"
+        }
+      ],
+      "label": "Motifs filtering",
+      "description": "Filter alignment using their motifs. None: no filtering; RemoveNoncanonical: filter out alignments that contain non-canonical junctions; RemoveNoncanonicalUnannotated: filter out alignments that contain non-canonical unannotated junctions when using annotated splice junctions database. The annotated non-canonical junctions will be kept.",
+      "sbg:toolDefaultValue": "None",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outFilterIntronMotifs"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterReads",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "All",
+            "Unique"
+          ],
+          "type": "enum",
+          "name": "outSJfilterReads"
+        }
+      ],
+      "label": "Collapsed junctions reads",
+      "description": "Which reads to consider for collapsed splice junctions output. All: all reads, unique- and multi-mappers; Unique: uniquely mapping reads only.",
+      "sbg:toolDefaultValue": "All",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterReads"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterOverhangMin",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Min overhang SJ",
+      "description": "Minimum overhang length for splice junctions on both sides for each of the motifs. To set no output for desired motif, assign -1 to the corresponding field. Does not apply to annotated junctions.",
+      "sbg:toolDefaultValue": "30 12 12 12",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterOverhangMin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterCountUniqueMin",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Min unique count",
+      "description": "Minimum uniquely mapping read count per junction for each of the motifs. To set no output for desired motif, assign -1 to the corresponding field. Junctions are output if one of --outSJfilterCountUniqueMin OR --outSJfilterCountTotalMin conditions are satisfied. Does not apply to annotated junctions.",
+      "sbg:toolDefaultValue": "3 1 1 1",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterCountUniqueMin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterCountTotalMin",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Min total count",
+      "description": "Minimum total (multi-mapping+unique) read count per junction for each of the motifs. To set no output for desired motif, assign -1 to the corresponding field. Junctions are output if one of --outSJfilterCountUniqueMin OR --outSJfilterCountTotalMin conditions are satisfied. Does not apply to annotated junctions.",
+      "sbg:toolDefaultValue": "3 1 1 1",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterCountTotalMin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterDistToOtherSJmin",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Min distance to other donor/acceptor",
+      "description": "Minimum allowed distance to other junctions' donor/acceptor for each of the motifs (int >= 0). Does not apply to annotated junctions.",
+      "sbg:toolDefaultValue": "10 0 5 10",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterDistToOtherSJmin"
+      }
+    },
+    {
+      "sbg:category": "Output filtering: splice junctions",
+      "id": "#outSJfilterIntronMaxVsReadN",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Max gap allowed",
+      "description": "Maximum gap allowed for junctions supported by 1,2,3...N reads (int >= 0) i.e. by default junctions supported by 1 read can have gaps <=50000b, by 2 reads: <=100000b, by 3 reads: <=200000. By 4 or more reads: any gap <=alignIntronMax. Does not apply to annotated junctions.",
+      "sbg:toolDefaultValue": "50000 100000 200000",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--outSJfilterIntronMaxVsReadN"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreGap",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Gap open penalty",
+      "description": "Gap open penalty.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreGap"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreGapNoncan",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Non-canonical gap open",
+      "description": "Non-canonical gap open penalty (in addition to --scoreGap).",
+      "sbg:toolDefaultValue": "-8",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreGapNoncan"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreGapGCAG",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "GC/AG and CT/GC gap open",
+      "description": "GC/AG and CT/GC gap open penalty (in addition to --scoreGap).",
+      "sbg:toolDefaultValue": "-4",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreGapGCAG"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreGapATAC",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "AT/AC and GT/AT gap open",
+      "description": "AT/AC and GT/AT gap open penalty (in addition to --scoreGap).",
+      "sbg:toolDefaultValue": "-8",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreGapATAC"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreGenomicLengthLog2scale",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Log scaled score",
+      "description": "Extra score logarithmically scaled with genomic length of the alignment: <int>*log2(genomicLength).",
+      "sbg:toolDefaultValue": "-0.25",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreGenomicLengthLog2scale"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreDelOpen",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Deletion open penalty",
+      "description": "Deletion open penalty.",
+      "sbg:toolDefaultValue": "-2",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreDelOpen"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreDelBase",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Deletion extension penalty",
+      "description": "Deletion extension penalty per base (in addition to --scoreDelOpen).",
+      "sbg:toolDefaultValue": "-2",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreDelBase"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreInsOpen",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Insertion Open Penalty",
+      "description": "Insertion open penalty.",
+      "sbg:toolDefaultValue": "-2",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreInsOpen"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreInsBase",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Insertion extension penalty",
+      "description": "Insertion extension penalty per base (in addition to --scoreInsOpen).",
+      "sbg:toolDefaultValue": "-2",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreInsBase"
+      }
+    },
+    {
+      "sbg:category": "Scoring",
+      "id": "#scoreStitchSJshift",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max score reduction",
+      "description": "Maximum score reduction while searching for SJ boundaries in the stitching step.",
+      "sbg:toolDefaultValue": "1",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--scoreStitchSJshift"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedSearchStartLmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Search start point",
+      "description": "Defines the search start point through the read - the read is split into pieces no longer than this value (int>0).",
+      "sbg:toolDefaultValue": "50",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedSearchStartLmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedSearchStartLmaxOverLread",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Search start point normalized",
+      "description": "seedSearchStartLmax normalized to read length (sum of mates' lengths for paired-end reads).",
+      "sbg:toolDefaultValue": "1.0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedSearchStartLmaxOverLread"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedSearchLmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max seed length",
+      "description": "Defines the maximum length of the seeds, if =0 max seed length is infinite (int>=0).",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedSearchLmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedMultimapNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Filter pieces for stitching",
+      "description": "Only pieces that map fewer than this value are utilized in the stitching procedure (int>=0).",
+      "sbg:toolDefaultValue": "10000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedMultimapNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedPerReadNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max seeds per read",
+      "description": "Max number of seeds per read (int>=0).",
+      "sbg:toolDefaultValue": "1000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedPerReadNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedPerWindowNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max seeds per window",
+      "description": "Max number of seeds per window (int>=0).",
+      "sbg:toolDefaultValue": "50",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedPerWindowNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#seedNoneLociPerWindow",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max one-seed loci per window",
+      "description": "Max number of one seed loci per window (int>=0).",
+      "sbg:toolDefaultValue": "10",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--seedNoneLociPerWindow"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignIntronMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min intron size",
+      "description": "Minimum intron size: genomic gap is considered intron if its length >= alignIntronMin, otherwise it is considered Deletion (int>=0).",
+      "sbg:toolDefaultValue": "21",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignIntronMin"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignIntronMax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max intron size",
+      "description": "Maximum intron size, if 0, max intron size will be determined by (2^winBinNbits)*winAnchorDistNbins.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignIntronMax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignMatesGapMax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max mates gap",
+      "description": "Maximum gap between two mates, if 0, max intron gap will be determined by (2^winBinNbits)*winAnchorDistNbins.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignMatesGapMax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignSJoverhangMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min overhang",
+      "description": "Minimum overhang (i.e. block size) for spliced alignments (int>0).",
+      "sbg:toolDefaultValue": "5",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignSJoverhangMin"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignSJDBoverhangMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min overhang: annotated",
+      "description": "Minimum overhang (i.e. block size) for annotated (sjdb) spliced alignments (int>0).",
+      "sbg:toolDefaultValue": "3",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignSJDBoverhangMin"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignSplicedMateMapLmin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min mapped length",
+      "description": "Minimum mapped length for a read mate that is spliced (int>0).",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignSplicedMateMapLmin"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignSplicedMateMapLminOverLmate",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Min mapped length normalized",
+      "description": "alignSplicedMateMapLmin normalized to mate length (float>0).",
+      "sbg:toolDefaultValue": "0.66",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignSplicedMateMapLminOverLmate"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignWindowsPerReadNmax",
+      "type": [
+        "null",
+        "float"
+      ],
+      "label": "Max windows per read",
+      "description": "Max number of windows per read (int>0).",
+      "sbg:toolDefaultValue": "10000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignWindowsPerReadNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignTranscriptsPerWindowNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max transcripts per window",
+      "description": "Max number of transcripts per window (int>0).",
+      "sbg:toolDefaultValue": "100",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignTranscriptsPerWindowNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignTranscriptsPerReadNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max transcripts per read",
+      "description": "Max number of different alignments per read to consider (int>0).",
+      "sbg:toolDefaultValue": "10000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignTranscriptsPerReadNmax"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignEndsType",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Local",
+            "EndToEnd"
+          ],
+          "type": "enum",
+          "name": "alignEndsType"
+        }
+      ],
+      "label": "Alignment type",
+      "description": "Type of read ends alignment. Local: standard local alignment with soft-clipping allowed. EndToEnd: force end to end read alignment, do not soft-clip.",
+      "sbg:toolDefaultValue": "Local",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignEndsType"
+      }
+    },
+    {
+      "sbg:category": "Alignments and Seeding",
+      "id": "#alignSoftClipAtReferenceEnds",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Yes",
+            "No"
+          ],
+          "type": "enum",
+          "name": "alignSoftClipAtReferenceEnds"
+        }
+      ],
+      "label": "Soft clipping",
+      "description": "Option which allows soft clipping of alignments at the reference (chromosome) ends. Can be disabled for compatibility with Cufflinks/Cuffmerge. Yes: Enables soft clipping; No: Disables soft clipping.",
+      "sbg:toolDefaultValue": "Yes",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--alignSoftClipAtReferenceEnds"
+      }
+    },
+    {
+      "sbg:category": "Windows, Anchors, Binning",
+      "id": "#winAnchorMultimapNmax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max loci anchors",
+      "description": "Max number of loci anchors are allowed to map to (int>0).",
+      "sbg:toolDefaultValue": "50",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--winAnchorMultimapNmax"
+      }
+    },
+    {
+      "sbg:category": "Windows, Anchors, Binning",
+      "id": "#winBinNbits",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Bin size",
+      "description": "=log2(winBin), where winBin is the size of the bin for the windows/clustering, each window will occupy an integer number of bins (int>0).",
+      "sbg:toolDefaultValue": "16",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--winBinNbits"
+      }
+    },
+    {
+      "sbg:category": "Windows, Anchors, Binning",
+      "id": "#winAnchorDistNbins",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max bins between anchors",
+      "description": "Max number of bins between two anchors that allows aggregation of anchors into one window (int>0).",
+      "sbg:toolDefaultValue": "9",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--winAnchorDistNbins"
+      }
+    },
+    {
+      "sbg:category": "Windows, Anchors, Binning",
+      "id": "#winFlankNbins",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Flanking regions size",
+      "description": "=log2(winFlank), where win Flank is the size of the left and right flanking regions for each window (int>0).",
+      "sbg:toolDefaultValue": "4",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--winFlankNbins"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimSegmentMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min segment length",
+      "description": "Minimum length of chimeric segment length, if =0, no chimeric output (int>=0).",
+      "sbg:toolDefaultValue": "15",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimSegmentMin"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimScoreMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min total score",
+      "description": "Minimum total (summed) score of the chimeric segments (int>=0).",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimScoreMin"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimScoreDropMax",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max drop score",
+      "description": "Max drop (difference) of chimeric score (the sum of scores of all chimeric segements) from the read length (int>=0).",
+      "sbg:toolDefaultValue": "20",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimScoreDropMax"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimScoreSeparation",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min separation score",
+      "description": "Minimum difference (separation) between the best chimeric score and the next one (int>=0).",
+      "sbg:toolDefaultValue": "10",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimScoreSeparation"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimScoreJunctionNonGTAG",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Non-GT/AG penalty",
+      "description": "Penalty for a non-GT/AG chimeric junction.",
+      "sbg:toolDefaultValue": "-1",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimScoreJunctionNonGTAG"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimJunctionOverhangMin",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Min junction overhang",
+      "description": "Minimum overhang for a chimeric junction (int>=0).",
+      "sbg:toolDefaultValue": "20",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--chimJunctionOverhangMin"
+      }
+    },
+    {
+      "sbg:category": "Quantification of Annotations",
+      "id": "#quantMode",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "TranscriptomeSAM",
+            "GeneCounts"
+          ],
+          "type": "enum",
+          "name": "quantMode"
+        }
+      ],
+      "label": "Quantification mode",
+      "description": "Types of quantification requested. 'TranscriptomeSAM' option outputs SAM/BAM alignments to transcriptome into a separate file. With 'GeneCounts' option, STAR will count number of reads per gene while mapping.",
+      "sbg:toolDefaultValue": "-"
+    },
+    {
+      "sbg:category": "2-pass mapping",
+      "id": "#twopass1readsN",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Reads to process in 1st step",
+      "description": "Number of reads to process for the 1st step. 0: 1-step only, no 2nd pass; use very large number to map all reads in the first step (int>0).",
+      "sbg:toolDefaultValue": "-1"
+    },
+    {
+      "sbg:category": "2-pass mapping",
+      "id": "#twopassMode",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "None",
+            "Basic"
+          ],
+          "type": "enum",
+          "name": "twopassMode"
+        }
+      ],
+      "label": "Two-pass mode",
+      "description": "2-pass mapping mode. None: 1-pass mapping; Basic: basic 2-pass mapping, with all 1st pass junctions inserted into the genome indices on the fly.",
+      "sbg:toolDefaultValue": "None",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--twopassMode"
+      }
+    },
+    {
+      "sbg:category": "Basic",
+      "id": "#genomeDirName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Genome dir name",
+      "description": "Name of the directory which contains genome files (when genome.tar is uncompressed).",
+      "sbg:toolDefaultValue": "genomeDir",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "position": 0,
+        "prefix": "--genomeDir",
+        "valueFrom": {
+          "class": "Expression",
+          "script": "$job.inputs.genomeDirName || \"genomeDir\"",
+          "engine": "#cwl-js-engine"
+        }
+      }
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbInsertSave",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "Basic",
+            "All",
+            "None"
+          ],
+          "type": "enum",
+          "name": "sjdbInsertSave"
+        }
+      ],
+      "label": "Save junction files",
+      "description": "Which files to save when sjdb junctions are inserted on the fly at the mapping step. None: not saving files at all; Basic: only small junction/transcript files; All: all files including big Genome, SA and SAindex. These files are output as archive.",
+      "sbg:toolDefaultValue": "None"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbGTFchrPrefix",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Chromosome names",
+      "description": "Prefix for chromosome names in a GTF file (e.g. 'chr' for using ENSMEBL annotations with UCSC geneomes).",
+      "sbg:toolDefaultValue": "-"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbGTFfeatureExon",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Set exons feature",
+      "description": "Feature type in GTF file to be used as exons for building transcripts.",
+      "sbg:toolDefaultValue": "exon"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbGTFtagExonParentTranscript",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Exons' parents name",
+      "description": "Tag name to be used as exonsâ€™ transcript-parents.",
+      "sbg:toolDefaultValue": "transcript_id"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbGTFtagExonParentGene",
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Gene name",
+      "description": "Tag name to be used as exonsâ€™ gene-parents.",
+      "sbg:toolDefaultValue": "gene_id"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbOverhang",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "\"Overhang\" length",
+      "description": "Length of the donor/acceptor sequence on each side of the junctions, ideally = (mate_length - 1) (int >= 0), if int = 0, splice junction database is not used.",
+      "sbg:toolDefaultValue": "100"
+    },
+    {
+      "sbg:category": "Splice junctions database",
+      "id": "#sjdbScore",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Extra alignment score",
+      "description": "Extra alignment score for alignments that cross database junctions.",
+      "sbg:toolDefaultValue": "2"
+    },
+    {
+      "sbg:category": "Basic",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "label": "Splice junction file",
+      "description": "Gene model annotations and/or known transcripts. No need to include this input, except in case of using \"on the fly\" annotations.",
+      "id": "#sjdbGTFfile",
+      "sbg:fileTypes": "GTF, GFF, TXT"
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#clip3pNbases",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Clip 3p bases",
+      "description": "Number of bases to clip from 3p of each mate. In case only one value is given, it will be assumed the same for both mates.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--clip3pNbases"
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#clip5pNbases",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Clip 5p bases",
+      "description": "Number of bases to clip from 5p of each mate. In case only one value is given, it will be assumed the same for both mates.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--clip5pNbases"
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#clip3pAdapterSeq",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "string"
+        }
+      ],
+      "label": "Clip 3p adapter sequence",
+      "description": "Adapter sequence to clip from 3p of each mate. In case only one value is given, it will be assumed the same for both mates.",
+      "sbg:toolDefaultValue": "-",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--clip3pAdapterSeq"
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#clip3pAdapterMMp",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "float"
+        }
+      ],
+      "label": "Max mismatches proportions",
+      "description": "Max proportion of mismatches for 3p adapter clipping for each mate. In case only one value is given, it will be assumed the same for both mates.",
+      "sbg:toolDefaultValue": "0.1",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--clip3pAdapterMMp"
+      }
+    },
+    {
+      "sbg:category": "Read parameters",
+      "id": "#clip3pAfterAdapterNbases",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "label": "Clip 3p after adapter seq.",
+      "description": "Number of bases to clip from 3p of each mate after the adapter clipping. In case only one value is given, it will be assumed the same for both mates.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "itemSeparator": " ",
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--clip3pAfterAdapterNbases"
+      }
+    },
+    {
+      "sbg:category": "Chimeric Alignments",
+      "id": "#chimOutType",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "SeparateSAMold",
+            "Within"
+          ],
+          "type": "enum",
+          "name": "chimOutType"
+        }
+      ],
+      "label": "Chimeric output type",
+      "description": "Type of chimeric output. SeparateSAMold: output old SAM into separate Chimeric.out.sam file; Within: output into main aligned SAM/BAM files.",
+      "sbg:toolDefaultValue": "SeparateSAMold"
+    },
+    {
+      "sbg:category": "Basic",
+      "type": [
+        "File"
+      ],
+      "label": "Genome files",
+      "description": "Genome files created using STAR Genome Generate.",
+      "id": "#genome",
+      "sbg:fileTypes": "TAR"
+    },
+    {
+      "sbg:category": "Limits",
+      "id": "#limitSjdbInsertNsj",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Max insert junctions",
+      "description": "Maximum number of junction to be inserted to the genome on the fly at the mapping stage, including those from annotations and those detected in the 1st step of the 2-pass run.",
+      "sbg:toolDefaultValue": "1000000",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--limitSjdbInsertNsj"
+      }
+    },
+    {
+      "sbg:category": "Quantification of Annotations",
+      "id": "#quantTranscriptomeBan",
+      "type": [
+        "null",
+        {
+          "symbols": [
+            "IndelSoftclipSingleend",
+            "Singleend"
+          ],
+          "type": "enum",
+          "name": "quantTranscriptomeBan"
+        }
+      ],
+      "label": "Prohibit alignment type",
+      "description": "Prohibit various alignment type. IndelSoftclipSingleend: prohibit indels, soft clipping and single-end alignments - compatible with RSEM; Singleend: prohibit single-end alignments.",
+      "sbg:toolDefaultValue": "IndelSoftclipSingleend",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--quantTranscriptomeBan"
+      }
+    },
+    {
+      "sbg:category": "Limits",
+      "id": "#limitBAMsortRAM",
+      "type": [
+        "null",
+        "int"
+      ],
+      "label": "Limit BAM sorting memory",
+      "description": "Maximum available RAM for sorting BAM. If set to 0, it will be set to the genome index size.",
+      "sbg:toolDefaultValue": "0",
+      "inputBinding": {
+        "separate": true,
+        "sbg:cmdInclude": true,
+        "prefix": "--limitBAMsortRAM"
+      }
+    }
+  ],
+  "sbg:project": "sevenbridges/public-apps",
+  "label": "STAR",
+  "temporaryFailCodes": [],
+  "sbg:latestRevision": 4,
+  "sbg:job": {
+    "allocatedResources": {
+      "mem": 60000,
+      "cpu": 15
+    },
+    "inputs": {
+      "alignWindowsPerReadNmax": 0,
+      "outSAMheaderPG": "outSAMheaderPG",
+      "GENOME_DIR_NAME": "",
+      "outFilterMatchNminOverLread": 0,
+      "rg_platform_unit_id": "rg_platform_unit",
+      "readMapNumber": 0,
+      "alignSplicedMateMapLminOverLmate": 0,
+      "alignMatesGapMax": 0,
+      "outFilterMultimapNmax": 0,
+      "clip5pNbases": [
+        0
+      ],
+      "outSAMstrandField": "None",
+      "readMatesLengthsIn": "NotEqual",
+      "outSAMattributes": "Standard",
+      "seedMultimapNmax": 0,
+      "rg_mfl": "rg_mfl",
+      "chimSegmentMin": 0,
+      "winAnchorDistNbins": 0,
+      "outSortingType": "SortedByCoordinate",
+      "outFilterMultimapScoreRange": 0,
+      "sjdbInsertSave": "Basic",
+      "clip3pAfterAdapterNbases": [
+        0
+      ],
+      "twopassMode": "Basic",
+      "outFilterMatchNmin": 0,
+      "twopass1readsN": 0,
+      "outSAMunmapped": "None",
+      "genome": {
+        "size": 0,
+        "secondaryFiles": [],
+        "class": "File",
+        "path": "genome.ext"
+      },
+      "sjdbGTFtagExonParentTranscript": "",
+      "limitBAMsortRAM": 0,
+      "alignEndsType": "Local",
+      "seedNoneLociPerWindow": 0,
+      "rg_sample_id": "rg_sample",
+      "sjdbGTFtagExonParentGene": "",
+      "chimScoreMin": 0,
+      "outSJfilterIntronMaxVsReadN": [
+        0
+      ],
+      "alignSplicedMateMapLmin": 0,
+      "seedSearchStartLmaxOverLread": 0,
+      "outSJfilterCountTotalMin": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "outSAMorder": "Paired",
+      "outSAMflagAND": 0,
+      "scoreDelBase": 0,
+      "alignIntronMax": 0,
+      "alignSJoverhangMin": 0,
+      "outFilterScoreMin": 0,
+      "outSAMtype": "BAM",
+      "seedSearchStartLmax": 0,
+      "scoreGapGCAG": 0,
+      "scoreGenomicLengthLog2scale": 0,
+      "outFilterIntronMotifs": "None",
+      "quantTranscriptomeBan": "IndelSoftclipSingleend",
+      "reads": [
+        {
+          "size": 0,
+          "secondaryFiles": [],
+          "class": "File",
+          "metadata": {
+            "format": "fastq",
+            "paired_end": "1",
+            "seq_center": "illumina"
+          },
+          "path": "/test-data/mate_1.fastq.bz2"
+        }
+      ],
+      "scoreGap": 0,
+      "outSJfilterOverhangMin": [
+        30,
+        12,
+        12,
+        12
+      ],
+      "outSAMflagOR": 0,
+      "outSAMmode": "Full",
+      "sjdbScore": null,
+      "winFlankNbins": 0,
+      "chimScoreJunctionNonGTAG": 0,
+      "clip3pAdapterSeq": [
+        "clip3pAdapterSeq"
+      ],
+      "chimScoreDropMax": 0,
+      "scoreGapATAC": 0,
+      "rg_platform": "Ion Torrent PGM",
+      "clip3pAdapterMMp": [
+        0
+      ],
+      "sjdbGTFfeatureExon": "",
+      "outQSconversionAdd": 0,
+      "alignSoftClipAtReferenceEnds": "Yes",
+      "quantMode": "TranscriptomeSAM",
+      "alignIntronMin": 0,
+      "scoreInsBase": 0,
+      "outSAMreadID": "Standard",
+      "scoreGapNoncan": 0,
+      "seedSearchLmax": 0,
+      "outSJfilterDistToOtherSJmin": [
+        0
+      ],
+      "outFilterScoreMinOverLread": 0,
+      "alignSJDBoverhangMin": 0,
+      "limitOutSJcollapsed": 0,
+      "winAnchorMultimapNmax": 0,
+      "outFilterMismatchNoverLmax": 0,
+      "rg_seq_center": "",
+      "outSAMheaderHD": "outSAMheaderHD",
+      "chimOutType": "Within",
+      "outFilterMismatchNmax": 0,
+      "limitOutSJoneRead": 0,
+      "alignTranscriptsPerWindowNmax": 0,
+      "sjdbOverhang": null,
+      "outReadsUnmapped": "Fastx",
+      "scoreStitchSJshift": 0,
+      "seedPerWindowNmax": 0,
+      "outSJfilterCountUniqueMin": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "scoreDelOpen": 0,
+      "sjdbGTFfile": [
+        {
+          "path": "/demo/test-data/chr20.gtf"
+        }
+      ],
+      "clip3pNbases": [
+        0,
+        3
+      ],
+      "winBinNbits": 0,
+      "outFilterType": "Normal",
+      "outSJfilterReads": "All",
+      "chimScoreSeparation": 0,
+      "seedPerReadNmax": 0,
+      "outFilterMismatchNoverReadLmax": 0,
+      "rg_library_id": "",
+      "sjdbGTFchrPrefix": "chrPrefix",
+      "outSAMprimaryFlag": "OneBestScore",
+      "alignTranscriptsPerReadNmax": 0,
+      "scoreInsOpen": 0,
+      "chimJunctionOverhangMin": 0,
+      "limitSjdbInsertNsj": 0,
+      "outSAMmapqUnique": 0
+    }
+  },
+  "sbg:toolkitVersion": "2.4.2a",
+  "sbg:createdOn": 1453799778,
+  "sbg:validationErrors": [],
+  "sbg:categories": [
+    "Alignment"
+  ],
+  "sbg:modifiedBy": "sevenbridges",
+  "stdin": "",
+  "sbg:toolkit": "STAR",
+  "sbg:revisionsInfo": [
+    {
+      "sbg:modifiedBy": "sevenbridges",
+      "sbg:modifiedOn": 1453799778,
+      "sbg:revision": 0
+    },
+    {
+      "sbg:modifiedBy": "sevenbridges",
+      "sbg:modifiedOn": 1453799780,
+      "sbg:revision": 1
+    },
+    {
+      "sbg:modifiedBy": "sevenbridges",
+      "sbg:modifiedOn": 1453799782,
+      "sbg:revision": 2
+    },
+    {
+      "sbg:modifiedBy": "sevenbridges",
+      "sbg:modifiedOn": 1462904151,
+      "sbg:revision": 3
+    },
+    {
+      "sbg:modifiedBy": "sevenbridges",
+      "sbg:modifiedOn": 1462904151,
+      "sbg:revision": 4
+    }
+  ],
+  "id": "https://api.sbgenomics.com/v2/apps/sevenbridges/public-apps/star/4/raw/",
+  "arguments": [
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  file = [].concat($job.inputs.reads)[0].path\n  extension = /(?:\\.([^.]+))?$/.exec(file)[1]\n  if (extension == \"gz\") {\n    return \"--readFilesCommand zcat\"\n  } else if (extension == \"bz2\") {\n    return \"--readFilesCommand bzcat\"\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\t\n  var sjFormat = \"False\"\n  var gtfgffFormat = \"False\"\n  var list = $job.inputs.sjdbGTFfile\n  var paths_list = []\n  var joined_paths = \"\"\n  \n  if (list) {\n    list.forEach(function(f){return paths_list.push(f.path)})\n    joined_paths = paths_list.join(\" \")\n\n\n    paths_list.forEach(function(f){\n      ext = f.replace(/^.*\\./, '')\n      if (ext == \"gff\" || ext == \"gtf\") {\n        gtfgffFormat = \"True\"\n        return gtfgffFormat\n      }\n      if (ext == \"txt\") {\n        sjFormat = \"True\"\n        return sjFormat\n      }\n    })\n\n    if ($job.inputs.sjdbGTFfile && $job.inputs.sjdbInsertSave != \"None\") {\n      if (sjFormat == \"True\") {\n        return \"--sjdbFileChrStartEnd \".concat(joined_paths)\n      }\n      else if (gtfgffFormat == \"True\") {\n        return \"--sjdbGTFfile \".concat(joined_paths)\n      }\n    }\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  a = b = c = d = e = f = g = []\n  if ($job.inputs.sjdbGTFchrPrefix) {\n    a = [\"--sjdbGTFchrPrefix\", $job.inputs.sjdbGTFchrPrefix]\n  }\n  if ($job.inputs.sjdbGTFfeatureExon) {\n    b = [\"--sjdbGTFfeatureExon\", $job.inputs.sjdbGTFfeatureExon]\n  }\n  if ($job.inputs.sjdbGTFtagExonParentTranscript) {\n    c = [\"--sjdbGTFtagExonParentTranscript\", $job.inputs.sjdbGTFtagExonParentTranscript]\n  }\n  if ($job.inputs.sjdbGTFtagExonParentGene) {\n    d = [\"--sjdbGTFtagExonParentGene\", $job.inputs.sjdbGTFtagExonParentGene]\n  }\n  if ($job.inputs.sjdbOverhang) {\n    e = [\"--sjdbOverhang\", $job.inputs.sjdbOverhang]\n  }\n  if ($job.inputs.sjdbScore) {\n    f = [\"--sjdbScore\", $job.inputs.sjdbScore]\n  }\n  if ($job.inputs.sjdbInsertSave) {\n    g = [\"--sjdbInsertSave\", $job.inputs.sjdbInsertSave]\n  }\n  \n  \n  \n  if ($job.inputs.sjdbInsertSave != \"None\" && $job.inputs.sjdbGTFfile) {\n    new_list = a.concat(b, c, d, e, f, g)\n    return new_list.join(\" \")\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  if ($job.inputs.twopassMode == \"Basic\") {\n    return \"--twopass1readsN \".concat($job.inputs.twopass1readsN)\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  if ($job.inputs.chimOutType == \"Within\") {\n    return \"--chimOutType \".concat(\"Within\", $job.inputs.outSAMtype)\n  }\n  else {\n    return \"--chimOutType SeparateSAMold\"\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  var param_list = []\n  \n  function add_param(key, value){\n    if (value == \"\") {\n      return\n    }\n    else {\n      return param_list.push(key.concat(\":\", value))\n    }\n  }\n  \n  add_param('ID', \"1\")\n  if ($job.inputs.rg_seq_center) {\n    add_param('CN', $job.inputs.rg_seq_center)\n  } else if ([].concat($job.inputs.reads)[0].metadata.seq_center) {\n    add_param('CN', [].concat($job.inputs.reads)[0].metadata.seq_center)\n  }\n  if ($job.inputs.rg_library_id) {\n    add_param('LB', $job.inputs.rg_library_id)\n  } else if ([].concat($job.inputs.reads)[0].metadata.library_id) {\n    add_param('LB', [].concat($job.inputs.reads)[0].metadata.library_id)\n  }\n  if ($job.inputs.rg_mfl) {\n    add_param('PI', $job.inputs.rg_mfl)\n  } else if ([].concat($job.inputs.reads)[0].metadata.median_fragment_length) {\n    add_param('PI', [].concat($job.inputs.reads)[0].metadata.median_fragment_length)\n  }\n  if ($job.inputs.rg_platform) {\n    add_param('PL', $job.inputs.rg_platform.replace(/ /g,\"_\"))\n  } else if ([].concat($job.inputs.reads)[0].metadata.platform) {\n    add_param('PL', [].concat($job.inputs.reads)[0].metadata.platform.replace(/ /g,\"_\"))\n  }\n  if ($job.inputs.rg_platform_unit_id) {\n    add_param('PU', $job.inputs.rg_platform_unit_id)\n  } else if ([].concat($job.inputs.reads)[0].metadata.platform_unit_id) {\n    add_param('PU', [].concat($job.inputs.reads)[0].metadata.platform_unit_id)\n  }\n  if ($job.inputs.rg_sample_id) {\n    add_param('SM', $job.inputs.rg_sample_id)\n  } else if ([].concat($job.inputs.reads)[0].metadata.sample_id) {\n    add_param('SM', [].concat($job.inputs.reads)[0].metadata.sample_id)\n  }\n  return \"--outSAMattrRGline \".concat(param_list.join(\" \"))\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  if ($job.inputs.sjdbGTFfile && $job.inputs.quantMode) {\n    return \"--quantMode \".concat($job.inputs.quantMode)\n  }\n}",
+        "engine": "#cwl-js-engine"
+      }
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  function sharedStart(array){\n  var A= array.concat().sort(), \n      a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;\n  while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;\n  return a1.substring(0, i);\n  }\n  path_list = []\n  arr = [].concat($job.inputs.reads)\n  arr.forEach(function(f){return path_list.push(f.path.replace(/\\\\/g,'/').replace( /.*\\//, '' ))})\n  common_prefix = sharedStart(path_list)\n  intermediate = common_prefix.replace( /\\-$|\\_$|\\.$/, '' ).concat(\"._STARgenome\")\n  source = \"./\".concat(intermediate)\n  destination = intermediate.concat(\".tar\")\n  if ($job.inputs.sjdbGTFfile && $job.inputs.sjdbInsertSave && $job.inputs.sjdbInsertSave != \"None\") {\n    return \"&& tar -vcf \".concat(destination, \" \", source)\n  }\n}",
+        "engine": "#cwl-js-engine"
+      },
+      "position": 100
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  function sharedStart(array){\n  var A= array.concat().sort(), \n      a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;\n  while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;\n  return a1.substring(0, i);\n  }\n  path_list = []\n  arr = [].concat($job.inputs.reads)\n  arr.forEach(function(f){return path_list.push(f.path.replace(/\\\\/g,'/').replace( /.*\\//, '' ))})\n  common_prefix = sharedStart(path_list)\n  return \"./\".concat(common_prefix.replace( /\\-$|\\_$|\\.$/, '' ), \".\")\n}",
+        "engine": "#cwl-js-engine"
+      },
+      "prefix": "--outFileNamePrefix"
+    },
+    {
+      "separate": true,
+      "valueFrom": {
+        "class": "Expression",
+        "script": "{\n  function sharedStart(array){\n  var A= array.concat().sort(), \n      a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;\n  while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;\n  return a1.substring(0, i);\n  }\n  path_list = []\n  arr = [].concat($job.inputs.reads)\n  arr.forEach(function(f){return path_list.push(f.path.replace(/\\\\/g,'/').replace( /.*\\//, '' ))})\n  common_prefix = sharedStart(path_list)\n  mate1 = common_prefix.replace( /\\-$|\\_$|\\.$/, '' ).concat(\".Unmapped.out.mate1\")\n  mate2 = common_prefix.replace( /\\-$|\\_$|\\.$/, '' ).concat(\".Unmapped.out.mate2\")\n  mate1fq = mate1.concat(\".fastq\")\n  mate2fq = mate2.concat(\".fastq\")\n  if ($job.inputs.outReadsUnmapped == \"Fastx\" && arr.length > 1) {\n    return \"&& mv \".concat(mate1, \" \", mate1fq, \" && mv \", mate2, \" \", mate2fq)\n  }\n  else if ($job.inputs.outReadsUnmapped == \"Fastx\" && arr.length == 1) {\n    return \"&& mv \".concat(mate1, \" \", mate1fq)\n  }\n}",
+        "engine": "#cwl-js-engine"
+      },
+      "position": 101
+    }
+  ],
+  "sbg:license": "GNU General Public License v3.0 only",
+  "outputs": [
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Aligned SAM/BAM",
+      "description": "Aligned sequence in SAM/BAM format.",
+      "id": "#aligned_reads",
+      "sbg:fileTypes": "SAM, BAM",
+      "outputBinding": {
+        "glob": {
+          "class": "Expression",
+          "script": "{\n  if ($job.inputs.outSortingType == 'SortedByCoordinate') {\n    sort_name = '.sortedByCoord'\n  }\n  else {\n    sort_name = ''\n  }\n  if ($job.inputs.outSAMtype == 'BAM') {\n    sam_name = \"*.Aligned\".concat( sort_name, '.out.bam')\n  }\n  else {\n    sam_name = \"*.Aligned.out.sam\"\n  }\n  return sam_name\n}",
+          "engine": "#cwl-js-engine"
+        },
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Transcriptome alignments",
+      "description": "Alignments translated into transcript coordinates.",
+      "id": "#transcriptome_aligned_reads",
+      "sbg:fileTypes": "BAM",
+      "outputBinding": {
+        "glob": "*Transcriptome*",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Reads per gene",
+      "description": "File with number of reads per gene. A read is counted if it overlaps (1nt or more) one and only one gene.",
+      "id": "#reads_per_gene",
+      "sbg:fileTypes": "TAB",
+      "outputBinding": {
+        "glob": "*ReadsPerGene*",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "label": "Log files",
+      "description": "Log files produced during alignment.",
+      "id": "#log_files",
+      "sbg:fileTypes": "OUT",
+      "outputBinding": {
+        "glob": "*Log*.out",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Splice junctions",
+      "description": "High confidence collapsed splice junctions in tab-delimited format. Only junctions supported by uniquely mapping reads are reported.",
+      "id": "#splice_junctions",
+      "sbg:fileTypes": "TAB",
+      "outputBinding": {
+        "glob": "*SJ.out.tab",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Chimeric junctions",
+      "description": "If chimSegmentMin in 'Chimeric Alignments' section is set to 0, 'Chimeric Junctions' won't be output.",
+      "id": "#chimeric_junctions",
+      "sbg:fileTypes": "JUNCTION",
+      "outputBinding": {
+        "glob": "*Chimeric.out.junction",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "label": "Unmapped reads",
+      "description": "Output of unmapped reads.",
+      "id": "#unmapped_reads",
+      "sbg:fileTypes": "FASTQ",
+      "outputBinding": {
+        "glob": "*Unmapped.out*",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Intermediate genome files",
+      "description": "Archive with genome files produced when annotations are included on the fly (in the mapping step).",
+      "id": "#intermediate_genome",
+      "sbg:fileTypes": "TAR",
+      "outputBinding": {
+        "glob": "*_STARgenome.tar",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Chimeric alignments",
+      "description": "Aligned Chimeric sequences SAM - if chimSegmentMin = 0, no Chimeric Alignment SAM and Chimeric Junctions outputs.",
+      "id": "#chimeric_alignments",
+      "sbg:fileTypes": "SAM",
+      "outputBinding": {
+        "glob": "*.Chimeric.out.sam",
+        "sbg:inheritMetadataFrom": "#reads",
+        "sbg:metadata": {}
+      }
+    }
+  ],
+  "sbg:sbgMaintained": false
+}

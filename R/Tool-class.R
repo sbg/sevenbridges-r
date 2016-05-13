@@ -21,7 +21,9 @@
                 "sbg:modifiedBy" ,
                 "sbg:revisionInfo" ,
                 "sbg:toolkit",
-                "sbg:projectId")
+                "sbg:projectId",
+                "sbg:image_url", 
+                "x")
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
@@ -48,7 +50,8 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                                  "sbg:modifiedOn" = "integerORNULL",
                                                  "sbg:modifiedBy" = "characterORNULL", 
                                                  "sbg:revisionsInfo" = "listORNULL",
-                                                 "sbg:toolkit" = "characterORNULL"),
+                                                 "sbg:toolkit" = "characterORNULL",
+                                                 "sbg:image_url" = "characterORNULL"),
                    methods = list(initialize = function(homepage = NULL, 
                                       validationErrors = NULL,
                                       sbgMaintained = NULL,
@@ -92,7 +95,7 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #'
 #' Rabix subclass for CommandLineTool used by rabix.org or sbg
 #' platform. \code{Tool} class extends \code{CommandLineTool}
-#' with more fields.
+#' with more seven bridges fields.
 #'
 #' 
 #' @field context [character] by default:
@@ -106,13 +109,18 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 Tool <-
     setRefClass("Tool",
                 contains = c("CommandLineTool", "SBG"),
-                fields = list(context = "character"),
+                fields = list(context = "characterORNULL", 
+                              x = "numericORNULL",
+                              y = "numericORNULL"),
                 methods = list(
                     initialize = function(...,
                         id = NULL, 
                         label = NULL, 
                         inputs = NULL, 
-                        outputs = NULL){
+                        outputs = NULL,
+                        x = NULL, 
+                        y = NULL
+                        ){
 
                         stopifnot(!is.null(id))
                         
@@ -191,7 +199,8 @@ Tool <-
                         }else{
                             stop("wrong output")
                         }                       
-                        
+                        x <<- x
+                        y <<- y
                         res <- callSuper(id = id, label  = .label, ...)
                         res$field("sbg:id", id)
                         res
@@ -203,4 +212,9 @@ Tool <-
                         getOutputType(toList())
                     }
                 ))
+
+
+
+
+
 

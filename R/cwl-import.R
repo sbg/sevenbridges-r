@@ -183,7 +183,6 @@ getInputType <- function(x){
 }
 
 getOutputType <- function(x){
-    browser()
     os <- x$outputs
     if(length(os)){
         sapply(os, function(i){
@@ -2102,11 +2101,13 @@ SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
                                           fields = list(
                                               "sbg:x" = "numericORNULL",
                                               "sbg:y" = "numericORNULL",
-                                              "sbg:includeInPorts" = "logicalORNULL"
+                                              "sbg:includeInPorts" = "logicalORNULL",
+                                              "required" = "logicalORNULL"
                                           ),
                                           methods = list(
                                               initialize = function(x = NULL, y = NULL, 
-                                                                    includeInPorts = TRUE, ...){
+                                                                    includeInPorts = TRUE,
+                                                                    required = FALSE, ...){
                                                   args <- mget(names(formals()),
                                                                sys.frame(sys.nframe()))
                                                   nms <- c("x", "y", "includeInPorts")
@@ -2114,6 +2115,7 @@ SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
                                                       .self$field(paste0("sbg:", nm),
                                                                   args[[nm]])
                                                   }
+                                                  .self$required <<- required
                                                   callSuper(...)
                                               }
                                           ))
@@ -2484,12 +2486,14 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                      "sbg:y" = "numericORNULL",
                                      "sbg:includeInPorts" = "logicalORNULL",
                                      "sbg:toolDefaultValue" = "characterORNULL",
-                                     "sbg:altPrefix" = "characterORNULL"),
+                                     "sbg:altPrefix" = "characterORNULL",
+                                     "required" = "logicalORNULL"),
                                  methods = list(
                                      initialize = function(category = NULL,
                                          fileTypes = NULL,
                                          x = NULL, y = NULL, includeInPorts = NULL,
                                          toolDefaultValue = NULL, altPrefix = NULL,
+                                         required = FALSE, 
                                          ...){
                                          .self$field("sbg:category", category)
                                          .self$field("sbg:fileTypes", fileTypes)
@@ -2498,6 +2502,7 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                          .self$field("sbg:includeInPorts", includeInPorts)
                                          .self$field("sbg:toolDefaultValue", toolDefaultValue)
                                          .self$field("sbg:altPrefix", altPrefix)
+                                         .self$field("required", required)
                                          callSuper(...)                                     
                                      }))
 
@@ -2719,13 +2724,14 @@ CPURequirement <-
                         class <<- class
                         stopifnot(is.numeric(value))
                         .v <- as.integer(value)
-                        if(!.v %in% c(1L, 0L)){
-                            warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
-                            if(.v > 0){
-                                message("Convert CPU value ", .v, " to ", 1L)
-                                .v <- 1L
-                            }
-                        }
+                        # comment out this, conform to server requirements
+                        # if(!.v %in% c(1L, 0L)){
+                        #     warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
+                        #     if(.v > 0){
+                        #         message("Convert CPU value ", .v, " to ", 1L)
+                        #         .v <- 1L
+                        #     }
+                        # }
                         value <<- .v
                         callSuper(...)
                     }
@@ -2959,6 +2965,38 @@ SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
 
 SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
 
+
+## cwl utils
+
+#' get class from cwl json file
+#' 
+#' get class from cwl json file
+#' 
+#' @param input cwl json file path
+#' 
+#' @return character for cwl class "Workflow" or "CommandLineTool"
+#' @export get_cwl_class is_commandlinetool is_workflow
+#' @rdname cwl-utils
+#' @examples
+#' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' get_cwl_class(tool.in)
+#' is_commandlinetool(tool.in)
+#' is_workflow(tool.in)
+#' get_cwl_class(flow.in)
+#' is_commandlinetool(flow.in)
+#' is_workflow(flow.in)
+get_cwl_class = function(input){
+    fromJSON(input)$class
+}
+
+is_commandlinetool = function(input){
+    get_cwl_class(input) == "CommandLineTool"
+}
+
+is_workflow = function(input){
+    get_cwl_class(input) == "Workflow"
+}
 
 
 
