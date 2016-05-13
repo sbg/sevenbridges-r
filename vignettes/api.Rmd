@@ -612,6 +612,16 @@ a$project_new("api_testing_tcga", b$id,
               description = "Test for API")
 ```
 
+#### Create a new project with TCGA controlled data on CGC
+
+Just need to pass a "tags" list with value "tcga"
+
+
+```{r}
+a$project_new("controlled_project", b$id,
+              description = "Test for API", tags = list("tcga"))
+```
+
 #### Delete a Project
 
 Next we delete what we created for testing, only *single* project could be deleted now by call `$delete()`, so
