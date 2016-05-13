@@ -1,0 +1,141 @@
+---
+title: "Find Data on CGC via Data Exploerer, SPARQL and Data API"
+output:
+    BiocStyle::html_document:
+    toc: true
+highlight: haddock
+css: style.css
+---
+
+
+
+<!--
+%\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL and Data API}
+%\VignettePackage{sevenbridges}
+%\VignetteEngine{knitr::rmarkdown}
+-->
+
+
+```{r include=FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introdution
+
+There are currently three ways to find the data you need on CGC
+
+- Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read
+tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
+- Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
+- Most sweet: use our Data set API, by creating a query list in R (comming soon)
+
+# Quick start
+
+## Graphical data explorer 
+
+Please read
+tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
+
+## SPARQL examples
+
+
+Seven Bridges' SPARQL console, available at [https://opensparql.sbgenomics.com](https://opensparql.sbgenomics.com).
+ 
+Please read following tutorials first
+
+- [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
+- [Examples of TCGA metadata queries in SPARQL](http://docs.cancergenomicscloud.org/docs/sample-sparql-queries)
+
+
+Here let me show you an example here, you will need R package "SPARQL"
+
+```{r, eval = FALSE}
+library(SPARQL)
+endpoint = "https://opensparql.sbgenomics.com/bigdata/namespace/tcga_metadata_kb/sparql"
+query = "
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix tcga: <https://www.sbgenomics.com/ontologies/2014/11/tcga#>
+
+select distinct ?case ?sample ?file_name ?path ?xs_label ?subtype_label
+where
+{
+ ?case a tcga:Case .
+ ?case tcga:hasDiseaseType ?disease_type .
+ ?disease_type rdfs:label 'Lung Adenocarcinoma' .
+
+ ?case tcga:hasHistologicalDiagnosis ?hd .
+ ?hd rdfs:label 'Lung Adenocarcinoma Mixed Subtype' .
+
+ ?case tcga:hasFollowUp ?follow_up .
+ ?follow_up tcga:hasDaysToLastFollowUp ?days_to_last_follow_up .
+ filter(?days_to_last_follow_up>550) 
+
+ ?follow_up tcga:hasVitalStatus ?vital_status .
+ ?vital_status rdfs:label ?vital_status_label .
+ filter(?vital_status_label='Alive')
+
+ ?case tcga:hasDrugTherapy ?drug_therapy .
+ ?drug_therapy tcga:hasPharmaceuticalTherapyType ?pt_type .
+ ?pt_type rdfs:label ?pt_type_label .
+ filter(?pt_type_label='Chemotherapy')
+
+ ?case tcga:hasSample ?sample .
+ ?sample tcga:hasSampleType ?st .
+ ?st rdfs:label ?st_label
+ filter(?st_label='Primary Tumor')
+
+ ?sample tcga:hasFile ?file .
+ ?file rdfs:label ?file_name .
+
+ ?file tcga:hasStoragePath ?path.
+
+ ?file tcga:hasExperimentalStrategy ?xs.
+ ?xs rdfs:label ?xs_label .
+ filter(?xs_label='WXS')
+
+ ?file tcga:hasDataSubtype ?subtype .
+ ?subtype rdfs:label ?subtype_label
+
+}
+
+"
+qd <- SPARQL(endpoint,query)
+df <- qd$results
+head(df)
+```
+
+You can use the CGC API to access the TCGA files found using SPARQL queries. To get files that have download links, you will need to use the SPARQL variable __path__ in your query.
+
+```{r}
+
+## api(api_url=base,auth_token=auth_token,path='action/files/get_ids', method='POST',query=None,data=filelist)
+df.path <- df[,"path"]
+df.path
+```
+
+You can directly copy those files to a project, make sure if the files is controled 
+access
+
+- project support TCGA controlled access 
+- you login from ERA Common.
+
+
+```{r}
+library(sevenbridges)
+a = Auth(platform = "cgc", username = "tengfei")
+## get id (only works for CGC platform)
+ids = a$get_id_from_path(df.path)
+## copy file from id to project with controlled access
+(p = a$project(id = "tengfei/control-test"))
+a$copyFile(ids, p$id)
+```
+
+Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
+
+## Dataset API examples (not released)
+

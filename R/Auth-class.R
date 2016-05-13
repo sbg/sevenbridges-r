@@ -655,6 +655,21 @@ if id provided, This call retrieves information about a selected invoice, includ
                         },
                         unmount = function(...){
                             fs$unmount(...)
+                        },
+                        get_id_from_path = function(p){
+                            ids <- a$api(path = 'action/files/get_ids', 
+                                         method = "POST", 
+                                         body = as.list(p))
+                            idx <- unlist(lapply(ids, is.null))
+                            if(sum(idx)){
+                                message("no id for following file: \n", paste(df.path[idx], collapse = "\n"))
+                            }
+                            if(sum(!idx)){
+                                id.valid <- unlist(ids[!idx])
+                            }else{
+                                id.valid <- NULL
+                            }
+                            id.valid
                         }
                     ))
 
