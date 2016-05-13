@@ -186,7 +186,7 @@ guess_default = function(nm, fun){
 
 parse_rmd = function(input){
     # locate YAML metadata block
-    require(yaml)
+    
     doc_content = readLines(normalizePath(input))
     header_pos = which(doc_content == '---')
     
