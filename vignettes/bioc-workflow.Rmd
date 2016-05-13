@@ -71,7 +71,7 @@ browseVignettes(package = 'sevenbridges')
 
 ### Register on NCI Cancer Genomics Cloud
 
-![cgc-home](http://i.imgur.com/p52wIsi.png)
+![cgc-home](http://i.imgur.com/p52wIsi.png?1)
 
 You can find login/registration on NCI Cancer Genomics Cloud homepage [http://www.cancergenomicscloud.org/](http://www.cancergenomicscloud.org/), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
 
