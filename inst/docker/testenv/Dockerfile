@@ -24,10 +24,10 @@ RUN wget https://github.com/rabix/bunny/releases/download/v0.4.0-alpha/rabix-0.4
     && ln -s  /opt/bunny/rabix.sh /usr/local/bin/rabix.sh
 
 # rabix-legacy (python executor)
-RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
-RUN pip install git+https://github.com/rabix/rabix.git@devel -U
-RUN apt-get install -y nodejs nodejs-legacy
+#RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
+#RUN pip install git+https://github.com/rabix/rabix.git@devel -U
+#RUN apt-get install -y nodejs nodejs-legacy
 
 # start docker service 
-#RUN usermod -aG docker root
-#RUN service docker start
+RUN usermod -aG docker root
+ENTRYPOINT service ssh restart && bash
