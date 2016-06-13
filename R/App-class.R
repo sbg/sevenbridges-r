@@ -72,7 +72,8 @@ App <- setRefClass("App", contains = "Item",
                                            message("Converting to single Files type: ", names(input[[i]]))
                                            input[[i]] = input[[i]][[1]]
                                        }else{
-                                           stop(in_id[i], " only accept single File")
+                                           ## stop(in_id[i], " only accept single File")
+                                           ## need to consider batch, that's why I comment this out now
                                        }
                                    }
                                  
@@ -82,7 +83,8 @@ App <- setRefClass("App", contains = "Item",
                                            input[[i]] = input[[i]][[1]]
                                        }
                                        if(length(input[[i]]) > 1){
-                                           stop(in_id[i], " only accept single File")
+                                           ## stop(in_id[i], " only accept single File")
+                                           ## need to consider batch, that's why I comment this out now
                                        }
                                    }
                                }
