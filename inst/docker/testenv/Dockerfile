@@ -19,11 +19,15 @@ RUN apt-get install -y apt-transport-https ca-certificates \
 #################
 
 # install bunny 
-RUN wget https://github.com/rabix/bunny/releases/download/v0.3.0-alpha/rabix-0.3.0-alpha.tar.gz \
-    && mkdir /opt/bunny && tar -zvxf rabix-0.3.0-alpha.tar.gz -C /opt/bunny \
+RUN wget https://github.com/rabix/bunny/releases/download/v0.4.0-alpha/rabix-0.4.0-alpha.tar.gz \
+    && mkdir /opt/bunny && tar -zvxf rabix-0.4.0-alpha.tar.gz -C /opt/bunny \
     && ln -s  /opt/bunny/rabix.sh /usr/local/bin/rabix.sh
 
 # rabix-legacy (python executor)
 RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
 RUN pip install git+https://github.com/rabix/rabix.git@devel -U
 RUN apt-get install -y nodejs nodejs-legacy
+
+# start docker service 
+RUN usermod -aG docker root
+RUN service docker start
