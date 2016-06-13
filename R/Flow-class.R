@@ -52,7 +52,7 @@
 #' f1$get_output(c("#log_files", "intermediate_genome", "#STAR.unmapped_reads"))
 #' f1$get_output("#log_files")
 #' ## set flow input
-#' f1$set_flow_input("#fastq")
+#' f1$set_flow_input("#SBG_FASTQ_Quality_Detector.fastq")
 #' f1$set_flow_output(c("#log_files", "intermediate_genome"))
 #' ## get required node
 #' f1$get_required()
@@ -802,13 +802,17 @@ setClassUnion("ToolORWorkflow", c("Tool", "Workflow"))
 #' @aliases link
 #' @param from either Tool App or Workflow object
 #' @param to either Tool App or Workflow object
-#' @param id1 id to be connected from the ouput of the first node
-#' @param id2 id id to be connected from the input of the second first node
 #' @param ... more auguments
 #' @return A Workflow object
 setGeneric("link", function(from, to, ...) standardGeneric("link"))
 
 #' @rdname link
+#' @param id1 id to be connected from the ouput of the first node
+#' @param id2 id id to be connected from the input of the second first node
+#' @param flow_id workflow id, if ignored, going to create one by joning tool id.
+#' @param flow_label workflow label, if ignored, going to create one by joning tool labels.
+#' @param flow_input full flow input id, e.g. "#SBG_Unpack_FASTQs.input_archive_file"
+#' @param flow_output full flow output id, e.g. "#STAR.log_files"
 #' @export
 #' @docType methods
 #' @aliases link,Tool,Tool-method

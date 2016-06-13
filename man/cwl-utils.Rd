@@ -2,6 +2,8 @@
 % Please edit documentation in R/cwl-import.R
 \name{get_cwl_class}
 \alias{get_cwl_class}
+\alias{is_commandlinetool}
+\alias{is_workflow}
 \title{get class from cwl json file}
 \usage{
 get_cwl_class(input)

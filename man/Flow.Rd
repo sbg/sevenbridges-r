@@ -137,7 +137,7 @@ f1$get_output(c("#log_files", "intermediate_genome"))
 f1$get_output(c("#log_files", "intermediate_genome", "#STAR.unmapped_reads"))
 f1$get_output("#log_files")
 ## set flow input
-f1$set_flow_input("#fastq")
+f1$set_flow_input("#SBG_FASTQ_Quality_Detector.fastq")
 f1$set_flow_output(c("#log_files", "intermediate_genome"))
 ## get required node
 f1$get_required()

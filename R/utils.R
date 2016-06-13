@@ -705,6 +705,7 @@ iterId <- function(ids, fun, ...){
 #'
 #' Checks if docker is installed, is running and has required images downloaded and if do creates container 
 #'
+#' @param type "dind" or "host"
 #' @param docker_image required docker image with pre-installed bunny, default: tengfei/testenv
 #' @param data_dir directory with data to mount (also will be execution directory)
 #' @export set_test_env

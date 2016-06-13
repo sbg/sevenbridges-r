@@ -3002,6 +3002,7 @@ SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
 #' @return character for cwl class "Workflow" or "CommandLineTool"
 #' @export get_cwl_class is_commandlinetool is_workflow
 #' @rdname cwl-utils
+#' @aliases is_commandlinetool is_workflow
 #' @examples
 #' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
 #' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")

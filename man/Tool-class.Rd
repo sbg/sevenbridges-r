@@ -66,7 +66,7 @@ f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 ## convert json file into a Tool object
 f1 = convert_app(f1)
 t2 = f1$get_tool("STAR$")
-oid = t2$get_input_ports()
+oid = t2$get_input_port()
 oid
 ## set new ports
 t2$input_id()

@@ -39,6 +39,14 @@ link_what(from, to)
 \item{id1}{id to be connected from the ouput of the first node}
 
 \item{id2}{id id to be connected from the input of the second first node}
+
+\item{flow_id}{workflow id, if ignored, going to create one by joning tool id.}
+
+\item{flow_label}{workflow label, if ignored, going to create one by joning tool labels.}
+
+\item{flow_input}{full flow input id, e.g. "#SBG_Unpack_FASTQs.input_archive_file"}
+
+\item{flow_output}{full flow output id, e.g. "#STAR.log_files"}
 }
 \value{
 A Workflow object
