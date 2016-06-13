@@ -29,5 +29,5 @@ RUN pip install git+https://github.com/rabix/rabix.git@devel -U
 RUN apt-get install -y nodejs nodejs-legacy
 
 # start docker service 
-RUN usermod -aG docker root
-RUN service docker start
+#RUN usermod -aG docker root
+#RUN service docker start
