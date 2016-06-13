@@ -293,23 +293,23 @@ m.match <- function(obj, id = NULL, name = NULL,
     }
 }
 
-
-.showFields <- function(x, title = NULL, values = NULL, full = FALSE){
+.showFields <- function(x, title = NULL, values = NULL, 
+                        full = FALSE, con.char = " / "){
     if (missing(values)){
         flds = names(x$getRefClass()$fields())
     }else{
         flds = values
     }
-
+    
     if(!length(x))
         return(NULL)
-
+    
     if(!full){
         idx <- sapply(flds, is.null)
         if(!is.null(title) && !all(idx)){
             message(title)
         }
-
+        
         ## ugly, change later
         for (fld in flds[!idx]){
             if(is.list(x[[fld]])){
@@ -322,7 +322,7 @@ m.match <- function(obj, id = NULL, name = NULL,
             }else{
                 if(is.character(x[[fld]])){
                     if(x[[fld]] != "" && length(x[[fld]])){
-                        message(fld, " : ", paste0(x[[fld]], collapse = " "))
+                        message(fld, " : ", paste0(x[[fld]], collapse = con.char))
                     }
                 }else{
                     if(!is.null(x[[fld]]) && length(x[[fld]]))
@@ -330,7 +330,7 @@ m.match <- function(obj, id = NULL, name = NULL,
                 }
             }
         }
-
+        
     }else{
         message(title)
         ## ugly, change later
@@ -342,9 +342,9 @@ m.match <- function(obj, id = NULL, name = NULL,
                 x[[fld]]$show()
             }else{
                 if(is.character(x[[fld]])){
-                        message(fld, " : ", paste0(x[[fld]], collapse = " "))                                        
+                    message(fld, " : ", paste0(x[[fld]], collapse = con.char))                                        
                 }else{
-                        message(fld, " : ", x[[fld]])                                                           
+                    message(fld, " : ", x[[fld]])                                                           
                 }
             }
         }
@@ -352,12 +352,15 @@ m.match <- function(obj, id = NULL, name = NULL,
     }
 }
 
+
 ## full = TRUE, show empty filed as well
 .showList <- function(x, space = "", full = FALSE){
     if(length(x)){
         if(all(sapply(x, is.list))){
             sapply(x, .showList, space = paste0(space, ""))
+            return(invisible())
         }
+        
         if(!full){
             idx <- sapply(x, function(s){
                 if(is.character(s)){
@@ -369,11 +372,9 @@ m.match <- function(obj, id = NULL, name = NULL,
             })
             x <- x[which(idx)]
         }
-        if(is.null(names(x))){
-            
-        }
+        
         for (i in seq_len(length(x))){
-            fld <- names(x[[i]])
+            fld <- names(x[i])
             if(all(is.character(x[[i]]))){
                 msg <- paste0(x[[i]], collapse = " \n ")
                 if(is.null(fld)){
@@ -383,6 +384,7 @@ m.match <- function(obj, id = NULL, name = NULL,
                 }
                                               
             }else{
+              
                 if(is(x[[i]], "Meta")){
                     msg <- as.character(x[[i]]$data)
                     if(is.null(fld)){
@@ -836,5 +838,12 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
         run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /bunny_data /bunny_data/tool.json -i /bunny_data/inputs.json'"
         system2("docker", run_cmd)
     }
+}
+
+
+set_box <- function(x){
+    .c <- class(x)
+    class(x) <- c(.c, "box")
+    x
 }
 
