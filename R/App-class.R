@@ -137,17 +137,17 @@ AppList <- setListClass("App", contains = "Item0")
 #' to relevant object in R, Tool object or Flow object. 
 #' 
 #' @param from an App object or a cwl JSON
-#' @rdname convertApp
-#' @export convertApp
-#' @aliases convertApp
+#' @rdname convert_app
+#' @export convert_app
+#' @aliases convert_app
 #' @examples
 #' tool.in = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 #' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 #' ## convert to Tool object
-#' convertApp(tool.in)
+#' convert_app(tool.in)
 #' ## convert to Flow object
-#' convertApp(flow.in)
-convertApp <- function(from){
+#' convert_app(flow.in)
+convert_app <- function(from){
     if(is(from, "App")){
         if(is.null(from$raw)){
             message("cannot find raw file, pull raw cwl from internet")
@@ -159,10 +159,10 @@ convertApp <- function(from){
     }else{
         stop("object to be converted should be either a App object or cwl json file")
     }
-   .convertApp(obj)
+   .convert_app(obj)
 }
 
-.convertApp <- function(obj){
+.convert_app <- function(obj){
     cls <- obj$class
     switch(cls, 
            "CommandLineTool" = {
@@ -318,7 +318,7 @@ convertApp <- function(from){
     slst <-  get_steplist_item(obj)
     # if(length(steplst)){
     #     lst <- lapply(steplst, function(x){
-    #         .convertApp(x$run)
+    #         .convert_app(x$run)
     #     })
     #     slst <- lst[[1]]
     #     for(i in 1:(length(lst) -1)){
@@ -342,7 +342,7 @@ convertApp <- function(from){
 }
 
 
-#' @rdname convertApp
+#' @rdname convert_app
 #' @aliases appType
 #' @export appType
 #' @param x a App object
@@ -403,7 +403,7 @@ get_stepoutputlist_item = function(x){
 
 get_step_item = function(x){
   # x is a step list
-  .run = .convertApp(x$run)
+  .run = .convert_app(x$run)
   SBGStep(id = x$id, 
           run = .run,
           outputs = get_stepoutputlist_item(x),

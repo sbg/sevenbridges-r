@@ -83,4 +83,88 @@ a SBGWorkflow object.
 \description{
 Build workflow
 }
+\section{Methods}{
+
+\describe{
+\item{\code{get_input(ids, force = FALSE)}}{get input by pure input id from all steps}
+
+\item{\code{get_input_exposed()}}{exposed input id other than file}
+
+\item{\code{get_input_node()}}{get input file nodes id}
+
+\item{\code{get_output(ids, force = FALSE)}}{get output by pure output id from all steps}
+
+\item{\code{get_output_node()}}{get output file nodes id}
+
+\item{\code{linked_input_id()}}{input id that linked to an output}
+
+\item{\code{linked_output_id()}}{output id that linked to an input}
+
+\item{\code{set_required(ids, required = TRUE)}}{require full input id (with tool id prefix)}
+}}
+\examples{
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 = convert_app(f1)
+## flow inputs
+f1$input_type()
+## flow outouts
+f1$output_type()
+## flow input id
+f1$input_id()
+## linked input id
+f1$linked_input_id()
+## flow output id
+f1$output_id()
+## linked output id
+f1$linked_output_id()
+## link_map
+f1$link_map()
+## all step input id
+f1$step_input_id()
+## all step input full id with type
+f1$step_input_id(TRUE)
+## all step output id
+f1$step_output_id()
+## all step output full id with type
+f1$step_output_id(TRUE)
+## get inputs objects
+f1$get_input("#clip3pNbases")
+f1$get_input(c("#clip3pNbases", "#chimScoreMin"))
+f1$get_input(c("#clip3pNbases", "#chimScoreMin", "#STAR.outFilterMismatchNoverLmax"))
+## get outputs objects
+f1$get_output("#log_files")
+f1$get_output(c("#log_files", "intermediate_genome"))
+f1$get_output(c("#log_files", "intermediate_genome", "#STAR.unmapped_reads"))
+f1$get_output("#log_files")
+## set flow input
+f1$set_flow_input("#fastq")
+f1$set_flow_output(c("#log_files", "intermediate_genome"))
+## get required node
+f1$get_required()
+## set required node
+f1$steps[[1]]$run$set_required("genomeChrBinNbits")
+f1$get_required()
+f1$steps[[1]]$run$set_required("genomeChrBinNbits", FALSE)
+f1$get_required()
+## get Tool object from Flow by id and name
+f1$list_tool()
+## return two
+f1$get_tool("STAR")
+## return one
+f1$get_tool("^STAR$")
+## get included input ports
+f1$get_input_port()
+## set included input ports
+f1$set_input_port(c("#STAR.alignSJDBoverhangMin", "chimScoreSeparation"))
+f1$get_input_port()
+f1$set_input_port(c("#STAR.alignSJDBoverhangMin", "chimScoreSeparation"), FALSE)
+f1$get_input_port()
+f1$get_input_node()
+f1$get_output_node()
+f1$get_input_exposed()
+f1$step_input_id(TRUE)
+f1$input_id()
+f1$set_flow_input("#STAR.reads")
+f1$input_id()
+}
 

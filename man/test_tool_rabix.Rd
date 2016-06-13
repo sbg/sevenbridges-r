@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{test_tool_rabix}
 \alias{test_tool_rabix}
-\title{Test tools in rabix/rabix-devel}
+\title{Test tools in rabix/rabix-devel (DEPRECATED)}
 \usage{
 test_tool_rabix(rabix_tool, inputs = list())
 }
@@ -15,7 +15,7 @@ test_tool_rabix(rabix_tool, inputs = list())
 rabix stdout
 }
 \description{
-Test tools locally in rabix/rabix-devel python executor inside docker container
+Test tools locally in rabix/rabix-devel python executor (DEPRECATED)
 }
 \examples{
 \dontrun{

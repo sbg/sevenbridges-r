@@ -99,8 +99,17 @@ deType <- function(x){
 #'
 #' @export addIdNum
 #' @examples
-#' addIdNum("bam")
+#' addIdNum(c("bam", "#fastq"))
 addIdNum <- function(x){
+    if(!is.null(x)){
+        sapply(x, .addIdNum)
+    }else{
+        NULL
+    }
+    
+}
+
+.addIdNum <- function(x){
     if(!is.null(x)){
         x <- parseLabel(x)
         .first <- substr(x, 1, 1)
@@ -148,6 +157,33 @@ getOutputId <- function(x){
     }
 }
 
+make_type = function(.t){
+    .t = sapply(.t, function(s){
+    ## file array problem
+    if(!is.null(names(s)) && "type" %in% names(s)){
+        if(s$type == "array"){
+            return(paste0(s$items, "..."))
+        }else if(s$type == "enum"){
+            return("enum")
+        }else{
+            return("null")
+        }
+    }else{
+        if(is.list(s)){
+            return(s[[1]])
+        }else{
+            if(length(s) > 1){
+                return(s[s != "null"])
+            }else{
+                return(s)
+            }
+            
+        }
+        
+    }
+    })
+    .t[.t != "null"]
+}
 
 getInputType <- function(x){
     ins <- x$inputs
@@ -155,26 +191,8 @@ getInputType <- function(x){
         sapply(ins, function(i){
             .t <- i$type
             .id <- gsub("^#", "", i$id)
-            .t <- sapply(.t, function(s){
-                ## file array problem
-                if(!is.null(names(s)) && "type" %in% names(s)){
-                    if(s$type == "array"){
-                        return(paste0(s$items, "..."))
-                    }else if(s$type == "enum"){
-                        return("enum")
-                    }else{
-                        return(NULL)
-                    }
-                }else{
-                    if(is.list(s)){
-                        return(s[[1]])
-                    }else{
-                        return(s[s != "null"])
-                    }
-                    
-                }
-            })
-            res <- .t[.t != "null"]
+            .t <- make_type(.t)
+            res <- .t
             names(res) <- .id
             res
         })}else{
@@ -189,27 +207,9 @@ getOutputType <- function(x){
             
             .t <- i$type
             .id <- gsub("^#", "", i$id)
-            .t <- sapply(.t, function(s){
-                ## file array problem
-                ## need to consider CWL app and our Tool object
-                if(!is.null(names(s)) && "type" %in% names(s)){
-                    if(s$type == "array"){
-                        return(paste0(s$items, "..."))
-                    }else if(s$type == "enum"){
-                        return("enum")
-                    }else{
-                        return(NULL)
-                    }
-                }else{
-                    if(is.list(s)){
-                        return(s[[1]])
-                    }else{
-                        return(s[s != "null"])
-                    }
-                   
-                }
-            })
-            res <- .t[.t != "null"]
+            .t <- make_type(.t)
+    
+            res <- .t
             names(res) <- .id
             res
         })}else{
@@ -260,7 +260,7 @@ CWL <- setRefClass("CWL",
                                   (is.character(x) ||
                                        is.numeric(x) || is.logical(x))){
                                    if(length(x) == 1){
-                                       if(!inherits(x, "DSCList")){
+                                       if(!inherits(x, "DSCList") && !is(x, "box")){
                                            return(jsonlite::unbox(x))
                                        }else{
                                            return(x)
@@ -634,10 +634,14 @@ DatatypeEnum <- setSingleEnum("Datatype",
 ItemArray <- setRefClass("ItemArray", contains = "CWL", 
                          fields = list(
                              items = "DatatypeSingleEnum",
+                             name = "characterORNULL",
                              type = "character"),
                          methods = list(
-                             initialize = function(items = "", type = "array"){
+                             initialize = function(items = "", 
+                                                   name = NULL,
+                                                   type = "array"){
                                  type <<- type
+                                 name <<- name
                                  items <<- DatatypeEnum(deType(items))
                              }
                          ))
@@ -655,9 +659,14 @@ enum <- setRefClass("enum", contains = "CWL",
                              initialize = function(name = NULL, symbols = NULL, type = "enum"){
                                  stopifnot(!is.null(name))
                                  stopifnot(!is.null(symbols))
+                                 if(is.list(symbols)){
+                                     .self$symbols <<- as.character(symbols)
+                                 }else{
+                                     .self$symbols <<- symbols
+                                 }
                                  name <<- name
                                  type <<- type
-                                 symbols <<- symbols
+                                 
                              }
                          ))
 
@@ -1975,17 +1984,23 @@ setClass("LinkMergeMethod", contains = "VIRTUAL")
 WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL", 
                                  fields = list(
                                      id = "characterORNULL",
-                                     source = "list", ## fixme:
+                                     source = "characterORNULL", ## fixme:
                                      linkMerge = "LinkMergeMethod",
                                      default = "ANY"
                                  ),
                                  methods = list(
-                                     initialize = function(id = "", source = list(), default = NULL, ...){
+                                     initialize = function(id = "", source = NULL, default = NULL, ...){
                                          id <<- addIdNum(id)
                                          default <<- default
                                          if(is.character(source)){
-                                             source <<- as.list(source)                                                                                          
+                                             .self$source  <<- set_box(source)                                                                                       
+                                         }else if(is.list(source) && is.character(source[[1]])){
+                                             .self$source  <<- set_box(source[[1]])
+                                         }else{
+                                             .self$source  <<- source
                                          }
+                                       
+                                         
                                          callSuper(...)
                                      }
 
@@ -2075,12 +2090,19 @@ WorkflowStepList <- setListClass("WorkflowStep")
 WorkflowOutputParameter <-
     setRefClass("WorkflowOutputParameter", contains = "OutputParameter",
                 fields = list(
-                    source = "list",
+                    source = "characterORNULL",
                     linkMerge = "LinkMergeMethod"
                 ),
                 methods = list(
-                    initialize = function(source = list(), ...){
-                        source <<- source
+                    initialize = function(source = NULL, ...){
+                        if(is.character(source)){
+                            .self$source  <<- set_box(source)                                                                                       
+                        }else if(is.list(source) && is.character(source[[1]])){
+                            .self$source  <<- set_box(source[[1]])
+                        }else{
+                            .self$source  <<- source
+                        }
+                       
                         callSuper(...)
                     }
                 ))
@@ -2532,7 +2554,7 @@ input <- function(id = NULL, type = NULL, label = "",
             o <- c(o[!names(o) %in% c("inputBinding", "sbg:category",
                                       "sbg:fileTypes", "type")],
                    list(inputBinding = ib,
-                        type = as.character(o$type),
+                        type = format_type(o$type),
                         category = o[["sbg:category"]],
                         fileTypes = o[["sbg:fileTypes"]]))
 
@@ -2651,15 +2673,18 @@ output <- function(id = NULL, type = "file", label = "", description = "",
             }else{
                 res.eval <- NULL
             }
-            
+         
             ob <- SBGCOB(glob = res.glob,
                          loadContents = res.load,
                          outputEval = res.eval,
+                         inheritMetadataFrom = o$`sbg:inheritMetadataFrom`,
+                         metadata = o$`sbg:metadata`,
                          secondaryFiles = o$seconaryFiles)
             
             o <- c(o[!names(o) %in% 
-                     c("sbg:fileTypes", "outputBinding", "type")],
-                   list(type = as.character(o$type),
+                     c("sbg:fileTypes", "outputBinding", "type", 
+                       "sbg:inheritMetadataFrom", "sbg:metadata")],
+                   list(type = format_type(o$type),
                         outputBinding = ob,
                         fileTypes = o[["sbg:fileTypes"]]))
 
@@ -2998,14 +3023,68 @@ is_workflow = function(input){
     get_cwl_class(input) == "Workflow"
 }
 
+## format type list into a DSCList
+format_type = function(x){
+    lst = lapply(x, .format_type)
+    if(all(sapply(lst, is.character))){
+        return(unlist(lst))
+    }
+    do.call(DSCList, lst)
+}
 
 
+.format_type = function(x){
+    if("type" %in% names(x)){
+        switch(x$type, 
+               array = {
+                   do.call(ItemArray, x)
+               },
+               enum = {
+                   do.call(enum, x)
+               })
+    }else{
+        as.character(x)
+    }
+}
 
+get_id_from_label = function(x, suffix = "#"){
+    paste0(suffix, gsub("[[:space:]+]", "_", x))
+}
 
+de_sharp = function(x){
+    gsub("[#+]", "", x)
+}
 
+add_sharp = addIdNum
 
+is_full_name = function(x){
+    grepl("[.]", x)
+}
 
-
+get_tool_id_from_full = function(x){
+   
+    sapply(x, function(i){
+        if(is_full_name(i)){
+            add_sharp(strsplit(i, "\\.")[[1]][1])
+        }else{
+            add_sharp(i)
+        }
+        
+        
+    })
+}
+get_input_id_from_full = function(x){
+  
+    sapply(x, function(i){
+        if(is_full_name(i)){
+            add_sharp(strsplit(i, "\\.")[[1]][2])
+        }else{
+            add_sharp(i)
+        }
+        
+        
+    })
+}
 
 
 

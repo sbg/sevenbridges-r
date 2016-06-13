@@ -23,4 +23,56 @@ with more seven bridges fields.
 
 \item{\code{contributor}}{[list] a list of contributor names.}
 }}
+\section{Methods}{
+
+\describe{
+\item{\code{get_input(name = NULL, id = NULL)}}{get input objects by names or id}
+
+\item{\code{input_id(full = FALSE)}}{get input id from a Tool, when full = TRUE, connect 
+tool id with input id e.g.}
+
+\item{\code{output_id(full = FALSE)}}{get output id from a Tool, when full = TRUE, connect 
+tool id with input id e.g.}
+}}
+\examples{
+t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+## convert json file into a Tool object
+t1 = convert_app(t1)
+## get input type information
+t1$input_type()
+## get output type information
+t1$output_type()
+## get input id
+t1$input_id()
+## get full input id with Tool name
+t1$input_id(TRUE)
+## get output id
+t1$output_id()
+## get full output id
+t1$output_id(TRUE)
+## get required input id
+t1$get_required()
+## set input required
+t1$set_required(c("#reads", "winFlankNbins"))
+t1$get_required()
+t1$set_required("reads", FALSE)
+t1$get_required()
+t1$get_input(name = "ins")
+t1$get_input(id = "#winFlankNbins")
+t1$get_output(name = "gene")
+t1$get_output(id = "#aligned_reads")
+## get a tool from a flow
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+## convert json file into a Tool object
+f1 = convert_app(f1)
+t2 = f1$get_tool("STAR$")
+oid = t2$get_input_ports()
+oid
+## set new ports
+t2$input_id()
+t2$set_input_port("#chimScoreSeparation")
+t2$get_input_port()
+t2$set_input_port("#chimScoreSeparation", FALSE)
+t2$get_input_port()
+}
 
