@@ -2528,6 +2528,11 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                          callSuper(...)                                     
                                      }))
 
+is_required = function(x){
+    # x is input item
+   !(is.character(x$type[[1]]) && x$type[[1]] == "null")
+    
+}
 
 input <- function(id = NULL, type = NULL, label = "",
                   description = "", streamable = FALSE,
@@ -2544,16 +2549,20 @@ input <- function(id = NULL, type = NULL, label = "",
     }
 
     if(is.list(id)){
+        ## convert a list to input
         in.lst <- lapply(id, function(o){
+            
             o.b <- o$inputBinding
             if(is.null(o.b)){
                 ib <- NULL
             }else{
                 ib <- do.call(SCLB, o.b)
             }
-            o <- c(o[!names(o) %in% c("inputBinding", "sbg:category",
+    
+            o <- c(o[!names(o) %in% c("inputBinding", "sbg:category","required",
                                       "sbg:fileTypes", "type")],
                    list(inputBinding = ib,
+                        required = is_required(o),
                         type = format_type(o$type),
                         category = o[["sbg:category"]],
                         fileTypes = o[["sbg:fileTypes"]]))
