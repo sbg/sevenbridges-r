@@ -731,18 +731,18 @@ set_test_env = function(type, docker_image, data_dir){
     
     # cleanup
     system2("docker", c("rm -f bunny"), stdout=T, stderr=T)
-    system2("docker", "rm $(docker ps -q -f status=exited)", stdout = T, stderr = T)
+    #system2("docker", "rm $(docker ps -aq -f status=exited -f status=created)", stdout = T, stderr = T)
     system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=T, stderr=T)
     
     #TODO: investigate DOCKER-beside-DOCKER: 
     # http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/ 
     # https://hub.docker.com/_/docker/ but for now only DinD works because of mount shared volumes problem
     if (type == "dind"){
-        docker_run_args <- paste("run --privileged=true --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+        docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
         system2("docker", c(docker_run_args), stdout=T, stderr=T)
         system2("docker", c("exec bunny bash -c 'service docker start'"), stdout=T, stderr=T)
     } else {
-        docker_run_args <- paste("run --privileged=true --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
+        docker_run_args <- paste("run --privileged --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
         system2("docker", c(docker_run_args), stdout=T, stderr=T)
     }
 }
@@ -785,10 +785,20 @@ test_tool_bunny = function(rabix_tool, inputs){
         message("Trying the execution...")
         check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
         mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
-        tool_path <- paste(mount_point, "/tool.json", sep="")
-        inputs_path <- paste(mount_point, "/inputs.json", sep="")
+        
+        tool_path <- paste0(mount_point, "/tool.json")
+        inputs_path <- paste0(mount_point, "/inputs.json")
+        
+        # cleanup
+        if (file.exists(tool_path)){
+            system2("docker", "exec bunny bash -c 'rm /bunny_data/tool.json'")
+        } 
+        if (file.exists(inputs_path)){
+            system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
+        }
+        
         write(rabix_tool$toJSON(pretty=T), file=tool_path)
-        write(toJSON(inputs, pretty=T), file=inputs_path)
+        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
         
         run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -b /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
         system2("docker", run_cmd)
