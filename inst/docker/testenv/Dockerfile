@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 ### SBG rabix/bunny 
 #################
 
-# install java
+# java
 RUN apt-get -y install software-properties-common
 RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get update
@@ -23,16 +23,15 @@ RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true 
 RUN apt-get -y install oracle-java7-installer && apt-get clean
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
 
-# install bunny 0.4.0
+# bunny 0.4.0
 RUN wget https://github.com/rabix/bunny/releases/download/v0.4.0-alpha/rabix-0.4.0-alpha.tar.gz \
     && mkdir /opt/bunny && tar -zvxf rabix-0.4.0-alpha.tar.gz -C /opt/bunny \
     && ln -s  /opt/bunny/rabix.sh /usr/local/bin/rabix.sh
 
 # rabix-legacy (python executor)
-#RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
-#RUN pip install git+https://github.com/rabix/rabix.git@devel -U
-#RUN apt-get install -y nodejs nodejs-legacy
+RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
+RUN pip install git+https://github.com/rabix/rabix.git@devel -U
+RUN apt-get install -y nodejs nodejs-legacy
 
-# start docker service (only needed for DinD, not host mode)
-#RUN usermod -aG docker root
-#ENTRYPOINT service docker start && bash
+# cwl-runner
+RUN pip install cwl-runner
