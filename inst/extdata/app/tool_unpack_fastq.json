@@ -1,0 +1,139 @@
+{
+  "description": "SBG Unpack FASTQs performs the extraction of the input archive, containing FASTQ files. \nThis tool also sets the \"paired_end\" metadata field. It assumes that FASTQ file names are formatted in this manner:\nfirst pair reads FASTQ file        -  *1.fastq\nsecond pair reads FASTQ file  -  * 2.fastq. \nwhere * represents any string.\nThe names of the FASTQ files from the archive are retained. The aliquote prefix in the filename is not part of the paired end FASTQ file names on the output and it is not propagated downstream. \nSupported formats are:\n1. TAR\n2. TAR.GZ (TGZ)\n3. TAR.BZ2 (TBZ2)\n4. GZ\n5. BZ2\n6. ZIP",
+  "sbg:sbgMaintained": false,
+  "sbg:createdOn": 1447782696,
+  "sbg:toolAuthor": "Marko Petkovic, Seven Bridges Genomics",
+  "id": "https://cgc-api.sbgenomics.com/v2/apps/djordje_klisic/public-apps-by-seven-bridges/sbg-unpack-fastqs-1-0/2/raw/",
+  "class": "CommandLineTool",
+  "sbg:homepage": "https://igor.sbgenomics.com/",
+  "sbg:modifiedOn": 1451493832,
+  "sbg:cmdPreview": "/opt/sbg_unpack_fastqs.py --input_archive_file input_file.tar > out.txt",
+  "sbg:job": {
+    "allocatedResources": {
+      "cpu": 1,
+      "mem": 1000
+    },
+    "inputs": {
+      "input_archive_file": {
+        "size": 0,
+        "class": "File",
+        "path": "input_file.tar",
+        "secondaryFiles": []
+      }
+    }
+  },
+  "sbg:id": "djordje_klisic/public-apps-by-seven-bridges/sbg-unpack-fastqs-1-0/2",
+  "sbg:createdBy": "markop",
+  "sbg:categories": [
+    "Other"
+  ],
+  "outputs": [
+    {
+      "id": "#output_fastq_files",
+      "type": [
+        {
+          "items": "File",
+          "type": "array"
+        }
+      ],
+      "description": "Output FASTQ files.",
+      "outputBinding": {
+        "sbg:inheritMetadataFrom": "#input_archive_file",
+        "sbg:metadata": {
+          "paired_end": {
+            "engine": "#cwl-js-engine",
+            "class": "Expression",
+            "script": "{\n  filepath = $self.path\n  filename = filepath.split(\"/\").pop();\n  if (filename.lastIndexOf(\".fastq\") !== 0)\n  \treturn filename[filename.lastIndexOf(\".fastq\") - 1 ]\n  else\n  \treturn \"\"\n}"
+          }
+        },
+        "glob": "decompressed_files/*.fastq"
+      },
+      "label": "Output FASTQ files",
+      "sbg:fileTypes": "FASTQ"
+    }
+  ],
+  "sbg:contributors": [
+    "markop"
+  ],
+  "temporaryFailCodes": [],
+  "requirements": [
+    {
+      "id": "#cwl-js-engine",
+      "class": "ExpressionEngineRequirement",
+      "requirements": [
+        {
+          "class": "DockerRequirement",
+          "dockerPull": "rabix/js-engine"
+        }
+      ]
+    }
+  ],
+  "sbg:image_url": null,
+  "successCodes": [],
+  "sbg:toolkit": "SBGTools",
+  "sbg:license": "Apache License 2.0",
+  "stdout": "out.txt",
+  "sbg:validationErrors": [],
+  "arguments": [],
+  "inputs": [
+    {
+      "id": "#input_archive_file",
+      "type": [
+        "File"
+      ],
+      "inputBinding": {
+        "separate": true,
+        "prefix": "--input_archive_file",
+        "sbg:cmdInclude": true,
+        "position": 0
+      },
+      "description": "The input archive file, containing FASTQ files, to be unpacked.",
+      "label": "Input archive file",
+      "sbg:category": "",
+      "sbg:fileTypes": "TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP"
+    }
+  ],
+  "stdin": "",
+  "sbg:latestRevision": 2,
+  "sbg:toolkitVersion": "v1.0",
+  "sbg:copyOf": "tziotas/sbgtools-demo/sbg-unpack-fastqs-1-0/3",
+  "sbg:project": "djordje_klisic/public-apps-by-seven-bridges",
+  "sbg:modifiedBy": "markop",
+  "baseCommand": [
+    "/opt/sbg_unpack_fastqs.py"
+  ],
+  "sbg:revisionsInfo": [
+    {
+      "sbg:modifiedOn": 1447782696,
+      "sbg:modifiedBy": "markop",
+      "sbg:revision": 0
+    },
+    {
+      "sbg:modifiedOn": 1448463456,
+      "sbg:modifiedBy": "markop",
+      "sbg:revision": 1
+    },
+    {
+      "sbg:modifiedOn": 1451493832,
+      "sbg:modifiedBy": "markop",
+      "sbg:revision": 2
+    }
+  ],
+  "sbg:revision": 2,
+  "label": "SBG Unpack FASTQs",
+  "hints": [
+    {
+      "dockerImageId": "df9e1c169beb",
+      "class": "DockerRequirement",
+      "dockerPull": "images.sbgenomics.com/markop/sbg-unpack-fastqs:1.0"
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 1000
+    }
+  ]
+}

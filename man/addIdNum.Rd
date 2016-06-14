@@ -16,6 +16,6 @@ a character with \code{#} prefix.
 add \code{#} prefix to id
 }
 \examples{
-addIdNum("bam")
+addIdNum(c("bam", "#fastq"))
 }
 

@@ -18,7 +18,7 @@
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
 #' @importFrom yaml yaml.load_file as.yaml yaml.load
-#' @importFrom jsonlite toJSON prettify unbox
+#' @importFrom jsonlite toJSON fromJSON prettify unbox
 #' @importFrom docopt docopt
 #' @importClassesFrom S4Vectors characterORNULL List SimpleList
 #' @importFrom S4Vectors elementType endoapply

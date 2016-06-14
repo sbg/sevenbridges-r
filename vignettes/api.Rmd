@@ -612,6 +612,16 @@ a$project_new("api_testing_tcga", b$id,
               description = "Test for API")
 ```
 
+#### Create a new project with TCGA controlled data on CGC
+
+Just need to pass a "tags" list with value "tcga"
+
+
+```{r}
+a$project_new("controlled_project", b$id,
+              description = "Test for API", tags = list("tcga"))
+```
+
 #### Delete a Project
 
 Next we delete what we created for testing, only *single* project could be deleted now by call `$delete()`, so
@@ -977,11 +987,13 @@ paired_end()
 quality_scale()
 ```
 
-To construct the Metadata, we encourage you use `Metadata()` directly, pass metadata directly into the call, it will do the validation. 
+You can see some have suggested value, to construct the Metadata, we encourage you use `Metadata()` directly, pass metadata directly into the call, it will do the validation. 
 
 ```{r}
-m <- Metadata(platform = "nanopore", quality_scale = "solexa", new_item = "newnew")
-m
+Metadata(platform  = "Affymetrix SNP Array 6.0", 
+         paired_end = 1, 
+         quality_scale = "sanger",
+         new_item = "new test")
 ```
 
 ### App

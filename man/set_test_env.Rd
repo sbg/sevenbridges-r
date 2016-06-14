@@ -7,6 +7,8 @@
 set_test_env(type, docker_image, data_dir)
 }
 \arguments{
+\item{type}{"dind" or "host"}
+
 \item{docker_image}{required docker image with pre-installed bunny, default: tengfei/testenv}
 
 \item{data_dir}{directory with data to mount (also will be execution directory)}

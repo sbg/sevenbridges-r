@@ -21,7 +21,9 @@
                 "sbg:modifiedBy" ,
                 "sbg:revisionInfo" ,
                 "sbg:toolkit",
-                "sbg:projectId")
+                "sbg:projectId",
+                "sbg:image_url", 
+                "x")
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
@@ -48,7 +50,8 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                                  "sbg:modifiedOn" = "integerORNULL",
                                                  "sbg:modifiedBy" = "characterORNULL", 
                                                  "sbg:revisionsInfo" = "listORNULL",
-                                                 "sbg:toolkit" = "characterORNULL"),
+                                                 "sbg:toolkit" = "characterORNULL",
+                                                 "sbg:image_url" = "characterORNULL"),
                    methods = list(initialize = function(homepage = NULL, 
                                       validationErrors = NULL,
                                       sbgMaintained = NULL,
@@ -92,7 +95,7 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #'
 #' Rabix subclass for CommandLineTool used by rabix.org or sbg
 #' platform. \code{Tool} class extends \code{CommandLineTool}
-#' with more fields.
+#' with more seven bridges fields.
 #'
 #' 
 #' @field context [character] by default:
@@ -103,16 +106,61 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #' @export Tool
 #' @return a Tool object.
 #' @exportClass Tool
+#' @examples 
+#' t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+#' ## convert json file into a Tool object
+#' t1 = convert_app(t1)
+#' ## get input type information
+#' t1$input_type()
+#' ## get output type information
+#' t1$output_type()
+#' ## get input id
+#' t1$input_id()
+#' ## get full input id with Tool name
+#' t1$input_id(TRUE)
+#' ## get output id
+#' t1$output_id()
+#' ## get full output id
+#' t1$output_id(TRUE)
+#' ## get required input id
+#' t1$get_required()
+#' ## set input required
+#' t1$set_required(c("#reads", "winFlankNbins"))
+#' t1$get_required()
+#' t1$set_required("reads", FALSE)
+#' t1$get_required()
+#' t1$get_input(name = "ins")
+#' t1$get_input(id = "#winFlankNbins")
+#' t1$get_output(name = "gene")
+#' t1$get_output(id = "#aligned_reads")
+#' ## get a tool from a flow
+#' f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' ## convert json file into a Tool object
+#' f1 = convert_app(f1)
+#' t2 = f1$get_tool("STAR$")
+#' oid = t2$get_input_port()
+#' oid
+#' ## set new ports
+#' t2$input_id()
+#' t2$set_input_port("#chimScoreSeparation")
+#' t2$get_input_port()
+#' t2$set_input_port("#chimScoreSeparation", FALSE)
+#' t2$get_input_port()
 Tool <-
     setRefClass("Tool",
                 contains = c("CommandLineTool", "SBG"),
-                fields = list(context = "character"),
+                fields = list(context = "characterORNULL", 
+                              x = "numericORNULL",
+                              y = "numericORNULL"),
                 methods = list(
                     initialize = function(...,
                         id = NULL, 
                         label = NULL, 
                         inputs = NULL, 
-                        outputs = NULL){
+                        outputs = NULL,
+                        x = NULL, 
+                        y = NULL
+                        ){
 
                         stopifnot(!is.null(id))
                         
@@ -191,7 +239,8 @@ Tool <-
                         }else{
                             stop("wrong output")
                         }                       
-                        
+                        x <<- x
+                        y <<- y
                         res <- callSuper(id = id, label  = .label, ...)
                         res$field("sbg:id", id)
                         res
@@ -201,6 +250,141 @@ Tool <-
                     },
                     output_type = function(){
                         getOutputType(toList())
+                    },
+                    input_id = function(full = FALSE){
+                        'get input id from a Tool, when full = TRUE, connect 
+                        tool id with input id e.g.'
+                        tool.name = get_id_from_label(label)
+                        res = sapply(inputs, function(i){
+                            if(full){
+                                
+                                
+                                res = paste0(tool.name, ".", de_sharp(i$id))
+                               
+                                names(res) = make_type(i$toList()$type)
+                                
+                                res
+                            }else{
+                                res = i$id
+                                names(res) = tool.name
+                                res
+                            }
+                        })
+                        res
+                    },
+                    output_id = function(full = FALSE){
+                        'get output id from a Tool, when full = TRUE, connect 
+                        tool id with input id e.g.'
+                        tool.name = get_id_from_label(label)
+                        res = sapply(outputs, function(o){
+                            if(full){
+                                res = paste0(tool.name, ".", de_sharp(o$id))
+                                names(res) =  make_type(o$toList()$type)
+                                res
+                            }else{
+                                res = o$id
+                                names(res) = tool.name
+                                res
+                            }
+                        })
+                        res
+                       
+                    },
+                    get_required = function(){
+                        unname(unlist(sapply(inputs, function(i){
+                            if(i$required){
+                                return(i$id)
+                            }else{
+                                return(NULL)
+                            }
+                        })))
+                    },
+                    set_required = function(ids, required = TRUE){
+                        iid <- input_id()
+                        ids <- addIdNum(ids)
+                        idx = ids %in% iid
+                        if(any(!idx)){
+                            stop("mistyped id name: ", paste(ids[!idx], collapse = " "))
+                        }
+                        
+                        sapply(match(ids, iid), function(id){
+                            inputs[[id]]$required <<- required
+                           
+                        })
+                    },
+                    get_input_port = function(){
+                        res = sapply(inputs, function(i){
+                           
+                            if(is.null(i$'sbg:includeInPorts')){
+                                return(FALSE)
+                            }else{
+                                return(i$'sbg:includeInPorts')
+                            }
+                        })
+                        idx = which(res)
+                        if(length(idx)){
+                            input_id()[idx]
+                        }else{
+                            return(NULL)
+                        }
+                        
+                    },
+                    set_input_port = function(ids, include = TRUE){
+                       
+                        idx = match(ids, input_id())
+                        if(length(idx)){
+                            for(i in idx){
+                                inputs[[i]]$'sbg:includeInPorts' <<- include
+                            }
+                        }
+                    },
+                    get_input = function(name = NULL, id = NULL){
+                        'get input objects by names or id'
+                        if(is.null(name) && is.null(id)){
+                            stop("please provide name or id")
+                        }
+                   
+                        
+                        if(!is.null(name)){
+                            idx = which(grepl(name, sapply(inputs, function(i) i$label)))
+                        }
+                        if(!is.null(id)){
+                            idx = which(id == sapply(inputs, function(i) i$id))
+                        }
+                        if(length(idx) == 0){
+                            return(NULL)
+                        }else if(length(idx) == 1){
+                            return(inputs[[idx]])
+                        }else if(length(idx) >1){
+                            return(inputs[idx])
+                        }
+                        
+                        
+                    },
+                    get_output = function(name = NULL, id = NULL){
+                        if(is.null(name) && is.null(id)){
+                            stop("please provide name or id")
+                        }
+                        
+                        
+                        if(!is.null(name)){
+                            idx = which(grepl(name, sapply(outputs, function(i) i$label)))
+                        }
+                        if(!is.null(id)){
+                            idx = which(grepl(id, sapply(outputs, function(i) i$id)))
+                        }
+                        if(length(idx) == 0){
+                            return(NULL)
+                        }else if(length(idx) == 1){
+                            return(outputs[[idx]])
+                        }else if(length(idx) >1){
+                            return(outputs[idx])
+                        }
                     }
                 ))
+
+
+
+
+
 

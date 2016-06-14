@@ -72,7 +72,8 @@ App <- setRefClass("App", contains = "Item",
                                            message("Converting to single Files type: ", names(input[[i]]))
                                            input[[i]] = input[[i]][[1]]
                                        }else{
-                                           stop(in_id[i], " only accept single File")
+                                           ## stop(in_id[i], " only accept single File")
+                                           ## need to consider batch, that's why I comment this out now
                                        }
                                    }
                                  
@@ -82,7 +83,8 @@ App <- setRefClass("App", contains = "Item",
                                            input[[i]] = input[[i]][[1]]
                                        }
                                        if(length(input[[i]]) > 1){
-                                           stop(in_id[i], " only accept single File")
+                                           ## stop(in_id[i], " only accept single File")
+                                           ## need to consider batch, that's why I comment this out now
                                        }
                                    }
                                }
@@ -129,24 +131,40 @@ AppList <- setListClass("App", contains = "Item0")
 
 
 
-#' @rdname Tool-class
-#' @export convertApp
-#' @aliases convertApp
-#' @param from an App object
-#' @section convertApp:
-#' \describe{
-#' convert App into Tool or Flow object based on class. 
-#' }
-convertApp <- function(from){
-    if(is.null(from$raw)){
-        message("cannot find raw file, pull raw cwl from internet")
-        from$cwl()
+#' Convert App or a cwl JSON file to Tool or Flow object
+#' 
+#' Convert App or a cwl JSON file to Tool or Flow object
+#' 
+#' This function import cwl JSON file, based on its class: CommandLineTool or Worklfow
+#' to relevant object in R, Tool object or Flow object. 
+#' 
+#' @param from an App object or a cwl JSON
+#' @rdname convert_app
+#' @export convert_app
+#' @aliases convert_app
+#' @examples
+#' tool.in = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' ## convert to Tool object
+#' convert_app(tool.in)
+#' ## convert to Flow object
+#' convert_app(flow.in)
+convert_app <- function(from){
+    if(is(from, "App")){
+        if(is.null(from$raw)){
+            message("cannot find raw file, pull raw cwl from internet")
+            from$cwl()
+        }
+        obj <- from$raw 
+    }else if(is.character(from) && file.exists(from)){
+        obj <- fromJSON(from, FALSE)
+    }else{
+        stop("object to be converted should be either a App object or cwl json file")
     }
-    obj <- from$raw    
-    .convertApp(obj)
+   .convert_app(obj)
 }
 
-.convertApp <- function(obj){
+.convert_app <- function(obj){
     cls <- obj$class
     switch(cls, 
            "CommandLineTool" = {
@@ -298,18 +316,20 @@ convertApp <- function(from){
     }
 
     ## steps
-    steplst <- obj$steps
-    if(length(steplst)){
-        lst <- lapply(steplst, function(x){
-            .convertApp(x$run)
-        })
-        slst <- lst[[1]]
-        for(i in 1:(length(lst) -1)){
-            slst <- slst + lst[[i + 1]]
-        }
-    }else{
-        slst <- SBGStepList()
-    }
+
+    slst <-  get_steplist_item(obj)
+    # if(length(steplst)){
+    #     lst <- lapply(steplst, function(x){
+    #         .convert_app(x$run)
+    #     })
+    #     slst <- lst[[1]]
+    #     for(i in 1:(length(lst) -1)){
+    #         slst <- slst + lst[[i + 1]]
+    #     }
+    # }else{
+    #     slst <- SBGStepList()
+    # }
+    
     nms <- names(obj)
     .obj.nms <- setdiff(nms, .diy)
     res <- do.call("Flow", c(obj[.obj.nms],
@@ -324,7 +344,7 @@ convertApp <- function(from){
 }
 
 
-#' @rdname App-class
+#' @rdname convert_app
 #' @aliases appType
 #' @export appType
 #' @param x a App object
@@ -340,3 +360,67 @@ appType <- function(x){
     }
     obj$class
 }
+
+get_sbg_item = function(x){
+    lst = fromJSON(x, FALSE)
+    nms = names(lst)
+    nms[grep("sbg:", nms)]
+}
+
+get_nonsbg_item = function(x, remove = c("inputs", "outputs", 
+                                         "hints", "requirements")){
+    lst = fromJSON(x, FALSE)
+    nms = setdiff(names(lst), remove)
+    nms[!grepl("sbg:", nms)]
+}
+
+get_input_item = function(x){
+    lst = fromJSON(x, FALSE)
+    input(lst$inputs)
+}
+
+get_output_item = function(x){
+    lst = fromJSON(x, FALSE)
+    output(lst$outputs)
+}
+
+# ## Step and StepList
+get_stepinputlist_item = function(x){
+    # x is a step
+    lst = lapply(x$inputs, function(i){
+        do.call(WorkflowStepInput, i)
+    })
+    WorkflowStepInputList(lst)
+}
+
+get_stepoutputlist_item = function(x){
+    # x is a step
+    lst = lapply(x$outputs, function(i){
+        do.call(WorkflowStepOutput, i)
+    })
+    WorkflowStepOutputList(lst)
+}
+
+
+
+get_step_item = function(x){
+  # x is a step list
+  .run = .convert_app(x$run)
+  SBGStep(id = x$id, 
+          run = .run,
+          outputs = get_stepoutputlist_item(x),
+          inputs = get_stepinputlist_item(x)) 
+}
+
+get_steplist_item = function(input){
+    if(is.character(input) && file.exists(input)){
+        obj = fromJSON(input, FALSE)
+    }else if(is.list(input) && "steps" %in% names(input)){
+        obj = input
+    }else{
+        stop("input has to be a json file or steplist parsed from app")
+    }
+    ss = obj$steps
+    do.call(SBGStepList, lapply(ss, get_step_item))
+}
+

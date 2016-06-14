@@ -765,6 +765,21 @@ lst <- as.list(nm.cls)
 #' @export race ethnicity primary_site disease_type
 #' @export age_at_diagnosis vital_status days_to_death sample_id
 #' @export sample_uuid sample_type aliquot_id aliquot_uuid
+#' @examples 
+#' ## show schema (you can still provide customized one)
+#' ## empty beause they are all NULL
+#' Metadata()
+#' ## show schema
+#' Metadata()$show(TRUE)
+#' ## or 
+#' names(Metadata()$asList(TRUE))
+#' ## returned meta field is actually define as function too, direclty
+#' ## call them will give you details
+#' platform()
+#' paired_end()
+#' quality_scale()
+#' ## check their suggested value and construct your metadata
+#' Metadata(platform  = "Affymetrix SNP Array 6.0", paired_end = 1, quality_scale = "sanger")
 Metadata <- setRefClass("Metadata",
                         fields = c(lst, list(extra = "listORNULL")),
                         methods = list(
@@ -841,15 +856,9 @@ Metadata <- setRefClass("Metadata",
                                 }
                                 
                             },                              
-                            show = function(short = FALSE, full = FALSE){
-                                l <- asList()
+                            show = function(full = FALSE, short = FALSE){
+                                l <- asList(full = full)
                                 .showList(l, full = full)
-                                ## sapply(key_order, function(x){
-                                ##     obj <- .self$field(x)
-                                ##     if(!is.null(obj))
-                                ##         obj$show(short = short, full = full)
-                                ## })
-                                ## .showList(extra)
                             }
                         ))
 

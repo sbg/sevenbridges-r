@@ -156,6 +156,11 @@ optional parameteres: tags and description, type. '
 
                             if (is.null(name) || is.null(billing_group_id))
                                 stop('name, description, and billing_group_id must be provided')
+                            
+                            ## check tags
+                            if(is.character(tags)){
+                                tags <- as.list(tags)
+                            }
 
                             body = list('name' = name,
                                 'type' = type, 

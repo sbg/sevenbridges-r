@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
-![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)
-![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)
-![posts](http://www.bioconductor.org/shields/posts/sevenbridges.svg)
-![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)
+[![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
+[![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
+[![posts](http://www.bioconductor.org/shields/posts/sevenbridges.svg)](https://support.bioconductor.org/t/sevenbridges/)
+[![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)](http://bioconductor.org/packages/stats/bioc/sevenbridges/)
 ![cov](http://www.bioconductor.org/shields/coverage/release/sevenbridges.svg)
 
 
