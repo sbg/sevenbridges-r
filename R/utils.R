@@ -712,7 +712,7 @@ iterId <- function(ids, fun, ...){
 #' @return docker stdout
 #' @examples
 #' \dontrun{
-#' set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")
+#' set_test_env("dind", "tengfei/testenv", "/Users/<user>/<work_dir>")
 #' }
 
 set_test_env = function(type, docker_image, data_dir){
@@ -737,13 +737,12 @@ set_test_env = function(type, docker_image, data_dir){
     #system2("docker", "rm $(docker ps -aq -f status=exited -f status=created)", stdout = T, stderr = T)
     system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=T, stderr=T)
     
-    #TODO: investigate DOCKER-beside-DOCKER: 
-    # http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/ 
-    # https://hub.docker.com/_/docker/ but for now only DinD works because of mount shared volumes problem
+    # container docker daemon (dind) or host docker daemon (host)
     if (type == "dind"){
         docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
         system2("docker", c(docker_run_args), stdout=T, stderr=T)
         system2("docker", c("exec bunny bash -c 'service docker start'"), stdout=T, stderr=T)
+        system2("docker", c("inspect --format '{{.Id}}' bunny"), stdout = T, stderr = T)
     } else {
         docker_run_args <- paste("run --privileged --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
         system2("docker", c(docker_run_args), stdout=T, stderr=T)
@@ -804,49 +803,6 @@ test_tool_bunny = function(rabix_tool, inputs){
         write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
         
         run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -b /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
-        system2("docker", run_cmd)
-    }
-}
-
-#' Test tools in rabix/rabix-devel (DEPRECATED)
-#'
-#' Test tools locally in rabix/rabix-devel python executor (DEPRECATED)
-#'
-#' @param rabix_tool rabix tool from Tool class 
-#' @param inputs input parameters declared as json (or yaml) string
-#' @export test_tool_rabix
-#' @return rabix stdout
-#' @examples
-#' \dontrun{
-#' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
-#' rbx <- <define rabix tool>
-#' set_test_env("tengfei/testenv", "<mount_dir>")
-#' test_tool_rabix(rbx, inputs)
-#' }
-test_tool_rabix = function(rabix_tool, inputs=list()){
-    check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
-    container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
-    if (identical(container, character(0))){
-        message("Test container not running. Try setting testing env first (set_test_env())")
-    } else {
-        message("Trying the execution...")
-        check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
-        mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
-        
-        tool_path <- paste0(mount_point, "/tool.json")
-        inputs_path <- paste0(mount_point, "/inputs.json")
-        
-        # cleanup
-        if (file.exists(tool_path)){
-            system2("docker", "exec bunny bash -c 'rm /bunny_data/tool.json'")
-        } 
-        if (file.exists(inputs_path)){
-            system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
-        }
-        
-        write(rabix_tool$toJSON(pretty=T), file=tool_path)
-        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
-        run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /bunny_data /bunny_data/tool.json -i /bunny_data/inputs.json'"
         system2("docker", run_cmd)
     }
 }
