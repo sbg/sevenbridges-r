@@ -845,7 +845,9 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
         
         write(rabix_tool$toJSON(pretty=T), file=tool_path)
         write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
-        run_cmd <- "exec bunny bash -c 'rabix -v -v -v -d /bunny_data /bunny_data/tool.json -i /bunny_data/inputs.json'"
+        out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "rabix")
+        out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
+        run_cmd <- "exec bunny bash -c 'cd /bunny_data && rabix -v -v -v /bunny_data/tool.json -i /bunny_data/inputs.json'"
         system2("docker", run_cmd)
     }
 }
@@ -888,7 +890,11 @@ test_tool_cwlrun = function(rabix_tool, inputs=list()){
         
         write(rabix_tool$toJSON(pretty=T), file=tool_path)
         write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
-        run_cmd <- "exec bunny bash -c 'cwl-runner --non-strict --tmpdir-prefix /bunny_data --tmp-outdir-prefix /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
+        out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "cwlrunner")
+        out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
+        run_cmd <- c("exec bunny bash -c 'mkdir ", out_dir_abs, 
+                     " && cd ", out_dir_abs, 
+                     " && cwl-runner --non-strict --tmpdir-prefix . --tmp-outdir-prefix . /bunny_data/tool.json /bunny_data/inputs.json'")
         system2("docker", run_cmd)
     }
 }
