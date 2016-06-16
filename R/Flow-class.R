@@ -150,7 +150,7 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                },
                                set_flow_input = function(iid = NULL, add = TRUE){
                                    ## validate the input is File or File...
-                                  
+
                                    .id = step_input_id(TRUE)
                                    if(!all(iid %in% .id)){
                                        stop("input id doesn't exist")
@@ -178,7 +178,6 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                    ## get connected from step list
                               
                                    sapply(nid, function(x){
-                                       x = nid[1]
                                        tool.id = get_tool_id_from_full(x)
                                        sins = get_step(id = tool.id)$inputs
                                        idx = which(x == sapply(sins, function(i) i$id))
@@ -897,6 +896,13 @@ setMethod("link", c("Tool", "Tool"), function(from, to, id1, id2,
         flow_input.linked = res$linked_input_id()
         flow_input = setdiff(flow_input.all, flow_input.linked)
         message("flow_input: ", paste0(flow_input ,collapse = " / "))
+    }else{
+        # need to get required file.. input 
+        i.f = c(from$input_id(TRUE, TRUE), to$input_id(TRUE, TRUE))
+        flow_input.all = addIdNum(i.f[names(i.f) %in% c("File", "File...")])
+        flow_input.linked = res$linked_input_id()
+        flow_input = unique(c(flow_input, setdiff(flow_input.all, flow_input.linked)))
+        message("flow_input: ", paste0(flow_input ,collapse = " / "))
     }
     
     res$set_flow_input(flow_input) 
@@ -907,10 +913,10 @@ setMethod("link", c("Tool", "Tool"), function(from, to, id1, id2,
         flow_output.all = addIdNum(o.f[names(o.f) %in% c("File", "File...")])
         flow_output.linked = res$linked_output_id()
         flow_output = setdiff(flow_output.all, flow_output.linked)
-        message("flow_output: ", paste0(flow_output ,collapse = " / "))
+        
     }
     
-    
+    message("flow_output: ", paste0(flow_output ,collapse = " / "))
     res$set_flow_output(flow_output)
    
     
@@ -925,7 +931,8 @@ setMethod("link", c("Tool", "Tool"), function(from, to, id1, id2,
 #' @docType methods
 #' @aliases link,Tool,Workflow-method
 setMethod("link", c("Tool", "Workflow"), function(from, to, id1, id2){
-    
+    ## id2 has to be full
+    stop("not implemented yet")
 })
 
 #' @rdname link
@@ -933,7 +940,7 @@ setMethod("link", c("Tool", "Workflow"), function(from, to, id1, id2){
 #' @docType methods
 #' @aliases link,Workflow,Tool-method
 setMethod("link", c("Workflow", "Tool"), function(from, to, id1, id2){
-    
+    stop("not implemented yet")
 })
 
 #' @rdname link
@@ -941,7 +948,7 @@ setMethod("link", c("Workflow", "Tool"), function(from, to, id1, id2){
 #' @docType methods
 #' @aliases link,Workflow,Workflow-method
 setMethod("link", c("Workflow", "Workflow"), function(from, to, id1, id2){
-    
+    stop("not implemented yet")
 })
 
 #' @rdname link
@@ -949,7 +956,7 @@ setMethod("link", c("Workflow", "Workflow"), function(from, to, id1, id2){
 #' @docType methods
 #' @aliases link,App,ToolORWorkflow-method
 setMethod("link", c("App", "ToolORWorkflow"), function(from, to, id1, id2){
-    
+    stop("not implemented yet")
 })
 
 #' @rdname link
@@ -957,7 +964,7 @@ setMethod("link", c("App", "ToolORWorkflow"), function(from, to, id1, id2){
 #' @docType methods
 #' @aliases link,ToolORWorkflow,App-method
 setMethod("link", c("ToolORWorkflow", "App"), function(from, to, id1, id2){
-    
+    stop("not implemented yet")
 })
 
 #' shows potential link methods by providing grouped inputs/ouputs

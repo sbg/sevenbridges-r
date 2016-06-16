@@ -251,11 +251,26 @@ Tool <-
                     output_type = function(){
                         getOutputType(toList())
                     },
-                    input_id = function(full = FALSE){
+                    input_id = function(full = FALSE, requiredOnly = FALSE){
                         'get input id from a Tool, when full = TRUE, connect 
-                        tool id with input id e.g.'
+                        tool id with input id e.g. if requiredOnly = TRUE, returne
+                        required field only'
                         tool.name = get_id_from_label(label)
-                        res = sapply(inputs, function(i){
+                        if(requiredOnly){
+                            
+                            idx = sapply(inputs, function(i){
+                                i$required
+                            })
+                            if(length(idx)){
+                                .inputs = inputs[idx]
+                            }else{
+                                return(NULL)
+                            }
+                            
+                        }else{
+                            .inputs = inputs
+                        }
+                        res = sapply(.inputs, function(i){
                             if(full){
                                 
                                 
