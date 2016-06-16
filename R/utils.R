@@ -790,6 +790,8 @@ test_tool_bunny = function(rabix_tool, inputs){
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
+        stdout_path <- paste0(mount_point, "/stdout.log")
+        stderr_path <- paste0(mount_point, "/stderr.log")
         
         # cleanup
         if (file.exists(tool_path)){
@@ -803,7 +805,8 @@ test_tool_bunny = function(rabix_tool, inputs){
         write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
         
         run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -b /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
-        system2("docker", run_cmd)
+        system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
+        cat( readLines( stdout_path ) , sep = "\n" )
     }
 }
 
@@ -834,6 +837,8 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
+        stdout_path <- paste0(mount_point, "/stdout.log")
+        stderr_path <- paste0(mount_point, "/stderr.log")
         
         # cleanup
         if (file.exists(tool_path)){
@@ -848,7 +853,8 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
         out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "rabix")
         out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
         run_cmd <- "exec bunny bash -c 'cd /bunny_data && rabix -v -v -v /bunny_data/tool.json -i /bunny_data/inputs.json'"
-        system2("docker", run_cmd)
+        system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
+        cat( readLines( stdout_path ) , sep = "\n" )
     }
 }
 
@@ -879,6 +885,8 @@ test_tool_cwlrun = function(rabix_tool, inputs=list()){
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
+        stdout_path <- paste0(mount_point, "/stdout.log")
+        stderr_path <- paste0(mount_point, "/stderr.log")
         
         # cleanup
         if (file.exists(tool_path)){
@@ -895,7 +903,8 @@ test_tool_cwlrun = function(rabix_tool, inputs=list()){
         run_cmd <- c("exec bunny bash -c 'mkdir ", out_dir_abs, 
                      " && cd ", out_dir_abs, 
                      " && cwl-runner --non-strict --tmpdir-prefix . --tmp-outdir-prefix . /bunny_data/tool.json /bunny_data/inputs.json'")
-        system2("docker", run_cmd)
+        system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
+        cat( readLines( stdout_path ) , sep = "\n" )
     }
 }
 
