@@ -471,6 +471,21 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                    'exposed input id other than file'
                                    it = input_type()
                                    add_sharp(names(it[!it %in% c("File", "File...")]))
+                               },
+                               run = function(inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
+                                   'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+                                   inputs accept list or json'
+                                   engine = match.arg()
+                                   switch(engine, 
+                                          bunny = {
+                                              test_tool_bunny(.self, inputs)
+                                          },
+                                          cwlrun = {
+                                              test_tool_cwlrun(.self, inputs)
+                                          },
+                                          rabix = {
+                                              test_tool_rabix(.self, inputs)
+                                          })
                                }
       ))
 

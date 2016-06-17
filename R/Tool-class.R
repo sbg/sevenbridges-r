@@ -146,6 +146,10 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #' t2$get_input_port()
 #' t2$set_input_port("#chimScoreSeparation", FALSE)
 #' t2$get_input_port()
+#' ## run the tool locally with example data
+#' \dontrun{
+#' set_test_env("host", "tengfei/testenv", "~/mounts")
+#' }
 Tool <-
     setRefClass("Tool",
                 contains = c("CommandLineTool", "SBG"),
@@ -395,6 +399,21 @@ Tool <-
                         }else if(length(idx) >1){
                             return(outputs[idx])
                         }
+                    },
+                    run = function(inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
+                        'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+                        inputs accept list or json'
+                        engine = match.arg()
+                        switch(engine, 
+                               bunny = {
+                                   test_tool_bunny(.self, inputs)
+                               },
+                               cwlrun = {
+                                   test_tool_cwlrun(.self, inputs)
+                               },
+                               rabix = {
+                                   test_tool_rabix(.self, inputs)
+                               })
                     }
                 ))
 
