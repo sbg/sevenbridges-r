@@ -148,7 +148,12 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #' t2$get_input_port()
 #' ## run the tool locally with example data
 #' \dontrun{
-#' set_test_env("host", "tengfei/testenv", "~/mounts")
+#' t3 = system.file("extdata/app/dna2protein", "dna2protein.cwl.json", package = "sevenbridges")
+#' t3 = convert_app(t3)
+#' fl = system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
+#' set_test_env("dind", "tengfei/testenv", "~/mounts")
+#' t3$input_type()
+#' t3$run(list(input_file = File(path = fl)))
 #' }
 Tool <-
     setRefClass("Tool",
@@ -400,19 +405,21 @@ Tool <-
                             return(outputs[idx])
                         }
                     },
-                    run = function(inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
+                    run = function(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
                         'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
                         inputs accept list or json'
-                        engine = match.arg()
+                        engine = match.arg(engine)
+                        ## convert 
+                        run_inputs = lapply(run_inputs, asTaskInput)
                         switch(engine, 
                                bunny = {
-                                   test_tool_bunny(.self, inputs)
+                                   test_tool_bunny(.self, run_inputs)
                                },
                                cwlrun = {
-                                   test_tool_cwlrun(.self, inputs)
+                                   test_tool_cwlrun(.self, run_inputs)
                                },
                                rabix = {
-                                   test_tool_rabix(.self, inputs)
+                                   test_tool_rabix(.self, run_inputs)
                                })
                     }
                 ))
