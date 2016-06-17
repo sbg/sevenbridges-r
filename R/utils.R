@@ -293,6 +293,10 @@ m.match <- function(obj, id = NULL, name = NULL,
     }
 }
 
+message2 = function(...){
+    cat(paste0(..., "\n"))
+}
+
 .showFields <- function(x, title = NULL, values = NULL, 
                         full = FALSE, con.char = " / "){
     if (missing(values)){
@@ -307,14 +311,14 @@ m.match <- function(obj, id = NULL, name = NULL,
     if(!full){
         idx <- sapply(flds, is.null)
         if(!is.null(title) && !all(idx)){
-            message(title)
+            message2(title)
         }
         
         ## ugly, change later
         for (fld in flds[!idx]){
             if(is.list(x[[fld]])){
                 if(length(x[[fld]])){
-                    message(fld, ":")
+                    message2(fld, ":")
                     .showList(x[[fld]], space =  "  ")
                 }
             }else if(is(x[[fld]], "Item")){
@@ -322,29 +326,29 @@ m.match <- function(obj, id = NULL, name = NULL,
             }else{
                 if(is.character(x[[fld]])){
                     if(x[[fld]] != "" && length(x[[fld]])){
-                        message(fld, " : ", paste0(x[[fld]], collapse = con.char))
+                        message2(fld, " : ", paste0(x[[fld]], collapse = con.char))
                     }
                 }else{
                     if(!is.null(x[[fld]]) && length(x[[fld]]))
-                        message(fld, " : ", x[[fld]])                                                           
+                        message2(fld, " : ", x[[fld]])                                                           
                 }
             }
         }
         
     }else{
-        message(title)
+        message2(title)
         ## ugly, change later
         for (fld in flds){
             if(is.list(x[[fld]])){
-                message(fld, ":")                
+                message2(fld, ":")                
                 .showList(x[[fld]], space =  "  ", full = full)
             }else if(is(x[[fld]], "Item")){
                 x[[fld]]$show()
             }else{
                 if(is.character(x[[fld]])){
-                    message(fld, " : ", paste0(x[[fld]], collapse = con.char))                                        
+                    message2(fld, " : ", paste0(x[[fld]], collapse = con.char))                                        
                 }else{
-                    message(fld, " : ", x[[fld]])                                                           
+                    message2(fld, " : ", x[[fld]])                                                           
                 }
             }
         }
@@ -378,28 +382,28 @@ m.match <- function(obj, id = NULL, name = NULL,
             if(all(is.character(x[[i]]))){
                 msg <- paste0(x[[i]], collapse = " \n ")
                 if(is.null(fld)){
-                    message(space, " - ",  msg)  
+                    message2(space, " - ",  msg)  
                 }else{
-                    message(space, fld, " : ", msg)  
+                    message2(space, fld, " : ", msg)  
                 }
-                                              
+                
             }else{
-              
+                
                 if(is(x[[i]], "Meta")){
                     msg <- as.character(x[[i]]$data)
                     if(is.null(fld)){
-                        message(space, " - ",  msg)  
+                        message2(space, " - ",  msg)  
                     }else{
-                        message(space, fld, " : ", msg)  
+                        message2(space, fld, " : ", msg)  
                     }
-
+                    
                 }else if(is.list(x[[i]])){
                     if(is.null(fld)){
-                        message(space, " - ", length(x[[i]]), " items")
+                        message2(space, " - ", length(x[[i]]), " items")
                         
                     }else{
-                        message(space, fld, " : ", length(x[[i]]), " items")
-                       
+                        message2(space, fld, " : ", length(x[[i]]), " items")
+                        
                     }
                     
                     
@@ -407,9 +411,9 @@ m.match <- function(obj, id = NULL, name = NULL,
                 }else{
                     msg <- as.character(x[[i]])
                     if(is.null(fld)){
-                        message(space, " - ",  msg)  
+                        message2(space, " - ",  msg)  
                     }else{
-                        message(space, fld, " : ", msg)  
+                        message2(space, fld, " : ", msg)  
                     }
                 }
                 
@@ -420,7 +424,6 @@ m.match <- function(obj, id = NULL, name = NULL,
         
     }
 }
-
 
 .update_list <- function(o, n){
     o.nm <- names(o)
