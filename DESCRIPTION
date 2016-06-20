@@ -7,7 +7,7 @@ Author:  Tengfei Yin <tengfei.yin@sbgenomics.com>, Dusan Randjelovic <dusan.rand
 Maintainer: Tengfei Yin <tengfei.yin@sbgenomics.com>
 Description: R client and utilities for Seven Bridges platform API, from cancer
     genomics cloud to other Seven Bridges supported platforms.
-License: MIT + file LICENSE
+License: Apache License 2.0
 VignetteBuilder: knitr
 URL: https://www.sevenbridges.com
 BugReports: https://github.com/sbg/sevenbridges-r/issues
