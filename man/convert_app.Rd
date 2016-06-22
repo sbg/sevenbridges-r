@@ -14,6 +14,9 @@ appType(x)
 
 \item{x}{a App object}
 }
+\value{
+Tool or Flow object depends on cwl type.
+}
 \description{
 Convert App or a cwl JSON file to Tool or Flow object
 }

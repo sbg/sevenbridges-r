@@ -100,6 +100,9 @@ Build workflow
 
 \item{\code{linked_output_id()}}{output id that linked to an input}
 
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+inputs accept list or json}
+
 \item{\code{set_required(ids, required = TRUE)}}{require full input id (with tool id prefix)}
 }}
 \examples{

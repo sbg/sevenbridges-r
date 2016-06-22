@@ -28,11 +28,15 @@ with more seven bridges fields.
 \describe{
 \item{\code{get_input(name = NULL, id = NULL)}}{get input objects by names or id}
 
-\item{\code{input_id(full = FALSE)}}{get input id from a Tool, when full = TRUE, connect 
-tool id with input id e.g.}
+\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{get input id from a Tool, when full = TRUE, connect 
+tool id with input id e.g. if requiredOnly = TRUE, returne
+required field only}
 
 \item{\code{output_id(full = FALSE)}}{get output id from a Tool, when full = TRUE, connect 
 tool id with input id e.g.}
+
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+inputs accept list or json}
 }}
 \examples{
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
@@ -74,5 +78,14 @@ t2$set_input_port("#chimScoreSeparation")
 t2$get_input_port()
 t2$set_input_port("#chimScoreSeparation", FALSE)
 t2$get_input_port()
+## run the tool locally with example data
+\dontrun{
+t3 = system.file("extdata/app/dna2protein", "translate.cwl.json", package = "sevenbridges")
+t3 = convert_app(t3)
+fl = system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
+set_test_env("dind", "tengfei/testenv", "~/mounts")
+t3$input_type()
+t3$run(list(input_file = Files(fl))) ## Not File
+}
 }
 
