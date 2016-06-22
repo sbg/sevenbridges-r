@@ -142,6 +142,7 @@ AppList <- setListClass("App", contains = "Item0")
 #' @rdname convert_app
 #' @export convert_app
 #' @aliases convert_app
+#' @return Tool or Flow object depends on cwl type.
 #' @examples
 #' tool.in = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 #' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
