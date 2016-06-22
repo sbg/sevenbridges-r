@@ -736,31 +736,31 @@ set_test_env = function(type, docker_image, data_dir){
     )
     
     # cleanup
-    system2("docker", c("rm -f bunny"), stdout=T, stderr=T)
+    system2("docker", c("rm -f bunny"), stdout=TRUE, stderr=TRUE)
     #system2("docker", "rm $(docker ps -aq -f status=exited -f status=created)", stdout = T, stderr = T)
-    system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=T, stderr=T)
+    system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=TRUE, stderr=TRUE)
     
     # start container as docker-in-docker (dind) or docker-beside-docker (host)
     if (type == "dind"){
         docker_run_args <- paste("run --privileged --name bunny -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-        system2("docker", c(docker_run_args), stdout=T, stderr=T)
-        system2("docker", c("exec bunny bash -c 'service docker start'"), stdout=T, stderr=T)
-        system2("docker", c("inspect --format '{{.Id}}' bunny"), stdout = T, stderr = T)
+        system2("docker", c(docker_run_args), stdout=TRUE, stderr=TRUE)
+        system2("docker", c("exec bunny bash -c 'service docker start'"), stdout=TRUE, stderr=TRUE)
+        system2("docker", c("inspect --format '{{.Id}}' bunny"), stdout = TRUE, stderr = TRUE)
     } else {
         docker_run_args <- paste("run --privileged --name bunny -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-        system2("docker", c(docker_run_args), stdout=T, stderr=T)
+        system2("docker", c(docker_run_args), stdout=TRUE, stderr=TRUE)
     }
 }
 
 .docker_env_vars = function(){    
     #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
     docker_machine_args <- "ls --filter state=Running --format '{{ .Name }}'"
-    docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=T, stderr=T)
+    docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=TRUE, stderr=TRUE)
     if (identical(docker.vm, character(0))){
         message("[ERROR]: docker-machine not running.")
     }
-    envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=T, stderr=T)[1:4], 8)
-    envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(F,T)])
+    envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=TRUE, stderr=TRUE)[1:4], 8)
+    envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(FALSE,TRUE)])
     Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
 }
 
@@ -783,13 +783,13 @@ set_test_env = function(type, docker_image, data_dir){
 
 test_tool_bunny = function(rabix_tool, inputs){
     check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
-    container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
     if (identical(container, character(0))){
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
-        mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+        mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
@@ -804,8 +804,8 @@ test_tool_bunny = function(rabix_tool, inputs){
             system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
         }
         
-        write(rabix_tool$toJSON(pretty=T), file=tool_path)
-        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
+        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
+        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
         
         run_cmd <- "exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -b /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'"
         system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
@@ -830,13 +830,13 @@ test_tool_bunny = function(rabix_tool, inputs){
 #' }
 test_tool_rabix = function(rabix_tool, inputs=list()){
     check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
-    container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
     if (identical(container, character(0))){
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
-        mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+        mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
@@ -851,8 +851,8 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
             system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
         }
         
-        write(rabix_tool$toJSON(pretty=T), file=tool_path)
-        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
+        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
+        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
         out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "rabix")
         out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
         run_cmd <- "exec bunny bash -c 'cd /bunny_data && rabix -v -v -v /bunny_data/tool.json -i /bunny_data/inputs.json'"
@@ -878,13 +878,13 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
 #' }
 test_tool_cwlrun = function(rabix_tool, inputs=list()){
     check_cmd <- "ps --filter status=running --filter name=bunny --format '{{.Names}}: running for {{.RunningFor}}'"
-    container <- system2("docker", c(check_cmd), stdout = T, stderr = T) 
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
     if (identical(container, character(0))){
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- "inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' bunny"
-        mount_point <- system2("docker", c(check_cmd), stderr = T, stdout = T)
+        mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
         
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
@@ -899,8 +899,8 @@ test_tool_cwlrun = function(rabix_tool, inputs=list()){
             system2("docker", "exec bunny bash -c 'rm /bunny_data/inputs.json'")
         }
         
-        write(rabix_tool$toJSON(pretty=T), file=tool_path)
-        write(toJSON(inputs, pretty=T, auto_unbox=T), file=inputs_path)
+        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
+        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
         out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "cwlrunner")
         out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
         run_cmd <- c("exec bunny bash -c 'mkdir ", out_dir_abs, 
