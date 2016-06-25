@@ -399,11 +399,18 @@ Project <- setRefClass("Project", contains = "Item",
                                 inputs = apps$input_check(inputs)
                             }
                             message("Task drafting ...")
+                            
+                            if(is.null(inputs)){
+                                .i = inputs
+                            }else{
+                                .i = lapply(inputs, asTaskInput)
+                            }
+                            
                             body = list(name = name,
                                 description = description,
                                 project = id,
                                 app = app,
-                                inputs = lapply(inputs, asTaskInput))
+                                inputs = .i)
                             
                             if(!is.null(batch)){
                                 
