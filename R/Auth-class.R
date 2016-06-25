@@ -755,7 +755,7 @@ setAuth <- function(res, auth, className = NULL){
 #' @aliases updateAuthList
 #' @export updateAuthList
 updateAuthList <- function(){
-    lst <- options("sevenbridges")
+    lst <- getOption("sevenbridges")
     lst$auth <- suppressMessages(.parseToken())
     cat(as.yaml(lst$auth))
     options(sevenbridges = lst)
