@@ -137,5 +137,198 @@ a$copyFile(ids, p$id)
 
 Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
 
-## Dataset API examples (not released)
+## Dataset API examples
+
+Please read the [tutorials](http://docs.cancergenomicscloud.org/docs/datasets-api-overview)
+
+### Browse TCGA via the Datasets API
+
+Doing a HTTP GET on this endpoint one will get a resource with links to all entities in the dataset. Following these links (doing an HTTP GET on them) one will go to a list of entities (for example /files) from TCGA dataset identified with their proper URL. Further following one of these links you'll get a particular resource (if we went to /files, we'll get a description of a particular file) with all specific properties like id, label, etc. and links to other entities that are connected to a specific resource (for example /cases) that you can explore further. From there on, the process repeats as long as you follow the links.
+
+#### Return datasets accessible trough the CGC
+
+Create an Auth object with your token, make sure you are using the correct url. 
+
+- https://cgc-datasets-api.sbgenomics.com/
+
+use `Auth$api()` method you don't have to re-type token and url.
+
+```{r}
+library(sevenbridges)
+## create an Auth 
+a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/", 
+         token = "your_cgc_token")
+a$api(path = "datasets")
+```
+
+#### Return list of all TCGA entities
+
+You can issue another GET request to the href of the tcga object, if you want to
+access TCGA data.
+
+```{r}
+a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0", 
+         token = "your_cgc_token")
+(res = a$api()) ## default method is GET
+## list all resources/entities
+names(res$"_links")
+```
+
+#### Interpreting the list of all entities
+
+For example, to see a list of all TCGA files, send the request:
+
+```{r}
+(res = a$api(path = "files"))
+```
+
+For example, to see the __metadata schema__ for files send the request:
+
+```{r}
+a$api(path = "files/schema")
+```
+
+#### Copy files to you project
+
+Get file id from Data set API, then use public API to copy files. Make sure your
+project is "TCGA" compatible, otherwise if you are trying to copy controlled access data 
+to your non-TCGA project, you will get 
+
+"HTTP Status 403: Insufficient privileges to access the requested file."
+
+
+```{r}
+(res = a$api(path = "files"))
+get_id = function(obj){
+   sapply(obj$"_embedded"$files, function(x) x$id)
+}
+ids = get_id(res)
+## create CGC auth
+a_cgc = Auth(token = a$token, url = "https://cgc-api.sbgenomics.com/v2/")
+a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
+```
+
+### Post with query
+
+endpoint user can filter collection resources by using a DSL in JSON format that translates as a subset of SPARQL. Main advantage here is that an end user gets the subset SPARQL expressiveness without the need to learn SPARQL specifics. 
+
+#### Find samples connected to a case
+
+```{r}
+body = list(
+    entity = "samples",
+    hasCase = "0004D251-3F70-4395-B175-C94C2F5B1B81"
+)
+a$api(path = "query", body = body, method = "POST")
+```
+
+Count samples connected to a case
+
+```{r}
+a$api(path = "query/total", body = body, method = "POST")
+```
+
+Issuing a GET request to the href path will return the following data:
+
+Note: `api` function is a light layer of httr package, it's different from `Auth$api` call.
+
+```{r}
+content(api(token = a$token, base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"))
+```
+
+#### Find cases with given age at diagnosis
+
+Suppose you want to see all cases for which the age at diagnosis is between 10 and 50. Then, you use the following query.
+
+Note that the value of the metadata field hasAgeAtDiagnosis is a dictionary containing the keyfilter, whose value is a further dictionary with keysgt(greater than) and lt (less than) for the upper and lower bounds to filter by.
+
+```{r}
+body = list(
+   "entity" = "cases",
+   "hasAgeAtDiagnosis" = list(
+       "filter" = list(
+           "gt" = 10, 
+           "lt" = 50
+       )
+   )
+)
+a$api(path = "query", body = body, method = "POST")
+```
+
+#### Find cases with a given age at diagnosis and disease
+
+Suppose you want to see all cases that, as in the example, ([Find cases with given age at diagnosis])(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease "Kidney Chromophobe". Then, use the following query:
+
+```{r}
+body = list(
+   "entity" = "cases",
+   "hasAgeAtDiagnosis" = list(
+       "filter" = list(
+           "gt" = 10, 
+           "lt" = 50
+       )
+   ),
+   "hasDiseaseType" = "Kidney Chromophobe"
+)
+a$api(path = "query", body = body, method = "POST")
+```
+
+#### Complex example for filtering TCGA data
+
+```{r}
+body = list(
+    "entity" = "cases",
+    "hasSample" = list(
+        "hasSampleType" = "Primary Tumor",
+        "hasPortion" = list(
+            "hasPortionNumber" = 11
+        )
+        ),
+    "hasNewTumorEvent" = list(
+        "hasNewTumorAnatomicSite" = c("Liver", "Pancreas"),
+        "hasNewTumorEventType" = list(
+            "filter" = list(
+                "contains" = "Recurrence"
+            )
+        )
+    )
+)
+a$api(path = "query", body = body, method = "POST")
+```
+
+Issuing a GET request to the href path
+
+```{r}
+content(api(token = a$token, 
+            base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"))
+
+```
+
+
+#### Query with multiple filters on a case
+
+
+```{r}
+get_id = function(obj){
+   sapply(obj$"_embedded"$files, function(x) x$id)
+}
+names(res)
+body = list("entity" = "cases",
+            "hasSample" = list(
+                "hasSampleType" = "Primary Tumor",
+                "hasPortion" = list(
+                    "hasPortionNumber" = 11,
+                    "hasID" = "TCGA-DD-AAVP-01A-11"
+                )
+            ),
+            "hasNewTumorEvent" = list(
+                "hasNewTumorAnatomicSite" = "Liver",
+                "hasNewTumorEventType" = "Intrahepatic Recurrence"
+            )
+)
+(res = a$api(path = "files", body = body))
+get_id(res)
+```
+
+
 
