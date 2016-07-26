@@ -419,6 +419,7 @@ Project <- setRefClass("Project", contains = "Item",
                             }
                             
                             res <- auth$api(path = "tasks", body = body, method = "POST", ...)
+                            message("Done")
                             res <- .asTask(res)
                             if(length(res$errors)){
                                 message("Errors found: please fix it in your script or in the UI")
