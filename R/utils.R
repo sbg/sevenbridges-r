@@ -498,7 +498,7 @@ setListClass <- function(elementType = NULL, suffix = "List",
     setMethod("show", name, function(object){
         if(length(object)){
             for(i in 1:length(object)){
-                message("[[", i, "]]")
+                message2("[[", i, "]]")
                 show(object[[i]])
             }
         }
@@ -916,5 +916,53 @@ set_box <- function(x){
     .c <- class(x)
     class(x) <- c(.c, "box")
     x
+}
+
+
+## volumn API draft
+read_policy = function(bucket_name = NULL){
+    list(
+        "Version" = "2012-10-17",
+        "Statement" = list
+            (
+                "Sid" = "GrantRead",
+                "Action" = c(
+                    "s3:GetBucketCORS",
+                    "s3:GetBucketLocation",
+                    "s3:ListBucket",
+                    "s3:GetObject",
+                    "s3:GetObjectAcl"
+                    ),
+                "Effect" = "Allow",
+                "Resource" = c(
+                    paste0("arn:aws:s3:::", bucket_name),
+                    paste0("arn:aws:s3:::", bucket_name, "/*")
+                )
+            )
+    )
+}
+
+write_policy = function(bucket_name = NULL){
+    list(
+        "Version" =  "2012-10-17",
+        "Statement" = list(
+            list(
+                "Sid" = "GrantWrite",
+                "Action" = c(
+                    "s3:AbortMultipartUpload",
+                    "s3:PutObject"
+                    ),
+                "Effect" = "Allow",
+                "Resource" = paste0("arn:aws:s3:::", bucket_name, "/*")
+            ),
+            
+            list(
+                "Sid" =  "RequestReadFromSevenBridges",
+                "Action" = "s3:GetObject",
+                "Effect" =  "Allow",
+                "Resource" = "arn:aws:s3:::sbg-main/*"
+        )
+    )
+    )
 }
 
