@@ -1,7 +1,8 @@
 .ts <- c("id", "name", "description", "status", "app", "type",
          "created_by", "executed_by", "start_time", "end_time", 
          "execution_status", "price", "inputs", "outputs", "project",
-         "batch", "batch_input", "batch_by",  "parent", "batch_group", "errors")
+         "batch", "batch_input", "batch_by",  "parent", "batch_group", 
+         "errors", "warnings")
 
 
 
@@ -26,7 +27,8 @@ Task <- setRefClass("Task", contains = "Item",
                         batch_by = "listORNULL",
                         parent = "characterORNULL",
                         batch_group = "listORNULL",
-                        errors = "listORNULL"
+                        errors = "listORNULL",
+                        warnings = "listORNULL"
                        
                         ),
                     methods = list(
