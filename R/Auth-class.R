@@ -456,6 +456,9 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 setAuth(res, .self, "Files")
                             }
                         },
+                        copy_file = function(...){
+                            copyFile(...)
+                        },
                         ## App API
                         app = function(name = NULL,
                             id = NULL,
