@@ -728,7 +728,7 @@ File <- setRefClass("File", contains = "CWL",
                         class = "characterORNULL",
                         path = "characterORNULL",
                         checksum = "characterORNULL",
-                        size = "integerORNULL",
+                        size = "numericORNULL", # integer has small limit
                         secondaryFile = "FileList" 
                     ),
                     methods = list(

@@ -54,6 +54,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              created_on <<- created_on
                              modified_on <<- modified_on
                              origin <<- origin
+                             
 
                              callSuper(...)
                          },
@@ -157,7 +158,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
 .asFiles <- function(x){
     Files(id = x$id,
           name = x$name,
-          size = as.integer(x$size),
+          size = as.numeric(x$size),
           metadata = x$metadata,
           project = x$project,
           created_on = x$created_on,
