@@ -106,7 +106,7 @@ Project <- setRefClass("Project", contains = "Item",
                            billing_group_id = "characterORNULL", 
                            description = "characterORNULL",
                            type = "characterORNULL", 
-                           my_permission = "Permission",
+                          ##  my_permission = "Permission",
                            owner = "characterORNULL",
                            tags = "listORNULL"),
                        methods = list(
@@ -114,7 +114,7 @@ Project <- setRefClass("Project", contains = "Item",
                                billing_group_id = NULL, 
                                description = "",
                                type = "",
-                               my_permission = Permission(),
+                           ##    my_permission = Permission(),
                                owner = NULL,
                                tags = list(), ...){
 
@@ -131,7 +131,7 @@ Project <- setRefClass("Project", contains = "Item",
                                id <<- id
                                name <<- name
                                description <<- description
-                               my_permission <<- my_permission
+                               ## my_permission <<- my_permission
                                type <<- type
                                owner <<- owner
                                tags <<- tags
@@ -443,13 +443,13 @@ Project <- setRefClass("Project", contains = "Item",
                            show = function(){
                                .showFields(.self, "== Project ==",
                                            c("id", "name", "description", "billing_group_id", "type",
-                                             "owner", "tags", "my_permission"))
+                                             "owner", "tags"))
                            }
                        ))
 
 
 .asProject <- function(x){
-    if(is.null(x$my_permission)){
+   ## if(is.null(x$my_permission)){
         Project(id = x$id,
                 href = x$href,
                 name = x$name,
@@ -460,19 +460,19 @@ Project <- setRefClass("Project", contains = "Item",
                 billing_group_id = x$billing_group, 
                 response = response(x))
         
-    }else{
-        Project(id = x$id,
-                href = x$href,
-                name = x$name,
-                type = x$type,
-                owner = x$owner,
-                tags = x$tags,
-                description = x$description, ## v1 only entry
-                billing_group_id = x$billing_group,                 
-                my_permission = do.call(Permission, x$my_permission), ## v1 only entry
-                response = response(x))
-        
-    }
+  # ##  }else{
+  #       Project(id = x$id,
+  #               href = x$href,
+  #               name = x$name,
+  #               type = x$type,
+  #               owner = x$owner,
+  #               tags = x$tags,
+  #               description = x$description, ## v1 only entry
+  #               billing_group_id = x$billing_group,                 
+  #               my_permission = do.call(Permission, x$my_permission), ## v1 only entry
+  #               response = response(x))
+  #       
+  #   }
 }
 
 ProjectList <- setListClass("Project", contains = "Item0")
