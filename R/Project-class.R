@@ -252,7 +252,7 @@ Project <- setRefClass("Project", contains = "Item",
                                        }
                                       
                                    }
-                                   return()
+                                   return(invisible())
                                }
                                ## if filename is a folder
                                if(!is.na(file.info(filename)$isdir) && file.info(filename)$isdir){
