@@ -177,7 +177,7 @@ TaskHook <- setRefClass("TaskHook", fields = list(
 
                                 if(is.null(completed)){
                                     completed <<- function(...){
-                                        message("completed")
+                                        cat("\r", "completed")
                                         return(TRUE)
                                     }
                                 }
@@ -213,7 +213,7 @@ TaskHook <- setRefClass("TaskHook", fields = list(
 
                                 if(is.null(failed)){
                                     failed <<- function(...){
-                                        message("failed")
+                                        cat("\r", "failed")
                                         return(TRUE)
                                     }
                                 }
