@@ -142,10 +142,13 @@ You have three different ways to setup the token.
 new R session.
 3. Tempoerary setup via option in R session
 
+Load the library first
 
+```{r, eval = TRUE}
+library(sevenbridges)
+```
 
 ```{r}
-library(sevenbridges)
 ## direct setup
 a <- Auth(token = "<fake_token>",
           url = "https://cgc-api.sbgenomics.com/v2/")
@@ -315,6 +318,61 @@ p$task(status = "draft")
 tsk$update()
 ```
 
+### More on task inputs requirements
+
+Task inputs need to match the expected data type
+
+- number, character or integer, you can directly pass to input parameters
+- an Enum type, just pass the value to the input parameter
+- File, you have to pay attention to this. Some parameters accept only single file
+as input while other input takes more than one files (File arrays or FilesList). This input require you to pass a `Files` object (for sinlge file input) or `FilesList` object (for input accept more than one files), to make it conventient for you, you can pass a simple `list` of `Files` object as well as the following examples
+
+It's always recommended to get file by id, because it's unique, if you are searching files
+by names, it sometimes return more than one object, make sure it's what you want 
+
+```{r}
+bamfiles.in = p$file(".bam")  ## return more than one files
+## alternatively you can do 
+bam1 = p$file(id = "some_id1")
+bam2 = p$file(id = "some_id2")
+bamfiles.in = list(bam1, bam2)
+
+
+design.in = p$file("sample_table.csv") # matching by name
+gtf.in = p$file("Homo_sapiens.GRCh37.75_subset.gtf") # matching by name
+
+## add a new Task
+tsk = p$task_add(name = "RNA DE report new", 
+                   description = "RNA DE analysis report", 
+                   app = rna.app$id,
+                   inputs = list(bamfiles = bamfiles.in, 
+                                 design = design.in,
+                                 gtffile = gtf.in))
+
+
+```
+
+Note: if you have two files named "a.bam" and "a2.bam", if you are calling `p$file("a")` 
+this will return you two object you can use id which is more accurate or you can  call
+
+```{r}
+p$file("a$")
+## or
+p$file("a", exact = TRUE)
+```
+
+To check your inputs name and types you need to get an `App` object first, then you 
+get raw cwl information and list them by calling `input_type`. Type `File` means single File only, type `File...` means accept more than one file. We are trying to be smart on 
+this, when a parameter accept single file only, if you passed a list, but it has only has one item, we will do the conversion automatically for you; If it require a list, but you pass a single object, it will automatically wrap it into a list. If the 'smart' conversion fails, you may get task warning to ask you fix your input. 
+
+```{r}
+x = a$app(id = "your_app_id")
+x$cwl() # to get raw info first by api
+x$input_type() # return input name and types, pay attention to File and Files...
+```
+
+### Run a task
+
 Now you have your draft task, you can delete your draft task or update it.
 
 ```{r}
@@ -322,8 +380,7 @@ Now you have your draft task, you can delete your draft task or update it.
 ## tsk$delete()
 ```
 
-looks like there is only a single number, oops, I want 100 numbers instead, so 
-let me update my draft task 
+I want 100 numbers instead, so let me update my draft task 
 
 ```{r}
 tsk$getInputs()
@@ -333,12 +390,15 @@ tsk$update(inputs = list(number = 500, seed = 1))
 tsk$getInputs()
 ```
 
-Or we just want to run it in the cloud!
+we just want to run it in the cloud!
 
 ```{r}
 ## Run your task
 tsk$run()
 ```
+
+### Task monitoring
+
 To monitor the task, you can always call `update` on task object to check the status. 
 
 ```{r}
@@ -368,11 +428,28 @@ To download all files from a completed tasks
 tsk$download("~/Downloads")
 ```
 
-More fun to set task hook, so when it's complete download the files
+More fun to set task hook, `setTaskHook`: connect a function call to the status of a task, when you run tsk$monitor(time = 30) it will check that task every 30 seconds for the task running status by api call for following status, ("queued", "draft", "running", "completed", "aborted", "failed") and it triggered the function call based on returned status and `getTaskHook` return the function call for specific status
+
+By default when you monitor a running task, it's only printing status and exit when 
+it's completed. 
+
+
+```{r, eval = TRUE}
+getTaskHook("completed")
+```
+
+If you want to customize the monitor function, there is a requirements
+
+- Your function must return `TRUE` or `FALSE` in the end. When it's `TRUE` (or non-logical value) it means
+the monitoring will be terminated after status matched and function execution, for example when task is completed. When it's `FALSE` it means the monitoring will continue for next iteration of checking, e.g. when it's "runing", you want to keep tracking. 
+
+To set a new function to monitor the status "completed", when it's completed, 
+download all task output files to local folder. 
 
 ```{r}
 setTaskHook("completed", function(){
     tsk$download("~/Downloads")
+    return(TRUE)
 })
 tsk$monitor()
 ```
