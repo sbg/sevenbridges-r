@@ -80,6 +80,8 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                                  ## is directory
                                  if(!is.null(name))
                                      destfile <- file.path(destfile, name)
+                             }else{
+                                 stop("download dir not exists")
                              }
                              download.file(url, destfile, ..., method = method)
                          },
@@ -237,7 +239,9 @@ setGeneric("download", function(obj, ...) standardGeneric("download"))
 #' @rdname download-methods
 #' @aliases download,FilesList-method
 setMethod("download", "FilesList", function(obj, ...){
-    lapply(obj, function(x) x$download(...))
+    for(i in 1:length(obj)){
+        obj[[i]]$download(...)
+    }
 })
 
 #' @rdname download-methods
