@@ -184,7 +184,7 @@ TaskHook <- setRefClass("TaskHook", fields = list(
 
                                 if(is.null(queued)){
                                     queued <<- function(...){
-                                        message("queued")
+                                        cat("\r", "queued")
                                         return(FALSE)
                                     }
                                 }
@@ -199,7 +199,7 @@ TaskHook <- setRefClass("TaskHook", fields = list(
 
                                 if(is.null(running)){
                                     running <<- function(...){
-                                        message("running ...")
+                                        cat("\r", "running ...")
                                         return(FALSE)
                                     }
                                 }
