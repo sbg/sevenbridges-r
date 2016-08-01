@@ -61,7 +61,8 @@ information via the API. else, This call lists all your billing groups, includin
 if breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
 
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
-  detail = FALSE, metadata = list(), origin.task = NULL, ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
+  detail = FALSE, metadata = list(), origin.task = NULL,
+  complete = FALSE, search.engine = c("server", "brute"), ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
 
 \item{\code{invoice(id = NULL, ...)}}{no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
 
@@ -91,6 +92,9 @@ successful response if {username} is replaced with your own
 username. If you are an administrator, you can replace 
 {username} with the username of any CGC user, to return 
 information on their resources.}
+
+\item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
+  exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list}
 }}
 \examples{
 ## replace it with real token

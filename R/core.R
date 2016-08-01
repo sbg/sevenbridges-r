@@ -109,7 +109,7 @@ api = function (token = NULL, version = '1.1', path = NULL,
 #'
 #' @keywords internal
 status_check = function (req, as = "parsed", ...) {
-    if (status_code(req) %in% c('200', '201', '204')) {
+    if (status_code(req) %in% c('200', '201', '202', '204')) {
         res <- content(req, as = as, ...)
         if(!is.null(res))
             attr(res, "response") <- req

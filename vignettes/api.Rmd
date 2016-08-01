@@ -1320,6 +1320,86 @@ To run task in batch mode, (check `?batch`) for more details, here is an mock ru
                                  gtffile = gtf.in)))
 ```
 
+### Volume 
+
+#### Create a volume
+
+```{r}
+a = Auth(user = "tengfei", platform = "us")
+a$add_volume(name = "tutorial_volume", 
+             type = "s3", 
+             bucket = "tengfei-demo", 
+             prefix = "",
+             access_key_id = "AKIAJQENSIA4DJQNZO3A",
+             secret_access_key = "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", 
+             sse_algorithm = "AES256", 
+             access_mode = "RW")
+```
+
+#### List and search all volume
+
+```{r}
+## list all volume
+a$volume()
+## get unique volume by id
+a$volume(id = "tengfei/tengfei_demo")
+## partial search by name
+a$volume(name = "demo")
+```
+
+#### Get volume detail
+```{r}
+v = a$volume()
+v[[1]]$detail()
+```
+
+
+#### Delete volume
+
+```{r}
+a$volume(id = "tengfei/tengfei_demo")$delete()
+```
+
+#### Import file from volume to project
+
+This call import a file from volume like s3 bucket to your project. 
+
+```{r}
+v = a$volume(id = "tengfei/tutorial_volume")
+res = v$import(location =  "A-RNA-File.bam.bai",
+         project = "tengfei/s3tutorial",
+         name = "new.bam.bai", 
+         overwrite = TRUE)
+
+## get job status update
+## state will be "COMPLETED" when it's finished other wise "PENDING"
+v$get_import_job(res$id)
+v
+
+```
+
+#### Export file from project to volume
+
+__Important__ : 
+
+- The file selected for export must not be a public file or an alias. Aliases are objects stored in your cloud storage bucket which have been made available on the Platform. The volume you are exporting to must be configured for read-write access. To do this, set the access_mode parameter to RW when creating or modifying a volume.
+- If this call is successful, the original project file will become an alias to the newly exported object on the volume. The source file will be deleted from the Platform and, if no more copies of this file exist, it will no longer count towards your total storage price on the Platform.
+
+When test please update your file to a project. 
+
+```{r}
+res = v$export(file = "579fb1c9e4b08370afe7903a", 
+         volume = "tengfei/tutorial_volume",
+         location = "", ## when "" use old name
+         sse_algorithm =  "AES256")
+## get job status update
+## state will be "COMPLETED" when it's finished other wise "PENDING"
+v$get_export_job(res$id)
+v
+```
+
+
+
 ### Public Files and Apps
 
 How to get public content for files and apps? So you can get their ids and copy them to your project? In this package, we provide two easy function calls from Authentification object. 

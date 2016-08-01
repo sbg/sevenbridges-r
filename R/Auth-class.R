@@ -730,7 +730,118 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 id.valid <- NULL
                             }
                             id.valid
+                        }, 
+                        add_volume = function(name = NULL, 
+                                              type = c("s3", "gcs"), 
+                                              root_url = NULL, 
+                                              bucket = NULL, 
+                                              prefix = "",
+                                              access_key_id = NULL,
+                                              secret_access_key = NULL, 
+                                              client_email = NULL, 
+                                              private_key = NULL, 
+                                              sse_algorithm = "AES256", 
+                                              aws_canned_acl = NULL, 
+                                              access_mode = c("RW", "RO")){
+                            
+                            if(is.null(name)){
+                                stop("Please provide name, the name of the volume. It must be unique from all other volumes for this user.")
+                            }
+                            
+                            type = match.arg(type)
+                            access_mode = match.arg(access_mode)
+                            
+                            if(is.null(root_url)){
+                                root_url = switch(type, 
+                                                  s3 = "https://s3.amazonaws.com",
+                                                  gcs = "https://www.googleapis.com/")
+                            }
+                            
+                            
+                            if(type == "s3" && !is.null(access_key_id) && !is.null(secret_access_key)){
+                                credentials = list(
+                                    access_key_id = access_key_id,
+                                    secret_access_key = secret_access_key
+                                )
+                            }else if(type == "gcs" && !is.null(client_email) && !is.null(private_key)){
+                                credentials = list(
+                                    client_email = client_email,
+                                    private_key = private_key
+                                )
+                            }else{
+                                stop("credials are needed")
+                            }
+                            
+                            body = list(
+                                name = name,
+                                service = list(
+                                    type = type,
+                                    bucket = bucket,
+                                    prefix = prefix,
+                                    credentials = credentials,
+                                    properties = list(
+                                        sse_algorithm = sse_algorithm
+                                    )
+                                ),
+                                access_mode = access_mode
+                            )
+                            
+                            res = api(path = "storage/volumes", body = body, method = "POST")    
+                            res = .asVolume(res)
+                            res = setAuth(res, .self, "Volume")
+                            res
+                        }, 
+                        volume = function(name = NULL, id = NULL,
+                                           index = NULL, ignore.case = TRUE,
+                                           exact = FALSE, detail = FALSE, ...){
+                            
+                            'If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list'
+                            
+                            if(!is.null(id)){
+                                req <- api(path = paste0("storage/volumes/", id), method = "GET",  ...)
+                                res <- .asVolume(req)
+                                res <- setAuth(res, .self, "Volume")
+                                return(res)                                
+                            }
+                            
+                            ## list "all"
+                            req <- api(path = "storage/volumes", method = "GET", ...)
+                            res <- .asVolumeList(req)
+                            if(is.null(name)){
+                                res <- setAuth(res, .self, "Volume")
+                                return(res)
+                            }
+                            
+                            
+                            res <- m.match(res, id = id, name = name, exact = exact,
+                                           ignore.case = ignore.case)
+                            
+                            if(!length(res)) return(NULL)
+
+                            
+                            if(detail && length(res)){
+                                if(is(res, "SimpleList")){
+                                    ids <- sapply(res, function(x){ x$id })
+                                }else{
+                                    ids <- res$id
+                                }
+                                
+                                lst <- lapply(ids, function(id){
+                                    req <- api(path = paste0("storage/volumes/", id), method = "GET", ...)
+                                    .asVolume(req)
+                                })
+                                res <- VolumeList(lst)
+                            }
+                            
+                            ## double check
+                            if(length(res) == 1 && is(res, "SimpleList")){
+                                res <- res[[1]]
+                            }
+                            res <- setAuth(res, .self, "Volume")
+                            res
+                       
                         }
+                        
                     ))
 
 
