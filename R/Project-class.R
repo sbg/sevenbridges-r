@@ -406,7 +406,7 @@ Project <- setRefClass("Project", contains = "Item",
                             }else{
                                 .i = lapply(inputs, asTaskInput)
                             }
-                            
+                           
                             body = list(name = name,
                                 description = description,
                                 project = id,

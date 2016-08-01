@@ -24,7 +24,7 @@ knitr::opts_chunk$set(eval = FALSE)
 ## Introduction
 
 This package is designed to support as many Seven Bridges supported platforms 
-as possible, including the NCI Cancer Genomic Cloud Pilot developed by Seven Bridges, as long as you provide the correct API URL, it should work normally. 
+as possible, including the NCI Cancer Genomic Cloud Pilot developed by Seven Bridges, make sure you provide the correct API URL for the platform you are using.
 
 Currently tested platform including
 
@@ -33,103 +33,82 @@ Currently tested platform including
 - [Seven Bridges US platform on Google Cloud](https://gcp.sbgenomics.com/)
 
 
-It will be helpful to read complete platform documentation 
+To read complete platform documentation 
 
 - [Full doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs)
 - [Full doc for Seven Bridges US platform](https://docs.sbgenomics.com/display/developerhub/Seven+Bridges+Genomics+Developer+Hub)
 
-And it's API part if you want to understand details and use its full power:
+Full API documentation on the platform
 
 - [API doc for Cancer Genomics Cloud Platform](http://docs.cancergenomicscloud.org/docs/the-cgc-api)
 - [API doc for Seven Bridges US platform](https://docs.sbgenomics.com/display/developerhub/API)
 
-### API URL
+### API R client
 
-Most commonly used API url, choose the correct one depends on which platforms you are using
-
-
-- __Seven Bridges US platform on AWS__ 
-    1. V2 (new):  https://api.sbgenomics.com/v2/
-    2. V1: https://api.sbgenomics.com/1.1/
-- __Seven Bridges US platform on Google Cloud__ :  https://gcp-api.sbgenomics.com/v2/
-- __Cancer Genomics Cloud Platform__ : https://cgc-api.sbgenomics.com/v2/
-
-### API V1
-
-The difference of V1 and V2 is that, V2 project is CWL(common workflow language) compatible, on NCI
-cancer genomics cloud, google cloud, or any newer platforms, you should not have such a problem. But
-for Seven Bridges Platofrm, currently users are able to create old project (V1) and new developer project (v2). For this group
-of users, please note, `sevenbridges` package doesn't support old API at higher level, alterntatively
-there are two ways if you are still using the old project type
-
-- Use old `sbgr` package `sbgr` package will be under maintenance mode. 
-- You can still use our lower api function as shown in following section, but higher level API 
-calls like the chained action are not supported for v1. 
-
-For advanced users, you can still use our lower API call for all V1 APIs like this, the most used 
-arguments are "path", "query", "body", you can also check the function `api`. 
-
-```{r}
-library(sevenbridges)
-a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", url = "https://api.sbgenomics.com/1.1/")
-## Get projects: GET /1.1/project
-a$api(path = "project")
-## higher level doesn't work for v1
-## a$project() won't work
-```
-
-Principle: I will recommend all users switch to new project type if possible, 
-it will have more features and much better support from this package. 
-
-
-### API V2 and beyond
-
-Current public v2 API
+Current public V2 API is CWL compatable, public API url: 
 
 - __NCI Cancer Genomics Cloud__ : https://cgc-api.sbgenomics.com/v2/
 - __Seven Bridges on AWS__: https://api.sbgenomics.com/v2/
 - __Seven Bridges on Google__: https://gcp-api.sbgenomics.com/v2/
 
 
-`sevenbbridges` package only support V2 and later API, which support CWL compatible project. 
+`sevenbbridges` package only support V2 and later API, which support CWL compatible project. It provides simple interface for easy access and friendly 
+showing methos. You will learn them through the tutorials. 
+
+
+__For advanced users__, you can directly use `httr` package to construct your API calls, or you can still use low level API call for all APIs like this, the most used arguments are "path", "query", "body".
+
+For example, when you read API documentatio you will see a section called "list all your projects", it tells you to use method "get" and path "/projects", so you can simply call
+
+```{r}
+library(sevenbridges)
+a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", 
+          url = "https://api.sbgenomics.com/v2/")
+a$api(path = "project", method = "GET")
+```
+
+you can also pass query and body as a list. 
+
+With this package, you can simply call
+
+```{r}
+a$project()
+```
+
+### API principles 
+
+Before we continue, there are couple things you may want to keep it in mind
+
+- Every API call accept arguments called `offset` and `limit`, offset defines where the retrieved items started, and limit defines quantity of items you want to get, and by default it's always `offset = 0` and `limit = 100`, which means the __first 100 items__. This applies when you want to list items or search items by a name matching. To force the search and list for all items, please use `complete = TRUE` in your call. By default `complete = FALSE` that it always perform those search and list operations for particular offset and limit. 
+- When search by ID, it's unqiue don't worry about offset or limit. So __it's always a good practice__ to get your item by ID and pass as input to your task. To find id, you can either find it on the UI in the url or in the API list items call or defail infomation. 
+- Search by name pattern is not unique, it returned you all matched items, unless you set `exact = TRUE`. 
+
 
 ### Installation
 
-This package is in devel branch on bioconductor now, to install the package.
+`sevenbridges` package is now on Bioconductor released and devel branch. 
 
 ```{r}
-source("http://bioconductor.org/biocLite.R")
-useDevel(devel = TRUE)
+## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-If you cannot install it because you are not running latest R, you can install the package from github
+Our API keep improving, please also visit our [github homepage](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version.  
 
 ```{r}
 # install.packages("devtools") if devtools was not installed
-## Install from github for development version  
 source("http://bioconductor.org/biocLite.R")
-# install.packages("devtools") if devtools was not installed
 library(devtools)
 install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
 
-This package is also available in docker image `tengfei/sevenbridges`, which the latest is build on `bioconductor/devel_base` on dockerhub.
-
-Checkout he _Dockerfile_ at 
-
-```{r}
-system.file("docker", "sevenbridges/Dockerfile", package = "sevenbridges")
-```
-
-
 
 ## Quickstart
 
 For more details about how to use the API client in R, please go for the second section for complete guide. This section, I am going to use a simple example for a quick start.
-
 
 ### Create Auth object
 
@@ -972,14 +951,7 @@ a$file(project = "tengfei/re",
 
 
 
-#### Public files
 
-The only way you can list public files now via API is from `Auth$file()` call, and for now, 
-the project id is "admin/sbg-public-data". This may be updated later. Alternative, just click the file from our GUI, you will see the id in the url link.
-
-```{r}
-a$file(project = "admin/sbg-public-data")
-```
 
 #### Update a file
 
@@ -1346,6 +1318,51 @@ To run task in batch mode, (check `?batch`) for more details, here is an mock ru
                    inputs = list(bamfiles = bamfiles.in, 
                                  design = design.in,
                                  gtffile = gtf.in)))
+```
+
+### Public Files and Apps
+
+How to get public content for files and apps? So you can get their ids and copy them to your project? In this package, we provide two easy function calls from Authentification object. 
+
+When you search and get what you want, you can use their id to do more operation like copying to a project. 
+
+#### Public files
+
+```{r}
+## list first 100 files 
+a$public_file()
+## list by offset and limit
+a$public_file(offset = 100, limit = 100)
+## simply list everything!
+a$public_file(complete = TRUE)
+## get exact file by id
+a$public_file(id = "5772b6f0507c175267448700")
+## get exact file by name with exact = TRUE
+a$public_file(name = "G20479.HCC1143.2.converted.pe_1_1Mreads.fastq", exact = TRUE)
+## with exact = FALSE by default search by name pattern
+a$public_file(name = "fastq") 
+a$public_file(name = "G20479.HCC1143.2.converted.pe_1_1Mreads.fastq")
+```
+
+Actually the public files are hosted in the project called "admin/sbg-public-data", so of course you can just use `file` api to 
+get files you need. 
+
+
+#### Public apps
+
+For public apps we have the similar API calls. 
+
+```{r}
+## list for 100 apps
+a$public_app()
+## list by offset and limit
+a$public_app(offset = 100, limit = 50)
+## search by id
+a$public_app(id = "admin/sbg-public-data/control-freec-8-1/12")
+## search by name in ALL apps
+a$public_app(name = "STAR", complete = TRUE)
+## search by name with exact match
+a$public_app(name = "Control-FREEC", exact = TRUE, complete = TRUE)
 ```
 
 ### Get Raw Response from httr

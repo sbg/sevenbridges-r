@@ -74,7 +74,7 @@ Task <- setRefClass("Task", contains = "Item",
                             auth$api(path = paste0("tasks/", id, "/inputs"),
                                      method = "GET", ...)
                         },
-                        get_inputs = function(...){
+                        get_input = function(...){
                             getInputs(...)
                         },
                         delete = function(...){
