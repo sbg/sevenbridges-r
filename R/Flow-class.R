@@ -10,10 +10,6 @@
 #' @param canvas_zoom zoom factor
 #' @param canvas_x canvas x 
 #' @param canvas_y canvas y
-#' @param batchInput batch input node id. note: Only one input per workflow can 
-#' be configured as batch. Setting grouping criteria on this node will reset previous 
-#' batch settings.
-#' @param batchBy a list of type and crateria. For more information, please check manual for \code{batch}
 #' @param ... extra arguments passed to SBGWorkflow
 #'
 #' @rdname Flow

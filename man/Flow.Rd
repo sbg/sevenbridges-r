@@ -76,12 +76,6 @@ e1 \%>>\% e2
 \item{e1}{either Tool App or Workflow object}
 
 \item{e2}{either Tool App or Workflow object}
-
-\item{batchInput}{batch input node id. note: Only one input per workflow can 
-be configured as batch. Setting grouping criteria on this node will reset previous 
-batch settings.}
-
-\item{batchBy}{a list of type and crateria. For more information, please check manual for \code{batch}}
 }
 \value{
 a SBGWorkflow object.
@@ -175,5 +169,8 @@ f1$step_input_id(TRUE)
 f1$input_id()
 f1$set_flow_input("#STAR.reads")
 f1$input_id()
+## batch
+f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
+f1$set_batch("sjdbGTFfile", type = "ITEM")
 }
 
