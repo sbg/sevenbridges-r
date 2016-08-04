@@ -76,6 +76,12 @@ e1 \%>>\% e2
 \item{e1}{either Tool App or Workflow object}
 
 \item{e2}{either Tool App or Workflow object}
+
+\item{batchInput}{batch input node id. note: Only one input per workflow can 
+be configured as batch. Setting grouping criteria on this node will reset previous 
+batch settings.}
+
+\item{batchBy}{a list of type and crateria. For more information, please check manual for \code{batch}}
 }
 \value{
 a SBGWorkflow object.

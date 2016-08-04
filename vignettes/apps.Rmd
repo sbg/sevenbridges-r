@@ -414,6 +414,39 @@ out.lst <- list(output(id = "random",
 out.lst
 ```
 
+#### Import JSON to Tool and Workflow object
+
+Please use convert_app, it will automatically convert a json cwl to a R object Tool
+or Workflow based on class.
+
+```{r}
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 = convert_app(f1)
+f1
+```
+
+
+#### Input node batch mode
+
+Batch by File
+
+```{r}
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 = convert_app(f1)
+f1$set_batch("sjdbGTFfile", type = "ITEM")
+```
+
+Batch by other critieria such as metadta, following example, is using sample_id and library_id
+
+```{r}
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 = convert_app(f1)
+f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
+```
+
+When you push your app to the platform, you will see the batch available at task page
+or workflow editor. 
+
 #### Execute the tool in the cloud
 
 With API function, you can directly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 

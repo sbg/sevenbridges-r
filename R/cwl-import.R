@@ -2509,13 +2509,14 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                      "sbg:includeInPorts" = "logicalORNULL",
                                      "sbg:toolDefaultValue" = "characterORNULL",
                                      "sbg:altPrefix" = "characterORNULL",
-                                     "required" = "logicalORNULL"),
+                                     "required" = "logicalORNULL", 
+                                     "batchType" = "characterORNULL"),
                                  methods = list(
                                      initialize = function(category = NULL,
                                          fileTypes = NULL,
                                          x = NULL, y = NULL, includeInPorts = NULL,
                                          toolDefaultValue = NULL, altPrefix = NULL,
-                                         required = FALSE, 
+                                         required = FALSE, batchType = NULL,
                                          ...){
                                          .self$field("sbg:category", category)
                                          .self$field("sbg:fileTypes", fileTypes)
@@ -2524,6 +2525,7 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                          .self$field("sbg:includeInPorts", includeInPorts)
                                          .self$field("sbg:toolDefaultValue", toolDefaultValue)
                                          .self$field("sbg:altPrefix", altPrefix)
+                                         .self$field("batchType", batchType)
                                          .self$field("required", required)
                                          callSuper(...)                                     
                                      }))
@@ -2986,7 +2988,7 @@ SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
                        fields = list("sbg:x" = "numericORNULL",
                            "sbg:y" = "numericORNULL"),
                        methods = list(
-                           initialize = function(x = NULL, y = NULL, ...){
+                           initialize = function(x = NULL, y = NULL,  ...){
                                args <- mget(names(formals()),
                                             sys.frame(sys.nframe()))
                                nms <- c("x", "y")

@@ -10,6 +10,10 @@
 #' @param canvas_zoom zoom factor
 #' @param canvas_x canvas x 
 #' @param canvas_y canvas y
+#' @param batchInput batch input node id. note: Only one input per workflow can 
+#' be configured as batch. Setting grouping criteria on this node will reset previous 
+#' batch settings.
+#' @param batchBy a list of type and crateria. For more information, please check manual for \code{batch}
 #' @param ... extra arguments passed to SBGWorkflow
 #'
 #' @rdname Flow
@@ -81,12 +85,17 @@
 #' f1$input_id()
 #' f1$set_flow_input("#STAR.reads")
 #' f1$input_id()
+#' ## batch
+#' f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
+#' f1$set_batch("sjdbGTFfile", type = "ITEM")
 SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                            fields = list(
                                "sbg:update" = "characterORNULL",
                                "sbg:canvas_zoom" = "numericORNULL",
                                "sbg:canvas_y" =  "numericORNULL",
-                               "sbg:canvas_x" = "numericORNULL"
+                               "sbg:canvas_x" = "numericORNULL", 
+                               "sbg:batchInput" = "characterORNULL",
+                               "sbg:batchBy" = "listORNULL"
                            ),
                            methods = list(
                                initialize = function(id = NULL,
@@ -94,6 +103,8 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                                      canvas_zoom = 1,
                                                      canvas_y = NULL,
                                                      canvas_x = NULL,
+                                                     batchInput = NULL,
+                                                     batchBy = NULL,
                                                      steps = list(),
                                                     
                                                      ...){
@@ -471,6 +482,24 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                    'exposed input id other than file'
                                    it = input_type()
                                    add_sharp(names(it[!it %in% c("File", "File...")]))
+                               },
+                               set_batch = function(input = NULL,
+                                                criteria = NULL,
+                                                type = c("ITEM", "CRITERIA")){
+                                   
+                                   lst = batch(input = input, criteria = criteria, type = type)
+                                   lst$batch_by$type = tolower(lst$batch_by$type)
+                                   ## flow level
+                                   .self$field("sbg:batchInput", addIdNum(lst$batch_input))
+                                   .self$field("sbg:batchBy", lst$batch_by)
+                                   
+                                   ## step level 
+                                   
+                                   
+                                   idx = which(sapply(.self$inputs, function(x) x$id) == addIdNum(input))
+                                   .self$inputs[[idx]]$field("batchType", tail(criteria, 1))
+                                   .self
+                                   
                                },
                                run = function(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
                                    'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
