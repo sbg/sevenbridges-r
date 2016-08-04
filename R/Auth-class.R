@@ -916,13 +916,13 @@ setAuth <- function(res, auth, className = NULL){
 
 #' Read Auth config file to options 
 #' 
-#' 
+#' @param config file location, default is ".sbg.auth.yml" at home folder. 
 #' @rdname Auth-class
 #' @aliases updateAuthList
 #' @export updateAuthList
-updateAuthList <- function(){
+updateAuthList <- function(config = ".sbg.auth.yml"){
     lst <- getOption("sevenbridges")
-    lst$auth <- suppressMessages(.parseToken())
+    lst$auth <- suppressMessages(.parseToken(config))
     cat(as.yaml(lst$auth))
     options(sevenbridges = lst)
 }
