@@ -10,13 +10,15 @@
 \usage{
 getToken(platform = NULL, username = NULL)
 
-updateAuthList()
+updateAuthList(config = ".sbg.auth.yml")
 }
 \arguments{
 \item{platform}{which platform you are using, by default it is cgc platform, it tries
 to search your .sbg.auth.yml file to parse platform id your deinfed there.}
 
 \item{username}{username defined in .sbg.auth.yml file}
+
+\item{config}{file location, default is ".sbg.auth.yml" at home folder.}
 }
 \value{
 a token string.
