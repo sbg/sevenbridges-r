@@ -261,7 +261,7 @@ Project <- setRefClass("Project", contains = "Item",
                                    upload(fls, metadata = metadata, 
                                           overwrite = overwrite,
                                           ...)
-                                   return()
+                                   return(invisible())
                                }
                                
                                ## check 
