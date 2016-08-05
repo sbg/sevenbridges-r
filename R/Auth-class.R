@@ -311,6 +311,7 @@ if id provided, This call retrieves information about a selected invoice, includ
                                         res$items <- c(res$items, req$items)
                                         setTxtProgressBar(pb, i)
                                     }
+                                    cat("\n")
                                     res$href = NULL
                                 }else{
                                     return(req)
@@ -522,7 +523,7 @@ if id provided, This call retrieves information about a selected invoice, includ
                             visibility <- match.arg(visibility)
 
                             if(visibility == "public"){
-                                message("ignore project id, showing public apps")
+                                
                                 query <- c(query, list(visibility = "public"))
                             }
 
