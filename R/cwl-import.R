@@ -787,6 +787,7 @@ Expression <- setRefClass("Expression",
                           ))
 setClassUnion("ExpressionORNULL", c("Expression", "NULL"))
 setClassUnion("characterORExpression", c("character", "Expression"))
+setClassUnion("integerORExpression", c("integer", "Expression"))
 setClassUnion("characterORExpressionORNULL", c("character", "Expression", "NULL"))
 setClassUnion("characterORExpressionORlistORNULL", c("character", "Expression", "list", "NULL"))
 ########################################################################
@@ -2561,8 +2562,9 @@ input <- function(id = NULL, type = NULL, label = "",
                 ib <- do.call(SCLB, o.b)
             }
     
+            
             o <- c(o[!names(o) %in% c("inputBinding", "sbg:category","required",
-                                      "sbg:fileTypes", "type")],
+                                      "sbg:fileTypes", "type", "fileTypes")],
                    list(inputBinding = ib,
                         required = is_required(o),
                         type = format_type(o$type),
@@ -2693,7 +2695,7 @@ output <- function(id = NULL, type = "file", label = "", description = "",
                          secondaryFiles = o$seconaryFiles)
             
             o <- c(o[!names(o) %in% 
-                     c("sbg:fileTypes", "outputBinding", "type", 
+                     c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
                        "sbg:inheritMetadataFrom", "sbg:metadata")],
                    list(type = format_type(o$type),
                         outputBinding = ob,
@@ -2752,14 +2754,18 @@ output <- function(id = NULL, type = "file", label = "", description = "",
 CPURequirement <-
     setRefClass("CPURequirement", contains = "ProcessRequirement",
                 fields = list(
-                    value = "integer"
+                    value = "integerORExpression"
                 ),
                 methods = list(
                     initialize = function(value = 1L,
                         class = "sbg:CPURequirement", ...){
                         class <<- class
-                        stopifnot(is.numeric(value))
-                        .v <- as.integer(value)
+                        if(is.numeric(value)){
+                            .v <- as.integer(value)
+                        }else{
+                            .v <- do.call(Expression, value)
+                        }
+                        
                         # comment out this, conform to server requirements
                         # if(!.v %in% c(1L, 0L)){
                         #     warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
@@ -2925,12 +2931,18 @@ fileDef <- function(name = NULL, content = NULL){
 MemRequirement <-
     setRefClass("MemRequirement", contains = "ProcessRequirement",
                 fields = list(
-                    value = "integer"
+                    value = "integerORExpression"
                 ),
                 methods = list(
                     initialize = function(value = 1000L,
                                           class = "sbg:MemRequirement", ...){
-                        value <<- as.integer(value)
+                      
+                        if(is.numeric(value)){
+                            .v <- as.integer(value)
+                        }else{
+                            .v <- do.call(Expression, value)
+                        }
+                        value <<- .v
                         class <<- class
                         callSuper(...)
                     }

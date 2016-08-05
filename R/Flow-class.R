@@ -91,7 +91,8 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                "sbg:canvas_y" =  "numericORNULL",
                                "sbg:canvas_x" = "numericORNULL", 
                                "sbg:batchInput" = "characterORNULL",
-                               "sbg:batchBy" = "listORNULL"
+                               "sbg:batchBy" = "listORNULL",
+                               "sbg:revisionNotes" = "characterORNULL"
                            ),
                            methods = list(
                                initialize = function(id = NULL,
@@ -102,7 +103,7 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                                      batchInput = NULL,
                                                      batchBy = NULL,
                                                      steps = list(),
-                                                    
+                                                     revisionNotes = NULL,
                                                      ...){
                                    
                                    stopifnot(!is.null(id))
@@ -112,7 +113,10 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                    args <- mget(names(formals()),
                                                 sys.frame(sys.nframe()))
                                    
-                                   nms <- c("canvas_x", "canvas_y", "canvas_zoom", "update")
+                                   nms <- c("canvas_x", "canvas_y", 
+                                            "canvas_zoom", "update",
+                                            "batchInput", "batchBy", 
+                                            "revisionNotes")
                                    for(nm in nms){
                                        .self$field(paste0("sbg:", nm), args[[nm]])
                                    }
