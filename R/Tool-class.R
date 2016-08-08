@@ -20,6 +20,7 @@
                 "sbg:modifiedOn" ,
                 "sbg:modifiedBy" ,
                 "sbg:revisionInfo" ,
+                "sbg:revisionNotes",
                 "sbg:toolkit",
                 "sbg:projectId",
                 "sbg:image_url", 
@@ -46,6 +47,7 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                                  "sbg:id"  = "characterORNULL", 
                                                  "sbg:license" = "characterORNULL",
                                                  "sbg:revision" = "integerORNULL",
+                                                 "sbg:revisionNotes" = "characterORNULL",
                                                  "sbg:cmdPreview" = "characterORNULL",
                                                  "sbg:modifiedOn" = "integerORNULL",
                                                  "sbg:modifiedBy" = "characterORNULL", 
@@ -74,7 +76,8 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                       modifiedOn = NULL, 
                                       modifiedBy = NULL, 
                                       revisionsInfo = NULL, 
-                                      toolkit = NULL, ...){
+                                      toolkit = NULL,
+                                      revisionNotes = NULL, ...){
 
                        args <- mget(names(formals()),sys.frame(sys.nframe()))
 
