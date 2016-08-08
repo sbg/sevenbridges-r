@@ -288,7 +288,9 @@ please note that the old API or project type will be deprecated.
 - __Q__: Why I always get warning message when I use API R client?<br />
   __A__: It only exists in Rstudio, potentially a bug in Rstudio. To ignore it use `options(warn = -1)`
 
-
+- __Q__: I still have some problem
+  __A__: Please try use the latest package on github, at least update to your package on Bioconductor, that usually solved the most recent bugs. 
+  
 <hr>
 
 © Seven Bridges Genomics 2012 - 2016. Licensed under the MIT license.
