@@ -23,7 +23,6 @@
                 "sbg:toolkit",
                 "sbg:projectId",
                 "sbg:image_url", 
-                "sbg:stageInput",
                 "x")
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
@@ -52,8 +51,8 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                                  "sbg:modifiedBy" = "characterORNULL", 
                                                  "sbg:revisionsInfo" = "listORNULL",
                                                  "sbg:toolkit" = "characterORNULL",
-                                                 "sbg:image_url" = "characterORNULL",
-                                                 "sbg:stageInput" = "characterORNULL"),
+                                                 "sbg:image_url" = "characterORNULL"
+                                                 ),
                    methods = list(initialize = function(homepage = NULL, 
                                       validationErrors = NULL,
                                       sbgMaintained = NULL,
@@ -75,17 +74,12 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
                                       modifiedOn = NULL, 
                                       modifiedBy = NULL, 
                                       revisionsInfo = NULL, 
-                                      toolkit = NULL, 
-                                      stageInput = NULL, ...){
+                                      toolkit = NULL, ...){
 
                        args <- mget(names(formals()),sys.frame(sys.nframe()))
 
                        nms <- names(args)
-                       if(!is.null(stageInput)){
-                           if(!stageInput %in% c("copy", "link")){
-                               stop("stageInput has to be NULL, copy or link")
-                           }
-                       }
+                       
                        for(nm in nms){
                            .self$field(paste0("sbg:", nm), args[[nm]])                           
                        }

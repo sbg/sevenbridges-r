@@ -2505,6 +2505,7 @@ SCLB <- SBGCommandLineBinding <- setRefClass("SBGCommandLineBinding", contains =
 SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter",
                                  fields = list("sbg:category" = "characterORlistORNULL",
                                      "sbg:fileTypes" = "characterORNULL",
+                                     "sbg:stageInput" = "characterORNULL",
                                      "sbg:x" = "numericORNULL",
                                      "sbg:y" = "numericORNULL",
                                      "sbg:includeInPorts" = "logicalORNULL",
@@ -2514,11 +2515,19 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                      "batchType" = "characterORNULL"),
                                  methods = list(
                                      initialize = function(category = NULL,
-                                         fileTypes = NULL,
+                                         fileTypes = NULL, stageInput = NULL,
                                          x = NULL, y = NULL, includeInPorts = NULL,
                                          toolDefaultValue = NULL, altPrefix = NULL,
                                          required = FALSE, batchType = NULL,
                                          ...){
+                                         
+                                         if(!is.null(stageInput)){
+                                             if(!stageInput %in% c("copy", "link")){
+                                                 stop("stageInput has to be NULL, copy or link")
+                                             }
+                                         }
+                                         
+                                         .self$field("sbg:stageInput", stageInput)
                                          .self$field("sbg:category", category)
                                          .self$field("sbg:fileTypes", fileTypes)
                                          .self$field("sbg:x", x)
@@ -2541,6 +2550,7 @@ input <- function(id = NULL, type = NULL, label = "",
                   description = "", streamable = FALSE,
                   default = "", required = FALSE,
                   category = NULL, fileTypes = NULL, 
+                  stageInput = NULL, 
                   cmdInclude = FALSE, ...){
 
     if(is.null(id)){
@@ -2564,12 +2574,13 @@ input <- function(id = NULL, type = NULL, label = "",
     
             
             o <- c(o[!names(o) %in% c("inputBinding", "sbg:category","required",
-                                      "sbg:fileTypes", "type", "fileTypes")],
+                                      "sbg:fileTypes", "type", "fileTypes", "sbg:stageInput")],
                    list(inputBinding = ib,
                         required = is_required(o),
                         type = format_type(o$type),
                         category = o[["sbg:category"]],
-                        fileTypes = o[["sbg:fileTypes"]]))
+                        fileTypes = o[["sbg:fileTypes"]],
+                        stageInput = o[["sbg:stageInput"]]))
 
             do.call(SBGInputParameter, o)
         })
@@ -2601,11 +2612,13 @@ input <- function(id = NULL, type = NULL, label = "",
                           description = description,
                           streamable = streamable,
                           default = default, category = category, fileTypes = fileTypes,
+                          stageInput = stageInput,
                           inputBinding = SCLB(cmdInclude = cmdInclude, ...))
     }else{
         SBGInputParameter(id = id, type = type, label = label,
                           description = description,
                           streamable = streamable,
+                          stageInput = stageInput,
                           default = default, category = category, fileTypes = fileTypes,
                           inputBinding = NULL)
     }

@@ -414,6 +414,15 @@ out.lst <- list(output(id = "random",
 out.lst
 ```
 
+#### More example with file/files as input node
+
+```{r, eval = TRUE, comment=''}
+fl <- system.file("docker/rnaseqGene/rabix", "generator.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+Note the stageInput example in the above script, you can set it to "copy" or "link".
+
 #### Import JSON to Tool and Workflow object
 
 Please use convert_app, it will automatically convert a json cwl to a R object Tool

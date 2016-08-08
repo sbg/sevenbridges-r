@@ -20,7 +20,8 @@
         "separate": true,
         "itemSeparator": ",",
         "sbg:cmdInclude": true
-      }
+      },
+      "required": false
     },
     {
       "type": [
@@ -36,7 +37,8 @@
         "prefix": "--design",
         "separate": true,
         "sbg:cmdInclude": true
-      }
+      },
+      "required": false
     },
     {
       "type": [
@@ -52,7 +54,9 @@
         "prefix": "--gtffile",
         "separate": true,
         "sbg:cmdInclude": true
-      }
+      },
+      "sbg:stageInput": "copy",
+      "required": false
     },
     {
       "type": [
@@ -73,7 +77,8 @@
         "prefix": "--format",
         "separate": true,
         "sbg:cmdInclude": true
-      }
+      },
+      "required": false
     }
   ],
   "outputs": [
@@ -151,6 +156,5 @@
   "baseCommand": [
     "performDE.R"
   ],
-  "arguments": [],
-  "context": ""
+  "arguments": []
 }

@@ -23,6 +23,7 @@ rbx <- Tool(id = "rnaseqGene",
                 input(
                     id = "gtffile", label =  "gene feature files",
                     type = "File",
+                    stageInput = "copy",
                     required = TRUE,
                     prefix = "--gtffile"
                 ),
