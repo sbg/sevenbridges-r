@@ -241,12 +241,16 @@ stopifnot_provided <- function(..., msg = "is not provided"){
 
 m.fun <- function(x, y, exact = TRUE, ignore.case = TRUE, ...){
     if(exact){
-        pmatch(x, y, ...)
+        res = pmatch(x, y, ...)
     }else{
-        unlist(sapply(x, function(i) {
-                x = grep(i, y, ignore.case = ignore.case)
+        res = unlist(sapply(x, function(i) {
+                grep(i, y, ignore.case = ignore.case)
              }))
+        if(is.matrix(res)){
+            res = res[, 1]
+        }
     }
+    res
 }
 
 ## match by id and name
@@ -287,7 +291,6 @@ m.match <- function(obj, id = NULL, name = NULL,
         message("sorry, no matching ")
         return(NULL)
     }else{
-
         if(length(index) ==1){
             obj[[index]]
         }else{
