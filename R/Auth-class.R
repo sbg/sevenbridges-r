@@ -527,8 +527,8 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 setAuth(res, .self, "Files")
                             }
                         },
-                        copy_file = function(...){
-                            copyFile(...)
+                        copy_file = function(id, project = NULL, name = ""){
+                            copyFile(id = id, project = project, name = name)
                         },
                         ## App API
                         app = function(name = NULL,
@@ -657,6 +657,9 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 res <- .asApp(res)
                                 setAuth(res, .self, "App")
                             }
+                        },
+                        copy_app = function(id, project = NULL, name = ""){
+                            copyApp(id = id, project = project, name = name)
                         },
                         task = function(name = NULL,
                             id = NULL, project = NULL,
