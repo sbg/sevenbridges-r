@@ -423,19 +423,41 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 
                             }
 
-                            ## search now by name
+                            ## search now by name or multiple names
                             ## get all files
                             switch(search.engine, 
                                    server = {
                                        if(exact){
-                                           .query = c(list(name = name), .query)
+                                           if(length(name) == 1){
+                                               .query = c(list(name = name), .query)
+                                               req = api(path = 'files',  method = 'GET', 
+                                                          query = .query, complete = FALSE, ...)
+                                               res = .asFilesList(req)[[1]] 
+                                           }else{
+                                               ## more than one names
+                                               lst = lapply(name, function(x){
+                                                   .query = c(list(name = x), .query)
+                                                   req = api(path = 'files',  method = 'GET', 
+                                                             query = .query, complete = FALSE, ...)
+                                                   res = .asFilesList(req)
+                                                   if(length(res)){
+                                                      res[[1]] 
+                                                   }else{
+                                                      return(NULL) 
+                                                   }
+                                                   
+                                               })
+                                               lst = lst[!sapply(lst, is.null)]
+                                               
+                                               if(length(lst)){
+                                               res = do.call(FilesList, lst)
+                                               }else{
+                                                   return(NULL)
+                                               }
+                                           }
                                            
-                                           req <- api(path = 'files',  method = 'GET', 
-                                                      query = .query, complete = FALSE, ...)
-                                           
-                                           res <- .asFilesList(req)[[1]] 
                                        }else{
-                                           ## message("using 'brute' for name pattern matching, please use exact = TRUE if that's full exact name.")
+                                           ## use brute
                                            req <- api(path = 'files',  method = 'GET', 
                                                       query = .query, complete = complete, ...)
                                            
@@ -449,6 +471,7 @@ if id provided, This call retrieves information about a selected invoice, includ
                                                   query = .query, complete = complete, ...)
                                        
                                        res <- .asFilesList(req)
+                                       
                                        res <- m.match(res, id = id, name = name, exact = exact)
                                    })
                             

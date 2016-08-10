@@ -413,6 +413,7 @@ Project <- setRefClass("Project", contains = "Item",
                                 app = app,
                                 inputs = .i)
                             
+                          
                             if(!is.null(batch)){
                                 
                                 body = c(batch, body)

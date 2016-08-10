@@ -775,29 +775,54 @@ p$file()
 
 #### List all files
 
-This call returns a list of all files in a specified project that you can access. For each file, the call returns:
+A better way to list files in a project
 
-- Its ID
-- Its filename
+```{r}
+## first 100 files, default offset = 0, limit = 100
+p$file()
+## list all files
+p$file(complete = TRUE)
+```
 
-The project is specified as a query parameter in the call.
+
+Alternatively get files from Auth object. 
 
 ```{r}
 a$file(project = p$id)
-a$file("omni", project = p$id, detail = TRUE)
+a$file(name = "omni", project = p$id, detail = TRUE)
 ```
 
-However we recommend user use cascading way to list files. 
+
+#### Search file(s) 
+
+There are two ways to return exact file you want, one is by `id` the other one is by exact `name`. Note: when using name with `exact = TRUE`, it directly use
+our public API call to match exact name and return the object with single query. When you turn off `exact`, it will grep all files or files defined with `limit` and `offset` first, then match by name.
+
+You can get file id by checking the url at single file detail page. 
 
 ```{r}
-p$file()
+## return single object id is "some_file_id"
+p$file(id = "some_file_id")
+## return single object named a.fastq
+p$file(name = "a.fastq", exact = TRUE)
 ```
 
-To get details about files, please use `detail = TRUE` in the call.
+Get more than one objects, the arguments `id` and `name` both accept vectors, 
+so you can pass more than one id or name to it. 
+
 
 ```{r}
-## need to check
-p$file(detail = TRUE)
+## get two files
+p$file(name = c("test1.fastq", "test2.fastq"), exact = TRUE)
+```
+
+If you don't use exact, it will assume it's pattern grep. 
+
+```{r}
+## get matchd the pattern for searching first 100 files
+p$file(name = c("gz", "fastq"))
+## get all matched files from the project
+p$file(name = c("gz", "fastq"), complete = TRUE)
 ```
 
 #### Copy a file or group of files

@@ -243,7 +243,9 @@ m.fun <- function(x, y, exact = TRUE, ignore.case = TRUE, ...){
     if(exact){
         pmatch(x, y, ...)
     }else{
-        grep(x, y, ignore.case = ignore.case, ...)
+        unlist(sapply(x, function(i) {
+                x = grep(i, y, ignore.case = ignore.case)
+             }))
     }
 }
 
@@ -262,7 +264,7 @@ m.match <- function(obj, id = NULL, name = NULL,
             }
 
         }else{
-            ## id is null, so use username
+            ## id is null, use name
             nms <- sapply(obj, function(x) x[[.name]])
             if(ignore.case){
                 name <- tolower(name)
@@ -280,6 +282,7 @@ m.match <- function(obj, id = NULL, name = NULL,
                        ignore.case = ignore.case)
 
     }
+    
     if(length(index) == 1 && is.na(index)){
         message("sorry, no matching ")
         return(NULL)
@@ -683,10 +686,6 @@ validateApp <- function(req){
     }
 }
 
-# res = lapply(x, function(app){
-#     id = app$id
-#     .flowsummary(a = a, id = id)   
-# })
 
 iterId <- function(ids, fun, ...){
     res <- lapply(ids, function(id){
