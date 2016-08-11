@@ -284,7 +284,10 @@ Project <- setRefClass("Project", contains = "Item",
                            app = function(...){
                                auth$app(project = id, ...)
                            },
-                           app_add = function(short_name = NULL, filename  = NULL, revision = NULL, ...){
+                           app_add = function(short_name = NULL, 
+                                              filename  = NULL, 
+                                              revision = NULL, 
+                                              ...){
                                
                                if(is.null(filename)){
                                    stop("file (cwl json) need to be provided")
