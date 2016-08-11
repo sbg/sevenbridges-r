@@ -427,9 +427,21 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                    }))
                                },
                                get_required = function(){
-                                   unlist(sapply(steps, function(x){
+                                   nms = unlist(sapply(steps, function(x){
                                        x$run$get_required()
                                    }))
+                                   ## get exposed from workflow
+                                   
+                                   it = input_type()
+                                   enms = names(it)
+                                   res = intersect(names(nms), enms)
+                                   if(length(res)){
+                                       
+                                       it[enms %in% res]
+                                   }else{
+                                       return(NULL)
+                                   }
+                                   
                                },
                                set_required = function(ids, required = TRUE){
                                    'require full input id (with tool id prefix)'
