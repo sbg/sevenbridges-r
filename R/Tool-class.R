@@ -319,13 +319,23 @@ Tool <-
                        
                     },
                     get_required = function(){
-                        unname(unlist(sapply(inputs, function(i){
+                        res = unname(unlist(sapply(inputs, function(i){
                             if(i$required){
                                 return(i$id)
                             }else{
                                 return(NULL)
                             }
                         })))
+                        if(length(res)){
+                            res = de_sharp(res)
+                            it = input_type()
+                            enms = names(it)
+                            
+                            it[enms %in% res]
+                        }else{
+                            return(NULL)
+                        }
+                        
                     },
                     set_required = function(ids, required = TRUE){
                         iid <- input_id()
