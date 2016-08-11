@@ -1097,6 +1097,15 @@ ScatterFeatureRequirement <-
                     }                    
                 ))
 
+#' ProcessRequirementList
+#' 
+#' @aliases ProcessRequirementList-class
+#'
+#' @export ProcessRequirementList
+#' @exportClass ProcessRequirementList
+#' @rdname ProcessRequirement
+ProcessRequirementList <- setListClass("ProcessRequirement")
+
 
 #' @section ExpressionEngineRequirement Class:
 #' \describe{
@@ -1130,9 +1139,9 @@ ScatterFeatureRequirement <-
 #' @aliases ExpressionEngineRequirement
 ExpressionEngineRequirement <-
     setRefClass("ExpressionEngineRequirement", contains = "ProcessRequirement",
-                fields = list(
+                fields = list(             
                     id = "characterORNULL",
-                    requirements = "ProcessRequirement",
+                    requirements = "ProcessRequirementList",
                     engineCommand = "characterORNULL",
                     engineConfig = "characterORNULL"
                 ),
@@ -1303,14 +1312,6 @@ InputParameterList <- setListClass("InputParameter")
 #' @rdname Parameter
 OutputParameterList <- setListClass("OutputParameter")
 
-#' ProcessRequirementList
-#' 
-#' @aliases ProcessRequirementList-class
-#'
-#' @export ProcessRequirementList
-#' @exportClass ProcessRequirementList
-#' @rdname ProcessRequirement
-ProcessRequirementList <- setListClass("ProcessRequirement")
 
 #' Process Class
 #'
@@ -2812,8 +2813,8 @@ cpu <- CPURequirement
 #' @export docker
 #' @examples
 #' docker("rocker/r-base")
-docker <- function(pull = "", imageId = "", load = "", 
-                   file = "", output = "",
+docker <- function(pull = NULL, imageId = NULL, load = NULL, 
+                   file = NULL, output = NULL,
                    dockerPull = pull,
                    dockerImageId = imageId,
                    dockerLoad = load,
@@ -2883,7 +2884,7 @@ requirements <- function(...){
                        return(do.call("ScatterFeatureRequirement", x))
                    },
                    "ExpressionEngineRequirement" = {
-                       req <- requirements(x$requirements)[[1]]
+                       req <- requirements(x$requirements)
                        res <- ExpressionEngineRequirement(id = x$id,
                                                           requirements = req,
                                                           engineCommand = x$engineCommand,
