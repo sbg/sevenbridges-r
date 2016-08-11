@@ -22,7 +22,10 @@ App <- setRefClass("App", contains = "Item",
                        raw = "ANY"),
                    methods = list(
                        copyTo = function(project = NULL, name = NULL){
-                           auth$copyApp(id, project = project, name = name)
+                           auth$copy_app(id, project = project, name = name)
+                       },
+                       copy_to = function(project = NULL, name = NULL){
+                           copyTo(project = project, name = name)
                        },
                        cwl = function(revision = NULL, ...){
                            if(!is.null(revision)){
@@ -41,18 +44,41 @@ App <- setRefClass("App", contains = "Item",
                            obj = convert_app(.self)
                            obj$get_required()
                        },
-                       input_type = function(){
+                       input_type = function(...){
                            if(is.null(raw)){
                                message("get cwl raw file")
                                cwl()
-                            }
+                           }
+                           # obj = convert_app(.self)
+                           # obj$input_type(...)
                            getInputType(raw)
                        },
-                       output_type = function(){
+                       output_type = function(...){
                            if(is.null(raw)){
                                message("get cwl raw file")
+                               cwl()
                            }
+                           # obj = convert_app(.self)
+                           # obj$output_type(...)
+                           
                            getOutputType(raw)
+                       },
+                       set_batch = function(input = NULL,
+                                            criteria = NULL,
+                                            type = c("ITEM", "CRITERIA")){
+                           obj = convert_app(.self)
+                           if(is(obj, "Tool")){
+                               stop("Tool not supported for batching yet, only Workflow support batch")
+                           }
+                           
+                           obj$set_batch(input = input, criteria = criteria, type = type)
+                           message("updating app ...")
+                           p = auth$project(id = project)
+                           
+                           pattern<-".+\\/.+\\/(.+)/.+"
+                           shortname = str_match(id, pattern)[1, 2]
+                           p$app_add(shortname, obj)
+                           message("done")
                        },
                        input_check = function(input){
 
