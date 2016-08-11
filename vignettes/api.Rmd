@@ -116,30 +116,44 @@ Everything starts from an `Auth` object, so let's set up the `Auth` object, it r
 
 You have three different ways to setup the token. 
 
-1. Direct setup via `Auth` function, explicityly setup token and url. 
+1. Direct setup via `Auth` function, explicityly setup your token and API url. 
 2. Configuration file in your home folder ".sbg.auth.yml", very easy to manage and implicitly loaded, everytime you start a 
 new R session.
 3. Tempoerary setup via option in R session
 
 Load the library first
 
-```{r, eval = TRUE}
+```{r, eval = TRUE, message = FALSE}
 library(sevenbridges)
 ```
 
+This is most common way to construct your Auth object
+
 ```{r}
 ## direct setup
-a <- Auth(token = "<fake_token>",
-          url = "https://cgc-api.sbgenomics.com/v2/")
+(a <- Auth(token = "<fake_token>",
+          url = "https://cgc-api.sbgenomics.com/v2/"))
 ## or load default from config file (autoloaded into options)
-library(sevenbridges)
-a <- Auth(platform = "us", username = "tengfei")
+
 ```
 
 ```
 == Auth ==
 token : <fake_token>
 url : https://cgc-api.sbgenomics.com/v2/
+```
+
+Or loaded from your configuration file
+
+```{r}
+## from platfrom "us" for user "tengfei"
+a <- Auth(platform = "us", username = "tengfei")
+```
+
+or update Auth object from another config file
+
+```{r}
+updateAuthList("new_config.yml")
 ```
 
 ### Infomation about a user
@@ -220,33 +234,88 @@ type : v2
 -- Permission --
 ```
 
+### Get exisitng project
+
+```{r}
+## list first 100 
+a$project()
+## list all
+a$project(complete = TRUE)
+## return all named match "demo"
+a$project(name = "demo", complete = TRUE)
+## get the project you want by id
+p = a$project(id = "tengfei/api-tutorial")
+```
+
+### Copy public app into your project
+
+To find out avaialbe public apps, you can 
+
+- Browse them online, check out the [tutorial](http://docs.cancergenomicscloud.org/docs/) for "Find apps" section.
+- You can simply use this package to find it, see following examples. 
+
+```{r}
+## search by name matching, complete = TRUE search all apps, not 
+## limited by offset or limit.
+a$public_app(name = "STAR", complete = TRUE)
+## search by id is accurate
+a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5")
+## you can also get everything 
+a$public_app(complete = TRUE)
+## default limit = 100, offset = 0 which means first 100
+a$public_app()
+```
+
+Now, from your `Auth` object, you copy an App `id` into your `project` id with a new `name`, following this logic.  
+
+```{r}
+## copy
+a$copy_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5", 
+           project = "tengfei/api-testing", name = "new copy of star")
+## check its' copyed
+p = a$project(id = "tengfei/api-testing")
+## list apps your got in your project
+p$app()
+```
+
+The short name is changed to "newcopyofstar"
+
+```
+== App ==
+id : tengfei/api-testing/newcopyofstar/0
+name : RNA-seq Alignment - STAR
+project : tengfei/api-testing-2
+revision : 0
+```
+
+Alternatively you can copy from app object
+
+```{r}
+app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
+app$copy_to(project = "tengfei/api-testing", 
+            name = "copy of star")
+```
+
+
+
+
 ### Import CWL app and run a task
-Then we want to run a task, and you want to upload your json file that describe your tool, here we use an random number generator example saved in this package. 
+
+You can also upload your own CWL json file that describe your app to your project.
 
 Note: alternatively you can directly describe your CWL tool in R with this package, please read another vignettes on "Describe CWL Tools/Workflows in R and Execution"
 
-```{r, eval = TRUE}
-## Add an CWL file to your project
-fl.runif <- system.file("docker", "sevenbridges/rabix/runif.json", package = "sevenbridges")
-```
-
-Let's take a look at the content of this json file
-
-```{r comment='', eval = TRUE}
-cat(readLines(fl.runif), sep = '\n')
-```
-
-Now let's add this json file to your projct as a new app.
-
 ```{r}
-## name your app 
-(aid <- p$app_add("runif", fl.runif)$id)
+## Add an CWL file to your project
+f.star = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+app = p$app_add("starlocal", fl.runif)
+(aid <- app$id)
 ```
 
-You get an id like this
+You get an app id like this
 
 ```
-"tengfei/api-testing/runif/0"
+"tengfei/api-testing/starlocal/0"
 ```
 
 It's composed of 
@@ -256,7 +325,7 @@ It's composed of
 3. __revision__ : 0
 
 
-Alternatively, you can describe tools like this
+Alternatively, you can describe tools in R directly, you can learn this later, feel free to go to next section
 
 ```{r comment='', eval = TRUE}
 fl <- system.file("docker", "sevenbridges/rabix/generator.R", package = "sevenbridges")
@@ -267,114 +336,174 @@ And add it like this
 
 ```{r}
 ## rbx is the object returned by Tool function
-(aid <- p$app_add("runif", rbx)$id)
+app = p$app_add("runif", rbx)
+(aid <- app$id)
 ```
 
 Please read another tutorial about how to describe tools and flows in R. 
 
 ### Excute a new task
 
-Now we draft a new task, you need to specify
+#### Understand your app input 
+
+Now assume you already copied the public app "admin/sbg-public-data/rna-seq-alignment-star/5" into your project "tengfei/api-testing" , the app id in your current project is "tengfei/api-testing/newcopyofstar" Or if you already have an app to run in your project. 
+
+To draft a new task, you need to specify
 
 - name of the task
 - description
 - app id
 - inputs of your task: you need to know about the app you are running, in this case, the cwl app accept 4 parameters (number, min, max, seed). 
 
+You can always go to the UI to check App details or task input requirements, but how to do it in R?
 
-I want to generate 1 random number (default) between 1 and 10. 
+To check your inputs name and types you need to get an `App` object first. 
 
 ```{r}
-(tsk <- p$task_add(name = "randome number 5", 
-           description = "Generate some random number", 
-           app = aid,
-           inputs = list(min = 1, max = 10, number = 1, seed = 4)))
-
-## confirm, show all task status is draft
-p$task(status = "draft")
-
-## or just list the task
-tsk$update()
+app = a$app(id = "tengfei/api-testing-2/newcopyofstar")
+## get app input names and types
+app$input_type()
+## get app output names and types
+app$output_type()
+## get required input names and types only
+app$get_required()
 ```
 
-### More on task inputs requirements
+Or loaded from a CWL JSON and convert it into a R object first. 
 
-Task inputs need to match the expected data type
+```{r, eval = TRUE}
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+app = convert_app(f1)
+## get app input names and types
+app$input_type()
+## get app output names and types
+app$output_type()
+## get required input names and types only
+app$get_required()
+```
 
-- number, character or integer, you can directly pass to input parameters
+For what it returned, the names is the one you want to use as your task input list. Task inputs need to match the expected data type and name, requried has to be provided. In above example, we see two required field
+
+- fastq: File array as indicated by "File..."
+- genomeFastaFiles: single file as indicated by "File"
+
+We also want to provide gene feature file
+
+- sjdbGTFfile: single file as indicated by "File"
+
+Note some other input types includes:
+
+- number, character or integer, you can directly pass to input parameters as it is.
 - an Enum type, just pass the value to the input parameter
-- File, you have to pay attention to this. Some parameters accept only single file
-as input while other input takes more than one files (File arrays or FilesList). This input require you to pass a `Files` object (for sinlge file input) or `FilesList` object (for input accept more than one files), to make it conventient for you, you can pass a simple `list` of `Files` object as well as the following examples
+- File, you have to pay attention to this. Some parameters accept only single file type 'File' as input while other input takes more than one files (File arrays or FilesList or 'File...' ). This input require you to pass a `Files` object (for sinlge file input) or `FilesList` object (for input accept more than one files) or simply a list of "Files" object. Get your file by `id` or by `name` with `exact = TRUE` is always accurate. Sounds complicated let's just see an example.
 
-It's always recommended to get file by id, because it's unique, if you are searching files
-by names, it sometimes return more than one object, make sure it's what you want 
+#### Get your input files ready
 
 ```{r}
-bamfiles.in = p$file(".bam")  ## return more than one files
-## alternatively you can do 
-bam1 = p$file(id = "some_id1")
-bam2 = p$file(id = "some_id2")
-bamfiles.in = list(bam1, bam2)
+fastqs <- c("SRR924146_1.fastq", "SRR924146_2.fastq")
 
+## get all 2 exact files
+fastq_in = p$file(name= fastqs, exact = TRUE) 
 
-design.in = p$file("sample_table.csv") # matching by name
-gtf.in = p$file("Homo_sapiens.GRCh37.75_subset.gtf") # matching by name
-
-## add a new Task
-tsk = p$task_add(name = "RNA DE report new", 
-                   description = "RNA DE analysis report", 
-                   app = rna.app$id,
-                   inputs = list(bamfiles = bamfiles.in, 
-                                 design = design.in,
-                                 gtffile = gtf.in))
-
+## get single file
+fasta_in = p$file(name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa", 
+                  exact = TRUE)
+## get all single file
+gtf_in = p$file(name = "Homo_sapiens.GRCh38.84.gtf", 
+                exact = TRUE)
 
 ```
 
-Note: if you have two files named "a.bam" and "a2.bam", if you are calling `p$file("a")` 
-this will return you two object you can use id which is more accurate or you can  call
+#### Draft a new task
+
 
 ```{r}
-p$file("a$")
-## or
-p$file("a", exact = TRUE)
+## Add new tasks
+taskName = paste0("tengfei_star-alignment ",date())
+
+tsk = p$task_add(name = taskName,
+           description = "star test", 
+           app = "tengfei/api-testing-2/newcopyofstar/0",
+           inputs = list(sjdbGTFfile = gtf_in,
+                         fastq = fastq_in,
+                         genomeFastaFiles = fasta_in))
 ```
 
-To check your inputs name and types you need to get an `App` object first, then you 
-get raw cwl information and list them by calling `input_type`. Type `File` means single File only, type `File...` means accept more than one file. We are trying to be smart on 
-this, when a parameter accept single file only, if you passed a list, but it has only has one item, we will do the conversion automatically for you; If it require a list, but you pass a single object, it will automatically wrap it into a list. If the 'smart' conversion fails, you may get task warning to ask you fix your input. 
+Remember "fastq" expect a list of files. You can also do something like
 
 ```{r}
-x = a$app(id = "your_app_id")
-x$cwl() # to get raw info first by api
-x$input_type() # return input name and types, pay attention to File and Files...
+f1 = p$file(name = "SRR924146_1.fastq", exact = TRUE)
+f2 = p$file(name = "SRR924146_2.fastq", exact = TRUE)
+## get all 2 exact files
+fastq_in = list(f1, f2) 
+
+## or if you know you only have 2 file name matching SRR924146*.fastq
+fastq_in = p$file(name = "SRR924146*.fastq", complete = TRUE)
 ```
+
+Using `complete = TRUE` when items is over 100. 
+
+#### Draft a batch task
+
+Now let's do a batch with 8 files in 4 group, which is batch by metadata sample_id and library_id, assume each file has these two metadata fields in the system. And it could be evenly grouped into 4. So we will have a single parent task with 4 sub tasks. 
+
+```{r}
+fastqs <- c("SRR924146_1.fastq", "SRR924146_2.fastq", "SRR924528_1.fastq", 
+            "SRR924528_2.fastq", "SRR924537_1.fastq", "SRR924537_2.fastq", 
+            "SRR924538_1.fastq", "SRR924538_2.fastq")
+
+## get all 8 files
+fastq_in = p$file(name= fastqs, exact = TRUE) 
+## can also try to returned all SRR*.fastq files
+## fastq_in = p$file(name= "SRR*.fastq", complete = TRUE) 
+
+tsk = p$task_add(name = taskName,
+           description = "Batch Star Test", 
+           app = "tengfei/api-testing-2/newcopyofstar/0",
+           batch = batch(input = "fastq", 
+                         criteria = c("metadata.sample_id","metadata.noexist_id")),
+           inputs = list(sjdbGTFfile = gtf_in,
+                         fastq = fastqs_in,
+                         genomeFastaFiles = fasta_in))
+
+```
+
+Now you have a draft batch task, please check it out in the UI. 
+
 
 ### Run a task
 
-Now you have your draft task, you can delete your draft task or update it.
+Now run it.
+
+```{r}
+## Run your task
+tsk$run()
+```
+
+Before you run it, you can delete your draft task or update it.
 
 ```{r}
 ## not run
 ## tsk$delete()
 ```
 
-I want 100 numbers instead, so let me update my draft task 
+After you run a task, you can abort it
+
+```{r}
+## Abort your task
+tsk$abort()
+```
+
+If you want to update your task then re-run. 
 
 ```{r}
 tsk$getInputs()
 ## missing number input, only update number
-tsk$update(inputs = list(number = 500, seed = 1))
+tsk$update(inputs = list(sjdbGTFfile = "some new file"))
 ## double check 
 tsk$getInputs()
 ```
 
-we just want to run it in the cloud!
-
-```{r}
-## Run your task
-tsk$run()
-```
 
 ### Task monitoring
 
@@ -392,13 +521,6 @@ By default it just show message when the task is completed.
 ```{r}
 ## Monitor your task (skip this part)
 ## tsk$monitor()
-```
-
-To about running task just  all
-
-```
-## not run
-## tsk$abort()
 ```
 
 To download all files from a completed tasks
@@ -1141,11 +1263,20 @@ Need two arguments
 - name: optional, to re-name your app
 
 ```{r}
-aid <- a$app(visibility = "public")[[1]]$id
-a$copyApp(aid, project = pid, name = "copy-rename-test")
+aid <- a$public_app()[[1]]$id
+a$copy_app(aid, project = pid, name = "copy-rename-test")
 ## check it is copied
 a$app(project = pid)
 ```
+
+Or you can copy directly from an app object
+
+```{r}
+app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
+app$copy_to(project = "tengfei/api-testing", 
+            name = "copy of star")
+```
+
 
 #### Get CWL from an App
 
