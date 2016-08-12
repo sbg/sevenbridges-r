@@ -196,31 +196,26 @@ library("sevenbridges")
 
 ### Tutorials 
 
-We have 3 different version (from stable to latest), 1) bioconductor stable 2) bioconductor devel 3) github for different levels of users and developers, so here are all tutorials and their corresponding version:
+We have 3 different version, github (latest), Bioconductor stable and devel. Only github version is provided below for latest docs. For other version,
+please visit Bioconductor homepage (link provide at the top). Tutorials below is auto-generated at 8:00pm everyday with github version.
 
 - Complete Guide for API R Client
-[[github](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/api.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/api.html)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/api.R)]
 - Tutorial: use R for Cancer Genomics Cloud
-[[github](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/bioc-workflow.html)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
 - Creating Your Docker Container and Command Line Interface
-[[github](http://www.tengfei.name/sevenbridges/vignettes/docker.html)]
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/docker.html)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/docker.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/docker.R)]
 - Describe CWL Tools/Workflows in R and Execution
-[[github](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/apps.html)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/apps.R)]
 - Using Rstudio and Shiny
-[[github](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/vignettes/sevenbridges/inst/doc/rstudio.html)]
-- Reference 
-[[bioc-stable](http://www.bioconductor.org/packages/release/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
-[[bioc-devel](http://www.bioconductor.org/packages/3.4/bioc/manuals/sevenbridges/man/sevenbridges.pdf)]
+[[html](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R)]
+
+
 
 <a name="rstudio"/>
 
