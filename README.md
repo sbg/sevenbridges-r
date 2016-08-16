@@ -222,7 +222,7 @@ please visit Bioconductor homepage (link provide at the top). Tutorials below is
 ### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
 
 ```shell
-docker run  -d -p 8787:8787 -p 3838:3838 tengfei/sevenbridges
+docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
 check out the ip from docker machine if you are on mac os.
@@ -231,29 +231,22 @@ check out the ip from docker machine if you are on mac os.
 docker-machine ip default
 ```
 
-In your browser, 
+In your browser, `http://<url>:8787/` for Rstudio server, for example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
 
-`http://<url>:8787/` for Rstudio
 
-`http://<url>:3838/<username of rstudio>/app_dir` for Shiny server
+For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>` for Shiny server, for example for user `rstudio` (a default user) and some app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app as Rstudio user, you can login your rstudio server, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
 
-For example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
-
-Note: for users of that Rstudio, just create `ShinyApps` folder under
-your home folder, then put your apps under that folder, so you can
-visit `http://<url>:3838/<username of rstudio>/<app name>` for your
-shiny apps. For example 
-
-In your Rstudio server launched from container, please run
+Login your rstudio at http://<url>:8787, then try to copy some example over to your home folder
 
 ```r
+dir.create("~/ShinyApps")
 file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps/", recursive = TRUE)
 ```
 
-If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be
-able to see the hello example.
+If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
 
 
+Note: Generic shiny app can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the docker container, it's hosted under `/srv/shiny-server/`
 
 
 <a name="issue"/>
