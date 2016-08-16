@@ -236,7 +236,7 @@ In your browser, `http://<url>:8787/` for Rstudio server, for example, if 192.16
 
 For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>` for Shiny server, for example for user `rstudio` (a default user) and some app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app as Rstudio user, you can login your rstudio server, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
 
-Login your rstudio at http://<url>:8787, then try to copy some example over to your home folder
+Login your rstudio at `http://<url>:8787`, then try to copy some example over to your home folder
 
 ```r
 dir.create("~/ShinyApps")
