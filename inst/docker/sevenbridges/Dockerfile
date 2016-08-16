@@ -115,10 +115,14 @@ RUN R -e "devtools::install_github('rstudio/shinyapps')"
 
 RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
+RUN mkdir /home/rstudio/ShinyApps/
+
+RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /home/rstudio/ShinyApps/
+
 EXPOSE 3838 8787
 
 ## COPY src/shiny-server.sh /usr/bin/shiny-server.sh
-## COPY src/shiny-server.conf  /etc/shiny-server/shiny-server.conf
+COPY src/shiny-server.conf  /etc/shiny-server/shiny-server.conf
 COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ## ~/ShinyApps
