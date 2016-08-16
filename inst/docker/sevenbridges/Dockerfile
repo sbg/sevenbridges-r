@@ -95,8 +95,8 @@ RUN rm -rf /var/lib/apt/lists/ \
 
 # Download and install libssl 0.9.8
 RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.0.2-dbg_1.0.2h-1_amd64.deb && \
-    dpkg -i libssl1.0.0-dbg_1.0.2d-1_amd64.deb && \
-    rm -f libssl1.0.0-dbg_1.0.2d-1_amd64.deb
+    dpkg -i libssl1.0.2-dbg_1.0.2h-1_amd64.deb && \
+    rm -f libssl1.0.2-dbg_1.0.2h-1_amd64.deb
 
 # Download and install shiny server
 RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
