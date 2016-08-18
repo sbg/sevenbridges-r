@@ -118,6 +118,20 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 #' t1$input_type()
 #' ## get output type information
 #' t1$output_type()
+#' ## return a input matrix with more informtion
+#' t1$input_matrix()
+#' ## return only a few fields
+#' t1$input_matrix(c("id", "type", "required"))
+#' ## return only required
+#' t1$input_matrix(required = TRUE)
+#' ## return everything
+#' t1$input_matrix(NULL)
+#' ## return a output matrix with more informtion
+#' t1$output_matrix()
+#' ## return only a few fields
+#' t1$output_matrix(c("id", "type"))
+#' ## return everything
+#' t1$output_matrix(NULL)
 #' ## get input id
 #' t1$input_id()
 #' ## get full input id with Tool name
@@ -263,6 +277,36 @@ Tool <-
                     },
                     output_type = function(){
                         getOutputType(toList())
+                    },
+                    input_matrix = function(new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+                                            required = NULL){
+                        res = suppressWarnings(as(inputs, "data.frame"))
+                        if(!is.null(required)){
+                            stopifnot(is.logical(required))
+                            res = res[res$required == required, ]
+                            if(!nrow(res)){
+                                return(NULL)
+                            }
+                        }
+                        if(!is.null(new.order)){
+                            new.order = intersect(new.order, names(res))
+                            res[, new.order]
+                            
+                        }else{
+                            res
+                        }
+                    
+                    },
+                    output_matrix = function(new.order = c("id", "label", "type", "fileTypes")){
+                        
+                        res = suppressWarnings(as(outputs, "data.frame"))
+                        if(!is.null(new.order)){
+                            new.order = intersect(new.order, names(res))
+                            res[, new.order]
+                            
+                        }else{
+                            res
+                        }
                     },
                     input_id = function(full = FALSE, requiredOnly = FALSE){
                         'get input id from a Tool, when full = TRUE, connect 

@@ -6,17 +6,17 @@
 \alias{FS-class}
 \title{FS class}
 \arguments{
-\item{serverAddress}{placehoder}
+\item{server_address}{placehoder}
 
-\item{apiAddress}{placehoder}
+\item{api_address}{placehoder}
 
-\item{vsfsJar}{placehoder}
+\item{vsfs_jar}{placehoder}
 
-\item{cacheDir}{placehoder}
+\item{cache_dir}{placehoder}
 
-\item{cacheSize}{placeholder}
+\item{cache_size}{placeholder}
 
-\item{projectID}{placeholder}
+\item{project_id}{placeholder}
 }
 \description{
 FS class
@@ -24,14 +24,14 @@ FS class
 \section{Methods}{
 
 \describe{
-\item{\code{files(id = NULL)}}{given project id, show all files in it}
+\item{\code{file(id = NULL)}}{given project id, show all files in it}
 
-\item{\code{mount(mountPoint = NULL, projectId = NULL, ignore.stdout = TRUE,
-  sudo = TRUE, ...)}}{mount a specific project if projectId is provided, otherwise mount all projects}
+\item{\code{mount(mount_point = NULL, project_id = NULL, ignore.stdout = TRUE,
+  sudo = TRUE, ...)}}{mount a specific project if project_id is provided, otherwise mount all projects}
 
 \item{\code{path(id = NULL)}}{list path for all mounted projects, for easy copy/paste of file path; if project id
 is provoded, show project path and files path}
 
-\item{\code{unmount(mountCmd = NULL, projectID = NULL, ...)}}{unmount a project if projectID is provided, otherwise unmount all}
+\item{\code{unmount(mount_cmd = NULL, project_id = NULL, ...)}}{unmount a project if project_id is provided, otherwise unmount all}
 }}
 

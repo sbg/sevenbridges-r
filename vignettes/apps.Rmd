@@ -15,81 +15,154 @@ output:
 %\VignetteEngine{knitr::rmarkdown}
 -->
 
+```{r include=FALSE}
+knitr::opts_chunk$set(comment = "")
+```
+
+## Prerequisite
+
+This tutorial assume you have basic knowledge about docker concept. 
+
+Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL V1.0 soon.
+
+## App, Workflow and Tool
+
+In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action)
+
+Here are some key ideas
+
+- Tool is the unit or a single node of workflow, so different tools could be connected into a workflow. That's how we achieve reusability of components.
+- Tool is described with key components: input, output, parameters and requirements and more details. You understand the tool more like a black box (container) which digest some input(s) with specified setup and output another format. 
+- When input files matches output between two tools, they could be connected. 
+- Input is composed of files and parameters, we call it types: File, Enum, Integer, String and so on. 
+- App could be described in JSON/YAML format, following Common Workflow Language (CWL) open-source standard. 
+- CWL is just the collection of logic and schema. To execute this __pure text file__, we need executor in the cloud or local. With Seven Bridges platform, you can simply execute it at scale.
+
+Looks like full of jargons and hard to understand. Here is an example. You have a csv table, full of missing value and you want to process it in 3 step
+
+1. replace missing value 
+2. filtering out rows that column "age" is smaller than 10
+3. output 3 item: a processed table csv file, a plot and a summary report in pdf. 
+
+You can describe each step into a single module or tool then connect them one by one to form a flow. You can put everything into one single "tool", then downside is that other user cannot use your step1 for missing value problem. So it's both art and sciense to leverage between flexibility and efficiency. 
+
+Why we are using CWL? Imagine a single file represeting a tool or workflow,  could be executed anywhere in a reproducible manner and you don't have to install anything because docker container is imaged, that's going to change the world of computational scientific research and how we do research and publish results. In this package we are trying to hide CWL details as much as possible, so user can just use it like a typical R function. 
 
 ## Describe Tools in R
 
-The main interface provided by `sevenbridges` package is `Tool` function, it's basically a R interface similar to Seven Bridges's graphic user interface to describe tools, which I also highly recommend because it's very easy. 
+`Tool` is the basic unit, and also your "lego brick" you usually start with. As developer you also want to provide those "lego" piecies to users to directly run it or make their own flow with it. 
 
-For R users who want to script in everything here is alternative solution. I also did some work trying to make it simpler to use, any suggestions are welcomed. 
-
-So I highly recommend user go over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for cancer genomic cloud to understand how it works, and even try it on the platform with the GUI. This will help use our R interface better and easier. 
-
-Or you just want to create tools quickly, please keep reading. 
+The main interface provided by `sevenbridges` package is `Tool` function, it's much more straight forward to describe than composing your raw CWL json file from scratch. A "Tool" object in R could be exported into JSON or imported from a CWL JSON file.  
 
 
-### Example: give me some randome number
+I highly recommend user go over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for cancer genomic cloud to understand how it works, and even try it on the platform with the GUI. This will help understand our R interface better.
 
-Let's start from the most simple case
+### Import from JSON file
 
-- Use exiting docker container
-- directly execute from command line using `Rscript`
+Sometimes people share Tool in pure JSON text format. You can simply load it into R by using `convert_app` function, this will recognize your JSON file class (Tool or Workflow) automatically.
 
- 
+```{r}
+library(sevenbridges)
+t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+## convert json file into a Tool object
+t1 = convert_app(t1)
+## try print it yourself
+## t1
+```
 
-Some basic arguments used in `Tool` function.
+In this way, you can load it, revise it, use it with API or edit and export it back to JSON file. However, in this tutorial, the most important thing is that you learn how to desribe it directly in R. 
 
-- baseCommand: Specifies the program to execute. 
-- stdout: Capture the command's standard output stream to a file written to the designated output directory. 
-- inputs: inputs for your command line
-- outputs: outputs you want to collect
+### Utilitites for Tool object
 
-For more accepted parameter, please check `help(CommandLineTool)` and `help(Tool)` for more details. Again we basically conform to CWL standard, you can always check their manual.
+We provide couple utitlities to help construct your own CWL tool quickly in R. For all 
+availale utiles please check out `help("Tool")`
 
-#### Requirement and hints
+Some utiles you will find it useful when you execute a task, you need to know what is the input type and what is the input id and if it's required or not, so you can execute the task with parameters it need. Try play with `input_matrix` or `input_type` as shown below.
 
-In short, hints are not _required_ for execution. We now accept following requirement items `cpu`, `mem`, `docker`, `fileDef`; and you can easily construct them via `requirements()` constructor. 
+```{r}
+## get input type information
+head(t1$input_type())
+## get output type information
+head(t1$output_type())
+## return a input matrix with more informtion
+head(t1$input_matrix())
+## return only a few fields
+head(t1$input_matrix(c("id", "type", "required")))
+## return only required
+t1$input_matrix(required = TRUE)
+## return a output matrix with more informtion
+t1$output_matrix()
+## return only a few fields
+t1$output_matrix(c("id", "type"))
+## get required input id
+t1$get_required()
+## set new required input with ID, # or without #
+t1$set_required(c("#reads", "winFlankNbins"))
+t1$get_required()
+## turn off requirements for input node #reads
+t1$set_required("reads", FALSE)
+t1$get_required()
+#' ## get input id
+head(t1$input_id())
+#' ## get full input id with Tool name
+head(t1$input_id(TRUE))
+## get output id
+head(t1$output_id())
+## get full output id
+head(t1$output_id(TRUE))
+## get input and output object
+t1$get_input(id = "#winFlankNbins")
+t1$get_input(name = "ins")
+t1$get_output(id = "#aligned_reads")
+t1$get_output(name = "gene")
+```
 
-The downside of this is clear, you have much less control over your script and command line interface. 
 
-#### Specify inputs and outpus
+### Create your own tool in R
 
-Most likely your command line interface accept extra arguments, for example, 
+#### Introduction
 
-- file
-- string
-- enum
-- int
-- float
-- boolean
-
-So to specify that in your tool, you can use `input` function, then pass it to the `inputs` arguments as a list or single item. You can even construct them as data.frame, but in that way, you usually have to provide equal arguments, less typing but less flexible. 
-
-`input()`  require arguments `id` and `type`. `output()`  require arguments `id` because `type` by default is file. 
-
-#### Specia type: ItemArray and enum
-
-The type could be an array of single type, the most common case is that if your input is 
-a list of files, you can do something like `type = ItemArray("File")` or as simple as 
-`type = "File..."` to diffenciate from a single file input. 
-
-We also provide an enum type, when you specify the enum, please pass the required name and symbols like this
-`type = enum("format", c("pdf", "html"))` then in the interface you will be poped with drop down when you execute the 
-task. 
-
-For complete example, please check the "Make the best of bioconductor workflow" tutorial, or if you are advanced user, you can simply check `inst/docker` folder or check the github example [here](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/rnaseqGene)
+Before we continue, this is how it looks like for full tool description, you don't always need to describe all those details, following section will walk you through simple examples to full examples like this one. 
 
 
+
+```{r, eval = TRUE, comment=''}
+fl <- system.file("docker/rnaseqGene/rabix", "generator.R", package = "sevenbridges")
+cat(readLines(fl), sep = '\n')
+```
+
+Now let's break it down:
+
+Some key arguments used in `Tool` function.
+
+- __baseCommand__: Specifies the program to execute. 
+- __stdout__: Capture the command's standard output stream to a file written to the designated output directory. You don't need this, if you specify output files to collect.
+- __inputs__: inputs for your command line
+- __outputs__: outputs you want to collect
+- __Requirements__ and __hints__: in short, hints are not _required_ for execution. We now accept following requirement items `cpu`, `mem`, `docker`, `fileDef`; and you can easily construct them via `requirements()` constructor. This is how you describe the resources you need to execute the tool, so the system knows what type of instances suit your case best. 
+
+To specify inputs and outpus, usually your command line interface accept extra arguments as input, for example, file(s), string, enum, int, float, boolean. So to specify that in your tool, you can use `input` function, then pass it to the `inputs` arguments as a list or single item. You can even construct them as data.frame with less flexibility. `input()`  require arguments `id` and `type`. `output()`  require arguments `id` because `type` by default is file. 
+
+There are some special type: ItemArray and enum. For ItemArray the type could be an array of single type, the most common case is that if your input is a list of files, you can do something like `type = ItemArray("File")` or as simple as `type = "File..."` to diffenciate from a single file input. When you add "..." suffix, R will know it's an `ItemArray`.
+
+We also provide an __enum__ type, when you specify the enum, please pass the required name and symbols like this `type = enum("format", c("pdf", "html"))` then in the UI on the platform you will be poped with drop down when you execute the task. 
+
+
+
+
+Now let's work though from simple case to most flexible case.
 
 #### Using existing docker image and command
 
 If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
 
+In this simple example, I know docker image "rocker/r-base" has a function called `runif` I can directly called in command line with `Rscript -e`. Then I want the ouput is collected in `stdout` and ask the file system to capture the files matches "*.txt". Please pay attention to this, you tool may produce many intermediate files in current folder, if you don't tell which output you need, they will all be ignored, so make sure you collect those files via `outputs` parameter.
+
 ```{r}
 library(sevenbridges)
 rbx <- Tool(id = "runif", 
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
-                                 cpu(1), mem(2000)), 
+            hints = requirements(docker(pull = "rocker/r-base")), 
             baseCommand = "Rscript -e 'runif(100)'", 
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))
@@ -106,9 +179,9 @@ rbx$toJSON(pretty = TRUE)
 rbx$toYAML()
 ```
 
-#### Add-on script
+#### Add customized script to existing docker image
 
-If you want to create simple script based on existing image, use `fileDef`. 
+Now you make want to run your own R script, but you still don't want to create new command line and a new docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
 
 ```{r}
 ## Make a new file
@@ -116,19 +189,16 @@ fd <- fileDef(name = "runif.R",
               content = "set.seed(1)
                    runif(100)")
 
-## or simply readLines
+## read via reader
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
-fd <- fileDef(name = "runif.R",
-              content = paste(readLines(.srcfile), collapse = "\n"))
-## or read via reader
 library(readr)
 fd <- fileDef(name = "runif.R",
               content = read_file(.srcfile))
 
+## add script to your tool
 rbx <- Tool(id = "runif", 
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
-                                 cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/r-base")),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
@@ -137,32 +207,58 @@ rbx <- Tool(id = "runif",
 
 ```
 
-How bout multiple script?
+How about multiple script?
 
 ```{r}
 ## or simply readLines
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
+library(readr)
 fd1 <- fileDef(name = "runif.R",
-              content = paste(readLines(.srcfile), collapse = "\n"))
-
+              content = read_file(.srcfile))
 fd2 <- fileDef(name = "runif2.R",
               content = "set.seed(1)
                    runif(100)")
 
 rbx <- Tool(id = "runif_twoscript", 
             label = "runif_twoscript",
-            hints = requirements(docker(pull = "rocker/r-base"), 
-                                 cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/r-base")),
             requirements = requirements(fd1, fd2),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))   
 
-
 ```
 
 
-#### Create formal input/output interface
+#### Create formal interface for your command line
+
+All those examples above, many parameters are hard-coded in your script, you don't have flexiblity to control how many numbers to generate. Most often, your tools or command line tools expose some inputs arguments to users. You need a better way to describe a command line with input/output.
+
+Now we bring the example to next level, for example, I prepare a docker image called "tengfei/runif" on dockerhub, this container has a exeutable command called "runif.R", you don't have to know what's inside, you only have to know when you run the command line in that container it looks like this
+
+```
+runif.R --n=100 --max=100 --min=1 --seed=123 
+```
+
+This command outpus two files directly, so you don't need standard output to capture random number. 
+
+- output.txt
+- report.html
+
+So the goal here is to describe this command and expose all input parameters and collect all two files. 
+
+To define input, you can specify
+
+- __id__ : unique identifier to this input node.
+- __description__: description, also visible on UI.
+- __type__: required to specify input types, files, integer, or character.
+- __label__: human readable label for this input node.
+- __prefix__: the prefix in command line for this input parameter.
+- __default__: default value for this input.
+- __required__: is this input parameter required or not. If required, when you execte the tool you have to provide a value for the parameter.
+- __cmdInclude__: included in command line or not.
+
+Output is similar, espeicaly when you want to collect file, you can use `glob` for pattern matching.
 
 ```{r}
 ## pass a input list
@@ -208,14 +304,13 @@ out.lst <- list(output(id = "random",
 
 rbx <- Tool(id = "runif",
             label = "Random number generator",
-            hints = requirements(docker(pull = "tengfei/runif"), 
-                                 cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "tengfei/runif")),
             baseCommand = "runif.R",
             inputs = in.lst, ## or ins.df
             outputs = out.lst)
 ```
 
-Here I use data.frame as example for input and output. 
+Alternatively you can use data.frame as example for input and output, but it's less flexible. 
 
 ```{r}
 in.df <- data.frame(id = c("number", "min", "max", "seed"),
@@ -243,29 +338,33 @@ rbx <- Tool(id = "runif",
 
 
 ```
+
 #### Quick command line interface with commandArgs (position and named args)
 
-For advanced users, please read another tutorial "Creating Your Docker Container and Command Line Interface (with docopt)", "docopt" is more formal way to construct your command line interface, but there is a quick way to make command line
-interface here using just `commandArgs`
+Now you must be wondering, I have a docker container with R, but I don't have any existing command line that I could directly use. Can I provide a script with a formal and quick command line interface to make an App for existing container. The anwser is yes. When you add script to your tool, you can always use some trick to do so, one popular one you may already head of is `commandArgs`. More formal one is called "docopt" which I will show you later. 
 
-Suppose I already have a R script like this using position mapping the arguments
+Suppose you have a R script "runif2spin.R" with three arguments using position mapping
 
 1. numbers
 2. min
 3. max
+
+My base command will be somethine like
+
+```
+Rscript runif2spin.R 10 30 50
+```
+
+This is how you do in your R script
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbridges")
 cat(readLines(fl), sep = '\n')
 ```
 
-Ignore the comment part, I will introduce spin/stich later. My base command will be somethine like
+Ignore the comment part, I will introduce spin/stich later. 
 
-```
-Rscript runif2spin.R 10 30 50
-```
-
-I just describe my tool in this way
+Then just describe my tool in this way, add your script as you learned in previous sections.
 
 ```{r}
 library(readr)
@@ -291,10 +390,15 @@ rbx <- Tool(id = "runif",
             outputs = output(id = "random", glob = "output.txt"))   
 ```
 
-Now copy-paste the json into your project app and run it in the cloud to test it
 
-How about named argumentments? I will still recommend use "docopt" package, but for simple
-way.
+
+How about named argumentments? I will still recommend use "docopt" package, but for simple way. You want command line looks like this
+
+```
+Rscript runif_args.R --n=10 --min=30 --max=50
+```
+
+Here is how you do in R script.
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
@@ -302,11 +406,7 @@ cat(readLines(fl), sep = '\n')
 ```
 
 
-```
-Rscript runif_args.R --n=10 --min=30 --max=50
-```
-I just describe my tool in this way, note, I use `separate=FALSE` and add `=` to my prefix
-as a hack.
+Then just describe my tool in this way, note, I use `separate=FALSE` and add `=` to my prefix as a hack.
 
 ```{r}
 library(readr)
@@ -336,12 +436,12 @@ rbx <- Tool(id = "runif",
 
 ```
 
+#### docopt: a better and formal way to make command line interface
 
+#### Generate reports
+##### Quick report: Spin and Stich
 
-#### Quick report: Spin and Stich
-
-Alternative, you can use spin/stich from knitr to generate report directly from a 
-Rscript with special format. For example, let's use above example
+You can use spin/stich from knitr to generate report directly from a Rscript with special format. For example, let's use above example
 
 
 
@@ -390,7 +490,11 @@ rbx <- Tool(id = "runif",
 
 You will get a report in the end
 
-#### Inherit metadata and additional metadata
+####
+
+#### Misc
+
+##### Inherit metadata and additional metadata
 
 Sometimes if you want your output files inherit from particular input file, just 
 use `inheritMetadataFrom` in your output() call and pass the input file id. If 
@@ -414,7 +518,7 @@ out.lst <- list(output(id = "random",
 out.lst
 ```
 
-#### More example with file/files as input node
+##### Example with file/files as input node
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/rnaseqGene/rabix", "generator.R", package = "sevenbridges")
@@ -423,19 +527,8 @@ cat(readLines(fl), sep = '\n')
 
 Note the stageInput example in the above script, you can set it to "copy" or "link".
 
-#### Import JSON to Tool and Workflow object
 
-Please use convert_app, it will automatically convert a json cwl to a R object Tool
-or Workflow based on class.
-
-```{r}
-f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-f1 = convert_app(f1)
-f1
-```
-
-
-#### Input node batch mode
+##### Input node batch mode
 
 Batch by File
 
@@ -456,25 +549,52 @@ f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
 When you push your app to the platform, you will see the batch available at task page
 or workflow editor. 
 
-#### Execute the tool in the cloud
+
+## Describe Wokrflow in R
+
+__Graphic User Interface on Seven Bridges Platform is way more conventient__ 
+
+
+### Import from a JSON file
+
+Yes, you could use the same function `convert_app` to import json file.
+
+```{r}
+f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 = convert_app(f1)
+## show it
+## f1
+```
+
+### Utilities for Flow object
+
+Just like `Tool` object, you also have convenient utils for it, especially useful when you execute task.
+
+```{r}
+```
+
+### Create your own flow in R 
+
+#### Introduction
+
+## Execution
+
+#### Execute the tool and flow in the cloud
 
 With API function, you can directly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
 
-Following section, please for now skip. 
+Here is quick demo
 
 ```{r, eval = FALSE}
-a <- Auth(platform = "cgc", username = "tengfei")
-p <- a$project("demo")
-app.runif <- p$app_add("runif555", rbx)
-aid <- app.runif$id
-p$task_add(name = "Draft runif simple", 
+a = Auth(url = "api_url", token = "your_token")
+p = a$project("demo")
+app.runif = p$app_add("runif555", rbx)
+aid = app.runif$id
+tsk = p$task_add(name = "Draft runif simple", 
            description = "Description for runif", 
            app = aid,
            inputs = list(min = 1, max = 10))
-## confirm, show all task status is draft
-(tsk <- p$task(status = "draft"))
 tsk$run()
-tsk$download("~/Downloads/")
 ```
 
 #### Execute the tool in Rabix - test locally
@@ -533,146 +653,8 @@ set_test_env("tengfei/testenv", "mount_dir")
 test_tool(rbx, params)
 ```
 
-## Describe Wokrflow in R
-
-__Graphic User Interface on Seven Bridges Platform is way more conventient__
-
-### Introduction
-
-To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
-
-- Simple linear tool connection
-- Output and input match at lest have one match, then we will connect it automatically.
 
 
-__Note__ for complicated workflow construction, I highly recommend using our graphical interface to do it, there is no better way. 
 
-### Example
-
-Here I will give a quick example
-
-1. Tool 1 output 1000 random number
-2. Tool 2 take log on it 
-3. Tool 3 do a mean calculation of everything
-
-Here are methods we support
-
-- Maximize the flexibility please use `Flow` constructor to construct your flow, then pass steps using `+` sign to connect your object. `+` only outputs `StepList` and support operation
-    - Tool + Tool 
-    - StepList + Tool
-    - StepList + StepList
-- Alternatively `%>>%` will output `Flow` not `StepList`, if you connect tools with `%>>%` we will create id for you. it always output `Workflow`
-    - Tool %>>% Tool 
-    - Workflow %>>% Tool
-    - Workflow %>>% Tool
-    
-#### Construct tools first    
-
-```{r}
-library(sevenbridges)
-## A tool that generate a 100 random number
-t1 <- Tool(id = "runif new test 3", label = "random number",
-           hints = requirements(docker(pull = "rocker/r-base")),
-           baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'", 
-           outputs = output(id = "random", 
-                            type = "file", 
-                            glob = "random.txt"))
-
-## A tool that take log
-fd <- fileDef(name = "log.R",
-              content = "args = commandArgs(TRUE)
-                         x = read.table(args[1], header = TRUE)[,'x']
-                         x = log(x)
-                         write.csv(x, file = 'random_log.txt', row.names = FALSE)
-                         ")
-
-t2 <- Tool(id = "log new test 3", label = "get log",
-           hints = requirements(docker(pull = "rocker/r-base")),
-           requirements = requirements(fd),
-           baseCommand = "Rscript log.R", 
-           inputs = input(id = "number",
-                           type = "file"),
-           outputs = output(id = "log", 
-                            type = "file", 
-                            glob = "*.txt"))
-
-## A tool that do a mean
-fd <- fileDef(name = "mean.R",
-              content = "args = commandArgs(TRUE)
-                         x = read.table(args[1], header = TRUE)[,'x']
-                         x = mean(x)
-                         write.csv(x, file = 'random_mean.txt', row.names = FALSE)
-                          ")
-
-t3 <- Tool(id = "mean new test 3", label = "get mean",
-           hints = requirements(docker(pull = "rocker/r-base")),
-           requirements = requirements(fd),
-           baseCommand = "Rscript mean.R", 
-           inputs = input(id = "number",
-                           type = "file"),
-           outputs = output(id = "mean", 
-                            type = "file", 
-                            glob = "*.txt"))
-
-steplist <- t1 + t2 + t3
-steplist
-```
-
-
-#### Connect tools to a flow
-
-To create a Flow we suggest you using `Flow` function, so that you can pass id and label to it. 
-
-```{r}
-f <- Flow(id = "Random-log-mean-new-test-2", 
-          label = "random log mean new test", 
-          steps = steplist)
-f$toJSON()
-f$toJSON(pretty = TRUE)
-```
-
-Or use %>>% 
-
-```{r}
-f <- t1 %>>% t2 %>>% t3
-f$toJSON()
-```
-
-If it's the first time you upload those tools, following script will push both 
-tools and the workflow to your project.
-
-```{r, eval = FALSE}
-## need id, full, sbg:id
-library(sevenbridges)
-
-a <- Auth(platform = "cgc", username = "tengfei")
-p <- a$project(id = "tengfei/helloworld")
-app.runif <- p$app_add("new_flow", f)
-aid <- app.runif$id
-p$task_add(name = "Draft flow", 
-           description = "Flow test", 
-           app = aid)
-## confirm, show all task status is draft
-(tsk <- p$task('Draft flow'))
-tsk$run()
-```
-
-You can get App from your repos and connect it in R to build flow.
-
-```{r, eval = FALSE}
-app1 <- p$app(id = "tengfei/helloworld/runif_new_test/0")
-app2 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
-app3 <- p$app(id = "tengfei/quickstart/log_new_test_3/0")
-
-f <- app1 %>>% app2 %>>% app3
-
-f$id <- "randome number test flow 2"
-f$"sbg:id" <- "tengfei/helloworld/testtesttest"
-f$toJSON(pretty = TRUE)
-```
-
-** Important ** 
-
-This flow construction method is easy for linear flow, your best choice is always our graphic user interface and editor. 
 
 

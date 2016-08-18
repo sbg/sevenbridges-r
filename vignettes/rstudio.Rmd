@@ -1,5 +1,5 @@
 ---
-title: "Using Rstudio and Shiny"
+title: "IDE container: Rstudio and Shiny server and more"
 output:
   BiocStyle::html_document:
     toc: true
@@ -10,7 +10,7 @@ output:
 ---
 
 <!--
-%\VignetteIndexEntry{Using Rstudio and Shiny}
+%\VignetteIndexEntry{IDE container: Rstudio and Shiny server and more}
 %\VignettePackage{sevenbridges}
 %\VignetteEngine{knitr::rmarkdown}
 -->
@@ -25,14 +25,12 @@ The goal of this `tengfei/sevenbridges` docker image is to provide
     - Command line uploader
     - Seven Bridgs Command line tools
     - sevenbridges R package
-- Rstudio: you can launch the server
-- Shiny: you can launch shiny server 
-
-For professional version of Rstudio server and Shiny server please contact Rstudio. 
+- Rstudio server
+- Shiny server
 
 ## Docker container
 
-### Dockerfile
+### Build container locally
 
 The Dockerfile is included with the package in `inst/docker` folder. 
 
@@ -42,11 +40,18 @@ fl <- system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges"
 cat(readLines(fl), sep = '\n')
 ```
 
-### Docker hub autobuild
+You can simply build it locally, enter folder which contain that dockerfile, in this case, 
+it's under `inst/docker/sevenbridges`
 
-A hook is added to build the docker image automatically from my [github](https://github.com/tengfei/sevenbridges), it's under `inst/docker`, it's automatically build on my dockerhub [page](https://hub.docker.com/r/tengfei/sevenbridges/). you can directly use this `tengfei/sevenbridges`
+```
+docker build -t tengfei/sevenbridges .
+```
 
-### Launch Rstudio server from docker
+### Pull from docker hub 
+
+A hook is added to build the docker image automatically from my [github](https://github.com/tengfei/sevenbridges), it's under `inst/docker`, it's automatically build on my dockerhub [page](https://hub.docker.com/r/tengfei/sevenbridges/). you can directly use this `tengfei/sevenbridges`. Everytime a push is made in the github repos, the docker container is re-built.
+
+## Launch Rstudio server from docker container 
 
 For example, you can ssh into your AWS instance, here I suppose you already have docker installed,  and pull the image 
 
@@ -78,7 +83,7 @@ adduser <username>
 
 ### Launch both Rstudio and Shiny server from same docker container
 
-Sometimes it's very conventient to launch both Rstudio and Shiny server from a singel container and your users can manage to using Rstudio and publish Shiny apps at the same time. To do so, just pull the same image and launch at different port. 
+Sometimes it's very conventient to launch both Rstudio and Shiny server from a singel container and your users can manage to using Rstudio and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
 
 ```shell
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
@@ -93,9 +98,9 @@ docker-machine ip default
 In your browser, `http://<url>:8787/` for Rstudio server, for example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
 
 
-For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>` for Shiny server, for example for user `rstudio` (a default user) and some app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app as Rstudio user, you can login your rstudio server, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
+For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>`, for example, for user `rstudio` (a default user) and an app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app from Rstudio server, you can login your rstudio server with your username, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
 
-Login your rstudio at http://<url>:8787, then try to copy some example over to your home folder
+Let's try this, please login your rstudio at `http://<url>:8787` now, then try to copy some example over to your home folder under `~/ShinyApps/`
 
 ```r
 dir.create("~/ShinyApps")

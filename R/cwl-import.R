@@ -3126,7 +3126,125 @@ get_input_id_from_full = function(x){
 
 
 
+setAs("SBGInputParameter", "data.frame", function(from){
+    
+    lst = from$toList()
+    ib = lst$inputBinding
+    res =  c(lst[!names(lst) %in% c("inputBinding", "sbg:category","required",
+                                    "sbg:fileTypes", "type", "fileTypes", "sbg:stageInput")],
+             list(
+                 ## inputBinding = ib,
+                 required = is_required(lst),
+                 type = make_type(lst$type),
+                 category = lst[["sbg:category"]],
+                 fileTypes = lst[["sbg:fileTypes"]],
+                 stageInput = lst[["sbg:stageInput"]]),
+             ib)
+    
+    res = lapply(res, function(x){
+        if(is.null(x))
+            return("null")
+        else
+            return(x)
+    })
+    res = do.call(data.frame, res)
+    .fullnames = names(res)
+    
+    .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
+    .names.other = sort(setdiff(.fullnames, .names.sbg))
+    .names.priority = c("id", "type", "required", "fileTypes", "label", "description")
+    .names.p2 = sort(setdiff(.names.other, .names.priority))
+    new.order = c(.names.priority, .names.p2, .names.sbg)
+    
+    res[, new.order]
+})
+
+setAs("InputParameterList", "data.frame", function(from){
+    lst = lapply(from, function(x){
+        as(x, "data.frame")
+    })
+    res = do.call("bind_rows", lst)
+    ## reorder for File File...
+    idx = res$type %in% c("File", "File...")
+    res1 = res[idx, ]
+    res2 = res[!idx, ]
+    rbind(res1, res2)
+})
 
 
+setAs("SBGCommandOutputParameter", "data.frame", function(from){
+    
+    lst = from$toList()
+    
+    o.b <- lst$outputBinding
+    ## glob
+    if(length(o.b$glob) == 1 && is.character(o.b$glob)){
+        res.glob <- o.b$glob
+    }else{
+        res.glob <- o.b$glob$script
+    }
+    ## load Contents
+    if(length(o.b$loadContents)){
+        res.load <- o.b$loadContetns
+    }else{
+        res.load <- NULL
+    }
+    ## 
+    if(length(o.b$outputEval)){
+        if(length(o.b$outputEval) == 1 &&
+           is.character(o.b$outputEval)){
+            res.eval <- o.b$outputEval
+        }else{
+            res.eval <- o.b$outputEval$script
+        }
+    }else{
+        res.eval <- NULL
+    }
+    ob <- list(glob = res.glob,
+                 loadContents = res.load,
+                 outputEval = res.eval,
+                 inheritMetadataFrom = lst$`sbg:inheritMetadataFrom`,
+                 metadata = lst$`sbg:metadata`,
+                 secondaryFiles = lst$seconaryFiles)
+    
+    
+    res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
+                                    "sbg:inheritMetadataFrom", "sbg:metadata")],
+             list(type = sevenbridges:::make_type(lst$type),
+                
+                  fileTypes = lst[["sbg:fileTypes"]]), ob)
+                 
+            
+    
+    res = lapply(res, function(x){
+        if(is.null(x))
+            return("null")
+        else
+            return(x)
+    })
+    
+    res = do.call(data.frame, res)
+    .fullnames = names(res)
+    
+    .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
+    .names.other = sort(setdiff(.fullnames, .names.sbg))
+    .names.priority = c("id", "label", "type")
+    .names.p2 = sort(setdiff(.names.other, .names.priority))
+    new.order = c(.names.priority, .names.p2, .names.sbg)
+    
+    res[, new.order]
+})
+
+setAs("OutputParameterList", "data.frame", function(from){
+    lst = lapply(from, function(x){
+        as(x, "data.frame")
+    })
+    res = do.call("bind_rows", lst)
+    ## reorder for File File...
+    idx = res$type %in% c("File", "File...")
+    res1 = res[idx, ]
+    res2 = res[!idx, ]
+    rbind(res1, res2)
+})
 
 

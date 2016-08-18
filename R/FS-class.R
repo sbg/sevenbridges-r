@@ -2,66 +2,66 @@
 #'
 #' FS class
 #'
-#' @param serverAddress placehoder
-#' @param apiAddress placehoder
-#' @param vsfsJar placehoder 
-#' @param cacheDir placehoder
-#' @param cacheSize placeholder
-#' @param projectID placeholder
+#' @param server_address placehoder
+#' @param api_address placehoder
+#' @param vsfs_jar placehoder 
+#' @param cache_dir placehoder
+#' @param cache_size placeholder
+#' @param project_id placeholder
 #' 
 #' @importFrom uuid UUIDgenerate
 #'
 #' @export FS
 FS <- setRefClass("FS", 
-                    fields = list(mountPoint = "character",
-                        mode = "character",
-                        debug = "logical",
-                        cacheDir = "character",
-                        cacheSize = "character",
-                        apiAddress = "character",
-                        authToken = "character",
-                        projectId = "list",
-                        lastProjectId = "characterORNULL",
-                        secure = "logical",
-                        serverAddress = "character",
-                        vsfsJar = "characterORNULL"),
+                    fields = list(mount_point = "characterORNULL",
+                        mode = "characterORNULL",
+                        debug = "logicalORNULL",
+                        cache_dir = "characterORNULL",
+                        cache_size = "characterORNULL",
+                        api_address = "characterORNULL",
+                        token = "characterORNULL",
+                        project_id = "listORNULL",
+                        lastproject_id = "characterORNULL",
+                        secure = "logicalORNULL",
+                        server_address = "characterORNULL",
+                        vsfs_jar = "characterORNULL"),
                     methods = list(
-                        initialize = function(serverAddress = 'fs.sbgenomics.com',
-                            apiAddress ='https://api.sbgenomics.com',
-                            vsfsJar = NULL,
-                            cacheDir = '~/vsfs_cache',
-                            cacheSize = '10GB', 
-                            projectId = list(),
+                        initialize = function(server_address = 'fs.sbgenomics.com',
+                            api_address ='https://api.sbgenomics.com',
+                            vsfs_jar = NULL,
+                            cache_dir = '~/vsfs_cache',
+                            cache_size = '10GB', 
+                            project_id = list(),
                             ...){
 
-                            if(is.null(vsfsJar)){
-                                ## vsfsJar <<- system.file("java", "sbg-vsfs.jar", package = "vsfsr")
+                            if(is.null(vsfs_jar)){
+                                ## vsfs_jar <<- system.file("java", "sbg-vsfs.jar", package = "vsfsr")
                                 stop("please provie jar library")
                             }else{
-                                vsfsJar <<- vsfsJar
+                                vsfs_jar <<- vsfs_jar
                             }
                             
-                            serverAddress <<- serverAddress
-                            apiAddress <<- apiAddress
+                            server_address <<- server_address
+                            api_address <<- api_address
                             
-                            cacheDir <<- cacheDir
-                            cacheSize <<- cacheSize      
+                            cache_dir <<- cache_dir
+                            cache_size <<- cache_size      
                             ## db <<- db
                             ## icoll <<- icoll
                             
-                            ## check projectId, has to be integer if any
-                            if(length(projectId)){
-                                if(!is.list(projectId)){
-                                    if(length(projectId) > 1 && is.numeric(projectId)){
-                                        .projectId <- as.list(projectId)
+                            ## check project_id, has to be integer if any
+                            if(length(project_id)){
+                                if(!is.list(project_id)){
+                                    if(length(project_id) > 1 && is.numeric(project_id)){
+                                        .project_id <- as.list(project_id)
                                     }else{                  
-                                        .projectId <- list(projectId)
+                                        .project_id <- list(project_id)
                                     }
                                     
                                 }else{
-                                    .projectId <- projectId
+                                    .project_id <- project_id
                                 }
-                                .projectId <- lapply(.projectId, function(id){
+                                .project_id <- lapply(.project_id, function(id){
                                     if(is.numeric(id) && !is.integer(id)){
                                         id <- as.integer(id)
                                         message("Converting numerical value to integer")
@@ -70,11 +70,11 @@ FS <- setRefClass("FS",
                                     id
                                     
                                 })
-                                projectId <<- .projectId
+                                project_id <<- .project_id
                                 
                             }
                             
-                            lastProjectId <<- unlist(tail(projectId, n = 1))
+                            lastproject_id <<- unlist(tail(project_id, n = 1))
                             
                             
                             callSuper(...)
@@ -84,18 +84,18 @@ FS <- setRefClass("FS",
 
 
 FS$methods(
-    checkMount = function(){
+    check_mount = function(){
         'check if a path is mounted'
     },
-    mount = function(mountPoint = NULL, projectId = NULL, ignore.stdout = TRUE, sudo = TRUE, ...){
-        'mount a specific project if projectId is provided, otherwise mount all projects'
-        projectId <<- c(.self$projectId, list(projectId))
-        lastProjectId <<- unlist(tail(projectId, n = 1))
-        if(is.null(mountPoint)){
-            stop("mountPoint not provided")
+    mount = function(mount_point = NULL, project_id = NULL, ignore.stdout = TRUE, sudo = TRUE, ...){
+        'mount a specific project if project_id is provided, otherwise mount all projects'
+        .self$project_id <<- c(.self$project_id, list(project_id))
+        lastproject_id <<- unlist(tail(project_id, n = 1))
+        if(is.null(mount_point)){
+            stop("mount_point not provided")
         }else{
-            dir.create(normalizePath(mountPoint))
-            mountPoint <<- normalizePath(mountPoint)            
+            dir.create(normalizePath(mount_point))
+            mount_point <<- normalizePath(mount_point)            
         }
         message("mount")
         
@@ -103,33 +103,33 @@ FS$methods(
         uid <- UUIDgenerate()
         
         ## create cache dir at local home? is there a problem?
-        .cacheDir <- file.path(cacheDir, uid)
+        .cache_dir <- file.path(cache_dir, uid)
         
-        dir.create(.cacheDir, recursive = TRUE)
+        dir.create(.cache_dir, recursive = TRUE)
         
-        .cacheDir <- normalizePath(.cacheDir)
+        .cache_dir <- normalizePath(.cache_dir)
         ## stdout and stderr path
-        stdout <- file.path(cacheDir, paste0(uid, ".out"))
-        stderr <- file.path(cacheDir, paste0(uid, ".err"))
+        stdout <- file.path(cache_dir, paste0(uid, ".out"))
+        stderr <- file.path(cache_dir, paste0(uid, ".err"))
         
         ## run command
-        if(!is.null(projectId)){
-            cmd <- paste("java", "-Xmx128m", "-jar", vsfsJar, "-ssl",
-                         "-as", apiAddress, 
-                         "-s", serverAddress,
-                         '-mountPoint', .self$mountPoint,
-                         '-authToken', authToken,
-                         '-cacheDir', .cacheDir,
-                         '-cacheSize', cacheSize, ## check project id for list
-                         '-projectId', projectId)
+        if(!is.null(project_id)){
+            cmd <- paste("java", "-Xmx128m", "-jar", vsfs_jar, "-ssl",
+                         "-as", api_address, 
+                         "-s", server_address,
+                         '-mountPoint', .self$mount_point,
+                         '-authToken', token,
+                         '-cacheDir', .cache_dir,
+                         '-cacheSize', cache_size, ## check project id for list
+                         '-projectId', project_id)
         }else{
-            cmd <- paste("java", "-Xmx128m", "-jar", vsfsJar, "-ssl",
-                         "-as", apiAddress, 
-                         "-s", serverAddress,
-                         '-mountPoint', .self$mountPoint,
-                         '-authToken', authToken,
-                         '-cacheDir', .cacheDir,
-                         '-cacheSize', cacheSize) ## check project id for list
+            cmd <- paste("java", "-Xmx128m", "-jar", vsfs_jar, "-ssl",
+                         "-as", api_address, 
+                         "-s", server_address,
+                         '-mountPoint', .self$mount_point,
+                         '-authToken', token,
+                         '-cacheDir', .cache_dir,
+                         '-cacheSize', cache_size) ## check project id for list
         }
         if(sudo){
             cmd <- paste("sudo", cmd)
@@ -139,11 +139,11 @@ FS$methods(
         system(cmd, wait = FALSE, ignore.stdout = ignore.stdout, ...)
 
     },
-    unmount = function(mountCmd = NULL, projectID = NULL, ...){
-        'unmount a project if projectID is provided, otherwise unmount all'
+    unmount = function(mount_cmd = NULL, project_id = NULL, ...){
+        'unmount a project if project_id is provided, otherwise unmount all'
         
 
-        if(is.null(mountCmd)){
+        if(is.null(mount_cmd)){
             if(Sys.info()['sysname'] == "Linux"){
                 OS <- "linux"            
             } else if(Sys.info()['sysname'] != "Linux" &&
@@ -155,32 +155,32 @@ FS$methods(
         }
 
         ## switching un-mount command line
-        mountCmd <- switch(OS,
+        mount_cmd <- switch(OS,
                            mac = "umount",
                            linux = "fusermount -u")
-        if(!is.null(projectID)){
+        if(!is.null(project_id)){
             ## check if this is correct
-            mountPoint <<- file.path(mountPoint, "Projects", projectID)
+            mount_point <<- file.path(mount_point, "Projects", project_id)
         }
-        cmd <- paste(mountCmd, mountPoint)
+        cmd <- paste(mount_cmd, mount_point)
         message(cmd)
         system(cmd, ...)
     },
-    projects = function(id = NULL){
-        pids <- list.files(file.path(mountPoint, "Projects"))
+    project_id = function(id = NULL){
+        pids <- list.files(file.path(mount_point, "Projects"))
         if(is.null(id))
             pids <- pids
         pids
     },
-    files = function(id = NULL){
+    file = function(id = NULL){
         'given project id, show all files in it'
         if(is.null(id)){
-            if(is.null(lastProjectID))
+            if(is.null(lastproject_id))
                 stop("nothing mounted yet")
-            message("id not provided, show files in project", lastProjectId)
-            list.files(file.path(mountPoint, "Projects", lastProjectId))  
+            message("id not provided, show files in project", lastproject_id)
+            list.files(file.path(mount_point, "Projects", lastproject_id))  
         }else{
-            list.files(file.path(mountPoint, "Projects", id))  
+            list.files(file.path(mount_point, "Projects", id))  
         }
     },
     path = function(id = NULL){
@@ -188,9 +188,9 @@ FS$methods(
          is provoded, show project path and files path'
         
         if(is.null(id)){
-            list.dirs(file.path(mountPoint, "Projects"), recursive = FALSE)
+            list.dirs(file.path(mount_point, "Projects"), recursive = FALSE)
         }else{
-            file.path(mountPoint, "Projects", id)
+            file.path(mount_point, "Projects", id)
             ## list.files("file.path")
         }
     }

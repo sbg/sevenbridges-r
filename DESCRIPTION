@@ -27,7 +27,8 @@ Imports:
     curl,
     liftr,
     rstudioapi,
-    uuid
+    uuid,
+    dplyr
 Suggests:
     BiocStyle,
     knitr,

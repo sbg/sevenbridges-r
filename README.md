@@ -211,7 +211,7 @@ please visit Bioconductor homepage (link provide at the top). Tutorials below is
 - Describe CWL Tools/Workflows in R and Execution
 [[html](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/apps.R)]
-- Using Rstudio and Shiny
+- IDE container: Rstudio and Shiny server and more
 [[html](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R)]
 
