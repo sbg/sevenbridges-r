@@ -108,6 +108,20 @@ inputs accept list or json}
 \examples{
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 f1 = convert_app(f1)
+## input matrix
+f1$input_matrix()
+## by name
+f1$input_matrix(c("id", "type", "required"))
+## return only required
+f1$input_matrix(required = TRUE)
+## return everything
+f1$input_matrix(NULL)
+## return a output matrix with more informtion
+f1$output_matrix()
+## return only a few fields
+f1$output_matrix(c("id", "type"))
+## return everything
+f1$output_matrix(NULL)
 ## flow inputs
 f1$input_type()
 ## flow outouts

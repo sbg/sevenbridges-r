@@ -20,6 +20,20 @@
 #' @examples 
 #' f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 #' f1 = convert_app(f1)
+#' ## input matrix
+#' f1$input_matrix()
+#' ## by name
+#' f1$input_matrix(c("id", "type", "required"))
+#' ## return only required
+#' f1$input_matrix(required = TRUE)
+#' ## return everything
+#' f1$input_matrix(NULL)
+#' ## return a output matrix with more informtion
+#' f1$output_matrix()
+#' ## return only a few fields
+#' f1$output_matrix(c("id", "type"))
+#' ## return everything
+#' f1$output_matrix(NULL)
 #' ## flow inputs
 #' f1$input_type()
 #' ## flow outouts
@@ -413,6 +427,36 @@ SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
                                        return(res)
                                    }else{
                                        return(NULL)
+                                   }
+                               },
+                               input_matrix = function(new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+                                                       required = NULL){
+                                   res = suppressWarnings(as(inputs, "data.frame"))
+                                   if(!is.null(required)){
+                                       stopifnot(is.logical(required))
+                                       res = res[res$required == required, ]
+                                       if(!nrow(res)){
+                                           return(NULL)
+                                       }
+                                   }
+                                   if(!is.null(new.order)){
+                                       new.order = intersect(new.order, names(res))
+                                       res[, new.order]
+                                       
+                                   }else{
+                                       res
+                                   }
+                                   
+                               },
+                               output_matrix = function(new.order = c("id", "label", "type", "fileTypes")){
+                                   
+                                   res = suppressWarnings(as(outputs, "data.frame"))
+                                   if(!is.null(new.order)){
+                                       new.order = intersect(new.order, names(res))
+                                       res[, new.order]
+                                       
+                                   }else{
+                                       res
                                    }
                                },
                                step_input_id = function(full = FALSE){

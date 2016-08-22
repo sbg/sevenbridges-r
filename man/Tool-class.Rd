@@ -46,6 +46,20 @@ t1 = convert_app(t1)
 t1$input_type()
 ## get output type information
 t1$output_type()
+## return a input matrix with more informtion
+t1$input_matrix()
+## return only a few fields
+t1$input_matrix(c("id", "type", "required"))
+## return only required
+t1$input_matrix(required = TRUE)
+## return everything
+t1$input_matrix(NULL)
+## return a output matrix with more informtion
+t1$output_matrix()
+## return only a few fields
+t1$output_matrix(c("id", "type"))
+## return everything
+t1$output_matrix(NULL)
 ## get input id
 t1$input_id()
 ## get full input id with Tool name

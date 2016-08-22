@@ -3127,7 +3127,7 @@ get_input_id_from_full = function(x){
 
 
 setAs("SBGInputParameter", "data.frame", function(from){
-    
+
     lst = from$toList()
     ib = lst$inputBinding
     res =  c(lst[!names(lst) %in% c("inputBinding", "sbg:category","required",
@@ -3152,7 +3152,7 @@ setAs("SBGInputParameter", "data.frame", function(from){
     
     .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
     .names.other = sort(setdiff(.fullnames, .names.sbg))
-    .names.priority = c("id", "type", "required", "fileTypes", "label", "description")
+    .names.priority = c("id", "type", "required", "fileTypes", "label")
     .names.p2 = sort(setdiff(.names.other, .names.priority))
     new.order = c(.names.priority, .names.p2, .names.sbg)
     
@@ -3247,4 +3247,48 @@ setAs("OutputParameterList", "data.frame", function(from){
     rbind(res1, res2)
 })
 
+
+setAs("SBGWorkflowOutputParameter", "data.frame", function(from){
+    
+    lst = from$toList()
+   
+   
+    res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "type", "fileTypes",
+                                    "sbg:inheritMetadataFrom", "sbg:metadata")],
+             list(type = sevenbridges:::make_type(lst$type),
+                  
+                  fileTypes = lst[["sbg:fileTypes"]]))
+    
+    
+    
+    res = lapply(res, function(x){
+        if(is.null(x))
+            return("null")
+        else
+            return(x)
+    })
+    
+    res = do.call(data.frame, res)
+    .fullnames = names(res)
+    
+    .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
+    .names.other = sort(setdiff(.fullnames, .names.sbg))
+    .names.priority = c("id", "label", "type")
+    .names.p2 = sort(setdiff(.names.other, .names.priority))
+    new.order = c(.names.priority, .names.p2, .names.sbg)
+    
+    res[, new.order]
+})
+
+setAs("SBGWorkflowOutputParameterList", "data.frame", function(from){
+    lst = lapply(from, function(x){
+        as(x, "data.frame")
+    })
+    res = do.call("bind_rows", lst)
+    ## reorder for File File...
+    idx = res$type %in% c("File", "File...")
+    res1 = res[idx, ]
+    res2 = res[!idx, ]
+    rbind(res1, res2)
+})
 

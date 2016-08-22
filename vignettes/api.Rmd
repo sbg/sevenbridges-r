@@ -361,10 +361,10 @@ To check your inputs name and types you need to get an `App` object first.
 
 ```{r}
 app = a$app(id = "tengfei/api-testing-2/newcopyofstar")
-## get app input names and types
-app$input_type()
-## get app output names and types
-app$output_type()
+## get input matrix
+app$input_matrix()
+app$input_matrix(c("id", "label", "type"))
+app$input_matrix(c("id", "label", "type"), required = TRUE)
 ## get required input names and types only
 app$get_required()
 ```
@@ -374,10 +374,10 @@ Or loaded from a CWL JSON and convert it into a R object first.
 ```{r, eval = TRUE}
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 app = convert_app(f1)
-## get app input names and types
-app$input_type()
-## get app output names and types
-app$output_type()
+## get input matrix
+app$input_matrix()
+app$input_matrix(c("id", "label", "type"))
+app$input_matrix(c("id", "label", "type"), required = TRUE)
 ## get required input names and types only
 app$get_required()
 ```
