@@ -400,7 +400,7 @@ Note some other input types includes:
 #### Get your input files ready
 
 ```{r}
-fastqs <- c("SRR924146_1.fastq", "SRR924146_2.fastq")
+fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq")
 
 ## get all 2 exact files
 fastq_in = p$file(name= fastqs, exact = TRUE) 
@@ -432,13 +432,13 @@ tsk = p$task_add(name = taskName,
 Remember "fastq" expect a list of files. You can also do something like
 
 ```{r}
-f1 = p$file(name = "SRR924146_1.fastq", exact = TRUE)
-f2 = p$file(name = "SRR924146_2.fastq", exact = TRUE)
+f1 = p$file(name = "SRR1039508_1.fastq", exact = TRUE)
+f2 = p$file(name = "SRR1039508_2.fastq", exact = TRUE)
 ## get all 2 exact files
 fastq_in = list(f1, f2) 
 
 ## or if you know you only have 2 file name matching SRR924146*.fastq
-fastq_in = p$file(name = "SRR924146*.fastq", complete = TRUE)
+fastq_in = p$file(name = "SRR1039508*.fastq", complete = TRUE)
 ```
 
 Using `complete = TRUE` when items is over 100. 
@@ -448,9 +448,9 @@ Using `complete = TRUE` when items is over 100.
 Now let's do a batch with 8 files in 4 group, which is batch by metadata sample_id and library_id, assume each file has these two metadata fields in the system. And it could be evenly grouped into 4. So we will have a single parent task with 4 sub tasks. 
 
 ```{r}
-fastqs <- c("SRR924146_1.fastq", "SRR924146_2.fastq", "SRR924528_1.fastq", 
-            "SRR924528_2.fastq", "SRR924537_1.fastq", "SRR924537_2.fastq", 
-            "SRR924538_1.fastq", "SRR924538_2.fastq")
+fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq", 
+            "SRR1039509_2.fastq", "SRR1039512_1.fastq", "SRR1039512_2.fastq", 
+            "SRR1039513_1.fastq", "SRR1039513_2.fastq")
 
 ## get all 8 files
 fastq_in = p$file(name= fastqs, exact = TRUE) 
@@ -1338,9 +1338,26 @@ a$project("demo")$task()
 
 ## alternatively
 pid <- a$project("demo")$id
-pid
 a$task(project = pid)
 ```
+
+To list all tasks with details just pass `detail = TRUE`. 
+
+```{r}
+p$task(id = "your task id here", detail = TRUE)
+p$task(detail = TRUE)
+```
+
+To list a batch task using `parent` parameter, pass the batch parent task id. 
+
+```{r}
+p = a$project(id = "tengfei/demo")
+p$task(id = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
+p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
+p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb", status = "completed")
+p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb", status = "draft")
+```
+
 
 #### Create a draft task
 

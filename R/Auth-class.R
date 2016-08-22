@@ -663,6 +663,7 @@ if id provided, This call retrieves information about a selected invoice, includ
                         },
                         task = function(name = NULL,
                             id = NULL, project = NULL,
+                            parent = NULL, 
                             exact = FALSE, detail = FALSE,
                             status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"),...){
 
@@ -674,28 +675,37 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 res <- setAuth(res, .self, "Task")
                                 return(res)                                
                             }
-
-                            if(is.null(project)){
-                                ## list all files
+                            
+                            if(!is.null(parent)){
                                 if(status == "all"){
-                                    req <- api(path = 'tasks',  method = 'GET', ...)
+                                    req <- api(path = 'tasks',  method = 'GET', query = list(parent = parent), ...)
                                 }else{
-                                    req <- api(path = 'tasks',  method = 'GET', query = list(status = status), ...)
+                                    req <- api(path = 'tasks',  method = 'GET', 
+                                               query = list(status = status, parent = parent), ...)
                                 }
                             }else{
-                                ## list all files
-                                if(status == "all"){
-                                    req <- api(path = paste0("projects/", project, "/tasks"),
-                                               method = 'GET', , ...)
-                                    ## req <- api(path = 'tasks',  method = 'GET', query = list(project = project), ...)
+                                
+                                if(is.null(project)){
+                                    ## list all files
+                                    if(status == "all"){
+                                        req <- api(path = 'tasks',  method = 'GET', ...)
+                                    }else{
+                                        req <- api(path = 'tasks',  method = 'GET', query = list(status = status), ...)
+                                    }
                                 }else{
-                                    req <- api(path = paste0("projects/", project, "/tasks"),
-                                               method = 'GET',
-                                               query = list(status = status), ...)
-
+                                    ## list all files
+                                    if(status == "all"){
+                                        req <- api(path = paste0("projects/", project, "/tasks"),
+                                                   method = 'GET', , ...)
+                                        ## req <- api(path = 'tasks',  method = 'GET', query = list(project = project), ...)
+                                    }else{
+                                        req <- api(path = paste0("projects/", project, "/tasks"),
+                                                   method = 'GET',
+                                                   query = list(status = status), ...)
+                                        
+                                    }
                                 }
                             }
-
                             res <- .asTaskList(req)
 
                             ## matching
@@ -716,11 +726,12 @@ if id provided, This call retrieves information about a selected invoice, includ
                                     }else{
                                         ids <- res$id
                                     }
+                                    
                                     lst <- lapply(ids, function(id){
-                                        req <- api(path = paste0("taskss/", id), method = "GET", ...)
+                                        req <- api(path = paste0("tasks/", id), method = "GET", ...)
                                         .asTask(req)
                                     })
-                                    res <- TasksList(lst)
+                                    res <- TaskList(lst)
                                 }
                             }else{
                                 return(NULL)
