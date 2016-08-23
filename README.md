@@ -214,7 +214,9 @@ please visit Bioconductor homepage (link provide at the top). Tutorials below is
 - IDE container: Rstudio and Shiny server and more
 [[html](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R)]
-
+- Find Data on CGC via Data Exploerer, SPARQL and Data API
+[[html](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.html)]
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.R)]
 
 
 <a name="rstudio"/>
