@@ -863,6 +863,136 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
     }
 }
 
+
+#' add \code{#} prefix to id
+#'
+#' add \code{#} prefix to id
+#'
+#' @param x (character) with \code{#} or not.
+#'
+#' @return a character with \code{#} prefix.
+#'
+#' @export addIdNum
+#' @examples
+#' addIdNum(c("bam", "#fastq"))
+addIdNum <- function(x){
+    if(!is.null(x)){
+        sapply(x, .addIdNum)
+    }else{
+        NULL
+    }
+    
+}
+
+.addIdNum <- function(x){
+    if(!is.null(x)){
+        x <- parseLabel(x)
+        .first <- substr(x, 1, 1)
+        if(.first != "#"){
+            return(paste0("#", x))
+        }else{
+            return(x)
+        }
+    }else{
+        return(NULL)
+    }
+}
+
+parseLabel <- function(x){
+    gsub("[[:space:]]+", "_", x)
+}
+
+getId <- function(x){
+    addIdNum(x$label)
+}
+
+getInputId <- function(x){
+    .id <- addIdNum(x$label)
+    ins <- x$inputs
+    if(length(ins)){
+        lapply(ins, function(i){
+            .in.id <- gsub("^#", "", i$id)
+            paste(.id, .in.id, sep = ".")
+        })}else{
+            return(NULL)
+        }
+}
+
+
+
+getOutputId <- function(x){
+    .id <- addIdNum(x$label)
+    os <- x$outputs
+    if(length(os)){
+        lapply(os, function(i){
+            .out.id <- gsub("^#", "", i$id)
+            paste(.id, .out.id, sep = ".")
+        })}else{
+            return(NULL)
+        }
+}
+
+make_type = function(.t){
+    .t = sapply(.t, function(s){
+        ## file array problem
+        if(!is.null(names(s)) && "type" %in% names(s)){
+            if(s$type == "array"){
+                return(paste0(s$items, "..."))
+            }else if(s$type == "enum"){
+                return("enum")
+            }else{
+                return("null")
+            }
+        }else{
+            if(is.list(s)){
+                return(s[[1]])
+            }else{
+                if(length(s) > 1){
+                    return(s[s != "null"])
+                }else{
+                    return(s)
+                }
+                
+            }
+            
+        }
+    })
+    .t[.t != "null"]
+}
+
+getInputType <- function(x){
+    ins <- x$inputs
+    if(length(ins)){
+        sapply(ins, function(i){
+            .t <- i$type
+            .id <- gsub("^#", "", i$id)
+            .t <- make_type(.t)
+            res <- .t
+            names(res) <- .id
+            res
+        })}else{
+            NULL
+        }
+}
+
+getOutputType <- function(x){
+    os <- x$outputs
+    if(length(os)){
+        sapply(os, function(i){
+            
+            .t <- i$type
+            .id <- gsub("^#", "", i$id)
+            .t <- make_type(.t)
+            
+            res <- .t
+            names(res) <- .id
+            res
+        })}else{
+            NULL
+        }
+}
+
+
 #' Test tools with cwl-runner
 #'
 #' Test tools locally cwl-runner (https://github.com/common-workflow-language/cwltool)
@@ -919,6 +1049,151 @@ set_box <- function(x){
     class(x) <- c(.c, "box")
     x
 }
+
+
+## cwl utils
+
+#' get class from cwl json file
+#' 
+#' get class from cwl json file
+#' 
+#' @param input cwl json file path
+#' 
+#' @return character for cwl class "Workflow" or "CommandLineTool"
+#' @export get_cwl_class is_commandlinetool is_workflow
+#' @rdname cwl-utils
+#' @aliases is_commandlinetool is_workflow
+#' @examples
+#' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' get_cwl_class(tool.in)
+#' is_commandlinetool(tool.in)
+#' is_workflow(tool.in)
+#' get_cwl_class(flow.in)
+#' is_commandlinetool(flow.in)
+#' is_workflow(flow.in)
+get_cwl_class = function(input){
+    fromJSON(input)$class
+}
+
+is_commandlinetool = function(input){
+    get_cwl_class(input) == "CommandLineTool"
+}
+
+is_workflow = function(input){
+    get_cwl_class(input) == "Workflow"
+}
+
+## format type list into a DSCList
+format_type = function(x){
+    lst = lapply(x, .format_type)
+    if(all(sapply(lst, is.character))){
+        return(unlist(lst))
+    }
+    do.call(DSCList, lst)
+}
+
+
+.format_type = function(x){
+    if("type" %in% names(x)){
+        switch(x$type, 
+               array = {
+                   do.call(ItemArray, x)
+               },
+               enum = {
+                   do.call(enum, x)
+               })
+    }else{
+        as.character(x)
+    }
+}
+
+get_id_from_label = function(x, suffix = "#"){
+    paste0(suffix, gsub("[[:space:]+]", "_", x))
+}
+
+de_sharp = function(x){
+    gsub("[#+]", "", x)
+}
+
+add_sharp = addIdNum
+
+is_full_name = function(x){
+    grepl("[.]", x)
+}
+
+get_tool_id_from_full = function(x){
+    
+    sapply(x, function(i){
+        if(is_full_name(i)){
+            add_sharp(strsplit(i, "\\.")[[1]][1])
+        }else{
+            add_sharp(i)
+        }
+        
+        
+    })
+}
+get_input_id_from_full = function(x){
+    
+    sapply(x, function(i){
+        if(is_full_name(i)){
+            add_sharp(strsplit(i, "\\.")[[1]][2])
+        }else{
+            add_sharp(i)
+        }
+        
+        
+    })
+}
+
+
+deType <- function(x){
+    
+    ## string
+    str_type <- c('STRING', 'STR', '<string>', '<str>', 'str', "character",
+                  "string", "String")
+    ## int
+    int_type <- c('INTEGER', 'INT', '<integer>', '<int>', 'int',
+                  "integer", "Integer")
+    ## float
+    float_type <- c('FLOAT', '<float>', 'float', 'Float')
+    ## File
+    file_type <- c('FILE', '<file>', 'File', 'file')
+    
+    ## enum
+    enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
+    
+    .array <- FALSE
+    if(is.character(x)){
+        res <- ""        
+        if(grepl("\\.\\.\\.", x)){
+            .array <- TRUE
+            x <- gsub("[^[:alnum:]]", "", x)
+        }
+        
+        if(x %in% str_type){
+            res <- "string"
+        }else if(x %in% int_type){
+            res <- "int"
+        }else if(x %in% float_type){
+            res <- "float"
+        }else if(x %in% file_type){
+            res <- "File"
+        }else if(x %in% enum_type){
+            res <- "enum"
+        }else{
+            res <- x
+        }
+        if(.array){
+            res <- ItemArray(res)
+        }
+    }else{
+        res <- x
+    }
+    res
+}
+
 
 
 

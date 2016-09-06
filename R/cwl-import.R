@@ -1,222 +1,3 @@
-## #' List Class generator.
-## #'
-## #' Extends IRanges SimpleList class and return constructor.
-## #' 
-## #' @param elementType [character]
-## #' @param suffix [character] default is "List"
-## #' @param contains [character] class name.
-## #' @param where environment.
-## #' @return S4 class constructor
-## setListClass <- function(elementType = NULL, suffix = "List",
-##                          contains = NULL, where = topenv(parent.frame())){
-##     stopifnot(is.character(elementType))
-##     name <- paste0(elementType, suffix)
-##     setClass(name, contains = c("SimpleList", contains), where = where,
-##              prototype = prototype(elementType = elementType))
-##     setMethod("show", name, function(object){
-##         lapply(object, show)
-##     })
-##     ## constructor
-##     function(...){
-##         listData <- .dotargsAsList(...)
-##         S4Vectors:::new_SimpleList_from_list(name, listData)
-##     }
-## }
-
-
-
-## ## Function from IRanges
-## .dotargsAsList <- function(...) {
-##     listData <- list(...)
-##   if (length(listData) == 1) {
-
-
-##       arg1 <- listData[[1]]
-##       if (is.list(arg1) || is(arg1, "List"))
-##         listData <- arg1
-##       ## else if (type == "integer" && class(arg1) == "character")
-##       ##   listData <- strsplitAsListOfIntegerVectors(arg1) # weird special case
-##   }
-##   listData
-## }
-
-
-
-deType <- function(x){
-
-    ## string
-    str_type <- c('STRING', 'STR', '<string>', '<str>', 'str', "character",
-                  "string", "String")
-    ## int
-    int_type <- c('INTEGER', 'INT', '<integer>', '<int>', 'int',
-                  "integer", "Integer")
-    ## float
-    float_type <- c('FLOAT', '<float>', 'float', 'Float')
-    ## File
-    file_type <- c('FILE', '<file>', 'File', 'file')
-    
-    ## enum
-    enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
-
-    .array <- FALSE
-    if(is.character(x)){
-        res <- ""        
-        if(grepl("\\.\\.\\.", x)){
-            .array <- TRUE
-            x <- gsub("[^[:alnum:]]", "", x)
-        }
-
-        if(x %in% str_type){
-            res <- "string"
-        }else if(x %in% int_type){
-            res <- "int"
-        }else if(x %in% float_type){
-            res <- "float"
-        }else if(x %in% file_type){
-            res <- "File"
-        }else if(x %in% enum_type){
-            res <- "enum"
-        }else{
-            res <- x
-        }
-        if(.array){
-            res <- ItemArray(res)
-        }
-    }else{
-        res <- x
-    }
-   res
-}
-
-
-#' add \code{#} prefix to id
-#'
-#' add \code{#} prefix to id
-#'
-#' @param x (character) with \code{#} or not.
-#'
-#' @return a character with \code{#} prefix.
-#'
-#' @export addIdNum
-#' @examples
-#' addIdNum(c("bam", "#fastq"))
-addIdNum <- function(x){
-    if(!is.null(x)){
-        sapply(x, .addIdNum)
-    }else{
-        NULL
-    }
-    
-}
-
-.addIdNum <- function(x){
-    if(!is.null(x)){
-        x <- parseLabel(x)
-        .first <- substr(x, 1, 1)
-        if(.first != "#"){
-            return(paste0("#", x))
-        }else{
-            return(x)
-        }
-    }else{
-        return(NULL)
-    }
-}
-
-parseLabel <- function(x){
-    gsub("[[:space:]]+", "_", x)
-}
-
-getId <- function(x){
-    addIdNum(x$label)
-}
-
-getInputId <- function(x){
-    .id <- addIdNum(x$label)
-    ins <- x$inputs
-    if(length(ins)){
-    lapply(ins, function(i){
-        .in.id <- gsub("^#", "", i$id)
-        paste(.id, .in.id, sep = ".")
-    })}else{
-        return(NULL)
-    }
-}
-
-
-
-getOutputId <- function(x){
-    .id <- addIdNum(x$label)
-    os <- x$outputs
-    if(length(os)){
-    lapply(os, function(i){
-        .out.id <- gsub("^#", "", i$id)
-        paste(.id, .out.id, sep = ".")
-    })}else{
-        return(NULL)
-    }
-}
-
-make_type = function(.t){
-    .t = sapply(.t, function(s){
-    ## file array problem
-    if(!is.null(names(s)) && "type" %in% names(s)){
-        if(s$type == "array"){
-            return(paste0(s$items, "..."))
-        }else if(s$type == "enum"){
-            return("enum")
-        }else{
-            return("null")
-        }
-    }else{
-        if(is.list(s)){
-            return(s[[1]])
-        }else{
-            if(length(s) > 1){
-                return(s[s != "null"])
-            }else{
-                return(s)
-            }
-            
-        }
-        
-    }
-    })
-    .t[.t != "null"]
-}
-
-getInputType <- function(x){
-    ins <- x$inputs
-    if(length(ins)){
-        sapply(ins, function(i){
-            .t <- i$type
-            .id <- gsub("^#", "", i$id)
-            .t <- make_type(.t)
-            res <- .t
-            names(res) <- .id
-            res
-        })}else{
-            NULL
-        }
-}
-
-getOutputType <- function(x){
-    os <- x$outputs
-    if(length(os)){
-        sapply(os, function(i){
-            
-            .t <- i$type
-            .id <- gsub("^#", "", i$id)
-            .t <- make_type(.t)
-    
-            res <- .t
-            names(res) <- .id
-            res
-        })}else{
-            NULL
-        }
-}
-
 #' Class CWL
 #'
 #' Define CWL class and generic methods, no fields defeind.
@@ -310,7 +91,7 @@ CWL <- setRefClass("CWL",
                                           showDefault(.self)
                                       }
                                   })
-                       }                       
+                       }
                    ))
 
 #' Convert a object slots/fields to a list, json, yaml file
@@ -1205,6 +986,20 @@ setRefClass("SchemaDefRequirement", contains = "ProcessRequirement",
 #' @examples
 #' Binding(loadContents = TRUE, secondaryFiles = "./test.txt")
 Binding <- setRefClass("Binding", contains = "CWL", 
+                       method = list(
+                           initialize = function(loadContents = NULL,
+                                                 secondaryFiles = NULL, ...){
+                               
+                               if(is.character(secondaryFiles)){
+                                   secondaryFiles <<- set_box(secondaryFiles)
+                               }else{
+                                   secondaryFiles <<- secondaryFiles
+                               }
+                               loadContents <<- loadContents
+                               callSuper(...)
+                           }
+                           
+                       ),
                        fields = list(
                            loadContents = "logicalORlistORNULL",
                            secondaryFiles = "characterORExpressionORlistORNULL" ## fixme: should be a list
@@ -1569,6 +1364,8 @@ CommandLineBinding <- setRefClass("CommandLineBinding",
 
                                           if(is.list(valueFrom)){
                                               valueFrom <<- do.call(Expression, valueFrom)
+                                          }else{
+                                              valueFrom <<- valueFrom
                                           }
                                           position <<- as.integer(position)
                                           separate <<- separate
@@ -1792,9 +1589,9 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                        baseCommand = NULL,
                                        ...){
                                        
-                                       if(is.null(baseCommand)){
-                                           stop("baseCommand has to be provided")
-                                       }
+                                       # if(is.null(baseCommand)){
+                                       #     stop("baseCommand has to be provided")
+                                       # }
                                        if(!is.list(baseCommand)){
                                            if(is.character(baseCommand)){
                                                baseCommand <<- list(baseCommand)
@@ -1807,14 +1604,12 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                                        valueFrom = arguments
                                                    ))
                                            }
-                                       }
-                                       if(is(arguments, "CommandLineBinding")){
+                                       }else if(is(arguments, "CommandLineBinding")){
                                            arguments <<- CCBList(arguments)
+                                       }else{
+                                           arguments <<- arguments 
                                        }
-                                       if(is(arguments,
-                                             "characterORCommandLineBindingList")){
-                                           arguments <<- arguments
-                                       }
+                                      
                                        class <<- class
                                        callSuper(...)
                                    }
@@ -2554,9 +2349,9 @@ input <- function(id = NULL, type = NULL, label = "",
                   stageInput = NULL, 
                   cmdInclude = FALSE, ...){
 
-    if(is.null(id)){
-        stop("id has to be provided")
-    }
+    # if(is.null(id)){
+    #     stop("id has to be provided")
+    # }
 
     if(!length(label)){
         label <- id
@@ -2664,9 +2459,9 @@ output <- function(id = NULL, type = "file", label = "", description = "",
                    streamable = FALSE, default = "", fileTypes = NULL, ...){
 
 
-    if(is.null(id)){
-        stop("id has to be provided")
-    }
+    # if(is.null(id)){
+    #     stop("id has to be provided")
+    # }
 
     if(!length(label)){
         label <- id
@@ -3026,103 +2821,6 @@ SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
                        ))
 
 SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
-
-
-## cwl utils
-
-#' get class from cwl json file
-#' 
-#' get class from cwl json file
-#' 
-#' @param input cwl json file path
-#' 
-#' @return character for cwl class "Workflow" or "CommandLineTool"
-#' @export get_cwl_class is_commandlinetool is_workflow
-#' @rdname cwl-utils
-#' @aliases is_commandlinetool is_workflow
-#' @examples
-#' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-#' get_cwl_class(tool.in)
-#' is_commandlinetool(tool.in)
-#' is_workflow(tool.in)
-#' get_cwl_class(flow.in)
-#' is_commandlinetool(flow.in)
-#' is_workflow(flow.in)
-get_cwl_class = function(input){
-    fromJSON(input)$class
-}
-
-is_commandlinetool = function(input){
-    get_cwl_class(input) == "CommandLineTool"
-}
-
-is_workflow = function(input){
-    get_cwl_class(input) == "Workflow"
-}
-
-## format type list into a DSCList
-format_type = function(x){
-    lst = lapply(x, .format_type)
-    if(all(sapply(lst, is.character))){
-        return(unlist(lst))
-    }
-    do.call(DSCList, lst)
-}
-
-
-.format_type = function(x){
-    if("type" %in% names(x)){
-        switch(x$type, 
-               array = {
-                   do.call(ItemArray, x)
-               },
-               enum = {
-                   do.call(enum, x)
-               })
-    }else{
-        as.character(x)
-    }
-}
-
-get_id_from_label = function(x, suffix = "#"){
-    paste0(suffix, gsub("[[:space:]+]", "_", x))
-}
-
-de_sharp = function(x){
-    gsub("[#+]", "", x)
-}
-
-add_sharp = addIdNum
-
-is_full_name = function(x){
-    grepl("[.]", x)
-}
-
-get_tool_id_from_full = function(x){
-   
-    sapply(x, function(i){
-        if(is_full_name(i)){
-            add_sharp(strsplit(i, "\\.")[[1]][1])
-        }else{
-            add_sharp(i)
-        }
-        
-        
-    })
-}
-get_input_id_from_full = function(x){
-  
-    sapply(x, function(i){
-        if(is_full_name(i)){
-            add_sharp(strsplit(i, "\\.")[[1]][2])
-        }else{
-            add_sharp(i)
-        }
-        
-        
-    })
-}
 
 
 
