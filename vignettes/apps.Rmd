@@ -669,8 +669,8 @@ f = link(t1, t2, "#random", "#number")
 ## you can  not directly copy-paste it
 ## please use API to push it, we will register each tool for you. 
 
-library(clipr)
-write_clip(f$toJSON(pretty = TRUE))
+# library(clipr)
+# write_clip(f$toJSON(pretty = TRUE))
 
 
 t2 <- Tool(id = "log new test 3", label = "get log",
@@ -684,8 +684,8 @@ t2 <- Tool(id = "log new test 3", label = "get log",
                             type = "file", 
                             glob = "*.txt"))
 
-library(clipr)
-write_clip(t2$toJSON(pretty = TRUE))
+# library(clipr)
+# write_clip(t2$toJSON(pretty = TRUE))
 ```
 
 __Note__: this workflow contains tools that do not exist on the platform, so if you 
@@ -728,8 +728,8 @@ f2 = link(t1, t2, "output_fastq_files", "reads",
           flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
           flow_output = "#STAR.log_files")
 
-library(clipr)
-write_clip(f2$toJSON())
+# library(clipr)
+# write_clip(f2$toJSON())
 ```
 
 #### Connecting tool with workflow by input and output id
@@ -753,8 +753,8 @@ f4 = link(f2, t1, c("#Picard_SortSam.sorted_bam", "#SBG_FASTQ_Quality_Detector.r
 ## all outputs
 ## flow + flow
 ## print message when name wrong
-library(clipr)
-write_clip(f4$toJSON())
+# library(clipr)
+# write_clip(f4$toJSON())
 ```
 
 #### Using pipe to construct complicated workflow
