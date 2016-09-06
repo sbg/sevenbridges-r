@@ -9,7 +9,6 @@
 \alias{link,ToolORWorkflow,App-method}
 \alias{link,Workflow,Tool-method}
 \alias{link,Workflow,Workflow-method}
-\alias{link_what}
 \title{link two nodes to form a new Workflow}
 \usage{
 link(from, to, ...)
@@ -17,17 +16,17 @@ link(from, to, ...)
 \S4method{link}{Tool,Tool}(from, to, id1, id2, flow_id = NULL,
   flow_label = NULL, flow_input = NULL, flow_output = NULL)
 
-\S4method{link}{Tool,Workflow}(from, to, id1, id2)
+\S4method{link}{Tool,Workflow}(from, to, id1, id2, flow_id = NULL,
+  flow_label = NULL, flow_input = NULL, flow_output = NULL)
 
-\S4method{link}{Workflow,Tool}(from, to, id1, id2)
+\S4method{link}{Workflow,Tool}(from, to, id1, id2, flow_id = NULL,
+  flow_label = NULL, flow_input = NULL, flow_output = NULL)
 
 \S4method{link}{Workflow,Workflow}(from, to, id1, id2)
 
 \S4method{link}{App,ToolORWorkflow}(from, to, id1, id2)
 
 \S4method{link}{ToolORWorkflow,App}(from, to, id1, id2)
-
-link_what(from, to)
 }
 \arguments{
 \item{from}{either Tool App or Workflow object}
@@ -53,8 +52,6 @@ A Workflow object
 }
 \description{
 link two nodes to form a new Workflow
-
-shows potential link methods by providing grouped inputs/ouputs
 }
 \details{
 Flexible enought to allow users to connect two objects by ids
@@ -67,16 +64,10 @@ t2 = convert_app(t2)
 ## check possible link
 link_what(t1, t2)
 ## link
-f = link(t1, t2, "output_fastq_files", "reads")
+f1 = link(t1, t2, "output_fastq_files", "reads")
 ## link
-f = link(t1, t2, "output_fastq_files", "reads",
+f2 = link(t1, t2, "output_fastq_files", "reads",
          flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
          flow_output = "#STAR.log_files")
-tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-t1 = convert_app(tool.in)
-f2 = convert_app(flow.in)
-lw = link_what(t1, f2)
-lw
 }
 
