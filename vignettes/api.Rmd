@@ -893,7 +893,7 @@ To list all files belongs to a project simple use
 p <- a$project(id = "tengfei/demo-project")
 p$file()
 ```
-### Files and Metadata
+### Files and Metadata and Tags
 
 #### List all files
 
@@ -1191,6 +1191,53 @@ Metadata(platform  = "Affymetrix SNP Array 6.0",
          quality_scale = "sanger",
          new_item = "new test")
 ```
+
+#### Tag for file(s)
+
+
+Tags are different from metadata, it's more convenient and flexible and visible from file list UI on the platform. 
+
+To add a new tag using `obj$add_tag()` method for `File` object with a single tag string or a list/vector of tags. To complete rewrite the tags for file, use `obj$set_tag()` method, by default the argument `overwrite = TRUE` which means swipe and reset, when it's set to `FALSE`, it is basically `add_tag` call. You can also filter files by tags. 
+
+Let's get a file called "sample.bam" and play with it's tag.
+
+```{r}
+p <- a$project(id = "tengfei/s3tutorial")
+fl = p$file("sample.bam", exact = TRUE)
+## show tags
+fl$tag()
+## add new tags
+fl$add_tag("new tag")
+## equavilent to 
+fl$set_tag("new tag 2", overwrite = FALSE)
+## set tags to overwrite existing
+x = list("this", "is", 1234)
+fl$set_tag(x)
+## filter by tags
+p$file(tag = c("1234", "new"))
+p$file(tag = list("1234", "new"))
+p$file(tag = "1234")
+```
+
+We also provide convenient methods for `FilesList`, let's add tag "s1" to a group files matched "Sample1" and add tag "s2" to a group of files that matched "s2", then try to get files by tag filter. 
+
+```{r}
+## work on a group of files
+## add tag "s2" to a group of files named with "Sample2" in it
+fl2 = p$file("Sample2")
+add_tag(fl2, "s2")
+## add tag "s2" to a group of files named with "Sample1" in it
+fl1 = p$file("Sample1")
+add_tag(fl1, "s1")
+## filter by tag s1 or s2
+p$file(tag = "s1")
+p$file(tag = "s2")
+## get files tagged with s2 and 1234
+p$file(tag = list("s2", "1234"))
+```
+
+
+How to do that on the UI, please check out the tutorial  [here](http://docs.sevenbridges.com/v1.0/docs/tag-your-files)
 
 ### App
 

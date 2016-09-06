@@ -1,5 +1,5 @@
 .response_files <- c("id", "name",  "size", "project", "created_on",
-                     "modified_on", "origin", "metadata")
+                     "modified_on", "origin", "metadata", "tags")
 ## Files: let's extend File class from CWL package
 
 #' Files class
@@ -34,7 +34,8 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                          url = "characterORNULL",
                          created_on = "characterORNULL",
                          modified_on = "characterORNULL",
-                         origin = "listORNULL"),
+                         origin = "listORNULL",
+                         tags = "listORNULL"),
                      methods = list(
                          initialize = function(id = NULL,
                              name = NULL,
@@ -43,6 +44,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              url = NULL,
                              created_on = NULL,
                              modified_on = NULL,
+                             tags = NULL,
                              origin = list(), ...){
 
 
@@ -54,6 +56,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              created_on <<- created_on
                              modified_on <<- modified_on
                              origin <<- origin
+                             tags <<- tags
                              
 
                              callSuper(...)
@@ -88,6 +91,10 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                          copyTo = function(project = NULL, name = NULL){
                              auth$copyFile(id, project = project, name = name)
                          },
+                         copy_to = function(project = NULL, name = NULL){
+                             'copy a file to a project (id) with new name '
+                             copyTo(project = project, name = name) 
+                         },
                          meta = function(){
                              'get metadata from a file'
                              req <- auth$api(path = paste0('files/', id, '/metadata'),
@@ -97,7 +104,8 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              req
                          },
                          setMeta = function(..., overwrite = FALSE){
-
+                             'set metadata with provided list, when overwrite is set to 
+                             TRUE, it overwrites the metadata'
                              o <- .self$metadata
 
                              md <- .dotargsAsList(...)
@@ -132,8 +140,49 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              metadata <<- req
                              req
                          },
-                         update  = function(name = NULL, metadata = NULL){
-                             body <- list(name = name, metadata = metadata)
+                         set_meta = function(..., overwrite = FALSE){
+                             'set metadata with provided list, when overwrite is set to 
+                             TRUE, it overwrites the metadata'
+                             setMeta(..., overwrite = overwrite)
+                         },
+                         tag = function(){
+                             'get tag from a file'
+                             update()
+                             .self$tags
+                         },
+                         set_tag = function(x = NULL, overwrite = TRUE, ...){
+                             'set a tag for a file, your tag need to be a list or vector'
+                             if(is.null(x)){
+                                 stop("please provided your tags")
+                             }
+                             
+                             if(is.character(x)){
+                                 x = as.list(x)
+                             }
+                             if(overwrite){
+                                 auth$api(path = paste0("files/", id, "/tags"),
+                                          method = "PUT",
+                                          body = x, ...) 
+                                 tags <<- x
+                             }else{
+                                 .tags = tag()
+                                 .tags = c(.tags, x)
+                                  auth$api(path = paste0("files/", id, "/tags"),
+                                          method = "PUT",
+                                          body = .tags, ...) 
+                                  tags <<- .tags
+                             }
+                             tags
+                            
+                          
+                         },
+                         add_tag = function(x, ...){
+                             'add new tags while keeping old tags'
+                             set_tag(x, overwrite = FALSE, ...)
+                         },
+                         update  = function(name = NULL, metadata = NULL, tags = NULL){
+                             'This call updates the name, the full set metadata, and tags for a specified file.'
+                             body <- list(name = name, metadata = metadata, tags = tags)
                              body <- body[!sapply(body, is.null)]
                              if(length(body)){
                                  req <- auth$api(path = paste0('files/', id),
@@ -166,6 +215,7 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
           created_on = x$created_on,
           modified_on = x$modified_on,
           origin = x$origin, 
+          tags = x$tags, 
           response = response(x))
 }
 
@@ -250,3 +300,70 @@ setMethod("download", "Files", function(obj, ...){
     obj$download(...)
 })
 
+
+
+#' set file tags
+#'
+#' set file tags
+#'
+#' @param obj single File or FileList
+#' @param ... passed to obj$set_tag() 
+#'
+#' @export
+#' @docType methods
+#' @rdname tag-methods
+#' @return tag list
+#' @examples
+#' \dontrun{
+#' fl = a$project("demo")$file("omni")
+#' set_tag(fl, "new tag")
+#' set_tag(fl, list("new tag", "new tag 2"))
+#' }
+setGeneric("set_tag", function(obj, ...) standardGeneric("set_tag"))
+
+#' @rdname tag-methods
+#' @aliases set_tag,FilesList-method
+setMethod("set_tag", "FilesList", function(obj, ...){
+    for(i in 1:length(obj)){
+        obj[[i]]$set_tag(...)
+    }
+})
+
+#' @rdname tag-methods
+#' @aliases set_tag,Files-method
+setMethod("set_tag", "Files", function(obj, ...){
+    obj$set_tag(...)
+})
+
+#' add new file tags
+#'
+#' add new file tags and keep the old tags
+#'
+#' @param obj single File or FileList
+#' @param ... passed to obj$set_tag() 
+#'
+#' @export
+#' @docType methods
+#' @rdname tag-methods
+#' @return tag list
+#' @examples
+#' \dontrun{
+#' fl = a$project("demo")$file("omni")
+#' add_tag(fl, "new tag")
+#' add_tag(fl, list("new tag", "new tag 2"))
+#' }
+setGeneric("add_tag", function(obj, ...) standardGeneric("add_tag"))
+
+#' @rdname tag-methods
+#' @aliases add_tag,FilesList-method
+setMethod("add_tag", "FilesList", function(obj, ...){
+    for(i in 1:length(obj)){
+        obj[[i]]$add_tag(...)
+    }
+})
+
+#' @rdname tag-methods
+#' @aliases add_tag,Files-method
+setMethod("add_tag", "Files", function(obj, ...){
+    obj$add_tag(...)
+})

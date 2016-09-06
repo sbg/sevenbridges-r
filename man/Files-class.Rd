@@ -48,9 +48,25 @@ project id and stored with the object.}
 \section{Methods}{
 
 \describe{
+\item{\code{add_tag(x, ...)}}{add new tags while keeping old tags}
+
+\item{\code{copy_to(project = NULL, name = NULL)}}{copy a file to a project (id) with new name }
+
 \item{\code{download(destfile, ..., method = "curl")}}{see help(download.file) for more options}
 
 \item{\code{meta()}}{get metadata from a file}
+
+\item{\code{setMeta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite is set to 
+TRUE, it overwrites the metadata}
+
+\item{\code{set_meta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite is set to 
+TRUE, it overwrites the metadata}
+
+\item{\code{set_tag(x = NULL, overwrite = TRUE, ...)}}{set a tag for a file, your tag need to be a list or vector}
+
+\item{\code{tag()}}{get tag from a file}
+
+\item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata, and tags for a specified file.}
 }}
 \examples{
 Files(id = "test_id", name = "test.bam")

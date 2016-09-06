@@ -369,6 +369,7 @@ if id provided, This call retrieves information about a selected invoice, includ
                             exact = FALSE, detail = FALSE,  
                             metadata = list(), 
                             origin.task = NULL, 
+                            tag = NULL,
                             complete = FALSE, 
                             search.engine = c("server", "brute"), ...){
                             'This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.'
@@ -401,6 +402,22 @@ if id provided, This call retrieves information about a selected invoice, includ
 
                             if(!is.null(origin.task)){
                                 .query <- c(.query, list(origin.task = origin.task))
+                            }
+                            
+                            if(!is.null(tag)){
+                                .split_tag = function(x){
+                                    if(length(x) > 1){
+                                        names(x)  = rep("tag", length(x))
+                                        x
+                                    }else{
+                                        if(is.list(x)){
+                                            x = x[[1]]
+                                        }
+                                        list(tag = x)
+                                    }
+                                }
+                                .new_tag = .split_tag(tag)
+                                .query <- c(.query, .new_tag)
                             }
                          
                             
