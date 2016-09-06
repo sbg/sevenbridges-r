@@ -694,7 +694,7 @@ is to push your app to platform via API. This will add new tools one by one to y
 before add your workflow app on the platform. Alternative if you connect two tools 
 you know they exist on the platform, you don't need to do so. 
 
-```{r}
+```{r, eval = FALSE}
 ## auto-check tool info and push new tools
 p$app_add("new_flow_log", f)
 ```

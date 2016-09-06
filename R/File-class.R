@@ -307,7 +307,7 @@ setMethod("download", "Files", function(obj, ...){
 #' set file tags
 #'
 #' @param obj single File or FileList
-#' @param ... passed to obj$set_tag() 
+#' @param ... passed to obj$set_tag() or obj$add_tag() 
 #'
 #' @export
 #' @docType methods
@@ -338,9 +338,6 @@ setMethod("set_tag", "Files", function(obj, ...){
 #' add new file tags
 #'
 #' add new file tags and keep the old tags
-#'
-#' @param obj single File or FileList
-#' @param ... passed to obj$set_tag() 
 #'
 #' @export
 #' @docType methods

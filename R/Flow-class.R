@@ -1465,7 +1465,6 @@ setMethod("link_what", c("SBGWorkflow", "Tool"),function(from, to){
 #' @export 
 #' @docType methods
 #' @aliases link_what,SBGWorkflow,SBGWorkflow-method
-#' @examples 
 setMethod("link_what", c("SBGWorkflow", "SBGWorkflow"),function(from, to){
     
     

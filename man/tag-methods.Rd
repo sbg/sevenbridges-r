@@ -25,11 +25,7 @@ add_tag(obj, ...)
 \arguments{
 \item{obj}{single File or FileList}
 
-\item{...}{passed to obj$set_tag()}
-
-\item{obj}{single File or FileList}
-
-\item{...}{passed to obj$set_tag()}
+\item{...}{passed to obj$set_tag() or obj$add_tag()}
 }
 \value{
 tag list

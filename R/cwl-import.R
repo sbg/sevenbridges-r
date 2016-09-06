@@ -2919,7 +2919,7 @@ setAs("SBGCommandOutputParameter", "data.frame", function(from){
     
     res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
                                     "sbg:inheritMetadataFrom", "sbg:metadata")],
-             list(type = sevenbridges:::make_type(lst$type),
+             list(type = make_type(lst$type),
                 
                   fileTypes = lst[["sbg:fileTypes"]]), ob)
                  
@@ -2964,7 +2964,7 @@ setAs("SBGWorkflowOutputParameter", "data.frame", function(from){
    
     res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "type", "fileTypes",
                                     "sbg:inheritMetadataFrom", "sbg:metadata")],
-             list(type = sevenbridges:::make_type(lst$type),
+             list(type = make_type(lst$type),
                   
                   fileTypes = lst[["sbg:fileTypes"]]))
     
