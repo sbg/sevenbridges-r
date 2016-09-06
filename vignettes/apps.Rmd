@@ -591,11 +591,177 @@ head(f1$output_matrix(NULL))
 f1$input_type()
 ## flow outouts
 f1$output_type()
+## list tools
+f1$list_tool()
+## f1$get_tool("STAR")
 ```
+
+There are more utilities please check example at `help(Flow)`
 
 ### Create your own flow in R 
 
 #### Introduction
+
+To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
+
+- Simple linear tool connection and chaining
+- Connect flow with one or more tools
+
+__Note__ for complicated workflow construction, I highly recommend just use our graphical interface to do it, there is no better way.
+
+#### Connect simple linear tools
+
+Let's create tools from scratch to perform a simple task
+
+1. Tool 1 output 1000 random number
+2. Tool 2 take log on it
+3. Tool 3 do a mean calculation of everything
+
+```{r}
+library(sevenbridges)
+## A tool that generate a 100 random number
+t1 <- Tool(id = "runif new test 3", label = "random number",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'", 
+           outputs = output(id = "random", 
+                            type = "file", 
+                            glob = "random.txt"))
+
+## A tool that take log
+fd <- fileDef(name = "log.R",
+              content = "args = commandArgs(TRUE)
+                         x = read.table(args[1], header = TRUE)[,'x']
+                         x = log(x)
+                         write.csv(x, file = 'random_log.txt', row.names = FALSE)
+                         ")
+
+t2 <- Tool(id = "log new test 3", label = "get log",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           requirements = requirements(fd),
+           baseCommand = "Rscript log.R", 
+           inputs = input(id = "number",
+                           type = "file"),
+           outputs = output(id = "log", 
+                            type = "file", 
+                            glob = "*.txt"))
+
+## A tool that do a mean
+fd <- fileDef(name = "mean.R",
+              content = "args = commandArgs(TRUE)
+                         x = read.table(args[1], header = TRUE)[,'x']
+                         x = mean(x)
+                         write.csv(x, file = 'random_mean.txt', row.names = FALSE)")
+
+t3 <- Tool(id = "mean new test 3", label = "get mean",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           requirements = requirements(fd),
+           baseCommand = "Rscript mean.R", 
+           inputs = input(id = "number",
+                           type = "file"),
+           outputs = output(id = "mean", 
+                            type = "file", 
+                            glob = "*.txt"))
+
+
+f = t1 %>>% t2
+f = link(t1, t2, "#random", "#number")
+
+## you can  not directly copy-paste it
+## please use API to push it, we will register each tool for you. 
+
+library(clipr)
+write_clip(f$toJSON(pretty = TRUE))
+
+
+t2 <- Tool(id = "log new test 3", label = "get log",
+           hints = requirements(docker(pull = "rocker/r-base")),
+           ## requirements = requirements(fd),
+           baseCommand = "Rscript log.R", 
+           inputs = input(id = "number",
+                           type = "file",
+                          secondaryFiles = sevenbridges:::set_box(".bai")),
+           outputs = output(id = "log", 
+                            type = "file", 
+                            glob = "*.txt"))
+
+library(clipr)
+write_clip(t2$toJSON(pretty = TRUE))
+```
+
+__Note__: this workflow contains tools that do not exist on the platform, so if you 
+directly copy and paste the JSON into the GUI, it won't work properly, however, a simple way 
+is to push your app to platform via API. This will add new tools one by one to your project 
+before add your workflow app on the platform. Alternative if you connect two tools 
+you know they exist on the platform, you don't need to do so. 
+
+```{r}
+## auto-check tool info and push new tools
+p$app_add("new_flow_log", f)
+```
+
+#### Connecting tools by input and output id
+
+Now let's connect two tools
+
+1. unpakcing a compressed fastq
+2. STAR aligner 
+
+Checking potential mapping is easy with function `link_what`, it will print matched input and outputs. Then the generic function `link` will allow you to connect two `Tool` objects 
+
+If you don't specify which input/ouput to expose at flow level for new `Flow` object, it will expose all availabl ones and print the message, otherwise, please provide parameters for `flow_input` and `flow_output` with full id.
+
+```{r}
+t1 = system.file("extdata/app", "tool_unpack_fastq.json", 
+                 package = "sevenbridges")
+t2 = system.file("extdata/app", "tool_star.json", 
+                 package = "sevenbridges")
+t1 = convert_app(t1)
+t2 = convert_app(t2)
+## check possible link
+link_what(t1, t2)
+## link
+f1 = link(t1, t2, "output_fastq_files", "reads")
+## link
+t1$output_id(TRUE)
+t2$input_id(TRUE)
+f2 = link(t1, t2, "output_fastq_files", "reads",
+          flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
+          flow_output = "#STAR.log_files")
+
+library(clipr)
+write_clip(f2$toJSON())
+```
+
+#### Connecting tool with workflow by input and output id
+
+```{r}
+tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+
+t1 = convert_app(tool.in)
+f2 = convert_app(flow.in)
+## consulting link_what first
+f2$link_map()
+## then link
+
+f3 = link(t1, f2, c("output_fastq_files"), c("#SBG_FASTQ_Quality_Detector.fastq"))
+
+link_what(f2, t1)
+f4 = link(f2, t1, c("#Picard_SortSam.sorted_bam", "#SBG_FASTQ_Quality_Detector.result"), c("#input_archive_file", "#input_archive_file"))
+
+## todo 
+## all outputs
+## flow + flow
+## print message when name wrong
+library(clipr)
+write_clip(f4$toJSON())
+```
+
+#### Using pipe to construct complicated workflow
+
+```{r}
+
+```
 
 ## Execution
 

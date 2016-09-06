@@ -86,24 +86,79 @@ Build workflow
 \section{Methods}{
 
 \describe{
+\item{\code{copy_obj()}}{this is a hack to make copy of reference cwl object}
+
 \item{\code{get_input(ids, force = FALSE)}}{get input by pure input id from all steps}
 
 \item{\code{get_input_exposed()}}{exposed input id other than file}
 
 \item{\code{get_input_node()}}{get input file nodes id}
 
+\item{\code{get_input_port()}}{show included port of all inputs}
+
 \item{\code{get_output(ids, force = FALSE)}}{get output by pure output id from all steps}
 
 \item{\code{get_output_node()}}{get output file nodes id}
+
+\item{\code{get_required()}}{show flow required input id and types}
+
+\item{\code{get_step(name = NULL, id = NULL)}}{get step object by name or id, name support pattern match}
+
+\item{\code{get_tool(name = NULL, id = NULL)}}{get a tool object by name or id, name support pattern match}
+
+\item{\code{input_id()}}{show input id}
+
+\item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
+  "fileTypes"), required = NULL)}}{this return a matrix of input parameters, by default, following the order 
+id, label, type, required, prefix, fileTypes. new.order accept names of column you want to
+print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when 
+required = TRUE, only print required field. }
+
+\item{\code{input_type()}}{show a vector of flow input type, names of them are input id}
+
+\item{\code{link_map()}}{show a table of all linked nodes}
 
 \item{\code{linked_input_id()}}{input id that linked to an output}
 
 \item{\code{linked_output_id()}}{output id that linked to an input}
 
+\item{\code{list_tool()}}{list all tools included in this flow}
+
+\item{\code{output_id()}}{show output id}
+
+\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{this return a matrix of output parameters, by default, following the order 
+id, label, type, fileTypes. new.order accept names of column you want to
+print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when 
+required = TRUE, only print required field. }
+
+\item{\code{output_type()}}{show a vector of flow output type, names of them are output id}
+
 \item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
 inputs accept list or json}
 
-\item{\code{set_required(ids, required = TRUE)}}{require full input id (with tool id prefix)}
+\item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{set a flow input node into a batch mode, this now is required before
+you execute a batch task on a batch-not-enabled flow}
+
+\item{\code{set_flow_input(iid = NULL, add = TRUE)}}{expose tool input node as flow input, default is 
+additative, if \code{add = FALSE} this will overwrite 
+and only made provided id inputs of flow}
+
+\item{\code{set_flow_output(oid = NULL, add = TRUE)}}{expose tool output node as flow output, default is 
+additative, if \code{add = FALSE} this will overwrite 
+and only made provided id outputs of flow}
+
+\item{\code{set_input_port(ids, include = TRUE)}}{set included port for provided input id(s)}
+
+\item{\code{set_required(ids, required = TRUE)}}{set a input node required (\code{TRUE}) or not required (\code{FALSE})
+this require full input id (with tool id prefix) such as #STAR.alignIntronMax}
+
+\item{\code{step_input_id(full = FALSE)}}{show step input id, default names of them is tool id. 
+when \code{full = TRUE} show full name then names of vector
+is type.}
+
+\item{\code{step_output_id(full = FALSE)}}{show step output id, default names of them is tool id. 
+when \code{full = TRUE} show full name then names of vector
+is type.}
 }}
 \examples{
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
@@ -111,7 +166,7 @@ f1 = convert_app(f1)
 ## input matrix
 f1$input_matrix()
 ## by name
-f1$input_matrix(c("id", "type", "required"))
+f1$input_matrix(c("id", "type", "required", "link_to"))
 ## return only required
 f1$input_matrix(required = TRUE)
 ## return everything
@@ -186,5 +241,9 @@ f1$input_id()
 ## batch
 f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
 f1$set_batch("sjdbGTFfile", type = "ITEM")
+## add source to id
+f1$link_map()
+f1$add_source_to_id(c("test1", "test2"), c("#STAR.genome", "#STAR.reads"))
+f1$link_map()
 }
 

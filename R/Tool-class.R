@@ -95,11 +95,12 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 
 ## Tool
 
-#' Rabix CommandLineTool Class
+#' Tool Class
 #'
-#' Rabix subclass for CommandLineTool used by rabix.org or sbg
-#' platform. \code{Tool} class extends \code{CommandLineTool}
-#' with more seven bridges fields.
+#' code{Tool} class extends \code{CommandLineTool} 
+#' with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()} 
+#' \code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a 
+#' \code{Tool} object into a text JSON/YAML file.
 #'
 #' 
 #' @field context [character] by default:
@@ -273,13 +274,19 @@ Tool <-
                         res
                     },
                     input_type = function(){
+                        'this return a vector of types, names of them are input id'
                         getInputType(toList())
                     },
                     output_type = function(){
+                        'this return a vector of types, names of them are output id'
                         getOutputType(toList())
                     },
                     input_matrix = function(new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
                                             required = NULL){
+                        'this return a matrix of input parameters, by default, following the order \
+                         id, label, type, required, prefix, fileTypes. new.order accept names of column you want to\
+                         print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when \
+                         required = TRUE, only print required field. '
                         res = suppressWarnings(as(inputs, "data.frame"))
                         if(!is.null(required)){
                             stopifnot(is.logical(required))
@@ -298,7 +305,10 @@ Tool <-
                     
                     },
                     output_matrix = function(new.order = c("id", "label", "type", "fileTypes")){
-                        
+                        'this return a matrix of output parameters, by default, following the order \
+                         id, label, type, fileTypes. new.order accept names of column you want to\
+                         print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when \
+                         required = TRUE, only print required field. '
                         res = suppressWarnings(as(outputs, "data.frame"))
                         if(!is.null(new.order)){
                             new.order = intersect(new.order, names(res))
@@ -363,6 +373,7 @@ Tool <-
                        
                     },
                     get_required = function(){
+                        'return required input fields types, names of them are input id'
                         res = unname(unlist(sapply(inputs, function(i){
                             if(i$required){
                                 return(i$id)
@@ -382,6 +393,11 @@ Tool <-
                         
                     },
                     set_required = function(ids, required = TRUE){
+                        'set an input node required or not required. The first \
+                         parameter takes single input id or more than one ids. \
+                         the second parameters \\code{required} is the value you \
+                         want to set to inputs. \\code{TRUE} means set to required.
+                        '
                         iid <- input_id()
                         ids <- addIdNum(ids)
                         idx = ids %in% iid
@@ -395,6 +411,8 @@ Tool <-
                         })
                     },
                     get_input_port = function(){
+                        'the inputs node with \\code{sbg:includeInPorts} equals \\code{TRUE}
+                        '
                         res = sapply(inputs, function(i){
                            
                             if(is.null(i$'sbg:includeInPorts')){
@@ -412,7 +430,9 @@ Tool <-
                         
                     },
                     set_input_port = function(ids, include = TRUE){
-                       
+                        'set inputs ports field \\code{sbg:includeInPorts} to the value of \
+                         include, default is \\code{TRUE}
+                        '
                         idx = match(ids, input_id())
                         if(length(idx)){
                             for(i in idx){
@@ -444,6 +464,7 @@ Tool <-
                         
                     },
                     get_output = function(name = NULL, id = NULL){
+                        'get output objects by names or id'
                         if(is.null(name) && is.null(id)){
                             stop("please provide name or id")
                         }
@@ -463,6 +484,15 @@ Tool <-
                             return(outputs[idx])
                         }
                     },
+                   
+                    copy_obj = function(){
+                        'this is a hack to make copy of reference cwl object'
+                        tmp = tempfile()
+                        write(toJSON(pretty = TRUE), tmp)
+                        res = convert_app(tmp)
+                        file.remove(tmp)
+                        res
+                    }, 
                     run = function(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
                         'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
                         inputs accept list or json'
