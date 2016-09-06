@@ -34,7 +34,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    readr
+    readr,
+    clipr
 NeedsCompilation: no
 RoxygenNote: 5.0.1
 Collate:
