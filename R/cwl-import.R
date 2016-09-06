@@ -1350,6 +1350,7 @@ CommandLineBinding <- setRefClass("CommandLineBinding",
                                   contains = c("Binding", "CWL"),
                                   fields = list(
                                       position = "integerORNULL",
+                                      ## order = "integerORNULL", # not exist in CWL spec
                                       prefix = "characterORNULL",
                                       separate = "logical",
                                       itemSeparator = "characterORNULL",
@@ -1360,6 +1361,8 @@ CommandLineBinding <- setRefClass("CommandLineBinding",
                                           position = 0L,
                                           separate = TRUE,
                                           valueFrom = NULL,
+                                          order = NULL, ## hack to pass order
+                                          inputBinding = NULL, ## hack to pass inputBinding
                                           ...){
 
                                           if(is.list(valueFrom)){
@@ -1369,6 +1372,7 @@ CommandLineBinding <- setRefClass("CommandLineBinding",
                                           }
                                           position <<- as.integer(position)
                                           separate <<- separate
+                                          ## order <<- order
                                           callSuper(...)
                                       }
                                   ))
@@ -1606,6 +1610,13 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                            }
                                        }else if(is(arguments, "CommandLineBinding")){
                                            arguments <<- CCBList(arguments)
+                                       }else if(is.list(arguments)){
+                                           ## need to construct CLB list
+                                          
+                                           arguments <<- do.call(CCBList, lapply(arguments, function(x){
+                                               do.call(CLB, x)
+                                           }))
+                                           
                                        }else{
                                            arguments <<- arguments 
                                        }
