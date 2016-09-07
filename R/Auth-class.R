@@ -417,6 +417,8 @@ if id provided, This call retrieves information about a selected invoice, includ
                                     }
                                 }
                                 .new_tag = .split_tag(tag)
+                                ## encode the tag for cases like "#1"
+                                .new_tag = lapply(.new_tag, URLencode, TRUE)
                                 .query <- c(.query, .new_tag)
                             }
                          
