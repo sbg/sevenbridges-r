@@ -390,9 +390,12 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 res <- setAuth(res, .self, "Files")
                                 return(res)                                
                             }
+                            
+                            ## build query 
 
                             .query <- list(project = project)
                             if(length(metadata)){
+                                
                                 new.meta <- unlist(metadata)
                                 names(new.meta) <- sapply(names(new.meta), 
                                                           function(nm) paste("metadata", nm, sep = "."))
@@ -404,19 +407,23 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 .query <- c(.query, list(origin.task = origin.task))
                             }
                             
-                            if(!is.null(tag)){
-                                .split_tag = function(x){
-                                    if(length(x) > 1){
-                                        names(x)  = rep("tag", length(x))
-                                        x
-                                    }else{
-                                        if(is.list(x)){
-                                            x = x[[1]]
-                                        }
-                                        list(tag = x)
+                            .split_item = function(x, list_name = NULL){
+                                if(length(x) > 1){
+                                    names(x)  = rep(list_name, length(x))
+                                    x
+                                }else{
+                                    if(is.list(x)){
+                                        x = x[[1]]
                                     }
+                                    res = list(x)
+                                    names(res) = list_name
+                                    res
                                 }
-                                .new_tag = .split_tag(tag)
+                            }
+                            
+                            if(!is.null(tag)){
+                               
+                                .new_tag = .split_item(tag, "tag")
                                 ## encode the tag for cases like "#1"
                                 .new_tag = lapply(.new_tag, URLencode, TRUE)
                                 .query <- c(.query, .new_tag)
@@ -427,6 +434,11 @@ if id provided, This call retrieves information about a selected invoice, includ
                             
                             if(is.null(name)){
                                 ## if no id, no name, list all 
+                                
+                                if(!is.null(metadata) || !is.null(origin.task) || !is.null(tags)){
+                                    complete = FALSE
+                                }
+                                
                                 req <- api(path = 'files',  method = 'GET', 
                                            query = .query, complete = complete, ...)
                                 
@@ -447,32 +459,14 @@ if id provided, This call retrieves information about a selected invoice, includ
                             switch(search.engine, 
                                    server = {
                                        if(exact){
-                                           if(length(name) == 1){
-                                               .query = c(list(name = name), .query)
-                                               req = api(path = 'files',  method = 'GET', 
-                                                          query = .query, complete = FALSE, ...)
-                                               res = .asFilesList(req)[[1]] 
-                                           }else{
-                                               ## more than one names
-                                               lst = lapply(name, function(x){
-                                                   .query = c(list(name = x), .query)
-                                                   req = api(path = 'files',  method = 'GET', 
-                                                             query = .query, complete = FALSE, ...)
-                                                   res = .asFilesList(req)
-                                                   if(length(res)){
-                                                      res[[1]] 
-                                                   }else{
-                                                      return(NULL) 
-                                                   }
-                                                   
-                                               })
-                                               lst = lst[!sapply(lst, is.null)]
-                                               
-                                               if(length(lst)){
-                                               res = do.call(FilesList, lst)
-                                               }else{
-                                                   return(NULL)
-                                               }
+                                           
+                                           .query = c(.split_item(name, "name"), .query)
+                                           
+                                           req = api(path = 'files',  method = 'GET', 
+                                                     query = .query, complete = FALSE, ...)
+                                           res = .asFilesList(req)
+                                           if(length(res) == 1){
+                                               res = res[[1]]
                                            }
                                            
                                        }else{
