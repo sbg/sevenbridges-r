@@ -96,14 +96,35 @@ biocLite("sevenbridges")
 
 Our API keep improving, please also visit our [github homepage](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version.  
 
-```{r}
-# install.packages("devtools") if devtools was not installed
+__If you don't have devtools__
+
+This require you have `devtools` package, install it from CRAN if you don't have it
+
+```r
+install.packages("devtools") 
+```
+
+You may got an error and need system dependecies sometimes for curl and ssl, for example, in ubuntu you probably need to do this first in order to install `devtools` and in order to build vigenttes (you need pandoc)
+
+```
+apt-get update
+apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
+```
+
+__If devtools is already installed__
+
+Now install latest version from github for `sevenbridges`
+
+```r
 source("http://bioconductor.org/biocLite.R")
+biocLite(c("readr", "BiocStyle"))
 library(devtools)
 install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
+
+If you have trouble with pandoc and don't want to install pandoc,  set `build_vignettes = FALSE` to avoid vignettes build.
 
 
 ## Quickstart

@@ -129,10 +129,16 @@ rbx$toJSON(pretty = TRUE)
 rbx$toYAML()
 ```
 
-- Describe simple linear workflow by connect Tool objects like this
+- Utilities for Tool and Flow, for example
 
 ```r
-tool1 %>>% tool2 %>>% tool3
+# converting a SBG CWL json file
+library(sevenbridges)
+t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+## convert json file into a Tool object
+t1 = convert_app(t1)
+# shows all input matrix
+t1$input_matrix() 
 ```
 
 <a name="install"/>
@@ -162,19 +168,37 @@ biocLite("sevenbridges")
 
 __[Latest]__ 
 
-You can always install the latest development version of the package from GitHub, it's always the most latest 
-version, fresh new,  with all new features and hot fixes, we push to bioconductor branch (release/devel) regularly.
+You can always install the latest development version of the package from GitHub, it's always the most latest version, fresh new,  with all new features and hot fixes, we push to bioconductor branch (release/devel) regularly.
+
+__If you don't have devtools__
+
+This require you have `devtools` package, install it from CRAN if you don't have it
 
 ```r
-# install.packages("devtools") if devtools was not installed
+install.packages("devtools") 
+```
+
+You may got an error and need system dependecies sometimes for curl and ssl, for example, in ubuntu you probably need to do this first in order to install `devtools` and in order to build vigenttes (you need pandoc)
+
+```
+apt-get update
+apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
+```
+
+__If devtools is already installed__
+
+Now install latest version from github for `sevenbridges`
+
+```r
 source("http://bioconductor.org/biocLite.R")
+biocLite(c("readr", "BiocStyle"))
 library(devtools)
 install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
 
-If you have trouble with pandoc,  set `build_vignettes = FALSE` to avoid vignettes build, 
+If you have trouble with pandoc and don't want to install pandoc,  set `build_vignettes = FALSE` to avoid vignettes build, 
 
 __[Bioconductor: Devel]__ 
 
