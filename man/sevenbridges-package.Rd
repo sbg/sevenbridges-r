@@ -14,7 +14,8 @@ The vignette can be opened with \code{vignette('sevenbridges')}.
 License: \tab MIT\cr }
 }
 \author{
-Nan Xiao <\email{nan.xiao@sbgenomics.com}>
-        Tengfei Yin <\email{tengfei.yin@sbgenomics.com}>
+Tengfei Yin <\email{tengfei.yin@sbgenomics.com}>
+        Dusan Randjelovic <\email{dusan.randjelovic@sbgenomics.com}>
+        Nan Xiao <\email{nan.xiao@sbgenomics.com}>
 }
 
