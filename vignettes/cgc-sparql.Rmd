@@ -56,7 +56,7 @@ Here let me show you an example here, you will need R package "SPARQL"
 
 ```{r, eval = FALSE}
 library(SPARQL)
-endpoint = "https://opensparql.sbgenomics.com/bigdata/namespace/tcga_metadata_kb/sparql"
+endpoint = "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"
 query = "
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix tcga: <https://www.sbgenomics.com/ontologies/2014/11/tcga#>
