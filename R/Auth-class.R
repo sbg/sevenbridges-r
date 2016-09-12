@@ -429,13 +429,12 @@ if id provided, This call retrieves information about a selected invoice, includ
                                 .query <- c(.query, .new_tag)
                             }
                          
-                            
-                          
+                         
                             
                             if(is.null(name)){
                                 ## if no id, no name, list all 
                                 
-                                if(!is.null(metadata) || !is.null(origin.task) || !is.null(tags)){
+                                if(length(metadata) || length(origin.task) || length(tag)){
                                     complete = FALSE
                                 }
                                 
