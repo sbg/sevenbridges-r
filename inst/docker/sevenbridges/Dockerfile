@@ -2,18 +2,20 @@ FROM rocker/rstudio-daily:verse
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
 ## install docker (docker in docker)
-
+sudo apt-get install 
 RUN apt-get update && apt-get install -y  \
     sudo \
     gdebi-core \
     pandoc \
     pandoc-citeproc \
     libcurl4-gnutls-dev \
+    curl \
     libcairo2-dev \
     libxt-dev \
     unp \
     emacs \
-    supervisor 
+    supervisor \
+    libfuse-dev 
     
 ## install docker
 RUN apt-get install -y apt-transport-https ca-certificates \
@@ -51,8 +53,8 @@ RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
 
 ## install SBG Command line uploader
 RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
-    && tar zxvf sbg-uploader.tgz -C ~ \
-    && ln -s  ~/sbg-uploader/bin/sbg-uploader.sh /usr/local/bin/sbg-uploader.sh
+    && tar zxvf sbg-uploader.tgz -C / \
+    && ln -s  /sbg-uploader/bin/sbg-uploader.sh /usr/local/bin/sbg-uploader.sh
     
 
 ## install SBG rabix
@@ -63,8 +65,8 @@ RUN wget https://github.com/rabix/bunny/releases/download/v0.1.0-alpha/rabix-0.1
 
 ## install SBG Command line uploader
 RUN wget https://cgc.sbgenomics.com/cgc-uploader/cgc-uploader.tgz \
-    && tar zxvf cgc-uploader.tgz -C ~ \
-    && ln -s  ~/cgc-uploader/bin/cgc-uploader.sh /usr/local/bin/cgc-uploader.sh
+    && tar zxvf cgc-uploader.tgz -C / \
+    && ln -s  /cgc-uploader/bin/cgc-uploader.sh /usr/local/bin/cgc-uploader.sh
 
 ## start insert command line interface and report template needed
 ADD src/runif.R /usr/local/bin/

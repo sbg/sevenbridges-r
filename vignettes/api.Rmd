@@ -96,14 +96,35 @@ biocLite("sevenbridges")
 
 Our API keep improving, please also visit our [github homepage](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version.  
 
-```{r}
-# install.packages("devtools") if devtools was not installed
+__If you don't have devtools__
+
+This require you have `devtools` package, install it from CRAN if you don't have it
+
+```r
+install.packages("devtools") 
+```
+
+You may got an error and need system dependecies sometimes for curl and ssl, for example, in ubuntu you probably need to do this first in order to install `devtools` and in order to build vigenttes (you need pandoc)
+
+```
+apt-get update
+apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
+```
+
+__If devtools is already installed__
+
+Now install latest version from github for `sevenbridges`
+
+```r
 source("http://bioconductor.org/biocLite.R")
+biocLite(c("readr", "BiocStyle"))
 library(devtools)
 install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
   repos=BiocInstaller::biocinstallRepos(),
   dependencies=TRUE)
 ```
+
+If you have trouble with pandoc and don't want to install pandoc,  set `build_vignettes = FALSE` to avoid vignettes build.
 
 
 ## Quickstart
@@ -915,37 +936,109 @@ a$file(name = "omni", project = p$id, detail = TRUE)
 ```
 
 
-#### Search file(s) 
+#### Search and filter file(s) 
 
-There are two ways to return exact file you want, one is by `id` the other one is by exact `name`. Note: when using name with `exact = TRUE`, it directly use
-our public API call to match exact name and return the object with single query. When you turn off `exact`, it will grep all files or files defined with `limit` and `offset` first, then match by name.
+##### Rule of thumb
 
-You can get file id by checking the url at single file detail page. 
+You can easily search by partial name, exact name, id for many items like project, apps, files. Fortunately, we have more powerred filters for files. User could serach by metadata, tags and original task id. 
+
+1. __First rule: understand the scope__: we know we have default `limit = 100` and `offset = 0` for first 100 items, unless you are using arguments `complete = TRUE`. Things are different when it comes to files, when you search with exact name (search by name with `exact = TRUE` on), metadata, or tags, it searches ALL files, you don't have to use `complete = TRUE` at all. Project id is required or you can simply calling from a Project object for file searching like examples shows.
+
+2. __Second rule: understand the operation__: is it AND or OR? You can read more docs [here](http://docs.sevenbridges.com/docs/list-files-primary-method). "When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. __Note__ different metadata fields are treated as different fields as well, so it will be __AND__ operation for different metadata field. 
+
+So for a quick example, this examples gives me all files in project "tengfei/demo" that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
+
+```{r}
+p = a$project(id = "tengfei/demo")
+p$file(metadata = list(sample_id = "Sample1", 
+                       sample_id = "Sample2", 
+                       library_id = "EXAMPLE"), 
+       tag = c("hello", "world"))
+```
+
+##### Search by names and id
+
+There are two ways to return exact file you want, one is by `id` the other one is by exact `name`. 
+
+For advanced users: when using name with `exact = TRUE`, it directly use our public API call to match exact name and return the object with single query. When you turn off `exact`, it will grep all files or files defined with `limit` and `offset` first, then match by name which could be slow.
+
+To get file id, you can check the url at single file detail page or mouse hover the file to check browser link info in the bottom corner. 
 
 ```{r}
 ## return single object id is "some_file_id"
 p$file(id = "some_file_id")
 ## return single object named a.fastq
 p$file(name = "a.fastq", exact = TRUE)
+## public file search using Auth object
+a$public_file(name = "ucsc.hg19.fasta.fai", exact = TRUE)
+a$public_file(id = "578cf94a507c17681a3117e8")
 ```
 
-Get more than one objects, the arguments `id` and `name` both accept vectors, 
-so you can pass more than one id or name to it. 
+Get more than one objects, the arguments `id` and `name` both accept vectors, so you can pass more than one id or name to it. 
 
 
 ```{r}
 ## get two files
 p$file(name = c("test1.fastq", "test2.fastq"), exact = TRUE)
+## get two files from public files using shorhand
+a$public_file(name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"), 
+              exact = TRUE)
 ```
 
-If you don't use exact, it will assume it's pattern grep. 
+If you don't use exact, it will assume it's pattern grep, so partically matching will count 
 
 ```{r}
 ## get matchd the pattern for searching first 100 files
 p$file(name = c("gz", "fastq"))
 ## get all matched files from the project
 p$file(name = c("gz", "fastq"), complete = TRUE)
+## get all files matched ucsc
+a$public_file(name = "ucsc.hg19", complete = TRUE)
 ```
+
+##### Search by metadata
+
+Still the same example, just make sure different metadata fields, they have __AND__ operation and the same metadata fields they have __OR__ operation. 
+
+So list all files in project "tengfei/demo", that has sampple_id "Sample1" __OR__ "Sample2"; __AND__ it must has another metadata field lirary_id set to "EXAMPLE".
+
+```{r}
+p = a$project(id = "tengfei/demo")
+p$file(metadata = list(sample_id = "Sample1", 
+                       sample_id = "Sample2", 
+                       library_id = "EXAMPLE")) 
+```
+
+
+
+
+##### Search by tags
+
+Tags are more flexible than metadata, you can use multiple tags filter and it's __OR__ operation. 
+
+This examples shows how to return all files with tag "s1" __OR__ "s2".
+
+```{r}
+p = a$project(id = "tengfei/demo")
+p$file(tag = c("s1", "s2")) 
+```
+
+##### Search by original task id
+
+You can also get all files from a task, there are two ways to do it
+you can started from "Task" object as you imagined. You can also use the filter crateria. 
+
+
+```{r}
+## list all outputs file from a task id
+a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
+
+## OR
+p = a$project(id = "tengfei/demo")
+p$file(origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
+```
+
+Pick your favourite way.
 
 #### Copy a file or group of files
 
@@ -1075,27 +1168,6 @@ fls <- list.files(dir.ext, recursive = TRUE, full.names = TRUE)
 p$upload(fls, overwrite = TRUE)
 p$upload("~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf")
 ```
-#### Files filter from a task
-
-You can also get all files from a task, or by a metadata filter. 
-
-
-```{r}
-## list all outputs file from a task id
-a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
-
-## alternative way to list files under specific project
-a$file(project = "tengfei/re",
-       origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
-
-
-## you can filter by metadata as well
-a$file(project = "tengfei/re", 
-       origin.task = "53020538-6936-422f-80de-02fa65ae4b39", 
-       metadata = list(experimental_strategy = "RNA-Seq"))
-```
-
-
 
 
 
@@ -1156,19 +1228,19 @@ fl$metadata
 
 Although CGC defined a set of meta schema, which is visible on the UI of the platform, but you can pass any free form of meta for the file, it's just not visible on UI, but it's stored with the data. 
 
-Only the value being specified stored with files, to set metadata please call `setMeta()` from
+Only the value being specified stored with files, to set metadata please call `set_meta()` from
 Files object. 
 
 __Important__:
 
-- By default, we are not overwriting the meta field using `setMeta` call, unless you pass
+- By default, we are not overwriting the meta field using `set_meta` call, unless you pass
 the `overwrite = TRUE` argument
 
 ```{r}
-fl$setMeta(new_item3 = "item3")
+fl$set_meta(new_item3 = "item3")
 fl
 ## oops it removed rest of the meta
-fl$setMeta(new_item4 = "item4", overwrite = TRUE)
+fl$set_meta(new_item4 = "item4", overwrite = TRUE)
 fl
 ```
 
@@ -1204,7 +1276,7 @@ Let's get a file called "sample.bam" and play with it's tag.
 ```{r}
 p <- a$project(id = "tengfei/s3tutorial")
 fl = p$file("sample.bam", exact = TRUE)
-## show tags
+## show tags for single file
 fl$tag()
 ## add new tags
 fl$add_tag("new tag")
@@ -1233,7 +1305,7 @@ add_tag(fl1, "s1")
 p$file(tag = "s1")
 p$file(tag = "s2")
 ## get files tagged with s2 and 1234
-p$file(tag = list("s2", "1234"))
+p$file(tag = list("s2", "s1"))
 ```
 
 
