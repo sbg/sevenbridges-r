@@ -23,9 +23,9 @@ RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true 
 RUN apt-get -y install oracle-java7-installer && apt-get clean
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
 
-# bunny 0.4.0
-RUN wget https://github.com/rabix/bunny/releases/download/v0.4.0-alpha/rabix-0.4.0-alpha.tar.gz \
-    && mkdir /opt/bunny && tar -zvxf rabix-0.4.0-alpha.tar.gz -C /opt/bunny \
+# bunny 0.6.4
+RUN wget https://github.com/rabix/bunny/releases/download/v0.6.4-alpha/rabix-0.6.4-alpha.tar.gz \
+    && mkdir /opt/bunny && tar -zvxf rabix-0.6.4-alpha.tar.gz -C /opt/bunny \
     && ln -s  /opt/bunny/rabix.sh /usr/local/bin/rabix.sh
 
 # rabix-legacy (python executor)

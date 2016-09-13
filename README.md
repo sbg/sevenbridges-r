@@ -26,6 +26,7 @@
 
 ### Events
 
+- September 12 - 14, 2016 [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) @ Oxford University, UK (poster)
 - May 27 - 29, 2016 [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html) @ Renmin University, Beijng, China. (talk)
 - June 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/) @ Stanford University, Stanford, CA (workshop)
 - June 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) @ Stanford University, Stanford, CA (talk)
