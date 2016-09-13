@@ -251,6 +251,12 @@ please visit Bioconductor homepage (link provide at the top). Tutorials below is
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
+To mount file system you need to use `--privileged` with fuse.
+
+```shell
+docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
+```
+
 check out the ip from docker machine if you are on mac os.
 
 ```bash
