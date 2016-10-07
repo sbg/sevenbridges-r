@@ -6,53 +6,126 @@
 ![cov](http://www.bioconductor.org/shields/coverage/release/sevenbridges.svg)
 
 
-# sevenbridges: R Package for Seven Bridges Platform from API client to CWL generator 
-
-
-
+# sevenbridges-r
 [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) 
 
-##### Table of Contents  
+sevenbridges-r is a [R](https://cran.r-project.org/) library that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](http://www.cancergenomicscloud.org/) public APIs.
 
-[Events](#events)  <br />
-[Features](#features) <br />
-[Installation](#install) <br />
-[Tutorial](#tutorial) <br />
-[IDE docker image](#rstudio) <br />
-[Issues report](#issue) <br />
-[Q and A](#qa) <br />
+The Seven Bridges Platform is a cloud-based environment for conducting bioinformatic analyses. It is a central hub for teams to store, analyze, and jointly interpret their bioinformatic data. The Platform co-locates analysis workflows alongside the largest genomic datasets to optimize processing, allocating storage and compute resources on demand.
 
-<a name="events"/>
+The The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based computation environment. It was built as one of three pilot systems funded by the [National Cancer Institute](https://www.cancer.gov/) to explore the paradigm of colocalizing massive genomics datasets, like [The Cancer Genomics Atlas (TCGA)](http://cancergenome.nih.gov/), alongside secure and scalable computational resources to analyze them. The CGC makes more than a petabyte of multi-dimensional data available immediately to authorized researchers. You can add your own data to analyze alongside TCGA using predefined analytical workflows or your own tools.
 
-### Events
+<hr>
+<h5> Table of Contents</h5>  
 
-- September 12 - 14, 2016 [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) @ Oxford University, UK (poster)
-- May 27 - 29, 2016 [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html) @ Renmin University, Beijng, China. (talk)
-- June 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/) @ Stanford University, Stanford, CA (workshop)
-- June 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) @ Stanford University, Stanford, CA (talk)
-- (Past) [NCI Cancer Genomics Cloud Hackathon Tutorials](http://www.cancergenomicscloud.org/hacking-cancer/) @ Boston 2016
-[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] 
-[[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] 
-[[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
+* [Installation](#install) <br />
+* [Features](#features) <br />
+* [Tutorial](#tutorial) <br />
+* [IDE docker image](#rstudio) <br />
+* [Issues report](#issue) <br />
+* [Q and A](#qa) <br />
+* [Events](#events)  <br />
+
+<hr>
+
+<a name="install"/>
+
+### Installation
+
+__[Bioconductor: Stable]__  
+
+This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.3, and it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features. 
+
+If you don't want to update R, please install the sevenbridges-r package directly from GitHub by following the instructions below.
+
+####Step 1: Check R version
+First, check which version of R you are using with the following:
+
+```r
+ R.version.string
+```
+
+If you are not running latest R, install R 3.3 by following [these instructions](http://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the 
+new installation. 
+
+####Step 2: Install the sevenbridges-r package
+Install the sevenbridges-r package (`sevenbridges`) as shown below: 
+
+```r
+source("http://bioconductor.org/biocLite.R")
+biocLite("sevenbridges")
+```
+
+
+
+__[Latest]__ 
+
+You can always install the latest development version of the sevenbridges-r package from GitHub. We push to the Bioconductor branch (release/devel) regularly.
+
+__If you don't have devtools__
+
+Installing the sevenbridges-r package requires you have the `devtools` package. If you don't have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
+
+```r
+install.packages("devtools") 
+```
+
+You may got an error and need system dependecies for curl and ssl. For example, in ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
+
+```
+apt-get update
+apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
+```
+
+__If devtools is already installed__
+
+Install latest version for `sevenbridges` from GitHub with the following:
+
+```r
+source("http://bioconductor.org/biocLite.R")
+biocLite(c("readr", "BiocStyle"))
+library(devtools)
+install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
+  repos=BiocInstaller::biocinstallRepos(),
+  dependencies=TRUE)
+```
+
+If you have trouble with `pandoc` and don't want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build. 
+
+__[Bioconductor: Devel]__ 
+
+If yu are developing tools in the devel branch or if you are a user who uses the devel version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
+
+```r
+source("http://bioconductor.org/biocLite.R")
+useDevel(devel = TRUE)
+biocLite("sevenbridges")
+```
+
+To load the package in R, simply call
+
+```r
+library("sevenbridges")
+```
 
 <a name="features"/>
 
 ### Features
-
-- Complete API R client with user friendly API in object-oriented fashion with user friendly printing, support operation on users, billing, project, file, app, task etc, short example.
+The sevenbridges-r package includes the following features:
+ * A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
 
 ```r
-## get project by pattern matching name
+## Get a project by pattern-matching its name
 p = a$project("demo")
-## get exact project by id
+## Get a project by its id
 p = a$project(id = "tengfei/demo")
-## detele files from a project
+## Delete files from a project
 p$file("sample.tz")$delete()
-## upload fies from a folder to a project with metadata
+## Upload fies from a folder to a project and include the files' metadata
 p$upload("folder_path", metadata = list(platform = "Illumina"))
 ```
 
-- Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
+* A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:
 
 
 ```r
@@ -62,10 +135,10 @@ setTaskHook("completed", function(){
 tsk$monitor()
 ```
 
-- Task batching by item and metadata
+* Batch tasks by metadata and by item.
 
 ```r
-## batch by items
+## Batch by item
 (tsk <- p$task_add(name = "RNA DE report new batch 2", 
                    description = "RNA DE analysis report", 
                    app = rna.app$id,
@@ -74,7 +147,7 @@ tsk$monitor()
                                  design = design.in,
                                  gtffile = gtf.in)))
 
-## batch by metadata, input files has to have metadata fields specified
+## Batch by metadata. Note that input files must have relevant metadata fields specified.
 (tsk <- p$task_add(name = "RNA DE report new batch 3", 
                    description = "RNA DE analysis report", 
                    app = rna.app$id,
@@ -87,11 +160,10 @@ tsk$monitor()
 ```
 
 
-- Cross platform support from Seven
-  Bridges, such as [NCI Cancer genomics cloud](http://www.cancergenomicscloud.org/) or [Seven bridges](https://www.sbgenomics.com/) on google and
-  AWS, you can use it.
+* Cross-platform support for Seven
+  Bridges, such as [NCI Cancer genomics cloud](http://www.cancergenomicscloud.org/) or [Seven bridges](https://www.sbgenomics.com/) on either the Google Cloud Platform or Amazon Web Services deploy.
 
-- Authentication management for multiple platforms/users via config file.
+* Manage your authentication credentials for various Seven Bridges products, such as the Platform and the Cancer Genomics Cloud, via a configuration file as follows:
 
 ```r
 ## standard 
@@ -100,8 +172,8 @@ a = Auth(token = "fake_token", url = "api_url")
 a = Auth(username = "tengfei", platform = "cgc")
 ```
 
-- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set
-of CWL object. So you can describe tools like this
+* A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set
+of CWL object, so you can describe tools as follows:
 
 ```r
 library(readr)
@@ -124,13 +196,13 @@ rbx <- Tool(id = "runif",
                                 type = "float",
                                 position = 3)),
             outputs = output(id = "random", glob = "output.txt")) 
-## output cwl JSON            
+## output CWL JSON            
 rbx$toJSON(pretty = TRUE) 
-## output cwl YAML
+## output CWL YAML
 rbx$toYAML()
 ```
 
-- Utilities for Tool and Flow, for example
+* Utilities for Tool and Flow, for example
 
 ```r
 # converting a SBG CWL json file
@@ -142,175 +214,111 @@ t1 = convert_app(t1)
 t1$input_matrix() 
 ```
 
-<a name="install"/>
-
-### Installation
-
-__[Bioconductor: Stable]__  
-
-For most users, I will recommend this installation, it's most stable. The current release of Bioconductor is version 3.3; it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features. If you don't want to update your R, please install from github directly as introduced in next section. It's quite easy.
-
-Now check your R version 
-
-```r
- R.version.string
-```
-
-If you are not running latest R, first install R 3.3 following instruction [here](http://www.bioconductor.org/install/#install-R), after you successfully installed
-R 3.3, if you are using Rstudio, please close and restart Rstudio, it will detect the 
-new install. Then install `sevenbridges` package. 
-
-```r
-source("http://bioconductor.org/biocLite.R")
-biocLite("sevenbridges")
-```
-
-
-
-__[Latest]__ 
-
-You can always install the latest development version of the package from GitHub, it's always the most latest version, fresh new,  with all new features and hot fixes, we push to bioconductor branch (release/devel) regularly.
-
-__If you don't have devtools__
-
-This require you have `devtools` package, install it from CRAN if you don't have it
-
-```r
-install.packages("devtools") 
-```
-
-You may got an error and need system dependecies sometimes for curl and ssl, for example, in ubuntu you probably need to do this first in order to install `devtools` and in order to build vigenttes (you need pandoc)
-
-```
-apt-get update
-apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
-```
-
-__If devtools is already installed__
-
-Now install latest version from github for `sevenbridges`
-
-```r
-source("http://bioconductor.org/biocLite.R")
-biocLite(c("readr", "BiocStyle"))
-library(devtools)
-install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
-  repos=BiocInstaller::biocinstallRepos(),
-  dependencies=TRUE)
-```
-
-If you have trouble with pandoc and don't want to install pandoc,  set `build_vignettes = FALSE` to avoid vignettes build, 
-
-__[Bioconductor: Devel]__ 
-
-Install from bioconductor `devel` branch if you are developing tools in devel branch or if you are users who use devel version for R and Bioconductor. You need to install R-devel first, please follow the instruction ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrade of R. This is kind of tricky and hard, if you just want to try latest feature, please install directly from github as next installation instruction.
-
-```r
-source("http://bioconductor.org/biocLite.R")
-useDevel(devel = TRUE)
-biocLite("sevenbridges")
-```
-
-To load the package in R, simply call
-
-```r
-library("sevenbridges")
-```
-
 <a name="tutorial"/>
 
-### Tutorials 
+## Tutorials 
 
-We have 3 different version, github (latest), Bioconductor stable and devel. Only github version is provided below for latest docs. For other version,
-please visit Bioconductor homepage (link provide at the top). Tutorials below is auto-generated at 8:00pm everyday with github version.
+We maintain 3 different of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor stable,and Bioconductor devel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions,
+please visit [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00pm everyday for the GitHub repository.
 
-- Complete Guide for API R Client
+- Complete Reference for the API R Client
 [[html](http://www.tengfei.name/sevenbridges/vignettes/api.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/api.R)]
-- Tutorial: use R for Cancer Genomics Cloud
+- Use R on the Cancer Genomics Cloud
 [[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
-- Creating Your Docker Container and Command Line Interface
+- Create a Docker Container and use Command Line Interface for R
 [[html](http://www.tengfei.name/sevenbridges/vignettes/docker.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/docker.R)]
-- Describe CWL Tools/Workflows in R and Execution
+- Describe and execute Common Workflow Language (CWL) Tools and Workflows in R
 [[html](http://www.tengfei.name/sevenbridges/vignettes/apps.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/apps.R)]
-- IDE container: Rstudio and Shiny server and more
+- <a name="ide"/>IDE container: Rstudio and Shiny server and more
 [[html](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R)]
-- Find Data on CGC via Data Exploerer, SPARQL and Data API
+- Browse data on the Cancer Genomics Cloud via the Data Explorer, a SPARQL query, or the Datasets API
 [[html](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.html)]
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.R)]
 
 
 <a name="rstudio"/>
 
-### Launch Rstudio Server and Shiny Server with sevenbridges IDE docker container
+### Launch the RStudio and Shiny servers with the Seven Bridges IDE Docker container
+In the tutorial for the [IDE container](#ide) above, we build a Docker container locally from which we can launch RStudio and Shiny. To launch the RStudio and Shiny servers, do the following:
 
 ```shell
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
-To mount file system you need to use `--privileged` with fuse.
+To mount a file system, you need to use `--privileged` with fuse.
 
 ```shell
 docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
-check out the ip from docker machine if you are on mac os.
+Check out the IP from Docker Machine if you are on a Mac OS.
 
 ```bash
 docker-machine ip default
 ```
 
-In your browser, `http://<url>:8787/` for Rstudio server, for example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
+In your browser, you can see where the RStudio server is located from the path `http://<url>:8787/`. For example, if 192.168.99.100 is returned, visit `http://192.168.99.100:8787/` for Rstudio.
 
 
-For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>` for Shiny server, for example for user `rstudio` (a default user) and some app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app as Rstudio user, you can login your rstudio server, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
+For the Shiny server, each app__ is hosted at `http://<url>:3838/users/<username of rstudio>/<app_dir>` for the Shiny server. For example, an app called `01_hello` owned by user `rstudio` (a default user) has the path `http://<url>:3838/users/rstudio/01_hello/`. To develop your Shiny apps as an Rstudio user, you can login your RStudio server and create a folder in your home folder called `~/ShinyApps`. There, you can develop shiny apps in that folder. For example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
 
-Login your rstudio at `http://<url>:8787`, then try to copy some example over to your home folder
+Log into your RStudio at `http://<url>:8787`. Then, try to copy an app to your home folder, as follows:
 
 ```r
 dir.create("~/ShinyApps")
 file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps/", recursive = TRUE)
 ```
 
-If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
+If you are logged in as username 'rstudio', visit  `http://192.168.99.100:3838/rstudio/01_hello`. You should be able to see the "hello"" example.
 
 
-Note: Generic shiny app can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the docker container, it's hosted under `/srv/shiny-server/`
+<i>Note:</i> Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a particular app, at  `http://<url>:3838/<app_dir>`. Inside the Docker container, it's hosted under `/srv/shiny-server/`.
 
 
 <a name="issue"/>
 
 ### Issue report
 
-All feedback are welcomed! Please file bug/issue/request on the [issue page](https://github.com/sbg/sevenbridges-r/issues) here on github, we will 
-try to respond asap.
+All feedback is welcome! Please file bug/issue reports and requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues).
 
 <a name="qa"/>
 
-### Q&A
+## Q&A
 
-To ask a question about this package, the best place will be Bioconductor support website,
-go visit support [website](https://support.bioconductor.org/), and tag your post with package name __sevenbridges__. 
+The best place to ask a question about the sevenbridges-r package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__. 
 
-- __Q__: Does this package support older API which is not cwl compatible?<br />
-  __A__: No it only supports API v2 +, for older version, please check [sbgr](https://github.com/road2stat/sbgr) package, but 
-please note that the old API or project type will be deprecated. 
+- __Q__: Does this package support Seven Bridge's API v1 which was not cwl compatible?<br />
+  __A__: No this package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated. 
 
-- __Q__: Which version of CWL (common workflow language) supported now? <br />
-  __A__: Draft 2, progress on draft 3.
+- __Q__: Which version of the Common Workflow Language (CWL) is supported? <br />
+  __A__: We support draft 2 and are making progress on supporting draft 3.
   
-- __Q__: Is there a python binding for the API? <br />
-  __A__: Yes, official python client is [here](https://github.com/sbg/sevenbridges-python). And lots python recipes are now [here](https://github.com/sbg/okAPI)
+- __Q__: Is there a Python binding for the API? <br />
+  __A__: Yes, the official Python client is [here](https://github.com/sbg/sevenbridges-python). Recipes and tutorials using the Python bindings are [here](https://github.com/sbg/okAPI)
   
-- __Q__: Why I always get warning message when I use API R client?<br />
-  __A__: It only exists in Rstudio, potentially a bug in Rstudio. To ignore it use `options(warn = -1)`
+- __Q__: Why do I get warning messages when I use the API R client?<br />
+  __A__: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use `options(warn = -1)`
 
-- __Q__: I still have some problem
-  __A__: Please try use the latest package on github, at least update to your package on Bioconductor, that usually solved the most recent bugs. 
+- __Q__: I still have problems despite dismissing the messages.
+  __A__: Please try to use the latest package on GitHub or update your package on Bioconductor. This usually includes the most recent bug fixes. 
+  
+<a name="events"/>
+
+### Events
+
+- September 12 - 14, 2016: [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16), Oxford University, UK (poster)
+- May 27 - 29, 2016: [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html), Renmin University, Beijng, China (talk)
+- June 24 - 26, 2016: [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/), Stanford University, Stanford, CA (workshop)
+- June 27 - 30, 2016: [The R User Conference 2016](http://user2016.org/), Stanford University, Stanford, CA (talk)
+- April 1-3, 2016: [NCI Cancer Genomics Cloud Hackathon Tutorials](http://www.cancergenomicscloud.org/hacking-cancer/), Seven Bridges, Boston, MA
+[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] 
+[[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] 
+[[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
   
 <hr>
 
