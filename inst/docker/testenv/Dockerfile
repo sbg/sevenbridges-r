@@ -26,8 +26,8 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
 # bunny 0.6.5-alpha
 RUN wget https://github.com/rabix/bunny/releases/download/v0.6.5-alpha/rabix-0.6.5-alpha.tar.gz \
     && mkdir /opt/bunny && tar -zvxf rabix-0.6.5-alpha.tar.gz -C /opt/bunny \
-    && chmod +x /opt/bunny/rabix.sh \
-    && ln -s  /opt/bunny/rabix.sh /usr/local/bin/rabix.sh
+    && chmod +x /opt/bunny/rabix \
+    && ln -s  /opt/bunny/rabix /usr/local/bin/rabix.sh
 
 # rabix-legacy (python executor)
 RUN apt-get update && apt-get install -y python-dev python-pip phantomjs libyaml-dev
