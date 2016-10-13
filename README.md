@@ -6,10 +6,10 @@
 ![cov](http://www.bioconductor.org/shields/coverage/release/sevenbridges.svg)
 
 
-# sevenbridges-r
+# sevenbridges
 [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) 
 
-sevenbridges-r is a [R](https://cran.r-project.org/) library that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](http://www.cancergenomicscloud.org/) public APIs.
+sevenbridges is a [R](https://cran.r-project.org/) library that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](http://www.cancergenomicscloud.org/) public APIs.
 
 The Seven Bridges Platform is a cloud-based environment for conducting bioinformatic analyses. It is a central hub for teams to store, analyze, and jointly interpret their bioinformatic data. The Platform co-locates analysis workflows alongside the largest genomic datasets to optimize processing, allocating storage and compute resources on demand.
 
@@ -36,7 +36,7 @@ __[Bioconductor: Stable]__
 
 This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.3, and it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features. 
 
-If you don't want to update R, please install the sevenbridges-r package directly from GitHub by following the instructions below.
+If you don't want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
 
 ####Step 1: Check R version
 First, check which version of R you are using with the following:
@@ -48,8 +48,8 @@ First, check which version of R you are using with the following:
 If you are not running latest R, install R 3.3 by following [these instructions](http://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the 
 new installation. 
 
-####Step 2: Install the sevenbridges-r package
-Install the sevenbridges-r package (`sevenbridges`) as shown below: 
+####Step 2: Install the sevenbridges package
+Install the sevenbridges package (`sevenbridges`) as shown below: 
 
 ```r
 source("http://bioconductor.org/biocLite.R")
@@ -60,11 +60,11 @@ biocLite("sevenbridges")
 
 __[Latest]__ 
 
-You can always install the latest development version of the sevenbridges-r package from GitHub. We push to the Bioconductor branch (release/devel) regularly.
+You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (release/devel) regularly.
 
 __If you don't have devtools__
 
-Installing the sevenbridges-r package requires you have the `devtools` package. If you don't have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
+Installing the sevenbridges package requires you have the `devtools` package. If you don't have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
 
 ```r
 install.packages("devtools") 
@@ -111,8 +111,9 @@ library("sevenbridges")
 <a name="features"/>
 
 ### Features
-The sevenbridges-r package includes the following features:
- * A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
+The sevenbridges package includes the following features:
+ 
+* A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
 
 ```r
 ## Get a project by pattern-matching its name
@@ -290,7 +291,7 @@ All feedback is welcome! Please file bug/issue reports and requests on the [issu
 
 ## Q&A
 
-The best place to ask a question about the sevenbridges-r package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__. 
+The best place to ask a question about the sevenbridges package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__. 
 
 - __Q__: Does this package support Seven Bridge's API v1 which was not cwl compatible?<br />
   __A__: No this package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated. 
