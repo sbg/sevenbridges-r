@@ -1656,7 +1656,7 @@
         "string"
       ],
       "label": "Exons' parents name",
-      "description": "Tag name to be used as exonsâ€™ transcript-parents.",
+      "description": "Tag name to be used as exons's transcript-parents.",
       "sbg:toolDefaultValue": "transcript_id"
     },
     {
@@ -1667,7 +1667,7 @@
         "string"
       ],
       "label": "Gene name",
-      "description": "Tag name to be used as exonsâ€™ gene-parents.",
+      "description": "Tag name to be used as exons's gene-parents.",
       "sbg:toolDefaultValue": "gene_id"
     },
     {
