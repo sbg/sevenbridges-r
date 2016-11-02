@@ -4,15 +4,15 @@
 #'
 #' @param server_address placehoder
 #' @param api_address placehoder
-#' @param vsfs_jar placehoder 
+#' @param vsfs_jar placehoder
 #' @param cache_dir placehoder
 #' @param cache_size placeholder
 #' @param project_id placeholder
-#' 
+#'
 #' @importFrom uuid UUIDgenerate
 #'
 #' @export FS
-FS <- setRefClass("FS", 
+FS <- setRefClass("FS",
                     fields = list(mount_point = "characterORNULL",
                         mode = "characterORNULL",
                         debug = "logicalORNULL",
@@ -30,7 +30,7 @@ FS <- setRefClass("FS",
                             api_address ='https://api.sbgenomics.com',
                             vsfs_jar = NULL,
                             cache_dir = '~/vsfs_cache',
-                            cache_size = '10GB', 
+                            cache_size = '10GB',
                             project_id = list(),
                             ...){
 
@@ -40,24 +40,24 @@ FS <- setRefClass("FS",
                             }else{
                                 vsfs_jar <<- vsfs_jar
                             }
-                            
+
                             server_address <<- server_address
                             api_address <<- api_address
-                            
+
                             cache_dir <<- cache_dir
-                            cache_size <<- cache_size      
+                            cache_size <<- cache_size
                             ## db <<- db
                             ## icoll <<- icoll
-                            
+
                             ## check project_id, has to be integer if any
                             if(length(project_id)){
                                 if(!is.list(project_id)){
                                     if(length(project_id) > 1 && is.numeric(project_id)){
                                         .project_id <- as.list(project_id)
-                                    }else{                  
+                                    }else{
                                         .project_id <- list(project_id)
                                     }
-                                    
+
                                 }else{
                                     .project_id <- project_id
                                 }
@@ -68,15 +68,15 @@ FS <- setRefClass("FS",
                                     }
                                     stopifnot(is.integer(id))
                                     id
-                                    
+
                                 })
                                 project_id <<- .project_id
-                                
+
                             }
-                            
+
                             lastproject_id <<- unlist(tail(project_id, n = 1))
-                            
-                            
+
+
                             callSuper(...)
                         }
                     ))
@@ -95,27 +95,27 @@ FS$methods(
             stop("mount_point not provided")
         }else{
             dir.create(normalizePath(mount_point))
-            mount_point <<- normalizePath(mount_point)            
+            mount_point <<- normalizePath(mount_point)
         }
         message("mount")
-        
+
         ## create uid
         uid <- UUIDgenerate()
-        
+
         ## create cache dir at local home? is there a problem?
         .cache_dir <- file.path(cache_dir, uid)
-        
+
         dir.create(.cache_dir, recursive = TRUE)
-        
+
         .cache_dir <- normalizePath(.cache_dir)
         ## stdout and stderr path
         stdout <- file.path(cache_dir, paste0(uid, ".out"))
         stderr <- file.path(cache_dir, paste0(uid, ".err"))
-        
+
         ## run command
         if(!is.null(project_id)){
             cmd <- paste("java", "-Xmx128m", "-jar", vsfs_jar, "-ssl",
-                         "-as", api_address, 
+                         "-as", api_address,
                          "-s", server_address,
                          '-mountPoint', .self$mount_point,
                          '-authToken', token,
@@ -124,7 +124,7 @@ FS$methods(
                          '-projectId', project_id)
         }else{
             cmd <- paste("java", "-Xmx128m", "-jar", vsfs_jar, "-ssl",
-                         "-as", api_address, 
+                         "-as", api_address,
                          "-s", server_address,
                          '-mountPoint', .self$mount_point,
                          '-authToken', token,
@@ -141,11 +141,11 @@ FS$methods(
     },
     unmount = function(mount_cmd = NULL, project_id = NULL, ...){
         'unmount a project if project_id is provided, otherwise unmount all'
-        
+
 
         if(is.null(mount_cmd)){
             if(Sys.info()['sysname'] == "Linux"){
-                OS <- "linux"            
+                OS <- "linux"
             } else if(Sys.info()['sysname'] != "Linux" &&
                       .Platform$OS.type == "unix"){
                 OS <- "mac"
@@ -166,7 +166,7 @@ FS$methods(
         message(cmd)
         system(cmd, ...)
     },
-    project_id = function(id = NULL){
+    list_project_id = function(id = NULL){
         pids <- list.files(file.path(mount_point, "Projects"))
         if(is.null(id))
             pids <- pids
@@ -178,15 +178,15 @@ FS$methods(
             if(is.null(lastproject_id))
                 stop("nothing mounted yet")
             message("id not provided, show files in project", lastproject_id)
-            list.files(file.path(mount_point, "Projects", lastproject_id))  
+            list.files(file.path(mount_point, "Projects", lastproject_id))
         }else{
-            list.files(file.path(mount_point, "Projects", id))  
+            list.files(file.path(mount_point, "Projects", id))
         }
     },
     path = function(id = NULL){
         'list path for all mounted projects, for easy copy/paste of file path; if project id
          is provoded, show project path and files path'
-        
+
         if(is.null(id)){
             list.dirs(file.path(mount_point, "Projects"), recursive = FALSE)
         }else{
