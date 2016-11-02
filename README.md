@@ -320,7 +320,7 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 [[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] 
 [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] 
 [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
-  
+
 <hr>
 
 © Seven Bridges Genomics 2012 - 2016. Licensed under the MIT license.
