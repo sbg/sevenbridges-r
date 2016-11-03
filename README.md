@@ -5,7 +5,7 @@
 [![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
 [![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)](http://bioconductor.org/packages/stats/bioc/sevenbridges/)
 
-[Bioc - Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioc - Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) |
+[Bioc - Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioc - Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) |
  [GitHub](https://github.com/sbg/sevenbridges-r)
 
 ## Overview
@@ -28,7 +28,7 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 ## Installation
 
-__[Bioconductor: Stable]__
+__[Bioconductor: Release]__
 
 This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.3, and it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features.
 
@@ -207,7 +207,7 @@ t1$input_matrix()
 
 ## Tutorials
 
-We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor stable, and Bioconductor devel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
+We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor-Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
 
 | Tutorial Title | HTML   | R Script  |
 |:---------------|:-------|:----------|
