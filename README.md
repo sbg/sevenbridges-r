@@ -5,8 +5,8 @@
 [![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
 [![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)](http://bioconductor.org/packages/stats/bioc/sevenbridges/)
 
-[Bioc - Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioc - Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) |
- [GitHub](https://github.com/sbg/sevenbridges-r)
+| [BioC - Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) | [BioC - Development](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) | [GitHub](https://github.com/sbg/sevenbridges-r) |
+|-----|-----|-----|
 
 ## Overview
 
@@ -54,7 +54,7 @@ biocLite("sevenbridges")
 
 __[Latest]__
 
-You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (release/devel) regularly.
+You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
 
 __If you don't have devtools__
 
@@ -87,9 +87,9 @@ install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
 
-__[Bioconductor: Devel]__
+__[Bioconductor: Development]__
 
-If you are developing tools in the devel branch or if you are a user who uses the devel version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the Devel Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
+If you are developing tools in the `devel` branch or if you are a user who uses the development version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
 
 ```r
 source("http://bioconductor.org/biocLite.R")
@@ -207,7 +207,7 @@ t1$input_matrix()
 
 ## Tutorials
 
-We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor-Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
+We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
 
 | Tutorial Title | HTML   | R Script  |
 |:---------------|:-------|:----------|
@@ -281,7 +281,7 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 | May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html) (talk) | Renmin University of China, Beijng, China |
 | Jun 27 - 30, 2016 | [The R User Conference 2016](http://user2016.org/) (talk) | Stanford University, Stanford, CA |
 | Jun 24 - 26, 2016 | [BioC 2016: Where Software and Biology Connect](https://bioconductor.org/help/course-materials/2016/BioC2016/) (workshop) | Stanford University, Stanford, CA |
-| Apr 1 - 3, 2016   | [NCI Cancer Genomics Cloud Hackathon](https://www.cancergenomicscloud.org/hacking-cancer/) (tutorial)<br />[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] | Seven Bridges Genomics, Inc., Boston, MA |
+| Apr 1 - 3, 2016   | [NCI Cancer Genomics Cloud Hackathon](https://www.cancergenomicscloud.org/hacking-cancer/) (tutorial)<br />[[HTML](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R Markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R Script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] | Seven Bridges Genomics, Inc., Boston, MA |
 
 ## Contribute
 
