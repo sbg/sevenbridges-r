@@ -3,13 +3,13 @@ Type: Package
 Title: R Client for Seven Bridges Platform API and CWL Tool builder in R
 Version: 1.3.8
 Date: 2015-05-01
-Author:  Tengfei Yin <tengfei.yin@sbgenomics.com>, Dusan Randjelovic <dusan.randjelovic@sbgenomics.com>, Nan Xiao <road2stat@gmail.com>
+Author:  Tengfei Yin <tengfei.yin@sbgenomics.com>, Dusan Randjelovic <dusan.randjelovic@sbgenomics.com>, Nan Xiao <nan.xiao@sbgenomics.com>
 Maintainer: Tengfei Yin <tengfei.yin@sbgenomics.com>
-Description: R client and utilities for Seven Bridges platform API, from cancer
-    genomics cloud to other Seven Bridges supported platforms.
+Description: R client and utilities for Seven Bridges platform API, from Cancer
+    Genomics Cloud to other Seven Bridges supported platforms.
 License: Apache License 2.0
 VignetteBuilder: knitr
-URL: https://www.sevenbridges.com
+URL: http://www.sevenbridges.com
 BugReports: https://github.com/sbg/sevenbridges-r/issues
 biocViews: Software, DataImport, ThirdPartyClient
 Depends:

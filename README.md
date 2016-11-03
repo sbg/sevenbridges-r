@@ -324,4 +324,4 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 
 <hr>
 
-© Seven Bridges Genomics 2012 - 2016. Licensed under the MIT license.
+© Seven Bridges Genomics 2012 - 2016. Licensed under the Apache License 2.0.

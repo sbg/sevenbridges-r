@@ -1,11 +1,10 @@
-#' R Client for Seven Bridges Genomics API
+#' R Client for Seven Bridges Platform API and CWL Tool builder in R
 #'
-#' R Client for Seven Bridges Genomics API
-#'
-#' The vignette can be opened with \code{vignette('sevenbridges')}.
+#' R client and utilities for Seven Bridges platform API, from Cancer
+#' Genomics Cloud to other Seven Bridges supported platforms.
 #'
 #' \tabular{ll}{ Package: \tab sevenbridges\cr Type: \tab Package\cr
-#' License: \tab MIT\cr }
+#' License: \tab Apache License 2.0\cr }
 #'
 #' @name sevenbridges-package
 #' @docType package
@@ -27,6 +26,3 @@
 #' @importClassesFrom objectProperties SingleEnum Enum
 #' @importFrom objectProperties setSingleEnum
 NULL
-
-
-
