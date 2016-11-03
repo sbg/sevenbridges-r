@@ -38,7 +38,7 @@ This installation is recommended for most users as it is the most stable. The cu
 
 If you don't want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
 
-####Step 1: Check R version
+#### Step 1: Check R version
 First, check which version of R you are using with the following:
 
 ```r
@@ -48,7 +48,7 @@ First, check which version of R you are using with the following:
 If you are not running latest R, install R 3.3 by following [these instructions](http://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the
 new installation.
 
-####Step 2: Install the sevenbridges package
+#### Step 2: Install the sevenbridges package
 Install the sevenbridges package (`sevenbridges`) as shown below:
 
 ```r
@@ -283,7 +283,7 @@ If you are logged in as username 'rstudio', visit  `http://192.168.99.100:3838/r
 
 <a name="issue"/>
 
-### Issue report
+### Report issues
 
 All feedback is welcome! Please file bug/issue reports and requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues).
 
@@ -312,14 +312,13 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 
 ### Events
 
-- September 12 - 14, 2016: [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16), Oxford University, UK (poster)
-- May 27 - 29, 2016: [The 9th China-R Conference 2016](http://china-r.org/bj2016/index.html), Renmin University, Beijng, China (talk)
-- June 24 - 26, 2016: [BioC 2016: Where Software and Biology Connect](http://bioconductor.org/help/course-materials/2016/BioC2016/), Stanford University, Stanford, CA (workshop)
-- June 27 - 30, 2016: [The R User Conference 2016](http://user2016.org/), Stanford University, Stanford, CA (talk)
-- April 1 - 3, 2016: [NCI Cancer Genomics Cloud Hackathon Tutorials](https://www.cancergenomicscloud.org/hacking-cancer/), Seven Bridges, Boston, MA
-[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)]
-[[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)]
-[[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)]
+| Time              | Event  |
+|:------------------|:-------|
+| Sep 12 - 14, 2016 | [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16), Oxford University, UK (poster) |
+| May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html), Renmin University, Beijng, China (talk)    |
+| Jun 27 - 30, 2016 | [The R User Conference 2016](http://user2016.org/), Stanford University, Stanford, CA (talk) |
+| Jun 24 - 26, 2016 | [BioC 2016: Where Software and Biology Connect](https://bioconductor.org/help/course-materials/2016/BioC2016/), Stanford University, <br /> Stanford, CA (workshop) |
+| Apr 1 - 3, 2016   | [NCI Cancer Genomics Cloud Hackathon Tutorials](https://www.cancergenomicscloud.org/hacking-cancer/), Seven Bridges, Boston, MA <br />[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] |
 
 <hr>
 
