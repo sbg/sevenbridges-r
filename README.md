@@ -1,4 +1,4 @@
-# sevenbridges  <img src="logo.png" align="right" alt="logo" height="120" width="120" />
+# sevenbridges  <a href="http://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="120" width="120" /></a>
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
