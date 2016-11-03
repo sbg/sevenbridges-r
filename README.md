@@ -16,22 +16,17 @@ The Seven Bridges Platform is a cloud-based environment for conducting bioinform
 
 The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based computation environment. It was built as one of three pilot systems funded by the [National Cancer Institute](https://www.cancer.gov/) to explore the paradigm of colocalizing massive genomics datasets, like [The Cancer Genomics Atlas (TCGA)](https://cancergenome.nih.gov/), alongside secure and scalable computational resources to analyze them. The CGC makes more than a petabyte of multi-dimensional data available immediately to authorized researchers. You can add your own data to analyze alongside TCGA using predefined analytical workflows or your own tools.
 
-<hr>
-<h5> Table of Contents</h5>
+## Table of Contents
 
-* [Installation](#install) <br />
+* [Installation](#installation) <br />
 * [Features](#features) <br />
-* [Tutorial](#tutorial) <br />
-* [IDE docker image](#rstudio) <br />
-* [Report issues](#issue) <br />
-* [Q&A](#qa) <br />
+* [Tutorials](#tutorials) <br />
+* [IDE docker image](#launch-rstudio-and-shiny-server-with-the-seven-bridges-ide-docker-container) <br />
+* [FAQ](#faq) <br />
 * [Events](#events)  <br />
+* [Contribute](#contribute)
 
-<hr>
-
-<a name="install"/>
-
-### Installation
+## Installation
 
 __[Bioconductor: Stable]__
 
@@ -108,9 +103,7 @@ To load the package in R, simply call
 library("sevenbridges")
 ```
 
-<a name="features"/>
-
-### Features
+## Features
 
 The sevenbridges package includes the following features:
 
@@ -212,8 +205,6 @@ t1 = convert_app(t1)
 t1$input_matrix()
 ```
 
-<a name="tutorial"/>
-
 ## Tutorials
 
 We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor stable, and Bioconductor devel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
@@ -227,10 +218,9 @@ We maintain 3 different sets of documentation: the sevenbridges-r GitHub reposit
 | <a name="ide"/>IDE container: Rstudio and Shiny server and more | [HTML](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html) | [R Script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R) |
 | Browse data on the Cancer Genomics Cloud via the Data Explorer, a SPARQL query, <br />or the Datasets API | [HTML](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.html) | [R Script](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.R) |
 
-<a name="rstudio"/>
+## Launch RStudio and Shiny Server with the Seven Bridges IDE Docker container
 
-### Launch the RStudio and Shiny servers with the Seven Bridges IDE Docker container
-In the tutorial for the [IDE container](#ide) above, we build a Docker container locally from which we can launch RStudio and Shiny. To launch the RStudio and Shiny servers, do the following:
+In the tutorial for [IDE container](#tutorials) above, we build a Docker container locally from which we can launch RStudio and Shiny. To launch the RStudio and Shiny servers, do the following:
 
 ```shell
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
@@ -264,15 +254,7 @@ If you are logged in as user `rstudio`, visit  `http://192.168.99.100:3838/rstud
 
 _Note_: Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a particular app, at  `http://<url>:3838/<app_dir>`. Inside the Docker container, it's hosted under `/srv/shiny-server/`.
 
-<a name="issue"/>
-
-### Report issues
-
-All feedback is welcome! Please file bug/issue reports and requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues).
-
-<a name="qa"/>
-
-## Q&A
+## FAQ
 
 The best place to ask a question about the sevenbridges package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__.
 
@@ -291,17 +273,19 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 - __Q__: I still have problems despite dismissing the messages.
   __A__: Please try to use the latest package on GitHub or update your package on Bioconductor. This usually includes the most recent bug fixes.
 
-<a name="events"/>
+## Events
 
-### Events
+| Time              | Event  | Location |
+|:------------------|:-------|:---------|
+| Sep 12 - 14, 2016 | [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) (poster) | University of Oxford, Oxford, UK |
+| May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html) (talk) | Renmin University of China, Beijng, China |
+| Jun 27 - 30, 2016 | [The R User Conference 2016](http://user2016.org/) (talk) | Stanford University, Stanford, CA |
+| Jun 24 - 26, 2016 | [BioC 2016: Where Software and Biology Connect](https://bioconductor.org/help/course-materials/2016/BioC2016/) (workshop) | Stanford University, Stanford, CA |
+| Apr 1 - 3, 2016   | [NCI Cancer Genomics Cloud Hackathon](https://www.cancergenomicscloud.org/hacking-cancer/) (tutorial)<br />[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] | Seven Bridges Genomics, Inc., Boston, MA |
 
-| Time              | Event  |
-|:------------------|:-------|
-| Sep 12 - 14, 2016 | [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16), Oxford University, UK (poster) |
-| May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html), Renmin University, Beijng, China (talk)    |
-| Jun 27 - 30, 2016 | [The R User Conference 2016](http://user2016.org/), Stanford University, Stanford, CA (talk) |
-| Jun 24 - 26, 2016 | [BioC 2016: Where Software and Biology Connect](https://bioconductor.org/help/course-materials/2016/BioC2016/), Stanford University, <br /> Stanford, CA (workshop) |
-| Apr 1 - 3, 2016   | [NCI Cancer Genomics Cloud Hackathon Tutorials](https://www.cancergenomicscloud.org/hacking-cancer/), Seven Bridges, Boston, MA <br />[[html](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] |
+## Contribute
+
+All feedback is welcome! Please file bug/issue reports and requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues).
 
 <hr>
 
