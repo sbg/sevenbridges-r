@@ -4,5 +4,4 @@
 ^\.travis\.yml$
 ^.*~$
 hooks
-
-
+^logo\.png$

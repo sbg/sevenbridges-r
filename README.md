@@ -1,4 +1,4 @@
-# sevenbridges
+# sevenbridges  <img src="logo.png" align="right" alt="logo" height="120" width="120" />
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
@@ -8,6 +8,8 @@
 ![cov](http://www.bioconductor.org/shields/coverage/release/sevenbridges.svg)
 
 [Bioconductor-Stable](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) |  [Bioconductor-Devel](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html)
+
+## Overview
 
 sevenbridges is an [R](https://cran.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) public APIs.
 
