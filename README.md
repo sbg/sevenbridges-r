@@ -18,23 +18,27 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 ## Table of Contents
 
-* [Installation](#installation) <br />
-* [Features](#features) <br />
-* [Tutorials](#tutorials) <br />
-* [IDE docker image](#launch-rstudio-and-shiny-server-with-the-seven-bridges-ide-docker-container) <br />
-* [FAQ](#faq) <br />
-* [Events](#events)  <br />
+* [Installation](#installation)
+  * [Bioconductor - Release Version](#bioconductor---release-version)
+  * [Bioconductor - Development Version](#bioconductor---development-version)
+  * [Latest Development Version](#latest-development-version)
+* [Features](#features)
+* [Tutorials](#tutorials)
+* [IDE Docker Image](#ide-docker-image)
+* [FAQ](#faq)
+* [Events](#events)
 * [Contribute](#contribute)
 
 ## Installation
 
-__[Bioconductor: Release]__
+### Bioconductor - Release Version
 
 This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.3, and it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features.
 
-If you don't want to update R, please install the `sevenbridges` package directly from GitHub by following the instructions below.
+If you do not want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
 
-#### Step 1: Check R version
+#### Check R version
+
 First, check which version of R you are using with the following:
 
 ```r
@@ -43,51 +47,16 @@ First, check which version of R you are using with the following:
 
 If you are not running latest R, install R 3.3 by following [these instructions](http://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the new installation.
 
-#### Step 2: Install the `sevenbridges` package
+#### Install the package
 
-Install the sevenbridges package (`sevenbridges`) as shown below:
+Install the sevenbridges package as shown below:
 
 ```r
 source("http://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-__[Latest]__
-
-You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
-
-__If you don't have devtools__
-
-Installing the sevenbridges package requires you have the `devtools` package. If you do not have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
-
-```r
-install.packages("devtools")
-```
-
-You may got an error and need system dependecies for curl and ssl. For example, you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc` under Ubuntu.
-
-```
-apt-get update
-apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
-```
-
-__If `devtools` is already installed__
-
-Install latest version of `sevenbridges` from GitHub with the following:
-
-```r
-source("http://bioconductor.org/biocLite.R")
-biocLite(c("readr", "BiocStyle"))
-
-library("devtools")
-install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
-               repos = BiocInstaller::biocinstallRepos(),
-               dependencies = TRUE)
-```
-
-If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
-
-__[Bioconductor: Development]__
+### Bioconductor - Development Version
 
 If you are developing tools in the `devel` branch or if you are a user who uses the development version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
 
@@ -102,6 +71,41 @@ To load the package in R, simply call
 ```r
 library("sevenbridges")
 ```
+
+### Latest Development Version
+
+You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
+
+#### If `devtools` was not installed
+
+Installing the sevenbridges package requires you have the `devtools` package. If you do not have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
+
+```r
+install.packages("devtools")
+```
+
+You may got an error and need system dependecies for curl and ssl. For example, you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc` under Ubuntu.
+
+```
+apt-get update
+apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
+```
+
+#### If `devtools` is already installed
+
+Install latest version of sevenbridges from GitHub with the following:
+
+```r
+source("http://bioconductor.org/biocLite.R")
+biocLite(c("readr", "BiocStyle"))
+
+library("devtools")
+install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
+               repos = BiocInstaller::biocinstallRepos(),
+               dependencies = TRUE)
+```
+
+If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
 
 ## Features
 
@@ -218,9 +222,9 @@ We maintain 3 different sets of documentation: the sevenbridges-r GitHub reposit
 | <a name="ide"/>IDE container: Rstudio and Shiny server and more | [HTML](http://www.tengfei.name/sevenbridges/vignettes/rstudio.html) | [R Script](http://www.tengfei.name/sevenbridges/vignettes/rstudio.R) |
 | Browse data on the Cancer Genomics Cloud via the Data Explorer, a SPARQL query, <br />or the Datasets API | [HTML](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.html) | [R Script](http://www.tengfei.name/sevenbridges/vignettes/cgc-sparql.R) |
 
-## Launch RStudio and Shiny Server with the Seven Bridges IDE Docker container
+## IDE Docker Image
 
-In the tutorial for [IDE container](#tutorials) above, we build a Docker container locally from which we can launch RStudio and Shiny. To launch the RStudio and Shiny servers, do the following:
+In the tutorial for [IDE container](#tutorials) above, we built a Docker container locally from which we can launch RStudio and Shiny. To launch RStudio and Shiny Server with the Seven Bridges IDE Docker container, do the following:
 
 ```shell
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
@@ -285,7 +289,7 @@ The best place to ask a question about the sevenbridges package is the [Biocondu
 
 ## Contribute
 
-All feedback is welcome! Please file bug/issue reports and requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues).
+All feedback is welcome! Please file bug reports/feature requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues), or create pull requests [here](https://github.com/sbg/sevenbridges-r/pulls).
 
 <hr>
 
