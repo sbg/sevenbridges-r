@@ -13,8 +13,9 @@ Genomics Cloud to other Seven Bridges supported platforms.
 License: \tab Apache License 2.0\cr }
 }
 \author{
-Tengfei Yin <\email{tengfei.yin@sbgenomics.com}>
+Nan Xiao <\email{nan.xiao@sbgenomics.com}>
         Dusan Randjelovic <\email{dusan.randjelovic@sbgenomics.com}>
-        Nan Xiao <\email{nan.xiao@sbgenomics.com}>
+        Emile Young <\email{emile.young@sbgenomics.com}>
+        Tengfei Yin <\email{tengfei.yin@sbgenomics.com}>
 }
 

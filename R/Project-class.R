@@ -10,7 +10,7 @@ Permission <- setRefClass("Permission", contains = "Item",
                                   copy_permission = NULL,
                                   execute = NULL,
                                   admin = NULL,
-                                  read = NULL, ...){
+                                  read = NULL, ...) {
 
                                   write <<- write
                                   copy_permission <<- copy_permission
@@ -39,35 +39,35 @@ Member <- setRefClass("Member", contains = "Item",
                               copy = NULL,
                               execute = NULL,
                               admin = NULL, read = NULL, ...){
-                              
+
                               if(is.null(pid)){
                                   stop("cannot find project id")
                               }
                               body = list('write' = write,
                                   'copy' = copy,
                                   'execute' = execute,
-                                  'read' = read, 
+                                  'read' = read,
                                   'admin' = admin)
 
                               body <- body[!sapply(body, is.null)]
-                              
+
                               if(length(body) == 0)
                                   stop("please provide updated information")
 
 
-                             
+
 
 
                               req <- api(token = auth$token,
-                                  base_url = auth$url, 
+                                  base_url = auth$url,
                                   path = paste0('projects/', pid, '/members/', username, '/permissions'),
                                   body = body, method = 'PATCH', ...)
-                              
+
                               res <- status_check(req)
 
                               ## check new updated info
-                              
-                              
+
+
                               ## update self
                               lst <- res
                               names(lst)[names(lst) == "copy"] <- "copy_permission"
@@ -77,12 +77,12 @@ Member <- setRefClass("Member", contains = "Item",
                               for(nm in nms){
                                   .self$permissions$field(nm, lst[[nm]])
                               }
-                              
+
                               .self
                           },
                           delete = function(...){
                               stopifnot(!is.null(auth$version))
-                              
+
                               req <- api(token = auth$token,
                                          base_url = auth$url,
                                          path = paste0('projects/', pid, '/members/', username),
@@ -103,15 +103,15 @@ Member <- setRefClass("Member", contains = "Item",
 Project <- setRefClass("Project", contains = "Item",
                        fields = list(id = "characterORNULL",
                            name = "characterORNULL",
-                           billing_group_id = "characterORNULL", 
+                           billing_group_id = "characterORNULL",
                            description = "characterORNULL",
-                           type = "characterORNULL", 
+                           type = "characterORNULL",
                           ##  my_permission = "Permission",
                            owner = "characterORNULL",
                            tags = "listORNULL"),
                        methods = list(
                            initialize = function(id = NULL, name = NULL,
-                               billing_group_id = NULL, 
+                               billing_group_id = NULL,
                                description = "",
                                type = "",
                            ##    my_permission = Permission(),
@@ -136,7 +136,7 @@ Project <- setRefClass("Project", contains = "Item",
                                owner <<- owner
                                tags <<- tags
                                billing_group_id <<- billing_group_id
-                               
+
                                callSuper(...)
                            },
                            update = function(name = NULL, description = NULL, billing_group_id = NULL, ... ){
@@ -159,7 +159,7 @@ Project <- setRefClass("Project", contains = "Item",
                                }
 
                                req <- api(token = auth$token,
-                                   base_url = auth$url, 
+                                   base_url = auth$url,
                                    path = paste0('projects/', id),
                                    body = body, method = 'PATCH', ...)
 
@@ -179,19 +179,19 @@ Project <- setRefClass("Project", contains = "Item",
                                if(ptype(id) == "1.1"){
                                    ## use V1.1
                                    res <- project_members(auth$token, id)
-                                   ms <- .asMemberList(res[[1]])                                   
+                                   ms <- .asMemberList(res[[1]])
                                }
                                if(ptype(id) == "v2"){
                                    ## use v2
                                    req = api(token = auth$token,
-                                       base_url = auth$url, 
+                                       base_url = auth$url,
                                        path = paste0('projects/', id, '/members'),
                                        method = 'GET', ...)
                                    res <- status_check(req)
                                    ms <- .asMemberList(res, pid = id)
                                    ms <- setAuth(ms, .self$auth, "Member")
                                }
-                               
+
                                if(is.null(name)){
                                    return(ms)
                                }else{
@@ -221,7 +221,7 @@ Project <- setRefClass("Project", contains = "Item",
                                        base_url = auth$url,
                                        path = paste0('projects/', id, '/members'),
                                        body = body, method = 'POST', ...)
-                                   
+
                                    res <- status_check(req)
                                    .asMember(res)
 
@@ -234,23 +234,23 @@ Project <- setRefClass("Project", contains = "Item",
                                                 detail = detail, ...)
                                res
                            },
-                           upload = function(filename = NULL, 
+                           upload = function(filename = NULL,
                                              name = NULL,
                                              metadata = list(),
                                              overwrite = FALSE, ...){
                                ## if filename is a list
                                if(length(filename) > 1){
-                 
+
                                    for(fl in filename){
                                        message(fl)
                                        if(file.info(fl)$size > 0){
-                                           upload(fl, metadata = metadata, 
+                                           upload(fl, metadata = metadata,
                                                   overwrite = overwrite,
                                                   ...)
                                        }else{
                                            warning("skip uploading: empty file")
                                        }
-                                      
+
                                    }
                                    return(invisible())
                                }
@@ -258,41 +258,41 @@ Project <- setRefClass("Project", contains = "Item",
                                if(!is.na(file.info(filename)$isdir) && file.info(filename)$isdir){
                                    message("Upload all files in the folder: ", filename)
                                    fls <- list.files(filename, recursive = TRUE, full.names = TRUE)
-                                   upload(fls, metadata = metadata, 
+                                   upload(fls, metadata = metadata,
                                           overwrite = overwrite,
                                           ...)
                                    return(invisible())
                                }
-                               
-                               ## check 
+
+                               ## check
                                if(!file.exists(filename)){
                                    stop("file not found")
                                }
-                              
-                              
+
+
                                u <- Upload(auth = auth,
                                            file = filename,
-                                           name = name, 
+                                           name = name,
                                            project_id = id,
-                                           metadata = metadata, 
+                                           metadata = metadata,
                                            ...)
-                               
+
                                u$upload_file(metadata = metadata, overwrite = overwrite)
-                          
+
                            },
                            ## app
                            app = function(...){
                                auth$app(project = id, ...)
                            },
-                           app_add = function(short_name = NULL, 
-                                              filename  = NULL, 
-                                              revision = NULL, 
+                           app_add = function(short_name = NULL,
+                                              filename  = NULL,
+                                              revision = NULL,
                                               ...){
-                               
+
                                if(is.null(filename)){
                                    stop("file (cwl json) need to be provided")
                                }
-                               
+
                                if(is.null(short_name)){
                                    stop("app short name has to be provided (alphanumeric character with no spaces)")
                                }else{
@@ -300,18 +300,18 @@ Project <- setRefClass("Project", contains = "Item",
                                        stop("id cannot have white space")
                                    }
                                }
-                               
+
                                if(is(filename, "Tool") || is(filename, "Workflow")){
                                    if(is(filename, "Workflow")){
                                        ## push apps and update run
-                                     
+
                                        steplst <- filename$steps
                                        isSBGApp <- function(x){
                                            length(x$"sbg:id")
                                        }
                                        lst <- lapply(steplst, function(x){
                                            if(!isSBGApp(x$run)){
-                                               ## if not exists on sbg platform, need to 
+                                               ## if not exists on sbg platform, need to
                                                ## add it first
                                                .name <- gsub("#", "",x$run$id)
                                                message(.name)
@@ -324,7 +324,7 @@ Project <- setRefClass("Project", contains = "Item",
                                                x
                                            }
                                        })
-                                       ## No need to do this here, should not edit 
+                                       ## No need to do this here, should not edit
                                        ## should assume link exists.
                                       #  slst <- lst[[1]]
                                       #  for(i in 1:(length(lst) -1)){
@@ -340,7 +340,7 @@ Project <- setRefClass("Project", contains = "Item",
                                    writeLines(filename$toJSON(), con = con)
                                    filename <- fl
                                    close(con)
-                                   
+
                                }
 
                                if(is.null(revision)){
@@ -357,12 +357,12 @@ Project <- setRefClass("Project", contains = "Item",
                                    }else{
                                        res <- auth$api(path = paste0("apps/", id, "/", short_name, "/raw"),
                                                        method = "POST",
-                                                       body = upload_file(filename), ...)            
+                                                       body = upload_file(filename), ...)
                                    }
-                                   
 
-                         
-            
+
+
+
                                }else{
                                    ## latest check revision first
                                    .id <- paste0(id, "/", short_name)
@@ -391,10 +391,10 @@ Project <- setRefClass("Project", contains = "Item",
                                description = NULL,
                                batch = NULL,
                                app = NULL,
-                               inputs = NULL, 
+                               inputs = NULL,
                                input_check = getOption("sevenbridges")$input_check, ...){
 
-                              
+
                             if(input_check){
                                 message("checking inputs ...")
                                 message("API: getting app input information ...")
@@ -403,26 +403,26 @@ Project <- setRefClass("Project", contains = "Item",
                                 inputs = apps$input_check(inputs)
                             }
                             message("Task drafting ...")
-                            
+
                             if(is.null(inputs)){
                                 .i = inputs
                             }else{
                                 .i = lapply(inputs, asTaskInput)
                             }
-                           
+
                             body = list(name = name,
                                 description = description,
                                 project = id,
                                 app = app,
                                 inputs = .i)
-                            
-                          
+
+
                             if(!is.null(batch)){
-                                
+
                                 body = c(batch, body)
-      
+
                             }
-                            
+
                             res <- auth$api(path = "tasks", body = body, method = "POST", ...)
                             message("Done")
                             res <- .asTask(res)
@@ -431,7 +431,7 @@ Project <- setRefClass("Project", contains = "Item",
                                 .showList(res$errors)
                             }
                             setAuth(res, .self$auth, "Task")
-                               
+
                            },
                            task_run = function(...){
                                task = Task(auth = .self$auth,
@@ -463,9 +463,9 @@ Project <- setRefClass("Project", contains = "Item",
                 owner = x$owner,
                 tags = x$tags,
                 description = x$description, ## v1 only entry
-                billing_group_id = x$billing_group, 
+                billing_group_id = x$billing_group,
                 response = response(x))
-        
+
   # ##  }else{
   #       Project(id = x$id,
   #               href = x$href,
@@ -474,10 +474,10 @@ Project <- setRefClass("Project", contains = "Item",
   #               owner = x$owner,
   #               tags = x$tags,
   #               description = x$description, ## v1 only entry
-  #               billing_group_id = x$billing_group,                 
+  #               billing_group_id = x$billing_group,
   #               my_permission = do.call(Permission, x$my_permission), ## v1 only entry
   #               response = response(x))
-  #       
+  #
   #   }
 }
 
@@ -492,7 +492,7 @@ ProjectList <- setListClass("Project", contains = "Item0")
 
 .asMember <- function(x, pid = NULL){
     Member(id = x$id,
-           pid = pid, 
+           pid = pid,
            username = x$username,
            invitation_pending = x$invitation_pending,
            permissions = do.call(Permission, x$permissions),

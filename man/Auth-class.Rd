@@ -40,15 +40,16 @@ Current config file is set on home directory with the name .sbg.auth.yml
 \section{Fields}{
 
 \describe{
-\item{\code{token}}{[character] your auth token.}
+\item{\code{token}}{[character] Your auth token.}
 
-\item{\code{url}}{[character] basic url used for API, by default
-it's \url{https://api.sbgenomics.com/1.1/}}
+\item{\code{url}}{[character] Base URL used for API, by default
+it is \url{https://api.sbgenomics.com/1.1/}.}
 
-\item{\code{version}}{url version number}
+\item{\code{version}}{URL version number}
 
-\item{\code{platform}}{which platform you are using, by default it is cgc platform, it tries
-to search your .sbg.auth.yml file to parse platform id your deinfed there.}
+\item{\code{platform}}{Which platform you are using, by default it is CGC platform,
+it tries to search your \code{.sbg.auth.yml} file to parse platform id your
+deinfed there.}
 
 \item{\code{fs}}{FS object, for mount and unmount file system.}
 }}
@@ -58,9 +59,17 @@ to search your .sbg.auth.yml file to parse platform id your deinfed there.}
 \item{\code{api(..., limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset, complete = FALSE)}}{This call returns all API paths, and pass arguments to api() function and input token and url automatically}
 
-\item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{if no id provided, This call returns a list of paths used to access billing
-information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled.
-if breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
+\item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{if no id provided, This call returns a list of
+paths used to access billing information via the
+API. else, This call lists all your billing groups,
+including groups that are pending or have been disabled.
+if breakdown = TRUE, This call returns a breakdown
+of spending per-project for the billing group
+specified by billing_group. For each project that
+the billing group is associated with, information
+is shown on the tasks run, including their
+initiating user (the runner), start and end times,
+and cost.}
 
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
@@ -68,32 +77,38 @@ if breakdown = TRUE, This call returns a breakdown of spending per-project for t
 
 \item{\code{invoice(id = NULL, ...)}}{no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
 
-The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only.
+                            The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only.
 
-if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.}
+                            if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
+                            }
 
 \item{\code{project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, owner = NULL, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the CGC will be returned. If name or id provided, we did a match search the list}
+  exact = FALSE, owner = NULL, detail = FALSE, ...)}}{If no id or name provided, this call returns a
+list of all projects you are a member of.
+Each project's project_id and URL on the CGC
+will be returned. If name or id provided,
+we did a match search the list}
 
 \item{\code{project_new(name = NULL, billing_group_id = NULL, description = name,
-  tags = list(), type = "v2", ...)}}{Create new projects, required parameters: name, billing_group_id,
-optional parameteres: tags and description, type. }
+  tags = list(), type = "v2", ...)}}{Create new projects, required parameters: name,
+billing_group_id, optional parameteres: tags and
+description, type.}
 
 \item{\code{project_owner(owner = NULL, ...)}}{List the projects owned by and accessible to a particular user.
 Each project's ID and URL will be returned.}
 
-\item{\code{rate_limit(...)}}{This call returns information about your current 
-rate limit. This is the number of API calls you can 
+\item{\code{rate_limit(...)}}{This call returns information about your current
+rate limit. This is the number of API calls you can
 make in one hour.}
 
-\item{\code{user(username = NULL, ...)}}{This call returns a list of the resources, such as projects, 
-billing groups, and organizations, that are accessible to you.
+\item{\code{user(username = NULL, ...)}}{This call returns a list of the resources, such as projects,
+                            billing groups, and organizations, that are accessible to you.
 
-If you are not an administrator, this call will only return a 
-successful response if {username} is replaced with your own 
-username. If you are an administrator, you can replace 
-{username} with the username of any CGC user, to return 
-information on their resources.}
+                            If you are not an administrator, this call will only return a
+                            successful response if {username} is replaced with your own
+                            username. If you are an administrator, you can replace
+                            {username} with the username of any CGC user, to return
+                            information on their resources.}
 
 \item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list}

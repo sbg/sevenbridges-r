@@ -1,12 +1,13 @@
-ToolUI <- function(){
-    ## Get the document context.
+ToolUI <- function() {
+
+    ## Get the document context
     context <- getActiveDocumentContext()
-    
-    # Set the default data to use based on the selection.
+
+    # Set the default data to use based on the selection
     text <- context$selection[[1]]$text
     defaultData <- text
-    
-    # Generate UI for the gadget.
+
+    # Generate UI for the gadget
     ui <- miniPage(
         gadgetTitleBar("Describe your tool"),
         miniCotentPanel(
@@ -17,10 +18,10 @@ ToolUI <- function(){
             uiOutput("pending")
         )
     )
-    
-    
-    # Server code for the gadget.
+
+    # Server code for the gadget
     server <- function(input, output, session) {
-        
+
     }
+
 }

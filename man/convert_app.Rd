@@ -21,8 +21,8 @@ Tool or Flow object depends on cwl type.
 Convert App or a cwl JSON file to Tool or Flow object
 }
 \details{
-This function import cwl JSON file, based on its class: CommandLineTool or Worklfow
-to relevant object in R, Tool object or Flow object.
+This function import cwl JSON file, based on its class: CommandLineTool
+or Worklfow to relevant object in R, Tool object or Flow object.
 }
 \section{appType}{
 
