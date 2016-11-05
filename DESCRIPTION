@@ -3,7 +3,13 @@ Type: Package
 Title: R Client for Seven Bridges Platform API and CWL Tool builder in R
 Version: 1.3.8
 Date: 2015-05-01
-Author: Nan Xiao <nan.xiao@sbgenomics.com>, Dusan Randjelovic <dusan.randjelovic@sbgenomics.com>, Emile Young <emile.young@sbgenomics.com>, Tengfei Yin <tengfei.yin@sbgenomics.com>
+Authors@R: c(
+    person("Nan", "Xiao", email = "nan.xiao@sbgenomics.com", role = c("aut", "cre")),
+    person("Dusan", "Randjelovic", email = "dusan.randjelovic@sbgenomics.com", role = "aut"),
+    person("Emile", "Young", email = "emile.young@sbgenomics.com", role = c("ctb")),
+    person("Tengfei", "Yin", email = "tengfei.yin@sbgenomics.com", role = c("aut")),
+    person("Seven Bridges Genomics", role = c("cph", "fnd"))
+    )
 Maintainer: Nan Xiao <nan.xiao@sbgenomics.com>
 Description: R client and utilities for Seven Bridges platform API, from Cancer
     Genomics Cloud to other Seven Bridges supported platforms.

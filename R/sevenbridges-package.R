@@ -12,8 +12,8 @@
 #'         Dusan Randjelovic <\email{dusan.randjelovic@sbgenomics.com}>
 #'         Emile Young <\email{emile.young@sbgenomics.com}>
 #'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
-#'    
-#' 
+#'
+#'
 #' @import httr methods
 #' @importFrom dplyr bind_rows
 #' @importFrom utils modifyList
