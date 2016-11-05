@@ -20,10 +20,10 @@ Files object
 Files Class
 }
 \details{
-Files class (has 's') contains CWL File class, it's usally returned by the API call which 
-returns Files. A group of Files is defined as FilesList. Users don't usually
-need to construct Files or FilesList manually, most time it's generated from a API 
-call.
+Files (with "s") class contains CWL File class, it's usally returned by
+the API call which returns Files. A group of Files is defined as FilesList.
+Users do not usually need to construct Files or FilesList manually,
+they are generated from a API call most of the time.
 }
 \section{Fields}{
 
@@ -34,8 +34,8 @@ call.
 
 \item{\code{metdata}}{a list for metdata associated with the file}
 
-\item{\code{project}}{project id if any, when returned by a API call, it usually return the 
-project id and stored with the object.}
+\item{\code{project}}{project id if any, when returned by a API call,
+it usually return the project id and stored with the object.}
 
 \item{\code{url}}{url}
 
@@ -56,17 +56,18 @@ project id and stored with the object.}
 
 \item{\code{meta()}}{get metadata from a file}
 
-\item{\code{setMeta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite is set to 
-TRUE, it overwrites the metadata}
+\item{\code{setMeta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite
+is set to TRUE, it overwrites the metadata}
 
-\item{\code{set_meta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite is set to 
-TRUE, it overwrites the metadata}
+\item{\code{set_meta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite
+is set to TRUE, it overwrites the metadata}
 
 \item{\code{set_tag(x = NULL, overwrite = TRUE, ...)}}{set a tag for a file, your tag need to be a list or vector}
 
 \item{\code{tag()}}{get tag from a file}
 
-\item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata, and tags for a specified file.}
+\item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata,
+and tags for a specified file.}
 }}
 \examples{
 Files(id = "test_id", name = "test.bam")

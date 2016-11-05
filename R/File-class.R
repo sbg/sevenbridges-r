@@ -1,52 +1,52 @@
-.response_files <- c("id", "name",  "size", "project", "created_on",
-                     "modified_on", "origin", "metadata", "tags")
+.response_files = c("id", "name",  "size", "project", "created_on",
+                    "modified_on", "origin", "metadata", "tags")
+
 ## Files: let's extend File class from CWL package
 
 #' Files class
-#' 
+#'
 #' Files Class
-#' 
-#' Files class (has 's') contains CWL File class, it's usally returned by the API call which 
-#' returns Files. A group of Files is defined as FilesList. Users don't usually
-#' need to construct Files or FilesList manually, most time it's generated from a API 
-#' call.
-#' 
+#'
+#' Files (with "s") class contains CWL File class, it's usally returned by
+#' the API call which returns Files. A group of Files is defined as FilesList.
+#' Users do not usually need to construct Files or FilesList manually,
+#' they are generated from a API call most of the time.
+#'
 #' @field id character used as file id
 #' @field name string used as file name
 #' @field metdata a list for metdata associated with the file
-#' @field project project id if any, when returned by a API call, it usually return the 
-#' project id and stored with the object. 
+#' @field project project id if any, when returned by a API call,
+#' it usually return the project id and stored with the object.
 #' @field url url
 #' @field created_on date created on
 #' @field modifield_on data modified on
 #' @field origin list as origin
-#' 
+#'
 #' @return Files object
 #' @export Files
-#' @exportClass Files 
-#' @examples 
+#' @exportClass Files
+#' @examples
 #' Files(id = "test_id", name = "test.bam")
 Files <- setRefClass("Files", contains = c("Item", "File"),
-                     fields = list(id = "characterORNULL",
-                         name = "characterORNULL",
-                         metadata = "listORNULL",
-                         project = "characterORNULL",
-                         url = "characterORNULL",
-                         created_on = "characterORNULL",
-                         modified_on = "characterORNULL",
-                         origin = "listORNULL",
-                         tags = "listORNULL"),
+                     fields = list(id          = "characterORNULL",
+                                   name        = "characterORNULL",
+                                   metadata    = "listORNULL",
+                                   project     = "characterORNULL",
+                                   url         = "characterORNULL",
+                                   created_on  = "characterORNULL",
+                                   modified_on = "characterORNULL",
+                                   origin      = "listORNULL",
+                                   tags        = "listORNULL"),
                      methods = list(
-                         initialize = function(id = NULL,
-                             name = NULL,
-                             metadata = NULL,
-                             project = NULL,
-                             url = NULL,
-                             created_on = NULL,
-                             modified_on = NULL,
-                             tags = NULL,
-                             origin = list(), ...){
-
+                         initialize = function(id          = NULL,
+                                               name        = NULL,
+                                               metadata    = NULL,
+                                               project     = NULL,
+                                               url         = NULL,
+                                               created_on  = NULL,
+                                               modified_on = NULL,
+                                               tags        = NULL,
+                                               origin      = list(), ...) {
 
                              id <<- id
                              name <<- name
@@ -57,166 +57,183 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
                              modified_on <<- modified_on
                              origin <<- origin
                              tags <<- tags
-                             
 
                              callSuper(...)
+
                          },
-                         delete = function(){
-                                 auth$api(path = paste0("files/", id),
-                                          method = "DELETE")
-                        },
-                         download_url = function(){
-                                 auth$api(path = paste0("files/", id, "/download_info"),
-                                          method = "GET")
-                        },
-                         download = function(destfile, ..., method = "curl"){
+
+                         delete = function() {
+                             auth$api(path = paste0("files/", id),
+                                      method = "DELETE")
+                         },
+
+                         download_url = function() {
+                             auth$api(path = paste0("files/", id, "/download_info"),
+                                      method = "GET")
+                         },
+
+                         download = function(destfile, ..., method = "curl") {
                              'see help(download.file) for more options'
-                             if(is.null(url))
+
+                             if (is.null(url))
                                  url <<- download_url()$url
-                             ## for compatible reason, R 3.1 doesn't have dir.exists
-                             ##
-                             .dir.exists <- function(d) {
-                                 de <- file.info(d)$isdir
+
+                             # for compatiblity reason:
+                             # R 3.1 does not have `dir.exists()`
+                             .dir.exists = function(d) {
+                                 de = file.info(d)$isdir
                                  ifelse(is.na(de), FALSE, de)
                              }
-                             if(.dir.exists(destfile)){
-                                 ## is directory
-                                 if(!is.null(name))
+
+                             if (.dir.exists(destfile)) {
+                                 # is directory
+                                 if (!is.null(name))
                                      destfile <- file.path(destfile, name)
-                             }else{
-                                 stop("download dir not exists")
+                             } else {
+                                 stop("download dir does not exist")
                              }
+
                              download.file(url, destfile, ..., method = method)
+
                          },
-                         copyTo = function(project = NULL, name = NULL){
+
+                         copyTo = function(project = NULL, name = NULL) {
                              auth$copyFile(id, project = project, name = name)
                          },
-                         copy_to = function(project = NULL, name = NULL){
+
+                         copy_to = function(project = NULL, name = NULL) {
                              'copy a file to a project (id) with new name '
-                             copyTo(project = project, name = name) 
+                             copyTo(project = project, name = name)
                          },
-                         meta = function(){
+
+                         meta = function() {
                              'get metadata from a file'
+
                              req <- auth$api(path = paste0('files/', id, '/metadata'),
                                              methods = "GET")
-                             ## update
+                             # update
                              metadata <<- req
                              req
+
                          },
-                         setMeta = function(..., overwrite = FALSE){
-                             'set metadata with provided list, when overwrite is set to 
-                             TRUE, it overwrites the metadata'
+
+                         setMeta = function(..., overwrite = FALSE) {
+                             'set metadata with provided list, when overwrite
+                             is set to TRUE, it overwrites the metadata'
+
                              o <- .self$metadata
 
                              md <- .dotargsAsList(...)
 
-                             if(length(md)){
-
-                                 if(!overwrite){
+                             if (length(md)) {
+                                 if (!overwrite) {
                                      req <- auth$api(path = paste0('files/', id, '/metadata'),
                                                      body = md,
                                                      method = 'PATCH')
-                                 }else{
+                                 } else {
                                      req <- auth$api(path = paste0('files/', id, '/metadata'),
                                                      body = md,
                                                      method = 'PUT')
                                  }
-                              
-
-                                 
-                             }else{
-                                 if(overwrite){
-                                     ## overwrite!
+                             } else {
+                                 if (overwrite) {
+                                     # overwrite!
                                      message("reset meta")
                                      req <- auth$api(path = paste0('files/', id, '/metadata'),
                                                      method = 'PUT')
-                                 }else{
+                                 } else {
                                      message("Nothing to add")
                                      req <- NULL
                                  }
                              }
-                             
-                             ## only when successful update, we edit the object
+
+                             # edit the object only when update is successful
                              metadata <<- req
                              req
+
                          },
-                         set_meta = function(..., overwrite = FALSE){
-                             'set metadata with provided list, when overwrite is set to 
-                             TRUE, it overwrites the metadata'
+
+                         set_meta = function(..., overwrite = FALSE) {
+                             'set metadata with provided list, when overwrite
+                             is set to TRUE, it overwrites the metadata'
                              setMeta(..., overwrite = overwrite)
                          },
-                         tag = function(){
+
+                         tag = function() {
                              'get tag from a file'
                              update()
                              .self$tags
                          },
-                         set_tag = function(x = NULL, overwrite = TRUE, ...){
+
+                         set_tag = function(x = NULL, overwrite = TRUE, ...) {
                              'set a tag for a file, your tag need to be a list or vector'
-                             if(is.null(x)){
-                                 stop("please provided your tags")
-                             }
-                             
-                             if(is.character(x)){
-                                 x = as.list(x)
-                             }
-                             if(overwrite){
+                             if (is.null(x)) stop("please provided your tags")
+                             if (is.character(x)) x = as.list(x)
+                             if (overwrite) {
                                  auth$api(path = paste0("files/", id, "/tags"),
                                           method = "PUT",
-                                          body = x, ...) 
+                                          body = x, ...)
                                  tags <<- x
-                             }else{
+                             } else {
                                  .tags = tag()
                                  .tags = c(.tags, x)
-                                  auth$api(path = paste0("files/", id, "/tags"),
+                                 auth$api(path = paste0("files/", id, "/tags"),
                                           method = "PUT",
-                                          body = .tags, ...) 
-                                  tags <<- .tags
+                                          body = .tags, ...)
+                                 tags <<- .tags
                              }
+
                              tags
-                            
-                          
+
                          },
-                         add_tag = function(x, ...){
+
+                         add_tag = function(x, ...) {
                              'add new tags while keeping old tags'
                              set_tag(x, overwrite = FALSE, ...)
                          },
-                         update  = function(name = NULL, metadata = NULL, tags = NULL){
-                             'This call updates the name, the full set metadata, and tags for a specified file.'
+
+                         update  = function(name = NULL, metadata = NULL,
+                                            tags = NULL) {
+                             'This call updates the name, the full set metadata,
+                             and tags for a specified file.'
+
                              body <- list(name = name, metadata = metadata, tags = tags)
                              body <- body[!sapply(body, is.null)]
-                             if(length(body)){
+                             if (length(body)) {
                                  req <- auth$api(path = paste0('files/', id),
                                                  body = body,
                                                  method = 'PATCH')
                                  res <- .asFiles(req)
-                             }else{
+                             } else {
                                  req <- auth$api(path = paste0('files/', id),
                                                  method = 'GET')
                                  res <- .asFiles(req)
                              }
-                             ## update fields
-                             for(fld in .response_files){
-                                 .self$field(fld,res[[fld]])
-                             }
+
+                             # update fields
+                             for (fld in .response_files) .self$field(fld,res[[fld]])
+
                              res
+
                          },
-                         show = function(){
-                            .showFields(.self, "== File ==", .response_files)
-                        }
 
-                    ))
+                         show = function() {
+                             .showFields(.self, "== File ==", .response_files)
+                         }
 
-.asFiles <- function(x){
-    Files(id = x$id,
-          name = x$name,
-          size = as.numeric(x$size),
-          metadata = x$metadata,
-          project = x$project,
-          created_on = x$created_on,
+                     ))
+
+.asFiles <- function(x) {
+    Files(id          = x$id,
+          name        = x$name,
+          size        = as.numeric(x$size),
+          metadata    = x$metadata,
+          project     = x$project,
+          created_on  = x$created_on,
           modified_on = x$modified_on,
-          origin = x$origin, 
-          tags = x$tags, 
-          response = response(x))
+          origin      = x$origin,
+          tags        = x$tags,
+          response    = response(x))
 }
 
 #' @rdname Files-class
@@ -226,13 +243,12 @@ Files <- setRefClass("Files", contains = c("Item", "File"),
 #' @exportClass FilesList
 FilesList <- setListClass("Files", contains = "Item0")
 
-.asFilesList <- function(x){
+.asFilesList <- function(x) {
     obj <- FilesList(lapply(x$items, .asFiles))
     obj@href <- x$href
     obj@response <- response(x)
     obj
 }
-
 
 #' Delete file or files
 #'
@@ -254,25 +270,22 @@ setGeneric("delete", function(obj) standardGeneric("delete"))
 
 #' @rdname delete-methods
 #' @aliases delete,SimpleList-method
-setMethod("delete", "SimpleList", function(obj){
+setMethod("delete", "SimpleList", function(obj) {
     lapply(obj, function(x) x$delete())
 })
 
 #' @rdname delete-methods
 #' @aliases delete,Files-method
-setMethod("delete", "Files", function(obj){
+setMethod("delete", "Files", function(obj) {
     obj$delete()
 })
-
-
-
 
 #' Download file or files
 #'
 #' Download file
 #'
 #' @param obj single File or FileList
-#' @param ... passed to download() 
+#' @param ... passed to download()
 #'
 #' @export
 #' @docType methods
@@ -288,26 +301,22 @@ setGeneric("download", function(obj, ...) standardGeneric("download"))
 
 #' @rdname download-methods
 #' @aliases download,FilesList-method
-setMethod("download", "FilesList", function(obj, ...){
-    for(i in 1:length(obj)){
-        obj[[i]]$download(...)
-    }
+setMethod("download", "FilesList", function(obj, ...) {
+    for (i in 1:length(obj)) obj[[i]]$download(...)
 })
 
 #' @rdname download-methods
 #' @aliases download,Files-method
-setMethod("download", "Files", function(obj, ...){
+setMethod("download", "Files", function(obj, ...) {
     obj$download(...)
 })
-
-
 
 #' set file tags
 #'
 #' set file tags
 #'
 #' @param obj single File or FileList
-#' @param ... passed to obj$set_tag() or obj$add_tag() 
+#' @param ... passed to obj$set_tag() or obj$add_tag()
 #'
 #' @export
 #' @docType methods
@@ -323,15 +332,15 @@ setGeneric("set_tag", function(obj, ...) standardGeneric("set_tag"))
 
 #' @rdname tag-methods
 #' @aliases set_tag,FilesList-method
-setMethod("set_tag", "FilesList", function(obj, ...){
-    for(i in 1:length(obj)){
+setMethod("set_tag", "FilesList", function(obj, ...) {
+    for (i in 1:length(obj)) {
         obj[[i]]$set_tag(...)
     }
 })
 
 #' @rdname tag-methods
 #' @aliases set_tag,Files-method
-setMethod("set_tag", "Files", function(obj, ...){
+setMethod("set_tag", "Files", function(obj, ...) {
     obj$set_tag(...)
 })
 
@@ -353,14 +362,14 @@ setGeneric("add_tag", function(obj, ...) standardGeneric("add_tag"))
 
 #' @rdname tag-methods
 #' @aliases add_tag,FilesList-method
-setMethod("add_tag", "FilesList", function(obj, ...){
-    for(i in 1:length(obj)){
+setMethod("add_tag", "FilesList", function(obj, ...) {
+    for (i in 1:length(obj)) {
         obj[[i]]$add_tag(...)
     }
 })
 
 #' @rdname tag-methods
 #' @aliases add_tag,Files-method
-setMethod("add_tag", "Files", function(obj, ...){
+setMethod("add_tag", "Files", function(obj, ...) {
     obj$add_tag(...)
 })
