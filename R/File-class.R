@@ -1,7 +1,7 @@
 .response_files = c("id", "name",  "size", "project", "created_on",
                     "modified_on", "origin", "metadata", "tags")
 
-## Files: let's extend File class from CWL package
+# Files: let's extend File class from CWL package
 
 #' Files class
 #'
@@ -263,7 +263,7 @@ FilesList <- setListClass("Files", contains = "Item0")
 #' @examples
 #' \dontrun{
 #' a$project("demo")$file("omni")$delete()
-#' ## or
+#' # or
 #' delete(a$project("demo")$file("omni"))
 #' }
 setGeneric("delete", function(obj) standardGeneric("delete"))
@@ -294,7 +294,7 @@ setMethod("delete", "Files", function(obj) {
 #' @examples
 #' \dontrun{
 #' a$project("demo")$file("omni")$download()
-#' ## or
+#' # or
 #' download(a$project("demo")$file("omni"))
 #' }
 setGeneric("download", function(obj, ...) standardGeneric("download"))

@@ -28,7 +28,7 @@ Delete file
 \examples{
 \dontrun{
 a$project("demo")$file("omni")$delete()
-## or
+# or
 delete(a$project("demo")$file("omni"))
 }
 }

@@ -27,7 +27,7 @@ Download file
 \examples{
 \dontrun{
 a$project("demo")$file("omni")$download()
-## or
+# or
 download(a$project("demo")$file("omni"))
 }
 }
