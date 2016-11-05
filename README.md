@@ -99,10 +99,9 @@ Install latest version of sevenbridges from GitHub with the following:
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("readr", "BiocStyle"))
 
-library("devtools")
-install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
-               repos = BiocInstaller::biocinstallRepos(),
-               dependencies = TRUE)
+devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
+                         repos = BiocInstaller::biocinstallRepos(),
+                         dependencies = TRUE)
 ```
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
