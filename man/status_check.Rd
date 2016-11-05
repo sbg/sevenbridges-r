@@ -2,7 +2,7 @@
 % Please edit documentation in R/core.R
 \name{status_check}
 \alias{status_check}
-\title{check request status}
+\title{Check request status}
 \usage{
 status_check(req, as = "parsed", ...)
 }
@@ -10,7 +10,7 @@ status_check(req, as = "parsed", ...)
 request content or the message
 }
 \description{
-check request status
+Check request status
 }
 \keyword{internal}
 

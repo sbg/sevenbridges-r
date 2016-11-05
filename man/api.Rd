@@ -2,7 +2,7 @@
 % Please edit documentation in R/core.R
 \name{api}
 \alias{api}
-\title{wrapper of http logic for SBG API}
+\title{Wrapper of http logic for SBG API}
 \usage{
 api(token = NULL, version = "1.1", path = NULL, method = c("GET",
   "POST", "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
@@ -17,26 +17,26 @@ api(token = NULL, version = "1.1", path = NULL, method = c("GET",
 
 \item{path}{path connected with base_url.}
 
-\item{method}{one of 'GET', 'POST', 'PUT', 'Delete'}
+\item{method}{one of \code{"GET"}, \code{"POST"}, \code{"PUT"}, \code{"Delete"}.}
 
 \item{query}{Passed to httr package GET/POST call.}
 
 \item{body}{Passed to httr package GET/POST/PUT/DELETE call.}
 
 \item{encode}{If the body is a named list, how should it be
-encoded? Default here is "json". Can be one of form (application/x-www-form-urlencoded),
-multipart, (multipart/form-data), or json (application/json).  For
-"multipart", list elements can be strings or objects created by
-upload_file. For "form", elements are coerced to strings and escaped,
-use I() to prevent double-escaping. For "json", parameters are
-automatically "unboxed" (i.e. length 1 vectors are converted to
-scalars). To preserve a length 1 vector as a vector, wrap in I().}
+encoded? Default here is "json". Can be one of form
+(application/x-www-form-urlencoded), multipart, (multipart/form-data),
+or json (application/json). For "multipart", list elements can be strings
+or objects created by upload_file. For "form", elements are coerced to
+strings and escaped, use I() to prevent double-escaping. For "json",
+parameters are automatically "unboxed" (i.e. length 1 vectors are converted
+to scalars). To preserve a length 1 vector as a vector, wrap in I().}
 
-\item{limit}{how many results to return}
+\item{limit}{How many results to return}
 
-\item{offset}{the point at which to start displaying them}
+\item{offset}{The point at which to start displaying them}
 
-\item{base_url}{defeault is 'https://api.sbgenomics.com/1.1'}
+\item{base_url}{defeault is "https://api.sbgenomics.com/1.1"}
 
 \item{...}{passed to GET/PUT/DELETE/PATCH/POST call.}
 }
@@ -44,7 +44,7 @@ scalars). To preserve a length 1 vector as a vector, wrap in I().}
 returned request list of httr
 }
 \description{
-wrapper of http logic for SBG API
+Wrapper of http logic for SBG API
 }
 \details{
 Used for advanced users and the core method for higher level API in
