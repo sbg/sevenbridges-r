@@ -204,356 +204,329 @@ misc_upload_cli = function (token = NULL, uploader = NULL,
 
 }
 
-
-
 .getFields <- function(x, values) {
-    ## from Martin's code
+    # from Martin's code
     flds = names(x$getRefClass()$fields())
-    if (!missing(values))
-        flds = flds[flds %in% values]
+    if (!missing(values)) flds = flds[flds %in% values]
     result = setNames(vector("list", length(flds)), flds)
-    for (fld in flds){
-        result[fld] = list(x[[fld]])
-    }
+    for (fld in flds) result[fld] = list(x[[fld]])
     result
 }
 
+stopifnot_provided = function(..., msg = "is not provided") {
 
-
-stopifnot_provided <- function(..., msg = "is not provided"){
     n <- length(ll <- list(...))
-    if(n == 0)
-        return(invisible())
+    if (n == 0) return(invisible())
     mc <- match.call()
     x = NULL
-    for(i in 1:n){
-        if(!(is.logical(r <- eval(ll[[i]])) && all(r))){
+    for (i in 1:n) {
+        if (!(is.logical(r <- eval(ll[[i]])) && all(r))) {
             l <- mc[[i+1]][[2]]
             x <- c(x, deparse(l[[length(l)]]))
         }
     }
-    if(length(x))
-        stop(paste(paste(x, collapse = ","), msg), call. = FALSE)
+
+    if (length(x)) stop(paste(paste(x, collapse = ","), msg), call. = FALSE)
+
 }
 
+m.fun = function(x, y, exact = TRUE, ignore.case = TRUE, ...) {
 
-
-
-m.fun <- function(x, y, exact = TRUE, ignore.case = TRUE, ...){
-    if(exact){
+    if (exact) {
         res = pmatch(x, y, ...)
-    }else{
+    } else {
         res = unlist(sapply(x, function(i) {
-                grep(i, y, ignore.case = ignore.case)
-             }))
-        if(is.matrix(res)){
-            res = res[, 1]
-        }
+            grep(i, y, ignore.case = ignore.case)
+        }))
+        if (is.matrix(res)) res = res[, 1]
     }
+
     res
+
 }
 
-## match by id and name
-m.match <- function(obj, id = NULL, name = NULL,
-                    .id = "id",
-                    .name = "name",
-                    exact = TRUE, ignore.case = TRUE){
-    ## if no match, return whole list
-    if(is.null(id)){
-        if(is.null(name)){
-            if(length(obj) == 1){
+# match by id and name
+m.match <- function(obj,
+                    id = NULL,  name = NULL,
+                    .id = "id", .name = "name",
+                    exact = TRUE, ignore.case = TRUE) {
+
+    # if no match, return whole list
+    if (is.null(id)) {
+        if (is.null(name)) {
+            if (length(obj) == 1) {
                 return(obj[[1]])
-            }else{
-                return(obj)                
+            } else {
+                return(obj)
             }
 
-        }else{
-            ## id is null, use name
+        } else {
+            # id is null, use name
             nms <- sapply(obj, function(x) x[[.name]])
-            if(ignore.case){
+            if (ignore.case) {
                 name <- tolower(name)
-                nms <- tolower(nms)
+                nms  <- tolower(nms)
             }
-            index <- m.fun(name, nms,
-                           exact = exact,
+            index <- m.fun(name, nms, exact = exact,
                            ignore.case = ignore.case)
         }
-    }else{
-        ## id is not NULL
+    } else {
+        # id is not NULL
         ids <- sapply(obj, function(x) x[[.id]])
-        index <- m.fun(id, ids,
-                       exact = exact,
+        index <- m.fun(id, ids, exact = exact,
                        ignore.case = ignore.case)
-
     }
-    
-    if(length(index) == 1 && is.na(index)){
+
+    if (length(index) == 1 && is.na(index)) {
         message("sorry, no matching ")
         return(NULL)
-    }else{
-        if(length(index) ==1){
+    } else {
+        if (length(index) ==1) {
             obj[[index]]
-        }else{
+        } else {
             obj[index]
         }
     }
+
 }
 
-message2 = function(...){
-    cat(paste0(..., "\n"))
-}
+message2 = function(...) cat(paste0(..., "\n"))
 
-.showFields <- function(x, title = NULL, values = NULL, 
-                        full = FALSE, con.char = " / "){
-    if (missing(values)){
+.showFields = function(x, title = NULL, values = NULL,
+                       full = FALSE, con.char = " / ") {
+
+    if (missing(values)) {
         flds = names(x$getRefClass()$fields())
-    }else{
+    } else {
         flds = values
     }
-    
-    if(!length(x))
-        return(NULL)
-    
-    if(!full){
+
+    if (!length(x)) return(NULL)
+
+    if (!full) {
         idx <- sapply(flds, is.null)
-        if(!is.null(title) && !all(idx)){
-            message2(title)
-        }
-        
-        ## ugly, change later
-        for (fld in flds[!idx]){
-            if(is.list(x[[fld]])){
-                if(length(x[[fld]])){
+        if (!is.null(title) && !all(idx)) message2(title)
+
+        # ugly, change later
+        for (fld in flds[!idx]) {
+            if (is.list(x[[fld]])) {
+                if (length(x[[fld]])) {
                     message2(fld, ":")
                     .showList(x[[fld]], space =  "  ")
                 }
-            }else if(is(x[[fld]], "Item")){
+            } else if (is(x[[fld]], "Item")) {
                 x[[fld]]$show()
-            }else{
-                if(is.character(x[[fld]])){
-                    if(x[[fld]] != "" && length(x[[fld]])){
+            } else {
+                if (is.character(x[[fld]])) {
+                    if (x[[fld]] != "" && length(x[[fld]])) {
                         message2(fld, " : ", paste0(x[[fld]], collapse = con.char))
                     }
-                }else{
-                    if(!is.null(x[[fld]]) && length(x[[fld]]))
-                        message2(fld, " : ", x[[fld]])                                                           
+                } else {
+                    if (!is.null(x[[fld]]) && length(x[[fld]]))
+                        message2(fld, " : ", x[[fld]])
                 }
             }
         }
-        
-    }else{
+    } else {
         message2(title)
-        ## ugly, change later
-        for (fld in flds){
-            if(is.list(x[[fld]])){
-                message2(fld, ":")                
+        # ugly, change later
+        for (fld in flds) {
+            if (is.list(x[[fld]])) {
+                message2(fld, ":")
                 .showList(x[[fld]], space =  "  ", full = full)
-            }else if(is(x[[fld]], "Item")){
+            } else if (is(x[[fld]], "Item")) {
                 x[[fld]]$show()
-            }else{
-                if(is.character(x[[fld]])){
-                    message2(fld, " : ", paste0(x[[fld]], collapse = con.char))                                        
-                }else{
-                    message2(fld, " : ", x[[fld]])                                                           
+            } else {
+                if (is.character(x[[fld]])) {
+                    message2(fld, " : ", paste0(x[[fld]], collapse = con.char))
+                } else {
+                    message2(fld, " : ", x[[fld]])
                 }
             }
         }
-        
     }
 }
 
+# full = TRUE, show empty filed as well
+.showList <- function(x, space = "", full = FALSE) {
 
-## full = TRUE, show empty filed as well
-.showList <- function(x, space = "", full = FALSE){
-    if(length(x)){
-        if(all(sapply(x, is.list))){
+    if (length(x)) {
+
+        if (all(sapply(x, is.list))) {
             sapply(x, .showList, space = paste0(space, ""))
             return(invisible())
         }
-        
-        if(!full){
-            idx <- sapply(x, function(s){
-                if(is.character(s)){
+
+        if (!full) {
+            idx <- sapply(x, function(s) {
+                if (is.character(s)) {
                     idx <- nchar(s)
-                }else{
+                } else {
                     idx <- TRUE
                 }
                 !is.null(s) && idx
             })
             x <- x[which(idx)]
         }
-        
-        for (i in seq_len(length(x))){
+
+        for (i in seq_len(length(x))) {
             fld <- names(x[i])
-            if(all(is.character(x[[i]]))){
+            if (all(is.character(x[[i]]))) {
                 msg <- paste0(x[[i]], collapse = " \n ")
-                if(is.null(fld)){
-                    message2(space, " - ",  msg)  
-                }else{
-                    message2(space, fld, " : ", msg)  
+                if (is.null(fld)) {
+                    message2(space, " - ",  msg)
+                } else {
+                    message2(space, fld, " : ", msg)
                 }
-                
-            }else{
-                
-                if(is(x[[i]], "Meta")){
+
+            } else {
+
+                if (is(x[[i]], "Meta")) {
                     msg <- as.character(x[[i]]$data)
-                    if(is.null(fld)){
-                        message2(space, " - ",  msg)  
-                    }else{
-                        message2(space, fld, " : ", msg)  
+                    if (is.null(fld)) {
+                        message2(space, " - ",  msg)
+                    } else {
+                        message2(space, fld, " : ", msg)
                     }
-                    
-                }else if(is.list(x[[i]])){
-                    if(is.null(fld)){
+
+                } else if (is.list(x[[i]])) {
+                    if (is.null(fld)) {
                         message2(space, " - ", length(x[[i]]), " items")
-                        
-                    }else{
+                    } else {
                         message2(space, fld, " : ", length(x[[i]]), " items")
-                        
                     }
-                    
-                    
                     .showList(x[[i]], space = paste0(space, "  "))
-                }else{
+                } else {
                     msg <- as.character(x[[i]])
-                    if(is.null(fld)){
-                        message2(space, " - ",  msg)  
-                    }else{
-                        message2(space, fld, " : ", msg)  
+                    if (is.null(fld)) {
+                        message2(space, " - ",  msg)
+                    } else {
+                        message2(space, fld, " : ", msg)
                     }
                 }
-                
+
             }
         }
-        
-        
-        
+
     }
+
 }
 
-.update_list <- function(o, n){
+.update_list <- function(o, n) {
+
     o.nm <- names(o)
     n.nm <- names(n)
     i.nm <- intersect(o.nm, n.nm)
 
-    if(length(i.nm)){
+    if (length(i.nm)) {
         o.nm <- setdiff(o.nm, i.nm)
         c(o[o.nm], n)
-    }else{
+    } else {
         c(o, n)
     }
+
 }
 
+# guess version based on URL and save it
+.ver <- function(url) str_match(url, "https://.*/(.*)/$")[, 2]
 
-## guess version based on URL and save it
-.ver <- function(url){
-    str_match(url, "https://.*/(.*)/$")[, 2]   
-}
+# parse an item from a v2 request object
+parseItem <- function(x) {
 
-
-## parse an item from a v2 request object
-parseItem <- function(x){
     obj <- x$items
     attr(obj, "href") <- x$href
     attr(obj, "response") <- x$response
     obj
+
 }
 
-hasItems <- function(x){
-    "items" %in% names(x)
-}
+hasItems <- function(x) "items" %in% names(x)
 
-ptype <- function(x){
-    ifelse(grepl("\\/", x), "v2", "1.1")
-}
+ptype <- function(x) ifelse(grepl("\\/", x), "v2", "1.1")
 
+isv2 <- function(version) version == "v2"
 
-isv2 <- function(version){
-    version == "v2"
-}
+v2Check <- function(version,
+                    msg = "This function only supported in API V2") {
 
-v2Check <- function(version, msg = "This function only supported in API V2"){
     if(version != "v2")
-        stop(msg,  call. = FALSE)
+        stop(msg, call. = FALSE)
+
 }
 
-
-
-## a quick fix for List class
+# a quick fix for List class
 Item0 <- setClass("Item0", slots = list(href = "characterORNULL",
-                               response = "ANY"))
+                                        response = "ANY"))
 
-
-## a function from cwl.R, avoid import for some unknown problem on roxygen2
+# a function from cwl.R, avoid import for some unknown problem on roxygen2
 
 #' List Class generator.
 #'
 #' Extends IRanges SimpleList class and return constructor.
-#' 
+#'
 #' @param elementType [character]
 #' @param suffix [character] default is "List"
 #' @param contains [character] class name.
 #' @param where environment.
 #' @return S4 class constructor
 setListClass <- function(elementType = NULL, suffix = "List",
-                         contains = NULL, where = topenv(parent.frame())){
+                         contains = NULL, where = topenv(parent.frame())) {
+
     stopifnot(is.character(elementType))
     name <- paste0(elementType, suffix)
     setClass(name, contains = c("SimpleList", contains), where = where,
              prototype = prototype(elementType = elementType))
-    setMethod("show", name, function(object){
-        if(length(object)){
-            for(i in 1:length(object)){
+    setMethod("show", name, function(object) {
+        if (length(object)) {
+            for(i in 1:length(object)) {
                 message2("[[", i, "]]")
                 show(object[[i]])
             }
         }
     })
-    ## constructor
-    function(...){
+
+    # constructor
+    function(...) {
         listData <- .dotargsAsList(...)
         S4Vectors:::new_SimpleList_from_list(name, listData)
     }
+
 }
 
-
-
-## Function from IRanges
+# Function from IRanges
 .dotargsAsList <- function(...) {
     listData <- list(...)
-  if (length(listData) == 1) {
-      arg1 <- listData[[1]]
-      if (is.list(arg1) || is(arg1, "List"))
-        listData <- arg1
-      ## else if (type == "integer" && class(arg1) == "character")
-      ##   listData <- strsplitAsListOfIntegerVectors(arg1) # weird special case
-  }
-  listData
+    if (length(listData) == 1) {
+        arg1 <- listData[[1]]
+        if (is.list(arg1) || is(arg1, "List"))
+            listData <- arg1
+        # else if (type == "integer" && class(arg1) == "character")
+        # listData <- strsplitAsListOfIntegerVectors(arg1) # weird special case
+    }
+    listData
 }
 
+# rewrite function call
 
+handle_url2 <- function (handle = NULL, url = NULL, ...) {
 
-## rewrite function call
-
-handle_url2 <- function (handle = NULL, url = NULL, ...) 
-{
     if (is.null(url) && is.null(handle)) {
         stop("Must specify at least one of url or handle")
     }
-    if (is.null(handle)) 
-        handle <- handle_find(url)
-    if (is.null(url)) 
-        url <- handle$url
+    if (is.null(handle)) handle <- handle_find(url)
+    if (is.null(url)) url <- handle$url
     new <- httr:::named(list(...))
     if (length(new) > 0 || is.url(url)) {
         old <- httr::parse_url(url)
         url <- build_url2(modifyList(old, new))
     }
+
     list(handle = handle, url = url)
+
 }
 
 build_url2 <- function (url) {
-    
+
     stopifnot(httr:::is.url(url))
     scheme <- url$scheme
     hostname <- url$hostname
@@ -566,8 +539,7 @@ build_url2 <- function (url) {
     path <- url$path
     if (!is.null(url$params)) {
         params <- paste0(";", url$params)
-    }
-    else {
+    } else {
         params <- NULL
     }
     if (is.list(url$query)) {
@@ -575,8 +547,7 @@ build_url2 <- function (url) {
         names <- curl_escape(names(url$query))
         values <- as.character(url$query)
         query <- paste0(names, "=", values, collapse = "&")
-    }
-    else {
+    } else {
         query <- url$query
     }
     if (!is.null(query)) {
@@ -586,133 +557,132 @@ build_url2 <- function (url) {
     if (is.null(url$username) && !is.null(url$password)) {
         stop("Cannot set password without username")
     }
-    paste0(scheme, "://", url$username, if (!is.null(url$password)) 
-        ":", url$password, if (!is.null(url$username)) 
-        "@", hostname, port, "/", path, params, query, if (!is.null(url$fragment)) 
-        "#", url$fragment)
+
+    paste0(scheme, "://", url$username, if (!is.null(url$password))
+        ":", url$password, if (!is.null(url$username))
+            "@", hostname, port, "/", path, params, query, if (!is.null(url$fragment))
+                "#", url$fragment)
+
 }
 
-GET2 <- function (url = NULL, config = list(), ..., handle = NULL) 
-{
+GET2 <- function (url = NULL, config = list(), ..., handle = NULL) {
+
     hu <- handle_url2(handle, url, ...)
     req <- httr:::request_build("GET", hu$url, config, ...)
+
     httr:::request_perform(req, hu$handle$handle)
+
 }
 
-POST2 <- function (url = NULL, config = list(), ..., body = NULL, encode = c("multipart", 
-    "form", "json"), multipart = TRUE, handle = NULL) 
-{
+POST2 <- function (url = NULL, config = list(), ...,
+                   body = NULL, encode = c("multipart", "form", "json"),
+                   multipart = TRUE, handle = NULL) {
+
     if (!missing(multipart)) {
-        warning("multipart is deprecated, please use encode argument instead", 
-            call. = FALSE)
-        encode <- if (multipart) 
-            "multipart"
-        else "form"
+        warning("multipart is deprecated, please use encode argument instead",
+                call. = FALSE)
+        encode <- ifelse(multipart, "multipart", "form")
     }
+
     encode <- match.arg(encode)
     hu <- handle_url2(handle, url, ...)
-    req <- httr:::request_build("POST", hu$url, httr:::body_config(body, encode), 
-        config, ...)
+    req <- httr:::request_build("POST", hu$url,
+                                httr:::body_config(body, encode),
+                                config, ...)
+
     httr:::request_perform(req, hu$handle$handle)
+
 }
 
+.update_revision <- function(id, revision = NULL) {
 
-
-.update_revision <- function(id, revision = NULL){
-    if(!is.null(revision)){
-        if(grepl("/[0-9]+$", id)){
-            res <- gsub("/[0-9]+$", revision, id, perl = TRUE)   
-        }else{
+    if (!is.null(revision)) {
+        if (grepl("/[0-9]+$", id)) {
+            res <- gsub("/[0-9]+$", revision, id, perl = TRUE)
+        } else {
             id = gsub("/$", "", id)
             res <- paste0(id, "/", revision)
         }
-               
-    }else{
+    } else {
         res <- id
     }
+
     res
+
 }
 
-
-### lift lift lift!!!
-
-
-normalizeUrl <- function(x){
-    if(!grepl("/$", x)){
-        x <- paste0(x, "/")
-    }
+# lift lift lift!!!
+normalizeUrl <- function(x) {
+    if(!grepl("/$", x)) x <- paste0(x, "/")
     x
 }
 
-
-validateApp <- function(req){
+validateApp <- function(req) {
     res <- content(req)$raw[["sbg:validationErrors"]]
-    if(length(res)){
+    if (length(res)) {
         message("App pushed but cannot be ran, because it doesn't pass validation")
         lapply(res, function(x) stop(x))
     }
 }
 
-
-
-.flowsummary <- function(a, id, revision = NULL, includeFile = FALSE){
-    ## developed for Andrew : )
+.flowsummary <- function(a, id, revision = NULL, includeFile = FALSE) {
+    # developed for Andrew : )
     app <- a$app(id = id, revision = revision)
     cwl <- app$raw
     .name <- app$name
-    if(cwl$class == "Workflow"){
-    .arg <- sum(sapply(cwl$steps, function(x){
-        ins <- x$run$input
-        if(includeFile){
-            length(ins)
-        }else{
-            idx = sapply(ins, function(i){
-                any(sapply(i$type, function(tp){
-                    "File" %in% tp 
-                }))
-            })
-            if(sum(idx)){
-                length(ins[!idx])
-            }else{
+    if (cwl$class == "Workflow") {
+        .arg <- sum(sapply(cwl$steps, function(x) {
+            ins <- x$run$input
+            if (includeFile) {
                 length(ins)
+            } else {
+                idx = sapply(ins, function(i) {
+                    any(sapply(i$type, function(tp) {
+                        "File" %in% tp
+                    }))
+                })
+                if (sum(idx)) {
+                    length(ins[!idx])
+                } else {
+                    length(ins)
+                }
             }
-        }
-    }))
-    .tool <- length(cwl$steps)
-    message("name: ", .name)
-    message("id: ", id)
-    message("Total tool: ", .tool)
-    message("Total arguments: ", .arg)
-    c('id' = id, 'tool' = .tool, 'arg' = .arg, 'name' = .name)
-    }else{
+        }))
+        .tool <- length(cwl$steps)
+        message("name: ", .name)
+        message("id: ", id)
+        message("Total tool: ", .tool)
+        message("Total arguments: ", .arg)
+        c('id' = id, 'tool' = .tool, 'arg' = .arg, 'name' = .name)
+    } else {
         return(NULL)
     }
 }
 
-
-iterId <- function(ids, fun, ...){
-    res <- lapply(ids, function(id){
+iterId <- function(ids, fun, ...) {
+    res <- lapply(ids, function(id) {
         fun(id = id, ...)
     })
-    ## try convert it into a simple list
+    # try convert it into a simple list
     .class <- class(res[[1]])
     .newclass <- paste0(.class, "List")
-    if(!is.null(tryNew(.newclass,where = topenv(parent.frame())))){
-        ## exists
+    if (!is.null(tryNew(.newclass,where = topenv(parent.frame())))) {
+        # exists
         res <- do.call(.newclass, res)
     }
     res
 }
 
-
-
 #' Set testing env
 #'
-#' Checks if docker is installed, is running and has required images downloaded and if do creates container 
+#' Checks if docker is installed, is running and has
+#' required images downloaded and if do creates container
 #'
 #' @param type "dind" or "host"
-#' @param docker_image required docker image with pre-installed bunny, default: tengfei/testenv
-#' @param data_dir directory with data to mount (also will be execution directory)
+#' @param docker_image required docker image with
+#' pre-installed bunny, default: tengfei/testenv
+#' @param data_dir directory with data to mount
+#' (also will be execution directory)
 #' @export set_test_env
 #' @return docker stdout
 #' @examples
@@ -720,9 +690,12 @@ iterId <- function(ids, fun, ...){
 #' set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")
 #' }
 
-set_test_env = function(type="host", docker_image="tengfei/testenv", data_dir=getwd()){
+set_test_env = function(type = "host",
+                        docker_image = "tengfei/testenv",
+                        data_dir = getwd()) {
+
     stopifnot(type %in% c("dind", "host"))
-    
+
     switch(Sys.info()[['sysname']],
            Windows= {
                message("[INFO]: Windows OS detected: trying native docker support or docker-machine ...")
@@ -733,69 +706,70 @@ set_test_env = function(type="host", docker_image="tengfei/testenv", data_dir=ge
                .test_docker_setup()
            },
            Darwin = {
-               message("[INFO]: OS X detected: trying native docker support or docker-machine ...")
+               message("[INFO]: macOS detected: trying native docker support or docker-machine ...")
                .docker_env_vars()
            }
     )
-    
+
     # cleanup
     container.name <- .set_container_name()
-    system2("docker", c("pull", docker_image), stdout=F, stderr=F)
-    system2("docker", c("rm -f", container.name), stdout=F, stderr=F)
-    #system2("docker", "rm $(docker ps -aq -f status=exited -f status=created)", stdout = T, stderr = T)
-    system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout=F, stderr=F)
-    
+    system2("docker", c("pull", docker_image), stdout = FALSE, stderr = FALSE)
+    system2("docker", c("rm -f", container.name), stdout = FALSE, stderr = FALSE)
+    #system2("docker", "rm $(docker ps -aq -f status=exited -f status=created)", stdout = TRUE, stderr = TRUE)
+    system2("docker", "volume rm $(docker volume ls -qf dangling=true)", stdout = FALSE, stderr = FALSE)
+
     # start container as docker-in-docker (dind) or docker-beside-docker (host)
     if (type == "dind"){
         docker_run_args <- paste("run --privileged --name ", container.name, " -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-        system2("docker", c(docker_run_args), stdout=TRUE, stderr=TRUE)
-        system2("docker", c("exec", container.name, "bash -c 'service docker start'"), stdout=TRUE, stderr=TRUE)
+        system2("docker", c(docker_run_args), stdout = TRUE, stderr = TRUE)
+        system2("docker", c("exec", container.name, "bash -c 'service docker start'"), stdout = TRUE, stderr = TRUE)
         system2("docker", c("inspect --format '{{.Id}}'", container.name), stdout = TRUE, stderr = TRUE)
     } else {
         docker_run_args <- paste("run --privileged --name ", container.name, " -v /var/run/docker.sock:/var/run/docker.sock -v ", data_dir, ":/bunny_data -dit ", docker_image, sep="")
-        system2("docker", c(docker_run_args), stdout=TRUE, stderr=TRUE)
+        system2("docker", c(docker_run_args), stdout = TRUE, stderr = TRUE)
     }
 }
 
-.set_container_name = function(){
-    paste("bunny", Sys.getpid(), sep = "-")    
+.set_container_name = function() {
+    paste("bunny", Sys.getpid(), sep = "-")
 }
 
-.test_docker_setup = function(){
-    docker.info <- system2("docker", "info", stdout = F, stderr = F)
+.test_docker_setup = function() {
+    docker.info <- system2("docker", "info", stdout = FALSE, stderr = FALSE)
     if (docker.info == 1) {
-        stop("[ERROR]: Native docker or Docker-machine is not running.")  
+        stop("[ERROR]: Native docker or Docker-machine is not running.")
     } else {
         message("[INFO]: Docker set.")
     }
 }
 
-.docker_env_vars = function(){    
-    #TODO: This flow should really be handled by separate class or R docker client package (non-existant)
-    docker.info <- system2("docker", "info", stdout = F, stderr = F)
+.docker_env_vars = function() {
+    # TODO:
+    # This flow should really be handled by separate class or
+    # R docker client package (non-existant)
+    docker.info <- system2("docker", "info", stdout = FALSE, stderr = FALSE)
     if (docker.info == 0) {
         message("[INFO]: Docker set.")
-        message("[INFO]: Pulling and running sevenbridges testenv docker image...") 
+        message("[INFO]: Pulling and running sevenbridges testenv docker image...")
     } else {
         docker_machine_args <- "ls --filter state=Running --format '{{ .Name }}'"
-        docker.vm <- system2("docker-machine", c(docker_machine_args), stdout=TRUE, stderr=TRUE)
-        if (identical(docker.vm, character(0))){
+        docker.vm <- system2("docker-machine", c(docker_machine_args), stdout = TRUE, stderr = TRUE)
+        if (identical(docker.vm, character(0))) {
             stop("[ERROR]: Native docker or Docker-machine is not running.")
         }
-        envs <- substring(system2("docker-machine", c("env", docker.vm), stdout=TRUE, stderr=TRUE)[1:4], 8)
-        envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(FALSE,TRUE)])
+        envs <- substring(system2("docker-machine", c("env", docker.vm), stdout = TRUE, stderr = TRUE)[1:4], 8)
+        envs <- gsub("\"", "", unlist(strsplit(envs, "="))[c(FALSE, TRUE)])
         Sys.setenv(DOCKER_TLS_VERIFY = envs[1], DOCKER_HOST = envs[2], DOCKER_CERT_PATH = envs[3], DOCKER_MACHINE_NAME = envs[4])
-    
+
         .test_docker_setup()
     }
 }
-
 
 #' Test tools in rabix/bunny
 #'
 #' Test tools locally in rabix/bunny inside docker container
 #'
-#' @param rabix_tool rabix tool from Tool class 
+#' @param rabix_tool rabix tool from Tool class
 #' @param inputs input parameters declared as json (or yaml) string
 #' @export test_tool_bunny
 #' @return bunny stdout
@@ -807,44 +781,46 @@ set_test_env = function(type="host", docker_image="tengfei/testenv", data_dir=ge
 #' test_tool_bunny(rbx, inputs)
 #' }
 
-test_tool_bunny = function(rabix_tool, inputs){
+test_tool_bunny = function(rabix_tool, inputs) {
+
     container.name <- .set_container_name()
     check_cmd <- paste0("ps --filter status=running --filter name=", container.name, " --format '{{.Names}}: running for {{.RunningFor}}'")
-    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
-    if (identical(container, character(0))){
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE)
+    if (identical(container, character(0))) {
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- paste0("inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' ", container.name)
         mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
-        
+
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
         stdout_path <- paste0(mount_point, "/stdout.log")
         stderr_path <- paste0(mount_point, "/stderr.log")
-        
+
         # cleanup
-        if (file.exists(tool_path)){
+        if (file.exists(tool_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/tool.json'"))
-        } 
-        if (file.exists(inputs_path)){
+        }
+        if (file.exists(inputs_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/inputs.json'"))
         }
-        
-        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
-        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
-        
+
+        write(rabix_tool$toJSON(pretty = TRUE), file = tool_path)
+        write(toJSON(inputs, pretty = TRUE, auto_unbox = TRUE), file = inputs_path)
+
         run_cmd <- paste0("exec ", container.name, " bash -c 'cd /opt/bunny && ./rabix -b /bunny_data /bunny_data/tool.json /bunny_data/inputs.json'")
         system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
         cat( readLines( stdout_path ) , sep = "\n" )
     }
+
 }
 
 #' Test tools in rabix/rabix-devel (DEPRECATED)
 #'
 #' Test tools locally in rabix/rabix-devel python executor (DEPRECATED)
 #'
-#' @param rabix_tool rabix tool from Tool class 
+#' @param rabix_tool rabix tool from Tool class
 #' @param inputs input parameters declared as json (or yaml) string
 #' @export test_tool_rabix
 #' @return rabix stdout
@@ -855,40 +831,41 @@ test_tool_bunny = function(rabix_tool, inputs){
 #' set_test_env("tengfei/testenv", "<mount_dir>")
 #' test_tool_rabix(rbx, inputs)
 #' }
-test_tool_rabix = function(rabix_tool, inputs=list()){
+test_tool_rabix = function(rabix_tool, inputs=list()) {
+
     container.name <- .set_container_name()
     check_cmd <- paste0("ps --filter status=running --filter name=", container.name, " --format '{{.Names}}: running for {{.RunningFor}}'")
-    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
-    if (identical(container, character(0))){
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE)
+    if (identical(container, character(0))) {
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- paste0("inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' ", container.name)
         mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
-        
+
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
         stdout_path <- paste0(mount_point, "/stdout.log")
         stderr_path <- paste0(mount_point, "/stderr.log")
-        
+
         # cleanup
-        if (file.exists(tool_path)){
+        if (file.exists(tool_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/tool.json'"))
-        } 
-        if (file.exists(inputs_path)){
+        }
+        if (file.exists(inputs_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/inputs.json'"))
         }
-        
-        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
-        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
+
+        write(rabix_tool$toJSON(pretty = TRUE), file = tool_path)
+        write(toJSON(inputs, pretty = TRUE, auto_unbox=TRUE), file = inputs_path)
         out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "rabix")
         out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
         run_cmd <- paste0("exec ", container.name, " bash -c 'cd /bunny_data && rabix -v -v -v /bunny_data/tool.json -i /bunny_data/inputs.json'")
         system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
         cat( readLines( stdout_path ) , sep = "\n" )
     }
-}
 
+}
 
 #' add \code{#} prefix to id
 #'
@@ -901,129 +878,122 @@ test_tool_rabix = function(rabix_tool, inputs=list()){
 #' @export addIdNum
 #' @examples
 #' addIdNum(c("bam", "#fastq"))
-addIdNum <- function(x){
-    if(!is.null(x)){
+addIdNum <- function(x) {
+    if (!is.null(x)) {
         sapply(x, .addIdNum)
-    }else{
+    } else {
         NULL
     }
-    
 }
 
-.addIdNum <- function(x){
-    if(!is.null(x)){
+.addIdNum <- function(x) {
+    if (!is.null(x)) {
         x <- parseLabel(x)
         .first <- substr(x, 1, 1)
-        if(.first != "#"){
+        if (.first != "#") {
             return(paste0("#", x))
-        }else{
+        } else {
             return(x)
         }
-    }else{
+    } else {
         return(NULL)
     }
 }
 
-parseLabel <- function(x){
-    gsub("[[:space:]]+", "_", x)
-}
+parseLabel = function(x) gsub("[[:space:]]+", "_", x)
 
-getId <- function(x){
-    addIdNum(x$label)
-}
+getId = function(x) addIdNum(x$label)
 
-getInputId <- function(x){
+getInputId <- function(x) {
     .id <- addIdNum(x$label)
     ins <- x$inputs
-    if(length(ins)){
+    if (length(ins)) {
         lapply(ins, function(i){
             .in.id <- gsub("^#", "", i$id)
             paste(.id, .in.id, sep = ".")
-        })}else{
-            return(NULL)
-        }
+        })
+    } else {
+        return(NULL)
+    }
 }
 
-
-
-getOutputId <- function(x){
+getOutputId <- function(x) {
     .id <- addIdNum(x$label)
     os <- x$outputs
-    if(length(os)){
+    if (length(os)) {
         lapply(os, function(i){
             .out.id <- gsub("^#", "", i$id)
             paste(.id, .out.id, sep = ".")
-        })}else{
-            return(NULL)
-        }
+        })
+    } else {
+        return(NULL)
+    }
 }
 
-make_type = function(.t){
-    .t = sapply(.t, function(s){
-        ## file array problem
-        if(!is.null(names(s)) && "type" %in% names(s)){
-            if(s$type == "array"){
+make_type = function(.t) {
+    .t = sapply(.t, function(s) {
+        # file array problem
+        if (!is.null(names(s)) && "type" %in% names(s)) {
+            if(s$type == "array") {
                 return(paste0(s$items, "..."))
-            }else if(s$type == "enum"){
+            } else if (s$type == "enum") {
                 return("enum")
-            }else{
+            } else {
                 return("null")
             }
-        }else{
-            if(is.list(s)){
+        } else {
+            if (is.list(s)) {
                 return(s[[1]])
-            }else{
-                if(length(s) > 1){
+            } else {
+                if (length(s) > 1) {
                     return(s[s != "null"])
-                }else{
+                } else {
                     return(s)
                 }
-                
             }
-            
         }
     })
     .t[.t != "null"]
 }
 
-getInputType <- function(x){
+getInputType <- function(x) {
     ins <- x$inputs
-    if(length(ins)){
-        sapply(ins, function(i){
+    if (length(ins)) {
+        sapply(ins, function(i) {
             .t <- i$type
             .id <- gsub("^#", "", i$id)
             .t <- make_type(.t)
             res <- .t
             names(res) <- .id
             res
-        })}else{
-            NULL
-        }
+        })
+    } else {
+        NULL
+    }
 }
 
-getOutputType <- function(x){
+getOutputType <- function(x) {
     os <- x$outputs
-    if(length(os)){
-        sapply(os, function(i){
-            
+    if (length(os)) {
+        sapply(os, function(i) {
             .t <- i$type
             .id <- gsub("^#", "", i$id)
             .t <- make_type(.t)
-            
+
             res <- .t
             names(res) <- .id
             res
-        })}else{
+        })} else {
             NULL
         }
 }
-
 
 #' Test tools with cwl-runner
 #'
-#' Test tools locally cwl-runner (https://github.com/common-workflow-language/cwltool)
+#' Test tools locally cwl-runner
+#' (https://github.com/common-workflow-language/cwltool)
 #'
-#' @param rabix_tool rabix tool from Tool class 
+#' @param rabix_tool rabix tool from Tool class
 #' @param inputs input parameters declared as json (or yaml) string
 #' @export test_tool_cwlrun
 #' @return cwl-runner stdout
@@ -1034,58 +1004,58 @@ getOutputType <- function(x){
 #' set_test_env("tengfei/testenv", "<mount_dir>")
 #' test_tool_cwlrun(rbx, inputs)
 #' }
-test_tool_cwlrun = function(rabix_tool, inputs=list()){
+test_tool_cwlrun = function(rabix_tool, inputs=list()) {
+
     container.name <- .set_container_name()
     check_cmd <- paste0("ps --filter status=running --filter name=", container.name, " --format '{{.Names}}: running for {{.RunningFor}}'")
-    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE) 
-    if (identical(container, character(0))){
+    container <- system2("docker", c(check_cmd), stdout = TRUE, stderr = TRUE)
+    if (identical(container, character(0))) {
         message("Test container not running. Try setting testing env first (set_test_env())")
     } else {
         message("Trying the execution...")
         check_cmd <- paste0("inspect --format '{{ range .Mounts }}{{ if eq .Destination \"/bunny_data\" }}{{ .Source }}{{ end }}{{ end }}' ", container.name)
         mount_point <- system2("docker", c(check_cmd), stderr = TRUE, stdout = TRUE)
-        
+
         tool_path <- paste0(mount_point, "/tool.json")
         inputs_path <- paste0(mount_point, "/inputs.json")
         stdout_path <- paste0(mount_point, "/stdout.log")
         stderr_path <- paste0(mount_point, "/stderr.log")
-        
+
         # cleanup
-        if (file.exists(tool_path)){
+        if (file.exists(tool_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/tool.json'"))
-        } 
-        if (file.exists(inputs_path)){
+        }
+        if (file.exists(inputs_path)) {
             system2("docker", paste0("exec ", container.name, " bash -c 'rm /bunny_data/inputs.json'"))
         }
-        
-        write(rabix_tool$toJSON(pretty=TRUE), file=tool_path)
-        write(toJSON(inputs, pretty=TRUE, auto_unbox=TRUE), file=inputs_path)
+
+        write(rabix_tool$toJSON(pretty = TRUE), file = tool_path)
+        write(toJSON(inputs, pretty = TRUE, auto_unbox = TRUE), file = inputs_path)
         out_dir <- paste0(format(Sys.time(), "%H%M%s-%d%m%Y-"), "cwlrunner")
         out_dir_abs <- paste("/bunny_data", out_dir, sep = "/")
-        run_cmd <- c("exec", container.name, "bash -c 'mkdir ", out_dir_abs, 
-                     " && cd ", out_dir_abs, 
+        run_cmd <- c("exec", container.name, "bash -c 'mkdir ", out_dir_abs,
+                     " && cd ", out_dir_abs,
                      " && cwl-runner --non-strict --tmpdir-prefix . --tmp-outdir-prefix . /bunny_data/tool.json /bunny_data/inputs.json'")
         system2("docker", run_cmd, stdout = stdout_path, stderr = stderr_path)
         cat( readLines( stdout_path ) , sep = "\n" )
     }
+
 }
 
-
-set_box <- function(x){
+set_box <- function(x) {
     .c <- class(x)
     class(x) <- c(.c, "box")
     x
 }
 
-
-## cwl utils
+# cwl utils
 
 #' get class from cwl json file
-#' 
+#'
 #' get class from cwl json file
-#' 
+#'
 #' @param input cwl json file path
-#' 
+#'
 #' @return character for cwl class "Workflow" or "CommandLineTool"
 #' @export get_cwl_class is_commandlinetool is_workflow
 #' @rdname cwl-utils
@@ -1099,128 +1069,110 @@ set_box <- function(x){
 #' get_cwl_class(flow.in)
 #' is_commandlinetool(flow.in)
 #' is_workflow(flow.in)
-get_cwl_class = function(input){
-    fromJSON(input)$class
-}
+get_cwl_class = function(input) fromJSON(input)$class
 
-is_commandlinetool = function(input){
-    get_cwl_class(input) == "CommandLineTool"
-}
+is_commandlinetool = function(input) get_cwl_class(input) == "CommandLineTool"
 
-is_workflow = function(input){
-    get_cwl_class(input) == "Workflow"
-}
+is_workflow = function(input) get_cwl_class(input) == "Workflow"
 
-## format type list into a DSCList
-format_type = function(x){
+# format type list into a DSCList
+format_type = function(x) {
     lst = lapply(x, .format_type)
-    if(all(sapply(lst, is.character))){
-        return(unlist(lst))
-    }
+    if (all(sapply(lst, is.character))) return(unlist(lst))
     do.call(DSCList, lst)
 }
 
-
-.format_type = function(x){
-    if("type" %in% names(x)){
-        switch(x$type, 
+.format_type = function(x) {
+    if ("type" %in% names(x)) {
+        switch(x$type,
                array = {
                    do.call(ItemArray, x)
                },
                enum = {
                    do.call(enum, x)
                })
-    }else{
+    } else {
         as.character(x)
     }
 }
 
-get_id_from_label = function(x, suffix = "#"){
+get_id_from_label = function(x, suffix = "#") {
     paste0(suffix, gsub("[[:space:]+]", "_", x))
 }
 
-de_sharp = function(x){
-    gsub("[#+]", "", x)
-}
+de_sharp = function(x) gsub("[#+]", "", x)
 
 add_sharp = addIdNum
 
-is_full_name = function(x){
-    grepl("[.]", x)
-}
+is_full_name = function(x) grepl("[.]", x)
 
-get_tool_id_from_full = function(x){
-    
-    sapply(x, function(i){
-        if(is_full_name(i)){
+get_tool_id_from_full = function(x) {
+
+    sapply(x, function(i) {
+        if (is_full_name(i)) {
             add_sharp(strsplit(i, "\\.")[[1]][1])
-        }else{
+        } else {
             add_sharp(i)
         }
-        
-        
     })
+
 }
-get_input_id_from_full = function(x){
-    
-    sapply(x, function(i){
-        if(is_full_name(i)){
+
+get_input_id_from_full = function(x) {
+
+    sapply(x, function(i) {
+        if (is_full_name(i)) {
             add_sharp(strsplit(i, "\\.")[[1]][2])
-        }else{
+        } else {
             add_sharp(i)
         }
-        
-        
     })
+
 }
 
+deType <- function(x) {
 
-deType <- function(x){
-    
-    ## string
+    # string
     str_type <- c('STRING', 'STR', '<string>', '<str>', 'str', "character",
                   "string", "String")
-    ## int
+    # int
     int_type <- c('INTEGER', 'INT', '<integer>', '<int>', 'int',
                   "integer", "Integer")
-    ## float
+    # float
     float_type <- c('FLOAT', '<float>', 'float', 'Float')
-    ## File
+
+    # File
     file_type <- c('FILE', '<file>', 'File', 'file')
-    
-    ## enum
+
+    # enum
     enum_type <- c('ENUM', '<enum>', 'enum', "Enum")
-    
+
     .array <- FALSE
-    if(is.character(x)){
-        res <- ""        
-        if(grepl("\\.\\.\\.", x)){
+    if (is.character(x)) {
+        res <- ""
+        if (grepl("\\.\\.\\.", x)) {
             .array <- TRUE
             x <- gsub("[^[:alnum:]]", "", x)
         }
-        
-        if(x %in% str_type){
+
+        if (x %in% str_type) {
             res <- "string"
-        }else if(x %in% int_type){
+        } else if (x %in% int_type) {
             res <- "int"
-        }else if(x %in% float_type){
+        } else if (x %in% float_type) {
             res <- "float"
-        }else if(x %in% file_type){
+        } else if (x %in% file_type) {
             res <- "File"
-        }else if(x %in% enum_type){
+        } else if (x %in% enum_type) {
             res <- "enum"
-        }else{
+        } else {
             res <- x
         }
-        if(.array){
+        if (.array) {
             res <- ItemArray(res)
         }
-    }else{
+    } else {
         res <- x
     }
     res
 }
-
-
-
-

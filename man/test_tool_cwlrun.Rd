@@ -15,7 +15,8 @@ test_tool_cwlrun(rabix_tool, inputs = list())
 cwl-runner stdout
 }
 \description{
-Test tools locally cwl-runner (https://github.com/common-workflow-language/cwltool)
+Test tools locally cwl-runner
+(https://github.com/common-workflow-language/cwltool)
 }
 \examples{
 \dontrun{
