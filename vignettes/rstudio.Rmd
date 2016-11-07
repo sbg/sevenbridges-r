@@ -1,21 +1,14 @@
 ---
-title: "IDE container: Rstudio and Shiny server and more"
+title: "IDE Container: Rstudio, Shiny Server, and More"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     number_sections: false
-    highlight: haddock
-    css: style.css
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{IDE Container: Rstudio, Shiny Server, and More}
 ---
-
-<!--
-%\VignetteIndexEntry{IDE container: Rstudio and Shiny server and more}
-%\VignettePackage{sevenbridges}
-%\VignetteEngine{knitr::rmarkdown}
--->
-
-
 
 ## Introduction
 
@@ -117,12 +110,3 @@ If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/
 
 
 Note: Generic shiny app can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the docker container, it's hosted under `/srv/shiny-server/`
-
-
-
-
-
-
-
-
-

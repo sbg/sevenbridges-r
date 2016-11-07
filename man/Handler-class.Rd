@@ -12,19 +12,19 @@ a Handler object
 Create Handler instance
 }
 \details{
-Used for parse R markdown and lift into command line interface, dockerfile,
-docker container and cwl json.
+Used for parse R Markdown and lift into command line interface,
+Dockerfile, Docker container, and cwl json.
 }
 \section{Fields}{
 
 \describe{
 \item{\code{dockerfileHandler}}{a function or NULL, how you handle Dockefile,
-for example, push it to github}
+for example, push it to GitHub.}
 
 \item{\code{dockerHandler}}{a function or NULL, how you handle local docker
-container, for example, push it to dockerhub}
+container, for example, push it to DockerHub.}
 
 \item{\code{cwlHandler}}{a function or NULL, how you handle cwl json file or
-yaml file, for example, push it sevenbridges platform as app.}
+yaml file, for example, push it to SevenBridges platform as an app.}
 }}
 

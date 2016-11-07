@@ -100,7 +100,7 @@ lift_cmd = function(input, output_dir = NULL,
         paste("library(docopt)\n opts <- docopt(doc) \n
               rmarkdown::render('",
               docker_root, basename(input),
-              "', BiocStyle::html_document(toc = TRUE), output_dir = '.', params = lst)" ) -> .final
+              "', rmarkdown::html_document(toc = TRUE), output_dir = '.', params = lst)" ) -> .final
         txt <- c(txt, .final)
         writeLines(txt, con = con)
         close(con)

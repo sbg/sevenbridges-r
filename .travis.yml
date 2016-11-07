@@ -2,28 +2,26 @@ language: r
 sudo: false
 cache: packages
 
-r: 
+r:
   - bioc-devel
   - bioc-release
 
 os:
   - linux
-  
+
 r_packages:
   - covr
 
 bioc_required: true
 
 bioc_packages:
-  - BiocStyle
   - BiocCheck
 
-  
 after_script:
   - ls -lah
   - FILE=$(ls -1t *.tar.gz | head -n 1)
   - Rscript -e "library(BiocCheck); BiocCheck(\"${FILE}\")"
-  
+
 after_success:
   - Rscript -e 'library(covr);package_coverage()'
   - Rscript -e 'library(covr);codecov()'
@@ -31,6 +29,3 @@ after_success:
 notifications:
   email:
     on_failure: yintengfei@gmail.com
-
-
-  

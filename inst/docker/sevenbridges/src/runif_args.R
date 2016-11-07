@@ -1,23 +1,22 @@
-#'---
-#'title: "Uniform randome number generator example"
-#'output:
-#'    html_document:
-#'    toc: true
-#'number_sections: true
-#'highlight: haddock
-#'---
+#' ---
+#' title: "Uniform randome number generator example"
+#' output:
+#'     html_document:
+#'     toc: true
+#' number_sections: true
+#' ---
 
-#'## summary report
+#' # summary report
 #'
-#'This is a randome number generator
+#' This is a randome number generator
 
 #+
 args <- commandArgs(TRUE)
 
 ## quick hack to split named arguments
-splitArgs <- function(x){
+splitArgs <- function(x) {
     res <- do.call(rbind, lapply(x, function(i){
-        res <- strsplit(i, "=")[[1]] 
+        res <- strsplit(i, "=")[[1]]
         nm <- gsub("-+", "",res[1])
         c(nm, res[2])
     }))
@@ -28,7 +27,7 @@ splitArgs <- function(x){
 args <- splitArgs(args)
 
 #+
-r <- runif(n = as.integer(args["n"]),
+r <- runif(n   = as.integer(args["n"]),
            min = as.numeric(args["min"]),
            max = as.numeric(args["max"]))
 summary(r)

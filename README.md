@@ -97,7 +97,7 @@ Install latest version of sevenbridges from GitHub with the following:
 
 ```r
 source("http://bioconductor.org/biocLite.R")
-biocLite(c("readr", "BiocStyle"))
+biocLite("readr")
 
 devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
                          repos = BiocInstaller::biocinstallRepos(),

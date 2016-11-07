@@ -1,19 +1,14 @@
 ---
 title: "Describe CWL Tools/Workflows in R and Execution"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     number_sections: false
-    highlight: haddock
-    css: style.css
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Describe CWL Tools/Workflows and Execution}
 ---
-
-<!--
-%\VignetteIndexEntry{Describe CWL Tools/Workflows and Execution}
-%\VignettePackage{sevenbridges}
-%\VignetteEngine{knitr::rmarkdown}
--->
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(comment = "")
@@ -833,14 +828,8 @@ rbx <- Tool(id = "runif",
             baseCommand = "runif.R",
             inputs = in.df, ## or ins.df
             outputs = out.df)
-params <- list(number=3, max=5)
+params <- list(number = 3, max = 5)
 
 set_test_env("tengfei/testenv", "mount_dir")
 test_tool(rbx, params)
 ```
-
-
-
-
-
-

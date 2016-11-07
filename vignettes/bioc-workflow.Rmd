@@ -1,22 +1,18 @@
 ---
 title: "Master Tutorial: use R for Cancer Genomics Cloud"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     number_sections: false
-    highlight: haddock
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Master Tutorial: use R for Cancer Genomics Cloud}
 ---
-
-<!--
-%\VignetteIndexEntry{Master Tutorial: use R for Cancer Genomics Cloud}
-%\VignettePackage{sevenbridges}
-%\VignetteEngine{knitr::rmarkdown}
--->
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(eval = FALSE)
-library(sevenbridges)
+library("sevenbridges")
 ```
 
 ## Introduction
@@ -750,5 +746,3 @@ browseVignettes("sevenbridges")
 ```
 
 or on Bioconductor devel branch sevenbridges [page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html)
-
-    

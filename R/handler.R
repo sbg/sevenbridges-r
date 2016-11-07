@@ -2,15 +2,15 @@
 #'
 #' Create Handler instance
 #'
-#' Used for parse R markdown and lift into command line interface, dockerfile,
-#' docker container and cwl json.
+#' Used for parse R Markdown and lift into command line interface,
+#' Dockerfile, Docker container, and cwl json.
 #'
 #' @field dockerfileHandler a function or NULL, how you handle Dockefile,
-#' for example, push it to github
+#' for example, push it to GitHub.
 #' @field dockerHandler a function or NULL, how you handle local docker
-#' container, for example, push it to dockerhub
+#' container, for example, push it to DockerHub.
 #' @field cwlHandler a function or NULL, how you handle cwl json file or
-#' yaml file, for example, push it sevenbridges platform as app.
+#' yaml file, for example, push it to SevenBridges platform as an app.
 #'
 #' @return a Handler object
 Handler = setRefClass("Handler",
@@ -23,8 +23,8 @@ gitHandler = function(token = NULL) {
 }
 
 dockerhubHandler = function(token = NULL) {
-    ## first login as docker hub
-    ## then push docker from dockerfile
+    # first login as DockerHub
+    # then push Docker from Dockerfile
 }
 
 sevendockerHandler = function(token = NULL) {
@@ -56,14 +56,14 @@ SevenHandler = function(input      = NULL,
 
 }
 
-# Creat CGC handler
+# Create CGC handler
 # Create SBG handler
 
 # lift R markdown into everything
 lift = function(input = NULL, output_dir = NULL,
                 shebang = "#!/usr/local/bin/Rscript") {
 
-    opt_all_list = liftr::parse_rmd(input)
+    opt_all_list = parse_rmd(input)
 
     inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i) {
         do.call(sevenbridges::input, i)
@@ -80,6 +80,7 @@ lift = function(input = NULL, output_dir = NULL,
     write("RUN mkdir /report/",
           file = normalizePath(docker.fl),
           append = TRUE)
+
     # add report
     report.file <- file.path(normalizePath(output_dir), basename(input))
     file.copy(input, report.file)

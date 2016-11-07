@@ -36,7 +36,6 @@ Imports:
     uuid,
     dplyr
 Suggests:
-    BiocStyle,
     knitr,
     rmarkdown,
     testthat,

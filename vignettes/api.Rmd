@@ -1,23 +1,17 @@
 ---
 title: "Complete Guide for Seven Bridges API R Client"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     number_sections: false
-    highlight: haddock
-    css: style.css
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Complete Guide for API R Client}
 ---
 
 <a name="top"></a>
 <hr>
-
-<!--
-%\VignetteIndexEntry{Complete Guide for API R Client}
-%\VignettePackage{sevenbridges}
-%\VignetteEngine{knitr::rmarkdown}
--->
-
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(eval = FALSE)
@@ -117,11 +111,11 @@ Install the latest version for `sevenbridges` from GitHub with the following:
 
 ```r
 source("http://bioconductor.org/biocLite.R")
-biocLite(c("readr", "BiocStyle"))
-library(devtools)
-install_github("sbg/sevenbridges-r", build_vignettes=TRUE, 
-  repos=BiocInstaller::biocinstallRepos(),
-  dependencies=TRUE)
+biocLite("readr")
+
+devtools::install_github("sbg/sevenbridges-r", build_vignettes=TRUE,
+  repos = BiocInstaller::biocinstallRepos(),
+  dependencies = TRUE)
 ```
 
 If you have trouble with `pandoc` and don't want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.

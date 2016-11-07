@@ -458,7 +458,7 @@ v2Check <- function(version,
 Item0 <- setClass("Item0", slots = list(href = "characterORNULL",
                                         response = "ANY"))
 
-# a function from cwl.R, avoid import for some unknown problem on roxygen2
+# a function from cwl.R
 
 #' List Class generator.
 #'

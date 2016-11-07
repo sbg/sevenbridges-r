@@ -1,25 +1,16 @@
 ---
-title: "Creating Your Docker Container and Command Line Interface (with docopt) "
+title: "Creating Your Docker Container and Command Line Interface (with docopt)"
 output:
-  BiocStyle::html_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     number_sections: false
-    highlight: haddock
-    css: style.css
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Creating Your Docker Container and Command Line Interface (with docopt)}
 ---
 
-
-
-<!--
-%\VignetteIndexEntry{Creating Your Docker Container and Command Line Interface (with docopt) }
-%\VignettePackage{sevenbridges}
-%\VignetteEngine{knitr::rmarkdown}
--->
-
-
 ```{r include=FALSE}
-library(BiocStyle)
 knitr::opts_chunk$set(eval = TRUE)
 ```
 
@@ -406,11 +397,7 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 
 ## More examples
 
-There are more examples under 'inst/docker' folder, you can check out how to describe 
-command line and build docker, how to make report template. You can read the online github
-[code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you can read another tutorial about how we wrap RNA-seq workflow from
-bioconductor. 
-
-
-
-
+There are more examples under 'inst/docker' folder, you can check out how to
+describe  command line and build docker, how to make report template.
+You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker).
+Or you could read another tutorial about how we wrap RNA-seq workflow from bioconductor. 
