@@ -212,14 +212,14 @@ t1$input_matrix()
 
 We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
 
-| Tutorial Title | HTML   | R Markdown Source |
-|:---------------|:-------|:----------|
-| Complete Reference for the API R Client | [HTML](https://sbg.github.io/sevenbridges-r/articles/api.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/api.Rmd) |
-| Use R on the Cancer Genomics Cloud | [HTML](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) |
-| Create a Docker Container and use Command Line Interface for R | [HTML](https://sbg.github.io/sevenbridges-r/articles/docker.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/docker.Rmd) |
-| Describe and execute Common Workflow Language (CWL) Tools and Workflows in R | [HTML](https://sbg.github.io/sevenbridges-r/articles/apps.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/apps.Rmd) |
-| <a name="ide"/>IDE container: Rstudio and Shiny server and more | [HTML](https://sbg.github.io/sevenbridges-r/articles/rstudio.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/rstudio.Rmd) |
-| Browse data on the Cancer Genomics Cloud via the Data Explorer, a SPARQL query, <br />or the Datasets API | [HTML](https://sbg.github.io/sevenbridges-r/articles/cgc-sparql.html) | [Rmd Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/cgc-sparql.Rmd) |
+| Tutorial Title | HTML   | Rmd Source |
+|:---------------|:-------|:-----------|
+| Complete Reference for the API R Client | [HTML](https://sbg.github.io/sevenbridges-r/articles/api.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/api.Rmd) |
+| Use R on the Cancer Genomics Cloud | [HTML](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) |
+| Create a Docker Container and use Command Line Interface for R | [HTML](https://sbg.github.io/sevenbridges-r/articles/docker.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/docker.Rmd) |
+| Describe and execute Common Workflow Language (CWL) Tools and Workflows in R | [HTML](https://sbg.github.io/sevenbridges-r/articles/apps.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/apps.Rmd) |
+| <a name="ide"/>IDE container: Rstudio and Shiny server and more | [HTML](https://sbg.github.io/sevenbridges-r/articles/rstudio.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/rstudio.Rmd) |
+| Browse data on the Cancer Genomics Cloud via the Data Explorer, a SPARQL query, <br />or the Datasets API | [HTML](https://sbg.github.io/sevenbridges-r/articles/cgc-sparql.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/cgc-sparql.Rmd) |
 
 ## IDE Docker Image
 
