@@ -1,4 +1,4 @@
 Name: Tool UI
-Description: create rabix tool object
+Description: Creates Rabix tool object.
 Binding: ToolUI
 Interactive: true

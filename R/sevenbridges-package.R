@@ -28,4 +28,6 @@
 #' @importFrom S4Vectors elementType endoapply
 #' @importClassesFrom objectProperties SingleEnum Enum
 #' @importFrom objectProperties setSingleEnum
+#' @importFrom miniUI miniPage gadgetTitleBar miniContentPanel
+#' @importFrom shiny textInput uiOutput fluidRow div
 NULL

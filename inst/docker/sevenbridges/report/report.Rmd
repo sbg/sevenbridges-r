@@ -5,8 +5,6 @@ output:
     toc: true
     number_sections: true
     css: style.css
-    includes:
-      in_header: logo.md
 params:
   seed: 1
   n: 1

@@ -59,33 +59,34 @@ SevenHandler = function(input      = NULL,
 # Create CGC handler
 # Create SBG handler
 
-# lift R markdown into everything
-lift = function(input = NULL, output_dir = NULL,
-                shebang = "#!/usr/local/bin/Rscript") {
-
-    opt_all_list = parse_rmd(input)
-
-    inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i) {
-        do.call(sevenbridges::input, i)
-    }))
-
-    # insert the script
-    docker.fl <- file.path(normalizePath(output_dir), 'Dockerfile')
-    message(docker.fl)
-
-    # add script
-    write(paste("COPY", basename(normalizePath(tmp)), "/usr/local/bin/"),
-          file = docker.fl,
-          append = TRUE)
-    write("RUN mkdir /report/",
-          file = normalizePath(docker.fl),
-          append = TRUE)
-
-    # add report
-    report.file <- file.path(normalizePath(output_dir), basename(input))
-    file.copy(input, report.file)
-    write(paste("COPY", basename(input), "/report/"),
-          file = docker.fl,
-          append = TRUE)
-
-}
+# # TODO
+# # lift R markdown into everything
+# lift = function(input = NULL, output_dir = NULL,
+#                 shebang = "#!/usr/local/bin/Rscript") {
+#
+#     opt_all_list = parse_rmd(input)
+#
+#     inl <- IPList(lapply(opt_all_list$rabix$inputs, function(i) {
+#         do.call(sevenbridges::input, i)
+#     }))
+#
+#     # insert the script
+#     docker.fl <- file.path(normalizePath(output_dir), 'Dockerfile')
+#     message(docker.fl)
+#
+#     # add script
+#     write(paste("COPY", basename(normalizePath(tmp)), "/usr/local/bin/"),
+#           file = docker.fl,
+#           append = TRUE)
+#     write("RUN mkdir /report/",
+#           file = normalizePath(docker.fl),
+#           append = TRUE)
+#
+#     # add report
+#     report.file <- file.path(normalizePath(output_dir), basename(input))
+#     file.copy(input, report.file)
+#     write(paste("COPY", basename(input), "/report/"),
+#           file = docker.fl,
+#           append = TRUE)
+#
+# }

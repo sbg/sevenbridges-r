@@ -32,9 +32,11 @@ Imports:
     docopt,
     curl,
     liftr,
-    rstudioapi,
     uuid,
-    dplyr
+    dplyr,
+    shiny (>= 0.13),
+    miniUI (>= 0.1.1),
+    rstudioapi (>= 0.5)
 Suggests:
     knitr,
     rmarkdown,

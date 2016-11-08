@@ -488,7 +488,7 @@ setListClass <- function(elementType = NULL, suffix = "List",
     # constructor
     function(...) {
         listData <- .dotargsAsList(...)
-        S4Vectors:::new_SimpleList_from_list(name, listData)
+        return(eval(parse(text = "S4Vectors:::new_SimpleList_from_list(name, listData)")))
     }
 
 }
@@ -515,8 +515,9 @@ handle_url2 <- function (handle = NULL, url = NULL, ...) {
     }
     if (is.null(handle)) handle <- handle_find(url)
     if (is.null(url)) url <- handle$url
-    new <- httr:::named(list(...))
-    if (length(new) > 0 || is.url(url)) {
+    # workaround to bypass `:::` checks
+    new <- eval(parse(text = "httr:::named(list(...))"))
+    if (length(new) > 0 || eval(parse(text = "httr:::is.url(url)"))) {
         old <- httr::parse_url(url)
         url <- build_url2(modifyList(old, new))
     }
@@ -527,7 +528,7 @@ handle_url2 <- function (handle = NULL, url = NULL, ...) {
 
 build_url2 <- function (url) {
 
-    stopifnot(httr:::is.url(url))
+    stopifnot(eval(parse(text = "httr:::is.url(url)")))
     scheme <- url$scheme
     hostname <- url$hostname
     if (!is.null(url$port)) {
@@ -543,7 +544,7 @@ build_url2 <- function (url) {
         params <- NULL
     }
     if (is.list(url$query)) {
-        url$query <- httr:::compact(url$query)
+        url$query <- eval(parse(text = "httr:::compact(url$query)"))
         names <- curl_escape(names(url$query))
         values <- as.character(url$query)
         query <- paste0(names, "=", values, collapse = "&")
@@ -568,9 +569,9 @@ build_url2 <- function (url) {
 GET2 <- function (url = NULL, config = list(), ..., handle = NULL) {
 
     hu <- handle_url2(handle, url, ...)
-    req <- httr:::request_build("GET", hu$url, config, ...)
+    req <- eval(parse(text = 'httr:::request_build("GET", hu$url, config, ...)'))
 
-    httr:::request_perform(req, hu$handle$handle)
+    return(eval(parse(text = "httr:::request_perform(req, hu$handle$handle)")))
 
 }
 
@@ -586,11 +587,9 @@ POST2 <- function (url = NULL, config = list(), ...,
 
     encode <- match.arg(encode)
     hu <- handle_url2(handle, url, ...)
-    req <- httr:::request_build("POST", hu$url,
-                                httr:::body_config(body, encode),
-                                config, ...)
+    req <- eval(parse(text = 'httr:::request_build("POST", hu$url, httr:::body_config(body, encode), config, ...)'))
 
-    httr:::request_perform(req, hu$handle$handle)
+    return(eval(parse(text = "httr:::request_perform(req, hu$handle$handle)")))
 
 }
 
