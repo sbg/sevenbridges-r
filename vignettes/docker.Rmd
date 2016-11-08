@@ -31,18 +31,16 @@ base image for your container as your tool chain may save your lots of time late
 
 #### Rocker Project
 
-Official R Docker images is called "Rocker"" project and is on [github](https://github.com/rocker-org/rocker), please visit the 
-page to find more details and Dockerfile.
+Official R Docker images is called "Rocker"" project and is on [GitHub](https://github.com/rocker-org/rocker), please visit the page to find more details and Dockerfile.
 
-| Image         | Description          | 
+| Image         | Description   | 
 | ------------- |:-------------:|
-| rocker/r-base     | base package to build from| 
-| rocker/r-devel     | base plus R-devel from SVN |  
-| rocker/rstudio | base plus RStudio Server  |    
-| rocker/hadleyverse | rstudio + Hadley's packages, LaTeX |
-| rocker/ropensci | hadleyverse + rOpenSci packages |
-| rocker/r-devel-san | base, SVN's R-devel and SAN |
-
+| `rocker/r-base`      | base package to build from         | 
+| `rocker/r-devel`     | base plus R-devel from SVN         |  
+| `rocker/rstudio`     | base plus RStudio Server           |    
+| `rocker/hadleyverse` | rstudio + Hadley's packages, LaTeX |
+| `rocker/ropensci`    | hadleyverse + rOpenSci packages    |
+| `rocker/r-devel-san` | base, SVN's R-devel and SAN        |
 
 #### Bioconductor Images
 
@@ -102,7 +100,7 @@ runif(10)
 
 ### Using docopt package
 
-In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on github.
+In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on GitHub.
 
 So let's quickly create a command line interface for our R scripts with a dummy example. Let's turn the uniform distribution function `runif` into a command line tool.
 
@@ -200,7 +198,7 @@ Loading required package: methods
  [8] 89.349485 55.592066 46.204859
 ```
 
-For full example you can check my github [example](https://github.com/tengfei/docker/tree/master/runif)
+For full example you can check my GitHub [example](https://github.com/tengfei/docker/tree/master/runif)
 
 ### Quick command line interface with commandArgs (position and named args)
 
@@ -387,10 +385,10 @@ cat(readLines(fl), sep = '\n')
 
 To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on docker hub. Here is what I do
 
-1. I created some project called 'docker' on my github and it has all container that crated from a Dockerfile, for example, tengfei/docker/runif, please go [here](https://github.com/tengfei/docker/tree/master/runif) to check it out
+1. I created some project called 'docker' on my GitHub and it has all container that crated from a Dockerfile, for example, tengfei/docker/runif, please go [here](https://github.com/tengfei/docker/tree/master/runif) to check it out
 2. This folder root has a Dockerfile and subfolders for extra materials I added at build time, like script or report template. 
-3. login your dockerhub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your github account. Make sure you input the right location for your Dockerfile, by customizing it. 
-4. Then you will have auto-build every time you push a new update in github. 
+3. login your dockerhub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it. 
+4. Then you will have auto-build every time you push a new update in GitHub. 
 5. Start using your docker image like 'tengfei/runif'
 6. Feel free to push it onto your SevenBridges platform registry as well. 
 

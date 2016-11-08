@@ -1,0 +1,70 @@
+# sevenbridges <a href="http://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="140" width="140" /></a>
+
+[![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
+[![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
+[![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
+[![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)](http://bioconductor.org/packages/stats/bioc/sevenbridges/)
+
+- [BioC - Release](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html)
+- [BioC - Development](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html)
+- [GitHub](https://github.com/sbg/sevenbridges-r)
+
+## Overview
+
+sevenbridges is an [R](https://cran.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) public APIs.
+
+## Events
+
+- Sep 12 - 14, 2016 [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) (poster) @University of Oxford, Oxford, UK
+- May 27 - 29, 2016 [The 9th China-R Conference](http://china-r.org/bj2016/index.html) (talk) @Renmin University of China, Beijng, China
+- Jun 27 - 30, 2016 [The R User Conference 2016](http://user2016.org/) (talk) @Stanford University, Stanford, CA
+- Jun 24 - 26, 2016 [BioC 2016: Where Software and Biology Connect](https://bioconductor.org/help/course-materials/2016/BioC2016/) (workshop) @Stanford University, Stanford, CA
+- Apr 1 - 3, 2016 [NCI Cancer Genomics Cloud Hackathon](https://www.cancergenomicscloud.org/hacking-cancer/) (tutorial) [[HTML](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.html)] [[R Markdown](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.Rmd)] [[R Script](http://www.tengfei.name/sevenbridges/vignettes/bioc-workflow.R)] @Seven Bridges Genomics, Inc., Boston, MA
+
+## Features
+
+- Complete API R client with user friendly API in object-oriented fashion with user friendly printing, support operation on users, billing, project, file, app, task etc, short example.
+
+```r
+## get project
+p = a$project("demo")
+## detele files from a project
+p$file("sample.tz")$delete()
+## upload fies from a folder to a project with metadata
+p$upload("folder_path", metadata = list(platform = "Illumina"))
+```
+
+- CWL Tool interface, you can directly describe your tool in R, export to JSON/YAML, or add it to your online project. This package defines a complete set of CWL object.
+
+- Task monitoring hook allow you to add hook function to task status when you monitor a task, for example, when task is finished sent you email or download all files.
+
+- Cross platform support from Seven Bridges, such as [NCI Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges](https://www.sbgenomics.com/) on Google and AWS, you can use it.
+
+- Authentification management for multiple platforms/users via config file.
+
+## FAQ
+
+The best place to ask a question about the sevenbridges package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__.
+
+- __Q__: Does this package support Seven Bridge's API v1 which was not cwl compatible?<br />
+  __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated.
+
+- __Q__: Which version of the Common Workflow Language (CWL) is supported? <br />
+  __A__: We support draft 2 and are making progress on supporting draft 3.
+
+- __Q__: Is there a Python binding for the API? <br />
+  __A__: Yes, the official Python client is [here](https://github.com/sbg/sevenbridges-python). Recipes and tutorials using the Python bindings are [here](https://github.com/sbg/okAPI).
+
+- __Q__: Why do I get warning messages when I use the API R client?<br />
+  __A__: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use `options(warn = -1)`
+
+- __Q__: I still have problems despite dismissing the messages.
+  __A__: Please try to use the latest package on GitHub or update your package on Bioconductor. This usually includes the most recent bug fixes.
+
+## Contribute
+
+All feedback is welcome! Please file bug reports/feature requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues), or create pull requests [here](https://github.com/sbg/sevenbridges-r/pulls).
+
+<hr>
+
+© 2016 Seven Bridges Genomics, Inc. Licensed under the Apache License 2.0.
