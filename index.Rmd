@@ -46,19 +46,19 @@ p$upload("folder_path", metadata = list(platform = "Illumina"))
 
 The best place to ask a question about the sevenbridges package is the [Bioconductor support website](https://support.bioconductor.org/). Visit the website and tag your post with the package name __sevenbridges__.
 
-- __Q__: Does this package support Seven Bridge's API v1 which was not cwl compatible?<br />
+- __Q__: Does this package support Seven Bridges' API v1 which was not cwl compatible?<br />
   __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated.
 
-- __Q__: Which version of the Common Workflow Language (CWL) is supported? <br />
+- __Q__: Which version of the Common Workflow Language (CWL) is supported?<br />
   __A__: We support draft 2 and are making progress on supporting draft 3.
 
-- __Q__: Is there a Python binding for the API? <br />
+- __Q__: Is there a Python binding for the API?<br />
   __A__: Yes, the official Python client is [here](https://github.com/sbg/sevenbridges-python). Recipes and tutorials using the Python bindings are [here](https://github.com/sbg/okAPI).
 
 - __Q__: Why do I get warning messages when I use the API R client?<br />
   __A__: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use `options(warn = -1)`
 
-- __Q__: I still have problems despite dismissing the messages.
+- __Q__: I still have problems despite dismissing the messages.<br />
   __A__: Please try to use the latest package on GitHub or update your package on Bioconductor. This usually includes the most recent bug fixes.
 
 ## Contribute
