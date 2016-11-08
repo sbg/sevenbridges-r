@@ -188,7 +188,7 @@ ipl <- InputParameterList(
                    inputBinding = CommandLineBinding(
                        position = 2L,
                        prefix = "-l"
-                   ))    
+                   ))
 )
 
 clt <- CommandLineTool(inputs = ipl, baseCommand = "samtools sort")

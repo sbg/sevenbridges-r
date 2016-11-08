@@ -48,7 +48,7 @@ V2 version for meta data schema
 Metadata()
 ## show schema
 Metadata()$show(TRUE)
-## or 
+## or
 names(Metadata()$asList(TRUE))
 ## returned meta field is actually define as function too, direclty
 ## call them will give you details

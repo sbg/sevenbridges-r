@@ -133,7 +133,7 @@ required = TRUE, only print required field. }
 
 \item{\code{output_type()}}{show a vector of flow output type, names of them are output id}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun.
 inputs accept list or json}
 
 \item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{set a flow input node into a batch mode, this now is required before

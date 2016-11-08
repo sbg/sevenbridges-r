@@ -15,6 +15,8 @@ stableColumnLayout = function(...) {
 #'
 #' Call this as an addin to create an Rabix tool object.
 #'
+#' @return An RStudio addin
+#'
 #' @export
 ToolUI = function() {
 

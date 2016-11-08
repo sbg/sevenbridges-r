@@ -107,7 +107,7 @@ compatible types, or the source type must be compatible with single
 element from the "items" type of the destination array
 parameter. 2) Source parameters which are arrays are concatenated;
 source parameters which are single element types are appended as
-single elements.  } 
+single elements.  }
 
 Fields:
 
@@ -197,7 +197,7 @@ workflow step requirements.
 }
 \examples{
 ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
-             description = "align and sort", 
+             description = "align and sort",
              inputs = WorkflowStepInputList(
                  WorkflowStepInput(id = "id1"),
                  WorkflowStepInput(id = "id2")

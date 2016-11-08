@@ -19,7 +19,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## Introduction
 
-sevenbridges-r is an [R](https://cran.r-project.org/) library that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud (CGC)](http://www.cancergenomicscloud.org/) public APIs.
+sevenbridges-r is an R/Bioconductor package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud (CGC)](http://www.cancergenomicscloud.org/) public APIs.
 
 Learn more from our documentation on the [Seven Bridges Platform](http://docs.sevenbridges.com/page/api) and the [Cancer Genomics Cloud (CGC)](http://docs.cancergenomicscloud.org/v1.0/page/the-cgc-api).
 

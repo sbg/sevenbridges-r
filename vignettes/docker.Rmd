@@ -115,10 +115,10 @@ runif(n, min = 0, max = 1)
 
 Arguments
 
-n	
+n    
 number of observations. If length(n) > 1, the length is taken to be the number required.
 
-min, max	
+min, max    
 lower and upper limits of the distribution. Must be finite.
 ```
 

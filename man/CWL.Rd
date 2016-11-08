@@ -12,7 +12,7 @@ Define CWL class and generic methods, no fields defeind.
 
 \describe{
 \item{\code{getFields(values)}}{return fields as a list, used for following conversion,
- does not assume the value is primitive type.}
+does not assume the value is primitive type.}
 
 \item{\code{toJSON(...)}}{Covert object to JSON}
 

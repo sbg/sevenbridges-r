@@ -239,6 +239,6 @@ evr <- EnvVarRequirement(envDef = EnvironmentDefList(
 ))
 safr <- ScatterFeatureRequirement()
 eer <- ExpressionEngineRequirement(id = "hello")
-ProcessRequirementList(dkr, cfr, sfr, evr, safr, eer)                    
+ProcessRequirementList(dkr, cfr, sfr, evr, safr, eer)
 }
 

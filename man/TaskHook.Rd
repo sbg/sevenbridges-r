@@ -14,7 +14,7 @@ getTaskHook(status = c("queued", "draft", "running", "completed", "aborted",
 \arguments{
 \item{status}{one of ("queued", "draft", "running", "completed", "aborted", "failed")}
 
-\item{fun}{function it must return a TRUE or FALSE in the end of function body, when it's 
+\item{fun}{function it must return a TRUE or FALSE in the end of function body, when it's
 TRUE this function will also terminate monitor process, if FALSE, function called, but not going
 to terminate task monitoring process.}
 }

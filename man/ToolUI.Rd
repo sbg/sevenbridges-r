@@ -6,6 +6,9 @@
 \usage{
 ToolUI()
 }
+\value{
+An RStudio addin
+}
 \description{
 Call this as an addin to create an Rabix tool object.
 }

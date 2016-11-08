@@ -44,9 +44,9 @@ shows potential link methods by providing grouped inputs/ouputs
 Given two object of Tool, Flow or App, list all possible input/output match.
 }
 \examples{
-t1 = system.file("extdata/app", "tool_unpack_fastq.json", 
+t1 = system.file("extdata/app", "tool_unpack_fastq.json",
                  package = "sevenbridges")
-t2 = system.file("extdata/app", "tool_star.json", 
+t2 = system.file("extdata/app", "tool_star.json",
                  package = "sevenbridges")
 t1 = convert_app(t1)
 t2 = convert_app(t2)

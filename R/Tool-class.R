@@ -1,5 +1,5 @@
 ## SBG extesion
-.sbg.items <- c("sbg:homepage" , 
+.sbg.items <- c("sbg:homepage" ,
                 "sbg:validationErrors" ,
                 "sbg:sbgMaintained" ,
                 "sbg:latestRevision" ,
@@ -13,7 +13,7 @@
                 "sbg:project" ,
                 "sbg:createdBy" ,
                 "sbg:toolkitVersion" ,
-                "sbg:id"  , 
+                "sbg:id"  ,
                 "sbg:license" ,
                 "sbg:revision" ,
                 "sbg:cmdPreview" ,
@@ -23,73 +23,73 @@
                 "sbg:revisionNotes",
                 "sbg:toolkit",
                 "sbg:projectId",
-                "sbg:image_url", 
+                "sbg:image_url",
                 "x")
 
 .sbg.fld <- gsub("sbg:", "", .sbg.items)
 
 SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
-                                                 "sbg:homepage" = "characterORNULL", 
-                                                 "sbg:validationErrors" = "listORNULL",
-                                                 "sbg:sbgMaintained" = "logicalORNULL",
-                                                 "sbg:latestRevision" = "integerORNULL",
-                                                 "sbg:job" = "listORNULL",
-                                                 "sbg:toolAuthor" = "characterORNULL",
-                                                 "sbg:copyOf" = "characterORNULL",
-                                                 "sbg:createdOn" = "integerORNULL",
-                                                 "sbg:categories" = "characterORlistORNULL",
-                                                 "sbg:contributors" = "listORNULL",
-                                                 "sbg:links" = "listORNULL",
-                                                 "sbg:project" = "characterORNULL",
-                                                 "sbg:projectId" = "characterORNULL",
-                                                 "sbg:createdBy" = "characterORNULL",
-                                                 "sbg:toolkitVersion" = "characterORNULL",
-                                                 "sbg:id"  = "characterORNULL", 
-                                                 "sbg:license" = "characterORNULL",
-                                                 "sbg:revision" = "integerORNULL",
-                                                 "sbg:revisionNotes" = "characterORNULL",
-                                                 "sbg:cmdPreview" = "characterORNULL",
-                                                 "sbg:modifiedOn" = "integerORNULL",
-                                                 "sbg:modifiedBy" = "characterORNULL", 
-                                                 "sbg:revisionsInfo" = "listORNULL",
-                                                 "sbg:toolkit" = "characterORNULL",
-                                                 "sbg:image_url" = "characterORNULL"
-                                                 ),
-                   methods = list(initialize = function(homepage = NULL, 
-                                      validationErrors = NULL,
-                                      sbgMaintained = NULL,
-                                      latestRevision = NULL,
-                                      job = NULL, 
-                                      toolAuthor = NULL,
-                                      copyOf = NULL, 
-                                      createdOn = NULL, 
-                                      categories = NULL, 
-                                      contributors = NULL, 
-                                      links = NULL, 
-                                      project = NULL, 
-                                      createdBy = NULL, 
-                                      toolkitVersion = NULL, 
-                                      id  = NULL, 
-                                      license = NULL, 
-                                      revision = NULL, 
-                                      cmdPreview = NULL, 
-                                      modifiedOn = NULL, 
-                                      modifiedBy = NULL, 
-                                      revisionsInfo = NULL, 
-                                      toolkit = NULL,
-                                      revisionNotes = NULL, ...){
+    "sbg:homepage" = "characterORNULL",
+    "sbg:validationErrors" = "listORNULL",
+    "sbg:sbgMaintained" = "logicalORNULL",
+    "sbg:latestRevision" = "integerORNULL",
+    "sbg:job" = "listORNULL",
+    "sbg:toolAuthor" = "characterORNULL",
+    "sbg:copyOf" = "characterORNULL",
+    "sbg:createdOn" = "integerORNULL",
+    "sbg:categories" = "characterORlistORNULL",
+    "sbg:contributors" = "listORNULL",
+    "sbg:links" = "listORNULL",
+    "sbg:project" = "characterORNULL",
+    "sbg:projectId" = "characterORNULL",
+    "sbg:createdBy" = "characterORNULL",
+    "sbg:toolkitVersion" = "characterORNULL",
+    "sbg:id"  = "characterORNULL",
+    "sbg:license" = "characterORNULL",
+    "sbg:revision" = "integerORNULL",
+    "sbg:revisionNotes" = "characterORNULL",
+    "sbg:cmdPreview" = "characterORNULL",
+    "sbg:modifiedOn" = "integerORNULL",
+    "sbg:modifiedBy" = "characterORNULL",
+    "sbg:revisionsInfo" = "listORNULL",
+    "sbg:toolkit" = "characterORNULL",
+    "sbg:image_url" = "characterORNULL"
+),
+methods = list(initialize = function(homepage = NULL,
+                                     validationErrors = NULL,
+                                     sbgMaintained = NULL,
+                                     latestRevision = NULL,
+                                     job = NULL,
+                                     toolAuthor = NULL,
+                                     copyOf = NULL,
+                                     createdOn = NULL,
+                                     categories = NULL,
+                                     contributors = NULL,
+                                     links = NULL,
+                                     project = NULL,
+                                     createdBy = NULL,
+                                     toolkitVersion = NULL,
+                                     id  = NULL,
+                                     license = NULL,
+                                     revision = NULL,
+                                     cmdPreview = NULL,
+                                     modifiedOn = NULL,
+                                     modifiedBy = NULL,
+                                     revisionsInfo = NULL,
+                                     toolkit = NULL,
+                                     revisionNotes = NULL, ...){
 
-                       args <- mget(names(formals()),sys.frame(sys.nframe()))
+    args <- mget(names(formals()),sys.frame(sys.nframe()))
 
-                       nms <- names(args)
-                       
-                       for(nm in nms){
-                           .self$field(paste0("sbg:", nm), args[[nm]])                           
-                       }
+    nms <- names(args)
 
-                       callSuper(...)
+    for(nm in nms){
+        .self$field(paste0("sbg:", nm), args[[nm]])
+    }
 
-                   }))
+    callSuper(...)
+
+}))
 
 
 
@@ -97,21 +97,21 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 
 #' Tool Class
 #'
-#' code{Tool} class extends \code{CommandLineTool} 
-#' with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()} 
-#' \code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a 
+#' code{Tool} class extends \code{CommandLineTool}
+#' with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()}
+#' \code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a
 #' \code{Tool} object into a text JSON/YAML file.
 #'
-#' 
+#'
 #' @field context [character] by default:
 #' "https://github.com/common-workflow-language/common-workflow-language/blob/draft-1/specification/tool-description.md"
-#' @field owner [list] a list of owner names. 
+#' @field owner [list] a list of owner names.
 #' @field contributor [list] a list of contributor names.
 #'
 #' @export Tool
 #' @return a Tool object.
 #' @exportClass Tool
-#' @examples 
+#' @examples
 #' t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 #' ## convert json file into a Tool object
 #' t1 = convert_app(t1)
@@ -177,21 +177,21 @@ SBG <- setRefClass("SBG", contains  = "CWL", fields = list(
 Tool <-
     setRefClass("Tool",
                 contains = c("CommandLineTool", "SBG"),
-                fields = list(context = "characterORNULL", 
+                fields = list(context = "characterORNULL",
                               x = "numericORNULL",
                               y = "numericORNULL"),
                 methods = list(
                     initialize = function(...,
-                        id = NULL, 
-                        label = NULL, 
-                        inputs = NULL, 
-                        outputs = NULL,
-                        x = NULL, 
-                        y = NULL
-                        ){
+                                          id = NULL,
+                                          label = NULL,
+                                          inputs = NULL,
+                                          outputs = NULL,
+                                          x = NULL,
+                                          y = NULL
+                    ){
 
                         stopifnot(!is.null(id))
-                        
+
                         if(is.null(label)){
                             .label <- id
                         }else{
@@ -200,7 +200,7 @@ Tool <-
 
                         if(is(inputs, "InputParameterList") ||
                            (is.list(inputs) &&
-                                all(sapply(inputs, is, "InputParameter")))){
+                            all(sapply(inputs, is, "InputParameter")))){
 
                             if(is.list(inputs) &&
                                all(sapply(inputs, is, "InputParameter"))){
@@ -214,7 +214,7 @@ Tool <-
                             lst <- lapply(1:nrow(inputs), function(i){
                                 para <- as.list(inputs[i, ])
                                 lst <- lapply(para, function(x){
-                                    
+
                                     if(is.factor(x)){
                                         return(as.character(x))
                                     }else{
@@ -234,7 +234,7 @@ Tool <-
                         ## outputs
                         if(is(outputs, "OutputParameterList") ||
                            (is.list(outputs) &&
-                                all(sapply(outputs, is, "OutputParameter")))){
+                            all(sapply(outputs, is, "OutputParameter")))){
 
                             if(is.list(outputs) &&
                                all(sapply(outputs, is, "OutputParameter"))){
@@ -259,14 +259,14 @@ Tool <-
                                 do.call(output, lst)
                             })
                             outputs <<- OPList(lst)
-                            
+
                         }else if(is(outputs, "OutputParameter")){
                             outputs <<- OPList(outputs)
                         }else if(is.null(outputs)){
                             outputs <<- OPList()
                         }else{
                             stop("wrong output")
-                        }                       
+                        }
                         x <<- x
                         y <<- y
                         res <- callSuper(id = id, label  = .label, ...)
@@ -284,9 +284,9 @@ Tool <-
                     input_matrix = function(new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
                                             required = NULL){
                         'this return a matrix of input parameters, by default, following the order \
-                         id, label, type, required, prefix, fileTypes. new.order accept names of column you want to\
-                         print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when \
-                         required = TRUE, only print required field. '
+                        id, label, type, required, prefix, fileTypes. new.order accept names of column you want to\
+                        print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when \
+                        required = TRUE, only print required field. '
                         res = suppressWarnings(as(inputs, "data.frame"))
                         if(!is.null(required)){
                             stopifnot(is.logical(required))
@@ -298,33 +298,33 @@ Tool <-
                         if(!is.null(new.order)){
                             new.order = intersect(new.order, names(res))
                             res[, new.order]
-                            
+
                         }else{
                             res
                         }
-                    
+
                     },
                     output_matrix = function(new.order = c("id", "label", "type", "fileTypes")){
                         'this return a matrix of output parameters, by default, following the order \
-                         id, label, type, fileTypes. new.order accept names of column you want to\
-                         print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when \
-                         required = TRUE, only print required field. '
+                        id, label, type, fileTypes. new.order accept names of column you want to\
+                        print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when \
+                        required = TRUE, only print required field. '
                         res = suppressWarnings(as(outputs, "data.frame"))
                         if(!is.null(new.order)){
                             new.order = intersect(new.order, names(res))
                             res[, new.order]
-                            
+
                         }else{
                             res
                         }
                     },
                     input_id = function(full = FALSE, requiredOnly = FALSE){
-                        'get input id from a Tool, when full = TRUE, connect 
+                        'get input id from a Tool, when full = TRUE, connect
                         tool id with input id e.g. if requiredOnly = TRUE, returne
                         required field only'
                         tool.name = get_id_from_label(label)
                         if(requiredOnly){
-                            
+
                             idx = sapply(inputs, function(i){
                                 i$required
                             })
@@ -333,18 +333,18 @@ Tool <-
                             }else{
                                 return(NULL)
                             }
-                            
+
                         }else{
                             .inputs = inputs
                         }
                         res = sapply(.inputs, function(i){
                             if(full){
-                                
-                                
+
+
                                 res = paste0(tool.name, ".", de_sharp(i$id))
-                               
+
                                 names(res) = make_type(i$toList()$type)
-                                
+
                                 res
                             }else{
                                 res = i$id
@@ -355,7 +355,7 @@ Tool <-
                         res
                     },
                     output_id = function(full = FALSE){
-                        'get output id from a Tool, when full = TRUE, connect 
+                        'get output id from a Tool, when full = TRUE, connect
                         tool id with input id e.g.'
                         tool.name = get_id_from_label(label)
                         res = sapply(outputs, function(o){
@@ -370,7 +370,7 @@ Tool <-
                             }
                         })
                         res
-                       
+
                     },
                     get_required = function(){
                         'return required input fields types, names of them are input id'
@@ -385,18 +385,18 @@ Tool <-
                             res = de_sharp(res)
                             it = input_type()
                             enms = names(it)
-                            
+
                             it[enms %in% res]
                         }else{
                             return(NULL)
                         }
-                        
+
                     },
                     set_required = function(ids, required = TRUE){
                         'set an input node required or not required. The first \
-                         parameter takes single input id or more than one ids. \
-                         the second parameters \\code{required} is the value you \
-                         want to set to inputs. \\code{TRUE} means set to required.
+                        parameter takes single input id or more than one ids. \
+                        the second parameters \\code{required} is the value you \
+                        want to set to inputs. \\code{TRUE} means set to required.
                         '
                         iid <- input_id()
                         ids <- addIdNum(ids)
@@ -404,17 +404,17 @@ Tool <-
                         if(any(!idx)){
                             stop("mistyped id name: ", paste(ids[!idx], collapse = " "))
                         }
-                        
+
                         sapply(match(ids, iid), function(id){
                             inputs[[id]]$required <<- required
-                           
+
                         })
                     },
                     get_input_port = function(){
                         'the inputs node with \\code{sbg:includeInPorts} equals \\code{TRUE}
                         '
                         res = sapply(inputs, function(i){
-                           
+
                             if(is.null(i$'sbg:includeInPorts')){
                                 return(FALSE)
                             }else{
@@ -427,11 +427,11 @@ Tool <-
                         }else{
                             return(NULL)
                         }
-                        
+
                     },
                     set_input_port = function(ids, include = TRUE){
                         'set inputs ports field \\code{sbg:includeInPorts} to the value of \
-                         include, default is \\code{TRUE}
+                        include, default is \\code{TRUE}
                         '
                         idx = match(ids, input_id())
                         if(length(idx)){
@@ -445,8 +445,8 @@ Tool <-
                         if(is.null(name) && is.null(id)){
                             stop("please provide name or id")
                         }
-                   
-                        
+
+
                         if(!is.null(name)){
                             idx = which(grepl(name, sapply(inputs, function(i) i$label)))
                         }
@@ -460,16 +460,16 @@ Tool <-
                         }else if(length(idx) >1){
                             return(inputs[idx])
                         }
-                        
-                        
+
+
                     },
                     get_output = function(name = NULL, id = NULL){
                         'get output objects by names or id'
                         if(is.null(name) && is.null(id)){
                             stop("please provide name or id")
                         }
-                        
-                        
+
+
                         if(!is.null(name)){
                             idx = which(grepl(name, sapply(outputs, function(i) i$label)))
                         }
@@ -484,7 +484,7 @@ Tool <-
                             return(outputs[idx])
                         }
                     },
-                   
+
                     copy_obj = function(){
                         'this is a hack to make copy of reference cwl object'
                         tmp = tempfile()
@@ -492,14 +492,14 @@ Tool <-
                         res = convert_app(tmp)
                         file.remove(tmp)
                         res
-                    }, 
+                    },
                     run = function(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun")){
-                        'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+                        'run this tool with inputs locally. engine supported: bunny, rabix, cwlrun.
                         inputs accept list or json'
                         engine = match.arg(engine)
-                        ## convert 
+                        ## convert
                         run_inputs = lapply(run_inputs, asTaskInput)
-                        switch(engine, 
+                        switch(engine,
                                bunny = {
                                    test_tool_bunny(.self, run_inputs)
                                },
@@ -510,10 +510,4 @@ Tool <-
                                    test_tool_rabix(.self, run_inputs)
                                })
                     }
-                ))
-
-
-
-
-
-
+    ))

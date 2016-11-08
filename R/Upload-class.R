@@ -7,6 +7,7 @@ Part <- setRefClass("Part", contains = "Item",
                         success_codes = "listORNULL",
                         report = "listORNULL",
                         etag = "characterORNULL"),
+
                     methods = list(
                         initialize = function(part_number = NULL,
                                               part_size = NULL,
@@ -42,7 +43,7 @@ Part <- setRefClass("Part", contains = "Item",
 
 Upload <- setRefClass("Upload", contains = "Item",
                       fields = list(
-                    
+
                           file = "characterORNULL",
                           project_id = "characterORNULL",
                           name = "characterORNULL",
@@ -66,7 +67,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               part_finished = 0L,
                               initialized = FALSE,
                               part_length = NULL,
-                              parallel_uploads = NULL, 
+                              parallel_uploads = NULL,
                               metadata = list(), ...){
 
                               metadata <<- normalizeMeta(metadata)
@@ -107,7 +108,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                                       stop("your file is empty file")
                                   }
                                   if(!(.self$size <= 5*1024^4 &
-                                           .self$size > 0))
+                                       .self$size > 0))
                                       stop("size must be between 0 - 5497558138880 (5TB), inclusive")
                               }else{
                                   stop("size must be numeric between 0 - 5497558138880 (5TB), inclusive")
@@ -123,8 +124,8 @@ Upload <- setRefClass("Upload", contains = "Item",
                                       stop("part_length must be from 1 to 10,000 (inclusive)")
                                   }
                               }
-                           
-                              
+
+
                               project_id <<- project_id
                               .self$part_size <<- part_size
                               .self$part_length <<- part_length
@@ -141,16 +142,16 @@ Upload <- setRefClass("Upload", contains = "Item",
                               #         part_size <<- as.integer(ceiling(.self$size/part_length))
                               #         ## round the length number
                               #         part_length <<- as.integer(ceiling(.self$size/.self$part_size))
-                              # 
+                              #
                               #     }
-                              # 
+                              #
                               # .part_size <- rep(.self$part_size, .self$part_length)
                               # ## last part
                               # .part_size[.self$part_length] <- .self$size -
                               #     .self$part_size * (.self$part_length - 1)
-                              # 
+                              #
                               # part <<- vector("list", .self$part_length)
-                              # 
+                              #
                               # part <<- lapply(1:.self$part_length, function(idx){
                               #     Part(part_number = idx,
                               #          part_size = .part_size[idx])
@@ -162,17 +163,17 @@ Upload <- setRefClass("Upload", contains = "Item",
                           },
                           upload_init = function(overwrite = FALSE, ...){
 
-                              body = list('project' = project_id, 
-                                              'name' = name, 
-                                              'size' = size,
-                                              'part_size' = part_size)
-                              
-                              res <- auth$api(path = "upload/multipart", 
-                                              query = list(overwrite = overwrite), 
+                              body = list('project' = project_id,
+                                          'name' = name,
+                                          'size' = size,
+                                          'part_size' = part_size)
+
+                              res <- auth$api(path = "upload/multipart",
+                                              query = list(overwrite = overwrite),
                                               body = body, method = 'POST', ...)
-                          
+
                               upload_id <<- res$upload_id
-                       
+
                               initialized <<- TRUE
                               part_size <<- as.integer(res$part_size)
                               ## size <<- res$size
@@ -186,11 +187,11 @@ Upload <- setRefClass("Upload", contains = "Item",
                                   stop("Upload is not initialized yet")
                               }
                               res <- auth$api(path = paste0("upload/multipart/",
-                                                     upload_id), 
+                                                            upload_id),
                                               query = list(list_parts = list_parts),
                                               method = "GET")
-                              
-                           
+
+
                               # show()
                               # invisible(res)
                           },
@@ -202,7 +203,7 @@ Upload <- setRefClass("Upload", contains = "Item",
 
                               ## cl <- c("Content-Length" = as.character(part[[part_number]]$part_size))
                               res <- auth$api(path = paste0("upload/multipart/",
-                                                     upload_id, "/part/", part_number), 
+                                                            upload_id, "/part/", part_number),
                                               method = "GET")
 
                               # part[[part_number]]$url <<- res$url
@@ -214,30 +215,30 @@ Upload <- setRefClass("Upload", contains = "Item",
                               res
                           },
                           upload_file = function(metadata = list(), overwrite = FALSE){
-                            
+
                               ## make this one easy to use
-                            
-           
+
+
                               res <- upload_init(overwrite = overwrite)
                               N <- part_length
                               message("size: ", size)
                               message("part_size: ", part_size)
                               message("part_length: ", part_length)
                               message("parallel_uploads: ", parallel_uploads)
-                             
+
                               pb <- txtProgressBar(min = 0, max = N, style = 3)
-                              
+
                               .start = Sys.time()
                               con <- file(file, "rb")
-                             
+
                               for(i in 1:N){
-                           
+
                                   p <- upload_info_part(i)
                                   url <- p$url
                                   ## b = httr::upload_file(file)
                                   res <- PUT(url, body = readBin(con, "raw", part_size))
                                   etag <- headers(res)$etag
-                                  
+
                                   ## part[[i]]$etag <<- etag
                                   upload_complete_part(i, etag)
                                   # part_finished <<- as.integer(i)
@@ -248,13 +249,13 @@ Upload <- setRefClass("Upload", contains = "Item",
                               close(con)
                               .end = Sys.time()
                               .diff = .end - .start
-                              message("file uploading complete in: ", 
+                              message("file uploading complete in: ",
                                       ceiling(as.numeric(.diff)),  " ", attr(.diff, "unit") )
-                              
-                              message("Estimated uploading speed: ", 
-                                      ceiling(size/1024/1024/as.numeric(.diff)), 
+
+                              message("Estimated uploading speed: ",
+                                      ceiling(size/1024/1024/as.numeric(.diff)),
                                       " Mb/", attr(.diff, "unit"))
-                              
+
 
                               ## when we complete we could add meta
                               # meta <- .self$metadata$asList()
@@ -263,16 +264,16 @@ Upload <- setRefClass("Upload", contains = "Item",
                               if(length(metadata)){
                                   if(file.exists(fl.meta)){
                                       message("Ignore meta file: ", fl.meta)
-                                     
+
                                   }
                                   message("Adding metadata ...")
                                   auth$file(id = fl.id)$setMeta(metadata)
                                   message("Metadata complete")
-                                
+
                                   metadata <<- normalizeMeta(metadata)
-                         
+
                               }else{
-                                 
+
                                   if(file.exists(fl.meta)){
                                       message("loading meta from: ", fl.meta)
                                       metalist <- jsonlite::fromJSON(fl.meta)
@@ -280,7 +281,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                                       # browser()
                                       # metalist
                                       # do.call(Metadata, metalist)
-                                      # 
+                                      #
                                       # metadata <<- do.call(Metadata, metalist)
                                       metadata <<- normalizeMeta(metalist)
                                   }
@@ -290,14 +291,14 @@ Upload <- setRefClass("Upload", contains = "Item",
                           },
                           upload_complete_part = function(part_number = NULL,
                                                           etag = NULL){
-                              
+
                               body = list(
                                   part_number = unbox(part_number),
                                   response = list(headers = list(ETag = unbox(etag)))
                               )
-                              
+
                               res <- auth$api(path = paste0("upload/multipart/",
-                                                             upload_id, "/part"),
+                                                            upload_id, "/part"),
                                               body = body,
                                               method = "POST")
 
@@ -309,11 +310,11 @@ Upload <- setRefClass("Upload", contains = "Item",
                                        response = list(headers = list(ETag = unbox(p$etag))))
                               })
                               body = list(parts = pl)
-                 
+
                               res <- auth$api(path = paste0("upload/multipart/",
-                                                          upload_id, "/complete"),
+                                                            upload_id, "/complete"),
                                               body = body,
-                                            method = "POST", ...)
+                                              method = "POST", ...)
                           },
                           upload_delete = function(){
 

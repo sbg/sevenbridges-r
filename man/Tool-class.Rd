@@ -9,9 +9,9 @@
 a Tool object.
 }
 \description{
-code{Tool} class extends \code{CommandLineTool} 
-with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()} 
-\code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a 
+code{Tool} class extends \code{CommandLineTool}
+with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()}
+\code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a
 \code{Tool} object into a text JSON/YAML file.
 }
 \section{Fields}{
@@ -37,7 +37,7 @@ with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()
 
 \item{\code{get_required()}}{return required input fields types, names of them are input id}
 
-\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{get input id from a Tool, when full = TRUE, connect 
+\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{get input id from a Tool, when full = TRUE, connect
 tool id with input id e.g. if requiredOnly = TRUE, returne
 required field only}
 
@@ -49,7 +49,7 @@ required = TRUE, only print required field. }
 
 \item{\code{input_type()}}{this return a vector of types, names of them are input id}
 
-\item{\code{output_id(full = FALSE)}}{get output id from a Tool, when full = TRUE, connect 
+\item{\code{output_id(full = FALSE)}}{get output id from a Tool, when full = TRUE, connect
 tool id with input id e.g.}
 
 \item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{this return a matrix of output parameters, by default, following the order 
@@ -59,16 +59,16 @@ required = TRUE, only print required field. }
 
 \item{\code{output_type()}}{this return a vector of types, names of them are output id}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun. 
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun.
 inputs accept list or json}
 
 \item{\code{set_input_port(ids, include = TRUE)}}{set inputs ports field \code{sbg:includeInPorts} to the value of 
- include, default is \code{TRUE}}
+include, default is \code{TRUE}}
 
 \item{\code{set_required(ids, required = TRUE)}}{set an input node required or not required. The first 
- parameter takes single input id or more than one ids. 
- the second parameters \code{required} is the value you 
- want to set to inputs. \code{TRUE} means set to required.}
+parameter takes single input id or more than one ids. 
+the second parameters \code{required} is the value you 
+want to set to inputs. \code{TRUE} means set to required.}
 }}
 \examples{
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")

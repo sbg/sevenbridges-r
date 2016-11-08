@@ -14,7 +14,7 @@ CWL <- setRefClass("CWL",
                    methods = list(
                        getFields = function(values) {
                            'return fields as a list, used for following conversion,
-                            does not assume the value is primitive type.
+                           does not assume the value is primitive type.
                            '
                            ## from Martin's code
                            flds = names(getRefClass()$fields())
@@ -31,15 +31,15 @@ CWL <- setRefClass("CWL",
                            ## need to be override to make sure everything is list
                            res <- .self$getFields(...)
                            res <- lapply(res, function(x){
-                                   asList(x) ## until it's not s4 or cwl or SimpleLi
-                               })
+                               asList(x) ## until it's not s4 or cwl or SimpleLi
+                           })
                            ## mark unbox
                            ## recurseively jsonlite::unbox single string for JSON
                            ## need to test YAML
                            res <- rapply(res, function(x){
                                if(!is(x, "scalar") &&
                                   (is.character(x) ||
-                                       is.numeric(x) || is.logical(x))){
+                                   is.numeric(x) || is.logical(x))){
                                    if(length(x) == 1){
                                        if(!inherits(x, "DSCList") && !is(x, "box")){
                                            return(jsonlite::unbox(x))
@@ -99,10 +99,10 @@ CWL <- setRefClass("CWL",
 #' Doesn't like \code{as.list}, only fields and slots are converted,
 #' prepare a object to be conveted to YAML/JSON.
 #'
-#' @param object object, could be S4/R5 object, for example, class CWL, SimpleList. 
+#' @param object object, could be S4/R5 object, for example, class CWL, SimpleList.
 #' @param ... other parameters passed to as.yaml or toJSON.
 #'
-#' @export 
+#' @export
 #' @docType methods
 #' @rdname as-methods
 #'
@@ -116,22 +116,22 @@ CWL <- setRefClass("CWL",
 #' ## new instances
 #' a <- A(a = "hello", b = 123)
 #' b <- B(x = "world", y = a)
-#' 
+#'
 #' ## show
 #' b
 #' b$show("JSON")
 #' b$show("YAML")
-#' 
+#'
 #' ## You can convert slots/fields into a list
 #' asList(a)
 #' asList(b)
 #' b$toList()
-#' 
+#'
 #' ##asYAML
 #' asYAML(a)
 #' asYAML(b)
 #' b$toYAML()
-#' 
+#'
 #' ##asJSON
 #' asJSON(a)
 #' asJSON(b)
@@ -190,7 +190,7 @@ setMethod("asList", "SingleEnum", function(object, ...){
 #' @aliases asList,SimpleList-method
 setMethod("asList", "SimpleList", function(object, ...){
     if(length(object)){
-        res <- lapply(object, asList)         
+        res <- lapply(object, asList)
     }else{
         res <- list()
     }
@@ -245,19 +245,19 @@ DSCList <- setListClass("DSC")
 #' @rdname as-methods
 #' @aliases asList,DSCList-method
 setMethod("asList", "DSCList", function(object, ...){
-    
+
     if(length(object) ==1 && is.character(object[[1]])){
         if(length(object[[1]]) ==1){
             return(list(object[[1]]))
         }else{
             return(object[[1]])
         }
-        }
+    }
     if(length(object)){
         res <- lapply(object, function(x){
             if(is.character(x)){
                 if(length(x) == 1){
-                   ## double check, do not unbox it.  
+                    ## double check, do not unbox it.
                     r <- unbox(x)
                 }else{
                     r <- x
@@ -274,7 +274,7 @@ setMethod("asList", "DSCList", function(object, ...){
             }
             r
         })
-        
+
     }else{
         res <- list()
     }
@@ -288,7 +288,7 @@ setMethod("asList", "DSCList", function(object, ...){
 ##----------------------------------------------------------------------
 
 #' SchemaList
-#' 
+#'
 #' @aliases SchemaList-class
 #'
 #' @param \dots element or list of the element.
@@ -304,15 +304,15 @@ SchemaList <- setListClass("Schema")
 #' A schema defines a parameter type.
 #'
 #' @field type (ANY) The data type of this parameter.
-#' 
+#'
 #' @field fields [SchemaList] When type is record, defines the fields of the
 #' record.
-#' 
+#'
 #' @field symbols [character] When type is enum, defines the set of valid symbols.
-#' 
+#'
 #' @field items [ANY] When type is array, defines the type of the array
 #' elements.
-#' 
+#'
 #' @field values [ANY] When type is map, defines the value type for the
 #' key/value pairs.
 #'
@@ -322,7 +322,7 @@ SchemaList <- setListClass("Schema")
 #' @aliases Schema
 #' @examples
 #' Schema(fields = SchemaList(SchemaDef(name = "schema")))
-Schema <- setRefClass("Schema",  contains = "CWL", 
+Schema <- setRefClass("Schema",  contains = "CWL",
                       fields = list(
                           type = "DSCList",
                           fields = "SchemaList",
@@ -336,7 +336,7 @@ Schema <- setRefClass("Schema",  contains = "CWL",
                                   type <<- type
                               }else{
                                   if(is.character(type)){
-                                       .type <- deType(type)
+                                      .type <- deType(type)
                                   }else{
                                       .type <- type
                                   }
@@ -344,7 +344,7 @@ Schema <- setRefClass("Schema",  contains = "CWL",
                               }
                               callSuper(...)
                           }
-))
+                      ))
 
 #' SchemaDef Class
 #'
@@ -363,18 +363,18 @@ SchemaDef <- setRefClass("SchemaDef", contains = "Schema",
 ## Datatype
 ########################################################################
 .CWL.Primitive <- c("null",  # no value
-                "boolean", # a binary value
-                "int", # 32-bit signed integer
-                "long", # 64-bit signed integer
-                "float", # single precision (32-bit) 
-                "double", # double precision (64-bit)
-                "bytes", # sequence of uninterpreted 8-bit unsigned bytes
-                "string") # unicode character sequence
+                    "boolean", # a binary value
+                    "int", # 32-bit signed integer
+                    "long", # 64-bit signed integer
+                    "float", # single precision (32-bit)
+                    "double", # double precision (64-bit)
+                    "bytes", # sequence of uninterpreted 8-bit unsigned bytes
+                    "string") # unicode character sequence
 
 .CWL.Complex <- c("record", # An object with one or more fields defined by name and type
-              "enum", # A value from a finite set of symbolic values
-              "array", # An ordered sequence of values
-              "map") # An unordered collection of key/value pairs
+                  "enum", # A value from a finite set of symbolic values
+                  "array", # An ordered sequence of values
+                  "map") # An unordered collection of key/value pairs
 
 
 
@@ -401,7 +401,7 @@ ComplexEnum <- setSingleEnum("Complex" , levels = .CWL.Complex)
 
 #' @rdname Enum
 #' @aliases DatatypeEnum
-#' @export DatatypeEnum 
+#' @export DatatypeEnum
 #' @exportClass DatatypeSingleEnum
 DatatypeEnum <- setSingleEnum("Datatype",
                               levels = c(.CWL.Primitive, .CWL.Complex, "File"))
@@ -412,13 +412,13 @@ DatatypeEnum <- setSingleEnum("Datatype",
 #' @aliases ItemArray
 #' @export ItemArray
 #' @exportClass ItemArray
-ItemArray <- setRefClass("ItemArray", contains = "CWL", 
+ItemArray <- setRefClass("ItemArray", contains = "CWL",
                          fields = list(
                              items = "DatatypeSingleEnum",
                              name = "characterORNULL",
                              type = "character"),
                          methods = list(
-                             initialize = function(items = "", 
+                             initialize = function(items = "",
                                                    name = NULL,
                                                    type = "array"){
                                  type <<- type
@@ -431,25 +431,25 @@ ItemArray <- setRefClass("ItemArray", contains = "CWL",
 #' @aliases enum
 #' @export enum
 #' @exportClass enum
-enum <- setRefClass("enum", contains = "CWL", 
-                         fields = list(
-                             name = "character",
-                             symbols = "character",
-                             type = "character"),
-                         methods = list(
-                             initialize = function(name = NULL, symbols = NULL, type = "enum"){
-                                 stopifnot(!is.null(name))
-                                 stopifnot(!is.null(symbols))
-                                 if(is.list(symbols)){
-                                     .self$symbols <<- as.character(symbols)
-                                 }else{
-                                     .self$symbols <<- symbols
-                                 }
-                                 name <<- name
-                                 type <<- type
-                                 
-                             }
-                         ))
+enum <- setRefClass("enum", contains = "CWL",
+                    fields = list(
+                        name = "character",
+                        symbols = "character",
+                        type = "character"),
+                    methods = list(
+                        initialize = function(name = NULL, symbols = NULL, type = "enum"){
+                            stopifnot(!is.null(name))
+                            stopifnot(!is.null(symbols))
+                            if(is.list(symbols)){
+                                .self$symbols <<- as.character(symbols)
+                            }else{
+                                .self$symbols <<- symbols
+                            }
+                            name <<- name
+                            type <<- type
+
+                        }
+                    ))
 
 ## TODO: singleEnum <> Enum
 setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray", "enum"))
@@ -464,14 +464,14 @@ setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray",
 #' @rdname File-class
 #' @aliases FileList-class
 #' @param \dots element or list of the element.
-#' 
+#'
 #' @export FileList
 #' @exportClass FileList
 FileList <- setListClass("File")
 
-#' File Class 
+#' File Class
 #'
-#' 
+#'
 #' @field class (character) Must be File to indicate this object describes a file.
 #' @field path (character) The path to the file.
 #' @field checksum [character] Optional hash code for validating file
@@ -510,7 +510,7 @@ File <- setRefClass("File", contains = "CWL",
                         path = "characterORNULL",
                         checksum = "characterORNULL",
                         size = "numericORNULL", # integer has small limit
-                        secondaryFile = "FileList" 
+                        secondaryFile = "FileList"
                     ),
                     methods = list(
                         initialize = function(class = "File", ...){
@@ -559,11 +559,11 @@ Expression <- setRefClass("Expression",
                                   script = NULL,
                                   engine = "#cwl-js-engine",
                                   class = "Expression"){
-                                  
+
                                   script <<- script
                                   engine <<- engine
                                   class <<- class
-                           
+
                               }
                           ))
 setClassUnion("ExpressionORNULL", c("Expression", "NULL"))
@@ -586,7 +586,7 @@ setClassUnion("characterORExpressionORlistORNULL", c("character", "Expression", 
 #' error and the implementation must not attempt to run the process,
 #' unless overridden at user option.
 #'
-#' 
+#'
 #' \item{\code{class}}{(character) The specific requirement type.}
 #' }
 #'
@@ -607,7 +607,7 @@ setClassUnion("characterORExpressionORlistORNULL", c("character", "Expression", 
 #' ))
 #' safr <- ScatterFeatureRequirement()
 #' eer <- ExpressionEngineRequirement(id = "hello")
-#' ProcessRequirementList(dkr, cfr, sfr, evr, safr, eer)                    
+#' ProcessRequirementList(dkr, cfr, sfr, evr, safr, eer)
 ProcessRequirement <- setRefClass("ProcessRequirement",
                                   contains = c("VIRTUAL", "CWL"),
                                   field = list(class = "character"))
@@ -616,11 +616,11 @@ ProcessRequirement <- setRefClass("ProcessRequirement",
 
 
 #' DockerRequirement Class
-#' 
-#' 
+#'
+#'
 #' @section DockerRequirement Class:
 #' \describe{
-#' 
+#'
 #' Indicates that a workflow component should be run in a Docker
 #' container, and specifies how to fetch or build the image.If a CommandLineTool lists DockerRequirement under hints or
 #' requirements, it may (or must) be run in the specified Docker
@@ -637,31 +637,31 @@ ProcessRequirement <- setRefClass("ProcessRequirement",
 #' software, except to assume that the generated command line
 #' represents a valid command within the runtime environment of the
 #' container.
-#' 
-#' 
-#' 
+#'
+#'
+#'
 #' \item{\code{dockerPull}}{(character) Get a Docker image using
 #' docker pull}
-#' 
+#'
 #' \item{\code{dockerLoad}}{(character) Specify a HTTP URL from which
 #' to download a Docker image using docker load.}
-#' 
+#'
 #' \item{\code{dockerFile}}{(character) Supply the contents of a
 #' Dockerfile which will be build using docker build.}
-#' 
+#'
 #' \item{\code{dockerImageId}}{(character) The image id that will be
 #' used for docker run. May be a human-readable image name or the
 #' image identifier hash. May be skipped if dockerPull is specified,
 #' in which case the dockerPull image id will be used.}
-#' 
+#'
 #' \item{\code{dockerOutputDirectory}}{(character) Set the designated
 #' output directory to a specific location inside the Docker
 #' container.}
-#' 
-#' }
-#' 
 #'
-#'  
+#' }
+#'
+#'
+#'
 #' @export DockerRequirement
 #' @exportClass DockerRequirement
 #'
@@ -679,7 +679,7 @@ DockerRequirement <- setRefClass("DockerRequirement",
                                  method = list(
                                      initialize = function(
                                          class = "DockerRequirement",
-                                     ...){
+                                         ...){
                                          class <<- class
                                          callSuper(...)
                                      }
@@ -690,9 +690,9 @@ DockerRequirement <- setRefClass("DockerRequirement",
 #' Indicates that the workflow platform must support nested workflows
 #' in the run field of (WorkflowStep)(#workflowstep).
 #'
-#' @export SubworkflowFeatureRequirement 
+#' @export SubworkflowFeatureRequirement
 #' @exportClass SubworkflowFeatureRequirement
-#' 
+#'
 #' @rdname ProcessRequirement
 #' @aliases SubworkflowFeatureRequirement
 SubworkflowFeatureRequirement <-
@@ -704,7 +704,7 @@ SubworkflowFeatureRequirement <-
                         ...){
                         class <<- class
                         callSuper(...)
-                    }                    
+                    }
                 ))
 
 
@@ -714,13 +714,13 @@ SubworkflowFeatureRequirement <-
 #' @section FileDef Class:
 #'
 #' \describe{
-#' 
+#'
 #' Define a file that must be placed by in the designated output
 #' directory prior to executing the command line tool. May be the
 #' result of executing an expression, such as building a configuration
 #' file from a template.
 #'
-#' 
+#'
 #'
 #' \item{\code{filename}}{(characterORExpression) The name of the file
 #' to create in the output directory.}
@@ -735,7 +735,7 @@ SubworkflowFeatureRequirement <-
 #' file system links in such a way as to avoid unecessary copying of
 #' the input file.}
 #'
-#' 
+#'
 #'
 #' }
 #'
@@ -757,22 +757,22 @@ FileDefList <- setListClass("FileDef")
 
 #' @section CreateFileRequirement Class:
 #' \describe{
-#' 
+#'
 #' Define a list of files that must be created and placed by the
 #' workflow platform in the designated output directory prior to
 #' executing the command line tool. See FileDef for details.
 #'
-#' 
-#' 
+#'
+#'
 #' \item{\code{fileDef}}{(FileDefList) The list of files.}
-#' 
+#'
 #' }
-#' 
+#'
 #'
 #' @export CreateFileRequirement
 #' @exportClass CreateFileRequirement
 #' @rdname ProcessRequirement
-#' @aliases CreateFileRequirement 
+#' @aliases CreateFileRequirement
 CreateFileRequirement <-
     setRefClass("CreateFileRequirement", contains = "ProcessRequirement",
                 fields = list(
@@ -784,26 +784,26 @@ CreateFileRequirement <-
                         ...){
                         class <<- class
                         callSuper(...)
-                    }                    
+                    }
                 ))
 
 #' @section EnvironmentDef Class:
 #' \describe{
-#' 
+#'
 #' Define an environment variable that will be set in the runtime
 #' environment by the workflow platform when executing the command
 #' line tool. May be the result of executing an expression, such as
 #' getting a parameter from input.
 #'
-#' 
+#'
 #'
 #' \item{\code{envName}}{(character) The environment variable name. }
-#' 
+#'
 #' \item{\code{envValue}}{(characterORExpression) The environment
 #' variable value.}
 #'
-#' 
-#' 
+#'
+#'
 #'
 #' }
 #' @export EnvironmentDef
@@ -818,7 +818,7 @@ EnvironmentDef <- setRefClass("EnvironmentDef",
 
 
 #' @param \dots element or list of the element.
-#' 
+#'
 #' @export EnvironmentDefList
 #' @exportClass EnvironmentDefList
 #' @rdname ProcessRequirement
@@ -827,18 +827,18 @@ EnvironmentDefList <- setListClass("EnvironmentDef")
 
 #' @section EnvVarRequirement Class:
 #' \describe{
-#' 
+#'
 #' Define a list of environment variables which will be set in the
 #' execution environment of the tool. See EnvironmentDef for details.
 #'
-#' 
-#' 
+#'
+#'
 #' \item{\code{envDef}}{(EnvironmentDefList) The list of environment
 #' variables.}
-#' 
+#'
 #' }
 #'
-#' 
+#'
 #'
 #' @export EnvVarRequirement
 #' @exportClass EnvVarRequirement
@@ -855,14 +855,14 @@ EnvVarRequirement <-
                         ...){
                         class <<- class
                         callSuper(...)
-                    }                    
+                    }
                 ))
 
 #' @section ScatterFeatureRequirement Class:
 #'
 #' Indicates that the workflow platform must support the scatter and
 #' scatterMethod fields of (WorkflowStep)(#workflowstep).
-#' 
+#'
 #' @export ScatterFeatureRequirement
 #' @exportClass ScatterFeatureRequirement
 #' @rdname ProcessRequirement
@@ -875,11 +875,11 @@ ScatterFeatureRequirement <-
                         ...){
                         class <<- class
                         callSuper(...)
-                    }                    
+                    }
                 ))
 
 #' ProcessRequirementList
-#' 
+#'
 #' @aliases ProcessRequirementList-class
 #'
 #' @export ProcessRequirementList
@@ -890,21 +890,21 @@ ProcessRequirementList <- setListClass("ProcessRequirement")
 
 #' @section ExpressionEngineRequirement Class:
 #' \describe{
-#' 
+#'
 #' Define an expression engine, as described in Expressions.
 #'
-#' 
-#' 
+#'
+#'
 #' \item{\code{id}}{(character) Used to identify the expression engine in the
 #' engine field of Expressions.}
-#' 
+#'
 #' \item{\code{requirements}}{[ProcessRequirement]Requirements to run this
 #' expression engine, such as DockerRequirement for specifying a
 #' container with the engine.}
-#' 
+#'
 #' \item{\code{engineCommand}}{ [character] The command line to invoke the
 #' expression engine.}
-#' 
+#'
 #' \item{\code{engineConfig}}{ [character] Additional configuration or code
 #' fragments that will also be passed to the expression engine. The
 #' semantics of this field are defined by the underlying expression
@@ -913,14 +913,14 @@ ProcessRequirementList <- setListClass("ProcessRequirement")
 #'
 #' }
 #'
-#' 
+#'
 #' @export  ExpressionEngineRequirement
 #' @exportClass ExpressionEngineRequirement
 #' @rdname ProcessRequirement
 #' @aliases ExpressionEngineRequirement
 ExpressionEngineRequirement <-
     setRefClass("ExpressionEngineRequirement", contains = "ProcessRequirement",
-                fields = list(             
+                fields = list(
                     id = "characterORNULL",
                     requirements = "ProcessRequirementList",
                     engineCommand = "characterORNULL",
@@ -932,7 +932,7 @@ ExpressionEngineRequirement <-
                         ...){
                         class <<- class
                         callSuper(...)
-                    }                    
+                    }
                 ))
 
 
@@ -940,7 +940,7 @@ ExpressionEngineRequirement <-
 ## Process
 ########################################################################
 #' SchemaDefList
-#' 
+#'
 #' @aliases SchemaDefList-class
 #'
 #' @export SchemaDefList
@@ -959,7 +959,7 @@ setRefClass("SchemaDefRequirement", contains = "ProcessRequirement",
 ## Binding
 ##----------------------------------------------------------------------
 
-## 
+##
 ## setListClass("characterORExpression")
 
 #' Binding
@@ -985,11 +985,11 @@ setRefClass("SchemaDefRequirement", contains = "ProcessRequirement",
 #' @rdname Binding
 #' @examples
 #' Binding(loadContents = TRUE, secondaryFiles = "./test.txt")
-Binding <- setRefClass("Binding", contains = "CWL", 
+Binding <- setRefClass("Binding", contains = "CWL",
                        method = list(
                            initialize = function(loadContents = NULL,
                                                  secondaryFiles = NULL, ...){
-                               
+
                                if(is.character(secondaryFiles)){
                                    secondaryFiles <<- set_box(secondaryFiles)
                                }else{
@@ -998,7 +998,7 @@ Binding <- setRefClass("Binding", contains = "CWL",
                                loadContents <<- loadContents
                                callSuper(...)
                            }
-                           
+
                        ),
                        fields = list(
                            loadContents = "logicalORlistORNULL",
@@ -1009,7 +1009,7 @@ setClassUnion("BindingORNULL", c("Binding", "NULL"))
 ##======================================================================
 ## Parameter
 ##======================================================================
-    
+
 
 #' Paramter class (reference class)
 #'
@@ -1017,19 +1017,19 @@ setClassUnion("BindingORNULL", c("Binding", "NULL"))
 #'
 #' @field type [ANY] Specify valid types of data that may be assigned
 #' to this parameter.
-#' 
+#'
 #' @field label [character] A short, human-readable label of this
 #' parameter object.
-#' 
+#'
 #' @field description [character] A long, human-readable description
 #' of this parameter object.
-#' 
+#'
 #' @field streamable [logical] Currently only applies if type is
 #' File. A value of true indicates that the file is read or written
 #' sequentially without seeking. An implementation may use this flag
 #' to indicate whether it is valid to stream file contents using a
 #' named pipe. Default: false.
-#' 
+#'
 #' @field default [ANY] The default value for this parameter if not
 #' provided in the input object.
 #'
@@ -1044,7 +1044,7 @@ setClassUnion("BindingORNULL", c("Binding", "NULL"))
 #' Parameter(type = "integer", label = "thread",
 #'          description = "Specify the thread #",
 #'          default = 0)
-#' 
+#'
 #' ipl <- InputParameterList(
 #'     InputParameter(id = "BAM", type = "File",
 #'                    label = "input bam",
@@ -1058,7 +1058,7 @@ setClassUnion("BindingORNULL", c("Binding", "NULL"))
 #'                    inputBinding = CommandLineBinding(
 #'                        position = 2L,
 #'                        prefix = "-l"
-#'                    ))    
+#'                    ))
 #' )
 #' ipl
 Parameter <- setRefClass("Parameter", contains = "CWL",
@@ -1071,8 +1071,8 @@ Parameter <- setRefClass("Parameter", contains = "CWL",
                          ),
                          methods = list(
                              initialize = function(..., type = "",
-                                                  streamable = FALSE,
-                                                  default = NULL){
+                                                   streamable = FALSE,
+                                                   default = NULL){
                                  if(is(type, "DSCList")){
                                      type <<- type
                                  }else{
@@ -1087,7 +1087,7 @@ Parameter <- setRefClass("Parameter", contains = "CWL",
 
 
 #' InputParameterList
-#' 
+#'
 #' @aliases InputParameterList InputParameterList-class
 #'
 #' @param \dots element or list of the element.
@@ -1099,7 +1099,7 @@ Parameter <- setRefClass("Parameter", contains = "CWL",
 InputParameterList <- setListClass("InputParameter")
 
 #' OutputParameterList
-#' 
+#'
 #' @aliases OutputParameterList OutputParameterList-class
 #'
 #' @export OutputParameterList
@@ -1165,7 +1165,7 @@ OutputParameterList <- setListClass("OutputParameter")
 #'                    inputBinding = CommandLineBinding(
 #'                        position = 2L,
 #'                        prefix = "-l"
-#'                    ))    
+#'                    ))
 #' )
 #' ipl
 #' p <- Process(id = "process", inputs = ipl)
@@ -1175,7 +1175,7 @@ Process <- setRefClass("Process", contains = "CWL",
                            id = "characterORNULL",
                            inputs = "InputParameterList",
                            outputs = "OutputParameterList",
-                           requirements = "ProcessRequirementList", 
+                           requirements = "ProcessRequirementList",
                            hints = "ProcessRequirementList",
                            label = "characterORNULL",
                            description = "characterORNULL"
@@ -1200,7 +1200,7 @@ Process <- setRefClass("Process", contains = "CWL",
 #' @aliases InputSchema
 #'
 #' @return a Schema object or sbuclass object.
-InputSchema <- setRefClass("InputSchema", contains = "Schema", 
+InputSchema <- setRefClass("InputSchema", contains = "Schema",
                            fields = list(
                                inputBinding = "Binding"
                            ))
@@ -1217,7 +1217,7 @@ OutputSchema <- setRefClass("OutputSchema", contains = "Schema")
 #' InputParameter Class
 #'
 #' @field id (character) The unique identifier for this parameter object.
-#' 
+#'
 #' @field inputBinding [Binding] Describes how to handle the inputs of
 #' a process and convert them into a concrete form for execution, such
 #' as command line parameters.
@@ -1281,7 +1281,7 @@ OutputParameter <- setRefClass("OutputParameter", contains = "Parameter",
 #'                              script = "$job.inputs['threads']"))
 ExpressionTool <- setRefClass("ExpressionTool", contains = "Process",
                               fields = list(
-                                  class = "character", 
+                                  class = "character",
                                   expression = "Expression"
                               ),
                               method = list(
@@ -1290,7 +1290,7 @@ ExpressionTool <- setRefClass("ExpressionTool", contains = "Process",
                                       ...){
                                       class <<- class
                                       callSuper(...)
-                                  }                    
+                                  }
                               ))
 ########################################################################
 ## CommandLineTool
@@ -1389,7 +1389,7 @@ setClassUnion("characterORCommandLineBinding",
 #'
 #' @aliases CCBList characterORCommandLineBindingList-class
 #' @return CCBList
-#' 
+#'
 #' @examples
 #' CCBList("-o output.bam")
 CCBList <- setListClass("characterORCommandLineBinding")
@@ -1447,7 +1447,7 @@ CCBList <- setListClass("characterORCommandLineBinding")
 #' command line.}
 #'
 #' }
-#' 
+#'
 #' @section Runtime environment:
 #'
 #' All files listed in the input object must be made available in the
@@ -1475,13 +1475,13 @@ CCBList <- setListClass("characterORCommandLineBinding")
 #' in-place update of input files.
 #'
 #' The standard input stream and standard output stream may be
-#' redirected as described in the stdin and stdout fields. 
-#' 
+#' redirected as described in the stdin and stdout fields.
+#'
 #' @section Extensions:
 #'
 #' DockerRequirement, CreateFileRequirement, and EnvVarRequirement,
 #' are available as standard extensions to core command line tool
-#' semantics for defining the runtime environment.  
+#' semantics for defining the runtime environment.
 #'
 #' @section Execution:
 #'
@@ -1504,17 +1504,17 @@ CCBList <- setListClass("characterORCommandLineBinding")
 #' customized by providing the fields successCodes,
 #' temporaryFailCodes, and permanentFailCodes. An implementation may
 #' choose to default unspecified non-zero exit codes to either
-#' temporaryFailure or permanentFailure. 
+#' temporaryFailure or permanentFailure.
 #'
 #' @section Output binding:
-#' 
+#'
 #' If the output directory contains a file called "cwl.output.json",
 #' that file must be loaded and used as the output object. Otherwise,
 #' the output object must be generated by walking the parameters
 #' listed in outputs and applying output bindings to the tool
 #' output. Output bindings are associated with output parameters using
 #' the outputBinding field. See CommandOutputBinding for details.
-#' 
+#'
 #'
 #' @field baseCommand (character) Specifies the program to execute. If
 #' the value is an array, the first element is the program to execute,
@@ -1571,9 +1571,9 @@ CCBList <- setListClass("characterORCommandLineBinding")
 #'                    inputBinding = CommandLineBinding(
 #'                        position = 2L,
 #'                        prefix = "-l"
-#'                    ))    
+#'                    ))
 #' )
-#' 
+#'
 #' clt <- CommandLineTool(inputs = ipl, baseCommand = "samtools sort")
 CommandLineTool <- setRefClass("CommandLineTool",
                                contains = "Process",
@@ -1589,10 +1589,10 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                ),
                                method = list(
                                    initialize = function(class = "CommandLineTool",
-                                       arguments = "",
-                                       baseCommand = NULL,
-                                       ...){
-                                       
+                                                         arguments = "",
+                                                         baseCommand = NULL,
+                                                         ...){
+
                                        # if(is.null(baseCommand)){
                                        #     stop("baseCommand has to be provided")
                                        # }
@@ -1612,15 +1612,15 @@ CommandLineTool <- setRefClass("CommandLineTool",
                                            arguments <<- CCBList(arguments)
                                        }else if(is.list(arguments)){
                                            ## need to construct CLB list
-                                          
+
                                            arguments <<- do.call(CCBList, lapply(arguments, function(x){
                                                do.call(CLB, x)
                                            }))
-                                           
+
                                        }else{
-                                           arguments <<- arguments 
+                                           arguments <<- arguments
                                        }
-                                      
+
                                        class <<- class
                                        callSuper(...)
                                    }
@@ -1648,12 +1648,12 @@ CommandLineTool <- setRefClass("CommandLineTool",
 #'                           inputBinding = CommandLineBinding(
 #'                               position = 2L,
 #'                               prefix = "-l"
-#'                           ))    
+#'                           ))
 #' )
 CommandInputParameter <-
     setRefClass("CommandInputParameter", contains = "InputParameter")
 
- 
+
 
 
 
@@ -1709,7 +1709,7 @@ CommandOutputBinding <-
 #' @examples
 #' CommandOutputSchema()
 CommandOutputSchema <-
-    setRefClass("CommandOutputSchema", contains = "Schema", 
+    setRefClass("CommandOutputSchema", contains = "Schema",
                 fields = list(
                     outputBinding = "CommandOutputBinding"
                 ))
@@ -1764,10 +1764,10 @@ setClass("LinkMergeMethod", contains = "VIRTUAL")
 #' element from the "items" type of the destination array
 #' parameter. 2) Source parameters which are arrays are concatenated;
 #' source parameters which are single element types are appended as
-#' single elements.  } 
+#' single elements.  }
 #'
 #' Fields:
-#' 
+#'
 #' \item{\code{id}}{ (character) A unique identifier for this workflow input
 #' parameter.}
 #'
@@ -1781,7 +1781,7 @@ setClass("LinkMergeMethod", contains = "VIRTUAL")
 #' \item{\code{default}}{ [ANY] The default value for this parameter if there
 #' is no source field.}
 #' }
-#' 
+#'
 #' @export WorkflowStepInput
 #' @exportClass WorkflowStepInput
 #'
@@ -1789,7 +1789,7 @@ setClass("LinkMergeMethod", contains = "VIRTUAL")
 #' @aliases WorkflowStepInput WorkflowStepInput-class
 #'
 #' @return a WorkflowStep object or subclass object.
-WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL", 
+WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL",
                                  fields = list(
                                      id = "characterORNULL",
                                      source = "characterORNULL", ## fixme:
@@ -1801,14 +1801,14 @@ WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL",
                                          id <<- addIdNum(id)
                                          default <<- default
                                          if(is.character(source)){
-                                             .self$source  <<- set_box(source)                                                                                       
+                                             .self$source  <<- set_box(source)
                                          }else if(is.list(source) && is.character(source[[1]])){
                                              .self$source  <<- set_box(source[[1]])
                                          }else{
                                              .self$source  <<- source
                                          }
-                                       
-                                         
+
+
                                          callSuper(...)
                                      }
 
@@ -1816,7 +1816,7 @@ WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL",
 
 #' @section WorkflowStepOutput Class:
 #' \describe{
-#' 
+#'
 #' Associate an output parameter of the underlying process with a
 #' workflow parameter. The workflow parameter (given in the id field)
 #' be may be used as a source to connect with input parameters of
@@ -1833,7 +1833,7 @@ WorkflowStepInput <- setRefClass("WorkflowStepInput", contains = "CWL",
 #' @exportClass WorkflowStepOutput
 #' @rdname WorkflowStep
 #' @aliases WorkflowStepOutput WorkflowStepOutput-class
-WorkflowStepOutput <- setRefClass("WorkflowStepOutput", contains = "CWL", 
+WorkflowStepOutput <- setRefClass("WorkflowStepOutput", contains = "CWL",
                                   fields = list(
                                       id = "characterORNULL"
                                   ),
@@ -1892,7 +1892,7 @@ WorkflowStepList <- setListClass("WorkflowStep")
 #' @exportClass WorkflowOutputParameter
 #'
 #' @return a Workflow object.
-#' 
+#'
 #' @rdname Workflow
 #' @aliases WorkflowOutputParameter WorkflowOutputParameter-class
 WorkflowOutputParameter <-
@@ -1904,13 +1904,13 @@ WorkflowOutputParameter <-
                 methods = list(
                     initialize = function(source = NULL, ...){
                         if(is.character(source)){
-                            .self$source  <<- set_box(source)                                                                                       
+                            .self$source  <<- set_box(source)
                         }else if(is.list(source) && is.character(source[[1]])){
                             .self$source  <<- set_box(source[[1]])
                         }else{
                             .self$source  <<- source
                         }
-                       
+
                         callSuper(...)
                     }
                 ))
@@ -1935,7 +1935,7 @@ SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
                                               "required" = "logicalORNULL"
                                           ),
                                           methods = list(
-                                              initialize = function(x = NULL, y = NULL, 
+                                              initialize = function(x = NULL, y = NULL,
                                                                     includeInPorts = TRUE,
                                                                     required = FALSE, ...){
                                                   args <- mget(names(formals()),
@@ -1951,7 +1951,7 @@ SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
                                           ))
 
 SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
-                                               contains = "OutputParameterList") 
+                                               contains = "OutputParameterList")
 ## setClassUnion("WorkflowOutputParameterListORSBGWorkflowOutputParameterList", c("WorkflowOutputParameterList", "SBGWorkflowOutputParameterList"))
 
 
@@ -1983,7 +1983,7 @@ SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
 #' @field outputs (WorkflowOutputParameterList) Defines the parameters
 #' representing the output of the process. May be used to generate
 #' and/or validate the output object. Inherited from Process
-#' 
+#'
 #' @field steps (WorkflowStepList) The individual steps that make up the
 #' workflow. Steps are executed when all input data links are
 #' fufilled. An implementation may choose to execute the steps in a
@@ -1997,7 +1997,7 @@ SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
 #' @examples
 #' ## need better examples here
 #' ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
-#'              description = "align and sort", 
+#'              description = "align and sort",
 #'              inputs = WorkflowStepInputList(
 #'                  WorkflowStepInput(id = "id1"),
 #'                  WorkflowStepInput(id = "id2")
@@ -2058,7 +2058,7 @@ setClassUnion("CommandLineToolORExpressionToolORWorkflow",
 #' describes how to decompose the input into a discrete set of jobs.
 #'
 #' \itemize{
-#' 
+#'
 #' \item{dotproduct}{ specifies that each the input arrays are aligned
 #' and one element taken from each array to construct each job. It is
 #' an error if all input arrays are not the same length.}
@@ -2130,19 +2130,19 @@ setClassUnion("CommandLineToolORExpressionToolORWorkflow",
 #'
 #' @examples
 #' ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
-#'              description = "align and sort", 
+#'              description = "align and sort",
 #'              inputs = WorkflowStepInputList(
 #'                  WorkflowStepInput(id = "id1"),
 #'                  WorkflowStepInput(id = "id2")
 #'              )))
 WorkflowStep <-
-    setRefClass("WorkflowStep", contains = "CWL", 
+    setRefClass("WorkflowStep", contains = "CWL",
                 fields = list(
                     id = "characterORNULL",
                     inputs = "WorkflowStepInputList",
                     outputs = "WorkflowStepOutputList",
                     requirements = "ProcessRequirement",
-                    hints = "ProcessRequirementList",                    
+                    hints = "ProcessRequirementList",
                     label = "characterORNULL",
                     description = "characterORNULL",
                     run = "CommandLineToolORExpressionToolORWorkflow",
@@ -2151,7 +2151,7 @@ WorkflowStep <-
                 ),
                 methods = list(
                     initialize = function(id = "",
-                        scatter = NULL, ...){
+                                          scatter = NULL, ...){
                         id <<- addIdNum(id)
                         scatter <<- scatter
                         callSuper(...)
@@ -2167,19 +2167,19 @@ WorkflowStep <-
 #'
 #' @param type [ANY] Specify valid types of data that may be assigned
 #' to this parameter.
-#' 
+#'
 #' @param label [character] A short, human-readable label of this
 #' parameter object.
-#' 
+#'
 #' @param description [character] A long, human-readable description
 #' of this parameter object.
-#' 
+#'
 #' @param streamable [logical] Currently only applies if type is
 #' File. A value of true indicates that the file is read or written
 #' sequentially without seeking. An implementation may use this flag
 #' to indicate whether it is valid to stream file contents using a
 #' named pipe. Default: false.
-#' 
+#'
 #' @param default [ANY] The default value for this parameter if not
 #' provided in the input object.
 #'
@@ -2260,8 +2260,8 @@ WorkflowStep <-
 #' from the path (the last period . and all following characters). If
 #' there are no file extensions, the path is unchanged.  Append the
 #' remainder of the string to the end of the file path.}
-#' 
-#' 
+#'
+#'
 #' }
 #'
 #' @rdname shorthand-cwl
@@ -2269,7 +2269,7 @@ WorkflowStep <-
 #' @aliases CLB argslist COB IPList OPList input output InPar OutPar
 #'
 #'
-#' @export CLB argslist COB IPList OPList input output InPar OutPar 
+#' @export CLB argslist COB IPList OPList input output InPar OutPar
 #' @examples
 #' ipl <- IPList(
 #'     input(id = "bam",
@@ -2304,36 +2304,36 @@ OutPar <- OutputParameter
 SCLB <- SBGCommandLineBinding <- setRefClass("SBGCommandLineBinding", contains = "CommandLineBinding",
                                              fields = list("sbg:cmdInclude" = "logicalORNULL"),
                                              methods = list(initialize = function(cmdInclude = FALSE,
-                                                             ...){
+                                                                                  ...){
                                                  .self$field("sbg:cmdInclude", cmdInclude)
                                                  callSuper(...)
                                              }))
 
 SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter",
                                  fields = list("sbg:category" = "characterORlistORNULL",
-                                     "sbg:fileTypes" = "characterORNULL",
-                                     "sbg:stageInput" = "characterORNULL",
-                                     "sbg:x" = "numericORNULL",
-                                     "sbg:y" = "numericORNULL",
-                                     "sbg:includeInPorts" = "logicalORNULL",
-                                     "sbg:toolDefaultValue" = "characterORNULL",
-                                     "sbg:altPrefix" = "characterORNULL",
-                                     "required" = "logicalORNULL", 
-                                     "batchType" = "characterORNULL"),
+                                               "sbg:fileTypes" = "characterORNULL",
+                                               "sbg:stageInput" = "characterORNULL",
+                                               "sbg:x" = "numericORNULL",
+                                               "sbg:y" = "numericORNULL",
+                                               "sbg:includeInPorts" = "logicalORNULL",
+                                               "sbg:toolDefaultValue" = "characterORNULL",
+                                               "sbg:altPrefix" = "characterORNULL",
+                                               "required" = "logicalORNULL",
+                                               "batchType" = "characterORNULL"),
                                  methods = list(
                                      initialize = function(category = NULL,
-                                         fileTypes = NULL, stageInput = NULL,
-                                         x = NULL, y = NULL, includeInPorts = NULL,
-                                         toolDefaultValue = NULL, altPrefix = NULL,
-                                         required = FALSE, batchType = NULL,
-                                         ...){
-                                         
+                                                           fileTypes = NULL, stageInput = NULL,
+                                                           x = NULL, y = NULL, includeInPorts = NULL,
+                                                           toolDefaultValue = NULL, altPrefix = NULL,
+                                                           required = FALSE, batchType = NULL,
+                                                           ...){
+
                                          if(!is.null(stageInput)){
                                              if(!stageInput %in% c("copy", "link")){
                                                  stop("stageInput has to be NULL, copy or link")
                                              }
                                          }
-                                         
+
                                          .self$field("sbg:stageInput", stageInput)
                                          .self$field("sbg:category", category)
                                          .self$field("sbg:fileTypes", fileTypes)
@@ -2344,20 +2344,20 @@ SBGInputParameter <- setRefClass("SBGInputParameter", contains = "InputParameter
                                          .self$field("sbg:altPrefix", altPrefix)
                                          .self$field("batchType", batchType)
                                          .self$field("required", required)
-                                         callSuper(...)                                     
+                                         callSuper(...)
                                      }))
 
 is_required = function(x){
     # x is input item
-   !(is.character(x$type[[1]]) && x$type[[1]] == "null")
-    
+    !(is.character(x$type[[1]]) && x$type[[1]] == "null")
+
 }
 
 input <- function(id = NULL, type = NULL, label = "",
                   description = "", streamable = FALSE,
                   default = "", required = FALSE,
-                  category = NULL, fileTypes = NULL, 
-                  stageInput = NULL, 
+                  category = NULL, fileTypes = NULL,
+                  stageInput = NULL,
                   cmdInclude = FALSE, ...){
 
     # if(is.null(id)){
@@ -2371,15 +2371,15 @@ input <- function(id = NULL, type = NULL, label = "",
     if(is.list(id)){
         ## convert a list to input
         in.lst <- lapply(id, function(o){
-            
+
             o.b <- o$inputBinding
             if(is.null(o.b)){
                 ib <- NULL
             }else{
                 ib <- do.call(SCLB, o.b)
             }
-    
-            
+
+
             o <- c(o[!names(o) %in% c("inputBinding", "sbg:category","required",
                                       "sbg:fileTypes", "type", "fileTypes", "sbg:stageInput")],
                    list(inputBinding = ib,
@@ -2394,7 +2394,7 @@ input <- function(id = NULL, type = NULL, label = "",
         res.in <- do.call("IPList", in.lst)
         return(res.in)
     }
-    
+
     if(is.null(type)){
         stop("type has to be provided: file, enum, string, int, float, boolean, array, record, map")
     }
@@ -2403,12 +2403,12 @@ input <- function(id = NULL, type = NULL, label = "",
 
     if(length(type) == 1){
         if(!required){
-            type = c("null", type)            
+            type = c("null", type)
         }else{
             type <- list(type)
         }
     }
-    
+
 
     lstData <- .dotargsAsList(...)
     if(length(lstData)){
@@ -2443,9 +2443,9 @@ SBGCommandOutputBinding <- setRefClass("SBGCommandOutputBinding", contains = "Co
 
                                                ## args <- mget(names(formals()),sys.frame(sys.nframe()))
                                                ## nms <- c("metadata", "inheritMetadataFrom")
-                                               .self$field("sbg:metadata", metadata) 
-                                               .self$field("sbg:inheritMetadataFrom", addIdNum(inheritMetadataFrom)) 
-                                               
+                                               .self$field("sbg:metadata", metadata)
+                                               .self$field("sbg:inheritMetadataFrom", addIdNum(inheritMetadataFrom))
+
                                                callSuper(...)
 
                                            }
@@ -2460,13 +2460,13 @@ SBGCommandOutputParameter <- setRefClass("SBGCommandOutputParameter",
                                          methods = list(
                                              initialize = function(fileTypes  = NULL, ...){
                                                  nm <- "fileTypes"
-                                                 .self$field(paste0("sbg:", nm), fileTypes)                           
+                                                 .self$field(paste0("sbg:", nm), fileTypes)
                                                  callSuper(...)
                                              }
                                          ))
 
 output <- function(id = NULL, type = "file", label = "", description = "",
-                   required = FALSE, 
+                   required = FALSE,
                    streamable = FALSE, default = "", fileTypes = NULL, ...){
 
 
@@ -2494,7 +2494,7 @@ output <- function(id = NULL, type = "file", label = "", description = "",
             }else{
                 res.load <- NULL
             }
-            ## 
+            ##
             if(length(o.b$outputEval)){
                 if(length(o.b$outputEval) == 1 &&
                    is.character(o.b$outputEval)){
@@ -2506,17 +2506,17 @@ output <- function(id = NULL, type = "file", label = "", description = "",
             }else{
                 res.eval <- NULL
             }
-         
+
             ob <- SBGCOB(glob = res.glob,
                          loadContents = res.load,
                          outputEval = res.eval,
                          inheritMetadataFrom = o$`sbg:inheritMetadataFrom`,
                          metadata = o$`sbg:metadata`,
                          secondaryFiles = o$seconaryFiles)
-            
-            o <- c(o[!names(o) %in% 
-                     c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
-                       "sbg:inheritMetadataFrom", "sbg:metadata")],
+
+            o <- c(o[!names(o) %in%
+                         c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
+                           "sbg:inheritMetadataFrom", "sbg:metadata")],
                    list(type = format_type(o$type),
                         outputBinding = ob,
                         fileTypes = o[["sbg:fileTypes"]]))
@@ -2526,22 +2526,22 @@ output <- function(id = NULL, type = "file", label = "", description = "",
         res.out <- do.call("OPList", out.lst)
         return(res.out)
     }
-    
+
     ## if(is.null(type)){
     ##     stop("type has to be provided: file, enum, string, int, float, boolean, array, record, map")
     ## }
-    
+
     type <- deType(type)
 
     if(length(type) == 1){
         if(!required){
-            type = c("null", type)            
+            type = c("null", type)
         }else{
             type <- list(type)
         }
     }
 
-    
+
     SBGCommandOutputParameter(id = id, type = type, label = label,
                               description = description,
                               streamable = streamable,
@@ -2578,14 +2578,14 @@ CPURequirement <-
                 ),
                 methods = list(
                     initialize = function(value = 1L,
-                        class = "sbg:CPURequirement", ...){
+                                          class = "sbg:CPURequirement", ...){
                         class <<- class
                         if(is.numeric(value)){
                             .v <- as.integer(value)
                         }else{
                             .v <- do.call(Expression, value)
                         }
-                        
+
                         # comment out this, conform to server requirements
                         # if(!.v %in% c(1L, 0L)){
                         #     warning("For now, CPU value must be 0L (multi-treads) or 1L (single-thread)")
@@ -2619,7 +2619,7 @@ cpu <- CPURequirement
 #' @export docker
 #' @examples
 #' docker("rocker/r-base")
-docker <- function(pull = NULL, imageId = NULL, load = NULL, 
+docker <- function(pull = NULL, imageId = NULL, load = NULL,
                    file = NULL, output = NULL,
                    dockerPull = pull,
                    dockerImageId = imageId,
@@ -2631,7 +2631,7 @@ docker <- function(pull = NULL, imageId = NULL, load = NULL,
         dockerPull = dockerPull,
         dockerLoad = dockerLoad,
         dockerFile = dockerFile,
-        dockerOutputDirectory = dockerOutputDirectory, ...)    
+        dockerOutputDirectory = dockerOutputDirectory, ...)
 }
 
 #' requirements and hints
@@ -2703,7 +2703,7 @@ requirements <- function(...){
                    {
                        return(do.call(anyReq, x))
                    })
-            
+
         }
         ## work with file def
         if(is.list(x)){
@@ -2716,7 +2716,7 @@ requirements <- function(...){
             return(x)
         }
     })
-    
+
     ## validation
     idx <- sapply(listData, function(x){
         is(x, "ProcessRequirement")
@@ -2731,7 +2731,7 @@ requirements <- function(...){
 
 #' @param name file name
 #' @param content file content, could be script
-#' 
+#'
 #' @rdname requirements
 #' @aliases fileDef
 #' @export fileDef
@@ -2756,7 +2756,7 @@ MemRequirement <-
                 methods = list(
                     initialize = function(value = 1000L,
                                           class = "sbg:MemRequirement", ...){
-                      
+
                         if(is.numeric(value)){
                             .v <- as.integer(value)
                         }else{
@@ -2783,7 +2783,7 @@ AWSInstanceTypeRequirement <-
                 ),
                 methods = list(
                     initialize = function(value = NULL,
-                        class = "sbg:AWSInstanceType", ...){
+                                          class = "sbg:AWSInstanceType", ...){
                         value <<- value
                         class <<- class
                         callSuper(...)
@@ -2806,7 +2806,7 @@ AnyRequirement <-
                 ),
                 methods = list(
                     initialize = function(value = NULL,
-                        class = "", ...){
+                                          class = "", ...){
                         value <<- value
                         class <<- class
                         callSuper(...)
@@ -2818,7 +2818,7 @@ anyReq <- AnyRequirement
 
 SBGStep <- setRefClass("SBGStep", contains = "WorkflowStep",
                        fields = list("sbg:x" = "numericORNULL",
-                           "sbg:y" = "numericORNULL"),
+                                     "sbg:y" = "numericORNULL"),
                        methods = list(
                            initialize = function(x = NULL, y = NULL,  ...){
                                args <- mget(names(formals()),
@@ -2849,7 +2849,7 @@ setAs("SBGInputParameter", "data.frame", function(from){
                  fileTypes = lst[["sbg:fileTypes"]],
                  stageInput = lst[["sbg:stageInput"]]),
              ib)
-    
+
     res = lapply(res, function(x){
         if(is.null(x))
             return("null")
@@ -2858,13 +2858,13 @@ setAs("SBGInputParameter", "data.frame", function(from){
     })
     res = do.call(data.frame, res)
     .fullnames = names(res)
-    
+
     .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
     .names.other = sort(setdiff(.fullnames, .names.sbg))
     .names.priority = c("id", "type", "required", "fileTypes", "label")
     .names.p2 = sort(setdiff(.names.other, .names.priority))
     new.order = c(.names.priority, .names.p2, .names.sbg)
-    
+
     res[, new.order]
 })
 
@@ -2882,9 +2882,9 @@ setAs("InputParameterList", "data.frame", function(from){
 
 
 setAs("SBGCommandOutputParameter", "data.frame", function(from){
-    
+
     lst = from$toList()
-    
+
     o.b <- lst$outputBinding
     ## glob
     if(length(o.b$glob) == 1 && is.character(o.b$glob)){
@@ -2898,7 +2898,7 @@ setAs("SBGCommandOutputParameter", "data.frame", function(from){
     }else{
         res.load <- NULL
     }
-    ## 
+    ##
     if(length(o.b$outputEval)){
         if(length(o.b$outputEval) == 1 &&
            is.character(o.b$outputEval)){
@@ -2910,37 +2910,37 @@ setAs("SBGCommandOutputParameter", "data.frame", function(from){
         res.eval <- NULL
     }
     ob <- list(glob = res.glob,
-                 loadContents = res.load,
-                 outputEval = res.eval,
-                 inheritMetadataFrom = lst$`sbg:inheritMetadataFrom`,
-                 metadata = lst$`sbg:metadata`,
-                 secondaryFiles = lst$seconaryFiles)
-    
-    
+               loadContents = res.load,
+               outputEval = res.eval,
+               inheritMetadataFrom = lst$`sbg:inheritMetadataFrom`,
+               metadata = lst$`sbg:metadata`,
+               secondaryFiles = lst$seconaryFiles)
+
+
     res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "outputBinding", "type", "fileTypes",
                                     "sbg:inheritMetadataFrom", "sbg:metadata")],
              list(type = make_type(lst$type),
-                
+
                   fileTypes = lst[["sbg:fileTypes"]]), ob)
-                 
-            
-    
+
+
+
     res = lapply(res, function(x){
         if(is.null(x))
             return("null")
         else
             return(x)
     })
-    
+
     res = do.call(data.frame, res)
     .fullnames = names(res)
-    
+
     .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
     .names.other = sort(setdiff(.fullnames, .names.sbg))
     .names.priority = c("id", "label", "type")
     .names.p2 = sort(setdiff(.names.other, .names.priority))
     new.order = c(.names.priority, .names.p2, .names.sbg)
-    
+
     res[, new.order]
 })
 
@@ -2958,34 +2958,34 @@ setAs("OutputParameterList", "data.frame", function(from){
 
 
 setAs("SBGWorkflowOutputParameter", "data.frame", function(from){
-    
+
     lst = from$toList()
-   
-   
+
+
     res =  c(lst[!names(lst) %in% c("sbg:fileTypes", "type", "fileTypes",
                                     "sbg:inheritMetadataFrom", "sbg:metadata")],
              list(type = make_type(lst$type),
-                  
+
                   fileTypes = lst[["sbg:fileTypes"]]))
-    
-    
-    
+
+
+
     res = lapply(res, function(x){
         if(is.null(x))
             return("null")
         else
             return(x)
     })
-    
+
     res = do.call(data.frame, res)
     .fullnames = names(res)
-    
+
     .names.sbg = sort(.fullnames[grep("^sbg", .fullnames)])
     .names.other = sort(setdiff(.fullnames, .names.sbg))
     .names.priority = c("id", "label", "type")
     .names.p2 = sort(setdiff(.names.other, .names.priority))
     new.order = c(.names.priority, .names.p2, .names.sbg)
-    
+
     res[, new.order]
 })
 
@@ -3000,4 +3000,3 @@ setAs("SBGWorkflowOutputParameterList", "data.frame", function(from){
     res2 = res[!idx, ]
     rbind(res1, res2)
 })
-

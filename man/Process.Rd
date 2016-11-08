@@ -60,7 +60,7 @@ ipl <- InputParameterList(
                    inputBinding = CommandLineBinding(
                        position = 2L,
                        prefix = "-l"
-                   ))    
+                   ))
 )
 ipl
 p <- Process(id = "process", inputs = ipl)

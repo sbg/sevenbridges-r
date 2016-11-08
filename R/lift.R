@@ -210,4 +210,4 @@ parse_rmd = function(input) {
 
     yaml.load(doc_yaml)
 
-}
+    }
