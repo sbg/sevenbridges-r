@@ -22,9 +22,9 @@ Note: Right now we are supporting CWL draft 2 with SBG extension, but we will su
 
 ## App, Workflow and Tool
 
-In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action)
+In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action).
 
-Here are some key ideas
+Here are some key ideas:
 
 - Tool is the unit or a single node of workflow, so different tools could be connected into a workflow. That's how we achieve reusability of components.
 - Tool is described with key components: input, output, parameters and requirements and more details. You understand the tool more like a black box (container) which digest some input(s) with specified setup and output another format. 
@@ -33,7 +33,7 @@ Here are some key ideas
 - App could be described in JSON/YAML format, following Common Workflow Language (CWL) open-source standard. 
 - CWL is just the collection of logic and schema. To execute this __pure text file__, we need executor in the cloud or local. With Seven Bridges platform, you can simply execute it at scale.
 
-Looks like full of jargons and hard to understand. Here is an example. You have a csv table, full of missing value and you want to process it in 3 step
+Looks like full of jargons and hard to understand. Here is an example. You have a csv table, full of missing value and you want to process it in 3 steps:
 
 1. replace missing value 
 2. filtering out rows that column "age" is smaller than 10
@@ -49,8 +49,7 @@ Why we are using CWL? Imagine a single file represeting a tool or workflow,  cou
 
 The main interface provided by `sevenbridges` package is `Tool` function, it's much more straight forward to describe than composing your raw CWL json file from scratch. A "Tool" object in R could be exported into JSON or imported from a CWL JSON file.  
 
-
-I highly recommend user go over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for cancer genomic cloud to understand how it works, and even try it on the platform with the GUI. This will help understand our R interface better.
+I highly recommend going over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for the Cancer Genomics Cloud to understand how it works, and even try it on the platform with the GUI. This will help understand our R interface better.
 
 ### Import from JSON file
 

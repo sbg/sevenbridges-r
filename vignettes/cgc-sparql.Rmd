@@ -20,8 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 There are currently three ways to find the data you need on CGC
 
-- Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read
-tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
+- Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
 - Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
 - Most sweet: use our Data set API, by creating a query list in R (comming soon)
 
@@ -29,11 +28,9 @@ tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
 
 ## Graphical data explorer 
 
-Please read
-tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
+Please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser).
 
 ## SPARQL examples
-
 
 Seven Bridges' SPARQL console, available at [https://opensparql.sbgenomics.com](https://opensparql.sbgenomics.com).
  
@@ -42,11 +39,10 @@ Please read following tutorials first
 - [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
 - [Examples of TCGA metadata queries in SPARQL](http://docs.cancergenomicscloud.org/docs/sample-sparql-queries)
 
-
-Here let me show you an example here, you will need R package "SPARQL"
+Here let me show you an example here, you will need R package "SPARQL":
 
 ```{r, eval = FALSE}
-library(SPARQL)
+library("SPARQL")
 endpoint = "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"
 query = "
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -115,9 +111,8 @@ access
 - project support TCGA controlled access 
 - you login from ERA Common.
 
-
 ```{r}
-library(sevenbridges)
+library("sevenbridges")
 a = Auth(platform = "cgc", username = "tengfei")
 ## get id (only works for CGC platform)
 ids = a$get_id_from_path(df.path)
@@ -145,7 +140,7 @@ Create an Auth object with your token, make sure you are using the correct url.
 use `Auth$api()` method you don't have to re-type token and url.
 
 ```{r}
-library(sevenbridges)
+library("sevenbridges")
 ## create an Auth 
 a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/", 
          token = "your_cgc_token")

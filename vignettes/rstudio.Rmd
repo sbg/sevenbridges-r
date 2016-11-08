@@ -108,5 +108,4 @@ file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps
 
 If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
 
-
 Note: Generic shiny app can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the docker container, it's hosted under `/srv/shiny-server/`

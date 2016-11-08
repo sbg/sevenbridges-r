@@ -122,7 +122,7 @@ lower and upper limits of the distribution. Must be finite.
 
 I will add one more parameter to set seed, here is the R script file called `runif.R`. 
 
-At the beginning of the commadn line script, I use docopt standard to write my tool help. 
+At the beginning of the commadn line script, I use the docopt standard to write my tool help. 
 
 ```{r}
 'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
@@ -133,8 +133,7 @@ options:
  --max=<float>   upper limits of the distribution. Must be finite [default: 1].
  --seed=<float>  seed for set.seed() function [default: 1]' -> doc
 
-library(docopt)
-
+library("docopt")
 ```
 
 Let's first do some testing in your R session before you make it a full functional command line tool.
@@ -166,7 +165,7 @@ options:
  --max=<float>   upper limits of the distribution. Must be finite [default: 1].
  --seed=<float>  seed for set.seed() function [default: 1]' -> doc
 
-library(docopt)
+library("docopt")
 opts <- docopt(doc)
 set.seed(opts$seed)
 runif(n = as.integer(opts$n), 
@@ -225,8 +224,8 @@ Rscript runif2spin.R 10 30 50
 I just describe my tool in this way
 
 ```{r}
-library(sevenbridges)
-library(readr)
+library("sevenbridges")
+library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
@@ -267,7 +266,7 @@ I just describe my tool in this way, note, I use `separate=FALSE` and add `=` to
 as a hack.
 
 ```{r}
-library(readr)
+library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
@@ -317,7 +316,7 @@ Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=10
 And so I describe my tool like this with docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
 
 ```{r}
-library(readr)
+library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
@@ -390,8 +389,7 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 3. login your dockerhub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it. 
 4. Then you will have auto-build every time you push a new update in GitHub. 
 5. Start using your docker image like 'tengfei/runif'
-6. Feel free to push it onto your SevenBridges platform registry as well. 
-
+6. Feel free to push it onto your Seven Bridges platform registry as well. 
 
 ## More examples
 

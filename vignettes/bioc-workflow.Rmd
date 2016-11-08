@@ -74,14 +74,11 @@ You can find login/registration on NCI Cancer Genomics Cloud homepage [http://ww
 
 After you login, you can get your authentication under your account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
 
-
-
 ### (optional) register on shinyapps.io
 
 In this tutorial, if you want to try to deploy the application automatically on shiny server like shinyapps.io, please visit [http://www.shinyapps.io/](http://www.shinyapps.io/) register and login. 
 
 Get you token and secret ready to deploy
-
 
 ![shiny-token-open](http://shiny.rstudio.com/images/tokens2.png)
 
