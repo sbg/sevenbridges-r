@@ -9,3 +9,4 @@ hooks
 ^_pkgdown\.yml$
 ^_index\.Rmd$
 ^_NEWS\.md$
+^appveyor\.yml$
