@@ -393,13 +393,11 @@ Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/d
 
 Finally it's time to describe your tool in R (cwl format)!
 
-Well, you are always encouraged to use graphical user interface like this
-
-![rabix-ui](https://www.filepicker.io/api/file/lRKPOLKhQE6ctWzWd0Qv)
-
-But it's at the same time fun to learn how to do it in R, so you could script 
-how you build it together, like what I did here, for every single tool json, I have a 
-R script called generator.R in the same folder, so I can always trace back. 
+Well, you are always encouraged to use graphical user interface,
+but it's at the same time fun to learn how to do it in R, so you could script
+how you build it together, like what I did here, for every single tool json,
+I have an R script called generator.R in the same folder, so I can always trace
+back. 
 
 For example, you can see the same in my github page, under [inst/docker](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker), you will see three examples, 1. package docker 2. rna-seq tool 3. report tool, under each folder, you will see 1. one dockerfile, 2. src/ for command line 3. report/ for report template and 4. rabix a generator file and a json.
 
@@ -553,8 +551,6 @@ p$upload(td)
 ```
 
 Copy this list, and then in your project, click "add files", and choose "import from ftp" ([tutorial](http://docs.cancergenomicscloud.org/docs/copy-files-to-a-project))
-
-![add-files](https://www.filepicker.io/api/file/pv6nUh4ORNKDephHGxse)
 
 When it's finished, refresh your file page, you will be able to see all of them. The cool thing is that you can search file by 'name' not by id, it support fuzz pattern match.
 
