@@ -15,14 +15,17 @@ cache:
 
 # Adapt as necessary starting from here
 
-bioc_required: true
-
 build_script:
+  - travis-tool.sh install_bioc BiocInstaller BiocCheck
   - travis-tool.sh install_deps
-  - travis-tool.sh install_bioc_deps
 
 test_script:
   - travis-tool.sh run_tests
+
+after_script:
+  - ls -lah
+  - FILE=$(ls -1t *.tar.gz | head -n 1)
+  - Rscript -e "library(BiocCheck); BiocCheck(\"${FILE}\")"
 
 on_failure:
   - 7z a failure.zip *.Rcheck\*
