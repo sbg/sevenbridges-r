@@ -15,7 +15,7 @@ Description: R client and utilities for Seven Bridges platform API, from Cancer
     Genomics Cloud to other Seven Bridges supported platforms.
 License: Apache License 2.0 | file LICENSE
 VignetteBuilder: knitr
-URL: http://www.sevenbridges.com
+URL: http://www.sevenbridges.com, https://sbg.github.io/sevenbridges-r/
 BugReports: https://github.com/sbg/sevenbridges-r/issues
 biocViews: Software, DataImport, ThirdPartyClient
 Depends:
