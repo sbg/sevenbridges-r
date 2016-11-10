@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/sevenbridges-r)
-[![platform](http://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
-[![bioc](http://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](http://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
-[![downloads](http://www.bioconductor.org/shields/downloads/sevenbridges.svg)](http://bioconductor.org/packages/stats/bioc/sevenbridges/)
+[![platform](https://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
+[![bioc](https://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
+[![downloads](https://www.bioconductor.org/shields/downloads/sevenbridges.svg)](https://bioconductor.org/packages/stats/bioc/sevenbridges/)
 
-[BioC (Release)](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) · [BioC (Development)](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) · [GitHub (Latest)](https://github.com/sbg/sevenbridges-r)
+[BioC (Release)](https://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) · [BioC (Development)](https://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) · [GitHub (Latest)](https://github.com/sbg/sevenbridges-r)
 
 ## Overview
 
@@ -45,23 +45,23 @@ First, check which version of R you are using with the following:
  R.version.string
 ```
 
-If you are not running latest R, install R 3.3 by following [these instructions](http://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the new installation.
+If you are not running latest R, install R 3.3 by following [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the new installation.
 
 #### Install the package
 
 Install the sevenbridges package as shown below:
 
 ```r
-source("http://bioconductor.org/biocLite.R")
+source("https://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
 ### Bioconductor - Development Version
 
-If you are developing tools in the `devel` branch or if you are a user who uses the development version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](http://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
+If you are developing tools in the `devel` branch or if you are a user who uses the development version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](https://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
 
 ```r
-source("http://bioconductor.org/biocLite.R")
+source("https://bioconductor.org/biocLite.R")
 useDevel(devel = TRUE)
 biocLite("sevenbridges")
 ```
@@ -96,7 +96,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 Install latest version of sevenbridges from GitHub with the following:
 
 ```r
-source("http://bioconductor.org/biocLite.R")
+source("https://bioconductor.org/biocLite.R")
 biocLite("readr")
 
 devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
@@ -210,7 +210,7 @@ t1$input_matrix()
 
 ## Tutorials
 
-We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are re-generated regularly as we update the package on GitHub.
+We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](https://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](https://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are re-generated regularly as we update the package on GitHub.
 
 | Tutorial Title | HTML   | Rmd Source |
 |:---------------|:-------|:-----------|
