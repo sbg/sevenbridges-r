@@ -1,3 +1,15 @@
+# sevenbridges 1.5.3
+
+## Bug Fixes
+
+- Fixed build error under Windows caused by unexpected UTF-8 characters ([road2stat@c6c4245](https://github.com/sbg/sevenbridges-r/commit/b03ed45d5c9495196df311b58a2e275b3f2ea44a))
+- Added essentail dependencies, such as miniUI, shiny, and rstudioapi to be ready for RStudio addins
+- Removed BiocStyle to avoid naming scheme conflicts
+
+## Improvements
+
+- General R code style improvements
+
 # sevenbridges 1.1.16
 
 ## New Features
