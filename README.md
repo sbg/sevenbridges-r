@@ -210,7 +210,7 @@ t1$input_matrix()
 
 ## Tutorials
 
-We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are auto-generated at 8:00 PM everyday for the GitHub repository.
+We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](http://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](http://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are re-generated regularly when we update the latest version on GitHub.
 
 | Tutorial Title | HTML   | Rmd Source |
 |:---------------|:-------|:-----------|
