@@ -129,7 +129,7 @@ App <- setRefClass("App", contains = "Item",
                            p$app_add(shortname, obj)
                            message("done")
                        },
-                       input_check = function(input) {
+                       input_check = function(input, batch = FALSE) {
 
                            message("check id match")
                            in_type = input_type()
@@ -149,24 +149,39 @@ App <- setRefClass("App", contains = "Item",
                            if (length(id.fl)) {
                                ## solve edge case
                                for (i in id.fl) {
+                                   ## input should be File
+                                   if(is(input[[i]], "Files")){
+                                       if(batch){
+                                           message("Converting single Files as a list for batch mode: ", names(input[[i]]))
+                                           input[[i]] = list(input[[i]])
+                                       }
+                                   }
                                    if (is(input[[i]], "FilesList")) {
                                        if (length(input[[i]]) == 1) {
-                                           message("Converting to single Files type: ", names(input[[i]]))
-                                           input[[i]] = input[[i]][[1]]
+                                           if(!batch){
+                                               message("Converting to single Files type: ", names(input[[i]]))
+                                               input[[i]] = input[[i]][[1]]
+                                           }
+
                                        } else {
-                                           ## stop(in_id[i], " only accept single File")
-                                           ## need to consider batch, that's why I comment this out now
+                                           if(!batch){
+                                               stop(in_id[i], " only accept single File")
+                                           }
+
                                        }
                                    }
 
                                    if (is.list(input[[i]])) {
                                        if (length(input[[i]]) == 1 && is(input[[i]][[1]], "Files")) {
-                                           message("Converting to single Files type: ", names(input[[i]]))
-                                           input[[i]] = input[[i]][[1]]
+                                           if(!batch){
+                                               message("Converting to single Files type: ", names(input[[i]]))
+                                               input[[i]] = input[[i]][[1]]
+                                           }
                                        }
                                        if (length(input[[i]]) > 1) {
-                                           ## stop(in_id[i], " only accept single File")
-                                           ## need to consider batch, that's why I comment this out now
+                                           if(!batch){
+                                               stop(in_id[i], " only accept single File")
+                                           }
                                        }
                                    }
                                }
