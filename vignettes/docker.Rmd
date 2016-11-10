@@ -91,10 +91,11 @@ Example Seven Bridges registry:
 ## Tutorial: random number generator 
 
 Our goal here is to making a cwl app to generate unif random numbers, yes, the core
-function is `runif()`, it's native function in R. 
+function is `runif()`, it's a native function in R. 
 
 ```{r}
 runif
+set.seed(1001)
 runif(10)
 ```
 
