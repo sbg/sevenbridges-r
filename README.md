@@ -42,7 +42,7 @@ If you do not want to update R, please install the sevenbridges package directly
 First, check which version of R you are using with the following:
 
 ```r
- R.version.string
+R.version.string
 ```
 
 If you are not running latest R, install R 3.3 by following [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the new installation.
