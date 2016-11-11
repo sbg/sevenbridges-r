@@ -5,6 +5,7 @@ output:
     toc: true
     toc_depth: 4
     number_sections: false
+    fig_caption: false
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Master Tutorial: use R for Cancer Genomics Cloud}
@@ -66,7 +67,7 @@ browseVignettes(package = "sevenbridges")
 
 ### Register on NCI Cancer Genomics Cloud
 
-![cgc-home](https://i.imgur.com/p52wIsi.png)
+<img src="https://i.imgur.com/p52wIsi.png" width="100%" class="img-responsive" alt="cgc-home">
 
 You can find login/registration on NCI Cancer Genomics Cloud homepage [https://www.cancergenomicscloud.org](https://www.cancergenomicscloud.org), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
 
@@ -80,8 +81,7 @@ In this tutorial, if you want to try to deploy the application automatically on 
 
 Get you token and secret ready to deploy
 
-![shinyapps-token](https://i.imgur.com/ChCBhf6.png)
-
+<img src="https://i.imgur.com/ChCBhf6.png" width="100%" class="img-responsive" alt="shinyapps-token">
 
 ### Issues report
 
@@ -101,22 +101,23 @@ The final goal is make a workflow that
 
 The final workflow looks like this, it's composed of two tools: RNA-seq analysis tool and reporting tool.
 
-![quickstart-flow](https://i.imgur.com/OkgB2tl.png)
+<img src="https://i.imgur.com/OkgB2tl.png" width="100%" class="img-responsive" alt="quickstart-flow">
 
 The shiny app report with ggvis module on the shinyapps.io server looks like [this](https://tengfei.shinyapps.io/scatter_plot/)
 
 A ggvis interactive scatter plot
 
-![ggvis](https://i.imgur.com/X8M2O0T.png)
+<img src="https://i.imgur.com/X8M2O0T.png" width="100%" class="img-responsive" alt="ggvis">
 
 A differential expression table
 
-![de-table](https://i.imgur.com/wQ9O3Ys.png)
+<img src="https://i.imgur.com/wQ9O3Ys.png" width="100%" class="img-responsive" alt="de-table">
 
 A full html report included, it's also output from the first tool, in this way, you can orchestrate many tools output into single report for your task.
 
-![html-report](https://i.imgur.com/9vgBQQC.png)
-![heatmap](https://i.imgur.com/l5Xgq9R.png)
+<img src="https://i.imgur.com/9vgBQQC.png" width="100%" class="img-responsive" alt="html-report">
+
+<img src="https://i.imgur.com/l5Xgq9R.png" width="100%" class="img-responsive" alt="heatmap">
 
 Now let's start building tools.
 
@@ -193,7 +194,7 @@ Now let's create a new project called "hackathon", save it to a 'p' object for c
 
 Now check it on CGC, you will see a fresh new project is created. 
 
-![cgc-projects](https://i.imgur.com/oI0dXyu.png)
+<img src="https://i.imgur.com/oI0dXyu.png" width="100%" class="img-responsive" alt="cgc-projects">
 
 To delete it, just call, but I will suggest you keep it for following tutorial : ) 
 
@@ -215,7 +216,7 @@ Before you build any tool, you have to have a plan in mind
 
 First thing first, let's define our tool first, here is a diagram generated with Seven Bridges' graphical user interface. 
 
-![rnaseq-diagram](fig/diagram_rnaseq.png)
+<img src="fig/diagram_rnaseq.png" width="100%" class="img-responsive" alt="rnaseq-diagram">
 
 - Input 
     - Gene feature file
@@ -401,8 +402,9 @@ back.
 
 For example, you can see the same in my github page, under [inst/docker](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker), you will see three examples, 1. package docker 2. rna-seq tool 3. report tool, under each folder, you will see 1. one dockerfile, 2. src/ for command line 3. report/ for report template and 4. rabix a generator file and a json.
 
-![rstudio-dir](https://i.imgur.com/Wnf015S.png)
-![rstudio-file](https://i.imgur.com/OYoa6kq.png)
+<img src="https://i.imgur.com/Wnf015S.png" width="100%" class="img-responsive" alt="rstudio-dir">
+
+<img src="https://i.imgur.com/OYoa6kq.png" width="100%" class="img-responsive" alt="rstudio-file">
 
 Tool is the simple basic unit of a workflow, you can put the whole flow in one 
 container and one tool, it of course works, just make it hard to factorize components. 
@@ -652,7 +654,7 @@ uses two different engines to provide isolated environment to generate report, b
 - packrat engine: isolated libraries
 - liftr engine (in progress): docker in docker
 
-![report-tool](https://i.imgur.com/yPTNpqp.png)
+<img src="https://i.imgur.com/yPTNpqp.png" width="100%" class="img-responsive" alt="report-tool">
 
 __Requirement for your report template__
 
@@ -718,11 +720,11 @@ Even though in R with 'sevenbridges' package you can use `%>>%` to connect two T
 
 Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-pipeline-editor), then make a workflow like this:
 
-![cgc-workflow](https://i.imgur.com/dTKvLdt.png)
+<img src="https://i.imgur.com/dTKvLdt.png" width="100%" class="img-responsive" alt="cgc-workflow">
 
 And next run a task on the platform via UI like this:
 
-![rnaseq-runtask](https://i.imgur.com/6VsC69W.png)
+<img src="https://i.imgur.com/6VsC69W.png" width="100%" class="img-responsive" alt="rnaseq-runtask">
 
 ## Exercise: bring your own tool
 
