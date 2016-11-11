@@ -44,15 +44,15 @@ Now we are ready to go!
 First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
 
-This package __sevenbridges__ is already on Bioconductor [devel branch](http://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be May 4th, 2016. Please check the detailed [release schedule](http://www.bioconductor.org/developers/release-schedule/). It's also synced on [github page](https://github.com/sbg/sevenbridges-r)
+This package __sevenbridges__ is already on Bioconductor [devel branch](https://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be May 4th, 2016. Please check the detailed [release schedule](https://www.bioconductor.org/developers/release-schedule/). It's also synced on [GitHub page](https://github.com/sbg/sevenbridges-r)
 
 For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
 
 ```{r}
-if(!require("devtools", quietly = TRUE)){
+if (!require("devtools", quietly = TRUE)) {
     install.packages("devtools") 
 }
-source("http://bioconductor.org/biocLite.R")
+source("https://bioconductor.org/biocLite.R")
 devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
                          repos = BiocInstaller::biocinstallRepos(),
                          dependencies = TRUE)
@@ -61,14 +61,14 @@ devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
 After the installation you can always browser vignette
 
 ```{r}
-browseVignettes(package = 'sevenbridges')
+browseVignettes(package = "sevenbridges")
 ```
 
 ### Register on NCI Cancer Genomics Cloud
 
-![cgc-home](http://i.imgur.com/p52wIsi.png?1)
+![cgc-home](https://i.imgur.com/p52wIsi.png)
 
-You can find login/registration on NCI Cancer Genomics Cloud homepage [http://www.cancergenomicscloud.org/](http://www.cancergenomicscloud.org/), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
+You can find login/registration on NCI Cancer Genomics Cloud homepage [https://www.cancergenomicscloud.org](https://www.cancergenomicscloud.org), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
 
 ### Get your authentifiation
 
@@ -76,11 +76,11 @@ After you login, you can get your authentication under your account setting and 
 
 ### (optional) register on shinyapps.io
 
-In this tutorial, if you want to try to deploy the application automatically on shiny server like shinyapps.io, please visit [http://www.shinyapps.io/](http://www.shinyapps.io/) register and login. 
+In this tutorial, if you want to try to deploy the application automatically on shiny server like shinyapps.io, please visit [https://www.shinyapps.io/](https://www.shinyapps.io/) to register and login.
 
 Get you token and secret ready to deploy
 
-![shiny-token-open](http://shiny.rstudio.com/images/tokens2.png)
+![shinyapps-token](https://i.imgur.com/ChCBhf6.png)
 
 
 ### Issues report
@@ -101,22 +101,22 @@ The final goal is make a workflow that
 
 The final workflow looks like this, it's composed of two tools: RNA-seq analysis tool and reporting tool.
 
-![quickstart-flow](http://i.imgur.com/OkgB2tl.png)
+![quickstart-flow](https://i.imgur.com/OkgB2tl.png)
 
 The shiny app report with ggvis module on the shinyapps.io server looks like [this](https://tengfei.shinyapps.io/scatter_plot/)
 
 A ggvis interactive scatter plot
 
-![ggvis](http://i.imgur.com/X8M2O0T.png)
+![ggvis](https://i.imgur.com/X8M2O0T.png)
 
 A differential expression table
 
-![de-table](http://i.imgur.com/wQ9O3Ys.png)
+![de-table](https://i.imgur.com/wQ9O3Ys.png)
 
 A full html report included, it's also output from the first tool, in this way, you can orchestrate many tools output into single report for your task.
 
-![html-report](http://i.imgur.com/9vgBQQC.png)
-![heatmap](http://i.imgur.com/l5Xgq9R.png)
+![html-report](https://i.imgur.com/9vgBQQC.png)
+![heatmap](https://i.imgur.com/l5Xgq9R.png)
 
 Now let's start building tools.
 
@@ -193,7 +193,7 @@ Now let's create a new project called "hackathon", save it to a 'p' object for c
 
 Now check it on CGC, you will see a fresh new project is created. 
 
-![cgc-projects](http://i.imgur.com/oI0dXyu.png)
+![cgc-projects](https://i.imgur.com/oI0dXyu.png)
 
 To delete it, just call, but I will suggest you keep it for following tutorial : ) 
 
@@ -247,7 +247,7 @@ page to find more details and Dockerfile.
 | rocker/r-devel-san | base, SVN's R-devel and SAN |
 
 
-Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official docker images, please read for more details.
+Bioconductor have a nice [page](https://bioconductor.org/help/docker/) about the official docker images, please read for more details.
 
 | Image | 
 | ---- | 
@@ -367,7 +367,7 @@ Sometime you want to produce a report, so in the end you will notice how I pass 
 
 As a developer, if you always have a fixed report template provided for you tool,
 you can hard-code your template into your docker container, like you noticed in the Dockerfile I created, I insert a report R markdown template. And in the command line 
-interface, in the end, I pass it to `rmarkdown::render` function as parameters 'param'. In this way, you define your input in the header of R markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor's RNA-seq workflow [website](http://www.bioconductor.org/help/workflows/rnaseqGene/)
+interface, in the end, I pass it to `rmarkdown::render` function as parameters 'param'. In this way, you define your input in the header of R markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor's RNA-seq workflow [website](https://www.bioconductor.org/help/workflows/rnaseqGene/)
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/rnaseqGene/report", "rnaseqGene.Rmd", 
@@ -401,8 +401,8 @@ back.
 
 For example, you can see the same in my github page, under [inst/docker](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker), you will see three examples, 1. package docker 2. rna-seq tool 3. report tool, under each folder, you will see 1. one dockerfile, 2. src/ for command line 3. report/ for report template and 4. rabix a generator file and a json.
 
-![rstudio-dir](http://i.imgur.com/Wnf015S.png)
-![rstudio-file](http://i.imgur.com/OYoa6kq.png)
+![rstudio-dir](https://i.imgur.com/Wnf015S.png)
+![rstudio-file](https://i.imgur.com/OYoa6kq.png)
 
 Tool is the simple basic unit of a workflow, you can put the whole flow in one 
 container and one tool, it of course works, just make it hard to factorize components. 
@@ -652,7 +652,7 @@ uses two different engines to provide isolated environment to generate report, b
 - packrat engine: isolated libraries
 - liftr engine (in progress): docker in docker
 
-![report-tool](http://i.imgur.com/yPTNpqp.png)
+![report-tool](https://i.imgur.com/yPTNpqp.png)
 
 __Requirement for your report template__
 
@@ -718,11 +718,11 @@ Even though in R with 'sevenbridges' package you can use `%>>%` to connect two T
 
 Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-pipeline-editor), then make a workflow like this:
 
-![cgc-workflow](http://i.imgur.com/dTKvLdt.png)
+![cgc-workflow](https://i.imgur.com/dTKvLdt.png)
 
 And next run a task on the platform via UI like this:
 
-![rnaseq-runtask](http://i.imgur.com/6VsC69W.png)
+![rnaseq-runtask](https://i.imgur.com/6VsC69W.png)
 
 ## Exercise: bring your own tool
 
@@ -737,4 +737,4 @@ After you install the package
 browseVignettes("sevenbridges")
 ```
 
-or on Bioconductor devel branch sevenbridges [page](http://bioconductor.org/packages/3.3/bioc/html/sevenbridges.html).
+or on the [vignettes page](https://sbg.github.io/sevenbridges-r/articles/index.html).
