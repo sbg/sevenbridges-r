@@ -2,9 +2,9 @@
 
 ## Bug Fixes
 
-- Fixed build error under Windows caused by unexpected UTF-8 characters ([c6c4245](https://github.com/sbg/sevenbridges-r/commit/b03ed45d5c9495196df311b58a2e275b3f2ea44a))
-- Added essential dependencies, such as `miniUI`, `shiny`, and `rstudioapi` to be ready for RStudio addins
+- Fixed build error under Windows caused by unexpected UTF-8 characters ([b03ed45](https://github.com/sbg/sevenbridges-r/commit/b03ed45d5c9495196df311b58a2e275b3f2ea44a))
 - Removed BiocStyle to avoid naming scheme conflicts
+- Added essential dependencies, such as `miniUI`, `shiny`, and `rstudioapi` to be ready for RStudio addins
 - Fixed batch mode input checking. Thanks: Fabian Zimmer
 
 ## Improvements
