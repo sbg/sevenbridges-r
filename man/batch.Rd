@@ -13,8 +13,8 @@ If left out, default batching criteria defined in the app is used.}
 
 \item{criteria}{a character vector, for example.
 \code{c("metadata.sample_id", "metadata.library_id")}. The meaning of the
-above batch_by dictionary is - group inputs (usually files) first on sample ID
-and then on library ID. If NULL, using type "ITEM" by default.}
+above batch_by dictionary is - group inputs (usually files) first on sample
+ID and then on library ID. If NULL, using type "ITEM" by default.}
 
 \item{type}{Criteria on which to batch on - can be in two formats."ITEM" and
 "CRITERIA". If you wish to batch per item in the input (usually a file)
@@ -30,7 +30,7 @@ batch function for task batch execution
 \examples{
 batch(input = "fastq") # by ITEM
 batch(input = "fastq", c("metadata.sample_id", "metadata.library_id"))
-## shorthand for this
+# shorthand for this
 batch(input = "fastq", c("metadata.sample_id", "metadata.library_id"), type = "CRITERIA")
 }
 

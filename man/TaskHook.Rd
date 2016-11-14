@@ -12,21 +12,23 @@ getTaskHook(status = c("queued", "draft", "running", "completed", "aborted",
   "failed"))
 }
 \arguments{
-\item{status}{one of ("queued", "draft", "running", "completed", "aborted", "failed")}
+\item{status}{one of "queued", "draft", "running",
+"completed", "aborted", or "failed".}
 
-\item{fun}{function it must return a TRUE or FALSE in the end of function body, when it's
-TRUE this function will also terminate monitor process, if FALSE, function called, but not going
+\item{fun}{function it must return a TRUE or FALSE in the end of
+function body, when it's TRUE this function will also terminate
+monitor process, if FALSE, function called, but not going
 to terminate task monitoring process.}
 }
 \value{
 object from setHook and getHook.
 }
 \description{
-set task function hoook according to
+set task function hook according to
 }
 \examples{
 getTaskHook("completed")
-setTaskHook("completed", function(){
+setTaskHook("completed", function() {
     message("completed")
     return(TRUE)
 })
