@@ -1,11 +1,11 @@
 ---
-title: "Find Data on CGC via Data Exploerer, SPARQL and Data API"
+title: "Find Data on CGC via Data Exploerer, SPARQL, and Data API"
 output:
   rmarkdown::html_vignette:
   toc: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL and Data API}
+  %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL, and Data API}
 ---
 
 ```{r include=FALSE}
