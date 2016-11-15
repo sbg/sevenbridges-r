@@ -10,8 +10,9 @@ a Tool object.
 }
 \description{
 code{Tool} class extends \code{CommandLineTool}
-with more seven bridges flabored fields the \code{SBG} class. \code{obj$toJSON()}
-\code{obj$toJSON(pretty = TRUE)} or \code{obj$toYAML()} will convert a
+with more seven bridges flabored fields the \code{SBG} class.
+\code{obj$toJSON()}, \code{obj$toJSON(pretty = TRUE)} or
+\code{obj$toYAML()} will convert a
 \code{Tool} object into a text JSON/YAML file.
 }
 \section{Fields}{
@@ -72,37 +73,37 @@ want to set to inputs. \code{TRUE} means set to required.}
 }}
 \examples{
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
-## convert json file into a Tool object
+# convert json file into a Tool object
 t1 = convert_app(t1)
-## get input type information
+# get input type information
 t1$input_type()
-## get output type information
+# get output type information
 t1$output_type()
-## return a input matrix with more informtion
+# return a input matrix with more informtion
 t1$input_matrix()
-## return only a few fields
+# return only a few fields
 t1$input_matrix(c("id", "type", "required"))
-## return only required
+# return only required
 t1$input_matrix(required = TRUE)
-## return everything
+# return everything
 t1$input_matrix(NULL)
-## return a output matrix with more informtion
+# return a output matrix with more informtion
 t1$output_matrix()
-## return only a few fields
+# return only a few fields
 t1$output_matrix(c("id", "type"))
-## return everything
+# return everything
 t1$output_matrix(NULL)
-## get input id
+# get input id
 t1$input_id()
-## get full input id with Tool name
+# get full input id with Tool name
 t1$input_id(TRUE)
-## get output id
+# get output id
 t1$output_id()
-## get full output id
+# get full output id
 t1$output_id(TRUE)
-## get required input id
+# get required input id
 t1$get_required()
-## set input required
+# set input required
 t1$set_required(c("#reads", "winFlankNbins"))
 t1$get_required()
 t1$set_required("reads", FALSE)
@@ -111,27 +112,27 @@ t1$get_input(name = "ins")
 t1$get_input(id = "#winFlankNbins")
 t1$get_output(name = "gene")
 t1$get_output(id = "#aligned_reads")
-## get a tool from a flow
+# get a tool from a flow
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-## convert json file into a Tool object
+# convert json file into a Tool object
 f1 = convert_app(f1)
 t2 = f1$get_tool("STAR$")
 oid = t2$get_input_port()
 oid
-## set new ports
+# set new ports
 t2$input_id()
 t2$set_input_port("#chimScoreSeparation")
 t2$get_input_port()
 t2$set_input_port("#chimScoreSeparation", FALSE)
 t2$get_input_port()
-## run the tool locally with example data
+# run the tool locally with example data
 \dontrun{
 t3 = system.file("extdata/app/dna2protein", "translate.cwl.json", package = "sevenbridges")
 t3 = convert_app(t3)
 fl = system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
 set_test_env("dind", "tengfei/testenv", "~/mounts")
 t3$input_type()
-t3$run(list(input_file = Files(fl))) ## Not File
+t3$run(list(input_file = Files(fl)))  # Not File
 }
 }
 

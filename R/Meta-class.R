@@ -1,8 +1,8 @@
-## TODO: set single ENUM automatically
+# TODO: set single ENUM automatically
 
-## Meta shema v2
-## I use all lower case for field
-## courtercy to SBG team, the python code
+# Meta Schema v2
+# I use all lower case for field
+# courtesy to SBG team, the Python code
 uuid_regex = c('^$|[0-9a-f]{8}-',
                '[0-9a-f]{4}-',
                '[1-5][0-9a-f]{3}-',
@@ -27,14 +27,14 @@ metadata_groups_order <- list(
              "paired_end", "data_format", "file_extension",
              "reference_genome", "data_type", "data_subtype",
              "analysis_uuid", "gdc_file_uuid", "access_level"),
-    General = "investigation",
-    Case = c("case_id", "case_uuid"),
+    General          = c("investigation"),
+    Case             = c("case_id", "case_uuid"),
     Case_Demographic = c("gender", "race", "ethnicity"),
-    Case_Diagnosis = c("primary_site", "disease_type", "age_at_diagnosis"),
-    Case_Status = "vital_status",
-    Case_Prognosis = c("days_to_death"),
-    Sample = c("sample_id", "sample_uuid", "sample_type"),
-    Aliquot = c("aliquot_id", "aliquot_uuid")
+    Case_Diagnosis   = c("primary_site", "disease_type", "age_at_diagnosis"),
+    Case_Status      = c("vital_status"),
+    Case_Prognosis   = c("days_to_death"),
+    Sample           = c("sample_id", "sample_uuid", "sample_type"),
+    Aliquot          = c("aliquot_id", "aliquot_uuid")
 )
 
 find_meta_group <- function(meta) {
@@ -97,9 +97,11 @@ Meta <- setRefClass("Meta",
                         transformData = function(x) {
                             x
                         },
-                        # asList = function(){
+
+                        # asList = function() {
                         #
                         # },
+
                         show = function(short = FALSE, full = TRUE) {
                             if (short) {
                                 .nms <- "data"
@@ -735,7 +737,7 @@ access_level <- setMetaClass(
     description  =  "Controlled data is the data from the public datasets \
     that has limitations on use and requires approval by \
     a data access committee or similar. Open data is data \
-    from the public datasets that doesn't have \
+    from the public datasets that do not have \
     limitations on use.",
     suggested_values = c(NA_character_, "Controlled", "Open"),
     locked = FALSE)
@@ -839,26 +841,27 @@ Metadata <- setRefClass("Metadata",
                             },
 
                             asList = function(full = FALSE) {
+
                                 lst <- .getFields(.self, key_order)
 
                                 res <- c(lst, extra)
 
-                                res <- lapply(res, function(x){
-                                    if(is(x, "Meta")){
+                                res <- lapply(res, function(x) {
+                                    if (is(x, "Meta")) {
                                         x$data
-                                    }else{
+                                    } else {
                                         x
                                     }
                                 })
-                                if(!full){
+                                if (!full) {
                                     idx <- sapply(res, is.null)
-                                    if(length(!idx)){
+                                    if (length(!idx)) {
                                         res[!idx]
-                                    }else{
+                                    } else {
                                         list()
                                     }
 
-                                }else{
+                                } else {
                                     res
                                 }
 
