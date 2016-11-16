@@ -24,7 +24,8 @@ File Class
 \section{Fields}{
 
 \describe{
-\item{\code{class}}{(character) Must be File to indicate this object describes a file.}
+\item{\code{class}}{(character) Must be File to indicate this object
+describes a file.}
 
 \item{\code{path}}{(character) The path to the file.}
 

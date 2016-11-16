@@ -12,7 +12,7 @@
 \alias{asList,SingleEnum-method}
 \alias{asYAML}
 \alias{asYAML,ANY-method}
-\title{Convert a object slots/fields to a list, json, yaml file}
+\title{Convert a object slots/fields to a list, json, or yaml file}
 \usage{
 asList(object, ...)
 
@@ -65,12 +65,12 @@ asList(a)
 asList(b)
 b$toList()
 
-##asYAML
+## asYAML
 asYAML(a)
 asYAML(b)
 b$toYAML()
 
-##asJSON
+## asJSON
 asJSON(a)
 asJSON(b)
 b$toJSON()

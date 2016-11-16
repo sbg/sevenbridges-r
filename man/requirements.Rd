@@ -31,23 +31,31 @@ fileDef(name = NULL, content = NULL)
 \arguments{
 \item{pull}{[short form argument] Docker Repository[:Tag] like rocker/r-base}
 
-\item{imageId}{[short form argument] The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
+\item{imageId}{[short form argument] The image id that will be used for
+docker run, imageId Optionally set the id of image you get from SDK.}
 
-\item{load}{[short form argument] Specify a HTTP URL from which to download a Docker image using docker load}
+\item{load}{[short form argument] Specify a HTTP URL from which to download
+a Docker image using docker load.}
 
-\item{file}{[short form argument] Supply the contents of a Dockerfile which will be built using docker build.}
+\item{file}{[short form argument] Supply the contents of a Dockerfile
+which will be built using docker build.}
 
-\item{output}{[short form argument] Set the designated output directory to a specific location inside the Docker container}
+\item{output}{[short form argument] Set the designated output directory
+to a specific location inside the Docker container.}
 
 \item{dockerPull}{Docker Repository[:Tag] like rocker/r-base}
 
-\item{dockerImageId}{The image id that will be used for docker run, imageId Optionally set the id of image you get from SDK}
+\item{dockerImageId}{The image id that will be used for docker run,
+imageId Optionally set the id of image you get from SDK.}
 
-\item{dockerLoad}{Specify a HTTP URL from which to download a Docker image using docker load}
+\item{dockerLoad}{Specify a HTTP URL from which to download a Docker
+image using docker load.}
 
-\item{dockerFile}{Supply the contents of a Dockerfile which will be built using docker build.}
+\item{dockerFile}{Supply the contents of a Dockerfile which will be
+built using docker build.}
 
-\item{dockerOutputDirectory}{Set the designated output directory to a specific location inside the Docker container}
+\item{dockerOutputDirectory}{Set the designated output directory to
+a specific location inside the Docker container.}
 
 \item{...}{extra aguments passed}
 

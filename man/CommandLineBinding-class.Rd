@@ -24,8 +24,11 @@ implementation must use the data type of the effective value.
   \item{logical}{If true, add prefix to the command line. If false,
 add nothing.}
   \item{File}{Add prefix and the value of File.path to the command line.}
-  \item{*Array}{If itemSeparator is specified, add prefix and the join the array into a single string with itemSeparator separating the items. Otherwise add prefix and recursively add individual elements.}
-\item{*object}{Add prefix only, and recursively add object fields for which inputBinding is specified.}
+  \item{*Array}{If itemSeparator is specified, add prefix and the join the
+  array into a single string with itemSeparator separating the items.
+  Otherwise add prefix and recursively add individual elements.}
+\item{*object}{Add prefix only, and recursively add object fields for
+which inputBinding is specified.}
  \item{null}{Add nothing.}
 }
 }

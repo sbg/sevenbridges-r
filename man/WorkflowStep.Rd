@@ -35,8 +35,8 @@ WorkflowStepOutputList
 
 WorkflowStepList
 
-A workflow step is an executable element of a workflow. It
-specifies the underlying process implementation (such as
+A workflow step is an executable element of a workflow.
+It specifies the underlying process implementation (such as
 CommandLineTool) in the run field and connects the input and output
 parameters of the underlying process to workflow parameters.
 }

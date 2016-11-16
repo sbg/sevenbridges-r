@@ -57,7 +57,6 @@ listed which is not recognized by the implementation, it is a fatal
 error and the implementation must not attempt to run the process,
 unless overridden at user option.
 
-
 \item{\code{class}}{(character) The specific requirement type.}
 }
 }
@@ -67,7 +66,8 @@ unless overridden at user option.
 \describe{
 
 Indicates that a workflow component should be run in a Docker
-container, and specifies how to fetch or build the image.If a CommandLineTool lists DockerRequirement under hints or
+container, and specifies how to fetch or build the image.
+If a CommandLineTool lists DockerRequirement under hints or
 requirements, it may (or must) be run in the specified Docker
 container. The platform must first acquire or install the correct
 Docker image, as described by DockerRequirement. The platform must
@@ -82,8 +82,6 @@ of the Docker container,such as the presence or absence of specific
 software, except to assume that the generated command line
 represents a valid command within the runtime environment of the
 container.
-
-
 
 \item{\code{dockerPull}}{(character) Get a Docker image using
 docker pull}
@@ -123,8 +121,6 @@ directory prior to executing the command line tool. May be the
 result of executing an expression, such as building a configuration
 file from a template.
 
-
-
 \item{\code{filename}}{(characterORExpression) The name of the file
 to create in the output directory.}
 
@@ -138,8 +134,6 @@ way may be read-only, and may be implemented through bind mounts or
 file system links in such a way as to avoid unecessary copying of
 the input file.}
 
-
-
 }
 }
 
@@ -150,8 +144,6 @@ the input file.}
 Define a list of files that must be created and placed by the
 workflow platform in the designated output directory prior to
 executing the command line tool. See FileDef for details.
-
-
 
 \item{\code{fileDef}}{(FileDefList) The list of files.}
 
@@ -167,15 +159,10 @@ environment by the workflow platform when executing the command
 line tool. May be the result of executing an expression, such as
 getting a parameter from input.
 
-
-
 \item{\code{envName}}{(character) The environment variable name. }
 
 \item{\code{envValue}}{(characterORExpression) The environment
 variable value.}
-
-
-
 
 }
 }
@@ -186,8 +173,6 @@ variable value.}
 
 Define a list of environment variables which will be set in the
 execution environment of the tool. See EnvironmentDef for details.
-
-
 
 \item{\code{envDef}}{(EnvironmentDefList) The list of environment
 variables.}
@@ -207,8 +192,6 @@ scatterMethod fields of (WorkflowStep)(#workflowstep).
 \describe{
 
 Define an expression engine, as described in Expressions.
-
-
 
 \item{\code{id}}{(character) Used to identify the expression engine in the
 engine field of Expressions.}

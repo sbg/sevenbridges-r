@@ -4,31 +4,33 @@
 # to make it simple to update, return a list, not an object,
 # because no action defined an this object
 Billing <- setRefClass("Billing", contains = "Item",
-                       fields = list(id         = "characterORNULL",
-                                     name       = "characterORNULL",
-                                     owner      = "characterORNULL",
-                                     privileges = "listORNULL",
-                                     type       = "characterORNULL",
-                                     pending    = "logicalORNULL",
-                                     disabled   = "logicalORNULL",
-                                     active     = "logicalORNULL",
-                                     balance    = "listORNULL",
-                                     project_breakdown = "listORNULL",
-                                     total_spending    = "listORNULL"),  # 1.1
+                       fields = list(
+                           id                = "characterORNULL",
+                           name              = "characterORNULL",
+                           owner             = "characterORNULL",
+                           privileges        = "listORNULL",
+                           type              = "characterORNULL",
+                           pending           = "logicalORNULL",
+                           disabled          = "logicalORNULL",
+                           active            = "logicalORNULL",
+                           balance           = "listORNULL",
+                           project_breakdown = "listORNULL",
+                           total_spending    = "listORNULL"),  # 1.1
 
                        methods = list(
 
-                           initialize = function(id         = NULL,
-                                                 name       = NULL,
-                                                 owner      = NULL,
-                                                 privileges = list(),
-                                                 type       = NULL,
-                                                 pending    = NULL,
-                                                 disabled   = NULL,
-                                                 active     = NULL,
-                                                 balance    = list(),
-                                                 project_breakdown = list(),
-                                                 total_spending    = list(), ...) {
+                           initialize = function(
+                               id                = NULL,
+                               name              = NULL,
+                               owner             = NULL,
+                               privileges        = list(),
+                               type              = NULL,
+                               pending           = NULL,
+                               disabled          = NULL,
+                               active            = NULL,
+                               balance           = list(),
+                               project_breakdown = list(),
+                               total_spending    = list(), ...) {
 
                                id         <<- id
                                name       <<- name
@@ -48,11 +50,12 @@ Billing <- setRefClass("Billing", contains = "Item",
                            },
 
                            show = function() {
-                               .showFields(.self, "== Billing ==",
-                                           values = c("id", "href", "name",
-                                                      "owner", "privileges", "type",
-                                                      "disabled", "active", "balance",
-                                                      "project_breakdown", "total_spending"))
+                               .showFields(
+                                   .self, "== Billing ==",
+                                   values = c("id", "href", "name",
+                                              "owner", "privileges", "type",
+                                              "disabled", "active", "balance",
+                                              "project_breakdown", "total_spending"))
                            }
 
                        ))
