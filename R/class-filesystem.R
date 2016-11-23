@@ -30,12 +30,13 @@ FS <- setRefClass("FS",
 
                   methods = list(
 
-                      initialize = function(server_address = 'fs.sbgenomics.com',
-                                            api_address ='https://api.sbgenomics.com',
-                                            vsfs_jar = NULL,
-                                            cache_dir = '~/vsfs_cache',
-                                            cache_size = '10GB',
-                                            project_id = list(), ...) {
+                      initialize = function(
+                          server_address = "fs.sbgenomics.com",
+                          api_address    = "https://api.sbgenomics.com",
+                          vsfs_jar       = NULL,
+                          cache_dir      = "~/vsfs_cache",
+                          cache_size     = "10GB",
+                          project_id     = list(), ...) {
 
                           if (is.null(vsfs_jar)) {
                               # vsfs_jar <<- system.file("java", "sbg-vsfs.jar", package = "vsfsr")
@@ -45,12 +46,12 @@ FS <- setRefClass("FS",
                           }
 
                           server_address <<- server_address
-                          api_address <<- api_address
+                          api_address    <<- api_address
 
-                          cache_dir <<- cache_dir
-                          cache_size <<- cache_size
-                          # db <<- db
-                          # icoll <<- icoll
+                          cache_dir      <<- cache_dir
+                          cache_size     <<- cache_size
+                          # db           <<- db
+                          # icoll        <<- icoll
 
                           # check project_id, has to be integer if any
                           if (length(project_id)) {

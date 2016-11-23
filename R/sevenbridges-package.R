@@ -1,4 +1,4 @@
-#' R Client for Seven Bridges Platform API and CWL Tool builder in R
+#' R Client for Seven Bridges Platform API and CWL Tool Builder in R
 #'
 #' R client and utilities for Seven Bridges platform API, from Cancer
 #' Genomics Cloud to other Seven Bridges supported platforms.
@@ -12,7 +12,6 @@
 #'         Dusan Randjelovic <\email{dusan.randjelovic@sbgenomics.com}>
 #'         Emile Young <\email{emile.young@sbgenomics.com}>
 #'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
-#'
 #'
 #' @import httr methods
 #' @importFrom dplyr bind_rows

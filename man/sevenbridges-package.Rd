@@ -3,7 +3,7 @@
 \docType{package}
 \name{sevenbridges-package}
 \alias{sevenbridges-package}
-\title{R Client for Seven Bridges Platform API and CWL Tool builder in R}
+\title{R Client for Seven Bridges Platform API and CWL Tool Builder in R}
 \description{
 R client and utilities for Seven Bridges platform API, from Cancer
 Genomics Cloud to other Seven Bridges supported platforms.

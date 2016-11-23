@@ -1,5 +1,3 @@
-# 7. Misc
-
 #' Opens browser to copy the auth token
 #'
 #' Click 'Generate Token' button, copy and paste the generated token

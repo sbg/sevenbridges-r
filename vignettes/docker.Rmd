@@ -33,8 +33,8 @@ base image for your container as your tool chain may save your lots of time late
 
 Official R Docker images is called "Rocker"" project and is on [GitHub](https://github.com/rocker-org/rocker), please visit the page to find more details and Dockerfile.
 
-| Image         | Description   | 
-| ------------- |:-------------:|
+| Image                | Description                        | 
+| -------------------- |:----------------------------------:|
 | `rocker/r-base`      | base package to build from         | 
 | `rocker/r-devel`     | base plus R-devel from SVN         |  
 | `rocker/rstudio`     | base plus RStudio Server           |    
@@ -46,17 +46,17 @@ Official R Docker images is called "Rocker"" project and is on [GitHub](https://
 
 Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official docker images, please read for more details.
 
-| Image | 
-| ---- | 
-| bioconductor/devel_base
-| bioconductor/devel_core
-| bioconductor/devel_flow |
-| bioconductor/devel_microarray |
-| bioconductor/devel_proteomics |
-| bioconductor/devel_sequencing |
-| bioconductor/release_base |
-| bioconductor/release_core |
-| bioconductor/release_flow |
+| Image                           |
+| ------------------------------- | 
+| bioconductor/devel_base         |
+| bioconductor/devel_core         |
+| bioconductor/devel_flow         |
+| bioconductor/devel_microarray   |
+| bioconductor/devel_proteomics   |
+| bioconductor/devel_sequencing   |
+| bioconductor/release_base       |
+| bioconductor/release_core       |
+| bioconductor/release_flow       |
 | bioconductor/release_microarray |
 | bioconductor/release_proteomics |
 | bioconductor/release_sequencing |

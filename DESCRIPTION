@@ -1,8 +1,8 @@
 Package: sevenbridges
 Type: Package
 Title: R Client for Seven Bridges Platform API and CWL Tool Builder in R
-Version: 1.5.3
-Date: 2016-11-10
+Version: 1.5.4
+Date: 2016-11-23
 Authors@R: c(
     person("Nan", "Xiao", email = "nan.xiao@sbgenomics.com", role = c("aut", "cre")),
     person("Dusan", "Randjelovic", email = "dusan.randjelovic@sbgenomics.com", role = "aut"),
@@ -47,26 +47,26 @@ NeedsCompilation: no
 RoxygenNote: 5.0.1
 Collate:
     sevenbridges-package.R
-    core.R
-    utils.R
-    AllClasses.R
-    FS-class.R      
-    cwl-import.R
-    Auth-class.R
-    Item-class.R
-    Meta-class.R
-    RateLimit-class.R
-    User-class.R
-    Billing-class.R
-    Project-class.R
-    File-class.R
-    Upload-class.R
-    App-class.R
-    Tool-class.R
-    Flow-class.R
-    Task-class.R
-    Volume-class.R
-    handler.R
-    lift.R
-    addins.R
+    api-http.R
+    api-utils.R
+    class-all.R
+    class-filesystem.R      
+    class-cwl.R
+    class-auth.R
+    class-item.R
+    class-meta.R
+    class-ratelimit.R
+    class-user.R
+    class-billing.R
+    class-project.R
+    class-file.R
+    class-upload.R
+    class-app.R
+    class-tool.R
+    class-flow.R
+    class-task.R
+    class-volume.R
+    misc-handler.R
+    misc-lift.R
+    misc-addins.R
     zzz.R
