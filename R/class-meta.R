@@ -582,7 +582,7 @@ experimental_strategy <- setMetaClass(
         "Gene Expression Array",
         "miRNA Expression Array",
         "Protein Expression Array",
-        "MSI- Mono- Dinucleotide Assa"))
+        "MSI-Mono-Dinucleotide Assay"))
 
 data_type <- setMetaClass(
     "data_type",
