@@ -2,7 +2,7 @@
 % Please edit documentation in R/api-utils.R
 \name{misc_get_token}
 \alias{misc_get_token}
-\title{Opens browser to copy the auth token}
+\title{Opens web browser to copy the auth token}
 \usage{
 misc_get_token()
 }
@@ -10,8 +10,9 @@ misc_get_token()
 auth token
 }
 \description{
-Click 'Generate Token' button, copy and paste the generated token
-string to the R console. The function will return the token string.
+Click the "Generate Token" or "Regenerate" button, copy and paste
+the authentication token string to the R console.
+The function will return the token string.
 }
 \examples{
 # Paste the auth token into R

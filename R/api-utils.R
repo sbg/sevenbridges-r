@@ -1,7 +1,8 @@
-#' Opens browser to copy the auth token
+#' Opens web browser to copy the auth token
 #'
-#' Click 'Generate Token' button, copy and paste the generated token
-#' string to the R console. The function will return the token string.
+#' Click the "Generate Token" or "Regenerate" button, copy and paste
+#' the authentication token string to the R console.
+#' The function will return the token string.
 #'
 #' @return auth token
 #'
@@ -169,11 +170,11 @@ misc_make_metadata = function (output = c('list', 'json', 'metafile'),
 #' incoming files in your "My Files" section.
 #' @param proxy Allows you to specify a proxy server through which
 #' the uploader should connect. About the details the proxy parameter format,
-#' see \url{https://developer.sbgenomics.com/tools/uploader/documentation}.
+#' see \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}.
 #'
 #' @export misc_upload_cli
 #' @references
-#' \url{https://developer.sbgenomics.com/tools/uploader/documentation}
+#' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #'
 #' @examples
 #' token = '420b4672ebfc43bab48dc0d18a32fb6f'

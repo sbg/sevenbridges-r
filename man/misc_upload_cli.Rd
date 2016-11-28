@@ -21,7 +21,7 @@ incoming files in your "My Files" section.}
 
 \item{proxy}{Allows you to specify a proxy server through which
 the uploader should connect. About the details the proxy parameter format,
-see \url{https://developer.sbgenomics.com/tools/uploader/documentation}.}
+see \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}.}
 }
 \value{
 The uploaded file's ID number.
@@ -36,6 +36,6 @@ token = '420b4672ebfc43bab48dc0d18a32fb6f'
                           file = '~/example.fastq', project_id = '1234')}
 }
 \references{
-\url{https://developer.sbgenomics.com/tools/uploader/documentation}
+\url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
 }
 

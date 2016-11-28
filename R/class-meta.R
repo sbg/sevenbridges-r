@@ -9,15 +9,12 @@ uuid_regex = c('^$|[0-9a-f]{8}-',
                '[89ab][0-9a-f]{3}-',
                '[0-9a-f]{12}')
 
-max_length = function(n) {
-    return(paste0("^.{0,", as.character(n),"}$"))
-}
+max_length = function(n) paste0("^.{0,", as.character(n),"}$")
 
-max_chars = 128
+max_chars = 128L
 
-regErrFun = function(x, max = max_chars) {
+regErrFun = function(x, max = max_chars)
     sprintf(paste(x,"can contain maximum %d characters"), max)
-}
 
 regErrFun("asdf")
 
