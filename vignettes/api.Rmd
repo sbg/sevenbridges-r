@@ -37,7 +37,7 @@ The `sevenbridges` package only supports V2+ versions of the API, since versions
 There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like `path`, `query`, and `body`. These are documented in the API reference libraries for the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/list-of-api-calls) and the [CGC](http://docs.cancergenomicscloud.org/docs/new-1). An example of a low-level request to "list all projects" is shown below. In this request, you can also pass `query` and `body` as a list.
 
 ```{r}
-library(sevenbridges)
+library("sevenbridges")
 a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", 
           url = "https://api.sbgenomics.com/v2/")
 a$api(path = "project", method = "GET")
@@ -60,7 +60,7 @@ __`offset` and `limit`__
 Every API call accept arguments called `offset` and `limit`. 
 <ul><li>Offset defines where the retrieved items started.</li>
 <li>Limit defines the quantity of items you want to get.</li></ul>
-By default, `offset` is set to `0` and `limit` is set to `50`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
+By default, `offset` is set to `0` and `limit` is set to `100`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
 
 __Search by ID__
 
@@ -78,7 +78,7 @@ Search by name returns all partial matches unless you specify `exact = TRUE`.
 The `sevenbridges` package is on both the Bioconductor released and devel branches, as shown below. 
 
 ```{r}
-## try http:// if https:// URLs are not supported
+# try http:// if https:// URLs are not supported
 source("https://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
@@ -92,7 +92,7 @@ Since we are constantly improving our API and binding libraries, please also vis
 This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/web/packages/devtools/index.html).
 
 ```r
-install.packages("devtools") 
+install.packages("devtools")
 ```
 
 You may got an error and need system dependecies for curl and ssl. For example, in ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
@@ -128,10 +128,10 @@ For more details about how to use the API client in R, please consult the [User-
 
 Before you can access your account via the API, you have to pass along your credentials. You can obtain your credentials in the form of an [authentication token](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, let's set up the `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
 
-**Step 1: Load the library**
+**Step 1: Load the package**
 
 ```{r, eval = TRUE, message = FALSE}
-library(sevenbridges)
+library("sevenbridges")
 ```
 
 **Step 2: Set up your authentication token**
@@ -147,11 +147,10 @@ You have three different ways to set up your token. Choose from one of the three
 This is the most common way to construct your `auth` object.
 
 ```{r}
-## direct setup
+# direct setup
 (a <- Auth(token = "<fake_token>",
           url = "https://cgc-api.sbgenomics.com/v2/"))
-## or load default from config file (autoloaded into options)
-
+# or load default from config file (autoloaded into options)
 ```
 
 ```
@@ -163,7 +162,7 @@ url : https://cgc-api.sbgenomics.com/v2/
 <a name="method2"/>***Method 2: Via a configuration file***
 
 ```{r}
-## from platfrom "us" for user "tengfei"
+# from platfrom "us" for user "tengfei"
 a <- Auth(platform = "us", username = "tengfei")
 ```
 
@@ -233,7 +232,7 @@ Each project must have a Billing Group associated with it. This Billing Group pa
 For example, your first project(s) were created with the free funds from the Pilot Funds Billing Group assigned to each user at sign-up. To get information about billing:
 
 ```{r}
-## check your billing info
+# check your billing info
 a$billing()
 a$invoice()
 ```
@@ -253,17 +252,17 @@ Projects are the core building blocks of the Platform. Each project corresponds 
 Create a new project called "api testing" with the billing group `id` obtained above. 
 
 ```{r}
-## get billing group id
+# get billing group id
 bid <- a$billing()$id
-## create new project
-(p <- a$project_new(name = "api testing", bid, description = "Just a testing"))
+# create new project
+(p <- a$project_new(name = "api testing", bid, description = "Just a test"))
 ```
 
 ```
 == Project ==
 id : tengfei/api-testing
 name : api testing
-description : Just a testing
+description : Just a test
 billing_group_id : <fake_bid>
 type : v2
 -- Permission --
@@ -274,13 +273,13 @@ type : v2
 ### Get details about an existing project
 
 ```{r}
-## list first 100 
+# list first 100 
 a$project()
-## list all
+# list all
 a$project(complete = TRUE)
-## return all named match "demo"
+# return all named match "demo"
 a$project(name = "demo", complete = TRUE)
-## get the project you want by id
+# get the project you want by id
 p = a$project(id = "tengfei/api-tutorial")
 ```
 
@@ -296,26 +295,26 @@ To find out more about public apps, you can do the following:
 - You can use the `sevenbridges` package to find it, as shown below. 
 
 ```{r}
-## search by name matching, complete = TRUE search all apps, not 
-## limited by offset or limit.
+# search by name matching, complete = TRUE search all apps,
+# not limited by offset or limit.
 a$public_app(name = "STAR", complete = TRUE)
-## search by id is accurate
+# search by id is accurate
 a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5")
-## you can also get everything 
+# you can also get everything
 a$public_app(complete = TRUE)
-## default limit = 100, offset = 0 which means first 100
+# default limit = 100, offset = 0 which means the first 100
 a$public_app()
 ```
 
 Now, from your `Auth` object, you copy an App `id` into your `project` id with a new `name`, following this logic.  
 
 ```{r}
-## copy
+# copy
 a$copy_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5", 
            project = "tengfei/api-testing", name = "new copy of star")
-## check its' copyed
+# check if it is copied
 p = a$project(id = "tengfei/api-testing")
-## list apps your got in your project
+# list apps your got in your project
 p$app()
 ```
 
@@ -346,7 +345,7 @@ You can also upload your own Common Workflow Language JSON file which describes 
 ***Note:*** Alternatively, you can directly describe your CWL tool in R with this package. Please read the vignette on "Describe CWL Tools/Workflows in R and Execution".
 
 ```{r}
-## Add an CWL file to your project
+# add an CWL file to your project
 f.star = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 app = p$app_add("starlocal", fl.runif)
 (aid <- app$id)
@@ -358,7 +357,7 @@ You'll get an app `id`, like the one below:
 "tengfei/api-testing/starlocal/0"
 ```
 
-It's composed of the following elements: 
+It's composed of the following elements:
 
 1. __project id__ : tengfei/api
 2. __app short name__ : runif 
@@ -375,7 +374,7 @@ cat(readLines(fl), sep = '\n')
 Then, you can add it like this:
 
 ```{r}
-## rbx is the object returned by Tool function
+# rbx is the object returned by Tool function
 app = p$app_add("runif", rbx)
 (aid <- app$id)
 ```
@@ -401,11 +400,11 @@ You can always check the App details on the visual interface for task input requ
 
 ```{r}
 app = a$app(id = "tengfei/api-testing-2/newcopyofstar")
-## get input matrix
+# get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
 app$input_matrix(c("id", "label", "type"), required = TRUE)
-## get required input names and types only
+# get required input names and types only
 app$get_required()
 ```
 
@@ -414,11 +413,11 @@ Conversely, you can load the app from a CWL JSON and convert it into an R object
 ```{r, eval = TRUE}
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 app = convert_app(f1)
-## get input matrix
+# get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
 app$input_matrix(c("id", "label", "type"), required = TRUE)
-## get required input names and types only
+# get required input names and types only
 app$get_required()
 ```
 
@@ -444,13 +443,13 @@ You can find a list of possible input types below:
 ```{r}
 fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq")
 
-## get all 2 exact files
-fastq_in = p$file(name= fastqs, exact = TRUE) 
+# get all 2 exact files
+fastq_in = p$file(name= fastqs, exact = TRUE)
 
-## get single file
+# get a single file
 fasta_in = p$file(name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa", 
                   exact = TRUE)
-## get all single file
+# get all single file
 gtf_in = p$file(name = "Homo_sapiens.GRCh38.84.gtf", 
                 exact = TRUE)
 
@@ -461,7 +460,7 @@ gtf_in = p$file(name = "Homo_sapiens.GRCh38.84.gtf",
 #### Create a new Draft Task
 
 ```{r}
-## Add new tasks
+# add new tasks
 taskName = paste0("tengfei_star-alignment ",date())
 
 tsk = p$task_add(name = taskName,
@@ -477,10 +476,10 @@ Remember the `fastq` input expects a list of files. You can also do something as
 ```{r}
 f1 = p$file(name = "SRR1039508_1.fastq", exact = TRUE)
 f2 = p$file(name = "SRR1039508_2.fastq", exact = TRUE)
-## get all 2 exact files
-fastq_in = list(f1, f2) 
+# get all 2 exact files
+fastq_in = list(f1, f2)
 
-## or if you know you only have 2 file name matching SRR924146*.fastq
+# or if you know you only have 2 files whose names match SRR924146*.fastq
 fastq_in = p$file(name = "SRR1039508*.fastq", complete = TRUE)
 ```
 
@@ -495,10 +494,10 @@ fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq",
             "SRR1039509_2.fastq", "SRR1039512_1.fastq", "SRR1039512_2.fastq", 
             "SRR1039513_1.fastq", "SRR1039513_2.fastq")
 
-## get all 8 files
-fastq_in = p$file(name= fastqs, exact = TRUE) 
-## can also try to returned all SRR*.fastq files
-## fastq_in = p$file(name= "SRR*.fastq", complete = TRUE) 
+# get all 8 files
+fastq_in = p$file(name= fastqs, exact = TRUE)
+# can also try to returned all SRR*.fastq files
+# fastq_in = p$file(name= "SRR*.fastq", complete = TRUE)
 
 tsk = p$task_add(name = taskName,
            description = "Batch Star Test", 
@@ -508,7 +507,6 @@ tsk = p$task_add(name = taskName,
            inputs = list(sjdbGTFfile = gtf_in,
                          fastq = fastqs_in,
                          genomeFastaFiles = fasta_in))
-
 ```
 
 Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings. 
@@ -520,21 +518,21 @@ Now you have a draft batch task, please check it out in the visual interface. Yo
 Now, we're ready to run our task.
 
 ```{r}
-## Run your task
+# run your task
 tsk$run()
 ```
 
 Before you run your task, you can adjust your draft task if you have any final modifications. Or, you can delete the draft task if you no longer wish to run it.
 
 ```{r}
-## not run
-## tsk$delete()
+# # not run
+# tsk$delete()
 ```
 
 After you run a task, you can abort it
 
 ```{r}
-## Abort your task
+# abort your task
 tsk$abort()
 ```
 
@@ -542,9 +540,9 @@ If you want to update your task and then re-run it, follow the example below.
 
 ```{r}
 tsk$getInputs()
-## missing number input, only update number
+# missing number input, only update number
 tsk$update(inputs = list(sjdbGTFfile = "some new file"))
-## double check 
+# double check 
 tsk$getInputs()
 ```
 
@@ -561,8 +559,8 @@ tsk$update()
 By default, your task alerts you by email when it has been completed. 
 
 ```{r}
-## Monitor your task (skip this part)
-## tsk$monitor()
+# Monitor your task (skip this part)
+# tsk$monitor()
 ```
 
 Use the following to download all files from a completed task.
@@ -629,17 +627,17 @@ gcp:
 When you load the `sevenbridges` package, it first tries to parse your token configuration file into an options list, as follows: 
 
 ```{r}
-## Create Auth object from config file
+# create Auth object from config file
 a <- Auth(username = "yintengfei", platform = "us")
-## show all 
+# show all
 getToken()
-## show all pre-set user token for platform 
+# show all pre-set user token for platform 
 getToken("cgc")
-## show individual token for a user
+# show individual token for a user
 getToken(platform = "cgc", username = "tengfei")
 ```
 
-***Note:*** When you edit your `.sbg.auth.yml` file, you have to reload your `sevenbridges` package. 
+***Note:*** When you edit your `.sbg.auth.yml` file, you have to reload your `sevenbridges` package.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -658,8 +656,8 @@ The logic is as follows:
 
 
 ```{r}
-library(sevenbridges)
-## direct setup
+library("sevenbridges")
+# direct setup
 a <- Auth(token = "1c0e6e202b544030870ccc147092c257",
           url = "https://cgc-api.sbgenomics.com/v2/")
 ```
@@ -705,19 +703,18 @@ Search by name returns all partial matches unless you specify `exact = TRUE`. Th
 For example, to list all public apps, use `visibility` argument, but make sure you pass `complete = TRUE` to it, to show every single things. This arguments generally works for items like "App", "Project", "Task", "File" etc 
 
 ```{r}
-## first, search by id is fast
-x <- a$app(visibility = "public", id = "djordje_klisic/public-apps-by-seven-bridges/sbg-ucsc-b37-bed-converter/0")
+# first, search by id is fast
+x <- a$app(visibility = "public", id = "admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1")
 
-## show 100 items from public
+# show 100 items from public
 x <-  a$app(visibility = "public")
-length(x) ## 100
-
+length(x)  # 100
 
 x <- a$app(visibility = "public", complete = TRUE)
-length(x) ## 211 by March, 2016
-## this return nothing, because it's not in the first 100 
+length(x)  # 272 by Nov 2016
+# this return nothing, because it's not in the first 100 returned names
 a$app(visibility = "public", name = "bed converter")
-## this return an app, because it pulls all apps and did serach.
+# this return an app, because it pulls *all* app names and did search
 a$app(visibility = "public", name = "bed converter", complete = TRUE)
 ```
 
@@ -742,9 +739,9 @@ organizations, that are accessible to you. Currently, this call will only return
 If you don't provide a username, your user information will be shown.
 
 ```{r}
-## return your information
+# return your information
 a$user()
-## return user 'tengfei''s information
+# return user tengfei's information
 a$user("tengfei")
 ```
 
@@ -756,9 +753,8 @@ a$user("tengfei")
 
 If no billing group `id` is provided, this call returns a list of paths used to access billing information via the API. If a username is provided, this call lists all your billing groups, including groups that are pending or which have been disabled. If you specify `breakdown = TRUE`, the call below returns a breakdown of the spending per-project for the billing group specified by billing_group. Information is also displayed for each of the projects a particular billing group is associated with, including task executions, their initiating user, start and end time, and their cost.
 
-
 ```{r}
-## return a BillingList object
+# return a BillingList object
 (b <- a$billing())
 a$billing(id = b$id, breakdown = TRUE)
 ```
@@ -780,10 +776,9 @@ a$invoice(id = "fake_id")
 
 ### Project Operation
 
-Projects are the basic units to organize different entities: files, tasks, apps, etc. As such, many actions stem from the `Project' object. 
+Projects are the basic units to organize different entities: files, tasks, apps, etc. As such, many actions stem from the `Project` object. 
 
 <div align="right"><a href="#top">top</a></div>
-
 
 #### List All Projects 
 
@@ -810,10 +805,10 @@ a$project(detail = TRUE)
 
 #### Partial Match Project Name
 
-For a more friendly interface and convenient search, the `sevenbridges` package supports partial name matching. The first argument for the following request is `name`. 
+For a more friendly interface and convenient search, the `sevenbridges` package supports _partial name matching_. The first argument for the following request is `name`. 
 
 ```{r}
-## want to return a project called
+# want to return a project called
 a$project("hello")
 ```
 
@@ -826,9 +821,8 @@ To create a new project, users need to specify the following:
 - `name` (required)
 - `billing_group_id` (required)
 - `description` (optional)
-- `tags` (optional): This has to be a list(). If you are using the API on the CGC environment, you can create a TCGA Controlled DAta project by specifying `TCGA` in `tags`.
+- `tags` (optional): This has to be a list(). If you are using the API on the CGC environment, you can create a TCGA Controlled Data project by specifying `TCGA` in `tags`.
 - `type` (optional): By default, we create a V2, CWL compatible project.
-
 
 ```{r}
 a$project_new("api_testing_tcga", b$id,
@@ -840,7 +834,6 @@ a$project_new("api_testing_tcga", b$id,
 #### Create a new project with TCGA controlled data on CGC
 
 Follow the directions above, but pass `tcga` as a value for `tags`.
-
 
 ```{r}
 a$project_new("controlled_project", b$id,
@@ -854,10 +847,10 @@ a$project_new("controlled_project", b$id,
 You can delete a *single* project by making the request to `$delete()`. Note that the returned object from `a$project()` sometimes returns  list if you use partial matching by name. The `$delete()` request cannot operate on a list. If you want to operate on a list of object, read more about batch functions in the relevant section below.
 
 ```{r}
-## remove it, not run
+# remove it, not run
 a$project("api_testing")$delete()
-## check
-## will delete all projects matcht the name
+# check
+# will delete all projects match the name
 delete(a$project("api_testing_donnot_delete_me"))
 ```
 
@@ -875,7 +868,6 @@ You can update the following information about an existing project:
 a$project(id = "tengfei/helloworld")
 a$project(id = "tengfei/helloworld")$update(name = "Hello World Update", 
                                                     description = "Update description")
-
 ```
 
 #### Project Member
@@ -894,6 +886,7 @@ a$project(id = "tengfei/demo-project")$member()
 <div align="right"><a href="#top">top</a></div>
 
 ##### Add a member
+
 This call adds a new user to the specified project. It can only be made by a user who has admin permissions in the project.
 
 Requests to add a project member must include the key `permissions`. However, if you do not include a value, the member's permissions will be set to `false` by default.
@@ -903,7 +896,8 @@ Set permission by passing the following values: `copy`, `write`, `execute`, `adm
 Note: `read` is implicit and set by default. You can not be a project member without having `read` permissions.
 
 ```{r}
-m <- a$project(id = "tengfei/demo-project")$member_add(username = "yintengfei")
+m <- a$project(id = "tengfei/demo-project")$
+       member_add(username = "yintengfei")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -937,7 +931,7 @@ To delete an existing member, just call the `delete()` action on the `Member` ob
 
 ```{r}
 m$delete()
-## confirm
+# confirm
 a$project(id = "tengfei/demo-project")$member()
 ```
 
@@ -961,9 +955,9 @@ p$file()
 A better way to list files in a project uses the following:
 
 ```{r}
-## first 100 files, default offset = 0, limit = 100
+# first 100 files, default offset = 0, limit = 100
 p$file()
-## list all files
+# list all files
 p$file(complete = TRUE)
 ```
 
@@ -976,7 +970,7 @@ a$file(name = "omni", project = p$id, detail = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Search and filter file(s) 
+#### Search and filter file(s)
 
 ##### Rule of thumb
 
@@ -990,9 +984,9 @@ So for a quick example, this examples gives me all files in project "tengfei/dem
 
 ```{r}
 p = a$project(id = "tengfei/demo")
-p$file(metadata = list(sample_id = "Sample1", 
-                       sample_id = "Sample2", 
-                       library_id = "EXAMPLE"), 
+p$file(metadata = list(sample_id = "Sample1",
+                       sample_id = "Sample2",
+                       library_id = "EXAMPLE"),
        tag = c("hello", "world"))
 ```
 
@@ -1007,34 +1001,33 @@ There are two ways to return the exact file you want. One is by `id`, the other 
 To get the file id, you can check the url on the visual interface from the file details page.
 
 ```{r}
-## return single object id is "some_file_id"
+# return single object id is "some_file_id"
 p$file(id = "some_file_id")
-## return single object named a.fastq
+# return a single object named a.fastq
 p$file(name = "a.fastq", exact = TRUE)
-## public file search using Auth object
+# public file search using Auth object
 a$public_file(name = "ucsc.hg19.fasta.fai", exact = TRUE)
 a$public_file(id = "578cf94a507c17681a3117e8")
 ```
 
-To get more than one object, the arguments `id` and `name` both accept vectors, so you can pass more than one `id` or `name` to it. 
-
+To get more than one object, the arguments `id` and `name` both accept vectors, so you can pass more than one `id` or `name` to it.
 
 ```{r}
-## get two files
+# get two files
 p$file(name = c("test1.fastq", "test2.fastq"), exact = TRUE)
-## get two files from public files using shorhand
-a$public_file(name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"), 
+# get two files from public files using shorthand
+a$public_file(name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"),
               exact = TRUE)
 ```
 
-If you don't use `exact = TRUE`, the API will assume it's pattern grep and use partial matching.
+If you did not use `exact = TRUE`, the API will assume it's pattern grep and use partial matching.
 
 ```{r}
-## get matchd the pattern for searching first 100 files
+# get matchd the pattern for searching first 100 files
 p$file(name = c("gz", "fastq"))
-## get all matched files from the project
+# get all matched files from the project
 p$file(name = c("gz", "fastq"), complete = TRUE)
-## get all files matched ucsc
+# get all files matched ucsc
 a$public_file(name = "ucsc.hg19", complete = TRUE)
 ```
 
@@ -1042,7 +1035,7 @@ a$public_file(name = "ucsc.hg19", complete = TRUE)
 
 ##### Search by metadata
 
-When you specify different metadata fields, the values use an __AND__ operation, and when you specify the same metadata fields, the values use an __OR__ operation. 
+When you specify different metadata fields, the values use an __AND__ operation, and when you specify the same metadata fields, the values use an __OR__ operation.
 
 To list all files in project "tengfei/demo", that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request
 
@@ -1050,7 +1043,7 @@ To list all files in project "tengfei/demo", that have a `sample_id` of "Sample1
 p = a$project(id = "tengfei/demo")
 p$file(metadata = list(sample_id = "Sample1", 
                        sample_id = "Sample2", 
-                       library_id = "EXAMPLE")) 
+                       library_id = "EXAMPLE"))
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1072,15 +1065,14 @@ p$file(tag = c("s1", "s2"))
 
 You can also get all files from a task. There are two ways to do it:
 
-(1) You can started from the `Task` object.
-(2) You can also use the filter criteria. 
-
+1. Started from the `Task` object;
+2. Use the filter criteria.
 
 ```{r}
-## list all outputs file from a task id
+# list all outputs file from a task id
 a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
 
-## OR
+# OR
 p = a$project(id = "tengfei/demo")
 p$file(origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
 ```
@@ -1102,15 +1094,15 @@ You must provide
 - `name` (optional):if omitted, use the same name as the original file name
 
 ```{r}
-## 1000G_omni2.5.b37.vcf
-fid <- "561e1b33e4b0aa6ec48167d7"
+# 1000G_omni2.5.b37.vcf
+fid  <- "561e1b33e4b0aa6ec48167d7"
 fid2 <- "561e1b33e4b0aa6ec48167d3"
-pid <- a$project("demo")$id
+pid  <- a$project("demo")$id
 a$copyFile(c(fid, fid2), project = pid)
 a$project(id = pid)$file()
 ```
 
-***NOTE:*** To copy a group of files, you need the `Auth$copyFile()` interface. The `id` of the files in your project will be different from their `id` in the Public Files repository. 
+***NOTE:*** To copy a group of files, you need the `Auth$copyFile()` interface. The `id` of the files in your project will be different from their `id` in the Public Files repository.
 
 Alternatively, you copy a __single file__ as shown below.
 
@@ -1186,20 +1178,18 @@ Use the API client uploader by calling the `project$upload` function to
 upload a file, a file list, or a folder recursively:
 
 ```{r}
-a <- Auth(username = "tengfei", platform = "cgc")
+a  <- Auth(username = "tengfei", platform = "cgc")
 fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
 
 (p <- a$project(id = "tengfei/quickstart"))
 
-## by default load .meta for the file
+# by default load .meta for the file
 p$upload(fl, overwrite = TRUE)
-## pass metadata
+# pass metadata
 p$upload(fl, overwrite = TRUE, metadata = list(library_id = "testid2", platform = "Illumina x11"))
-## rename
+# rename
 p$upload(fl, overwrite = TRUE, name = "sample_new_name.fastq", 
          metadata = list(library_id = "new_id"))
-
-
 ```
 
 **Upload a folder**
@@ -1215,7 +1205,7 @@ Upload a file list
 
 ```{r}
 dir.ext <- system.file("extdata", package = "sevenbridges")
-## enable full name
+# enable full name
 fls <- list.files(dir.ext, recursive = TRUE, full.names = TRUE)
 p$upload(fls, overwrite = TRUE)
 p$upload("~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf")
@@ -1230,8 +1220,7 @@ You can call the `update()` function from the Files object. Using this call, the
 - The file's `name`.
 - The file's `metadata`. The metadata is in the form of a list. Note that as this call overwrites all the metadata for a given file, please supply a full list of all the metadata for the file. Conversely, you can use the [`set_meta()` function](#set_metadata) to patch but not overwrite the metadata for a file.
 
-If no parameters are provided, this call will just get the details of that file and update the object
-itself. 
+If no parameters were provided, this call will just get the details of that file and update the object itself.
 
 ```{r}
 (fl <- a$project(id = "tengfei/demo-project")$file(name = "sample.fastq"))
@@ -1247,7 +1236,7 @@ project : tengfei/demo-project
 **Show metadata**
 
 ```{r}
-## show metadata
+# show metadata
 fl$meta()
 ```
 
@@ -1255,7 +1244,7 @@ fl$meta()
 
 ```{r}
 fl$update(name = "sample.fastq", metadata = list(new_item1 = "item1", new_item2 = "item2", file_extension = "fastq"))
-## check it out
+# check it out
 fl$meta()
 ```
 
@@ -1271,9 +1260,9 @@ Note that the name of a file is not the same as its ID. A file's ID is a hexadec
 To get the metadata for a file, call the `meta()` function, as shown below. 
 
 ```{r}
-## meta is pulling the latest information via API
+# meta is pulling the latest information via API
 fl$meta()
-## field meta data saved the previous saved one
+# field meta data saved the previous saved one
 fl$metadata
 ```
 
@@ -1286,7 +1275,7 @@ To set metadata but not overwrite all previously stored metadata, call the `set_
 ```{r}
 fl$set_meta(new_item3 = "item3")
 fl
-## oops it removed rest of the meta
+# oops it removed rest of the meta
 fl$set_meta(new_item4 = "item4", overwrite = TRUE)
 fl
 ```
@@ -1296,9 +1285,9 @@ fl
 You can use the `Metadata()` constructor to check the details of each metadata field. Simply call the function (name of the metadata) to display descriptions and enumerated itemts. Please pay attention to the `suggested_values` field.
 
 ```{r}
-## check which schema we have
+# check which schema we have
 Metadata()$show(full = TRUE)
-## check details for each, play with it
+# check details for each, play with it
 platform()
 paired_end()
 quality_scale()
@@ -1307,10 +1296,10 @@ quality_scale()
 As you can see, some metadata fields have suggested values. To construct the metadata, use `Metadata()` directly to pass the metadata fields and their values directly into the call. The call will perform the validation.
 
 ```{r}
-Metadata(platform  = "Affymetrix SNP Array 6.0", 
-         paired_end = 1, 
+Metadata(platform      = "Affymetrix SNP Array 6.0", 
+         paired_end    = 1, 
          quality_scale = "sanger",
-         new_item = "new test")
+         new_item      = "new test")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1327,21 +1316,21 @@ To add a new tag, call the `obj$add_tag()` method for the File object with a sin
 
 To completely overwrite the tags for a file, use the `obj$set_tag()` method, which contains the default argument `overwrite = TRUE`.
 
-Let's use a file called "sample.bam" and play with its tags.
+Let's use a file called `sample.bam` and play with its tags.
 
 ```{r}
 p <- a$project(id = "tengfei/s3tutorial")
 fl = p$file("sample.bam", exact = TRUE)
-## show tags for single file
+# show tags for single file
 fl$tag()
-## add new tags
+# add new tags
 fl$add_tag("new tag")
-## equavilent to 
+# equavilent to 
 fl$set_tag("new tag 2", overwrite = FALSE)
-## set tags to overwrite existing
+# set tags to overwrite existing
 x = list("this", "is", 1234)
 fl$set_tag(x)
-## filter by tags
+# filter by tags
 p$file(tag = c("1234", "new"))
 p$file(tag = list("1234", "new"))
 p$file(tag = "1234")
@@ -1350,17 +1339,17 @@ p$file(tag = "1234")
 Below, find convenient methods for `FilesList`. Let's add the tag "s1" to a group files matching "Sample1" and add the tag "s2" to a group of files that match "s2". Then, we'll filter by these tags to obtain specific files.
 
 ```{r}
-## work on a group of files
-## add tag "s2" to a group of files named with "Sample2" in it
+# work on a group of files
+# add tag "s2" to a group of files named with "Sample2" in it
 fl2 = p$file("Sample2")
 add_tag(fl2, "s2")
-## add tag "s2" to a group of files named with "Sample1" in it
+# add tag "s2" to a group of files named with "Sample1" in it
 fl1 = p$file("Sample1")
 add_tag(fl1, "s1")
-## filter by tag s1 or s2
+# filter by tag s1 or s2
 p$file(tag = "s1")
 p$file(tag = "s2")
-## get files tagged with s2 and 1234
+# get files tagged with s2 and 1234
 p$file(tag = list("s2", "s1"))
 ```
 
@@ -1368,7 +1357,7 @@ p$file(tag = list("s2", "s1"))
 
 ### App
 
-All Seven Bridges environments support the [Common Workflow Language (CWL)](http://www.commonwl.org/) natively to allow for reproducible and portable workflows and tools. In this section, we will work with apps, including tools and workflows, via the API using the R library. 
+All Seven Bridges environments support the [Common Workflow Language (CWL)](http://www.commonwl.org/) natively to allow for reproducible and portable workflows and tools. In this section, we will work with apps, including tools and workflows, via the API using the `sevenbridges` R package.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -1378,7 +1367,7 @@ This call lists all the apps available to you.
 
 ```{r}
 a$app()
-## or show details
+# or show details
 a$app(detail = TRUE)
 ```
 
@@ -1387,25 +1376,25 @@ a$app(detail = TRUE)
 To search for a specific app by its name, pass a pattern for the `name` argument or provide a unique `id` as shown below.
 
 ```{r}
-## pattern match
+# pattern match
 a$app(name = "STAR")
-## unique id
+# unique id
 aid <- a$app()[[1]]$id
 aid
 a$app(id = aid)
-## get a specific revision from an app
+# get a specific revision from an app
 a$app(id = aid, revision = 0)
-``` 
+```
 
 **List all apps in a project**
 
 To list all apps belonging to a specific project, use the `project` argument.
 
 ```{r}
-## my favorite, always
+# my favorite, always
 a$project("demo")$app()
 
-## or alternatviely
+# or alternatviely
 pid <- a$project("demo")$id
 a$app(project = pid)
 ```
@@ -1415,7 +1404,7 @@ a$app(project = pid)
 To list all public apps, use the `visibility` argument.
 
 ```{r}
-## show 100 items from public
+# show 100 items from public
 x = a$app(visibility = "public")
 length(x)
 x = a$app(visibility = "public", complete = TRUE)
@@ -1428,7 +1417,6 @@ a$app(visibility = "public", limit = 5, offset = 150)
 **Search through all public apps in all locations**
 
 To search for a public app cross all locations, make the following call. Note that this may take a bit of time.
-
 
 ```{r}
 a$app("STAR", visibility = "public", complete = TRUE)
@@ -1448,7 +1436,7 @@ This call requires the following two arguments:
 ```{r}
 aid <- a$public_app()[[1]]$id
 a$copy_app(aid, project = pid, name = "copy-rename-test")
-## check it is copied
+# check if it is copied
 a$app(project = pid)
 ```
 
@@ -1473,9 +1461,8 @@ To get a specific revision, pass the `revision` argument.
 ```{r}
 ap <- a$app(visibility = "public")[[1]]
 a$project("demo")$app("index")
-## get a specific revision
+# get a specific revision
 a$project("demo")$app("index", revision = 0)
-
 ```
 
 Coming soon: converting apps to CWL objects
@@ -1512,9 +1499,9 @@ This is introduced in another vignette.
 This call returns a list of tasks that you can access. You are able to filter tasks by status.
 
 ```{r}
-## all tasks
+# all tasks
 a$task()
-## filter
+# filter
 a$task(status = "completed")
 a$task(status = "running")
 ```
@@ -1522,10 +1509,10 @@ a$task(status = "running")
 To list all tasks in a project, use the following.
 
 ```{r}
-## better way
+# a better way
 a$project("demo")$task()
 
-## alternatively
+# alternatively
 pid <- a$project("demo")$id
 a$task(project = pid)
 ```
@@ -1559,16 +1546,16 @@ To create a draft task, you need to call the `task_add` function from the Projec
 - `inputs`: A list of inputs for this task
 
 ```{r}
-## push an app first
+# push an app first
 fl.runif <- system.file("extdata", "runif.json", package = "sbgr")
 a$project("demo")$app_add("runif_draft", fl.runif)
 runif_id <- "tengfei/demo-project/runif_draft"
-## create a draft task
-a$project("demo")$task_add(name = "Draft runif 3", 
-                           description = "Description for runif 3", 
+# create a draft task
+a$project("demo")$task_add(name = "Draft runif 3",
+                           description = "Description for runif 3",
                            app = runif_id,
                            inputs = list(min = 1, max = 10))
-## confirm
+# confirm
 a$project("demo")$task(status = "draft")
 ```
 
@@ -1583,12 +1570,12 @@ Call the `update` function from a Task object to update the following:
 - `inputs` list. Note that you can only update the items you provided.
 
 ```{r}
-## get the single task you want to update
+# get the single task you want to update
 tsk <- a$project("demo")$task("Draft runif 3")
 tsk
 tsk$update(name = "Draft runif update", description = "draft 2", 
            inputs = list(max = 100))
-## alternative way to check all inputs
+# alternative way to check all inputs
 tsk$getInputs()
 ```
 
@@ -1600,7 +1587,7 @@ This call runs ("executes") the specified task. Only tasks with a "DRAFT" status
 
 ```{r}
 tsk$run()
-## run update without information just return latest information
+# run update without information just return latest information
 tsk$update()
 ```
 
@@ -1613,8 +1600,6 @@ To monitor a running task, call `monitor` from a Task object.
 
 - First argument, set the interval time to check the status
 - Rest arguments might be used for hook function
-
-
 
 ```{r}
 tsk$monitor()
@@ -1639,9 +1624,9 @@ getTaskHook("draft")
 This call aborts the specified task. Only tasks whose status is "RUNNING" may be aborted.
 
 ```{r}
-## abort
+# abort
 tsk$abort()
-## check
+# check
 tsk$update()
 ```
 
@@ -1653,11 +1638,11 @@ Note that you can only delete DRAFT tasks, not running tasks.
 
 ```{r}
 tsklst <- a$task(status = "draft")
-## delete a single task
+# delete a single task
 tsklst[[1]]$delete()
-## confirm
+# confirm
 a$task(status = "draft")
-## delete a list of tasks
+# delete a list of tasks
 delete(tsklst)
 ```
 
@@ -1676,7 +1661,7 @@ tsk$download("~/Downloads")
 To run task in batch mode, (check `?batch`) for more details. The code below is a mock.
 
 ```{r}
-## batch by items
+# batch by items
 (tsk <- p$task_add(name = "RNA DE report new batch 2", 
                    description = "RNA DE analysis report", 
                    app = rna.app$id,
@@ -1685,13 +1670,13 @@ To run task in batch mode, (check `?batch`) for more details. The code below is 
                                  design = design.in,
                                  gtffile = gtf.in)))
 
-## batch by metadata, input files has to have metadata fields specified
-(tsk <- p$task_add(name = "RNA DE report new batch 3", 
-                   description = "RNA DE analysis report", 
+# batch by metadata, input files has to have metadata fields specified
+(tsk <- p$task_add(name = "RNA DE report new batch 3",
+                   description = "RNA DE analysis report",
                    app = rna.app$id,
-                   batch = batch(input = "fastq", 
+                   batch = batch(input = "fastq",
                                  c("metadata.sample_id", "metadata.library_id")),
-                   inputs = list(bamfiles = bamfiles.in, 
+                   inputs = list(bamfiles = bamfiles.in,
                                  design = design.in,
                                  gtffile = gtf.in)))
 ```
@@ -1727,11 +1712,11 @@ a$add_volume(name = "tutorial_volume",
 #### List and search all volumes
 
 ```{r}
-## list all volume
+# list all volume
 a$volume()
-## get unique volume by id
+# get unique volume by id
 a$volume(id = "tengfei/tengfei_demo")
-## partial search by name
+# partial search by name
 a$volume(name = "demo")
 ```
 
@@ -1768,11 +1753,10 @@ res = v$import(location =  "A-RNA-File.bam.bai",
          name = "new.bam.bai", 
          overwrite = TRUE)
 
-## get job status update
-## state will be "COMPLETED" when it's finished other wise "PENDING"
+# get job status update
+# state will be "COMPLETED" when it's finished, otherwise "PENDING"
 v$get_import_job(res$id)
 v
-
 ```
 
 #### Export file from project to volume
@@ -1787,10 +1771,10 @@ When testing please update your file in a project.
 ```{r}
 res = v$export(file = "579fb1c9e4b08370afe7903a", 
          volume = "tengfei/tutorial_volume",
-         location = "", ## when "" use old name
+         location = "",  # when "" use old name
          sse_algorithm =  "AES256")
-## get job status update
-## state will be "COMPLETED" when it's finished other wise "PENDING"
+# get job status update
+# state will be "COMPLETED" when it's finished other wise "PENDING"
 v$get_export_job(res$id)
 v
 ```
@@ -1804,18 +1788,18 @@ Seven Bridges hosts publicly accessible files and apps on its environments. The 
 #### Public files
 
 ```{r}
-## list first 100 files 
+# list the first 100 files
 a$public_file()
-## list by offset and limit
+# list by offset and limit
 a$public_file(offset = 100, limit = 100)
-## simply list everything!
+# simply list everything!
 a$public_file(complete = TRUE)
-## get exact file by id
+# get exact file by id
 a$public_file(id = "5772b6f0507c175267448700")
-## get exact file by name with exact = TRUE
+# get exact file by name with exact = TRUE
 a$public_file(name = "G20479.HCC1143.2.converted.pe_1_1Mreads.fastq", exact = TRUE)
-## with exact = FALSE by default search by name pattern
-a$public_file(name = "fastq") 
+# with exact = FALSE by default search by name pattern
+a$public_file(name = "fastq")
 a$public_file(name = "G20479.HCC1143.2.converted.pe_1_1Mreads.fastq")
 ```
 
@@ -1828,15 +1812,15 @@ Public files are hosted in the project called `admin/sbg-public-data`, and you c
 For public apps, there are similar API calls. 
 
 ```{r}
-## list for 100 apps
+# list for 100 apps
 a$public_app()
-## list by offset and limit
+# list by offset and limit
 a$public_app(offset = 100, limit = 50)
-## search by id
+# search by id
 a$public_app(id = "admin/sbg-public-data/control-freec-8-1/12")
-## search by name in ALL apps
+# search by name in ALL apps
 a$public_app(name = "STAR", complete = TRUE)
-## search by name with exact match
+# search by name with exact match
 a$public_app(name = "Control-FREEC", exact = TRUE, complete = TRUE)
 ```
 
@@ -1891,7 +1875,7 @@ a$project_new(name = , billing_group_id = , description = )
 a$project()
 a$project(owner = "yintengfei")
 ### partial match
-p <-  a$project(name = , id = , exact = TRUE)
+p <- a$project(name = , id = , exact = TRUE)
 ### delete
 p$delete()
 ### update
@@ -1917,7 +1901,7 @@ p$file(id = fid3)$download("~/Downloads/")
 ### download all
 download(p$file())
 ### update a file
-fl$update(name = , metadata = list(a =  ,b = , ...))
+fl$update(name = , metadata = list(a = , b = , ...))
 ### meta
 fl$meta()
 fl$setMeta()
@@ -1951,7 +1935,7 @@ tsk$getInputs()
 tsk$monitor()
 
 getTaskHook()
-setTaskHook(statis = , fun  =)
+setTaskHook(status = , fun = )
 ```
 
 <div align="right"><a href="#top">top</a></div>

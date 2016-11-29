@@ -20,12 +20,12 @@ library("sevenbridges")
 
 This tutorials originates from 2016 Cancer Genomics Cloud Hackathon R workshop I
 prepared, and it's recommended for beginner to read and run through all examples here
-yourself in your R IDE like Rstudio. Then try to make your own app. 
+yourself in your R IDE like Rstudio. Then try to make your own app.
 
 In this tutorial, you will learn
 
 1. API client in R with __sevenbridges__ R package to fully automate analysis
-2. Describe command line interface with docopt R package
+2. Describe command line interface with R package __docopt__
 3. Make your own docker app
 4. Describe a standard RNA-seq Bioconductor workflow in CWL with pre-defined report template
 5. Execute it in the cloud
@@ -40,7 +40,7 @@ Suggest learning for all users: docker.
 
 Now we are ready to go!
 
-### Installation 
+### Installation
 
 First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
