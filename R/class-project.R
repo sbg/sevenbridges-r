@@ -2,24 +2,25 @@ Permission <- setRefClass("Permission", contains = "Item",
 
                           fields = list(
                               write           = "logicalORNULL",
-                              copy_permission = "logicalORNULL", # cannot use copy
+                              copy_permission = "logicalORNULL",  # cannot use copy
                               execute         = "logicalORNULL",
                               admin           = "logicalORNULL",
                               read            = "logicalORNULL"),
 
                           methods = list(
 
-                              initialize = function(write           = NULL,
-                                                    copy_permission = NULL,
-                                                    execute         = NULL,
-                                                    admin           = NULL,
-                                                    read            = NULL, ...) {
+                              initialize = function(
+                                  write           = NULL,
+                                  copy_permission = NULL,
+                                  execute         = NULL,
+                                  admin           = NULL,
+                                  read            = NULL, ...) {
 
-                                  write <<- write
+                                  write           <<- write
                                   copy_permission <<- copy_permission
-                                  execute <<- execute
-                                  admin <<- admin
-                                  read <<- read
+                                  execute         <<- execute
+                                  admin           <<- admin
+                                  read            <<- read
 
                                   callSuper(...)
 
@@ -488,7 +489,7 @@ Project <- setRefClass("Project", contains = "Item",
             type  = x$type,
             owner = x$owner,
             tags  = x$tags,
-            description = x$description, ## v1 only entry
+            description = x$description,  # v1 only entry
             billing_group_id = x$billing_group,
             response = response(x))
 
@@ -501,7 +502,7 @@ Project <- setRefClass("Project", contains = "Item",
     #             tags  = x$tags,
     #             description = x$description,  # v1 only entry
     #             billing_group_id = x$billing_group,
-    #             my_permission = do.call(Permission, x$my_permission), ## v1 only entry
+    #             my_permission = do.call(Permission, x$my_permission),  # v1 only entry
     #             response = response(x))
     #
     # }

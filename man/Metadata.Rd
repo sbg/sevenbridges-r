@@ -43,19 +43,19 @@ Meta schema
 V2 version for meta data schema
 }
 \examples{
-## show schema (you can still provide customized one)
-## empty beause they are all NULL
+# show schema (you can still provide customized one)
+# empty beause they are all NULL
 Metadata()
-## show schema
+# show schema
 Metadata()$show(TRUE)
-## or
+# or
 names(Metadata()$asList(TRUE))
-## returned meta field is actually define as function too, direclty
-## call them will give you details
+# returned meta field is actually define as function too, direclty
+# call them will give you details
 platform()
 paired_end()
 quality_scale()
-## check their suggested value and construct your metadata
+# check their suggested value and construct your metadata
 Metadata(platform  = "Affymetrix SNP Array 6.0", paired_end = 1, quality_scale = "sanger")
 }
 

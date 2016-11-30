@@ -2,14 +2,18 @@
 #'
 #' Class Item
 #'
-#' To describe a set of objects, Project, Task, Pipeline, File etc.
+#' Base class for describing a set of objects:
+#' Project, Task, Pipeline, Files, etc.
 #'
 #' @field response save the raw response from a request.
 #' @field auth_token propagate the auth_token from parent.
-#' @field href api href
-Item <- setRefClass("Item", fields = list(response = "ANY",
-                                          href     = "characterORNULL",
-                                          auth     = "AuthORNULL"))
+#' @field href API href
+Item <- setRefClass("Item",
+
+                    fields = list(response = "ANY",
+                                  href     = "characterORNULL",
+                                  auth     = "AuthORNULL")
+)
 
 #' Get raw response from an Item object
 #'

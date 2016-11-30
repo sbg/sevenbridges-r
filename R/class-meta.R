@@ -64,6 +64,7 @@ Meta <- setRefClass("Meta",
                         regexErrMsg      = "characterORNULL"),
 
                     methods = list(
+
                         initialize = function(
                             data             = NA_character_,
                             name             = NULL,
@@ -773,19 +774,19 @@ lst <- as.list(nm.cls)
 #' @export age_at_diagnosis vital_status days_to_death sample_id
 #' @export sample_uuid sample_type aliquot_id aliquot_uuid
 #' @examples
-#' ## show schema (you can still provide customized one)
-#' ## empty beause they are all NULL
+#' # show schema (you can still provide customized one)
+#' # empty beause they are all NULL
 #' Metadata()
-#' ## show schema
+#' # show schema
 #' Metadata()$show(TRUE)
-#' ## or
+#' # or
 #' names(Metadata()$asList(TRUE))
-#' ## returned meta field is actually define as function too, direclty
-#' ## call them will give you details
+#' # returned meta field is actually define as function too, direclty
+#' # call them will give you details
 #' platform()
 #' paired_end()
 #' quality_scale()
-#' ## check their suggested value and construct your metadata
+#' # check their suggested value and construct your metadata
 #' Metadata(platform  = "Affymetrix SNP Array 6.0", paired_end = 1, quality_scale = "sanger")
 Metadata <- setRefClass("Metadata",
                         fields = c(lst, list(extra = "listORNULL")),
@@ -873,7 +874,7 @@ Metadata <- setRefClass("Metadata",
 setClassUnion("MetadataORNULL", c("Metadata", "NULL"))
 
 normalizeMeta <- function(x) {
-    ## normalize it
+    # normalize it
     if (is.list(x)) {
         if (length(x) > 1) {
             res <- do.call(Metadata, x)

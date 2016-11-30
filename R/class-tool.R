@@ -57,38 +57,40 @@ SBG <- setRefClass("SBG", contains  = "CWL",
                        "sbg:toolkit"          = "characterORNULL",
                        "sbg:image_url"        = "characterORNULL"),
 
-                   methods = list(initialize = function(
-                       homepage         = NULL,
-                       validationErrors = NULL,
-                       sbgMaintained    = NULL,
-                       latestRevision   = NULL,
-                       job              = NULL,
-                       toolAuthor       = NULL,
-                       copyOf           = NULL,
-                       createdOn        = NULL,
-                       categories       = NULL,
-                       contributors     = NULL,
-                       links            = NULL,
-                       project          = NULL,
-                       createdBy        = NULL,
-                       toolkitVersion   = NULL,
-                       id               = NULL,
-                       license          = NULL,
-                       revision         = NULL,
-                       cmdPreview       = NULL,
-                       modifiedOn       = NULL,
-                       modifiedBy       = NULL,
-                       revisionsInfo    = NULL,
-                       toolkit          = NULL,
-                       revisionNotes    = NULL, ...) {
+                   methods = list(
 
-                       args <- mget(names(formals()),sys.frame(sys.nframe()))
-                       nms <- names(args)
-                       for(nm in nms) .self$field(paste0("sbg:", nm), args[[nm]])
+                       initialize = function(
+                           homepage         = NULL,
+                           validationErrors = NULL,
+                           sbgMaintained    = NULL,
+                           latestRevision   = NULL,
+                           job              = NULL,
+                           toolAuthor       = NULL,
+                           copyOf           = NULL,
+                           createdOn        = NULL,
+                           categories       = NULL,
+                           contributors     = NULL,
+                           links            = NULL,
+                           project          = NULL,
+                           createdBy        = NULL,
+                           toolkitVersion   = NULL,
+                           id               = NULL,
+                           license          = NULL,
+                           revision         = NULL,
+                           cmdPreview       = NULL,
+                           modifiedOn       = NULL,
+                           modifiedBy       = NULL,
+                           revisionsInfo    = NULL,
+                           toolkit          = NULL,
+                           revisionNotes    = NULL, ...) {
 
-                       callSuper(...)
+                           args <- mget(names(formals()),sys.frame(sys.nframe()))
+                           nms <- names(args)
+                           for(nm in nms) .self$field(paste0("sbg:", nm), args[[nm]])
 
-                   }))
+                           callSuper(...)
+
+                       }))
 
 #' Class Tool
 #'
@@ -170,9 +172,10 @@ SBG <- setRefClass("SBG", contains  = "CWL",
 #' t3$run(list(input_file = Files(fl)))  # Not File}
 Tool <- setRefClass("Tool", contains = c("CommandLineTool", "SBG"),
 
-                    fields = list(context = "characterORNULL",
-                                  x       = "numericORNULL",
-                                  y       = "numericORNULL"),
+                    fields = list(
+                        context = "characterORNULL",
+                        x       = "numericORNULL",
+                        y       = "numericORNULL"),
 
                     methods = list(
 

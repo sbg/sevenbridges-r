@@ -9,7 +9,8 @@
 Class Item
 }
 \details{
-To describe a set of objects, Project, Task, Pipeline, File etc.
+Base class for describing a set of objects:
+Project, Task, Pipeline, Files, etc.
 }
 \section{Fields}{
 
@@ -18,6 +19,6 @@ To describe a set of objects, Project, Task, Pipeline, File etc.
 
 \item{\code{auth_token}}{propagate the auth_token from parent.}
 
-\item{\code{href}}{api href}
+\item{\code{href}}{API href}
 }}
 
