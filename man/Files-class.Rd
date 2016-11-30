@@ -49,7 +49,7 @@ it usually return the project id and stored with the object.}
 
 \item{\code{metadata}}{a list for metadata associated with the file}
 
-\item{\code{url}}{file url}
+\item{\code{url}}{file download url}
 }}
 \section{Methods}{
 

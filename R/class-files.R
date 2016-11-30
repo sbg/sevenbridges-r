@@ -22,7 +22,7 @@
 #' @field origin list as origin
 #' @field tags list as tags
 #' @field metadata a list for metadata associated with the file
-#' @field url file url
+#' @field url file download url
 #'
 #' @note In sevenbridges package version <= 1.5.4, the \code{Files} class
 #' inherits from the \code{File} class defined in CWL. To avoid confusion,
@@ -269,7 +269,7 @@ FilesList <- setListClass("Files", contains = "Item0")
 
 .asFilesList <- function(x) {
     obj          <- FilesList(lapply(x$items, .asFiles))
-    obj@url      <- x$url
+    obj@href     <- x$href
     obj@response <- response(x)
     obj
 }
