@@ -59,7 +59,7 @@ Collate:
     class-user.R
     class-billing.R
     class-project.R
-    class-file.R
+    class-files.R
     class-upload.R
     class-app.R
     class-tool.R

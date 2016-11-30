@@ -289,6 +289,7 @@ m.match <- function(obj,
 
 }
 
+# workaround for knitr print `message()` position issues
 message2 = function(...) cat(paste0(..., "\n"))
 
 .showFields = function(x, title = NULL, values = NULL,
