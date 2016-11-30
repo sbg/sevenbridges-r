@@ -1,8 +1,7 @@
-FROM rocker/rstudio-daily:verse
+FROM rocker/hadleyverse 
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
 ## install docker (docker in docker)
-sudo apt-get install 
 RUN apt-get update && apt-get install -y  \
     sudo \
     gdebi-core \
@@ -16,13 +15,26 @@ RUN apt-get update && apt-get install -y  \
     emacs \
     supervisor \
     libfuse-dev 
-    
+##     aufs-tools \
+##     cgroupfs-mount 
+
+# RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/l/lvm2/libdevmapper1.02.1_1.02.136-1_amd64.deb && \
+#    dpkg -i libdevmapper1.02.1_1.02.136-1_amd64.deb && \
+#    rm -f libdevmapper1.02.1_1.02.136-1_amd64.deb
+
+# RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/libt/libtool/libltdl7_2.4.6-2_amd64.deb && \
+#    dpkg -i libltdl7_2.4.6-2_amd64.deb && \
+#    rm -f libltdl7_2.4.6-2_amd64.deb
+
 ## install docker
 RUN apt-get install -y apt-transport-https ca-certificates \
     && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    && echo "deb https://apt.dockerproject.org/repo debian-stretch main" > /etc/apt/sources.list.d/docker.list \
+    && echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list \
     && echo "//APT::Default-Release \"testing\";" > /etc/apt/apt.conf.d/default   \
-    && apt-get update \
+    && apt-cache policy docker-engine 
+
+Run apt-get update -y \
+    && apt-get upgrade -y \
     && apt-get install -y docker-engine
 
 
@@ -52,9 +64,9 @@ RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
 #################
 
 ## install SBG Command line uploader
-RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
-    && tar zxvf sbg-uploader.tgz -C / \
-    && ln -s  /sbg-uploader/bin/sbg-uploader.sh /usr/local/bin/sbg-uploader.sh
+## RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
+##     && tar zxvf sbg-uploader.tgz -C / \
+##    && ln -s  /sbg-uploader/bin/sbg-uploader.sh /usr/local/bin/sbg-uploader.sh
     
 
 ## install SBG rabix
@@ -64,9 +76,9 @@ RUN wget https://github.com/rabix/bunny/releases/download/v0.1.0-alpha/rabix-0.1
 
 
 ## install SBG Command line uploader
-RUN wget https://cgc.sbgenomics.com/cgc-uploader/cgc-uploader.tgz \
-    && tar zxvf cgc-uploader.tgz -C / \
-    && ln -s  /cgc-uploader/bin/cgc-uploader.sh /usr/local/bin/cgc-uploader.sh
+## RUN wget https://cgc.sbgenomics.com/cgc-uploader/cgc-uploader.tgz \
+##    && tar zxvf cgc-uploader.tgz -C / \
+##    && ln -s  /cgc-uploader/bin/cgc-uploader.sh /usr/local/bin/cgc-uploader.sh
 
 ## start insert command line interface and report template needed
 ADD src/runif.R /usr/local/bin/
@@ -96,9 +108,9 @@ RUN rm -rf /var/lib/apt/lists/ \
 ## thanks to official shiny docker file
 
 # Download and install libssl 0.9.8
-RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.0.2-dbg_1.0.2h-1_amd64.deb && \
-    dpkg -i libssl1.0.2-dbg_1.0.2h-1_amd64.deb && \
-    rm -f libssl1.0.2-dbg_1.0.2h-1_amd64.deb
+RUN wget --no-verbose http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb && \
+   dpkg -i libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb && \
+   rm -f libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb
 
 # Download and install shiny server
 RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
@@ -124,6 +136,8 @@ RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /home/rstudio/ShinyApps
 EXPOSE 3838 8787
 
 ## COPY src/shiny-server.sh /usr/bin/shiny-server.sh
+# RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/shiny-server.conf -P /etc/shiny-server/
+# RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/supervisord.conf	-P /etc/shiny-server/
 COPY src/shiny-server.conf  /etc/shiny-server/shiny-server.conf
 COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
