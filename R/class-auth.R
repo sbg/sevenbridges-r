@@ -3,8 +3,8 @@
 #' Auth token object
 #'
 #' Every object could be requested from this Auth object and any action
-#' could start from this object using cascading style. Please check vignette
-#' 'easy-api' for more information.
+#' could start from this object using cascading style. Please check
+#' \code{vignette("easy-api")} for more information.
 #'
 #' @field token [character] Your auth token.
 #' @field url [character] Base URL used for API, by default
@@ -20,26 +20,31 @@
 #' @export Auth
 #' @exportClass Auth
 #' @examples
-#' ## replace it with real token
+#' # replace it with real token
 #' token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
 #' a <- Auth(token)
 Auth <- setRefClass("Auth", fields = list(token    = "character",
                                           url      = "character",
-                                          version  = "character",
+                                          version  = "character",  # to be removed
                                           platform = "characterORNULL",
+                                          # cfg_file = "characterORNULL",  # = '~/.sevenbridges/credential'
+                                          # cfg_key  = "characterORNULL",  # = 'default'
                                           fs       = "FSORNULL"),
+
                     methods = list(
+
                         initialize   = function(
                             token    = NULL,
                             url      = NULL,
                             platform = NULL,
                             username = NULL,
-                            fs       = NULL,
-                            ...) {
+                            fs       = NULL, ...) {
 
-                            ## get API URL first
-                            ## logic:
-                            ## no url, guess from platform, no platform, retrieve first entry, nothing, error.
+                            # get API URL first
+                            # logic:
+                            # no url, guess from platform;
+                            # no platform, retrieve first entry;
+                            # nothing, error.
 
                             .default.url <- "https://cgc-api.sbgenomics.com/v2/"
 
@@ -47,7 +52,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             fs <<- fs
                             if (is.null(url)) {
                                 if (is.null(platform)) {
-                                    ## try to get token from config and option
+                                    # try to get token from config and option
                                     .p <- getToken(platform = platform)
                                     if (is.null(.p)) {
                                         # get nothing preset
@@ -69,7 +74,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 } else {
                                     .p <- getToken(platform = platform)
                                     if (is.null(.p)) {
-                                        ## try match default public platform
+                                        # try match default public platform
                                         if (platform %in% c("cgc", "us", "china", "gcp")) {
                                             url <<- switch(platform,
                                                            "us"    = "https://api.sbgenomics.com/v2/",
@@ -80,7 +85,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                             stop("platform doesn't exist, please setup config or provide url")
                                         }
                                     } else {
-                                        ## exist in config file
+                                        # exist in config file
                                         .url <- .p$url
                                         if (is.null(.url)) {
                                             stop("you config file is wrong, don't have url")
@@ -93,19 +98,19 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 url <<- url
                             }
                             url <<- normalizeUrl(.self$url)
-                            ## we should know platform or URL at least
-                            ## get token
+                            # we should know platform or URL at least
+                            # get token
                             .token <- NULL
                             if (is.null(token)) {
-                                ## try to read from config first
+                                # try to read from config first
                                 if (!is.null(username)) {
                                     .token <- getToken(platform = platform, username = username)
                                     token <<- .token
                                 } else {
-                                    ## use the first token and user
+                                    # use the first token and user
                                     .p <- getToken(platform = platform)
                                     if (!is.null(.p[[1]])) {
-                                        ## use the first one
+                                        # use the first one
                                         message("use username: ", names(.p$user)[1])
                                         .token <- .p$user[[1]]$token
                                     } else {
@@ -124,7 +129,8 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         },
 
                         project_owner = function(owner = NULL, ...) {
-                            'List the projects owned by and accessible to a particular user.
+                            '
+                            List the projects owned by and accessible to a particular user.
                             Each project\'s ID and URL will be returned.'
 
                             if (is.null(owner)) {
@@ -154,14 +160,15 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                                description = name,
                                                tags = list(),
                                                type = "v2", ...) {
-                            'Create new projects, required parameters: name,
+                            '
+                            Create new projects, required parameters: name,
                             billing_group_id, optional parameteres: tags and
                             description, type.'
 
                             if (is.null(name) || is.null(billing_group_id))
                                 stop('name, description, and billing_group_id must be provided')
 
-                            ## check tags
+                            # check tags
                             if (is.character(tags)) {
                                 tags <- as.list(tags)
                             }
@@ -180,13 +187,14 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                         },
 
-                        ## Project call
+                        # Project call
                         project = function(name = NULL, id = NULL,
                                            index = NULL, ignore.case = TRUE,
                                            exact = FALSE, owner = NULL,
                                            detail = FALSE, ...) {
 
-                            'If no id or name provided, this call returns a
+                            '
+                            If no id or name provided, this call returns a
                             list of all projects you are a member of.
                             Each project\'s project_id and URL on the CGC
                             will be returned. If name or id provided,
@@ -199,9 +207,9 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 return(res)
                             }
 
-                            ## check owner
+                            # check owner
                             if (is.null(owner)) {
-                                ## show all projects
+                                # show all projects
                                 req <- api(path = "projects", method = "GET", ...)
                                 res <- .asProjectList(req)
                             } else {
@@ -217,13 +225,13 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             if (!length(res)) return(NULL)
 
-                            ## if (length(res) == 1) {
-                            ##     .id <- res$id
-                            ##     req <- api(path = paste0("projects/", .id), method = "GET",  ...)
-                            ##     res <- .asProject(req)
-                            ##     res <- setAuth(res, .self, "Project")
-                            ##     return(res)
-                            ## }
+                            # if (length(res) == 1) {
+                            #     .id <- res$id
+                            #     req <- api(path = paste0("projects/", .id), method = "GET",  ...)
+                            #     res <- .asProject(req)
+                            #     res <- setAuth(res, .self, "Project")
+                            #     return(res)
+                            # }
 
                             if (detail && length(res)) {
                                 if (is(res, "SimpleList")) {
@@ -239,7 +247,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 res <- ProjectList(lst)
                             }
 
-                            ## double check
+                            # double check
                             if (length(res) == 1 && is(res, "SimpleList")) {
                                 res <- res[[1]]
                             }
@@ -249,7 +257,8 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         },
 
                         billing = function(id = NULL, breakdown = FALSE, ...) {
-                            'if no id provided, This call returns a list of
+                            '
+                            If no id provided, This call returns a list of
                             paths used to access billing information via the
                             API. else, This call lists all your billing groups,
                             including groups that are pending or have been disabled.
@@ -262,7 +271,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             and cost.'
 
                             if (is.null(id)) {
-                                ## show api
+                                # show api
                                 req <- api(path = 'billing/groups', method = 'GET', ...)
                                 req <- .asBillingList(req)
                                 if (length(req) == 1 && is(req, "SimpleList")) {
@@ -286,12 +295,20 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         },
 
                         invoice = function(id = NULL, ...) {
-                            'no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
-
-                            The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only.
-
-                            if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
                             '
+                            If no id provided, This call returns a list of invoices,
+                            with information about each, including whether or not
+                            the invoice is pending and the billing period it covers.
+
+                            The call returns information about all your available
+                            invoices, unless you use the query parameter bg_id to
+                            specify the ID of a particular billing group, in which
+                            case it will return the invoice incurred by that billing
+                            group only.
+
+                            If id was provided, This call retrieves information about
+                            a selected invoice, including the costs for analysis
+                            and storage, and the invoice period.'
 
                             if (is.null(id)) {
                                 req = api(path = 'billing/invoices', method = 'GET', ...)
@@ -306,7 +323,10 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         api = function(..., limit = getOption("sevenbridges")$limit,
                                        offset = getOption("sevenbridges")$offset,
                                        complete = FALSE) {
-                            'This call returns all API paths, and pass arguments to api() function and input token and url automatically'
+
+                            '
+                            This call returns all API paths, and pass arguments
+                            to api() function and input token and url automatically'
 
                             req <- sevenbridges::api(token, base_url = url, limit = limit, offset = offset, ...)
                             req <- status_check(req)
@@ -337,13 +357,16 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 return(req)
                             }
                         },
+
                         show = function() {
                             .showFields(.self, "== Auth ==",
                                         values = c("token", "url"))
                         },
-                        ## v2 only feature
+
+                        # v2 only feature
                         rate_limit = function(...) {
-                            'This call returns information about your current
+                            '
+                            This call returns information about your current
                             rate limit. This is the number of API calls you can
                             make in one hour.'
 
@@ -352,8 +375,10 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             .asRate(req)
 
                         },
+
                         user = function(username = NULL, ...) {
-                            'This call returns a list of the resources, such as projects,
+                            '
+                            This call returns a list of the resources, such as projects,
                             billing groups, and organizations, that are accessible to you.
 
                             If you are not an administrator, this call will only return a
@@ -377,7 +402,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                         },
 
-                        ## File API
+                        # File API
                         file = function(name = NULL, id = NULL, project = NULL,
                                         exact = FALSE, detail = FALSE,
                                         metadata = list(),
@@ -385,7 +410,11 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                         tag = NULL,
                                         complete = FALSE,
                                         search.engine = c("server", "brute"), ...) {
-                            'This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.'
+                            '
+                            This call returns a list of all files in a specified
+                            project that you can access. For each file, the call
+                            returns: 1) Its ID 2) Its filename The project is
+                            specified as a query parameter in the call.'
 
                             search.engine = match.arg(search.engine)
 
@@ -404,7 +433,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 return(res)
                             }
 
-                            ## build query
+                            # build query
                             .query <- list(project = project)
                             if (length(metadata)) {
                                 new.meta <- unlist(metadata)
@@ -433,13 +462,13 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             if (!is.null(tag)) {
                                 .new_tag = .split_item(tag, "tag")
-                                ## encode the tag for cases like "#1"
+                                # encode the tag for cases like "#1"
                                 .new_tag = lapply(.new_tag, URLencode, TRUE)
                                 .query <- c(.query, .new_tag)
                             }
 
                             if (is.null(name)) {
-                                ## if no id, no name, list all
+                                # if no id, no name, list all
 
                                 if (length(metadata) || length(origin.task) || length(tag)) {
                                     complete = FALSE
@@ -459,8 +488,8 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             }
 
-                            ## search now by name or multiple names
-                            ## get all files
+                            # search now by name or multiple names
+                            # get all files
                             switch(search.engine,
                                    server = {
                                        if (exact) {
@@ -470,7 +499,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                            res = .asFilesList(req)
                                            if (length(res) == 1) res = res[[1]]
                                        } else {
-                                           ## use brute
+                                           # use brute
                                            req <- api(path = 'files',  method = 'GET',
                                                       query = .query, complete = complete, ...)
                                            res <- .asFilesList(req)
@@ -512,7 +541,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             if (is.null(project))
                                 stop("project ID need to be provided, to which the file is copied to")
 
-                            ## iteratively
+                            # iteratively
                             if (length(id) > 1) {
                                 ids <- as.character(id)
                                 for (i in ids) {
@@ -528,10 +557,12 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 setAuth(res, .self, "Files")
                             }
                         },
+
                         copy_file = function(id, project = NULL, name = "") {
                             copyFile(id = id, project = project, name = name)
                         },
-                        ## App API
+
+                        # App API
                         app = function(name        = NULL,
                                        id          = NULL,
                                        exact       = FALSE,
@@ -548,7 +579,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             if (visibility == "public")
                                 query <- c(query, list(visibility = "public"))
 
-                            ## if id specified, doesn't have to list all
+                            # if id specified, doesn't have to list all
 
                             if (!is.null(id)) {
                                 req <- api(path = paste0("apps/", .update_revision(id, revision)),
@@ -556,7 +587,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 return(setAuth(.asApp(req), .self, "App"))
                             }
 
-                            ## list all apps first
+                            # list all apps first
                             if (is.null(project)) {
                                 req <- api(path = "apps", method = "GET",
                                            query = query, complete = complete, ...)
@@ -585,7 +616,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 # }
                             }
                             res <- .asAppList(req)
-                            ## match
+                            # match
                             res <- m.match(res, id = id, name = name, exact = exact,
                                            ignore.case = ignore.case)
 
@@ -633,7 +664,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             if(is.null(project))
                                 stop("project ID need to be provided, to which the file is copied to")
 
-                            ## iteratively
+                            # iteratively
                             if (length(id) > 1) {
                                 ids <- as.character(id)
                                 for (i in ids) {
@@ -681,18 +712,18 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 }
                             } else {
                                 if (is.null(project)) {
-                                    ## list all files
+                                    # list all files
                                     if (status == "all") {
                                         req <- api(path = 'tasks',  method = 'GET', ...)
                                     } else {
                                         req <- api(path = 'tasks',  method = 'GET', query = list(status = status), ...)
                                     }
                                 } else {
-                                    ## list all files
+                                    # list all files
                                     if (status == "all") {
                                         req <- api(path = paste0("projects/", project, "/tasks"),
                                                    method = 'GET', ...)
-                                        ## req <- api(path = 'tasks',  method = 'GET', query = list(project = project), ...)
+                                        # req <- api(path = 'tasks',  method = 'GET', query = list(project = project), ...)
                                     } else {
                                         req <- api(path = paste0("projects/", project, "/tasks"),
                                                    method = 'GET',
@@ -703,16 +734,16 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             res <- .asTaskList(req)
 
-                            ## matching
+                            # matching
                             res <- m.match(res, id = id, name = name, exact = exact)
 
-                            ## if (length(res) == 1) {
-                            ##     .id <- res$id
-                            ##     req <- api(path = paste0("tasks/", .id), method = "GET",  ...)
-                            ##     res <- .asTask(req)
-                            ##     res <- setAuth(res, .self, "Task")
-                            ##     return(res)
-                            ## }
+                            # if (length(res) == 1) {
+                            #     .id <- res$id
+                            #     req <- api(path = paste0("tasks/", .id), method = "GET",  ...)
+                            #     res <- .asTask(req)
+                            #     res <- setAuth(res, .self, "Task")
+                            #     return(res)
+                            # }
 
                             if (length(res)) {
                                 if (detail) {
@@ -832,8 +863,10 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         volume = function(name = NULL, id = NULL,
                                           index = NULL, ignore.case = TRUE,
                                           exact = FALSE, detail = FALSE, ...) {
-
-                            'If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list'
+                            '
+                            If no id or name provided, this call returns a list
+                            of all volumes you are a member of. If name or id
+                            provided, we did a match search the list'
 
                             if (!is.null(id)) {
                                 req <- api(path = paste0("storage/volumes/", id), method = "GET",  ...)
@@ -842,7 +875,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 return(res)
                             }
 
-                            ## list "all"
+                            # list "all"
                             req <- api(path = "storage/volumes", method = "GET", ...)
                             res <- .asVolumeList(req)
                             if (is.null(name)) {
@@ -869,7 +902,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 res <- VolumeList(lst)
                             }
 
-                            ## double check
+                            # double check
                             if (length(res) == 1 && is(res, "SimpleList")) {
                                 res <- res[[1]]
                             }
@@ -878,19 +911,19 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                         }
 
-                    ))
+                        ))
 
 setClassUnion("AuthORNULL", c("Auth", "NULL"))
-
-
 
 #' get Token
 #'
 #' get Token from config files and option list
 #'
 #' Current config file is set on home directory with the name .sbg.auth.yml
-#' @param platform which platform you are using, by default it is cgc platform, it tries
-#' to search your .sbg.auth.yml file to parse platform id your deinfed there.
+#'
+#' @param platform which platform you are using, by default it is cgc platform,
+#' it tries to search your .sbg.auth.yml file to parse platform id your
+#' deinfed there.
 #' @param username username defined in .sbg.auth.yml file
 #'
 #' @rdname Auth-class
@@ -934,8 +967,7 @@ getToken <- function(platform = NULL, username = NULL) {
 
 }
 
-
-
+# append auth info to a simpleList (to every single component)
 setAuth <- function(res, auth, className = NULL) {
     stopifnot(!is.null(className))
     rps <- response(res)
@@ -950,8 +982,6 @@ setAuth <- function(res, auth, className = NULL) {
     response(res) <- rps
     res
 }
-
-
 
 #' Read Auth config file to options
 #'

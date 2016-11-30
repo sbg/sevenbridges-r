@@ -109,12 +109,16 @@ Build workflow
 \item{\code{input_id()}}{show input id}
 
 \item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{this return a matrix of input parameters, by default, following the order 
-id, label, type, required, prefix, fileTypes. new.order accept names of column you want to
-print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when 
-required = TRUE, only print required field. }
+  "fileTypes"), required = NULL)}}{This return a matrix of input parameters,
+by default, following the order id, label,
+type, required, prefix, fileTypes.
+new.order accept names of column you want to
+print, but it has to be a field of inputs.
+When its set to NULL, it prints all fields.
+When required = TRUE, only print required field.}
 
-\item{\code{input_type()}}{show a vector of flow input type, names of them are input id}
+\item{\code{input_type()}}{show a vector of flow input type,
+names of them are input id}
 
 \item{\code{link_map()}}{show a table of all linked nodes}
 
@@ -126,107 +130,117 @@ required = TRUE, only print required field. }
 
 \item{\code{output_id()}}{show output id}
 
-\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{this return a matrix of output parameters, by default, following the order 
-id, label, type, fileTypes. new.order accept names of column you want to
-print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when 
-required = TRUE, only print required field. }
+\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters,
+by default, following the order id, label,
+type, fileTypes. new.order accept names of
+column you want to print, but it has to be
+a field of outputs.
+When its set to NULL, it prints all fields.
+When required = TRUE, only print required field.}
 
-\item{\code{output_type()}}{show a vector of flow output type, names of them are output id}
+\item{\code{output_type()}}{show a vector of flow output type,
+names of them are output id}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun.
-inputs accept list or json}
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally.
+engine supported: bunny, rabix, cwlrun.
+inputs accept list or JSON.}
 
-\item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{set a flow input node into a batch mode, this now is required before
-you execute a batch task on a batch-not-enabled flow}
+\item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{Set a flow input node into a batch mode,
+this is now required before you execute
+a batch task on a batch-not-enabled flow.}
 
-\item{\code{set_flow_input(iid = NULL, add = TRUE)}}{expose tool input node as flow input, default is 
-additative, if \code{add = FALSE} this will overwrite 
-and only made provided id inputs of flow}
+\item{\code{set_flow_input(iid = NULL, add = TRUE)}}{expose tool input node as flow input, default
+is additative, if \code{add = FALSE} this
+will overwrite and only made provided id
+inputs of flow}
 
-\item{\code{set_flow_output(oid = NULL, add = TRUE)}}{expose tool output node as flow output, default is 
-additative, if \code{add = FALSE} this will overwrite 
-and only made provided id outputs of flow}
+\item{\code{set_flow_output(oid = NULL, add = TRUE)}}{expose tool output node as flow output,
+default is additative, if \code{add = FALSE}
+this will overwrite and only made provided
+id outputs of flow}
 
 \item{\code{set_input_port(ids, include = TRUE)}}{set included port for provided input id(s)}
 
-\item{\code{set_required(ids, required = TRUE)}}{set a input node required (\code{TRUE}) or not required (\code{FALSE})
-this require full input id (with tool id prefix) such as #STAR.alignIntronMax}
+\item{\code{set_required(ids, required = TRUE)}}{Set a input node required (\code{TRUE}) or
+not required (\code{FALSE}) this require
+full input id (with tool id prefix) such as
+#STAR.alignIntronMax}
 
-\item{\code{step_input_id(full = FALSE)}}{show step input id, default names of them is tool id. 
-when \code{full = TRUE} show full name then names of vector
-is type.}
+\item{\code{step_input_id(full = FALSE)}}{Show step input id, default names of them is
+tool id. When \code{full = TRUE}, show full
+name then names of vector is type.}
 
-\item{\code{step_output_id(full = FALSE)}}{show step output id, default names of them is tool id. 
-when \code{full = TRUE} show full name then names of vector
-is type.}
+\item{\code{step_output_id(full = FALSE)}}{Show step output id, default names of them is
+tool id. when \code{full = TRUE}, show full
+name then names of vector is type.}
 }}
 \examples{
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 f1 = convert_app(f1)
-## input matrix
+# input matrix
 f1$input_matrix()
-## by name
+# by name
 f1$input_matrix(c("id", "type", "required", "link_to"))
-## return only required
+# return only required
 f1$input_matrix(required = TRUE)
-## return everything
+# return everything
 f1$input_matrix(NULL)
-## return a output matrix with more informtion
+# return a output matrix with more informtion
 f1$output_matrix()
-## return only a few fields
+# return only a few fields
 f1$output_matrix(c("id", "type"))
-## return everything
+# return everything
 f1$output_matrix(NULL)
-## flow inputs
+# flow inputs
 f1$input_type()
-## flow outouts
+# flow outouts
 f1$output_type()
-## flow input id
+# flow input id
 f1$input_id()
-## linked input id
+# linked input id
 f1$linked_input_id()
-## flow output id
+# flow output id
 f1$output_id()
-## linked output id
+# linked output id
 f1$linked_output_id()
-## link_map
+# link_map
 f1$link_map()
-## all step input id
+# all step input id
 f1$step_input_id()
-## all step input full id with type
+# all step input full id with type
 f1$step_input_id(TRUE)
-## all step output id
+# all step output id
 f1$step_output_id()
-## all step output full id with type
+# all step output full id with type
 f1$step_output_id(TRUE)
-## get inputs objects
+# get inputs objects
 f1$get_input("#clip3pNbases")
 f1$get_input(c("#clip3pNbases", "#chimScoreMin"))
 f1$get_input(c("#clip3pNbases", "#chimScoreMin", "#STAR.outFilterMismatchNoverLmax"))
-## get outputs objects
+# get outputs objects
 f1$get_output("#log_files")
 f1$get_output(c("#log_files", "intermediate_genome"))
 f1$get_output(c("#log_files", "intermediate_genome", "#STAR.unmapped_reads"))
 f1$get_output("#log_files")
-## set flow input
+# set flow input
 f1$set_flow_input("#SBG_FASTQ_Quality_Detector.fastq")
 f1$set_flow_output(c("#log_files", "intermediate_genome"))
-## get required node
+# get required node
 f1$get_required()
-## set required node
+# set required node
 f1$steps[[1]]$run$set_required("genomeChrBinNbits")
 f1$get_required()
 f1$steps[[1]]$run$set_required("genomeChrBinNbits", FALSE)
 f1$get_required()
-## get Tool object from Flow by id and name
+# get Tool object from Flow by id and name
 f1$list_tool()
-## return two
+# return two
 f1$get_tool("STAR")
-## return one
+# return one
 f1$get_tool("^STAR$")
-## get included input ports
+# get included input ports
 f1$get_input_port()
-## set included input ports
+# set included input ports
 f1$set_input_port(c("#STAR.alignSJDBoverhangMin", "chimScoreSeparation"))
 f1$get_input_port()
 f1$set_input_port(c("#STAR.alignSJDBoverhangMin", "chimScoreSeparation"), FALSE)
@@ -238,10 +252,10 @@ f1$step_input_id(TRUE)
 f1$input_id()
 f1$set_flow_input("#STAR.reads")
 f1$input_id()
-## batch
+# batch
 f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
 f1$set_batch("sjdbGTFfile", type = "ITEM")
-## add source to id
+# add source to id
 f1$link_map()
 f1$add_source_to_id(c("test1", "test2"), c("#STAR.genome", "#STAR.reads"))
 f1$link_map()

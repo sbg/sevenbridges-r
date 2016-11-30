@@ -10,6 +10,7 @@ Part <- setRefClass("Part", contains = "Item",
                         etag          = "characterORNULL"),
 
                     methods = list(
+
                         initialize = function(part_number   = NULL,
                                               part_size     = NULL,
                                               url           = NULL,
@@ -40,6 +41,7 @@ Part <- setRefClass("Part", contains = "Item",
                             .showFields(.self, "== Part ==",
                                         c("part_number", "url"))
                         }
+
                     ))
 
 Upload <- setRefClass("Upload", contains = "Item",
@@ -56,8 +58,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                           part_finished    = "integerORNULL",
                           initialized      = "logicalORNULL",
                           parallel_uploads = "logicalORNULL",
-                          metadata         = "Metadata"
-                      ),
+                          metadata         = "Metadata"),
 
                       methods = list(
                           initialize = function(
@@ -72,11 +73,12 @@ Upload <- setRefClass("Upload", contains = "Item",
                               parallel_uploads = NULL,
                               metadata = list(), ...) {
 
-                              metadata <<- normalizeMeta(metadata)
+                              metadata         <<- normalizeMeta(metadata)
 
                               parallel_uploads <<-  parallel_uploads
                               initialized      <<- initialized
                               part_finished    <<- part_finished
+
                               # validation
                               stopifnot_provided(!is.null(file))
 
@@ -157,6 +159,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               #     .self$part_size <<- .self$size
                               # }
                               callSuper(...)
+
                           },
 
                           upload_init = function(overwrite = FALSE, ...) {
@@ -166,11 +169,12 @@ Upload <- setRefClass("Upload", contains = "Item",
                                           "size"      = size,
                                           "part_size" = part_size)
 
-                              res <- auth$api(path = "upload/multipart",
-                                              query = list(overwrite = overwrite),
-                                              body = body, method = "POST", ...)
+                              res <- auth$api(path   = "upload/multipart",
+                                              query  = list(overwrite = overwrite),
+                                              body   = body,
+                                              method = "POST", ...)
 
-                              upload_id <<- res$upload_id
+                              upload_id        <<- res$upload_id
 
                               initialized      <<- TRUE
                               part_size        <<- as.integer(res$part_size)
@@ -179,6 +183,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               part_length      <<- as.integer(ceiling(.self$size/part_size))
                               message("Initialized")
                               invisible(res)
+
                           },
 
                           upload_info = function(list_parts = TRUE, ...) {

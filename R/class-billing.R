@@ -1,9 +1,10 @@
-# TODO: when it got stable, define billing object
+# # TODO: when it got stable, define billing object
 # PrivilegesEnum <- setSingleEnum("Privileges", c(""))
-# Billing
-# to make it simple to update, return a list, not an object,
-# because no action defined an this object
+# # Billing
+# # to make it simple to update, return a list, not an object,
+# # because no action defined an this object
 Billing <- setRefClass("Billing", contains = "Item",
+
                        fields = list(
                            id                = "characterORNULL",
                            name              = "characterORNULL",

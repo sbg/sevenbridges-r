@@ -50,6 +50,7 @@ t2 = system.file("extdata/app", "tool_star.json",
                  package = "sevenbridges")
 t1 = convert_app(t1)
 t2 = convert_app(t2)
+# check possible link
 link_what(t1, t2)
 tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
 flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")

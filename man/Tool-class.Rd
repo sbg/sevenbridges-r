@@ -4,7 +4,7 @@
 \name{Tool-class}
 \alias{Tool}
 \alias{Tool-class}
-\title{Tool Class}
+\title{Class Tool}
 \value{
 a Tool object.
 }
@@ -38,37 +38,42 @@ with more seven bridges flabored fields the \code{SBG} class.
 
 \item{\code{get_required()}}{return required input fields types, names of them are input id}
 
-\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{get input id from a Tool, when full = TRUE, connect
-tool id with input id e.g. if requiredOnly = TRUE, returne
-required field only}
+\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{Get input id from a Tool, when full = TRUE,
+connect tool id with input id. e.g. If
+requiredOnly = TRUE, return required field only.}
 
 \item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{this return a matrix of input parameters, by default, following the order 
-id, label, type, required, prefix, fileTypes. new.order accept names of column you want to
-print, but it has to be a field of inputs. When its set to NULL, it prints all fields. when 
-required = TRUE, only print required field. }
+  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default,
+following the order id, label, type, required, prefix,
+fileTypes. new.order accept names of column you want to
+print, but it has to be a field of inputs. When its set
+to NULL, it prints all fields. When required = TRUE,
+only print required field.}
 
 \item{\code{input_type()}}{this return a vector of types, names of them are input id}
 
-\item{\code{output_id(full = FALSE)}}{get output id from a Tool, when full = TRUE, connect
-tool id with input id e.g.}
+\item{\code{output_id(full = FALSE)}}{Get output id from a Tool, when full = TRUE,
+connect tool id with input id.}
 
-\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{this return a matrix of output parameters, by default, following the order 
-id, label, type, fileTypes. new.order accept names of column you want to
-print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when 
-required = TRUE, only print required field. }
+\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters, by default,
+following the order id, label, type, fileTypes.
+new.order accept names of column you want to print,
+but it has to be a field of outputs. When its set to
+NULL, it prints all fields. when required = TRUE,
+only print required field.}
 
 \item{\code{output_type()}}{this return a vector of types, names of them are output id}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{run this tool with inputs locally. engine supported: bunny, rabix, cwlrun.
-inputs accept list or json}
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally.
+engine supported: bunny, rabix, cwlrun.
+Inputs accept list or JSON}
 
-\item{\code{set_input_port(ids, include = TRUE)}}{set inputs ports field \code{sbg:includeInPorts} to the value of 
-include, default is \code{TRUE}}
+\item{\code{set_input_port(ids, include = TRUE)}}{Set inputs ports field \code{sbg:includeInPorts}
+to the value of include, default is \code{TRUE}.}
 
-\item{\code{set_required(ids, required = TRUE)}}{set an input node required or not required. The first 
-parameter takes single input id or more than one ids. 
-the second parameters \code{required} is the value you 
+\item{\code{set_required(ids, required = TRUE)}}{Set an input node required or not required. The first
+parameter takes single input id or more than one ids.
+the second parameters \code{required} is the value you
 want to set to inputs. \code{TRUE} means set to required.}
 }}
 \examples{
@@ -132,7 +137,6 @@ t3 = convert_app(t3)
 fl = system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
 set_test_env("dind", "tengfei/testenv", "~/mounts")
 t3$input_type()
-t3$run(list(input_file = Files(fl)))  # Not File
-}
+t3$run(list(input_file = Files(fl)))  # Not File}
 }
 

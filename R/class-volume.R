@@ -11,6 +11,7 @@ Volume = setRefClass("Volume", contains = "Item",
                                    export_job  = "listORNULL"),  # add on
 
                      methods = list(
+
                          initialize = function(id          = NULL,
                                                name        = NULL,
                                                description = NULL,

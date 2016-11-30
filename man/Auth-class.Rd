@@ -13,8 +13,9 @@ getToken(platform = NULL, username = NULL)
 updateAuthList(config = ".sbg.auth.yml")
 }
 \arguments{
-\item{platform}{which platform you are using, by default it is cgc platform, it tries
-to search your .sbg.auth.yml file to parse platform id your deinfed there.}
+\item{platform}{which platform you are using, by default it is cgc platform,
+it tries to search your .sbg.auth.yml file to parse platform id your
+deinfed there.}
 
 \item{username}{username defined in .sbg.auth.yml file}
 
@@ -32,8 +33,8 @@ Read Auth config file to options
 }
 \details{
 Every object could be requested from this Auth object and any action
-could start from this object using cascading style. Please check vignette
-'easy-api' for more information.
+could start from this object using cascading style. Please check
+\code{vignette("easy-api")} for more information.
 
 Current config file is set on home directory with the name .sbg.auth.yml
 }
@@ -57,9 +58,10 @@ deinfed there.}
 
 \describe{
 \item{\code{api(..., limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset, complete = FALSE)}}{This call returns all API paths, and pass arguments to api() function and input token and url automatically}
+  offset = getOption("sevenbridges")$offset, complete = FALSE)}}{This call returns all API paths, and pass arguments
+to api() function and input token and url automatically}
 
-\item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{if no id provided, This call returns a list of
+\item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{If no id provided, This call returns a list of
 paths used to access billing information via the
 API. else, This call lists all your billing groups,
 including groups that are pending or have been disabled.
@@ -73,14 +75,24 @@ and cost.}
 
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
-  complete = FALSE, search.engine = c("server", "brute"), ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
+  complete = FALSE, search.engine = c("server", "brute"), ...)}}{This call returns a list of all files in a specified
+project that you can access. For each file, the call
+returns: 1) Its ID 2) Its filename The project is
+specified as a query parameter in the call.}
 
-\item{\code{invoice(id = NULL, ...)}}{no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers.
+\item{\code{invoice(id = NULL, ...)}}{                            If no id provided, This call returns a list of invoices,
+                            with information about each, including whether or not
+                            the invoice is pending and the billing period it covers.
 
-                            The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only.
+                            The call returns information about all your available
+                            invoices, unless you use the query parameter bg_id to
+                            specify the ID of a particular billing group, in which
+                            case it will return the invoice incurred by that billing
+                            group only.
 
-                            if id provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.
-                            }
+                            If id was provided, This call retrieves information about
+                            a selected invoice, including the costs for analysis
+                            and storage, and the invoice period.}
 
 \item{\code{project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, owner = NULL, detail = FALSE, ...)}}{If no id or name provided, this call returns a
@@ -101,7 +113,7 @@ Each project's ID and URL will be returned.}
 rate limit. This is the number of API calls you can
 make in one hour.}
 
-\item{\code{user(username = NULL, ...)}}{This call returns a list of the resources, such as projects,
+\item{\code{user(username = NULL, ...)}}{                            This call returns a list of the resources, such as projects,
                             billing groups, and organizations, that are accessible to you.
 
                             If you are not an administrator, this call will only return a
@@ -111,10 +123,12 @@ make in one hour.}
                             information on their resources.}
 
 \item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list}
+  exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list
+of all volumes you are a member of. If name or id
+provided, we did a match search the list}
 }}
 \examples{
-## replace it with real token
+# replace it with real token
 token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
 a <- Auth(token)
 }

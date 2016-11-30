@@ -4,17 +4,17 @@
 \name{App-class}
 \alias{App}
 \alias{App-class}
-\title{App class}
+\title{Class App}
 \value{
 App object.
 }
 \description{
-App class
+Class App
 }
 \section{Fields}{
 
 \describe{
-\item{\code{id}}{app id.}
+\item{\code{id}}{app id}
 
 \item{\code{project}}{project id}
 
@@ -22,20 +22,19 @@ App class
 
 \item{\code{revision}}{app revision}
 
-\item{\code{raw}}{raw cwl list, if doesn't have any, call cwl() method.}
+\item{\code{raw}}{raw cwl list, if doesn't have any, call \code{cwl()} method}
 }}
 \examples{
 \dontrun{
 a = Auth(url = "https://api.sbgenomics.com/v2/",
          token = "fake_token")
-## get a flow
+# get a flow
 app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$input_matrix()
 app$output_matrix()
-## get a flow
+# get a flow
 app = a$public_app(id = "admin/sbg-public-data/star")
 app$input_matrix()
-app$output_matrix()
-}
+app$output_matrix()}
 }
 

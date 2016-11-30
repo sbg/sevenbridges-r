@@ -61,11 +61,11 @@ t1 = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridge
 t2 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 t1 = convert_app(t1)
 t2 = convert_app(t2)
-## check possible link
+# check possible link
 link_what(t1, t2)
-## link
+# link
 f1 = link(t1, t2, "output_fastq_files", "reads")
-## link
+# link
 f2 = link(t1, t2, "output_fastq_files", "reads",
          flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
          flow_output = "#STAR.log_files")

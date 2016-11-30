@@ -1,16 +1,16 @@
 .response_app = c("href", "id", "name", "project", "revision")
-## setClassUnion("SBGWorkflowORToolORNULL", c("SBGWorkflow", "Tool", "NULL"))
-## remove "raw" from default showing methods
+# setClassUnion("SBGWorkflowORToolORNULL", c("SBGWorkflow", "Tool", "NULL"))
+# # remove "raw" from default showing methods
 
-#' App class
+#' Class App
 #'
-#' App class
+#' Class App
 #'
-#' @field id app id.
+#' @field id app id
 #' @field project project id
 #' @field name app name
 #' @field revision app revision
-#' @field raw raw cwl list, if doesn't have any, call cwl() method.
+#' @field raw raw cwl list, if doesn't have any, call \code{cwl()} method
 #'
 #' @export App
 #' @return App object.
@@ -19,23 +19,25 @@
 #' \dontrun{
 #' a = Auth(url = "https://api.sbgenomics.com/v2/",
 #'          token = "fake_token")
-#' ## get a flow
+#' # get a flow
 #' app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 #' app$input_matrix()
 #' app$output_matrix()
-#' ## get a flow
+#' # get a flow
 #' app = a$public_app(id = "admin/sbg-public-data/star")
 #' app$input_matrix()
-#' app$output_matrix()
-#' }
+#' app$output_matrix()}
 App <- setRefClass("App", contains = "Item",
+
                    fields = list(id       = "characterORNULL",
                                  project  = "characterORNULL",
                                  name     = "characterORNULL",
                                  revision = "characterORNULL",
                                  raw      = "ANY",
                                  raw_obj  = "ANY"),
+
                    methods = list(
+
                        initialize = function(id       = NULL,
                                              project  = NULL,
                                              name     = NULL,
@@ -50,12 +52,15 @@ App <- setRefClass("App", contains = "Item",
                            raw_obj  <<- raw_obj
                            callSuper(...)
                        },
+
                        copyTo = function(project = NULL, name = NULL) {
                            auth$copy_app(id, project = project, name = name)
                        },
+
                        copy_to = function(project = NULL, name = NULL) {
                            copyTo(project = project, name = name)
                        },
+
                        cwl = function(revision = NULL, ...) {
                            if (!is.null(revision)) {
                                .id <- .update_revision(id, revision)
@@ -69,10 +74,12 @@ App <- setRefClass("App", contains = "Item",
                                             methods = "GET", ...)
                            raw
                        },
+
                        get_required = function() {
                            obj = convert_app(.self)
                            obj$get_required()
                        },
+
                        input_matrix = function(...) {
                            if (is.null(raw)) {
                                message("get cwl raw file")
@@ -84,6 +91,7 @@ App <- setRefClass("App", contains = "Item",
                            }
                            raw_obj$input_matrix(...)
                        },
+
                        output_matrix = function(...) {
                            if (is.null(raw)) {
                                message("get cwl raw file")
@@ -95,6 +103,7 @@ App <- setRefClass("App", contains = "Item",
                            }
                            raw_obj$output_matrix(...)
                        },
+
                        input_type = function(...) {
                            if (is.null(raw)) {
                                message("get cwl raw file")
@@ -104,6 +113,7 @@ App <- setRefClass("App", contains = "Item",
                            # obj$input_type(...)
                            getInputType(raw)
                        },
+
                        output_type = function(...) {
                            if (is.null(raw)) {
                                message("get cwl raw file")
@@ -113,6 +123,7 @@ App <- setRefClass("App", contains = "Item",
                            # obj$output_type(...)
                            getOutputType(raw)
                        },
+
                        set_batch = function(input = NULL,
                                             criteria = NULL,
                                             type = c("ITEM", "CRITERIA")) {
@@ -129,6 +140,7 @@ App <- setRefClass("App", contains = "Item",
                            p$app_add(shortname, obj)
                            message("done")
                        },
+
                        input_check = function(input, batch = FALSE) {
 
                            message("check id match")
@@ -136,20 +148,21 @@ App <- setRefClass("App", contains = "Item",
                            in_id   = names(in_type)
                            cus_id  = names(input)
                            idx     = cus_id %in% in_id
+
                            if (sum(!idx)) {
                                stop("id not matched: ", paste(cus_id[!idx], collapse = " "),
                                     ".", "\n Inputs id should be \n", paste(in_id, collapse = " "))
                            }
 
                            .type  = in_type[match(cus_id, in_id)]
-                           ## conversion for single file trick
+                           # conversion for single file trick
                            id.fl  = which("File" == .type)
                            id.fls = which("File..." == .type)
 
                            if (length(id.fl)) {
-                               ## solve edge case
+                               # solve edge case
                                for (i in id.fl) {
-                                   ## input should be File
+                                   # input should be File
                                    if(is(input[[i]], "Files")){
                                        if(batch){
                                            message("Converting single Files as a list for batch mode: ", names(input[[i]]))
@@ -188,7 +201,7 @@ App <- setRefClass("App", contains = "Item",
                            }
 
                            if (length(id.fls)) {
-                               ## solve edge case
+                               # solve edge case
                                for (i in id.fls) {
                                    if (is(input[[i]], "Files")) {
                                        message("Coverting your single File to a FileList")
@@ -200,7 +213,9 @@ App <- setRefClass("App", contains = "Item",
                            input
 
                        },
+
                        show = function() .showFields(.self, "== App ==", .response_app)
+
                    ))
 
 .asApp <- function(x) {
@@ -231,26 +246,24 @@ AppList <- setListClass("App", contains = "Item0")
 
 }
 
-
-
-#' Convert App or a cwl JSON file to Tool or Flow object
+#' Convert App or a CWL JSON file to Tool or Flow object
 #'
-#' Convert App or a cwl JSON file to Tool or Flow object
+#' Convert App or a CWL JSON file to Tool or Flow object
 #'
-#' This function import cwl JSON file, based on its class: CommandLineTool
+#' This function import CWL JSON file, based on its class: CommandLineTool
 #' or Worklfow to relevant object in R, Tool object or Flow object.
 #'
-#' @param from an App object or a cwl JSON
+#' @param from an App object or a CWL JSON
 #' @rdname convert_app
 #' @export convert_app
 #' @aliases convert_app
-#' @return Tool or Flow object depends on cwl type.
+#' @return Tool or Flow object depends on CWL type.
 #' @examples
 #' tool.in = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 #' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-#' ## convert to Tool object
+#' # convert to Tool object
 #' convert_app(tool.in)
-#' ## convert to Flow object
+#' # convert to Flow object
 #' convert_app(flow.in)
 convert_app <- function(from) {
 
@@ -281,7 +294,7 @@ convert_app <- function(from) {
 
 .asTool <- function(obj) {
 
-    ## obj should be raw list
+    # obj should be raw list
     args.inputs       <- obj$inputs
     args.outputs      <- obj$outputs
     args.requirements <- obj$requirements
@@ -291,35 +304,35 @@ convert_app <- function(from) {
 
     .diy <- c("inputs", "outputs", "requirements", "hints", "stdin", "stdout")
 
-    ## inputs
+    # inputs
     if (length(args.inputs)) {
         res.in <- input(args.inputs)
     } else {
         res.in <- IPList()
     }
 
-    ## outputs
+    # outputs
     if (length(args.outputs)) {
         res.out <- output(args.outputs)
     } else {
         res.out <- OPList()
     }
 
-    ## hints
+    # hints
     if (length(args.hints)) {
         res.hints <- requirements(args.hints)
     } else {
         res.hints <- requirements()
     }
 
-    ## requirements
+    # requirements
     if (length(args.requirements)) {
         res.req <- requirements(args.requirements)
     } else {
         res.req <- requirements()
     }
 
-    ## stdin
+    # stdin
     if (length(args.stdin)) {
         if (is.character(args.stdin)) {
             res.stdin <- args.stdin
@@ -330,7 +343,7 @@ convert_app <- function(from) {
         res.stdin <- NULL
     }
 
-    ## stdout
+    # stdout
     if (length(args.stdout)) {
         if (is.character(args.stdout)) {
             res.stdout <- args.stdout
@@ -350,7 +363,7 @@ convert_app <- function(from) {
     res$field("requirements", res.req)
     res$field("stdin", res.stdin)
     res$field("stdout", res.stdout)
-    ## for the reason you convert from App, do not add "#"
+    # for the reason you convert from App, do not add "#"
     res$id <- gsub("^#", "", res$id)
     res
 
@@ -365,14 +378,14 @@ convert_app <- function(from) {
 
     .diy <- c("inputs", "outputs", "requirements", "hints", "steps")
 
-    ## inputs
+    # inputs
     if (length(args.inputs)) {
         res.in <- input(args.inputs)
     } else {
         res.in <- IPList()
     }
 
-    ## outputs
+    # outputs
     if (length(args.outputs)) {
 
         lst <- lapply(args.outputs, function(o) {
@@ -404,21 +417,21 @@ convert_app <- function(from) {
         res.out <- SBGWorkflowOutputParameterList()
     }
 
-    ## hints
+    # hints
     if (length(args.hints)) {
         res.hints <- requirements(args.hints)
     } else {
         res.hints <- requirements()
     }
 
-    ## requirements
+    # requirements
     if (length(args.requirements)) {
         res.req <- requirements(args.requirements)
     } else {
         res.req <- requirements()
     }
 
-    ## steps
+    # steps
     slst <-  get_steplist_item(obj)
     # if (length(steplst)) {
     #     lst <- lapply(steplst, function(x) {
@@ -446,15 +459,13 @@ convert_app <- function(from) {
 
 }
 
-
 #' @rdname convert_app
 #' @aliases appType
 #' @export appType
 #' @param x a App object
 #' @section appType:
 #' \describe{
-#'  this function return class of a App object.
-#' }
+#'  this function return class of a App object.}
 appType <- function(x) {
     obj <- x$raw
     if (is.null(obj)) {
@@ -487,7 +498,7 @@ get_output_item = function(x) {
     output(lst$outputs)
 }
 
-# ## Step and StepList
+# Step and StepList
 get_stepinputlist_item = function(x) {
     # x is a step
     lst = lapply(x$inputs, function(i) {

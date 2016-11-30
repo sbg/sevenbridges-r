@@ -13,9 +13,9 @@
 CWL <- setRefClass("CWL",
                    methods = list(
                        getFields = function(values) {
-                           'return fields as a list, used for following conversion,
-                           does not assume the value is primitive type.
                            '
+                           return fields as a list, used for following conversion,
+                           does not assume the value is primitive type.'
                            # from Martin's code
                            flds = names(getRefClass()$fields())
                            if (!missing(values))

@@ -90,7 +90,7 @@ Files <- setRefClass("Files", contains = c("Item"),
                          },
 
                          download = function(destfile, ..., method = "curl") {
-                             'see help(download.file) for more options'
+                             'see `help(download.file)` for more options'
 
                              if (is.null(url))
                                  url <<- download_url()$url
@@ -119,8 +119,10 @@ Files <- setRefClass("Files", contains = c("Item"),
                          },
 
                          copy_to = function(project = NULL, name = NULL) {
-                             'copy a file to a project (id) with new name '
+                             'copy a file to a project (id) with new name'
+
                              copyTo(project = project, name = name)
+
                          },
 
                          meta = function() {
@@ -135,7 +137,8 @@ Files <- setRefClass("Files", contains = c("Item"),
                          },
 
                          setMeta = function(..., overwrite = FALSE) {
-                             'set metadata with provided list, when overwrite
+                             '
+                             set metadata with provided list, when overwrite
                              is set to TRUE, it overwrites the metadata'
 
                              o <- .self$metadata
@@ -171,7 +174,8 @@ Files <- setRefClass("Files", contains = c("Item"),
                          },
 
                          set_meta = function(..., overwrite = FALSE) {
-                             'set metadata with provided list, when overwrite
+                             '
+                             set metadata with provided list, when overwrite
                              is set to TRUE, it overwrites the metadata'
                              setMeta(..., overwrite = overwrite)
                          },
@@ -211,7 +215,8 @@ Files <- setRefClass("Files", contains = c("Item"),
 
                          update  = function(name = NULL, metadata = NULL,
                                             tags = NULL) {
-                             'This call updates the name, the full set metadata,
+                             '
+                             This call updates the name, the full set metadata,
                              and tags for a specified file.'
 
                              body <- list(name = name, metadata = metadata, tags = tags)

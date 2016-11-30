@@ -1,6 +1,4 @@
-User <- setRefClass("User",
-
-                    contains = "Item",
+User <- setRefClass("User", contains = "Item",
 
                     fields = c("username", "email",
                                "first_name", "last_name",
@@ -24,8 +22,7 @@ User <- setRefClass("User",
                             zip_code       = "",
                             projects       = "",
                             billing_groups = "",
-                            tasks          = "",
-                            ...) {
+                            tasks          = "", ...) {
 
                             username       <<- username
                             email          <<- email
@@ -63,8 +60,7 @@ User <- setRefClass("User",
                                                    "zip_code",
                                                    "projects",
                                                    "billing_groups",
-                                                   "tasks")
-                            )
+                                                   "tasks"))
                         }
 
                     ))

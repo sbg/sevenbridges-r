@@ -56,9 +56,9 @@ it usually return the project id and stored with the object.}
 \describe{
 \item{\code{add_tag(x, ...)}}{add new tags while keeping old tags}
 
-\item{\code{copy_to(project = NULL, name = NULL)}}{copy a file to a project (id) with new name }
+\item{\code{copy_to(project = NULL, name = NULL)}}{copy a file to a project (id) with new name}
 
-\item{\code{download(destfile, ..., method = "curl")}}{see help(download.file) for more options}
+\item{\code{download(destfile, ..., method = "curl")}}{see `help(download.file)` for more options}
 
 \item{\code{meta()}}{get metadata from a file}
 
