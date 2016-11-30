@@ -40,7 +40,7 @@ There are two ways of constructing API calls. For instance, you can use low-leve
 library("sevenbridges")
 a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", 
           url = "https://api.sbgenomics.com/v2/")
-a$api(path = "project", method = "GET")
+a$api(path = "projects", method = "GET")
 ```
 
 ***(Advanced user option)*** The second way of constructing an API request is to directly use the `httr` package to make your API calls, as shown below.
