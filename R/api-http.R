@@ -1,54 +1,60 @@
-#' Wrapper of http logic for SBG API
+#' Core HTTP logic for Seven Bridges API
 #'
-#' Wrapper of http logic for SBG API
+#' Core HTTP logic for Seven Bridges API
 #'
-#' Used for advanced users and the core method for higher level API in
-#' this package, please refer to the easy api manual and the two
-#' vignettes pages for more convenient usage.
+#' Used for advanced users and the core method for higher level API
+#' in this package, please refer to the easy api vignette and
+#' additional vignettes pages for more convenient usage.
 #'
 #' @param token authenticate token string.
-#' @param version API version number, default 1.1.
-#' @param path path connected with base_url.
-#' @param method one of \code{"GET"}, \code{"POST"}, \code{"PUT"}, \code{"Delete"}.
+#' @param version API version number, default is \code{v2}.
+#' @param path path connected with \code{base_url}.
+#' @param method one of \code{"GET"}, \code{"POST"},
+#' \code{"PUT"}, or \code{"Delete"}.
 #' @param query Passed to httr package GET/POST call.
 #' @param body Passed to httr package GET/POST/PUT/DELETE call.
 #' @param encode If the body is a named list, how should it be
-#' encoded? Default here is "json". Can be one of form
-#' (application/x-www-form-urlencoded), multipart, (multipart/form-data),
-#' or json (application/json). For "multipart", list elements can be strings
-#' or objects created by upload_file. For "form", elements are coerced to
-#' strings and escaped, use I() to prevent double-escaping. For "json",
-#' parameters are automatically "unboxed" (i.e. length 1 vectors are converted
-#' to scalars). To preserve a length 1 vector as a vector, wrap in I().
+#' encoded? Can be one of \code{"json"} (application/json),
+#' \code{"form"} (application/x-www-form-urlencoded),
+#' or \code{"multipart"} (multipart/form-data).
+#' Default is \code{"json"}.
+#' For \code{"multipart"}, list elements can be strings
+#' or objects created by \code{\link[httr]{upload_file}}.
+#' For "form", elements are coerced to strings and escaped,
+#' use \code{I()} to prevent double-escaping.
+#' For \code{"json"}, parameters are automatically "unboxed"
+#' (i.e. length 1 vectors are converted to scalars). To preserve
+#' a length 1 vector as a vector, wrap in \code{I()}.
 #' @param limit How many results to return
 #' @param offset The point at which to start displaying them
-#' @param base_url defeault is "https://api.sbgenomics.com/1.1"
-#' @param ... passed to GET/PUT/DELETE/PATCH/POST call.
+#' @param base_url defeault is \code{"https://api.sbgenomics.com/v2"}
+#' @param ... passed to GET/POST/PUT/DELETE/PATCH call.
 #'
 #' @return returned request list of httr
 #'
 #' @references
-#' \url{https://docs.sbgenomics.com/display/developerhub/API}
+#' \url{http://docs.sevenbridges.com/v1.0/page/api}
 #'
 #' @export api
 #' @examples
-#' token <- "fake_token"
+#' token = "your_token"
 #' \donttest{
-#' ## list projects
-#' api(token = token, path = 'project', method = "GET")
-#' }
-api = function (token = NULL, version = '1.1', path = NULL,
-                method = c('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
-                query = NULL, body = list(), encode = "json",
-                limit = getOption("sevenbridges")$limit,
-                offset = getOption("sevenbridges")$offset,
-                base_url = paste0("https://api.sbgenomics.com/", version, "/"),
-                ...) {
+#' # list projects
+#' api(token = token, path = "projects", method = "GET")}
+api = function(token = NULL, version = 'v2', path = NULL,
+               method = c('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
+               query = NULL, body = list(),
+               encode = c("json", "form", "multipart"),
+               limit = getOption("sevenbridges")$limit,
+               offset = getOption("sevenbridges")$offset,
+               base_url = paste0("https://api.sbgenomics.com/", version, "/"),
+               ...) {
 
     if (is.null(token))
         stop('token must be provided')
 
-    method <- match.arg(method)
+    method = match.arg(method)
+    encode = match.arg(encode)
 
     headers = c(
         'X-SBG-Auth-Token' = token
@@ -260,9 +266,9 @@ status_check = function (req, as = 'parsed', ...) {
 #'
 #' @export upload_info
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
+#' token = "your_token"
 #' \donttest{req = upload_info(token,
-#'                 upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT')}
+#'                 upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 upload_info = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -290,10 +296,11 @@ upload_info = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export upload_info_part
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
-#' \donttest{req = upload_info_part(token,
-#'                 upload_id = 'aVluXRqSX2bse6va3AFFgVAppOCQ9IABeA8HnyyiEw85j6pNyV989H4xvJpr53xa',
-#'                 part_number = 1)}
+#' token = "your_token"
+#' \donttest{
+#' req = upload_info_part(token,
+#'       upload_id = "aVluXRqSX2bse6va3AFFgVAppOCQ9IABeA8HnyyiEw85j6pNyV989H4xvJpr53xa",
+#'       part_number = 1)}
 upload_info_part = function (token = NULL,
                              upload_id = NULL, part_number = NULL, ...) {
 
@@ -336,10 +343,11 @@ upload_info_part = function (token = NULL,
 #'
 #' @export upload_init
 #' @examples
-#' token = '58aeb140-1970-0130-6386-001f5b34aa78'
-#' \donttest{req = upload_init(token,
-#'                 project_id = 'f0eb447f-3511-4b28-9253-eba96191d432',
-#'                 name = 'Sample1_RNASeq_chr20.pe_1.fastq', size = 5242880)}
+#' token = "your_token"
+#' \donttest{
+#' req = upload_init(token,
+#'       project_id = "f0eb447f-3511-4b28-9253-eba96191d432",
+#'       name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
 upload_init = function (token = NULL, project_id = NULL,
                         name = NULL, size = NULL, part_size = NULL, ...) {
 
@@ -375,11 +383,12 @@ upload_init = function (token = NULL, project_id = NULL,
 #'
 #' @export upload_complete_part
 #' @examples
-#' token = '58aeb140-1970-0130-6386-001f5b34aa78'
-#' \donttest{req = upload_complete_part(token,
-#'                 upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT',
-#'                 part_number = '1',
-#'                 e_tag = 'd41d8cd98f00b204e9800998ecf8427e')}
+#' token = "your_token"
+#' \donttest{
+#' req = upload_complete_part(token,
+#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT",
+#'       part_number = "1",
+#'       e_tag = "d41d8cd98f00b204e9800998ecf8427e")}
 upload_complete_part = function (token = NULL, upload_id = NULL,
                                  part_number = NULL, e_tag = NULL, ...) {
 
@@ -410,9 +419,10 @@ upload_complete_part = function (token = NULL, upload_id = NULL,
 #'
 #' @export upload_complete_all
 #' @examples
-#' token = '58aeb140-1970-0130-6386-001f5b34aa78'
-#' \donttest{req = upload_complete_all(token,
-#'             upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT')}
+#' token = "your_token"
+#' \donttest{
+#' req = upload_complete_all(token,
+#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -425,9 +435,9 @@ upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 
 }
 
-#' Aborts the upload
+#' Abort the upload
 #'
-#' All upload records and the file are deleted.
+#' Abort the upload; all upload records and the file are deleted.
 #'
 #' @param token auth token
 #' @param upload_id ID of the upload
@@ -437,9 +447,10 @@ upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export upload_delete
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
-#' \donttest{req = upload_delete(token,
-#'             upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT')}
+#' token = "your_token"
+#' \donttest{
+#' req = upload_delete(token,
+#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 upload_delete = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -450,6 +461,7 @@ upload_delete = function (token = NULL, upload_id = NULL, ...) {
     return(status_check(req))
 
 }
+
 # 2. Projects
 
 #' Returns the details of the project
@@ -464,9 +476,10 @@ upload_delete = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export project_details
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
-#' \donttest{req = project_details(token,
-#'                 project_id = 'b0b3a611-6bb0-47e5-add7-a83402cf7858')}
+#' token = "your_token"
+#' \donttest{
+#' req = project_details(token,
+#'       project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
 project_details = function (token = NULL, project_id = NULL, ...) {
 
     if (is.null(project_id)) stop('project_id must be provided')
@@ -492,9 +505,10 @@ project_details = function (token = NULL, project_id = NULL, ...) {
 #'
 #' @export project_members
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
-#' \donttest{req = project_members(token,
-#'                 project_id = 'b0b3a611-6bb0-47e5-add7-a83402cf7858')}
+#' token = "your_token"
+#' \donttest{
+#' req = project_members(token,
+#'       project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
 project_members = function (token = NULL, project_id = NULL, ...) {
 
     if (is.null(project_id)) stop('project_id must be provided')

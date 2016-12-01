@@ -22,7 +22,6 @@ Test tools locally in rabix/rabix-devel python executor (DEPRECATED)
 inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
 rbx <- <define rabix tool>
 set_test_env("tengfei/testenv", "<mount_dir>")
-test_tool_rabix(rbx, inputs)
-}
+test_tool_rabix(rbx, inputs)}
 }
 

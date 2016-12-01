@@ -35,7 +35,7 @@ tag list
 \description{
 set file tags
 
-add new file tags and keep the old tags
+Add new file tags and keep the old tags
 }
 \examples{
 \dontrun{

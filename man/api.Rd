@@ -2,63 +2,68 @@
 % Please edit documentation in R/api-http.R
 \name{api}
 \alias{api}
-\title{Wrapper of http logic for SBG API}
+\title{Core HTTP logic for Seven Bridges API}
 \usage{
-api(token = NULL, version = "1.1", path = NULL, method = c("GET",
-  "POST", "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
-  encode = "json", limit = getOption("sevenbridges")$limit,
+api(token = NULL, version = "v2", path = NULL, method = c("GET", "POST",
+  "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
+  encode = c("json", "form", "multipart"),
+  limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset,
   base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
 }
 \arguments{
 \item{token}{authenticate token string.}
 
-\item{version}{API version number, default 1.1.}
+\item{version}{API version number, default is \code{v2}.}
 
-\item{path}{path connected with base_url.}
+\item{path}{path connected with \code{base_url}.}
 
-\item{method}{one of \code{"GET"}, \code{"POST"}, \code{"PUT"}, \code{"Delete"}.}
+\item{method}{one of \code{"GET"}, \code{"POST"},
+\code{"PUT"}, or \code{"Delete"}.}
 
 \item{query}{Passed to httr package GET/POST call.}
 
 \item{body}{Passed to httr package GET/POST/PUT/DELETE call.}
 
 \item{encode}{If the body is a named list, how should it be
-encoded? Default here is "json". Can be one of form
-(application/x-www-form-urlencoded), multipart, (multipart/form-data),
-or json (application/json). For "multipart", list elements can be strings
-or objects created by upload_file. For "form", elements are coerced to
-strings and escaped, use I() to prevent double-escaping. For "json",
-parameters are automatically "unboxed" (i.e. length 1 vectors are converted
-to scalars). To preserve a length 1 vector as a vector, wrap in I().}
+encoded? Can be one of \code{"json"} (application/json),
+\code{"form"} (application/x-www-form-urlencoded),
+or \code{"multipart"} (multipart/form-data).
+Default is \code{"json"}.
+For \code{"multipart"}, list elements can be strings
+or objects created by \code{\link[httr]{upload_file}}.
+For "form", elements are coerced to strings and escaped,
+use \code{I()} to prevent double-escaping.
+For \code{"json"}, parameters are automatically "unboxed"
+(i.e. length 1 vectors are converted to scalars). To preserve
+a length 1 vector as a vector, wrap in \code{I()}.}
 
 \item{limit}{How many results to return}
 
 \item{offset}{The point at which to start displaying them}
 
-\item{base_url}{defeault is "https://api.sbgenomics.com/1.1"}
+\item{base_url}{defeault is \code{"https://api.sbgenomics.com/v2"}}
 
-\item{...}{passed to GET/PUT/DELETE/PATCH/POST call.}
+\item{...}{passed to GET/POST/PUT/DELETE/PATCH call.}
 }
 \value{
 returned request list of httr
 }
 \description{
-Wrapper of http logic for SBG API
+Core HTTP logic for Seven Bridges API
 }
 \details{
-Used for advanced users and the core method for higher level API in
-this package, please refer to the easy api manual and the two
-vignettes pages for more convenient usage.
+Used for advanced users and the core method for higher level API
+in this package, please refer to the easy api vignette and
+additional vignettes pages for more convenient usage.
 }
 \examples{
-token <- "fake_token"
+token = "your_token"
 \donttest{
-## list projects
-api(token = token, path = 'project', method = "GET")
-}
+# list projects
+api(token = token, path = "projects", method = "GET")}
 }
 \references{
-\url{https://docs.sbgenomics.com/display/developerhub/API}
+\url{http://docs.sevenbridges.com/v1.0/page/api}
 }
 

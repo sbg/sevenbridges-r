@@ -4,7 +4,7 @@
 \alias{get_cwl_class}
 \alias{is_commandlinetool}
 \alias{is_workflow}
-\title{get class from cwl json file}
+\title{Get class from CWL JSON file}
 \usage{
 get_cwl_class(input)
 }
@@ -15,7 +15,7 @@ get_cwl_class(input)
 character for cwl class "Workflow" or "CommandLineTool"
 }
 \description{
-get class from cwl json file
+Get class from CWL JSON file
 }
 \examples{
 tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")

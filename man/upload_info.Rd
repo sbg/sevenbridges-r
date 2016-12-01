@@ -20,8 +20,8 @@ parsed list of the returned json
 Returns the upload information for the ongoing upload.
 }
 \examples{
-token = '420b4672ebfc43bab48dc0d18a32fb6f'
+token = "your_token"
 \donttest{req = upload_info(token,
-                upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT')}
+                upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 }
 

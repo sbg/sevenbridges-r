@@ -28,10 +28,11 @@ whole upload. Value for the ETag is provided by AWS S3 service when
 uploading the file in the ETag header.
 }
 \examples{
-token = '58aeb140-1970-0130-6386-001f5b34aa78'
-\donttest{req = upload_complete_part(token,
-                upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT',
-                part_number = '1',
-                e_tag = 'd41d8cd98f00b204e9800998ecf8427e')}
+token = "your_token"
+\donttest{
+req = upload_complete_part(token,
+      upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT",
+      part_number = "1",
+      e_tag = "d41d8cd98f00b204e9800998ecf8427e")}
 }
 

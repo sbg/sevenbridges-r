@@ -2,7 +2,7 @@
 % Please edit documentation in R/api-http.R
 \name{upload_delete}
 \alias{upload_delete}
-\title{Aborts the upload}
+\title{Abort the upload}
 \usage{
 upload_delete(token = NULL, upload_id = NULL, ...)
 }
@@ -17,11 +17,12 @@ upload_delete(token = NULL, upload_id = NULL, ...)
 parsed list of the returned json
 }
 \description{
-All upload records and the file are deleted.
+Abort the upload; all upload records and the file are deleted.
 }
 \examples{
-token = '420b4672ebfc43bab48dc0d18a32fb6f'
-\donttest{req = upload_delete(token,
-            upload_id = '8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT')}
+token = "your_token"
+\donttest{
+req = upload_delete(token,
+      upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 }
 

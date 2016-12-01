@@ -25,7 +25,6 @@ required images downloaded and if do creates container
 }
 \examples{
 \dontrun{
-set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")
-}
+set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")}
 }
 

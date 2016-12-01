@@ -30,10 +30,10 @@ The uploaded file's ID number.
 Upload files using SBG uploader.
 }
 \examples{
-token = '420b4672ebfc43bab48dc0d18a32fb6f'
+token = "your_token"
 \donttest{misc_upload_cli(token = token,
-                          uploader = '~/sbg-uploader/',
-                          file = '~/example.fastq', project_id = '1234')}
+                          uploader = "~/sbg-uploader/",
+                          file = "~/example.fastq", project_id = "1234")}
 }
 \references{
 \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}

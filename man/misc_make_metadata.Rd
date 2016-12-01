@@ -76,12 +76,12 @@ File Metadata Documentation:
 \url{https://developer.sbgenomics.com/platform/metadata}.
 }
 \examples{
-destfile = '~/c.elegans_chr2_test.fastq.meta'
-\donttest{misc_make_metadata(output = 'metafile',
+destfile = "~/c.elegans_chr2_test.fastq.meta"
+\donttest{misc_make_metadata(output = "metafile",
             destfile = destfile,
-            name = 'c.elegans_chr2_test.fastq',
-            file_type = 'fastq', qual_scale = 'illumina13',
-            seq_tech = 'Illumina')}
+            name = "c.elegans_chr2_test.fastq",
+            file_type = "fastq", qual_scale = "illumina13",
+            seq_tech = "Illumina")}
 }
 \references{
 \url{https://developer.sbgenomics.com/platform/metadata}

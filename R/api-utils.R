@@ -36,7 +36,7 @@ misc_get_token = function () {
 #' @export misc_get_uploader
 #' @importFrom utils untar download.file
 #' @examples
-#' dir = '~/sbg-uploader/'
+#' dir = "~/sbg-uploader/"
 #' \donttest{misc_get_uploader(dir)}
 misc_get_uploader = function (destdir = NULL) {
 
@@ -107,12 +107,12 @@ misc_get_uploader = function (destdir = NULL) {
 #' \url{https://developer.sbgenomics.com/platform/metadata}
 #'
 #' @examples
-#' destfile = '~/c.elegans_chr2_test.fastq.meta'
-#' \donttest{misc_make_metadata(output = 'metafile',
+#' destfile = "~/c.elegans_chr2_test.fastq.meta"
+#' \donttest{misc_make_metadata(output = "metafile",
 #'             destfile = destfile,
-#'             name = 'c.elegans_chr2_test.fastq',
-#'             file_type = 'fastq', qual_scale = 'illumina13',
-#'             seq_tech = 'Illumina')}
+#'             name = "c.elegans_chr2_test.fastq",
+#'             file_type = "fastq", qual_scale = "illumina13",
+#'             seq_tech = "Illumina")}
 misc_make_metadata = function (output = c('list', 'json', 'metafile'),
                                destfile = NULL,
                                name = NULL,
@@ -177,10 +177,10 @@ misc_make_metadata = function (output = c('list', 'json', 'metafile'),
 #' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #'
 #' @examples
-#' token = '420b4672ebfc43bab48dc0d18a32fb6f'
+#' token = "your_token"
 #' \donttest{misc_upload_cli(token = token,
-#'                           uploader = '~/sbg-uploader/',
-#'                           file = '~/example.fastq', project_id = '1234')}
+#'                           uploader = "~/sbg-uploader/",
+#'                           file = "~/example.fastq", project_id = "1234")}
 misc_upload_cli = function (token = NULL, uploader = NULL,
                             file = NULL, project_id = NULL,
                             proxy = NULL) {
@@ -686,8 +686,7 @@ iterId <- function(ids, fun, ...) {
 #' @return docker stdout
 #' @examples
 #' \dontrun{
-#' set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")
-#' }
+#' set_test_env("dind", "tengfei/testenv", "/Users/<user>/tools")}
 
 set_test_env = function(type = "host",
                         docker_image = "tengfei/testenv",
@@ -745,7 +744,7 @@ set_test_env = function(type = "host",
 .docker_env_vars = function() {
     # TODO:
     # This flow should really be handled by separate class or
-    # R docker client package (non-existant)
+    # R Docker Remote API client package
     docker.info <- system2("docker", "info", stdout = FALSE, stderr = FALSE)
     if (docker.info == 0) {
         message("[INFO]: Docker set.")
@@ -777,8 +776,7 @@ set_test_env = function(type = "host",
 #' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
 #' rbx <- <define rabix tool>
 #' set_test_env("tengfei/testenv", "<mount_dir>")
-#' test_tool_bunny(rbx, inputs)
-#' }
+#' test_tool_bunny(rbx, inputs)}
 
 test_tool_bunny = function(rabix_tool, inputs) {
 
@@ -828,8 +826,7 @@ test_tool_bunny = function(rabix_tool, inputs) {
 #' inputs <- '{"counts_file": {"class": "File", "path": "./FPKM.txt"}, "gene_names": "BRCA1"}'
 #' rbx <- <define rabix tool>
 #' set_test_env("tengfei/testenv", "<mount_dir>")
-#' test_tool_rabix(rbx, inputs)
-#' }
+#' test_tool_rabix(rbx, inputs)}
 test_tool_rabix = function(rabix_tool, inputs=list()) {
 
     container.name <- .set_container_name()
@@ -1047,11 +1044,11 @@ set_box <- function(x) {
     x
 }
 
-# cwl utils
+# CWL Utilities
 
-#' get class from cwl json file
+#' Get class from CWL JSON file
 #'
-#' get class from cwl json file
+#' Get class from CWL JSON file
 #'
 #' @param input cwl json file path
 #'

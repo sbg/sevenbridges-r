@@ -365,9 +365,9 @@ setMethod("set_tag", "Files", function(obj, ...) {
     obj$set_tag(...)
 })
 
-#' add new file tags
+#' Add new file tags
 #'
-#' add new file tags and keep the old tags
+#' Add new file tags and keep the old tags
 #'
 #' @export
 #' @docType methods

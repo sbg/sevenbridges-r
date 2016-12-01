@@ -18,7 +18,7 @@ downloaded and unarchived.
 Download SBG uploader and extract to a specified directory.
 }
 \examples{
-dir = '~/sbg-uploader/'
+dir = "~/sbg-uploader/"
 \donttest{misc_get_uploader(dir)}
 }
 
