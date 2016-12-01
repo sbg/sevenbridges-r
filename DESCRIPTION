@@ -49,6 +49,7 @@ Collate:
     sevenbridges-package.R
     api-http.R
     api-utils.R
+    api-misc.R
     class-all.R
     class-filesystem.R      
     class-cwl.R
