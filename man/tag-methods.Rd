@@ -8,7 +8,7 @@
 \alias{set_tag}
 \alias{set_tag,Files-method}
 \alias{set_tag,FilesList-method}
-\title{set file tags}
+\title{Set file tags}
 \usage{
 set_tag(obj, ...)
 
@@ -33,7 +33,7 @@ tag list
 tag list
 }
 \description{
-set file tags
+Set file tags
 
 Add new file tags and keep the old tags
 }

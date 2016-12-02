@@ -6,7 +6,7 @@
 \alias{delete,Files-method}
 \alias{delete,SimpleList-method}
 \alias{delete,Task-method}
-\title{Delete file or files}
+\title{Delete files}
 \usage{
 delete(obj)
 
@@ -23,7 +23,7 @@ delete(obj)
 system message
 }
 \description{
-Delete file
+Delete files
 }
 \examples{
 \dontrun{

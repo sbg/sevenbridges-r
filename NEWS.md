@@ -1,3 +1,12 @@
+# sevenbridges 1.5.4
+
+## Improvements
+
+- Redesigned authentication process; compliant with the new specification for configuration file format
+- Experimental support for Folders API (advanced access)
+- Updated error status code to the latest version
+- Decoupled Files class and (CWL) File class; updated Files class to support the latest API
+
 # sevenbridges 1.5.3
 
 ## Bug Fixes

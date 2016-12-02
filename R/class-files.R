@@ -105,7 +105,7 @@ Files <- setRefClass("Files", contains = c("Item"),
                              if (.dir.exists(destfile)) {
                                  # is directory
                                  if (!is.null(name))
-                                     destfile <- file.path(destfile, name)
+                                     destfile = file.path(destfile, name)
                              } else {
                                  stop("download dir does not exist")
                              }
@@ -128,8 +128,8 @@ Files <- setRefClass("Files", contains = c("Item"),
                          meta = function() {
                              'get metadata from a file'
 
-                             req <- auth$api(path = paste0('files/', id, '/metadata'),
-                                             methods = "GET")
+                             req = auth$api(path = paste0('files/', id, '/metadata'),
+                                            methods = "GET")
                              # update
                              metadata <<- req
                              req
@@ -141,29 +141,29 @@ Files <- setRefClass("Files", contains = c("Item"),
                              set metadata with provided list, when overwrite
                              is set to TRUE, it overwrites the metadata'
 
-                             o <- .self$metadata
+                             o = .self$metadata
 
-                             md <- .dotargsAsList(...)
+                             md = .dotargsAsList(...)
 
                              if (length(md)) {
                                  if (!overwrite) {
-                                     req <- auth$api(path = paste0('files/', id, '/metadata'),
-                                                     body = md,
-                                                     method = 'PATCH')
+                                     req = auth$api(path = paste0('files/', id, '/metadata'),
+                                                    body = md,
+                                                    method = 'PATCH')
                                  } else {
-                                     req <- auth$api(path = paste0('files/', id, '/metadata'),
-                                                     body = md,
-                                                     method = 'PUT')
+                                     req = auth$api(path = paste0('files/', id, '/metadata'),
+                                                    body = md,
+                                                    method = 'PUT')
                                  }
                              } else {
                                  if (overwrite) {
                                      # overwrite!
                                      message("reset meta")
-                                     req <- auth$api(path = paste0('files/', id, '/metadata'),
-                                                     method = 'PUT')
+                                     req = auth$api(path = paste0('files/', id, '/metadata'),
+                                                    method = 'PUT')
                                  } else {
                                      message("Nothing to add")
-                                     req <- NULL
+                                     req = NULL
                                  }
                              }
 
@@ -219,17 +219,17 @@ Files <- setRefClass("Files", contains = c("Item"),
                              This call updates the name, the full set metadata,
                              and tags for a specified file.'
 
-                             body <- list(name = name, metadata = metadata, tags = tags)
-                             body <- body[!sapply(body, is.null)]
+                             body = list(name = name, metadata = metadata, tags = tags)
+                             body = body[!sapply(body, is.null)]
                              if (length(body)) {
-                                 req <- auth$api(path = paste0('files/', id),
-                                                 body = body,
-                                                 method = 'PATCH')
-                                 res <- .asFiles(req)
+                                 req = auth$api(path = paste0('files/', id),
+                                                body = body,
+                                                method = 'PATCH')
+                                 res = .asFiles(req)
                              } else {
-                                 req <- auth$api(path = paste0('files/', id),
-                                                 method = 'GET')
-                                 res <- .asFiles(req)
+                                 req = auth$api(path = paste0('files/', id),
+                                                method = 'GET')
+                                 res = .asFiles(req)
                              }
 
                              # update fields
@@ -268,15 +268,15 @@ Files <- setRefClass("Files", contains = c("Item"),
 FilesList <- setListClass("Files", contains = "Item0")
 
 .asFilesList <- function(x) {
-    obj          <- FilesList(lapply(x$items, .asFiles))
-    obj@href     <- x$href
-    obj@response <- response(x)
+    obj          = FilesList(lapply(x$items, .asFiles))
+    obj@href     = x$href
+    obj@response = response(x)
     obj
 }
 
-#' Delete file or files
+#' Delete files
 #'
-#' Delete file
+#' Delete files
 #'
 #' @param obj single File or FileList
 #'
@@ -303,9 +303,9 @@ setMethod("delete", "Files", function(obj) {
     obj$delete()
 })
 
-#' Download file or files
+#' Download files
 #'
-#' Download file
+#' Download files
 #'
 #' @param obj single File or FileList
 #' @param ... passed to download()
@@ -333,9 +333,9 @@ setMethod("download", "Files", function(obj, ...) {
     obj$download(...)
 })
 
-#' set file tags
+#' Set file tags
 #'
-#' set file tags
+#' Set file tags
 #'
 #' @param obj single File or FileList
 #' @param ... passed to obj$set_tag() or obj$add_tag()
@@ -354,9 +354,7 @@ setGeneric("set_tag", function(obj, ...) standardGeneric("set_tag"))
 #' @rdname tag-methods
 #' @aliases set_tag,FilesList-method
 setMethod("set_tag", "FilesList", function(obj, ...) {
-    for (i in 1:length(obj)) {
-        obj[[i]]$set_tag(...)
-    }
+    for (i in 1:length(obj)) obj[[i]]$set_tag(...)
 })
 
 #' @rdname tag-methods
@@ -383,9 +381,7 @@ setGeneric("add_tag", function(obj, ...) standardGeneric("add_tag"))
 #' @rdname tag-methods
 #' @aliases add_tag,FilesList-method
 setMethod("add_tag", "FilesList", function(obj, ...) {
-    for (i in 1:length(obj)) {
-        obj[[i]]$add_tag(...)
-    }
+    for (i in 1:length(obj)) obj[[i]]$add_tag(...)
 })
 
 #' @rdname tag-methods

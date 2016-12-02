@@ -5,7 +5,7 @@
 \alias{download}
 \alias{download,Files-method}
 \alias{download,FilesList-method}
-\title{Download file or files}
+\title{Download files}
 \usage{
 download(obj, ...)
 
@@ -22,7 +22,7 @@ download(obj, ...)
 system message
 }
 \description{
-Download file
+Download files
 }
 \examples{
 \dontrun{

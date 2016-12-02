@@ -51,7 +51,7 @@ Collate:
     api-utils.R
     api-misc.R
     class-all.R
-    class-filesystem.R      
+    class-filesystem.R
     class-cwl.R
     class-auth.R
     class-item.R
@@ -67,7 +67,7 @@ Collate:
     class-flow.R
     class-task.R
     class-volume.R
-    class-folder.R
+    class-folders.R
     misc-handler.R
     misc-lift.R
     misc-addins.R
