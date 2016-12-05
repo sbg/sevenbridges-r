@@ -1,11 +1,20 @@
-# sevenbridges 1.5.4
+# sevenbridges 1.5.5 (TBD)
 
 ## Improvements
 
-- Redesigned authentication process; compliant with the new specification for configuration file format
-- Experimental support for Folders API (advanced access)
-- Updated error status code to the latest version
+- Redesigned authentication process: compliant with the new specification
+
+# sevenbridges 1.5.4
+
+## Bug Fixes
+
+- Big fix for batch mode: ([b6a91f2](https://github.com/sbg/sevenbridges-r/commit/b6a91f2fbbb59cbe6dc40b63f6b7057064e25c19))
+- Bug fix in IDE Dockerfile ([838856b](https://github.com/sbg/sevenbridges-r/commit/838856bd1dfb4ea8bc143f246a152deda3c76d92))
+
+## Improvements
+
 - Decoupled Files class and (CWL) File class; updated Files class to support the latest API
+- Updated error status code to the latest version
 
 # sevenbridges 1.5.3
 
