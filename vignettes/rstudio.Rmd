@@ -12,7 +12,7 @@ vignette: >
 
 ## Introduction
 
-The goal of this `tengfei/sevenbridges` docker image is to provide
+The goal of this `tengfei/sevenbridges` Docker image is to provide
 
 - SDK environment that includes
     - Command line uploader
@@ -25,30 +25,30 @@ The goal of this `tengfei/sevenbridges` docker image is to provide
 
 ### Build container locally
 
-The Dockerfile is included with the package in `inst/docker` folder. 
+The `Dockerfile` is included with the package in `inst/docker` folder. 
 
-Here is the current content of Dockerfile
-```{r comment=''}
-fl <- system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+Here is the current content of `Dockerfile`:
+```{r comment = ''}
+fl = system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges")
+cat(readLines(fl), sep = "\n")
 ```
 
-You can simply build it locally, enter folder which contain that dockerfile, in this case, 
+You can simply build it locally, enter folder which contain that `Dockerfile`, in this case,
 it's under `inst/docker/sevenbridges`
 
-```
+```bash
 docker build -t tengfei/sevenbridges .
 ```
 
-### Pull from docker hub 
+### Pull from Docker Hub 
 
-A hook is added to build the docker image automatically from my [github](https://github.com/tengfei/sevenbridges), it's under `inst/docker`, it's automatically build on my dockerhub [page](https://hub.docker.com/r/tengfei/sevenbridges/). you can directly use this `tengfei/sevenbridges`. Everytime a push is made in the github repos, the docker container is re-built.
+A hook is added to build the Docker image automatically from the [sevenbridges-r GitHub repository](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/sevenbridges). It is automatically built on [Docker Hub](https://hub.docker.com/r/tengfei/sevenbridges/). You can directly use this image `tengfei/sevenbridges`. Everytime a push is made in the GitHub repo, the Docker container is re-built.
 
-## Launch Rstudio server from docker container 
+## Launch Rstudio server from Docker container 
 
-For example, you can ssh into your AWS instance, here I suppose you already have docker installed,  and pull the image 
+For example, you can ssh into your AWS instance, here I suppose you already have Docker installed, and pull the image
 
-```
+```bash
 docker pull tengfei/sevenbridges
 ```
 
@@ -56,7 +56,7 @@ To launch sevenbridges Rstudio server image, I recommend you read this [tutorial
 
 Or following the quick instruction here
 
-```
+```bash
 docker run -d -p 8787:8787 tengfei/sevenbridges
 docker run -d -p 8787:8787 -e USER=<username> -e PASSWORD=<password> rocker/rstudio
 ```
@@ -67,24 +67,24 @@ You will be able to access the Rstudio in the browser by something like
 
 Sometimes you want to add more users, to add users
 
-```
+```bash
 ## Enter the container
 docker exec -it <container-id> bash
 ## Interactively input password and everything else
 adduser <username>
 ```
 
-### Launch both Rstudio and Shiny server from same docker container
+### Launch both Rstudio and Shiny server from the same Docker container
 
 Sometimes it's very conventient to launch both Rstudio and Shiny server from a singel container and your users can manage to using Rstudio and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
 
-```shell
+```bash
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
 To mount file system you need to use `--privileged` with fuse.
 
-```shell
+```bash
 docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
 ```
 
@@ -103,9 +103,10 @@ Let's try this, please login your rstudio at `http://<url>:8787` now, then try t
 
 ```r
 dir.create("~/ShinyApps")
-file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/", "~/ShinyApps/", recursive = TRUE)
+file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/",
+          "~/ShinyApps/", recursive = TRUE)
 ```
 
-If you are login as username 'rstudio', then visit  `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
+If you logged in with the username `rstudio`, then visit `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
 
-Note: Generic shiny app can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the docker container, it's hosted under `/srv/shiny-server/`
+Note: Generic shiny apps can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the Docker container, it's hosted under `/srv/shiny-server/`.

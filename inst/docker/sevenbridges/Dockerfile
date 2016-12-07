@@ -1,4 +1,4 @@
-FROM rocker/hadleyverse 
+FROM rocker/hadleyverse
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
 ## install docker (docker in docker)
@@ -14,9 +14,9 @@ RUN apt-get update && apt-get install -y  \
     unp \
     emacs \
     supervisor \
-    libfuse-dev 
+    libfuse-dev
 ##     aufs-tools \
-##     cgroupfs-mount 
+##     cgroupfs-mount
 
 # RUN wget --no-verbose http://ftp.us.debian.org/debian/pool/main/l/lvm2/libdevmapper1.02.1_1.02.136-1_amd64.deb && \
 #    dpkg -i libdevmapper1.02.1_1.02.136-1_amd64.deb && \
@@ -31,7 +31,7 @@ RUN apt-get install -y apt-transport-https ca-certificates \
     && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
     && echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list \
     && echo "//APT::Default-Release \"testing\";" > /etc/apt/apt.conf.d/default   \
-    && apt-cache policy docker-engine 
+    && apt-cache policy docker-engine
 
 Run apt-get update -y \
     && apt-get upgrade -y \
@@ -67,7 +67,7 @@ RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
 ## RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
 ##     && tar zxvf sbg-uploader.tgz -C / \
 ##    && ln -s  /sbg-uploader/bin/sbg-uploader.sh /usr/local/bin/sbg-uploader.sh
-    
+
 
 ## install SBG rabix
 RUN wget https://github.com/rabix/bunny/releases/download/v0.1.0-alpha/rabix-0.1.1-alpha.tar.gz \
@@ -82,7 +82,7 @@ RUN wget https://github.com/rabix/bunny/releases/download/v0.1.0-alpha/rabix-0.1
 
 ## start insert command line interface and report template needed
 ADD src/runif.R /usr/local/bin/
-RUN mkdir /report/ 
+RUN mkdir /report/
 ADD report/report.Rmd /report/
 
 
