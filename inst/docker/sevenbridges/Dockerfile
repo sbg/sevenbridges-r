@@ -125,8 +125,6 @@ RUN R -e "devtools::install_github('rstudio/addinexamples', type = 'source')"
 
 RUN R -e "devtools::install_github('rstudio/rsconnect')"
 
-RUN R -e "devtools::install_github('rstudio/shinyapps')"
-
 RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 
 RUN mkdir /home/rstudio/ShinyApps/
