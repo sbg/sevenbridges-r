@@ -226,13 +226,13 @@ We maintain 3 different sets of documentation: the sevenbridges-r GitHub reposit
 In the tutorial for [IDE container](#tutorials) above, we built a Docker container locally from which we can launch RStudio and Shiny. To launch RStudio and Shiny Server with the Seven Bridges IDE Docker container, do the following:
 
 ```shell
-docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
+docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r
 ```
 
 To mount a file system, you need to use `--privileged` with fuse.
 
 ```shell
-docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
+docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r
 ```
 
 Check out the IP from Docker Machine if you are on a Mac OS.

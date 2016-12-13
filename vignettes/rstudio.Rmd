@@ -12,7 +12,7 @@ vignette: >
 
 ## Introduction
 
-The goal of this `tengfei/sevenbridges` Docker image is to provide
+The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
 
 - SDK environment that includes
     - Command line uploader
@@ -37,19 +37,19 @@ You can simply build it locally, enter folder which contain that `Dockerfile`, i
 it's under `inst/docker/sevenbridges`
 
 ```bash
-docker build -t tengfei/sevenbridges .
+docker build -t sevenbridges/sevenbridges-r .
 ```
 
 ### Pull from Docker Hub 
 
-A hook is added to build the Docker image automatically from the [sevenbridges-r GitHub repository](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/sevenbridges). It is automatically built on [Docker Hub](https://hub.docker.com/r/tengfei/sevenbridges/). You can directly use this image `tengfei/sevenbridges`. Everytime a push is made in the GitHub repo, the Docker container is re-built.
+A hook is added to build the Docker image automatically from the [sevenbridges-r GitHub repository](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/sevenbridges). It is automatically built on [Docker Hub](https://hub.docker.com/r/sevenbridges/sevenbridges-r/). You can directly use this image `sevenbridges/sevenbridges-r`. Everytime a push is made in the GitHub repo, the Docker container is re-built.
 
 ## Launch Rstudio server from Docker container 
 
 For example, you can ssh into your AWS instance, here I suppose you already have Docker installed, and pull the image
 
 ```bash
-docker pull tengfei/sevenbridges
+docker pull sevenbridges/sevenbridges-r
 ```
 
 To launch sevenbridges Rstudio server image, I recommend you read this [tutorial](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
@@ -57,7 +57,7 @@ To launch sevenbridges Rstudio server image, I recommend you read this [tutorial
 Or following the quick instruction here
 
 ```bash
-docker run -d -p 8787:8787 tengfei/sevenbridges
+docker run -d -p 8787:8787 sevenbridges/sevenbridges-r
 docker run -d -p 8787:8787 -e USER=<username> -e PASSWORD=<password> rocker/rstudio
 ```
 
@@ -79,13 +79,13 @@ adduser <username>
 Sometimes it's very conventient to launch both Rstudio and Shiny server from a singel container and your users can manage to using Rstudio and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
 
 ```bash
-docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
+docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r
 ```
 
 To mount file system you need to use `--privileged` with fuse.
 
 ```bash
-docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server tengfei/sevenbridges
+docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r
 ```
 
 check out the ip from docker machine if you are on mac os.
