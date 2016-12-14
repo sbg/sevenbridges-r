@@ -357,7 +357,18 @@ convert_app <- function(from) {
     }
 
     nms      <- names(obj)
-    .obj.nms <- setdiff(nms, .diy)
+
+    ## Extra fields not defined
+    ## drop them with warning
+    .obj.def <- names(Tool$fields())
+    .obj.extra <- setdiff(nms, .obj.def)
+    if(length(.obj.extra)){
+        warning("Extra fields dropped before conversion: ",
+                paste(.obj.extra, collapse = " "))
+    }
+
+    .obj.nms <- setdiff(nms, c(.diy, .obj.extra))
+
     res      <- do.call("Tool", obj[.obj.nms])
     res$field("inputs", res.in)
     res$field("outputs", res.out)
@@ -448,7 +459,18 @@ convert_app <- function(from) {
     # }
 
     nms <- names(obj)
-    .obj.nms <- setdiff(nms, .diy)
+
+    ## Extra fields not defined
+    ## drop them with warning
+    .obj.def <- names(SBGWorkflow$fields())
+    .obj.extra <- setdiff(nms, .obj.def)
+    if(length(.obj.extra)){
+        warning("Extra fields dropped before conversion: ",
+                paste(.obj.extra, collapse = " "))
+    }
+
+    .obj.nms <- setdiff(nms, c(.diy, .obj.extra))
+
     res <- do.call("Flow",
                    c(obj[.obj.nms],
                      list(steps   = slst,
