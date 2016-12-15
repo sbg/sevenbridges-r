@@ -17,7 +17,10 @@ stableColumnLayout = function(...) {
 #'
 #' @return An RStudio addin
 #'
-#' @export
+#' @export ToolUI
+#'
+#' @examples
+#' NULL
 ToolUI = function() {
 
     # Get the document context

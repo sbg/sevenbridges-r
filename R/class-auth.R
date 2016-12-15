@@ -1,18 +1,33 @@
 #' Class Auth
 #'
-#' Auth token object
+#' Auth object
 #'
 #' Every object could be requested from this Auth object and any action
 #' could start from this object using cascading style. Please check
-#' \code{vignette("easy-api")} for more information.
+#' \code{vignette("api")} for more information.
 #'
-#' @field token [character] Your auth token.
-#' @field url [character] Base URL used for API, by default
-#' it is \url{https://api.sbgenomics.com/1.1/}.
-#' @field version URL version number
-#' @field platform Which platform you are using, by default it is CGC platform,
-#' it tries to search your \code{.sbg.auth.yml} file to parse platform id your
-#' deinfed there.
+#' @field from [character] Authentication method. Could be \code{"direct"}
+#' (pass the credential information to the arguments directly),
+#' \code{"env"} (read from pre-set system environment variables),
+#' or \code{"file"} (read configurations from a credentials file).
+#' Default is \code{"direct"}.
+#' @field platform [character] Which platform you want to use,
+#' if platform and url are both not specified, the default is
+#' \code{"cgc"} (Cancer Genomics Cloud). Possible values include
+#' \code{"cgc"}, \code{"aws-us"}, \code{"aws-eu"}, \code{"gcp"},
+#' and \code{"cavatica"}.
+#' @field url [character] Base URL for API. Please only use this when you
+#' want to specify a platform that is not in the \code{platform} list
+#' above, and also leaving \code{platform} unspecified.
+#' @field token [character] Your authentication token.
+#' @field sysenv_url Name of the system environment variable storing
+#' the API base URL. By default: \code{"SB_API_ENDPOINT"}.
+#' @field sysenv_token Name of the system environment variable storing
+#' the auth token. By default: \code{"SB_AUTH_TOKEN"}.
+#' @field config_file [character] Location of the user configuration file.
+#' By default: \code{"~/.sevenbridges/credential"}.
+#' @field profile_name [character] Profile name in the user configuration file.
+#' The default value is \code{"default"}.
 #' @field fs FS object, for mount and unmount file system.
 #'
 #' @importFrom stringr str_match
@@ -20,110 +35,235 @@
 #' @export Auth
 #' @exportClass Auth
 #' @examples
-#' # replace it with real token
-#' token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
-#' a <- Auth(token)
-Auth <- setRefClass("Auth", fields = list(token    = "character",
-                                          url      = "character",
-                                          version  = "character",  # to be removed
-                                          platform = "characterORNULL",
-                                          # cfg_file = "characterORNULL",  # = '~/.sevenbridges/credential'
-                                          # cfg_key  = "characterORNULL",  # = 'default'
-                                          fs       = "FSORNULL"),
+#' # Direct authentication (default)
+#' # replace with your auth token
+#' token = "aef7e9e3f6c54fb1b338ac4ecddf1a56"
+#' a = Auth(platform = "cgc", token = token)
+#'
+#' \dontrun{
+#' # Authentication with environment variables
+#' # This will read system environments variables
+#' `SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default
+#' a = Auth(from = "env")
+#'
+#' # Authentication with user configuration file
+#' # This will load profile `default` from config
+#' file `~/.sevenbridges/credential` by default
+#' a = Auth(from = "file")}
+Auth <- setRefClass("Auth", fields = list(from         = "character",
+                                          platform     = "characterORNULL",
+                                          url          = "character",
+                                          token        = "character",
+                                          sysenv_url   = "characterORNULL",
+                                          sysenv_token = "characterORNULL",
+                                          config_file  = "characterORNULL",
+                                          profile_name = "characterORNULL",
+                                          fs           = "FSORNULL"),
 
                     methods = list(
 
                         initialize   = function(
-                            token    = NULL,
-                            url      = NULL,
-                            platform = NULL,
-                            username = NULL,
-                            fs       = NULL, ...) {
+                            from         = c("direct", "env", "file"),
+                            platform     = NULL,
+                            url          = NULL,
+                            token        = NULL,
+                            sysenv_url   = NULL,
+                            sysenv_token = NULL,
+                            config_file  = NULL,
+                            profile_name = NULL,
+                            fs           = NULL, ...) {
 
-                            # get API URL first
-                            # logic:
-                            # no url, guess from platform;
-                            # no platform, retrieve first entry;
-                            # nothing, error.
+                            # Authentication Logic
+                            #
+                            # 0x01. If `from == "direct"` (default)
+                            #       then use on-the-fly configuration.
+                            #
+                            # Four cases:
+                            #
+                            # 1. `platform` and `url` are both provided:
+                            #    throw error: platform and URL cannot coexist
+                            # 2. `platform` and `url` are both not provided:
+                            #    use `.sbg_default_platform` and throw a warning
+                            # 3. `platform` != NULL, `url`  = NULL:
+                            #    use platform + token, throw message
+                            # 4. `platform`  = NULL, `url` != NULL:
+                            #    use URL + token, throw message
+                            #
+                            # 0x02. If `from == "env"`
+                            #       then read from environment variables.
+                            #
+                            # One step:
+                            #
+                            # 1. Read environment variables `sysenv_url`
+                            #    and `sysenv_token`
+                            #    throw message indicating environment
+                            #    variable names
+                            #    use url + token
+                            #
+                            # 0x03. If `from == "file"`
+                            #       then use configuration file.
+                            #
+                            # Two steps:
+                            #
+                            # 1. Load ini format file at location `config_file`
+                            #    throw message indicating file location
+                            # 2. In loaded config list, look for `profile_name`
+                            #    throw message indicating profile name
+                            #    get url + token from this profile
 
-                            .default.url <- "https://cgc-api.sbgenomics.com/v2/"
+                            # For backward compatibility only:
+                            # remove this block when enough time has passed
+                            auth_call = as.list(match.call())
+                            if (!is.null(auth_call[["username"]]))
+                                stop("This authentication method is deprecated, please refer to ?Auth or vignette('api') for the new specification")
 
-                            platform <<- platform
                             fs <<- fs
-                            if (is.null(url)) {
-                                if (is.null(platform)) {
-                                    # try to get token from config and option
-                                    .p <- getToken(platform = platform)
-                                    if (is.null(.p)) {
-                                        # get nothing preset
-                                        if (is.null(token)) {
-                                            stop("please provide url and token")
-                                        } else {
-                                            message("url not provied, use: ", .default.url)
-                                            url <<- .default.url
-                                        }
-                                    } else {
-                                        .url <- .p[[1]]$url
-                                        if (is.null(.url)) {
-                                            stop("you config file is wrong, don't have url")
-                                        } else {
-                                            platform <<- names(.p)[1]
-                                            url <<- .url
-                                        }
-                                    }
-                                } else {
-                                    .p <- getToken(platform = platform)
-                                    if (is.null(.p)) {
-                                        # try match default public platform
-                                        if (platform %in% c("cgc", "us", "china", "gcp")) {
-                                            url <<- switch(platform,
-                                                           "us"    = "https://api.sbgenomics.com/v2/",
-                                                           "cgc"   = "https://cgc-api.sbgenomics.com/v2/",
-                                                           "gcp"   = "https://gcp-api.sbgenomics.com/v2/",
-                                                           "china" = "https://cn-api.sbgenomics.com/v2/")
-                                        } else {
-                                            stop("platform doesn't exist, please setup config or provide url")
-                                        }
-                                    } else {
-                                        # exist in config file
-                                        .url <- .p$url
-                                        if (is.null(.url)) {
-                                            stop("you config file is wrong, don't have url")
-                                        } else {
-                                            url <<- .url
-                                        }
-                                    }
+
+                            .from = match.arg(from)
+                            from <<- .from
+
+                            if (.from == "direct") {
+
+                                # In this case, `sysenv_url`, `sysenv_token`,
+                                # `config_file`, and `profile_name`
+                                # should all be `NULL` even if they
+                                # are assigned values
+                                .sysenv_url   = NULL
+                                .sysenv_token = NULL
+                                .config_file  = NULL
+                                .profile_name = NULL
+                                sysenv_url    <<- .sysenv_url
+                                sysenv_token  <<- .sysenv_token
+                                config_file   <<- .config_file
+                                profile_name  <<- .profile_name
+
+                                # Four cases depending on `platform` and `url`
+
+                                # Case 1: platform and url are both provided
+                                if (!is.null(platform) & !is.null(url))
+                                    stop("`platform` and `url` cannot be set simultaneously", call. = FALSE)
+
+                                # Case 2: platform and url are both *not* provided
+                                if (is.null(platform) & is.null(url)) {
+
+                                    warning("`platform` and `url` are not set, will use the default platform: ",
+                                            .sbg_default_platform, call. = FALSE)
+                                    .platform = .sbg_default_platform
+                                    .url      = .sbg_baseurl[[.sbg_default_platform]]
+
+                                    platform <<- .platform
+                                    url      <<- .url
+
                                 }
-                            } else {
-                                url <<- url
-                            }
-                            url <<- normalizeUrl(.self$url)
-                            # we should know platform or URL at least
-                            # get token
-                            .token <- NULL
-                            if (is.null(token)) {
-                                # try to read from config first
-                                if (!is.null(username)) {
-                                    .token <- getToken(platform = platform, username = username)
-                                    token <<- .token
-                                } else {
-                                    # use the first token and user
-                                    .p <- getToken(platform = platform)
-                                    if (!is.null(.p[[1]])) {
-                                        # use the first one
-                                        message("use username: ", names(.p$user)[1])
-                                        .token <- .p$user[[1]]$token
-                                    } else {
-                                        stop("cannot find any existing authentification information.")
-                                    }
-                                    if (is.null(.token)) {
-                                        stop("cannot set token")
-                                    } else {
-                                        token <<- .token
-                                    }
+
+                                # Case 3: platform is provided, url is not provided
+                                if (!is.null(platform) & is.null(url)) {
+
+                                    # platform name sanity check
+                                    .platform = platform
+                                    if (.platform %in% names(.sbg_baseurl))
+                                        .url = .sbg_baseurl[[.platform]] else
+                                            stop("Platform does not exist, please check its spelling (case-sensitive)", call. = FALSE)
+                                    message("Using platform: ", .platform)
+
+                                    platform <<- .platform
+                                    url      <<- .url
+
                                 }
-                            } else {
+
+                                # Case 4: platform is not provided, url is provided
+                                if (is.null(platform) & !is.null(url)) {
+
+                                    .url = normalize_url(url)
+                                    # lookup an accurate platform name
+                                    .platform = sbg_platform_lookup(.url)
+
+                                    platform <<- .platform
+                                    url      <<- .url
+
+                                }
+
+                                if (is.null(token))
+                                    stop('`token` must be set when `from = "direct"`', call. = FALSE)
                                 token <<- token
+
+                            }
+
+                            if (.from == "env") {
+
+                                # In this case, `config_file` and `profile_name`
+                                # should be `NULL` even if they
+                                # are assigned values
+                                .config_file  = NULL
+                                .profile_name = NULL
+                                config_file   <<- .config_file
+                                profile_name  <<- .profile_name
+
+                                # get system environment variables
+                                if (is.null(sysenv_url))
+                                    .sysenv_url = .sbg_default_sysenv_url else
+                                        .sysenv_url = sysenv_url
+                                if (is.null(sysenv_token))
+                                    .sysenv_token = .sbg_default_sysenv_token else
+                                        .sysenv_token = sysenv_token
+                                message("Authenticating with system environment variables: ",
+                                        .sysenv_url, ' and ', .sysenv_token)
+
+                                sysenv_url   <<- .sysenv_url
+                                sysenv_token <<- .sysenv_token
+
+                                # extract url + token from environment variables
+                                .url   = normalize_url(sbg_get_env(.sysenv_url))
+                                .token = sbg_get_env(.sysenv_token)
+
+                                url   <<- .url
+                                token <<- .token
+
+                                # lookup an accurate platform name instead of simply `NULL`
+                                .platform = sbg_platform_lookup(.url)
+                                platform  <<- .platform
+
+                            }
+
+                            if (.from == "file") {
+
+                                # In this case, `sysenv_url`, `sysenv_token`,
+                                # should be `NULL` even if they
+                                # are assigned values
+                                .sysenv_url   = NULL
+                                .sysenv_token = NULL
+                                sysenv_url    <<- .sysenv_url
+                                sysenv_token  <<- .sysenv_token
+
+                                # parse user config file
+                                if (is.null(config_file))
+                                    .config_file = .sbg_default_config_file else
+                                        .config_file = config_file
+                                config_list = sbg_parse_config(.config_file)
+                                message("Authenticating with user configuration file: ", .config_file)
+
+                                config_file <<- .config_file
+
+                                # locate user profile with url + token
+                                if (is.null(profile_name))
+                                    .profile_name = .sbg_default_profile_name else
+                                        .profile_name = profile_name
+                                # extract url + token from profile
+                                .url   = normalize_url(config_list[[.profile_name]][["api_endpoint"]])
+                                .token = config_list[[.profile_name]][["auth_token"]]
+                                if (is.null(.url) | is.null(.token))
+                                    stop("`The field api_endpoint` or `auth_token` is missing in profile:",
+                                         .profile_name, call. = FALSE)
+                                message("Authenticating with user profile: ", .profile_name)
+
+                                profile_name <<- .profile_name
+                                url          <<- .url
+                                token        <<- .token
+
+                                # lookup an accurate platform name instead of simply `NULL`
+                                .platform = sbg_platform_lookup(.url)
+                                platform  <<- .platform
+
                             }
 
                         },
@@ -134,64 +274,65 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             Each project\'s ID and URL will be returned.'
 
                             if (is.null(owner)) {
-                                stop("owner must be provided. For example, Nate. ")
+                                stop("owner must be provided. For example, Nate.")
                             }
 
-                            req <- api(token    = token,
-                                       base_url = url,
-                                       path     = paste0('projects/', owner),
-                                       method   = 'GET', ...)
+                            req = api(token    = token,
+                                      base_url = url,
+                                      path     = paste0("projects/", owner),
+                                      method   = "GET", ...)
 
-                            res <- status_check(req)
+                            res = status_check(req)
                             if (hasItems(res)) {
-                                rp <- parseItem(res)
-                                obj <- .asProjectList(rp)
+                                rp = parseItem(res)
+                                obj = .asProjectList(rp)
                             } else {
                                 message("not found")
-                                obj <- res
+                                obj = res
                             }
 
-                            obj <- setAuth(obj, .self, "Project")
+                            obj = setAuth(obj, .self, "Project")
 
                         },
 
-                        project_new = function(name = NULL,
+                        project_new = function(name             = NULL,
                                                billing_group_id = NULL,
-                                               description = name,
-                                               tags = list(),
-                                               type = "v2", ...) {
+                                               description      = name,
+                                               tags             = list(),
+                                               type             = "v2", ...) {
                             '
                             Create new projects, required parameters: name,
                             billing_group_id, optional parameteres: tags and
                             description, type.'
 
                             if (is.null(name) || is.null(billing_group_id))
-                                stop('name, description, and billing_group_id must be provided')
+                                stop("name, description, and billing_group_id must be provided")
 
                             # check tags
-                            if (is.character(tags)) {
-                                tags <- as.list(tags)
-                            }
+                            if (is.character(tags)) tags = as.list(tags)
 
-                            body = list('name' = name,
-                                        'type' = type,
-                                        'description' = description,
-                                        'tags' = tags,
-                                        'billing_group' = billing_group_id)
+                            body = list("name"          = name,
+                                        "type"          = type,
+                                        "description"   = description,
+                                        "tags"          = tags,
+                                        "billing_group" = billing_group_id)
 
-                            res <- api(path = 'projects', body = body,
-                                       method = 'POST', ...)
+                            res = api(path = "projects", body = body,
+                                      method = "POST", ...)
 
-                            res <- .asProject(res)
-                            res <- setAuth(res, .self, "Project")
+                            res = .asProject(res)
+                            res = setAuth(res, .self, "Project")
 
                         },
 
                         # Project call
-                        project = function(name = NULL, id = NULL,
-                                           index = NULL, ignore.case = TRUE,
-                                           exact = FALSE, owner = NULL,
-                                           detail = FALSE, ...) {
+                        project = function(name        = NULL,
+                                           id          = NULL,
+                                           index       = NULL,
+                                           ignore.case = TRUE,
+                                           exact       = FALSE,
+                                           owner       = NULL,
+                                           detail      = FALSE, ...) {
 
                             '
                             If no id or name provided, this call returns a
@@ -201,57 +342,57 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             we did a match search the list'
 
                             if (!is.null(id)) {
-                                req <- api(path = paste0("projects/", id), method = "GET",  ...)
-                                res <- .asProject(req)
-                                res <- setAuth(res, .self, "Project")
+                                req = api(path = paste0("projects/", id), method = "GET",  ...)
+                                res = .asProject(req)
+                                res = setAuth(res, .self, "Project")
                                 return(res)
                             }
 
                             # check owner
                             if (is.null(owner)) {
                                 # show all projects
-                                req <- api(path = "projects", method = "GET", ...)
-                                res <- .asProjectList(req)
+                                req = api(path = "projects", method = "GET", ...)
+                                res = .asProjectList(req)
                             } else {
                                 message("Owner: ", owner)
-                                req <- api(path = paste0("projects/", owner),
-                                           method = "GET", ...)
-                                res <- .asProjectList(req)
+                                req = api(path = paste0("projects/", owner),
+                                          method = "GET", ...)
+                                res = .asProjectList(req)
                             }
 
-                            res <- m.match(res, id = id, name = name,
-                                           exact = exact,
-                                           ignore.case = ignore.case)
+                            res = m.match(res, id = id, name = name,
+                                          exact = exact,
+                                          ignore.case = ignore.case)
 
                             if (!length(res)) return(NULL)
 
                             # if (length(res) == 1) {
-                            #     .id <- res$id
-                            #     req <- api(path = paste0("projects/", .id), method = "GET",  ...)
-                            #     res <- .asProject(req)
-                            #     res <- setAuth(res, .self, "Project")
+                            #     .id = res$id
+                            #     req = api(path = paste0("projects/", .id), method = "GET",  ...)
+                            #     res = .asProject(req)
+                            #     res = setAuth(res, .self, "Project")
                             #     return(res)
                             # }
 
                             if (detail && length(res)) {
                                 if (is(res, "SimpleList")) {
-                                    ids <- sapply(res, function(x){ x$id })
+                                    ids = sapply(res, function(x){ x$id })
                                 } else {
-                                    ids <- res$id
+                                    ids = res$id
                                 }
 
-                                lst <- lapply(ids, function(id) {
-                                    req <- api(path = paste0("projects/", id), method = "GET", ...)
+                                lst = lapply(ids, function(id) {
+                                    req = api(path = paste0("projects/", id), method = "GET", ...)
                                     .asProject(req)
                                 })
-                                res <- ProjectList(lst)
+                                res = ProjectList(lst)
                             }
 
                             # double check
                             if (length(res) == 1 && is(res, "SimpleList")) {
-                                res <- res[[1]]
+                                res = res[[1]]
                             }
-                            res <- setAuth(res, .self, "Project")
+                            res = setAuth(res, .self, "Project")
                             res
 
                         },
@@ -272,22 +413,22 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             if (is.null(id)) {
                                 # show api
-                                req <- api(path = 'billing/groups', method = 'GET', ...)
-                                req <- .asBillingList(req)
+                                req = api(path = "billing/groups", method = "GET", ...)
+                                req = .asBillingList(req)
                                 if (length(req) == 1 && is(req, "SimpleList")) {
-                                    req <- req[[1]]
+                                    req = req[[1]]
                                 }
 
                                 return(req)
 
                             } else {
                                 if (breakdown) {
-                                    req = api(path = paste0('billing/groups/', id, "/breakdown"),
-                                              method = 'GET', ...)
+                                    req = api(path = paste0("billing/groups/", id, "/breakdown"),
+                                              method = "GET", ...)
                                 } else {
-                                    req = api(path = paste0('billing/groups/', id), method = 'GET', ...)
+                                    req = api(path = paste0("billing/groups/", id), method = "GET", ...)
                                 }
-                                req <- .asBilling(req)
+                                req = .asBilling(req)
 
                                 return(req)
 
@@ -311,40 +452,41 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             and storage, and the invoice period.'
 
                             if (is.null(id)) {
-                                req = api(path = 'billing/invoices', method = 'GET', ...)
+                                req = api(path = "billing/invoices", method = "GET", ...)
                             } else {
-                                req = api(path = paste0('billing/invoices/', id), method = 'GET', ...)
+                                req = api(path = paste0("billing/invoices/", id), method = "GET", ...)
                             }
 
                             req
 
                         },
 
-                        api = function(..., limit = getOption("sevenbridges")$limit,
-                                       offset = getOption("sevenbridges")$offset,
+                        api = function(...,
+                                       limit = getOption("sevenbridges")$"limit",
+                                       offset = getOption("sevenbridges")$"offset",
                                        complete = FALSE) {
 
                             '
                             This call returns all API paths, and pass arguments
                             to api() function and input token and url automatically'
 
-                            req <- sevenbridges::api(token, base_url = url, limit = limit, offset = offset, ...)
-                            req <- status_check(req)
+                            req = sevenbridges::api(token, base_url = url, limit = limit, offset = offset, ...)
+                            req = status_check(req)
 
                             if (complete) {
-                                N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
-                                if (length(N)) .item <- length(req$items)
+                                N = as.numeric(headers(response(req))[["x-total-matching-query"]])
+                                if (length(N)) .item = length(req$items)
                                 if (.item < N) {
-                                    pb <- txtProgressBar(min = 1, max = N%/%100 + 1, style = 3)
-                                    res <- NULL
+                                    pb = txtProgressBar(min = 1, max = N %/% 100 + 1, style = 3)
+                                    res = NULL
 
-                                    for (i in 1:(N%/%100 + 1)) {
+                                    for (i in 1:(N %/% 100 + 1)) {
                                         .limit = 100
-                                        .offset = (i-1) * 100
-                                        req <- sevenbridges::api(token, base_url = url,
-                                                                 limit = .limit, offset = .offset, ...)
-                                        req <- status_check(req)
-                                        res$items <- c(res$items, req$items)
+                                        .offset = (i - 1) * 100
+                                        req = sevenbridges::api(token, base_url = url,
+                                                                limit = .limit, offset = .offset, ...)
+                                        req = status_check(req)
+                                        res$items = c(res$items, req$items)
                                         setTxtProgressBar(pb, i)
                                     }
                                     cat("\n")
@@ -360,7 +502,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                         show = function() {
                             .showFields(.self, "== Auth ==",
-                                        values = c("token", "url"))
+                                        values = c("url", "token"))
                         },
 
                         # v2 only feature
@@ -370,7 +512,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             rate limit. This is the number of API calls you can
                             make in one hour.'
 
-                            req <- api(path = "rate_limit", method = "GET", ...)
+                            req = api(path = "rate_limit", method = "GET", ...)
 
                             .asRate(req)
 
@@ -388,14 +530,14 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             information on their resources.'
 
                             if (is.null(username)) {
-                                req <- api(token  = token,
-                                           path   = "user/",
-                                           method = "GET", ...)
+                                req = api(token  = token,
+                                          path   = "user/",
+                                          method = "GET", ...)
                                 message("username is not provided, show run user information instead")
                             } else {
-                                req <- api(token  = token,
-                                           path   = paste0("users/", username),
-                                           method = "GET", ...)
+                                req = api(token  = token,
+                                          path   = paste0("users/", username),
+                                          method = "GET", ...)
                             }
 
                             .asUser(req)
@@ -403,12 +545,15 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         },
 
                         # File API
-                        file = function(name = NULL, id = NULL, project = NULL,
-                                        exact = FALSE, detail = FALSE,
-                                        metadata = list(),
-                                        origin.task = NULL,
-                                        tag = NULL,
-                                        complete = FALSE,
+                        file = function(name          = NULL,
+                                        id            = NULL,
+                                        project       = NULL,
+                                        exact         = FALSE,
+                                        detail        = FALSE,
+                                        metadata      = list(),
+                                        origin.task   = NULL,
+                                        tag           = NULL,
+                                        complete      = FALSE,
                                         search.engine = c("server", "brute"), ...) {
                             '
                             This call returns a list of all files in a specified
@@ -424,26 +569,26 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 }
                             } else {
                                 if (length(id) > 1) {
-                                    res <- iterId(id, .self$file, exact = exact, ...)
+                                    res = iterId(id, .self$file, exact = exact, ...)
                                     return(res)
                                 }
-                                req <- api(path = paste0("files/", id), method = "GET", ...)
-                                res <- .asFiles(req)
-                                res <- setAuth(res, .self, "Files")
+                                req = api(path = paste0("files/", id), method = "GET", ...)
+                                res = .asFiles(req)
+                                res = setAuth(res, .self, "Files")
                                 return(res)
                             }
 
                             # build query
-                            .query <- list(project = project)
+                            .query = list(project = project)
                             if (length(metadata)) {
-                                new.meta <- unlist(metadata)
-                                names(new.meta) <- sapply(names(new.meta),
-                                                          function(nm) paste("metadata", nm, sep = "."))
-                                .query <- c(.query, as.list(new.meta))
+                                new.meta = unlist(metadata)
+                                names(new.meta) = sapply(names(new.meta),
+                                                         function(nm) paste("metadata", nm, sep = "."))
+                                .query = c(.query, as.list(new.meta))
                             }
 
                             if (!is.null(origin.task)) {
-                                .query <- c(.query, list(origin.task = origin.task))
+                                .query = c(.query, list(origin.task = origin.task))
                             }
 
                             .split_item = function(x, list_name = NULL) {
@@ -464,7 +609,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                 .new_tag = .split_item(tag, "tag")
                                 # encode the tag for cases like "#1"
                                 .new_tag = lapply(.new_tag, URLencode, TRUE)
-                                .query <- c(.query, .new_tag)
+                                .query = c(.query, .new_tag)
                             }
 
                             if (is.null(name)) {
@@ -474,12 +619,12 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                     complete = FALSE
                                 }
 
-                                req <- api(path = 'files',  method = 'GET',
-                                           query = .query, complete = complete, ...)
+                                req = api(path = "files",  method = "GET",
+                                          query = .query, complete = complete, ...)
 
-                                res <- .asFilesList(req)
+                                res = .asFilesList(req)
 
-                                res <- setAuth(res, .self, "Files")
+                                res = setAuth(res, .self, "Files")
                                 if (length(res) == 1) {
                                     return(res[[1]])
                                 } else {
@@ -494,42 +639,42 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                    server = {
                                        if (exact) {
                                            .query = c(.split_item(name, "name"), .query)
-                                           req = api(path = 'files',  method = 'GET',
+                                           req = api(path = "files",  method = "GET",
                                                      query = .query, complete = FALSE, ...)
                                            res = .asFilesList(req)
                                            if (length(res) == 1) res = res[[1]]
                                        } else {
                                            # use brute
-                                           req <- api(path = 'files',  method = 'GET',
-                                                      query = .query, complete = complete, ...)
-                                           res <- .asFilesList(req)
-                                           res <- m.match(res, id = id, name = name, exact = exact)
+                                           req = api(path = "files",  method = "GET",
+                                                     query = .query, complete = complete, ...)
+                                           res = .asFilesList(req)
+                                           res = m.match(res, id = id, name = name, exact = exact)
                                        }
                                    },
                                    brute = {
-                                       req <- api(path = 'files',  method = 'GET',
-                                                  query = .query, complete = complete, ...)
-                                       res <- .asFilesList(req)
-                                       res <- m.match(res, id = id, name = name, exact = exact)
+                                       req = api(path = "files",  method = "GET",
+                                                 query = .query, complete = complete, ...)
+                                       res = .asFilesList(req)
+                                       res = m.match(res, id = id, name = name, exact = exact)
                                    })
 
                             if (length(res)) {
                                 if (detail) {
                                     if (is(res, "FilesList")) {
-                                        ids <- sapply(res, function(x){ x$id })
+                                        ids = sapply(res, function(x){ x$id })
                                     } else {
-                                        ids <- res$id
+                                        ids = res$id
                                     }
-                                    lst <- lapply(ids, function(id) {
-                                        req <- api(path = paste0("files/", id), method = "GET", ...)
+                                    lst = lapply(ids, function(id) {
+                                        req = api(path = paste0("files/", id), method = "GET", ...)
                                         .asFiles(req)
                                     })
-                                    res <- FilesList(lst)
+                                    res = FilesList(lst)
                                 }
                             } else {
                                 return(NULL)
                             }
-                            res <- setAuth(res, .self, "Files")
+                            res = setAuth(res, .self, "Files")
                             res
                         },
 
@@ -543,7 +688,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             # iteratively
                             if (length(id) > 1) {
-                                ids <- as.character(id)
+                                ids = as.character(id)
                                 for (i in ids) {
                                     message("copying: ", i)
                                     copyFile(i, project = project, name = name)
@@ -551,9 +696,9 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             } else {
                                 body = list(project = project,
                                             name = name)
-                                res <- api(path = paste0("files/", id, "/actions/copy"),
-                                           body = body, method = "POST")
-                                res <- .asFiles(res)
+                                res = api(path = paste0("files/", id, "/actions/copy"),
+                                          body = body, method = "POST")
+                                res = .asFiles(res)
                                 setAuth(res, .self, "Files")
                             }
                         },
@@ -574,79 +719,79 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                        revision    = NULL,
                                        complete    = FALSE, ...) {
 
-                            visibility <- match.arg(visibility)
+                            visibility = match.arg(visibility)
 
                             if (visibility == "public")
-                                query <- c(query, list(visibility = "public"))
+                                query = c(query, list(visibility = "public"))
 
-                            # if id specified, doesn't have to list all
+                            # if id specified, does not have to list all
 
                             if (!is.null(id)) {
-                                req <- api(path = paste0("apps/", .update_revision(id, revision)),
-                                           method = "GET", query = query, ...)
+                                req = api(path = paste0("apps/", .update_revision(id, revision)),
+                                          method = "GET", query = query, ...)
                                 return(setAuth(.asApp(req), .self, "App"))
                             }
 
                             # list all apps first
                             if (is.null(project)) {
-                                req <- api(path = "apps", method = "GET",
-                                           query = query, complete = complete, ...)
+                                req = api(path = "apps", method = "GET",
+                                          query = query, complete = complete, ...)
                                 # browser()
                                 # if (complete) {
-                                #     res <- lapply(req$it, function(x) {
+                                #     res = lapply(req$it, function(x) {
                                 #         as.list(.asAppList(x))
                                 #     })
-                                #     res <- do.call(c, res)
-                                #     res <- do.call(AppList, res)
+                                #     res = do.call(c, res)
+                                #     res = do.call(AppList, res)
                                 # } else {
-                                # res <- .asAppList(req)
+                                # res = .asAppList(req)
                                 # }
                             } else {
-                                req <- api(path = "apps", method = "GET",
-                                           query = c(list(project = project), query),
-                                           complete = complete, ...)
+                                req = api(path = "apps", method = "GET",
+                                          query = c(list(project = project), query),
+                                          complete = complete, ...)
                                 # if (complete) {
-                                #     res <- lapply(req, function(x) {
+                                #     res = lapply(req, function(x) {
                                 #         as.list(.asAppList(x))
                                 #     })
-                                #     res <- do.call(c, res)
-                                #     res <- do.call(AppList, res)
+                                #     res = do.call(c, res)
+                                #     res = do.call(AppList, res)
                                 # } else {
-                                # res <- .asAppList(req)
+                                # res = .asAppList(req)
                                 # }
                             }
-                            res <- .asAppList(req)
+                            res = .asAppList(req)
                             # match
-                            res <- m.match(res, id = id, name = name, exact = exact,
-                                           ignore.case = ignore.case)
+                            res = m.match(res, id = id, name = name, exact = exact,
+                                          ignore.case = ignore.case)
 
                             if (length(res) == 1) {
-                                .id <- res$id
-                                req <- api(path = paste0("apps/", .update_revision(.id, revision)),
-                                           method = "GET", query = query, ...)
-                                res <- .asApp(req)
+                                .id = res$id
+                                req = api(path = paste0("apps/", .update_revision(.id, revision)),
+                                          method = "GET", query = query, ...)
+                                res = .asApp(req)
                                 return(setAuth(res, .self, "App"))
                             }
 
                             if (detail && length(res)) {
                                 if (is(res, "AppList")) {
-                                    ids <- sapply(res, function(x){ x$id })
+                                    ids = sapply(res, function(x){ x$id })
                                 } else {
-                                    ids <- res$id
+                                    ids = res$id
                                 }
 
-                                lst <- lapply(ids, function(id) {
+                                lst = lapply(ids, function(id) {
                                     if (is.null(project)) {
-                                        req <- api(path = paste0("apps/", id),
-                                                   query = query,
-                                                   method = "GET", ...)
+                                        req = api(path = paste0("apps/", id),
+                                                  query = query,
+                                                  method = "GET", ...)
                                     } else {
-                                        req <- api(path = paste0("apps/", id), method = "GET",
-                                                   query = c(list(project = project), query), ...)
+                                        req = api(path = paste0("apps/", id), method = "GET",
+                                                  query = c(list(project = project), query), ...)
                                     }
                                     .asApp(req)
                                 })
-                                res <- AppList(lst)
+                                res = AppList(lst)
                             }
 
                             if (!length(res)) return(NULL)
@@ -666,7 +811,7 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
 
                             # iteratively
                             if (length(id) > 1) {
-                                ids <- as.character(id)
+                                ids = as.character(id)
                                 for (i in ids) {
                                     message("copying: ", i)
                                     copyApp(i, project = project, name = name)
@@ -674,9 +819,9 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             } else {
                                 body = list(project = project,
                                             name = name)
-                                res <- api(path = paste0("apps/", id, "/actions/copy"),
-                                           body = body, method = "POST")
-                                res <- .asApp(res)
+                                res = api(path = paste0("apps/", id, "/actions/copy"),
+                                          body = body, method = "POST")
+                                res = .asApp(res)
                                 setAuth(res, .self, "App")
                             }
 
@@ -694,76 +839,76 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                                                    "running", "completed",
                                                    "aborted", "failed"), ...) {
 
-                            status <- match.arg(status)
+                            status = match.arg(status)
 
                             if (!is.null(id)) {
-                                req <- api(path = paste0("tasks/", id), method = "GET",  ...)
-                                res <- .asTask(req)
-                                res <- setAuth(res, .self, "Task")
+                                req = api(path = paste0("tasks/", id), method = "GET",  ...)
+                                res = .asTask(req)
+                                res = setAuth(res, .self, "Task")
                                 return(res)
                             }
 
                             if (!is.null(parent)) {
                                 if (status == "all") {
-                                    req <- api(path = 'tasks',  method = 'GET', query = list(parent = parent), ...)
+                                    req = api(path = "tasks",  method = "GET", query = list(parent = parent), ...)
                                 } else {
-                                    req <- api(path = 'tasks',  method = 'GET',
-                                               query = list(status = status, parent = parent), ...)
+                                    req = api(path = "tasks",  method = "GET",
+                                              query = list(status = status, parent = parent), ...)
                                 }
                             } else {
                                 if (is.null(project)) {
                                     # list all files
                                     if (status == "all") {
-                                        req <- api(path = 'tasks',  method = 'GET', ...)
+                                        req = api(path = "tasks",  method = "GET", ...)
                                     } else {
-                                        req <- api(path = 'tasks',  method = 'GET', query = list(status = status), ...)
+                                        req = api(path = "tasks",  method = "GET", query = list(status = status), ...)
                                     }
                                 } else {
                                     # list all files
                                     if (status == "all") {
-                                        req <- api(path = paste0("projects/", project, "/tasks"),
-                                                   method = 'GET', ...)
-                                        # req <- api(path = 'tasks',  method = 'GET', query = list(project = project), ...)
+                                        req = api(path = paste0("projects/", project, "/tasks"),
+                                                  method = "GET", ...)
+                                        # req = api(path = "tasks",  method = "GET", query = list(project = project), ...)
                                     } else {
-                                        req <- api(path = paste0("projects/", project, "/tasks"),
-                                                   method = 'GET',
-                                                   query = list(status = status), ...)
+                                        req = api(path = paste0("projects/", project, "/tasks"),
+                                                  method = "GET",
+                                                  query = list(status = status), ...)
                                     }
                                 }
                             }
 
-                            res <- .asTaskList(req)
+                            res = .asTaskList(req)
 
                             # matching
-                            res <- m.match(res, id = id, name = name, exact = exact)
+                            res = m.match(res, id = id, name = name, exact = exact)
 
                             # if (length(res) == 1) {
-                            #     .id <- res$id
-                            #     req <- api(path = paste0("tasks/", .id), method = "GET",  ...)
-                            #     res <- .asTask(req)
-                            #     res <- setAuth(res, .self, "Task")
+                            #     .id = res$id
+                            #     req = api(path = paste0("tasks/", .id), method = "GET",  ...)
+                            #     res = .asTask(req)
+                            #     res = setAuth(res, .self, "Task")
                             #     return(res)
                             # }
 
                             if (length(res)) {
                                 if (detail) {
                                     if (is(res, "TaskList")) {
-                                        ids <- sapply(res, function(x){ x$id })
+                                        ids = sapply(res, function(x){ x$id })
                                     } else {
-                                        ids <- res$id
+                                        ids = res$id
                                     }
 
-                                    lst <- lapply(ids, function(id) {
-                                        req <- api(path = paste0("tasks/", id), method = "GET", ...)
+                                    lst = lapply(ids, function(id) {
+                                        req = api(path = paste0("tasks/", id), method = "GET", ...)
                                         .asTask(req)
                                     })
-                                    res <- TaskList(lst)
+                                    res = TaskList(lst)
                                 }
                             } else {
                                 return(NULL)
                             }
 
-                            res <- setAuth(res, .self, "Task")
+                            res = setAuth(res, .self, "Task")
                             res
 
                         },
@@ -785,33 +930,33 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         },
 
                         get_id_from_path = function(p) {
-                            ids <- a$api(path = 'action/files/get_ids',
-                                         method = "POST",
-                                         body = as.list(p))
-                            idx <- unlist(lapply(ids, is.null))
+                            ids = a$api(path = "action/files/get_ids",
+                                        method = "POST",
+                                        body = as.list(p))
+                            idx = unlist(lapply(ids, is.null))
                             if (sum(idx)) {
                                 message("no id for following file: \n", paste(df.path[idx], collapse = "\n"))
                             }
                             if (sum(!idx)) {
-                                id.valid <- unlist(ids[!idx])
+                                id.valid = unlist(ids[!idx])
                             } else {
-                                id.valid <- NULL
+                                id.valid = NULL
                             }
                             id.valid
                         },
 
-                        add_volume = function(name     = NULL,
-                                              type     = c("s3", "gcs"),
-                                              root_url = NULL,
-                                              bucket   = NULL,
-                                              prefix   = "",
+                        add_volume = function(name              = NULL,
+                                              type              = c("s3", "gcs"),
+                                              root_url          = NULL,
+                                              bucket            = NULL,
+                                              prefix            = "",
                                               access_key_id     = NULL,
                                               secret_access_key = NULL,
-                                              client_email   = NULL,
-                                              private_key    = NULL,
-                                              sse_algorithm  = "AES256",
-                                              aws_canned_acl = NULL,
-                                              access_mode    = c("RW", "RO")) {
+                                              client_email      = NULL,
+                                              private_key       = NULL,
+                                              sse_algorithm     = "AES256",
+                                              aws_canned_acl    = NULL,
+                                              access_mode       = c("RW", "RO")) {
 
                             if (is.null(name))
                                 stop("Please provide name, the name of the volume. It must be unique from all other volumes for this user.")
@@ -842,13 +987,12 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             body = list(
                                 name    = name,
                                 service = list(
-                                    type   = type,
-                                    bucket = bucket,
-                                    prefix = prefix,
+                                    type        = type,
+                                    bucket      = bucket,
+                                    root_url    = root_url,
+                                    prefix      = prefix,
                                     credentials = credentials,
-                                    properties = list(
-                                        sse_algorithm = sse_algorithm
-                                    )
+                                    properties  = list(sse_algorithm = sse_algorithm)
                                 ),
                                 access_mode = access_mode
                             )
@@ -869,44 +1013,44 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                             provided, we did a match search the list'
 
                             if (!is.null(id)) {
-                                req <- api(path = paste0("storage/volumes/", id), method = "GET",  ...)
-                                res <- .asVolume(req)
-                                res <- setAuth(res, .self, "Volume")
+                                req = api(path = paste0("storage/volumes/", id), method = "GET",  ...)
+                                res = .asVolume(req)
+                                res = setAuth(res, .self, "Volume")
                                 return(res)
                             }
 
                             # list "all"
-                            req <- api(path = "storage/volumes", method = "GET", ...)
-                            res <- .asVolumeList(req)
+                            req = api(path = "storage/volumes", method = "GET", ...)
+                            res = .asVolumeList(req)
                             if (is.null(name)) {
-                                res <- setAuth(res, .self, "Volume")
+                                res = setAuth(res, .self, "Volume")
                                 return(res)
                             }
 
-                            res <- m.match(res, id = id, name = name, exact = exact,
-                                           ignore.case = ignore.case)
+                            res = m.match(res, id = id, name = name, exact = exact,
+                                          ignore.case = ignore.case)
 
                             if (!length(res)) return(NULL)
 
                             if (detail && length(res)) {
                                 if (is(res, "SimpleList")) {
-                                    ids <- sapply(res, function(x){ x$id })
+                                    ids = sapply(res, function(x){ x$id })
                                 } else {
-                                    ids <- res$id
+                                    ids = res$id
                                 }
 
-                                lst <- lapply(ids, function(id) {
-                                    req <- api(path = paste0("storage/volumes/", id), method = "GET", ...)
+                                lst = lapply(ids, function(id) {
+                                    req = api(path = paste0("storage/volumes/", id), method = "GET", ...)
                                     .asVolume(req)
                                 })
-                                res <- VolumeList(lst)
+                                res = VolumeList(lst)
                             }
 
                             # double check
                             if (length(res) == 1 && is(res, "SimpleList")) {
-                                res <- res[[1]]
+                                res = res[[1]]
                             }
-                            res <- setAuth(res, .self, "Volume")
+                            res = setAuth(res, .self, "Volume")
                             res
 
                         }
@@ -914,84 +1058,3 @@ Auth <- setRefClass("Auth", fields = list(token    = "character",
                         ))
 
 setClassUnion("AuthORNULL", c("Auth", "NULL"))
-
-#' get Token
-#'
-#' get Token from config files and option list
-#'
-#' Current config file is set on home directory with the name .sbg.auth.yml
-#'
-#' @param platform which platform you are using, by default it is cgc platform,
-#' it tries to search your .sbg.auth.yml file to parse platform id your
-#' deinfed there.
-#' @param username username defined in .sbg.auth.yml file
-#'
-#' @rdname Auth-class
-#' @aliases getToken
-#' @return a token string.
-#' @export getToken
-getToken <- function(platform = NULL, username = NULL) {
-
-    o <- options("sevenbridges")$sevenbridges$auth
-    if (is.null(o)) {
-        o <- .parseToken()
-    }
-    if (is.null(platform)) {
-        return(o)
-    } else {
-        if (is.null(username)) {
-            o <- options("sevenbridges")$sevenbridges$auth[[platform]]
-        } else {
-            o <- options("sevenbridges")$sevenbridges$auth[[platform]]$user[[username]]$token
-        }
-    }
-    o
-}
-
-.parseToken <- function(f = ".sbg.auth.yml", p = path.expand("~")) {
-
-    fl <- file.path(p, f)
-    if (file.exists(fl)) {
-        res <- try(yaml.load_file(fl), silent = TRUE)
-        if (inherits(res, "try-error")) {
-            warning("something wrong with your auth config file")
-            message("try debug with yaml.load_file")
-            res <- NULL
-        }
-    } else {
-        message("configuration file: ", fl, " not found")
-        res <- NULL
-    }
-
-    res
-
-}
-
-# append auth info to a simpleList (to every single component)
-setAuth <- function(res, auth, className = NULL) {
-    stopifnot(!is.null(className))
-    rps <- response(res)
-    if (is(res, className)) {
-        res$auth <- auth
-    } else if (is(res, "SimpleList")) {
-        res <- endoapply(res, function(x) {
-            x$auth <- auth
-            x
-        })
-    }
-    response(res) <- rps
-    res
-}
-
-#' Read Auth config file to options
-#'
-#' @param config file location, default is ".sbg.auth.yml" at home folder.
-#' @rdname Auth-class
-#' @aliases updateAuthList
-#' @export updateAuthList
-updateAuthList <- function(config = ".sbg.auth.yml") {
-    lst <- getOption("sevenbridges")
-    lst$auth <- suppressMessages(.parseToken(config))
-    cat(as.yaml(lst$auth))
-    options(sevenbridges = lst)
-}

@@ -99,24 +99,24 @@ head(df)
 You can use the CGC API to access the TCGA files found using SPARQL queries. To get files that have download links, you will need to use the SPARQL variable __path__ in your query.
 
 ```{r}
-
-## api(api_url=base,auth_token=auth_token,path='action/files/get_ids', method='POST',query=None,data=filelist)
+# api(api_url = base, auth_token = auth_token, path = "action/files/get_ids",
+#     method = "POST", query = None, data = filelist)
 df.path <- df[,"path"]
 df.path
 ```
 
-You can directly copy those files to a project, make sure if the files is controled 
-access
+You can directly copy those files to a project, make sure if the files is
+controlled access
 
 - project support TCGA controlled access 
-- you login from ERA Common.
+- you log in from eRA Commons
 
 ```{r}
 library("sevenbridges")
 a = Auth(platform = "cgc", username = "tengfei")
-## get id (only works for CGC platform)
+# get id (only works for CGC platform)
 ids = a$get_id_from_path(df.path)
-## copy file from id to project with controlled access
+# copy file from id to project with controlled access
 (p = a$project(id = "tengfei/control-test"))
 a$copyFile(ids, p$id)
 ```
@@ -141,8 +141,8 @@ use `Auth$api()` method you don't have to re-type token and url.
 
 ```{r}
 library("sevenbridges")
-## create an Auth 
-a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/", 
+# create an Auth object
+a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/",
          token = "your_cgc_token")
 a$api(path = "datasets")
 ```
@@ -155,8 +155,8 @@ access TCGA data.
 ```{r}
 a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0", 
          token = "your_cgc_token")
-(res = a$api()) ## default method is GET
-## list all resources/entities
+(res = a$api())  # default method is GET
+# list all resources/entities
 names(res$"_links")
 ```
 
@@ -189,7 +189,7 @@ get_id = function(obj){
    sapply(obj$"_embedded"$files, function(x) x$id)
 }
 ids = get_id(res)
-## create CGC auth
+# create CGC auth
 a_cgc = Auth(token = a$token, url = "https://cgc-api.sbgenomics.com/v2/")
 a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
 ```
@@ -293,11 +293,8 @@ content(api(token = a$token,
 
 #### Query with multiple filters on a case
 
-
 ```{r}
-get_id = function(obj){
-   sapply(obj$"_embedded"$files, function(x) x$id)
-}
+get_id = function(obj) sapply(obj$"_embedded"$files, function(x) x$id)
 names(res)
 body = list("entity" = "cases",
             "hasSample" = list(

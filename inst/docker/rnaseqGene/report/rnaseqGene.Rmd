@@ -1,5 +1,5 @@
 ---
-title: "Uniform randome number generator example"
+title: "Uniform random number generator example"
 date: September 9, 2015
 output:
   pdf_document:

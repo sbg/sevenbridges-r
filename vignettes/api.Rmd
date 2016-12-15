@@ -22,15 +22,9 @@ sevenbridges-r is an R/Bioconductor package that provides an interface for the [
 
 Learn more from our documentation on the [Seven Bridges Platform](http://docs.sevenbridges.com/page/api) and the [Cancer Genomics Cloud (CGC)](http://docs.cancergenomicscloud.org/v1.0/page/the-cgc-api).
 
-***Note:*** API paths differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. The paths are as follows:
-
-- **Cancer Genomics Cloud:** https://cgc-api.sbgenomics.com/v2/
-- **Seven Bridges Platform on Amazon Web Services:** https://api.sbgenomics.com/v2/
-- **Seven Bridges Platform on Google Cloud Platform: **https://gcp-api.sbgenomics.com/v2/
-
 <div align="right"><a href="#top">top</a></div>
 
-### API R client
+### R client for Seven Bridges API
 
 The `sevenbridges` package only supports V2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
 
@@ -38,8 +32,8 @@ There are two ways of constructing API calls. For instance, you can use low-leve
 
 ```{r}
 library("sevenbridges")
-a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c", 
-          url = "https://api.sbgenomics.com/v2/")
+a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c",
+          platform = "aws-us")
 a$api(path = "projects", method = "GET")
 ```
 
@@ -64,7 +58,7 @@ By default, `offset` is set to `0` and `limit` is set to `100`. As such, your AP
 
 __Search by ID__
 
-When searching by ID, your request will return your exact resource as it is unique. As such, you don't have to manually set `offset` and `limit`. It's good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
+When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set `offset` and `limit`. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
 
 __Search by name__
 
@@ -87,7 +81,7 @@ Since we are constantly improving our API and binding libraries, please also vis
 
 <div align="right"><a href="#top">top</a></div>
 
-**If you don't have `devtools`**
+**If you do not have `devtools`**
 
 This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/web/packages/devtools/index.html).
 
@@ -112,12 +106,12 @@ Install the latest version for `sevenbridges` from GitHub with the following:
 source("http://bioconductor.org/biocLite.R")
 biocLite("readr")
 
-devtools::install_github("sbg/sevenbridges-r", build_vignettes=TRUE,
+devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
   repos = BiocInstaller::biocinstallRepos(),
   dependencies = TRUE)
 ```
 
-If you have trouble with `pandoc` and don't want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.
+If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.
 
 
 ## Quickstart
@@ -136,41 +130,61 @@ library("sevenbridges")
 
 **Step 2: Set up your authentication token**
 
-You have three different ways to set up your token. Choose from one of the three methods below:
+You have three different ways to set up your token. Choose from one method below:
 
-1. [Direct setup via `Auth` function:](#method1) This explicityly sets up your token and API url. 
-2. [Via a configuration file in your home folder:](#method2) This file, such as ".sbg.auth.yml", is very easy to manage and is implicitly loaded everytime you start a new R session.
-3. [Via a temporary setup:](#method3) This is an option when for each R session.
+1. [Direct authentication:](#method1) This explicitly and temporarily sets up your token and platform type (or alternatively, API base url) in the function call arguments.
+2. [Authentication via pre-set system environment variables:](#method2) This will read the credential information from two system environment variables: `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`.
+3. [Authentication via user configuration file:](#method3) This file, by default `$HOME/.sevenbridges/credentials`, provides an organized way to collection and manage all your API authentication information for Seven Bridges platforms.
 
-<div style="margin-left:3em"><a name="method1"/>***Method 1: Direct setup***
+<div style="margin-left:3em"><a name="method1"/>***Method 1: Direct authentication***
 
 This is the most common way to construct your `auth` object.
 
 ```{r}
-# direct setup
-(a <- Auth(token = "<fake_token>",
-          url = "https://cgc-api.sbgenomics.com/v2/"))
-# or load default from config file (autoloaded into options)
+# direct authentication
+(a <- Auth(token = "<your_token>", platform = "cgc"))
 ```
 
 ```
+Using platform: cgc
 == Auth ==
-token : <fake_token>
 url : https://cgc-api.sbgenomics.com/v2/
+token : <your_token>
 ```
 
-<a name="method2"/>***Method 2: Via a configuration file***
+<a name="method2"/>***Method 2: Environment variables***
 
 ```{r}
-# from platfrom "us" for user "tengfei"
-a <- Auth(platform = "us", username = "tengfei")
+# read two system environment variables:
+# `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`
+a <- Auth(from = "env")
 ```
 
-<a name="method3"/>***Method 3: update the `auth` object from another config file***
+To set the two environment variables in your system, you could use
+the function `sbg_set_env()`. For example:
 
 ```{r}
-updateAuthList("new_config.yml")
+sbg_set_env("https://cgc-api.sbgenomics.com/v2", "your_token")
 ```
+
+Note that this change might be just temporary, please use the standard
+methods to set more persistent environment variables according to your
+operation system type.
+
+<a name="method3"/>***Method 3: User configuration file***
+
+```{r}
+# load profile `aws-us-tengfei` from `$HOME/.sevenbridges/credentials`
+a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+```
+
+***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some environments are as follows:
+
+- **Cancer Genomics Cloud:** `https://cgc-api.sbgenomics.com/v2`
+- **Seven Bridges Platform on Amazon Web Services (US):** `https://api.sbgenomics.com/v2`
+- **Seven Bridges Platform on Amazon Web Services (EU):** `https://eu-api.sbgenomics.com/v2`
+- **Seven Bridges Platform on Google Cloud Platform:** `https://gcp-api.sbgenomics.com/v2`
+- **Cavatica:** `https://cavatica-api.sbgenomics.com/v2`
 
 </div>
 <div align="right"><a href="#top">top</a></div>
@@ -280,7 +294,7 @@ a$project(complete = TRUE)
 # return all named match "demo"
 a$project(name = "demo", complete = TRUE)
 # get the project you want by id
-p = a$project(id = "tengfei/api-tutorial")
+p <- a$project(id = "tengfei/api-tutorial")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -292,7 +306,7 @@ Seven Bridges maintains workflows and tools available to all of its users in the
 To find out more about public apps, you can do the following:
 
 - Browse them online. Check out the [tutorial](http://docs.cancergenomicscloud.org/docs/) for the "Find apps" section.
-- You can use the `sevenbridges` package to find it, as shown below. 
+- You can use the `sevenbridges` package to find it, as shown below.
 
 ```{r}
 # search by name matching, complete = TRUE search all apps,
@@ -313,7 +327,7 @@ Now, from your `Auth` object, you copy an App `id` into your `project` id with a
 a$copy_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5", 
            project = "tengfei/api-testing", name = "new copy of star")
 # check if it is copied
-p = a$project(id = "tengfei/api-testing")
+p <- a$project(id = "tengfei/api-testing")
 # list apps your got in your project
 p$app()
 ```
@@ -331,7 +345,7 @@ revision : 0
 Alternatively, you can copy it from the `app` object.
 
 ```{r}
-app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
+app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$copy_to(project = "tengfei/api-testing", 
             name = "copy of star")
 ```
@@ -346,8 +360,8 @@ You can also upload your own Common Workflow Language JSON file which describes 
 
 ```{r}
 # add an CWL file to your project
-f.star = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-app = p$app_add("starlocal", fl.runif)
+f.star <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+app <- p$app_add("starlocal", fl.runif)
 (aid <- app$id)
 ```
 
@@ -368,14 +382,14 @@ Alternatively, you can describe tools in R directly, as shown below:
 
 ```{r comment='', eval = TRUE}
 fl <- system.file("docker", "sevenbridges/rabix/generator.R", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 Then, you can add it like this:
 
 ```{r}
 # rbx is the object returned by Tool function
-app = p$app_add("runif", rbx)
+app <- p$app_add("runif", rbx)
 (aid <- app$id)
 ```
 
@@ -393,13 +407,13 @@ To draft a new task, you need to specify the following:
 
 - The name of the task
 - An optional description
-- The app `id` of the workflow you're executing
+- The app `id` of the workflow you are executing
 - The inputs for your workflow. In this case, the CWL app accepts four parameters: number, min, max, and seed. 
 
 You can always check the App details on the visual interface for task input requirements. To find the required inputs with R, you need to get an `App` object first. 
 
 ```{r}
-app = a$app(id = "tengfei/api-testing-2/newcopyofstar")
+app <- a$app(id = "tengfei/api-testing-2/newcopyofstar")
 # get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
@@ -411,8 +425,8 @@ app$get_required()
 Conversely, you can load the app from a CWL JSON and convert it into an R object first, as shown below.
 
 ```{r, eval = TRUE}
-f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-app = convert_app(f1)
+f1 <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+app <- convert_app(f1)
 # get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
@@ -434,7 +448,7 @@ You can find a list of possible input types below:
 
 - **number, character or integer:** you can directly pass these to the input parameter as it is.
 - **enum type:** Pass this value to the input parameter.
-- **file:** This input is a file. However, while some inputs accept only single file ('File'), other inputs takes more than one file (File arrays, FilesList, or 'File...' ). This input require you to pass a `Files` object (for a single file input) or `FilesList` object (for inputs which accept more than one file) or simply a list in a "Files" object. You can search for your file by `id` or by `name` with an exact match (`exact = TRUE`), as shown in the example below.
+- **file:** This input is a file. However, while some inputs accept only single file (`File`), other inputs takes more than one file (`File` arrays, `FilesList`, or '`File...`' ). This input require you to pass a `Files` object (for a single file input) or `FilesList` object (for inputs which accept more than one file) or simply a list in a "Files" object. You can search for your file by `id` or by `name` with an exact match (`exact = TRUE`), as shown in the example below.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -444,14 +458,14 @@ You can find a list of possible input types below:
 fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq")
 
 # get all 2 exact files
-fastq_in = p$file(name= fastqs, exact = TRUE)
+fastq_in <- p$file(name= fastqs, exact = TRUE)
 
 # get a single file
-fasta_in = p$file(name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa", 
-                  exact = TRUE)
+fasta_in <- p$file(name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa", 
+                   exact = TRUE)
 # get all single file
-gtf_in = p$file(name = "Homo_sapiens.GRCh38.84.gtf", 
-                exact = TRUE)
+gtf_in <- p$file(name = "Homo_sapiens.GRCh38.84.gtf", 
+                 exact = TRUE)
 
 ```
 
@@ -461,33 +475,33 @@ gtf_in = p$file(name = "Homo_sapiens.GRCh38.84.gtf",
 
 ```{r}
 # add new tasks
-taskName = paste0("tengfei_star-alignment ",date())
+taskName <- paste0("tengfei_star-alignment ",date())
 
-tsk = p$task_add(name = taskName,
-           description = "star test", 
-           app = "tengfei/api-testing-2/newcopyofstar/0",
-           inputs = list(sjdbGTFfile = gtf_in,
-                         fastq = fastq_in,
-                         genomeFastaFiles = fasta_in))
+tsk <- p$task_add(name = taskName,
+                  description = "star test", 
+                  app = "tengfei/api-testing-2/newcopyofstar/0",
+                  inputs = list(sjdbGTFfile = gtf_in,
+                                fastq = fastq_in,
+                                genomeFastaFiles = fasta_in))
 ```
 
 Remember the `fastq` input expects a list of files. You can also do something as follows:
 
 ```{r}
-f1 = p$file(name = "SRR1039508_1.fastq", exact = TRUE)
-f2 = p$file(name = "SRR1039508_2.fastq", exact = TRUE)
+f1 <- p$file(name = "SRR1039508_1.fastq", exact = TRUE)
+f2 <- p$file(name = "SRR1039508_2.fastq", exact = TRUE)
 # get all 2 exact files
-fastq_in = list(f1, f2)
+fastq_in <- list(f1, f2)
 
 # or if you know you only have 2 files whose names match SRR924146*.fastq
-fastq_in = p$file(name = "SRR1039508*.fastq", complete = TRUE)
+fastq_in <- p$file(name = "SRR1039508*.fastq", complete = TRUE)
 ```
 
 Using `complete = TRUE` when items is over 100. 
 
 #### Draft a batch task
 
-Now let's do a batch with 8 files in 4 groups, which is batched by metadata `sample_id` and `library_id`. We'll assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.
+Now let's do a batch with 8 files in 4 groups, which is batched by metadata `sample_id` and `library_id`. We will assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.
 
 ```{r}
 fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq", 
@@ -495,18 +509,18 @@ fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq",
             "SRR1039513_1.fastq", "SRR1039513_2.fastq")
 
 # get all 8 files
-fastq_in = p$file(name= fastqs, exact = TRUE)
+fastq_in <- p$file(name= fastqs, exact = TRUE)
 # can also try to returned all SRR*.fastq files
-# fastq_in = p$file(name= "SRR*.fastq", complete = TRUE)
+# fastq_in <- p$file(name= "SRR*.fastq", complete = TRUE)
 
-tsk = p$task_add(name = taskName,
-           description = "Batch Star Test", 
-           app = "tengfei/api-testing-2/newcopyofstar/0",
-           batch = batch(input = "fastq", 
-                         criteria = c("metadata.sample_id","metadata.noexist_id")),
-           inputs = list(sjdbGTFfile = gtf_in,
-                         fastq = fastqs_in,
-                         genomeFastaFiles = fasta_in))
+tsk <- p$task_add(name = taskName,
+                  description = "Batch Star Test", 
+                  app = "tengfei/api-testing-2/newcopyofstar/0",
+                  batch = batch(input = "fastq", 
+                                criteria = c("metadata.sample_id","metadata.noexist_id")),
+                  inputs = list(sjdbGTFfile = gtf_in,
+                                fastq = fastqs_in,
+                                genomeFastaFiles = fasta_in))
 ```
 
 Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings. 
@@ -515,7 +529,7 @@ Now you have a draft batch task, please check it out in the visual interface. Yo
 
 ### Run a task
 
-Now, we're ready to run our task.
+Now, we are ready to run our task.
 
 ```{r}
 # run your task
@@ -575,8 +589,8 @@ tsk$download("~/Downloads")
 getTaskHook("completed")
 ```
 
-If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it's `TRUE` (or non-logical value) it means
-the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it's `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it's "running", you want to keep tracking. 
+If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means
+the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it is "running", you want to keep tracking. 
 
 Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to local folder. 
 
@@ -594,50 +608,39 @@ tsk$monitor()
 
 ## User-friendly API
 
-The `sevenbridges` package provides a user-friendly interface so you don't have to combine several `api()` calls and constantly reference the API documentation to issue API requests. 
+The `sevenbridges` package provides a user-friendly interface so you do not have to combine several `api()` calls and constantly reference the API documentation to issue API requests. 
 
 <div align="right"><a href="#top">top</a></div>
 
-### Authentification
+### Authentication
 
 #### Set up a default token for different environments
 
-You can create a file called '.sbg.auth.yml' in your home folder and maintain your credentials for multiple accounts across various Seven Bridges environments as follows:
+You can create a file named `credentials` under the folder `$HOME/.sevenbridges/` and maintain your credentials for multiple accounts across various Seven Bridges environments as follows.
 
 ```
-us:
-  url: https://api.sbgenomics.com/v2/
-  user:
-    tengfei:
-      token: fake_token
-    yintengfei:
-      token: fake_token
-cgc:
-  url: https://cgc-api.sbgenomics.com/
-  user:
-    tengfei:
-      token: fake_token
-gcp:
-  url: https://gcp-api.sbgenomics.com/v2/
-  user:
-    tengfei:
-      token: fake_token
+[aws-us-tengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+# This is a comment:
+# another user on the same platform
+[aws-us-yintengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[cgc]
+api_endpoint = https://cgc-api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[gcp]
+api_endpoint = https://gcp-api.sbgenomics.com/v2
+auth_token = token_for_this_user
 ```
 
-When you load the `sevenbridges` package, it first tries to parse your token configuration file into an options list, as follows: 
+Please make sure to have the fields (exactly) named `api_endpoint` and `auth_token` under each profile.
 
-```{r}
-# create Auth object from config file
-a <- Auth(username = "yintengfei", platform = "us")
-# show all
-getToken()
-# show all pre-set user token for platform 
-getToken("cgc")
-# show individual token for a user
-getToken(platform = "cgc", username = "tengfei")
-```
-
-***Note:*** When you edit your `.sbg.auth.yml` file, you have to reload your `sevenbridges` package.
+***Note:*** If you edited the `credentials` file, please use `Auth()` to re-authenticate.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -646,29 +649,28 @@ getToken(platform = "cgc", username = "tengfei")
 Before you can interact with the API, you need to construct an `Auth` object which stores the following:
 
 - Your authentication token. This is used to authenticate your credentials with the API. Learn more about obtaining your authentication token on the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) and the [Cancer Genomics Cloud](http://docs.cancergenomicscloud.org/v1.0/docs/get-your-authentication-token).
-- The path for the API
-- The environment you're using (Seven Bridges Platform on AWS, Seven Bridges Platform on GCP, or the Cancer Genomics Cloud). This is an optional step, as the environment will also be specified in the API path above.
+- The path for the API (base URL).
+- The platform name you are using (e.g. Seven Bridges Platform on AWS US, Seven Bridges Platform on AWS EU, Seven Bridges Platform on GCP, Cancer Genomics Cloud, or Cavatica). This is an optional field, as the base URL of the API decides where the API calls will be sent to.
 
-The logic is as follows:
+The authentication logic is as follows:
 
-1. If you didn't pass url or token, the package will assume you are loading it from the config file.
+1. If you did not pass API base URL or token, the package will assume you are loading it from the user config file.
 2. If no environment or user is specified, the package will use the first item in your config file. __This is not recommended. Please provide an environment and username.__ 
-
 
 ```{r}
 library("sevenbridges")
-# direct setup
-a <- Auth(token = "1c0e6e202b544030870ccc147092c257",
-          url = "https://cgc-api.sbgenomics.com/v2/")
+# direct authentication
+a = Auth(token = "1c0e6e202b544030870ccc147092c257",
+         platform = "aws-us")
 ```
 
-The above will point to the Cancer Genomics Cloud environment, unless you specify the API URL or the environment. The `sevenbridges` package currently supports specifying `cgc` for the Cancer Genomics Cloud, `us` for the Seven Bridges Platform on AWS, and `gcp` for the Seven Bridges Platform on GCP.
+The above will point to the Cancer Genomics Cloud environment, unless you specify the API URL or the environment. The `sevenbridges` package currently supports specifying `cgc` for the Cancer Genomics Cloud, `aws-us` for the Seven Bridges Platform on AWS, and `gcp` for the Seven Bridges Platform on GCP.
 
 <div align="right"><a href="#top">top</a></div>
 
 ### List All API calls
 
-If you don't pass any parameters to `api()` from `Auth`, it will list all API calls. Any parameters you provide will be passed to the `api()` function, but you don't have to pass your input token and path once more ince the `Auth` object already has this information. The following call fromt he `Auth` object will check the response as well.
+If you did not pass any parameters to `api()` from `Auth`, it will list all API calls. Any parameters you provide will be passed to the `api()` function, but you do not have to pass your input token and path once more ince the `Auth` object already has this information. The following call fromt he `Auth` object will check the response as well.
 
 ```{r}
 a$api()
@@ -694,7 +696,7 @@ getOption("sevenbridges")$limit
 
 __Search by ID__
 
-When searching by ID, your request will return your exact resource as it is unique. As such, you don't have to manually set `offset` and `limit`. It's good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
+When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set `offset` and `limit`. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
 
 __Search by name__
 
@@ -704,15 +706,15 @@ For example, to list all public apps, use `visibility` argument, but make sure y
 
 ```{r}
 # first, search by id is fast
-x <- a$app(visibility = "public", id = "admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1")
+x = a$app(visibility = "public", id = "admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1")
 
 # show 100 items from public
-x <-  a$app(visibility = "public")
+x =  a$app(visibility = "public")
 length(x)  # 100
 
-x <- a$app(visibility = "public", complete = TRUE)
+x = a$app(visibility = "public", complete = TRUE)
 length(x)  # 272 by Nov 2016
-# this return nothing, because it's not in the first 100 returned names
+# this return nothing, because it is not in the first 100 returned names
 a$app(visibility = "public", name = "bed converter")
 # this return an app, because it pulls *all* app names and did search
 a$app(visibility = "public", name = "bed converter", complete = TRUE)
@@ -736,7 +738,7 @@ a$rate_limit()
 This call returns a list of the resources, such as projects, billing groups, and 
 organizations, that are accessible to you. Currently, this call will only return a successful response if {username} is replaced with your own username. Be sure to capitalize your username in the same way as when you registered for an account.
 
-If you don't provide a username, your user information will be shown.
+If you did not provide a username, your user information will be shown.
 
 ```{r}
 # return your information
@@ -867,7 +869,7 @@ You can update the following information about an existing project:
 ```{r}
 a$project(id = "tengfei/helloworld")
 a$project(id = "tengfei/helloworld")$update(name = "Hello World Update", 
-                                                    description = "Update description")
+                                            description = "Update description")
 ```
 
 #### Project Member
@@ -976,7 +978,7 @@ a$file(name = "omni", project = p$id, detail = TRUE)
 
 You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. User could serach by metadata, tags, and original task id. 
 
-1. __First rule: understand the scope__: We know we have default `limit = 100` and `offset = 0` for first 100 items, unless you are using arguments `complete = TRUE`. Things are different when it comes to files. When you search with exact name (search by name with `exact = TRUE` on), metadata, or tags, it searches through ALL files. You don't have to specify `complete = TRUE`. Simply provide the project id or make the call from a project object as shown below.
+1. __First rule: understand the scope__: We know we have default `limit = 100` and `offset = 0` for first 100 items, unless you are using arguments `complete = TRUE`. Things are different when it comes to files. When you search with exact name (search by name with `exact = TRUE` on), metadata, or tags, it searches through ALL files. You do not have to specify `complete = TRUE`. Simply provide the project id or make the call from a project object as shown below.
 
 2. __Second rule: understand the operation__: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. __Note__ different metadata fields are treated as different fields as well, so it will be __AND__ operation for different metadata field. 
 
@@ -1020,7 +1022,7 @@ a$public_file(name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"),
               exact = TRUE)
 ```
 
-If you did not use `exact = TRUE`, the API will assume it's pattern grep and use partial matching.
+If you did not use `exact = TRUE`, the API will assume it is pattern grep and use partial matching.
 
 ```{r}
 # get matchd the pattern for searching first 100 files
@@ -1041,8 +1043,8 @@ To list all files in project "tengfei/demo", that have a `sample_id` of "Sample1
 
 ```{r}
 p = a$project(id = "tengfei/demo")
-p$file(metadata = list(sample_id = "Sample1", 
-                       sample_id = "Sample2", 
+p$file(metadata = list(sample_id  = "Sample1", 
+                       sample_id  = "Sample2", 
                        library_id = "EXAMPLE"))
 ```
 
@@ -1055,7 +1057,7 @@ Tags are more flexible than metadata. You can search with multiple tags using an
 This examples shows how to return all files with the tag "s1" __OR__ "s2".
 
 ```{r}
-p = a$project(id = "tengfei/demo")
+p <- a$project(id = "tengfei/demo")
 p$file(tag = c("s1", "s2")) 
 ```
 
@@ -1073,7 +1075,7 @@ You can also get all files from a task. There are two ways to do it:
 a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
 
 # OR
-p = a$project(id = "tengfei/demo")
+p <- a$project(id = "tengfei/demo")
 p$file(origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
 ```
 
@@ -1243,7 +1245,10 @@ fl$meta()
 **Update meta**
 
 ```{r}
-fl$update(name = "sample.fastq", metadata = list(new_item1 = "item1", new_item2 = "item2", file_extension = "fastq"))
+fl$update(name = "sample.fastq", 
+          metadata = list(new_item1 = "item1",
+                          new_item2 = "item2",
+                          file_extension = "fastq"))
 # check it out
 fl$meta()
 ```
@@ -1319,8 +1324,8 @@ To completely overwrite the tags for a file, use the `obj$set_tag()` method, whi
 Let's use a file called `sample.bam` and play with its tags.
 
 ```{r}
-p <- a$project(id = "tengfei/s3tutorial")
-fl = p$file("sample.bam", exact = TRUE)
+p  <- a$project(id = "tengfei/s3tutorial")
+fl <- p$file("sample.bam", exact = TRUE)
 # show tags for single file
 fl$tag()
 # add new tags
@@ -1328,7 +1333,7 @@ fl$add_tag("new tag")
 # equavilent to 
 fl$set_tag("new tag 2", overwrite = FALSE)
 # set tags to overwrite existing
-x = list("this", "is", 1234)
+x <- list("this", "is", 1234)
 fl$set_tag(x)
 # filter by tags
 p$file(tag = c("1234", "new"))
@@ -1336,15 +1341,15 @@ p$file(tag = list("1234", "new"))
 p$file(tag = "1234")
 ```
 
-Below, find convenient methods for `FilesList`. Let's add the tag "s1" to a group files matching "Sample1" and add the tag "s2" to a group of files that match "s2". Then, we'll filter by these tags to obtain specific files.
+Below, find convenient methods for `FilesList`. Let's add the tag "s1" to a group files matching "Sample1" and add the tag "s2" to a group of files that match "s2". Then, we will filter by these tags to obtain specific files.
 
 ```{r}
 # work on a group of files
 # add tag "s2" to a group of files named with "Sample2" in it
-fl2 = p$file("Sample2")
+fl2 <- p$file("Sample2")
 add_tag(fl2, "s2")
 # add tag "s2" to a group of files named with "Sample1" in it
-fl1 = p$file("Sample1")
+fl1 <- p$file("Sample1")
 add_tag(fl1, "s1")
 # filter by tag s1 or s2
 p$file(tag = "s1")
@@ -1405,11 +1410,11 @@ To list all public apps, use the `visibility` argument.
 
 ```{r}
 # show 100 items from public
-x = a$app(visibility = "public")
+x <- a$app(visibility = "public")
 length(x)
-x = a$app(visibility = "public", complete = TRUE)
+x <- a$app(visibility = "public", complete = TRUE)
 length(x)
-x = a$app(project = "tengfei/helloworld", complete = TRUE)
+x <- a$app(project = "tengfei/helloworld", complete = TRUE)
 length(x)
 a$app(visibility = "public", limit = 5, offset = 150)
 ```
@@ -1443,7 +1448,7 @@ a$app(project = pid)
 You can also copy directly from the app object, as shown below.
 
 ```{r}
-app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
+app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$copy_to(project = "tengfei/api-testing", 
             name = "copy of star")
 ```
@@ -1527,7 +1532,7 @@ p$task(detail = TRUE)
 To list a batch task using the `parent` parameter, pass the batch parent task id. 
 
 ```{r}
-p = a$project(id = "tengfei/demo")
+p <- a$project(id = "tengfei/demo")
 p$task(id = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
 p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
 p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb", status = "completed")
@@ -1547,7 +1552,7 @@ To create a draft task, you need to call the `task_add` function from the Projec
 
 ```{r}
 # push an app first
-fl.runif <- system.file("extdata", "runif.json", package = "sbgr")
+fl.runif <- system.file("extdata", "runif.json", package = "sevenbridges")
 a$project("demo")$app_add("runif_draft", fl.runif)
 runif_id <- "tengfei/demo-project/runif_draft"
 # create a draft task
@@ -1573,7 +1578,8 @@ Call the `update` function from a Task object to update the following:
 # get the single task you want to update
 tsk <- a$project("demo")$task("Draft runif 3")
 tsk
-tsk$update(name = "Draft runif update", description = "draft 2", 
+tsk$update(name = "Draft runif update",
+           description = "draft 2", 
            inputs = list(max = 100))
 # alternative way to check all inputs
 tsk$getInputs()
@@ -1696,15 +1702,15 @@ Learn more about volumes on the [Seven Bridges Platform](http://docs.sevenbridge
 #### Create a volume
 
 ```{r}
-a = Auth(user = "tengfei", platform = "us")
-a$add_volume(name = "tutorial_volume", 
-             type = "s3", 
-             bucket = "tengfei-demo", 
+a <- Auth(user = "tengfei", platform = "aws-us")
+a$add_volume(name   = "tutorial_volume",
+             type   = "s3",
+             bucket = "tengfei-demo",
              prefix = "",
-             access_key_id = "AKIAJQENSIA4DJQNZO3A",
-             secret_access_key = "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", 
-             sse_algorithm = "AES256", 
-             access_mode = "RW")
+             access_key_id     = "AKIAJQENSIA4DJQNZO3A",
+             secret_access_key = "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",
+             sse_algorithm     = "AES256",
+             access_mode       = "RW")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1723,8 +1729,9 @@ a$volume(name = "demo")
 <div align="right"><a href="#top">top</a></div>
 
 #### Get a volume's detail
+
 ```{r}
-v = a$volume()
+v <- a$volume()
 v[[1]]$detail()
 ```
 
@@ -1747,11 +1754,11 @@ a$volume(id = "tengfei/tengfei_demo")$delete()
 This call imports a file from volume to your project. 
 
 ```{r}
-v = a$volume(id = "tengfei/tutorial_volume")
-res = v$import(location =  "A-RNA-File.bam.bai",
-         project = "tengfei/s3tutorial",
-         name = "new.bam.bai", 
-         overwrite = TRUE)
+v <- a$volume(id = "tengfei/tutorial_volume")
+res <- v$import(location =  "A-RNA-File.bam.bai",
+                project = "tengfei/s3tutorial",
+                name = "new.bam.bai",
+                overwrite = TRUE)
 
 # get job status update
 # state will be "COMPLETED" when it's finished, otherwise "PENDING"
@@ -1769,10 +1776,10 @@ __Important__ :
 When testing please update your file in a project. 
 
 ```{r}
-res = v$export(file = "579fb1c9e4b08370afe7903a", 
-         volume = "tengfei/tutorial_volume",
-         location = "",  # when "" use old name
-         sse_algorithm =  "AES256")
+res <- v$export(file = "579fb1c9e4b08370afe7903a",
+                volume = "tengfei/tutorial_volume",
+                location = "",  # when "" use old name
+                sse_algorithm = "AES256")
 # get job status update
 # state will be "COMPLETED" when it's finished other wise "PENDING"
 v$get_export_job(res$id)
@@ -1845,12 +1852,12 @@ In this package, we implement `delete` and `download` for some objects like task
 Quick cheat sheet (in progress)
 
 ```{r}
-## Authentification
+## Authentication
 getToken()
 a <- Auth(token = token)
-a <- Auth(token = token, 
-          url = "https://cgc-api.sbgenomics.com/v2/")
-a <- Auth(platform = "us", username = "tengfei")
+a <- Auth(token = token, platform = "cgc")
+a <- Auth(from = "env")
+a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 
 ## list API
 a$api()

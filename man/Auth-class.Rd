@@ -4,53 +4,47 @@
 \name{Auth-class}
 \alias{Auth}
 \alias{Auth-class}
-\alias{getToken}
-\alias{updateAuthList}
 \title{Class Auth}
-\usage{
-getToken(platform = NULL, username = NULL)
-
-updateAuthList(config = ".sbg.auth.yml")
-}
-\arguments{
-\item{platform}{which platform you are using, by default it is cgc platform,
-it tries to search your .sbg.auth.yml file to parse platform id your
-deinfed there.}
-
-\item{username}{username defined in .sbg.auth.yml file}
-
-\item{config}{file location, default is ".sbg.auth.yml" at home folder.}
-}
-\value{
-a token string.
-}
 \description{
-Auth token object
-
-get Token from config files and option list
-
-Read Auth config file to options
+Auth object
 }
 \details{
 Every object could be requested from this Auth object and any action
 could start from this object using cascading style. Please check
-\code{vignette("easy-api")} for more information.
-
-Current config file is set on home directory with the name .sbg.auth.yml
+\code{vignette("api")} for more information.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{token}}{[character] Your auth token.}
+\item{\code{from}}{[character] Authentication method. Could be \code{"direct"}
+(pass the credential information to the arguments directly),
+\code{"env"} (read from pre-set system environment variables),
+or \code{"file"} (read configurations from a credentials file).
+Default is \code{"direct"}.}
 
-\item{\code{url}}{[character] Base URL used for API, by default
-it is \url{https://api.sbgenomics.com/1.1/}.}
+\item{\code{platform}}{[character] Which platform you want to use,
+if platform and url are both not specified, the default is
+\code{"cgc"} (Cancer Genomics Cloud). Possible values include
+\code{"cgc"}, \code{"aws-us"}, \code{"aws-eu"}, \code{"gcp"},
+and \code{"cavatica"}.}
 
-\item{\code{version}}{URL version number}
+\item{\code{url}}{[character] Base URL for API. Please only use this when you
+want to specify a platform that is not in the \code{platform} list
+above, and also leaving \code{platform} unspecified.}
 
-\item{\code{platform}}{Which platform you are using, by default it is CGC platform,
-it tries to search your \code{.sbg.auth.yml} file to parse platform id your
-deinfed there.}
+\item{\code{token}}{[character] Your authentication token.}
+
+\item{\code{sysenv_url}}{Name of the system environment variable storing
+the API base URL. By default: \code{"SB_API_ENDPOINT"}.}
+
+\item{\code{sysenv_token}}{Name of the system environment variable storing
+the auth token. By default: \code{"SB_AUTH_TOKEN"}.}
+
+\item{\code{config_file}}{[character] Location of the user configuration file.
+By default: \code{"~/.sevenbridges/credential"}.}
+
+\item{\code{profile_name}}{[character] Profile name in the user configuration file.
+The default value is \code{"default"}.}
 
 \item{\code{fs}}{FS object, for mount and unmount file system.}
 }}
@@ -128,8 +122,20 @@ of all volumes you are a member of. If name or id
 provided, we did a match search the list}
 }}
 \examples{
-# replace it with real token
-token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
-a <- Auth(token)
+# Direct authentication (default)
+# replace with your auth token
+token = "aef7e9e3f6c54fb1b338ac4ecddf1a56"
+a = Auth(platform = "cgc", token = token)
+
+\dontrun{
+# Authentication with environment variables
+# This will read system environments variables
+`SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default
+a = Auth(from = "env")
+
+# Authentication with user configuration file
+# This will load profile `default` from config
+file `~/.sevenbridges/credential` by default
+a = Auth(from = "file")}
 }
 

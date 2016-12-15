@@ -19,8 +19,8 @@ library("sevenbridges")
 ## Introduction
 
 This tutorials originates from 2016 Cancer Genomics Cloud Hackathon R workshop I
-prepared, and it's recommended for beginner to read and run through all examples here
-yourself in your R IDE like Rstudio. Then try to make your own app.
+prepared, and it's recommended for beginner to read and run through all examples
+here yourself in your R IDE like Rstudio. Then try to make your own app.
 
 In this tutorial, you will learn
 
@@ -34,7 +34,9 @@ In this tutorial, you will learn
 
 ## Prerequisites
 
-This tutorial doesn't require you to be an advanced R user, everything you need is  R or even better, a cool IDE like Rstudio (or Emacs+ESS), then just open this Rmarkdown in Rstudio. It's easy to learn!
+This tutorial doesn't require you to be an advanced R user, everything you need
+is  R or even better, a cool IDE like Rstudio (or Emacs+ESS), then just open
+this Rmarkdown in Rstudio. It's easy to learn!
 
 Suggest learning for all users: docker.
 
@@ -45,21 +47,22 @@ Now we are ready to go!
 First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
 
-This package __sevenbridges__ is already on Bioconductor [devel branch](https://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html), the release day is going to be May 4th, 2016. Please check the detailed [release schedule](https://www.bioconductor.org/developers/release-schedule/). It's also synced on [GitHub page](https://github.com/sbg/sevenbridges-r)
+This package __sevenbridges__ is already on Bioconductor [devel branch](https://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html),
+the release day is going to be May 4th, 2016. Please check the detailed [release schedule](https://www.bioconductor.org/developers/release-schedule/).
+It is also synced on [GitHub repo](https://github.com/sbg/sevenbridges-r)
 
-For now I recommend you to install the latest version of 'sevenbridges' from github directly by running the script:
+For now I recommend you to install the latest version of `sevenbridges-r`
+from github directly by running the script:
 
 ```{r}
-if (!require("devtools", quietly = TRUE)) {
-    install.packages("devtools") 
-}
+if (!require("devtools", quietly = TRUE)) install.packages("devtools")
 source("https://bioconductor.org/biocLite.R")
 devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
                          repos = BiocInstaller::biocinstallRepos(),
                          dependencies = TRUE)
 ```
 
-After the installation you can always browser vignette
+After the installation you can always browse the vignettes
 
 ```{r}
 browseVignettes(package = "sevenbridges")
@@ -73,7 +76,7 @@ You can find login/registration on NCI Cancer Genomics Cloud homepage [https://w
 
 ### Get your authentifiation
 
-After you login, you can get your authentication under your account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
+After login, you can get your authentication under your account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
 
 ### (optional) register on shinyapps.io
 
@@ -141,43 +144,42 @@ use 'sevenbridges' package to access any seven bridges platform with V2 API.
 This is the main way to create an Auth object, replace "fake_token" wit your own token.
 
 ```{r}
-a <- Auth(token = "fake_token", url = "https://cgc-api.sbgenomics.com/v2/")
+a <- Auth(token = "your_token", platform = "cgc")
 ```
 
-Alternatively you can save your authentication cross different platforms in a configuration file called ".sbg.auth.yml" at home folder. This allow you to manage multiple users on multiple platforms. 
+Alternatively you can save your authentication cross different platforms in a configuration file at the default path `$HOME/.sevenbridges/credentials`. This allows you to manage multiple users on multiple Seven Bridges environments.
 
 ```
-us:
-  url: https://api.sbgenomics.com/v2/
-  user:
-    tengfei:
-      token: fake_token
-    yintengfei:
-      token: fake_token
-cgc:
-  url: https://cgc-api.sbgenomics.com/
-  user:
-    tengfei:
-      token: fake_token
-gcp:
-  url: https://gcp-api.sbgenomics.com/v2/
-  user:
-    tengfei:
-      token: fake_token
+[aws-us-tengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+# This is a comment:
+# another user on the same platform
+[aws-us-yintengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[cgc]
+api_endpoint = https://cgc-api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[gcp]
+api_endpoint = https://gcp-api.sbgenomics.com/v2
+auth_token = token_for_this_user
 ```
 
-When you load 'sevenbridges' package, it will read the configuration files, so you 
-only need to provide platform name and username. 
+When you have this user configuration file ready at this default location, all you need to do is setting `use_config = "???"` and set the `profile_name` to use.
 
 ```{r}
-a <- Auth(user = "tengfei", platform = "cgc")
-## remove old project 
+a <- Auth(use_config = "???", profile_name = "cgc")
+## remove old project
 ## a$project(id = "tengfei/hackathon")$delete()
 ```
 
-To create a project, you need to know your billing group id, cost related to
-this project will be charged from this billing group, now play with your free 
-credit.
+To create a new project, you need to know your billing group id, cost related
+to this project will be charged from this billing group, now play with your
+free credit.
 
 ```{r}
 (b <- a$billing())
@@ -202,10 +204,9 @@ To delete it, just call, but I will suggest you keep it for following tutorial :
 ## p$delete()
 ```
 
+### Build a RNA-Seq tool: from bam to report
 
-### Build a RNA-seq tool: from bam to report
-
-#### Step 1: Have a plan 
+#### Step 1: Have a plan
 
 To demonstrate I will use a RNA-seq [workfow](https://www.bioconductor.org/help/workflows/rnaseqGene/) from Bioconductor, when you open this link, you will notice a full example written in markdown I want to make it into an app and allow you to input new files and generate new report base on this template. 
 
@@ -227,52 +228,49 @@ First thing first, let's define our tool first, here is a diagram generated with
     - Graphics
     - Differential expression table
 
-
-
 #### Step 2: Create docker container for your tool
 
-Building a development environment is essential for developing your command line interface and your app. There are some principles 
+Building a development environment is essential for developing your command line interface and your app. There are some principles
 
-1. First you need to check is there any existing container you can directly use, so you don't have to make a new one. If you don't know what to use, I will suggest you start with "rocker/hadleyverse", it has lots stuff markdown, knitr need and other hadley's popular packages. 
+1. First you need to check is there any existing container you can directly use, so you don't have to make a new one. If you don't know what to use, I will suggest you start with "rocker/hadleyverse", it has lots stuff markdown, knitr need and other Hadley's popular packages.
 
 Official R Docker images is called "Rocker" project and is on [github](https://github.com/rocker-org/rocker), please visit the 
 page to find more details and Dockerfile.
 
-| Image         | Description          | 
-| ------------- |:-------------:|
-| rocker/r-base     | base package to build from| 
-| rocker/r-devel     | base plus R-devel from SVN |  
-| rocker/rstudio | base plus RStudio Server  |    
+| Image              | Description                        | 
+| ------------------ |:----------------------------------:|
+| rocker/r-base      | base package to build from         | 
+| rocker/r-devel     | base plus R-devel from SVN         |  
+| rocker/rstudio     | base plus RStudio Server           |    
 | rocker/hadleyverse | rstudio + Hadley's packages, LaTeX |
-| rocker/ropensci | hadleyverse + rOpenSci packages |
-| rocker/r-devel-san | base, SVN's R-devel and SAN |
-
+| rocker/ropensci    | hadleyverse + rOpenSci packages    |
+| rocker/r-devel-san | base, SVN's R-devel and SAN        |
 
 Bioconductor have a nice [page](https://bioconductor.org/help/docker/) about the official docker images, please read for more details.
 
-| Image | 
-| ---- | 
-| bioconductor/devel_base
-| bioconductor/devel_core
-| bioconductor/devel_flow |
-| bioconductor/devel_microarray |
-| bioconductor/devel_proteomics |
-| bioconductor/devel_sequencing |
-| bioconductor/release_base |
-| bioconductor/release_core |
-| bioconductor/release_flow |
+| Image                           | 
+| ------------------------------- | 
+| bioconductor/devel_base         |
+| bioconductor/devel_core         |
+| bioconductor/devel_flow         |
+| bioconductor/devel_microarray   |
+| bioconductor/devel_proteomics   |
+| bioconductor/devel_sequencing   |
+| bioconductor/release_base       |
+| bioconductor/release_core       |
+| bioconductor/release_flow       |
 | bioconductor/release_microarray |
 | bioconductor/release_proteomics |
 | bioconductor/release_sequencing |
 
-For example, you know there is 'runif' function in rocker/r-base container, you can just do something like this.  Please read another tutorial called "Describe CWL Tools/Workflows in R and Execution", it introduces you a simpler example with random number generator. 
+For example, you know there is an `runif` function in the `rocker/r-base` container, you can just do something like this.  Please read another tutorial called "Describe CWL Tools/Workflows in R and Execution", it introduces you a simpler example with random number generator.
 
 ```{r, comment = "", eval = TRUE}
-rbx <- Tool(id = "runif", 
+rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
-                                 cpu(1), mem(2000)), 
-            baseCommand = "Rscript -e 'runif(100)'", 
+            hints = requirements(docker(pull = "rocker/r-base"),
+                                 cpu(1), mem(2000)),
+            baseCommand = "Rscript -e 'runif(100)'",
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))
 rbx$toJSON(pretty = TRUE)
@@ -280,10 +278,7 @@ rbx$toJSON(pretty = TRUE)
 
 You can directly follow this [tutorial](http://docs.cancergenomicscloud.org/docs/the-tool-editor) paste your json into your tool editor by click "import". Then "save" and "run", you will be able to run your first application on CGC with no parameters and input files. 
 
-
-
 2. If you don't want to make a new container with command line interface and you can simply insert script temporarily for existing container. You can do things as quick as this, by provide a script in the 'content' of 'fileDef'.
-
 
 ```{r, eval = TRUE}
 ## provide scripts
@@ -291,14 +286,14 @@ You can directly follow this [tutorial](http://docs.cancergenomicscloud.org/docs
 fd <- fileDef(name = "runif.R",
               content = "sed.seed(1)
                    runif(100)")
-rbx <- Tool(id = "runif", 
+rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
+            hints = requirements(docker(pull = "rocker/r-base"),
                                  cpu(1), mem(2000)),
             requirements = requirements(fd),
-            baseCommand = "Rscript runif.R", ## run script you created.
+            baseCommand = "Rscript runif.R",  # run script you created.
             stdout = "output.txt",
-            outputs = output(id = "random", glob = "*.txt"))   
+            outputs = output(id = "random", glob = "*.txt"))
 ```
 
 __Note__: in the above example, I made a mistake on purpose, so try to debug on the platform if the task fails : ) 
@@ -310,7 +305,7 @@ I will introduce "Tool" function, in the later section, don't worry.
 Here is Dockerfile I used to generate the workflow I need
 
 ```{r, eval = TRUE}
-fl <- system.file("docker/rnaseqGene", "Dockerfile", 
+fl <- system.file("docker/rnaseqGene", "Dockerfile",
                   package = "sevenbridges")
 ```
 
@@ -338,7 +333,7 @@ In this step, I am going to
 Here is the command line I am using it's called "performDE.R"
 
 ```{r, eval = TRUE}
-fl <- system.file("docker/rnaseqGene/src", "performDE.R", 
+fl <- system.file("docker/rnaseqGene/src", "performDE.R",
                   package = "sevenbridges")
 ```
 

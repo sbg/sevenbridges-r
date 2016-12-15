@@ -1,5 +1,5 @@
 #' ---
-#' title: "Uniform randome number generator example"
+#' title: "Uniform random number generator example"
 #' output:
 #'     html_document:
 #'     toc: true
@@ -8,7 +8,7 @@
 
 #' # summary report
 #'
-#' This is a randome number generator
+#' This is a random number generator
 
 #+
 args = commandArgs(TRUE)

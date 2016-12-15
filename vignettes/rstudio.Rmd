@@ -18,8 +18,8 @@ The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
     - Command line uploader
     - Seven Bridgs Command line tools
     - sevenbridges R package
-- Rstudio server
-- Shiny server
+- RStudio Server
+- Shiny Server
 
 ## Docker container
 

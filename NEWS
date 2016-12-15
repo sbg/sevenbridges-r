@@ -2,7 +2,9 @@
 
 ## Improvements
 
-- Redesigned authentication process: compliant with the new specification
+- Redesigned authentication process: compliant with the new specification.
+- Updated platform types: users can now choose from `cgc`, `aws-us`, `aws-eu`, `gcp`, and `cavatica`.
+- Removed credential information parsing when package is loaded.
 
 # sevenbridges 1.5.4
 

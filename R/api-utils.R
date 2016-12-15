@@ -317,12 +317,6 @@ setListClass <- function(elementType = NULL, suffix = "List",
 
 }
 
-# lift lift lift!!!
-normalizeUrl <- function(x) {
-    if(!grepl("/$", x)) x <- paste0(x, "/")
-    x
-}
-
 validateApp <- function(req) {
     res <- content(req)$raw[["sbg:validationErrors"]]
     if (length(res)) {
