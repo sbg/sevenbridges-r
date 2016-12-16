@@ -115,7 +115,7 @@ Auth <- setRefClass("Auth", fields = list(from         = "character",
                             # remove this block when enough time has passed
                             auth_call = as.list(match.call())
                             if (!is.null(auth_call[["username"]]))
-                                stop("This authentication method is deprecated, please refer to ?Auth or vignette('api') for the new specification")
+                                stop("This authentication parameter is deprecated, please refer to: https://sbg.github.io/sevenbridges-r/articles/api.html#create-auth-object for the new authentication methods")
 
                             fs <<- fs
 

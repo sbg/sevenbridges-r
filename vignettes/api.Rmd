@@ -24,7 +24,7 @@ Learn more from our documentation on the [Seven Bridges Platform](http://docs.se
 
 <div align="right"><a href="#top">top</a></div>
 
-### R client for Seven Bridges API
+### R Client for Seven Bridges API
 
 The `sevenbridges` package only supports V2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
 
@@ -45,7 +45,7 @@ a$project()
 
 <div align="right"><a href="#top">top</a></div>
 
-### API general information 
+### API General Information
 
 Before we start, keep in mind the following:
 
@@ -113,12 +113,11 @@ devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.
 
-
 ## Quickstart
 
 For more details about how to use the API client in R, please consult the [User-friendly API](#reference) section below for a complete guide. This section is a Quickstart which walks through the basics of using the R cliet libary to help you get started.
 
-### Create Auth object
+### Create `Auth` Object
 
 Before you can access your account via the API, you have to pass along your credentials. You can obtain your credentials in the form of an [authentication token](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, let's set up the `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
 
@@ -189,7 +188,7 @@ a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 </div>
 <div align="right"><a href="#top">top</a></div>
 
-### Get user information
+### Get User Information
 
 <a name="youruser"/>**Get your own information**
 
@@ -222,7 +221,7 @@ a$user(username = "tengfei")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Rate limit
+### Rate Limit
 
 This call returns information about your current rate limit. This is the number of API calls you can make in one hour.
 
@@ -239,7 +238,7 @@ reset : 1457980957
 
 <div align="right"><a href="#top">top</a></div>
 
-### Show billing information
+### Show Billing Information
 
 Each project must have a Billing Group associated with it. This Billing Group pays for the storage and computation in the project.
 
@@ -259,7 +258,7 @@ a$billing(id = "your_billing_id", breakdown = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-### Create a project
+### Create Project
 
 Projects are the core building blocks of the Platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.
 
@@ -284,7 +283,7 @@ type : v2
 
 <div align="right"><a href="#top">top</a></div>
 
-### Get details about an existing project
+### Get Details about Existing Project
 
 ```{r}
 # list first 100 
@@ -299,7 +298,7 @@ p <- a$project(id = "tengfei/api-tutorial")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Copy a public app into your project
+### Copy Public Apps into Your Project
 
 Seven Bridges maintains workflows and tools available to all of its users in the Public Apps repository.
 
@@ -352,7 +351,7 @@ app$copy_to(project = "tengfei/api-testing",
 
 <div align="right"><a href="#top">top</a></div>
 
-### Import CWL app and run a task
+### Import CWL App and Run a Task
 
 You can also upload your own Common Workflow Language JSON file which describes your app to your project.
 
@@ -365,7 +364,7 @@ app <- p$app_add("starlocal", fl.runif)
 (aid <- app$id)
 ```
 
-You'll get an app `id`, like the one below:
+You will get an app `id`, like the one below:
 
 ```
 "tengfei/api-testing/starlocal/0"
@@ -373,31 +372,31 @@ You'll get an app `id`, like the one below:
 
 It's composed of the following elements:
 
-1. __project id__ : tengfei/api
-2. __app short name__ : runif 
-3. __revision__ : 0
-
+1. __project id__ : `tengfei/api`
+2. __app short name__ : `runif`
+3. __revision__ : `0`
 
 Alternatively, you can describe tools in R directly, as shown below:
 
-```{r comment='', eval = TRUE}
-fl <- system.file("docker", "sevenbridges/rabix/generator.R", package = "sevenbridges")
+```{r comment = "", eval = TRUE}
+fl <- system.file("docker", "sevenbridges/rabix/generator.R",
+                  package = "sevenbridges")
 cat(readLines(fl), sep = "\n")
 ```
 
 Then, you can add it like this:
 
 ```{r}
-# rbx is the object returned by Tool function
+# rbx is the object returned by `Tool` function
 app <- p$app_add("runif", rbx)
 (aid <- app$id)
 ```
 
-Please consult another tutorial about how to describe tools and flows in R. 
+Please consult another tutorial `vignette("apps", "sevenbridges")` about how to describe tools and flows in R.
 
 <div align="right"><a href="#top">top</a></div>
 
-### Execute a new task
+### Execute a New Task
 
 #### Find your app inputs 
 
@@ -471,7 +470,7 @@ gtf_in <- p$file(name = "Homo_sapiens.GRCh38.84.gtf",
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a new Draft Task
+#### Create a new draft task
 
 ```{r}
 # add new tasks
@@ -527,7 +526,7 @@ Now you have a draft batch task, please check it out in the visual interface. Yo
 
 <div align="right"><a href="#top">top</a></div>
 
-### Run a task
+### Run a Task
 
 Now, we are ready to run our task.
 
@@ -562,7 +561,7 @@ tsk$getInputs()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Task monitoring
+### Task Monitoring
 
 To monitor your task as it runs, you can always request a task `update` to ask your task to report its status. Or, you can monitor a running task with a hook function, which triggers the function when that status is "completed". Please check the details in [section](#hooktask) below.
 
@@ -589,10 +588,9 @@ tsk$download("~/Downloads")
 getTaskHook("completed")
 ```
 
-If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means
-the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it is "running", you want to keep tracking. 
+If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it is "running", you want to keep tracking.
 
-Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to local folder. 
+Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to local folder.
 
 ```{r}
 setTaskHook("completed", function(){
@@ -606,7 +604,7 @@ tsk$monitor()
 
 <a name="reference"/>
 
-## User-friendly API
+## User-Friendly API
 
 The `sevenbridges` package provides a user-friendly interface so you do not have to combine several `api()` calls and constantly reference the API documentation to issue API requests. 
 
@@ -644,7 +642,7 @@ Please make sure to have the fields (exactly) named `api_endpoint` and `auth_tok
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create Auth object directly
+#### Create `Auth` object directly
 
 Before you can interact with the API, you need to construct an `Auth` object which stores the following:
 
@@ -668,7 +666,7 @@ The above will point to the Cancer Genomics Cloud environment, unless you specif
 
 <div align="right"><a href="#top">top</a></div>
 
-### List All API calls
+### List All API Calls
 
 If you did not pass any parameters to `api()` from `Auth`, it will list all API calls. Any parameters you provide will be passed to the `api()` function, but you do not have to pass your input token and path once more ince the `Auth` object already has this information. The following call fromt he `Auth` object will check the response as well.
 
@@ -678,7 +676,7 @@ a$api()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Offset and Limit and Search 
+### Offset, Limit, and Search
 
 Before we start, keep in mind the following:
 
@@ -782,7 +780,7 @@ Projects are the basic units to organize different entities: files, tasks, apps,
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List All Projects 
+#### List all projects
 
 The following call returns a list of all projects of which you are a member. Each project's `project_id` and path will be returned.
 
@@ -805,7 +803,7 @@ a$project(detail = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Partial Match Project Name
+#### Partial match project name
 
 For a more friendly interface and convenient search, the `sevenbridges` package supports _partial name matching_. The first argument for the following request is `name`. 
 
@@ -816,7 +814,7 @@ a$project("hello")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a New Project
+#### Create a new project
 
 To create a new project, users need to specify the following:
 
@@ -844,7 +842,7 @@ a$project_new("controlled_project", b$id,
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Delete a Project
+#### Delete a project
 
 You can delete a *single* project by making the request to `$delete()`. Note that the returned object from `a$project()` sometimes returns  list if you use partial matching by name. The `$delete()` request cannot operate on a list. If you want to operate on a list of object, read more about batch functions in the relevant section below.
 
@@ -858,7 +856,7 @@ delete(a$project("api_testing_donnot_delete_me"))
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Update/Edit a Project
+#### Update/edit a project
 
 You can update the following information about an existing project:
 
@@ -872,7 +870,7 @@ a$project(id = "tengfei/helloworld")$update(name = "Hello World Update",
                                             description = "Update description")
 ```
 
-#### Project Member
+#### Project member
 
 ##### List members
 
@@ -939,7 +937,7 @@ a$project(id = "tengfei/demo-project")$member()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List all Files
+#### List all files
 
 To list all files belonging to a project, use the following request:
 
@@ -950,7 +948,7 @@ p$file()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Files and Metadata and Tags
+### Files, Metadata, and Tags
 
 #### List all files
 
@@ -994,7 +992,7 @@ p$file(metadata = list(sample_id = "Sample1",
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Search by names and id
+##### Search by name and id
 
 There are two ways to return the exact file you want. One is by `id`, the other one is by exact `name`. 
 
@@ -1255,7 +1253,7 @@ fl$meta()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Metadata Operations
+#### Metadata operations
 
 Learn about metadata fields and their values for the relevant environment: [[Seven Bridges Platform](http://docs.sevenbridges.com/docs/metadata-on-the-seven-bridges-platform)] [[CGC](http://docs.cancergenomicscloud.org/v1.0/docs/metadata-for-private-data)]
  
@@ -1366,7 +1364,7 @@ All Seven Bridges environments support the [Common Workflow Language (CWL)](http
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List all apps 
+#### List all apps
 
 This call lists all the apps available to you.
 
@@ -1429,7 +1427,7 @@ a$app("STAR", visibility = "public", complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Copy an App
+#### Copy an app
 
 This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.
 
@@ -1474,7 +1472,7 @@ Coming soon: converting apps to CWL objects
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Add CWL as an APP
+#### Add CWL as an app
 
 To add a CWL object as an app, use the `app_add` function call for a `Project` object. The following two parameters are required:
 
@@ -1491,9 +1489,9 @@ Note: If you provide the same `short_name`, this will add a new revision.
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Directly Describe CWL in R
+#### Describe CWL in R directly
 
-This is introduced in another vignette. 
+This is introduced in another vignette (`vignette("apps", "sevenbridges")`).
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -1839,7 +1837,7 @@ In the easy API, we return an object which contains the raw response from `httr`
 
 <div align="right"><a href="#top">top</a></div>
 
-### Batch operation on project/files/tasks
+### Batch Operation on Project/Files/Tasks
 
 Currently, users have to use `lapply` to do those operations themselves. It's a simple implementation. 
 
