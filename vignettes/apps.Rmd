@@ -21,11 +21,11 @@ knitr::opts_chunk$set(comment = "")
 
 # Prerequisite
 
-This tutorial assume you have basic knowledge about docker concept. 
+This tutorial assume you have basic knowledge about Docker concept. 
 
 Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL V1.0 soon.
 
-# App, Workflow and Tool
+# App, Workflow, and Tool
 
 In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action).
 
@@ -46,7 +46,7 @@ Looks like full of jargons and hard to understand. Here is an example. You have 
 
 You can describe each step into a single module or tool then connect them one by one to form a flow. You can put everything into one single "tool", then downside is that other user cannot use your step1 for missing value problem. So it's both art and sciense to leverage between flexibility and efficiency. 
 
-Why we are using CWL? Imagine a single file represeting a tool or workflow,  could be executed anywhere in a reproducible manner and you don't have to install anything because docker container is imaged, that's going to change the world of computational scientific research and how we do research and publish results. In this package we are trying to hide CWL details as much as possible, so user can just use it like a typical R function. 
+Why we are using CWL? Imagine a single file represeting a tool or workflow,  could be executed anywhere in a reproducible manner and you don't have to install anything because Docker container is imaged, that's going to change the world of computational scientific research and how we do research and publish results. In this package we are trying to hide CWL details as much as possible, so user can just use it like a typical R function. 
 
 # Describe Tools in R
 
@@ -147,11 +147,11 @@ We also provide an __enum__ type, when you specify the enum, please pass the req
 
 Now let's work though from simple case to most flexible case.
 
-### Using existing docker image and command
+### Using existing Docker images and command
 
-If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
+If you already have a Docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
 
-In this simple example, I know docker image "rocker/r-base" has a function called `runif` I can directly called in command line with `Rscript -e`. Then I want the ouput is collected in `stdout` and ask the file system to capture the files matches "*.txt". Please pay attention to this, you tool may produce many intermediate files in current folder, if you don't tell which output you need, they will all be ignored, so make sure you collect those files via `outputs` parameter.
+In this simple example, I know Docker image `rocker/r-base` has a function called `runif` I can directly called in command line with `Rscript -e`. Then I want the ouput is collected in `stdout` and ask the file system to capture the files matches "*.txt". Please pay attention to this, you tool may produce many intermediate files in current folder, if you don't tell which output you need, they will all be ignored, so make sure you collect those files via `outputs` parameter.
 
 ```{r}
 library("sevenbridges")
@@ -174,9 +174,9 @@ rbx$toJSON(pretty = TRUE)
 rbx$toYAML()
 ```
 
-### Add customized script to existing docker image
+### Add customized script to existing Docker image
 
-Now you make want to run your own R script, but you still don't want to create new command line and a new docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
+Now you make want to run your own R script, but you still don't want to create new command line and a new Docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
 
 ```{r}
 ## Make a new file
@@ -229,7 +229,7 @@ rbx <- Tool(id = "runif_twoscript",
 
 All those examples above, many parameters are hard-coded in your script, you don't have flexiblity to control how many numbers to generate. Most often, your tools or command line tools expose some inputs arguments to users. You need a better way to describe a command line with input/output.
 
-Now we bring the example to next level, for example, I prepare a docker image called "tengfei/runif" on dockerhub, this container has a exeutable command called "runif.R", you don't have to know what's inside, you only have to know when you run the command line in that container it looks like this
+Now we bring the example to next level, for example, I prepare a Docker image called "tengfei/runif" on Docker Hub, this container has a exeutable command called "runif.R", you don't have to know what's inside, you only have to know when you run the command line in that container it looks like this
 
 ```
 runif.R --n=100 --max=100 --min=1 --seed=123 
@@ -336,7 +336,7 @@ rbx <- Tool(id = "runif",
 
 ### Quick command line interface with commandArgs (position and named args)
 
-Now you must be wondering, I have a docker container with R, but I don't have any existing command line that I could directly use. Can I provide a script with a formal and quick command line interface to make an App for existing container. The anwser is yes. When you add script to your tool, you can always use some trick to do so, one popular one you may already head of is `commandArgs`. More formal one is called "docopt" which I will show you later. 
+Now you must be wondering, I have a Docker container with R, but I don't have any existing command line that I could directly use. Can I provide a script with a formal and quick command line interface to make an App for existing container. The anwser is yes. When you add script to your tool, you can always use some trick to do so, one popular one you may already head of is `commandArgs`. More formal one is called "docopt" which I will show you later. 
 
 Suppose you have a R script "runif2spin.R" with three arguments using position mapping
 
@@ -450,7 +450,7 @@ You command is something like this
 Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50
 ```
 
-And so I describe my tool like this with docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
+And so I describe my tool like this with Docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
 
 ```{r}
 library("readr")
@@ -555,7 +555,7 @@ f1 = convert_app(f1)
 ## f1
 ```
 
-## Utilities for Flow object
+## Utilities for `Flow` objects
 
 Just like `Tool` object, you also have convenient utils for it, especially useful when you execute task.
 
@@ -774,7 +774,7 @@ tsk$run()
 
 **1. from CLI**
 
-While developing tools it is useful to test them locally first. For that we can use rabix -  reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use docker image **tengfei/testenv**:
+While developing tools it is useful to test them locally first. For that we can use rabix -- reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use the Docker image **tengfei/testenv**:
 
 ```
 docker pull tengfei/testenv
@@ -794,7 +794,7 @@ docker exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_dat
 
 You'll see running logs from within container, and also output dir inside <data_dir> in home system.
 
-NOTE 1: tengfei/testenv has R, python, Java... so many tools can work without docker requirement set. If you however set docker requirement you need to pull image inside container first to run docker container inside running bunny docker.
+NOTE 1: tengfei/testenv has R, python, Java... so many tools can work without Docker requirement set. If you however set Docker requirement you need to pull image inside container first to run docker container inside running bunny docker.
 
 NOTE 2: inputs.json can also be inputs.yaml if you find it easier to declare inputs in YAML.
 
