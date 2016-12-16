@@ -426,10 +426,8 @@ Project <- setRefClass("Project", contains = "Item",
 
                                if (input_check) {
                                    message("checking inputs ...")
-                                   message("API: getting app input information ...")
                                    apps = auth$app(id = app)
-                                   message("checking ...")
-                                   inputs = apps$input_check(inputs, batch)
+                                   inputs = apps$input_check(inputs, batch, .self)
                                }
                                message("Task drafting ...")
 
