@@ -37,19 +37,19 @@
 #' @examples
 #' # Direct authentication (default)
 #' # replace with your auth token
-#' token = "aef7e9e3f6c54fb1b338ac4ecddf1a56"
-#' a = Auth(platform = "cgc", token = token)
+#' token <- "aef7e9e3f6c54fb1b338ac4ecddf1a56"
+#' a <- Auth(platform = "cgc", token = token)
 #'
 #' \dontrun{
 #' # Authentication with environment variables
 #' # This will read system environments variables
-#' `SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default
-#' a = Auth(from = "env")
+#' # `SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default
+#' a <- Auth(from = "env")
 #'
 #' # Authentication with user configuration file
 #' # This will load profile `default` from config
-#' file `~/.sevenbridges/credential` by default
-#' a = Auth(from = "file")}
+#' # file `~/.sevenbridges/credential` by default
+#' a <- Auth(from = "file")}
 Auth <- setRefClass("Auth", fields = list(from         = "character",
                                           platform     = "characterORNULL",
                                           url          = "character",

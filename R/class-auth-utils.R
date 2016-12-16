@@ -49,12 +49,12 @@ sbg_get_env = function(x) {
 #' @param url Base URL for API.
 #' @param token Your authentication token.
 #'
-#' @return set two environment variables
+#' @return set two environment variables for authentication
 #'
 #' @export sbg_set_env
 #'
 #' @examples
-#' # set and get two environment variables for Cancer Genomics Cloud
+#' # set and get environment variables for Cancer Genomics Cloud
 #' \dontrun{
 #' sbg_set_env("https://cgc-api.sbgenomics.com/v2",
 #'             "aef7e9f3fec54fb1b438ac4fcddf1a56")

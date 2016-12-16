@@ -12,13 +12,13 @@ sbg_set_env(url = NULL, token = NULL)
 \item{token}{Your authentication token.}
 }
 \value{
-set two environment variables
+set two environment variables for authentication
 }
 \description{
 Set authentication environment variables for Seven Bridges API
 }
 \examples{
-# set and get two environment variables for Cancer Genomics Cloud
+# set and get environment variables for Cancer Genomics Cloud
 \dontrun{
 sbg_set_env("https://cgc-api.sbgenomics.com/v2",
             "aef7e9f3fec54fb1b438ac4fcddf1a56")
