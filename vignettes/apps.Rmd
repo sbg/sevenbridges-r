@@ -1,26 +1,31 @@
 ---
-title: "Describe CWL Tools/Workflows in R and Execution"
+title: "Describe and Execute CWL Tools/Workflows in R"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-    number_sections: false
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Describe CWL Tools/Workflows in R and Execution}
+  %\VignetteIndexEntry{Describe and Execute CWL Tools/Workflows in R}
 ---
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(comment = "")
 ```
 
-## Prerequisite
+# Prerequisite
 
 This tutorial assume you have basic knowledge about docker concept. 
 
 Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL V1.0 soon.
 
-## App, Workflow and Tool
+# App, Workflow and Tool
 
 In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action).
 
@@ -43,7 +48,7 @@ You can describe each step into a single module or tool then connect them one by
 
 Why we are using CWL? Imagine a single file represeting a tool or workflow,  could be executed anywhere in a reproducible manner and you don't have to install anything because docker container is imaged, that's going to change the world of computational scientific research and how we do research and publish results. In this package we are trying to hide CWL details as much as possible, so user can just use it like a typical R function. 
 
-## Describe Tools in R
+# Describe Tools in R
 
 `Tool` is the basic unit, and also your "lego brick" you usually start with. As developer you also want to provide those "lego" piecies to users to directly run it or make their own flow with it. 
 
@@ -51,7 +56,7 @@ The main interface provided by `sevenbridges` package is `Tool` function, it's m
 
 I highly recommend going over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for the Cancer Genomics Cloud to understand how it works, and even try it on the platform with the GUI. This will help understand our R interface better.
 
-### Import from JSON file
+## Import from JSON file
 
 Sometimes people share Tool in pure JSON text format. You can simply load it into R by using `convert_app` function, this will recognize your JSON file class (Tool or Workflow) automatically.
 
@@ -66,7 +71,7 @@ t1 = convert_app(t1)
 
 In this way, you can load it, revise it, use it with API or edit and export it back to JSON file. However, in this tutorial, the most important thing is that you learn how to desribe it directly in R. 
 
-### Utilitites for Tool object
+## Utilitites for Tool object
 
 We provide couple utitlities to help construct your own CWL tool quickly in R. For all 
 availale utiles please check out `help("Tool")`
@@ -111,14 +116,11 @@ t1$get_output(id = "#aligned_reads")
 t1$get_output(name = "gene")
 ```
 
+## Create your own tool in R
 
-### Create your own tool in R
-
-#### Introduction
+### Introduction
 
 Before we continue, this is how it looks like for full tool description, you don't always need to describe all those details, following section will walk you through simple examples to full examples like this one. 
-
-
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/rnaseqGene/rabix", "generator.R", package = "sevenbridges")
@@ -143,10 +145,9 @@ We also provide an __enum__ type, when you specify the enum, please pass the req
 
 
 
-
 Now let's work though from simple case to most flexible case.
 
-#### Using existing docker image and command
+### Using existing docker image and command
 
 If you already have a docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform. 
 
@@ -173,7 +174,7 @@ rbx$toJSON(pretty = TRUE)
 rbx$toYAML()
 ```
 
-#### Add customized script to existing docker image
+### Add customized script to existing docker image
 
 Now you make want to run your own R script, but you still don't want to create new command line and a new docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
 
@@ -224,7 +225,7 @@ rbx <- Tool(id = "runif_twoscript",
 ```
 
 
-#### Create formal interface for your command line
+### Create formal interface for your command line
 
 All those examples above, many parameters are hard-coded in your script, you don't have flexiblity to control how many numbers to generate. Most often, your tools or command line tools expose some inputs arguments to users. You need a better way to describe a command line with input/output.
 
@@ -333,15 +334,15 @@ rbx <- Tool(id = "runif",
 
 ```
 
-#### Quick command line interface with commandArgs (position and named args)
+### Quick command line interface with commandArgs (position and named args)
 
 Now you must be wondering, I have a docker container with R, but I don't have any existing command line that I could directly use. Can I provide a script with a formal and quick command line interface to make an App for existing container. The anwser is yes. When you add script to your tool, you can always use some trick to do so, one popular one you may already head of is `commandArgs`. More formal one is called "docopt" which I will show you later. 
 
 Suppose you have a R script "runif2spin.R" with three arguments using position mapping
 
-1. numbers
-2. min
-3. max
+1. `numbers`
+2. `min`
+3. `max`
 
 My base command will be somethine like
 
@@ -430,9 +431,9 @@ rbx <- Tool(id = "runif",
 
 ```
 
-#### docopt: a better and formal way to make command line interface
+### docopt: a better and formal way to make command line interface
 
-#### Generate reports
+### Generate reports
 
 **Quick report: Spin and Stich**
 
@@ -483,7 +484,7 @@ rbx <- Tool(id = "runif",
 
 You will get a report in the end.
 
-#### Misc
+### Misc
 
 **Inherit metadata and additional metadata**
 
@@ -539,12 +540,11 @@ f1$set_batch("sjdbGTFfile", c("metadata.sample_id", "metadata.library_id"))
 
 When you push your app to the platform, you will see the batch available at task page or workflow editor.
 
-## Describe Wokrflow in R
+# Describe Wokrflow in R
 
 __Graphic User Interface on Seven Bridges Platform is way more conventient__ 
 
-
-### Import from a JSON file
+## Import from a JSON file
 
 Yes, you could use the same function `convert_app` to import json file.
 
@@ -555,7 +555,7 @@ f1 = convert_app(f1)
 ## f1
 ```
 
-### Utilities for Flow object
+## Utilities for Flow object
 
 Just like `Tool` object, you also have convenient utils for it, especially useful when you execute task.
 
@@ -587,9 +587,9 @@ f1$list_tool()
 
 There are more utilities please check example at `help(Flow)`
 
-### Create your own flow in R 
+## Create your own flow in R 
 
-#### Introduction
+### Introduction
 
 To create a workflow, we provide simple interface to pipe your tool into a single workflow, it works under situation like
 
@@ -598,7 +598,7 @@ To create a workflow, we provide simple interface to pipe your tool into a singl
 
 __Note__ for complicated workflow construction, I highly recommend just use our graphical interface to do it, there is no better way.
 
-#### Connect simple linear tools
+### Connect simple linear tools
 
 Let's create tools from scratch to perform a simple task
 
@@ -608,7 +608,7 @@ Let's create tools from scratch to perform a simple task
 
 ```{r}
 library("sevenbridges")
-## A tool that generate a 100 random number
+## A tool that generates 100 random numbers
 t1 <- Tool(id = "runif new test 3", label = "random number",
            hints = requirements(docker(pull = "rocker/r-base")),
            baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'", 
@@ -616,7 +616,7 @@ t1 <- Tool(id = "runif new test 3", label = "random number",
                             type = "file", 
                             glob = "random.txt"))
 
-## A tool that take log
+## A tool that takes log
 fd <- fileDef(name = "log.R",
               content = "args = commandArgs(TRUE)
                          x = read.table(args[1], header = TRUE)[,'x']
@@ -651,7 +651,6 @@ t3 <- Tool(id = "mean new test 3", label = "get mean",
                             type = "file", 
                             glob = "*.txt"))
 
-
 f = t1 %>>% t2
 f = link(t1, t2, "#random", "#number")
 
@@ -660,7 +659,6 @@ f = link(t1, t2, "#random", "#number")
 
 # library("clipr")
 # write_clip(f$toJSON(pretty = TRUE))
-
 
 t2 <- Tool(id = "log new test 3", label = "get log",
            hints = requirements(docker(pull = "rocker/r-base")),
@@ -688,7 +686,7 @@ you know they exist on the platform, you don't need to do so.
 p$app_add("new_flow_log", f)
 ```
 
-#### Connecting tools by input and output id
+### Connecting tools by input and output id
 
 Now let's connect two tools
 
@@ -721,7 +719,7 @@ f2 = link(t1, t2, "output_fastq_files", "reads",
 # write_clip(f2$toJSON())
 ```
 
-#### Connecting tool with workflow by input and output id
+### Connecting tool with workflow by input and output id
 
 ```{r}
 tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
@@ -746,15 +744,15 @@ f4 = link(f2, t1, c("#Picard_SortSam.sorted_bam", "#SBG_FASTQ_Quality_Detector.r
 # write_clip(f4$toJSON())
 ```
 
-#### Using pipe to construct complicated workflow
+### Using pipe to construct complicated workflow
 
 ```{r}
 
 ```
 
-## Execution
+# Execution
 
-#### Execute the tool and flow in the cloud
+## Execute the tool and flow in the cloud
 
 With API function, you can directly load your Tool into the account. Run a task, for "how-to", please check the API complete guide 
 
@@ -772,9 +770,10 @@ tsk = p$task_add(name = "Draft runif simple",
 tsk$run()
 ```
 
-#### Execute the tool in Rabix - test locally
+## Execute the tool in Rabix - test locally
 
-**1. from CLI**  
+**1. from CLI**
+
 While developing tools it is useful to test them locally first. For that we can use rabix -  reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use docker image **tengfei/testenv**:
 
 ```

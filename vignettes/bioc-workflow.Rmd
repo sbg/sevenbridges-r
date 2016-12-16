@@ -1,14 +1,19 @@
 ---
-title: "Master Tutorial: use R for Cancer Genomics Cloud"
+title: "Master Tutorial: Use R for Cancer Genomics Cloud"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-    number_sections: false
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
     fig_caption: false
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Master Tutorial: use R for Cancer Genomics Cloud}
+  %\VignetteIndexEntry{Master Tutorial: Use R for Cancer Genomics Cloud}
 ---
 
 ```{r include=FALSE}
@@ -16,7 +21,7 @@ knitr::opts_chunk$set(eval = FALSE)
 library("sevenbridges")
 ```
 
-## Introduction
+# Introduction
 
 This tutorials originates from 2016 Cancer Genomics Cloud Hackathon R workshop I
 prepared, and it's recommended for beginner to read and run through all examples
@@ -32,7 +37,7 @@ In this tutorial, you will learn
 6. Reporting tool to generate as many R markdown report or Shiny apps report as you want
 7. Deploy directly on shiny server like shinyapps.io from a "report" tool
 
-## Prerequisites
+# Prerequisites
 
 This tutorial doesn't require you to be an advanced R user, everything you need
 is  R or even better, a cool IDE like Rstudio (or Emacs+ESS), then just open
@@ -42,7 +47,7 @@ Suggest learning for all users: docker.
 
 Now we are ready to go!
 
-### Installation
+## Installation
 
 First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio 
 or your favorite IDE to run through all examples and tweak setup.
@@ -68,17 +73,17 @@ After the installation you can always browse the vignettes
 browseVignettes(package = "sevenbridges")
 ```
 
-### Register on NCI Cancer Genomics Cloud
+## Register on NCI Cancer Genomics Cloud
 
 <img src="https://i.imgur.com/p52wIsi.png" width="100%" class="img-responsive" alt="cgc-home">
 
 You can find login/registration on NCI Cancer Genomics Cloud homepage [https://www.cancergenomicscloud.org](https://www.cancergenomicscloud.org), follow up the [signup tutorial](http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc) if you have ERA Commons.
 
-### Get your authentifiation
+## Get your authentifiation
 
 After login, you can get your authentication under your account setting and 'developer' tab ([tutorial])(http://docs.cancergenomicscloud.org/docs/get-your-authentication-token)
 
-### (optional) register on shinyapps.io
+## (optional) register on shinyapps.io
 
 In this tutorial, if you want to try to deploy the application automatically on shiny server like shinyapps.io, please visit [https://www.shinyapps.io/](https://www.shinyapps.io/) to register and login.
 
@@ -86,7 +91,7 @@ Get you token and secret ready to deploy
 
 <img src="https://i.imgur.com/ChCBhf6.png" width="100%" class="img-responsive" alt="shinyapps-token">
 
-### Issues report
+## Issues report
 
 This package is under active development, will bring many new features as well, at 
 any moment, if you have questions or problem about this R package, please file issue on [github issue page here](https://github.com/sbg/sevenbridges-r/issues)
@@ -95,7 +100,7 @@ If you have question about the cancer genomics cloud platform or other seven bri
 
 Please, feedback is always welcomed!
 
-## Quickstart
+# Quickstart
 
 The final goal is make a workflow that 
 
@@ -124,7 +129,7 @@ A full html report included, it's also output from the first tool, in this way, 
 
 Now let's start building tools.
 
-### Create a project on your account via API R client
+## Create a project on your account via API R client
 
 I know, we can always do it via graphic user interface, but let's have fun with the
 'sevenbridges' packages you just installed. 
@@ -204,9 +209,9 @@ To delete it, just call, but I will suggest you keep it for following tutorial :
 ## p$delete()
 ```
 
-### Build a RNA-Seq tool: from bam to report
+## Build a RNA-Seq tool: from bam to report
 
-#### Step 1: Have a plan
+### Step 1: Have a plan
 
 To demonstrate I will use a RNA-seq [workfow](https://www.bioconductor.org/help/workflows/rnaseqGene/) from Bioconductor, when you open this link, you will notice a full example written in markdown I want to make it into an app and allow you to input new files and generate new report base on this template. 
 
@@ -228,7 +233,7 @@ First thing first, let's define our tool first, here is a diagram generated with
     - Graphics
     - Differential expression table
 
-#### Step 2: Create docker container for your tool
+### Step 2: Create docker container for your tool
 
 Building a development environment is essential for developing your command line interface and your app. There are some principles
 
@@ -322,7 +327,7 @@ I does couple things
 
 In next section, I will show you how to create command line interface
 
-#### Step 3: Create your command line interface.
+### Step 3: Create your command line interface.
 
 In this step, I am going to
 
@@ -359,7 +364,7 @@ options:
 
 Sometime you want to produce a report, so in the end you will notice how I pass parameters from command line to a report. 
 
-#### Step 4: Add default report template to your app
+### Step 4: Add default report template to your app
 
 As a developer, if you always have a fixed report template provided for you tool,
 you can hard-code your template into your docker container, like you noticed in the Dockerfile I created, I insert a report R markdown template. And in the command line 
@@ -385,7 +390,7 @@ Now you have
 You are ready to build docker container and push it to the registry. You can choose to use registry like dockerhub or use CGC's own docker registry (cgc-images.sbgenomics.com). To learn how to use CGC
 Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/docs/the-cgc-image-registry). 
 
-#### Step 5: Describe your tool in R into CWL.
+### Step 5: Describe your tool in R into CWL.
 
 Finally it's time to describe your tool in R (cwl format)!
 
@@ -418,7 +423,6 @@ with graphic user interface, because you can directly see the result of the expr
 - Enum: call 'enum'.
 
 ```{r, eval = TRUE}
-
 rbx <- Tool(id = "rnaseqGene", 
             label = "rnaseqgene",
             description = "A RNA-seq Differiencial Expression Flow and Report",
@@ -490,7 +494,7 @@ argument is name, the second is either a cwl json file, or Tool object or Workfl
 
 Please go check your app in your project, check input output and how it maps to the UI.
 
-#### Step 6: Execute your tool with a new task via R API
+### Step 6: Execute your tool with a new task via R API
 
 Now let's create a task and execute it with example files. You need to pass unique
 file id as input, so the first thing is to get file id you need for that project. 
@@ -629,9 +633,9 @@ To run task in batch mode, (check `?batch`) for more details, here is an mock ru
 
 For more details, check R API tutorial.
 
-### Build a reporting Tool
+## Build a reporting Tool
 
-#### What's report tool?
+### What is report tool?
 
 In our last section, we demonstrate how to hardcode a R report template into your docker container and your command line will output a new report with new input files. 
 
@@ -666,7 +670,7 @@ connect output into those folders, so data flows into it.
 
 
 
-If you are interest, you can still read my dockerfile, command line, tool generator and json. 
+If you are interested, you can still read my dockerfile, command line, tool generator and JSON.
 
 _I will suggest you directly copy the json into your project._ just to try add an app
 in different way.
@@ -709,7 +713,7 @@ fl <- system.file("docker/reporttool/rabix/generator.R",
 cat(readLines(fl), sep= "\n")
 ```
 
-### Compose a full workflow
+## Compose a full workflow
 
 Even though in R with 'sevenbridges' package you can use `%>>%` to connect two Tool object, but this only works for linear simple flow. For complicated flow, we recommend you to use graphic user interface, it's lot fun. 
 
@@ -721,14 +725,14 @@ And next run a task on the platform via UI like this:
 
 <img src="https://i.imgur.com/6VsC69W.png" width="100%" class="img-responsive" alt="rnaseq-runtask">
 
-## Exercise: bring your own tool
+# Exercise: bring your own tool
 
 Now use either graphic user interface or R to describe your tool, your workflow, 
 write report template for your tool (hard coded) and then share your flow with your friends. 
 
-## More tutorials
+# More tutorials
 
-After you install the package
+After you installed the package
 
 ```{r}
 browseVignettes("sevenbridges")

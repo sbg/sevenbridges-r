@@ -1,10 +1,15 @@
 ---
 title: "Creating Your Docker Container and Command Line Interface (with docopt)"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-    number_sections: false
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Creating Your Docker Container and Command Line Interface (with docopt)}
@@ -14,22 +19,22 @@ vignette: >
 knitr::opts_chunk$set(eval = TRUE)
 ```
 
-## Introduction
+# Introduction
 
 __In progress__
 
-In this tutorial, we will go through ways to 
+In this tutorial, we will go through ways to
 
 - Make native command line interface in R
 
 There are many fun ways to do it, here I am more focused for R developers. 
 
-### Existing docker repos
+## Existing Docker repos
 
 Before you create any, make sure you don't re-invent the wheel and use the best
 base image for your container as your tool chain may save your lots of time later on. 
 
-#### Rocker Project
+### Rocker Project
 
 Official R Docker images is called "Rocker"" project and is on [GitHub](https://github.com/rocker-org/rocker), please visit the page to find more details and Dockerfile.
 
@@ -42,9 +47,9 @@ Official R Docker images is called "Rocker"" project and is on [GitHub](https://
 | `rocker/ropensci`    | hadleyverse + rOpenSci packages    |
 | `rocker/r-devel-san` | base, SVN's R-devel and SAN        |
 
-#### Bioconductor Images
+### Bioconductor Images
 
-Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official docker images, please read for more details.
+Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official Docker images, please read for more details.
 
 | Image                           |
 | ------------------------------- | 
@@ -72,13 +77,11 @@ To understand the image quickly here is the short instruction for the image name
 - __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
 - __sequencing__: core + all packages tagged with the _Sequencing_ biocView.
 
-#### Dockerhub 
+### Docker Hub 
 
-[Dockerhub](https://hub.docker.com/) also provide public/private repos, you can search
-existing tools without building yourself, it's very likely some popular tool already have
-docker container well maintained there.
+[Docker Hub](https://hub.docker.com) also provide public/private repos, you can search existing tools without building yourself, it's very likely some popular tool already have Docker container well maintained there.
 
-#### Seven Bridges Docker Registry
+### Seven Bridges Docker Registry
 
 Tutorial comming soon. 
 
@@ -88,7 +91,7 @@ Example Seven Bridges registry:
 - __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
 
 
-## Tutorial: random number generator 
+# Tutorial: random number generator 
 
 Our goal here is to making a cwl app to generate unif random numbers, yes, the core
 function is `runif()`, it's a native function in R. 
@@ -99,7 +102,7 @@ set.seed(1001)
 runif(10)
 ```
 
-### Using docopt package
+## Using docopt package
 
 In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on GitHub.
 
@@ -198,18 +201,17 @@ Loading required package: methods
  [8] 89.349485 55.592066 46.204859
 ```
 
-For full example you can check my GitHub [example](https://github.com/tengfei/docker/tree/master/runif)
+For full example you can check my GitHub [example](https://github.com/tengfei/docker/tree/master/runif).
 
-### Quick command line interface with commandArgs (position and named args)
+## Quick command line interface with `commandArgs` (position and named args)
 
-For advanced users, please read another tutorial "Creating Your Docker Container and Command Line Interface (with docopt)", "docopt" is more formal way to construct your command line interface, but there is a quick way to make command line
-interface here using just `commandArgs`
+For advanced users, please read another tutorial "Creating Your Docker Container and Command Line Interface (with docopt)", "docopt" is more formal way to construct your command line interface, but there is a quick way to make command line interface here using just `commandArgs`.
 
 Suppose I already have a R script like this using position mapping the arguments
 
-1. numbers
-2. min
-3. max
+1. `numbers`
+2. `min`
+3. `max`
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbridges")
@@ -259,7 +261,6 @@ fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbri
 cat(readLines(fl), sep = '\n')
 ```
 
-
 ```
 Rscript runif_args.R --n=10 --min=30 --max=50
 ```
@@ -290,20 +291,15 @@ rbx <- Tool(id = "runif",
                                 type = "float",
                                  separate = FALSE,
                                 prefix = "--max=")),
-            outputs = output(id = "random", glob = "output.txt"))   
-
+            outputs = output(id = "random", glob = "output.txt"))
 ```
 
+## Quick report: Spin and Stich
 
+Alternative, you can use spin/stich from knitr to generate report directly
+from an R script with special format. For example, let's use the above example
 
-### Quick report: Spin and Stich
-
-Alternative, you can use spin/stich from knitr to generate report directly from a 
-Rscript with special format. For example, let's use above example
-
-
-
-```{r, eval = TRUE, comment=''}
+```{r, eval = TRUE, comment = ""}
 fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
 cat(readLines(fl), sep = '\n')
 ```
@@ -314,7 +310,7 @@ You command is something like this
 Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50
 ```
 
-And so I describe my tool like this with docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
+And so I describe my tool like this with Docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
 
 ```{r}
 library("readr")
@@ -346,10 +342,9 @@ rbx <- Tool(id = "runif",
 ```
 
 
-You will get a report in the end
+You will get a report in the end.
 
-
-### Executable report with R markdown (advanced)
+## Executable report with R Markdown (advanced)
 
 We cannot really make a Rmarkdown file executable in it by simply put 
 
@@ -357,7 +352,7 @@ We cannot really make a Rmarkdown file executable in it by simply put
 #!/bin/bash/Rscript
 ```
 
-In your markdown
+In your markdown document.
 
 Of course, we can figure out a way to do it in `liftr` or `knitr`. But rmarkdown allow you to pass parameters to your Rmardown template, please read this tutorial [Parameterized Reports](http://rmarkdown.rstudio.com/developer_parameterized_reports.html). This doesn't solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:
 
@@ -381,20 +376,17 @@ fl <- system.file("docker/sevenbridges/report/", "report.Rmd", package = "sevenb
 cat(readLines(fl), sep = '\n')
 ```
 
-## Setup dockerhub automated build
+# Setup dockerhub automated build
 
-To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on docker hub. Here is what I do
+To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on Docker Hub. Here is what I do
 
 1. I created some project called 'docker' on my GitHub and it has all container that crated from a Dockerfile, for example, tengfei/docker/runif, please go [here](https://github.com/tengfei/docker/tree/master/runif) to check it out
-2. This folder root has a Dockerfile and subfolders for extra materials I added at build time, like script or report template. 
-3. login your dockerhub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it. 
-4. Then you will have auto-build every time you push a new update in GitHub. 
-5. Start using your docker image like 'tengfei/runif'
-6. Feel free to push it onto your Seven Bridges platform registry as well. 
+2. This folder root has a Dockerfile and subfolders for extra materials I added at build time, like script or report template.
+3. login your Docker Hub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it.
+4. Then you will have auto-build every time you push a new update in GitHub.
+5. Start using your Docker image like `tengfei/runif`.
+6. Feel free to push it onto your Seven Bridges platform registry as well.
 
-## More examples
+# More examples
 
-There are more examples under 'inst/docker' folder, you can check out how to
-describe  command line and build docker, how to make report template.
-You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker).
-Or you could read another tutorial about how we wrap RNA-seq workflow from bioconductor. 
+There are more examples under 'inst/docker' folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor. 

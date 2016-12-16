@@ -1,8 +1,15 @@
 ---
 title: "Find Data on CGC via Data Exploerer, SPARQL, and Data API"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-  toc: true
+    toc: true
+    toc_depth: 4
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL, and Data API}

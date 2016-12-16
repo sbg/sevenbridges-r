@@ -1,16 +1,21 @@
 ---
-title: "IDE Container: Rstudio, Shiny Server, and More"
+title: "IDE Container: RStudio Server, Shiny Server, and More"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-    number_sections: false
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{IDE Container: Rstudio, Shiny Server, and More}
+  %\VignetteIndexEntry{IDE Container: RStudio Server, Shiny Server, and More}
 ---
 
-## Introduction
+# Introduction
 
 The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
 
@@ -21,9 +26,9 @@ The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
 - RStudio Server
 - Shiny Server
 
-## Docker container
+# Docker container
 
-### Build container locally
+## Build container locally
 
 The `Dockerfile` is included with the package in `inst/docker` folder. 
 
@@ -34,17 +39,17 @@ cat(readLines(fl), sep = "\n")
 ```
 
 You can simply build it locally, enter folder which contain that `Dockerfile`, in this case,
-it's under `inst/docker/sevenbridges`
+it is under `inst/docker/sevenbridges`
 
 ```bash
 docker build -t sevenbridges/sevenbridges-r .
 ```
 
-### Pull from Docker Hub 
+## Pull from Docker Hub 
 
 A hook is added to build the Docker image automatically from the [sevenbridges-r GitHub repository](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/sevenbridges). It is automatically built on [Docker Hub](https://hub.docker.com/r/sevenbridges/sevenbridges-r/). You can directly use this image `sevenbridges/sevenbridges-r`. Everytime a push is made in the GitHub repo, the Docker container is re-built.
 
-## Launch Rstudio server from Docker container 
+# Launch RStudio Server from Docker container 
 
 For example, you can ssh into your AWS instance, here I suppose you already have Docker installed, and pull the image
 
@@ -52,7 +57,7 @@ For example, you can ssh into your AWS instance, here I suppose you already have
 docker pull sevenbridges/sevenbridges-r
 ```
 
-To launch sevenbridges Rstudio server image, I recommend you read this [tutorial](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
+To launch sevenbridges RStudio Server image, I recommend you read this [tutorial](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
 
 Or following the quick instruction here
 
@@ -61,7 +66,7 @@ docker run -d -p 8787:8787 sevenbridges/sevenbridges-r
 docker run -d -p 8787:8787 -e USER=<username> -e PASSWORD=<password> rocker/rstudio
 ```
 
-You will be able to access the Rstudio in the browser by something like
+You will be able to access the RStudio in the browser by something like
 
 `http://<your ip address>:8787`
 
@@ -74,9 +79,9 @@ docker exec -it <container-id> bash
 adduser <username>
 ```
 
-### Launch both Rstudio and Shiny server from the same Docker container
+## Launch both RStudio Server and Shiny Server from the same Docker container
 
-Sometimes it's very conventient to launch both Rstudio and Shiny server from a singel container and your users can manage to using Rstudio and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
+Sometimes it is very conventient to launch both RStudio Server and Shiny Server from a singel container and your users can manage to using RStudio Server and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
 
 ```bash
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r
@@ -94,12 +99,12 @@ check out the ip from docker machine if you are on mac os.
 docker-machine ip default
 ```
 
-In your browser, `http://<url>:8787/` for Rstudio server, for example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for Rstudio.
+In your browser, `http://<url>:8787/` for RStudio Server, for example, if 192.168.99.100 is what returned, visit `http://192.168.99.100:8787/` for RStudio Server.
 
 
-For shiny server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>`, for example, for user `rstudio` (a default user) and an app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your shiny app from Rstudio server, you can login your rstudio server with your username, and create a fold at home folder called `~/ShinyApps` and develop shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
+For Shiny Server, __per user app__ is hosted `http://<url>:3838/users/<username of rstudio>/<app_dir>`, for example, for user `rstudio` (a default user) and an app called `01_hello`, it will be `http://<url>:3838/users/rstudio/01_hello/`. To develop your Shiny app from RStudio Server, you can log into your RStudio Server with your username, and create a fold at home folder called `~/ShinyApps` and develop Shiny apps under that folder, for example, you can create an app called `02_text` at `~/ShinyApps/02_text/`.
 
-Let's try this, please login your rstudio at `http://<url>:8787` now, then try to copy some example over to your home folder under `~/ShinyApps/`
+Let's try this, please log into your RStudio at `http://<url>:8787` now, then try to copy some example over to your home folder under `~/ShinyApps/`
 
 ```r
 dir.create("~/ShinyApps")
@@ -109,4 +114,4 @@ file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/",
 
 If you logged in with the username `rstudio`, then visit `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
 
-Note: Generic shiny apps can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the Docker container, it's hosted under `/srv/shiny-server/`.
+Note: Generic Shiny apps can also be hosted `http://<url>:3838/` or for particular app, `http://<url>:3838/<app_dir>` and inside the Docker container, it is hosted under `/srv/shiny-server/`.

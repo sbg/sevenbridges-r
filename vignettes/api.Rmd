@@ -1,10 +1,15 @@
 ---
 title: "Complete Guide for Seven Bridges API R Client"
+author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
-    number_sections: false
+    number_sections: true
+    css: sevenbridges.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Complete Guide for Seven Bridges API R Client}
@@ -16,7 +21,7 @@ vignette: >
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-## Introduction
+# Introduction
 
 sevenbridges-r is an R/Bioconductor package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud (CGC)](http://www.cancergenomicscloud.org/) public APIs.
 
@@ -24,7 +29,7 @@ Learn more from our documentation on the [Seven Bridges Platform](http://docs.se
 
 <div align="right"><a href="#top">top</a></div>
 
-### R Client for Seven Bridges API
+## R Client for Seven Bridges API
 
 The `sevenbridges` package only supports V2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
 
@@ -45,7 +50,7 @@ a$project()
 
 <div align="right"><a href="#top">top</a></div>
 
-### API General Information
+## API General Information
 
 Before we start, keep in mind the following:
 
@@ -67,7 +72,7 @@ Search by name returns all partial matches unless you specify `exact = TRUE`.
 
 <div align="right"><a href="#top">top</a></div>
 
-### Installation
+## Installation
 
 The `sevenbridges` package is on both the Bioconductor released and devel branches, as shown below. 
 
@@ -77,7 +82,7 @@ source("https://bioconductor.org/biocLite.R")
 biocLite("sevenbridges")
 ```
 
-Since we are constantly improving our API and binding libraries, please also visit our [github homepage](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version of the package. 
+Since we are constantly improving our API and client libraries, please also visit our [GitHub repository](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version of the package.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -113,11 +118,11 @@ devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.
 
-## Quickstart
+# Quickstart
 
-For more details about how to use the API client in R, please consult the [User-friendly API](#reference) section below for a complete guide. This section is a Quickstart which walks through the basics of using the R cliet libary to help you get started.
+For more details about how to use the API client in R, please consult the [Seven Bridges API Reference](#reference) section below for a complete guide. This section is a Quickstart which walks through the basics of using the R cliet libary to help you get started.
 
-### Create `Auth` Object
+## Create `Auth` Object
 
 Before you can access your account via the API, you have to pass along your credentials. You can obtain your credentials in the form of an [authentication token](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, let's set up the `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
 
@@ -188,7 +193,7 @@ a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 </div>
 <div align="right"><a href="#top">top</a></div>
 
-### Get User Information
+## Get User Information
 
 <a name="youruser"/>**Get your own information**
 
@@ -221,7 +226,7 @@ a$user(username = "tengfei")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Rate Limit
+## Rate Limit
 
 This call returns information about your current rate limit. This is the number of API calls you can make in one hour.
 
@@ -238,7 +243,7 @@ reset : 1457980957
 
 <div align="right"><a href="#top">top</a></div>
 
-### Show Billing Information
+## Show Billing Information
 
 Each project must have a Billing Group associated with it. This Billing Group pays for the storage and computation in the project.
 
@@ -258,7 +263,7 @@ a$billing(id = "your_billing_id", breakdown = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-### Create Project
+## Create Project
 
 Projects are the core building blocks of the Platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.
 
@@ -283,7 +288,7 @@ type : v2
 
 <div align="right"><a href="#top">top</a></div>
 
-### Get Details about Existing Project
+## Get Details about Existing Project
 
 ```{r}
 # list first 100 
@@ -298,7 +303,7 @@ p <- a$project(id = "tengfei/api-tutorial")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Copy Public Apps into Your Project
+## Copy Public Apps into Your Project
 
 Seven Bridges maintains workflows and tools available to all of its users in the Public Apps repository.
 
@@ -351,7 +356,7 @@ app$copy_to(project = "tengfei/api-testing",
 
 <div align="right"><a href="#top">top</a></div>
 
-### Import CWL App and Run a Task
+## Import CWL App and Run a Task
 
 You can also upload your own Common Workflow Language JSON file which describes your app to your project.
 
@@ -396,9 +401,9 @@ Please consult another tutorial `vignette("apps", "sevenbridges")` about how to 
 
 <div align="right"><a href="#top">top</a></div>
 
-### Execute a New Task
+## Execute a New Task
 
-#### Find your app inputs 
+### Find your app inputs 
 
 Once you have copied the public app `admin/sbg-public-data/rna-seq-alignment-star/5` into your project, `username/api-testing`, the app `id` in your current project is `username/api-testing/newcopyofstar`. Conversely, you can use another app you already have in your project for this Quickstart.
 
@@ -451,7 +456,7 @@ You can find a list of possible input types below:
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Get your input files ready
+### Get your input files ready
 
 ```{r}
 fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq")
@@ -470,7 +475,7 @@ gtf_in <- p$file(name = "Homo_sapiens.GRCh38.84.gtf",
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a new draft task
+### Create a new draft task
 
 ```{r}
 # add new tasks
@@ -498,7 +503,7 @@ fastq_in <- p$file(name = "SRR1039508*.fastq", complete = TRUE)
 
 Using `complete = TRUE` when items is over 100. 
 
-#### Draft a batch task
+### Draft a batch task
 
 Now let's do a batch with 8 files in 4 groups, which is batched by metadata `sample_id` and `library_id`. We will assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.
 
@@ -526,7 +531,7 @@ Now you have a draft batch task, please check it out in the visual interface. Yo
 
 <div align="right"><a href="#top">top</a></div>
 
-### Run a Task
+## Run a Task
 
 Now, we are ready to run our task.
 
@@ -561,7 +566,7 @@ tsk$getInputs()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Task Monitoring
+## Task Monitoring
 
 To monitor your task as it runs, you can always request a task `update` to ask your task to report its status. Or, you can monitor a running task with a hook function, which triggers the function when that status is "completed". Please check the details in [section](#hooktask) below.
 
@@ -604,15 +609,15 @@ tsk$monitor()
 
 <a name="reference"/>
 
-## User-Friendly API
+# Seven Bridges API Reference
 
 The `sevenbridges` package provides a user-friendly interface so you do not have to combine several `api()` calls and constantly reference the API documentation to issue API requests. 
 
 <div align="right"><a href="#top">top</a></div>
 
-### Authentication
+## Authentication
 
-#### Set up a default token for different environments
+### Set up a default token for different environments
 
 You can create a file named `credentials` under the folder `$HOME/.sevenbridges/` and maintain your credentials for multiple accounts across various Seven Bridges environments as follows.
 
@@ -642,7 +647,7 @@ Please make sure to have the fields (exactly) named `api_endpoint` and `auth_tok
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create `Auth` object directly
+### Create `Auth` object directly
 
 Before you can interact with the API, you need to construct an `Auth` object which stores the following:
 
@@ -666,7 +671,7 @@ The above will point to the Cancer Genomics Cloud environment, unless you specif
 
 <div align="right"><a href="#top">top</a></div>
 
-### List All API Calls
+## List All API Calls
 
 If you did not pass any parameters to `api()` from `Auth`, it will list all API calls. Any parameters you provide will be passed to the `api()` function, but you do not have to pass your input token and path once more ince the `Auth` object already has this information. The following call fromt he `Auth` object will check the response as well.
 
@@ -676,7 +681,7 @@ a$api()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Offset, Limit, and Search
+## Offset, Limit, and Search
 
 Before we start, keep in mind the following:
 
@@ -720,7 +725,7 @@ a$app(visibility = "public", name = "bed converter", complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-### Rate Limits
+## Rate Limits
 
 This call returns information about your current rate limit. 
 This is the number of API calls you can make in one hour.
@@ -731,7 +736,7 @@ a$rate_limit()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Users
+## Users
 
 This call returns a list of the resources, such as projects, billing groups, and 
 organizations, that are accessible to you. Currently, this call will only return a successful response if {username} is replaced with your own username. Be sure to capitalize your username in the same way as when you registered for an account.
@@ -747,9 +752,9 @@ a$user("tengfei")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Billing Group and Invoices
+## Billing Group and Invoices
 
-#### For billing
+### For billing
 
 If no billing group `id` is provided, this call returns a list of paths used to access billing information via the API. If a username is provided, this call lists all your billing groups, including groups that are pending or which have been disabled. If you specify `breakdown = TRUE`, the call below returns a breakdown of the spending per-project for the billing group specified by billing_group. Information is also displayed for each of the projects a particular billing group is associated with, including task executions, their initiating user, start and end time, and their cost.
 
@@ -761,7 +766,7 @@ a$billing(id = b$id, breakdown = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### For invoices
+### For invoices
 
 If no Billing Group `id` provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice `id` is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.
 
@@ -774,13 +779,13 @@ a$invoice(id = "fake_id")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Project Operation
+## Project
 
 Projects are the basic units to organize different entities: files, tasks, apps, etc. As such, many actions stem from the `Project` object. 
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List all projects
+### List all projects
 
 The following call returns a list of all projects of which you are a member. Each project's `project_id` and path will be returned.
 
@@ -803,7 +808,7 @@ a$project(detail = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Partial match project name
+### Partial match project name
 
 For a more friendly interface and convenient search, the `sevenbridges` package supports _partial name matching_. The first argument for the following request is `name`. 
 
@@ -814,7 +819,7 @@ a$project("hello")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a new project
+### Create a new project
 
 To create a new project, users need to specify the following:
 
@@ -831,7 +836,7 @@ a$project_new("api_testing_tcga", b$id,
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a new project with TCGA controlled data on CGC
+### Create a new project with TCGA controlled data on CGC
 
 Follow the directions above, but pass `tcga` as a value for `tags`.
 
@@ -842,7 +847,7 @@ a$project_new("controlled_project", b$id,
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Delete a project
+### Delete a project
 
 You can delete a *single* project by making the request to `$delete()`. Note that the returned object from `a$project()` sometimes returns  list if you use partial matching by name. The `$delete()` request cannot operate on a list. If you want to operate on a list of object, read more about batch functions in the relevant section below.
 
@@ -856,7 +861,7 @@ delete(a$project("api_testing_donnot_delete_me"))
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Update/edit a project
+### Update/edit a project
 
 You can update the following information about an existing project:
 
@@ -870,9 +875,9 @@ a$project(id = "tengfei/helloworld")$update(name = "Hello World Update",
                                             description = "Update description")
 ```
 
-#### Project member
+### Project member
 
-##### List members
+#### List members
 
 This call returns a list of the members of the specified project. For each member, the response lists:
 
@@ -885,7 +890,7 @@ a$project(id = "tengfei/demo-project")$member()
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Add a member
+#### Add a member
 
 This call adds a new user to the specified project. It can only be made by a user who has admin permissions in the project.
 
@@ -925,7 +930,7 @@ admin : FALSE
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Delete a member
+#### Delete a member
 
 To delete an existing member, just call the `delete()` action on the `Member` object.
 
@@ -937,7 +942,7 @@ a$project(id = "tengfei/demo-project")$member()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List all files
+### List all files
 
 To list all files belonging to a project, use the following request:
 
@@ -948,9 +953,9 @@ p$file()
 
 <div align="right"><a href="#top">top</a></div>
 
-### Files, Metadata, and Tags
+## Files, Metadata, and Tags
 
-#### List all files
+### List all files
 
 A better way to list files in a project uses the following:
 
@@ -970,9 +975,9 @@ a$file(name = "omni", project = p$id, detail = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Search and filter file(s)
+### Search and filter file(s)
 
-##### Rule of thumb
+#### Rule of thumb
 
 You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. User could serach by metadata, tags, and original task id. 
 
@@ -992,7 +997,7 @@ p$file(metadata = list(sample_id = "Sample1",
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Search by name and id
+#### Search by name and id
 
 There are two ways to return the exact file you want. One is by `id`, the other one is by exact `name`. 
 
@@ -1033,7 +1038,7 @@ a$public_file(name = "ucsc.hg19", complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Search by metadata
+#### Search by metadata
 
 When you specify different metadata fields, the values use an __AND__ operation, and when you specify the same metadata fields, the values use an __OR__ operation.
 
@@ -1048,7 +1053,7 @@ p$file(metadata = list(sample_id  = "Sample1",
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Search by tags
+#### Search by tags
 
 Tags are more flexible than metadata. You can search with multiple tags using an __OR__ operation. 
 
@@ -1061,7 +1066,7 @@ p$file(tag = c("s1", "s2"))
 
 <div align="right"><a href="#top">top</a></div>
 
-##### Search by original task id
+#### Search by original task id
 
 You can also get all files from a task. There are two ways to do it:
 
@@ -1079,7 +1084,7 @@ p$file(origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Copy a file or group of files
+### Copy a file or group of files
 
 This call copies the specified file to a new project. Files retain their metadata when copied, but may be assigned new names in their target project.
 
@@ -1112,7 +1117,7 @@ a$project("hello")$file(id = fid)$copyTo(pid)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Delete file(s)
+### Delete file(s)
 
 ***Note:*** The `delete` action only works for one file at a time. Be sure your `file` call returns 
 a single file rather than a file list.
@@ -1135,7 +1140,7 @@ a$project("demo")$file("phase1")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Download files
+### Download files
 
 To get the download information, please use the following:
 
@@ -1165,7 +1170,7 @@ a$project("demo")$download("~/Downloads")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Upload files
+### Upload files
 
 Seven Bridges environments provide a few different methods for data import, as follows:
 
@@ -1213,7 +1218,7 @@ p$upload("~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Update a file
+### Update a file
 
 You can call the `update()` function from the Files object. Using this call, the following can be updated:
 
@@ -1253,7 +1258,7 @@ fl$meta()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Metadata operations
+### Metadata operations
 
 Learn about metadata fields and their values for the relevant environment: [[Seven Bridges Platform](http://docs.sevenbridges.com/docs/metadata-on-the-seven-bridges-platform)] [[CGC](http://docs.cancergenomicscloud.org/v1.0/docs/metadata-for-private-data)]
  
@@ -1307,7 +1312,7 @@ Metadata(platform      = "Affymetrix SNP Array 6.0",
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Tag file(s)
+### Tag file(s)
 
 You can tag your files with keywords or strings to make it easier to identify and organize files. Tags are different from metadata, and are more convenient and visible from the files list on the visual interface.
 
@@ -1358,13 +1363,13 @@ p$file(tag = list("s2", "s1"))
 
 <div align="right"><a href="#top">top</a></div>
 
-### App
+## App
 
 All Seven Bridges environments support the [Common Workflow Language (CWL)](http://www.commonwl.org/) natively to allow for reproducible and portable workflows and tools. In this section, we will work with apps, including tools and workflows, via the API using the `sevenbridges` R package.
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List all apps
+### List all apps
 
 This call lists all the apps available to you.
 
@@ -1427,7 +1432,7 @@ a$app("STAR", visibility = "public", complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Copy an app
+### Copy an app
 
 This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.
 
@@ -1453,7 +1458,7 @@ app$copy_to(project = "tengfei/api-testing",
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Get an app's CWL description
+### Get an app's CWL description
 
 This call returns the raw CWL of a specific app, including its raw CWL. The call differs from the call to GET details of an app in that it returns a JSON object that is the CWL.
 
@@ -1472,7 +1477,7 @@ Coming soon: converting apps to CWL objects
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Add CWL as an app
+### Add CWL as an app
 
 To add a CWL object as an app, use the `app_add` function call for a `Project` object. The following two parameters are required:
 
@@ -1489,15 +1494,15 @@ Note: If you provide the same `short_name`, this will add a new revision.
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Describe CWL in R directly
+### Describe CWL in R directly
 
 This is introduced in another vignette (`vignette("apps", "sevenbridges")`).
 
 <div align="right"><a href="#top">top</a></div>
 
-### Task Operation
+## Task
 
-#### List tasks
+### List tasks
 
 This call returns a list of tasks that you can access. You are able to filter tasks by status.
 
@@ -1539,7 +1544,7 @@ p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb", status = "draft")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Create a draft task
+### Create a draft task
 
 To create a draft task, you need to call the `task_add` function from the Project object. And you need to pass the following arguments:
 
@@ -1564,7 +1569,7 @@ a$project("demo")$task(status = "draft")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Modify a task
+### Modify a task
 
 Call the `update` function from a Task object to update the following:
 
@@ -1585,7 +1590,7 @@ tsk$getInputs()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Run a task
+### Run a task
 
 This call runs ("executes") the specified task. Only tasks with a "DRAFT" status may be run.
 
@@ -1598,7 +1603,7 @@ tsk$update()
 <div align="right"><a href="#top">top</a></div>
 
 <a name="hook"/>
-#### Monitor a running task and set the hook function
+### Monitor a running task and set the hook function
 
 To monitor a running task, call `monitor` from a Task object.
 
@@ -1623,7 +1628,7 @@ getTaskHook("draft")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Abort a running task
+### Abort a running task
 
 This call aborts the specified task. Only tasks whose status is "RUNNING" may be aborted.
 
@@ -1636,7 +1641,7 @@ tsk$update()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Delete a task
+### Delete a task
 
 Note that you can only delete DRAFT tasks, not running tasks.
 
@@ -1652,7 +1657,7 @@ delete(tsklst)
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Download all files from a completed task
+### Download all files from a completed task
 
 ```{r}
 tsk$download("~/Downloads")
@@ -1660,7 +1665,7 @@ tsk$download("~/Downloads")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Run task in batch mode
+### Run task in batch mode
 
 To run task in batch mode, (check `?batch`) for more details. The code below is a mock.
 
@@ -1687,7 +1692,7 @@ To run task in batch mode, (check `?batch`) for more details. The code below is 
 
 <div align="right"><a href="#top">top</a></div>
 
-### Volumes
+## Volumes
 
 Cloud storage providers come with their own interfaces, features and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.
 
@@ -1697,7 +1702,7 @@ A volume enables you to treat the cloud repository associated with it as externa
 
 Learn more about volumes on the [Seven Bridges Platform](http://docs.sevenbridges.com/docs/connecting-cloud-storage-overview) and the [CGC](http://docs.cancergenomicscloud.org/docs/connect-cloud-storage-overview).
 
-#### Create a volume
+### Create a volume
 
 ```{r}
 a <- Auth(user = "tengfei", platform = "aws-us")
@@ -1713,7 +1718,7 @@ a$add_volume(name   = "tutorial_volume",
 
 <div align="right"><a href="#top">top</a></div>
 
-#### List and search all volumes
+### List and search all volumes
 
 ```{r}
 # list all volume
@@ -1726,7 +1731,7 @@ a$volume(name = "demo")
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Get a volume's detail
+### Get a volume's detail
 
 ```{r}
 v <- a$volume()
@@ -1735,7 +1740,7 @@ v[[1]]$detail()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Delete volume
+### Delete volume
 
 This call deletes a volume you've created to refer to storage on Amazon Web Services or Google Cloud Storage.
 
@@ -1747,7 +1752,7 @@ a$volume(id = "tengfei/tengfei_demo")$delete()
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Import file from volume to project
+### Import file from volume to project
 
 This call imports a file from volume to your project. 
 
@@ -1764,7 +1769,7 @@ v$get_import_job(res$id)
 v
 ```
 
-#### Export file from project to volume
+### Export file from project to volume
 
 __Important__ : 
 
@@ -1786,11 +1791,11 @@ v
 
 <div align="right"><a href="#top">top</a></div>
 
-### Public Files and Apps
+## Public Files and Apps
 
 Seven Bridges hosts publicly accessible files and apps on its environments. The `sevenbridges` package provides two easy function calls from the Authentication object to search for and copy files and apps to a project. 
 
-#### Public files
+### Public files
 
 ```{r}
 # list the first 100 files
@@ -1812,7 +1817,7 @@ Public files are hosted in the project called `admin/sbg-public-data`, and you c
 
 <div align="right"><a href="#top">top</a></div>
 
-#### Public apps
+### Public apps
 
 For public apps, there are similar API calls. 
 
@@ -1831,13 +1836,13 @@ a$public_app(name = "Control-FREEC", exact = TRUE, complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-### Get Raw Response from httr
+## Get Raw Response from httr
 
 In the easy API, we return an object which contains the raw response from `httr` as a field. You can either call `response()` on that object or just use the field as is.
 
 <div align="right"><a href="#top">top</a></div>
 
-### Batch Operation on Project/Files/Tasks
+## Batch Operation on Project/Files/Tasks
 
 Currently, users have to use `lapply` to do those operations themselves. It's a simple implementation. 
 
@@ -1845,7 +1850,7 @@ In this package, we implement `delete` and `download` for some objects like task
 
 <div align="right"><a href="#top">top</a></div>
 
-## Cheatsheet
+# Cheatsheet
 
 Quick cheat sheet (in progress)
 
@@ -1917,7 +1922,7 @@ a$app()
 ### apps in a project
 p$app()
 p$app(name, id, revision = )
-a$copyApp(aid, project = pid, name = )
+a$copy_app(aid, project = pid, name = )
 ### add
 p$app_add(short_name = , filename =)
 
