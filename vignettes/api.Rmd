@@ -184,11 +184,19 @@ a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 
 ***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some environments are as follows:
 
-- **Cancer Genomics Cloud:** `https://cgc-api.sbgenomics.com/v2`
-- **Seven Bridges Platform on Amazon Web Services (US):** `https://api.sbgenomics.com/v2`
-- **Seven Bridges Platform on Amazon Web Services (EU):** `https://eu-api.sbgenomics.com/v2`
-- **Seven Bridges Platform on Google Cloud Platform:** `https://gcp-api.sbgenomics.com/v2`
-- **Cavatica:** `https://cavatica-api.sbgenomics.com/v2`
++-------------------------------------------------------+------------------------------------------+
+| Platform                                              | API Base URL                             |
++=======================================================+==========================================+
+| Cancer Genomics Cloud (CGC)                           | `https://cgc-api.sbgenomics.com/v2`      |
++-------------------------------------------------------+------------------------------------------+
+| Seven Bridges Platform on Amazon Web Services (US)    | `https://api.sbgenomics.com/v2`          |
++-------------------------------------------------------+------------------------------------------+
+| Seven Bridges Platform on Amazon Web Services (EU)    | `https://eu-api.sbgenomics.com/v2`       |
++-------------------------------------------------------+------------------------------------------+
+| Seven Bridges Platform on Google Cloud Platform (GCP) | `https://gcp-api.sbgenomics.com/v2`      |
++-------------------------------------------------------+------------------------------------------+
+| Cavatica                                              | `https://cavatica-api.sbgenomics.com/v2` |
++-------------------------------------------------------+------------------------------------------+
 
 </div>
 <div align="right"><a href="#top">top</a></div>
