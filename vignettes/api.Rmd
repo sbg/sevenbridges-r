@@ -537,6 +537,12 @@ tsk <- p$task_add(name = taskName,
 
 Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings. 
 
+Note: you can also directly pass file id or file names as characters to inputs list, 
+the package will first guess if the passed strings are file id (24 bit hexdecimal) 
+or names, then convert it to Files or FilesList object. However, as a good practice,
+we recommend you construct your files object(e.g. `p$file(id = , name = )`) first,
+check the value, then pass it to `task_add` inputs, this is a more safe approach.
+
 <div align="right"><a href="#top">top</a></div>
 
 ## Run a Task
@@ -1505,6 +1511,49 @@ Note: If you provide the same `short_name`, this will add a new revision.
 ### Describe CWL in R directly
 
 This is introduced in another vignette (`vignette("apps", "sevenbridges")`).
+
+<div align="right"><a href="#top">top</a></div>
+
+### Create test or keep previous test for Tool
+
+On sevenbridges platform, when you create or update your tools in the GUI, there 
+is a test tab allow users to tweak the parameters and see what it looks like in 
+your commandline simulatd terminal. To do this via R when you push your Tool object
+to your project, you need to provide "sbg:job" information like the example shown below
+
+```{r}
+rbx <- Tool(id = "runif",
+            label = "Random number generator",
+            hints = requirements(docker(pull = "tengfei/runif"), 
+                                 cpu(1), mem(2000)),
+            baseCommand = "runif.R",
+            inputs = in.lst, 
+            outputs = out.lst, 
+            'sbg:job' = list(allocatedResources = list(mem = 9000, 
+                                                       cpu = 1), 
+                             inputs = list(
+                                 min = 1, 
+                                 max = 150
+                             )))
+p$app_add("random", rbx)
+```
+
+Or if you have created a test info on the platform or previously pushed one, and 
+you want to keep the previous test setup. We provide a arguments called `keep_test` 
+to allow you keep the previous revision's test information. 
+
+```{r}
+rbx <- Tool(id = "runif",
+            label = "Random number generator",
+            hints = requirements(docker(pull = "tengfei/runif"), 
+                                 cpu(1), mem(2000)),
+            baseCommand = "runif.R",
+            inputs = in.lst,
+            outputs = out.lst)
+p$app_add("random", rbx, keep_test = TRUE)
+```
+
+
 
 <div align="right"><a href="#top">top</a></div>
 

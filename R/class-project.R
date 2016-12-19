@@ -322,7 +322,8 @@ Project <- setRefClass("Project", contains = "Item",
 
                            app_add = function(short_name = NULL,
                                               filename  = NULL,
-                                              revision = NULL, ...) {
+                                              revision = NULL,
+                                              keep_test = FALSE, ...) {
 
                                if (is.null(filename))
                                    stop("file (cwl json) need to be provided")
@@ -362,6 +363,21 @@ Project <- setRefClass("Project", contains = "Item",
                                        # }
                                        # # udpate steplist
                                        # filename$steps = slst
+                                   }
+
+                                   ##
+                                   ## works for Tool now
+                                   if(is(filename, "Tool") && keep_test){
+                                       ## keep old revision job test info
+                                       .app.id = paste0(id, "/", short_name)
+                                       .sbg.job = auth$app(id = .app.id)$cwl()$"sbg:job"
+                                       if(!is.null(filename$'sbg:job')){
+                                           stop("Using the new passed test info")
+                                       }else{
+                                           message("keeping the previous revision test info ('sbg:job')")
+                                           filename$'sbg:job' <- .sbg.job
+                                       }
+
                                    }
 
                                    fl = tempfile(fileext = ".json")
@@ -422,13 +438,17 @@ Project <- setRefClass("Project", contains = "Item",
                                batch       = NULL,
                                app         = NULL,
                                inputs      = NULL,
-                               input_check = getOption("sevenbridges")$input_check, ...) {
+                               input_check = getOption("sevenbridges")$input_check,
+                               ...) {
+
 
                                if (input_check) {
                                    message("checking inputs ...")
                                    apps = auth$app(id = app)
                                    inputs = apps$input_check(inputs, batch, .self)
                                }
+
+
                                message("Task drafting ...")
 
                                if (is.null(inputs)) {
