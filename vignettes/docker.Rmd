@@ -27,44 +27,39 @@ In this tutorial, we will go through ways to
 
 - Make native command line interface in R
 
-There are many fun ways to do it, here I am more focused for R developers. 
+There are many fun ways to do it, here I am more focused for R developers.
 
 ## Existing Docker repos
 
 Before you create any, make sure you don't re-invent the wheel and use the best
-base image for your container as your tool chain may save your lots of time later on. 
+base image for your container as your tool chain may save your lots of time later on.
 
 ### Rocker Project
 
 Official R Docker images is called "Rocker"" project and is on [GitHub](https://github.com/rocker-org/rocker), please visit the page to find more details and Dockerfile.
 
-| Image                | Description                        | 
+| Image                | Description                        |
 | -------------------- |:----------------------------------:|
-| `rocker/r-base`      | base package to build from         | 
-| `rocker/r-devel`     | base plus R-devel from SVN         |  
-| `rocker/rstudio`     | base plus RStudio Server           |    
+| `rocker/r-base`      | base package to build from         |
+| `rocker/r-devel`     | base + R-devel from SVN            |
+| `rocker/rstudio`     | base + RStudio Server              |
 | `rocker/hadleyverse` | rstudio + Hadley's packages, LaTeX |
 | `rocker/ropensci`    | hadleyverse + rOpenSci packages    |
 | `rocker/r-devel-san` | base, SVN's R-devel and SAN        |
 
 ### Bioconductor Images
 
-Bioconductor have a nice [page](http://bioconductor.org/help/docker/) about the official Docker images, please read for more details.
+Bioconductor have a nice [page](https://bioconductor.org/help/docker/) about the official Docker images, please read for more details.
 
-| Image                           |
-| ------------------------------- | 
-| bioconductor/devel_base         |
-| bioconductor/devel_core         |
-| bioconductor/devel_flow         |
-| bioconductor/devel_microarray   |
-| bioconductor/devel_proteomics   |
-| bioconductor/devel_sequencing   |
-| bioconductor/release_base       |
-| bioconductor/release_core       |
-| bioconductor/release_flow       |
-| bioconductor/release_microarray |
-| bioconductor/release_proteomics |
-| bioconductor/release_sequencing |
+| Image (release branch)              | Image (development branch)          |
+| ----------------------------------- | ----------------------------------- |
+| `bioconductor/release_base`         | `bioconductor/devel_base`           |
+| `bioconductor/release_core`         | `bioconductor/devel_core`           |
+| `bioconductor/release_flow`         | `bioconductor/devel_flow`           |
+| `bioconductor/release_microarray`   | `bioconductor/devel_microarray`     |
+| `bioconductor/release_proteomics`   | `bioconductor/devel_proteomics`     |
+| `bioconductor/release_sequencing`   | `bioconductor/devel_sequencing`     |
+| `bioconductor/release_metabolomics` | `bioconductor/devel_metabolomics`   |
 
 To understand the image quickly here is the short instruction for the image name:
 
@@ -77,13 +72,13 @@ To understand the image quickly here is the short instruction for the image name
 - __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
 - __sequencing__: core + all packages tagged with the _Sequencing_ biocView.
 
-### Docker Hub 
+### Docker Hub
 
 [Docker Hub](https://hub.docker.com) also provide public/private repos, you can search existing tools without building yourself, it's very likely some popular tool already have Docker container well maintained there.
 
 ### Seven Bridges Docker Registry
 
-Tutorial comming soon. 
+Tutorial coming soon.
 
 Example Seven Bridges registry:
 
@@ -91,10 +86,10 @@ Example Seven Bridges registry:
 - __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
 
 
-# Tutorial: random number generator 
+# Tutorial: random number generator
 
-Our goal here is to making a cwl app to generate unif random numbers, yes, the core
-function is `runif()`, it's a native function in R. 
+Our goal here is to making a CWL app to generate uniform random numbers, yes,
+the core function is `runif()`, it's a native function in R.
 
 ```{r}
 runif
@@ -102,13 +97,13 @@ set.seed(1001)
 runif(10)
 ```
 
-## Using docopt package
+## Using `docopt` package
 
 In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on GitHub.
 
 So let's quickly create a command line interface for our R scripts with a dummy example. Let's turn the uniform distribution function `runif` into a command line tool.
 
-when you check out the help page for `runif`, here is the key information you want to mark down. 
+when you check out the help page for `runif`, here is the key information you want to markdown.
 
 ```
 Usage
@@ -117,16 +112,16 @@ runif(n, min = 0, max = 1)
 
 Arguments
 
-n    
+n
 number of observations. If length(n) > 1, the length is taken to be the number required.
 
-min, max    
+min, max
 lower and upper limits of the distribution. Must be finite.
 ```
 
-I will add one more parameter to set seed, here is the R script file called `runif.R`. 
+I will add one more parameter to set seed, here is the R script file called `runif.R`.
 
-At the beginning of the commadn line script, I use the docopt standard to write my tool help. 
+At the beginning of the command line script, I use the docopt standard to write my tool help.
 
 ```{r}
 'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
@@ -152,8 +147,8 @@ Looks like it works, now let's add main function script for this command line to
 ```{r}
 opts <- docopt(doc)
 set.seed(opts$seed)
-runif(n = as.integer(opts$n), 
-      min = as.numeric(opts$min), 
+runif(n = as.integer(opts$n),
+      min = as.numeric(opts$min),
       max = as.numeric(opts$max))
 ```
 
@@ -172,12 +167,12 @@ options:
 library("docopt")
 opts <- docopt(doc)
 set.seed(opts$seed)
-runif(n = as.integer(opts$n), 
-      min = as.numeric(opts$min), 
+runif(n = as.integer(opts$n),
+      min = as.numeric(opts$min),
       max = as.numeric(opts$max))
 ```
 
-Let's test this command line. 
+Let's test this command line.
 
 ```
 $ runif.R --help
@@ -218,7 +213,7 @@ fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbri
 cat(readLines(fl), sep = '\n')
 ```
 
-Ignore the comment part, I will introduce spin/stich later. My base command will be somethine like
+Ignore the comment part, I will introduce spin/stich later. My base command will be something like
 
 ```
 Rscript runif2spin.R 10 30 50
@@ -232,9 +227,9 @@ library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
-rbx <- Tool(id = "runif", 
+rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
+            hints = requirements(docker(pull = "rocker/r-base"),
                                  cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
@@ -248,13 +243,12 @@ rbx <- Tool(id = "runif",
                           input(id = "max",
                                 type = "float",
                                 position = 3)),
-            outputs = output(id = "random", glob = "output.txt"))   
+            outputs = output(id = "random", glob = "output.txt"))
 ```
 
-Now copy-paste the json into your project app and run it in the cloud to test it
+Now copy-paste the JSON into your project app and run it in the cloud to test it
 
-How about named argumentments? I will still recommend use "docopt" package, but for simple
-way.
+How about named arguments? I will still recommend use "docopt" package, but for simple way.
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
@@ -272,9 +266,9 @@ library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
-rbx <- Tool(id = "runif", 
+rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), 
+            hints = requirements(docker(pull = "rocker/r-base"),
                                  cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
@@ -310,16 +304,16 @@ You command is something like this
 Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50
 ```
 
-And so I describe my tool like this with Docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
+And so I describe my tool like this with Docker image `rocker/hadleyverse` this contains knitr and rmarkdown package.
 
 ```{r}
 library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
 
-rbx <- Tool(id = "runif", 
+rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/hadleyverse"), 
+            hints = requirements(docker(pull = "rocker/hadleyverse"),
                                  cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
@@ -346,7 +340,7 @@ You will get a report in the end.
 
 ## Executable report with R Markdown (advanced)
 
-We cannot really make a Rmarkdown file executable in it by simply put 
+We cannot really make a R Markdown file executable in it by simply put
 
 ```
 #!/bin/bash/Rscript
@@ -354,11 +348,11 @@ We cannot really make a Rmarkdown file executable in it by simply put
 
 In your markdown document.
 
-Of course, we can figure out a way to do it in `liftr` or `knitr`. But rmarkdown allow you to pass parameters to your Rmardown template, please read this tutorial [Parameterized Reports](http://rmarkdown.rstudio.com/developer_parameterized_reports.html). This doesn't solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:
+Of course, we can figure out a way to do it in `liftr` or `knitr`. But R Markdown allow you to pass parameters to your R Markdown template, please read this tutorial [Parameterized Reports](http://rmarkdown.rstudio.com/developer_parameterized_reports.html). This doesn't solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:
 
-Create an command line interface to pass `params` from docopt into `rmarkdown::render()` function. In this way, we can pass as many as possible parameters from command line interface into our Rmarkdown template. 
+Create an command line interface to pass `params` from docopt into `rmarkdown::render()` function. In this way, we can pass as many as possible parameters from command line interface into our R Markdown template.
 
-So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow. 
+So here we go, here is updated methods and it's also what I use for another tutorial about RNA-seq workflow.
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/sevenbridges/src/", "runif.R", package = "sevenbridges")
@@ -389,4 +383,4 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 
 # More examples
 
-There are more examples under 'inst/docker' folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor. 
+There are more examples under 'inst/docker' folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor.

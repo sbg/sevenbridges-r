@@ -120,10 +120,12 @@ pre:not([class]) {
 }
 code {
     font-family: Menlo, Monaco, "Lucida Console", Consolas, "Courier New", monospace;
-    font-size: 85%;
+    font-size: 80%;
 }
 p> code, li> code {
-    padding: 2px 0px;
+    background: rgba(96, 105, 113, 0.1);
+    padding: 1px 2px;
+    border-radius: 3px;
 }
 div.figure {
     text-align: center;

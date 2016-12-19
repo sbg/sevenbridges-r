@@ -30,7 +30,7 @@ The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
 
 ## Build container locally
 
-The `Dockerfile` is included with the package in `inst/docker` folder. 
+The `Dockerfile` is included with the package in `inst/docker` folder.
 
 Here is the current content of `Dockerfile`:
 ```{r comment = ''}
@@ -45,11 +45,11 @@ it is under `inst/docker/sevenbridges`
 docker build -t sevenbridges/sevenbridges-r .
 ```
 
-## Pull from Docker Hub 
+## Pull from Docker Hub
 
 A hook is added to build the Docker image automatically from the [sevenbridges-r GitHub repository](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker/sevenbridges). It is automatically built on [Docker Hub](https://hub.docker.com/r/sevenbridges/sevenbridges-r/). You can directly use this image `sevenbridges/sevenbridges-r`. Everytime a push is made in the GitHub repo, the Docker container is re-built.
 
-# Launch RStudio Server from Docker container 
+# Launch RStudio Server from Docker container
 
 For example, you can ssh into your AWS instance, here I suppose you already have Docker installed, and pull the image
 
@@ -81,7 +81,7 @@ adduser <username>
 
 ## Launch both RStudio Server and Shiny Server from the same Docker container
 
-Sometimes it is very conventient to launch both RStudio Server and Shiny Server from a singel container and your users can manage to using RStudio Server and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port. 
+Sometimes it is very conventient to launch both RStudio Server and Shiny Server from a singel container and your users can manage to using RStudio Server and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port.
 
 ```bash
 docker run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r

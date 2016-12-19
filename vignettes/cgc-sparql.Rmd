@@ -33,14 +33,14 @@ There are currently three ways to find the data you need on CGC
 
 # Quick start
 
-## Graphical data explorer 
+## Graphical data explorer
 
 Please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser).
 
 ## SPARQL examples
 
 Seven Bridges' SPARQL console, available at [https://opensparql.sbgenomics.com](https://opensparql.sbgenomics.com).
- 
+
 Please read following tutorials first
 
 - [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
@@ -67,7 +67,7 @@ where
 
  ?case tcga:hasFollowUp ?follow_up .
  ?follow_up tcga:hasDaysToLastFollowUp ?days_to_last_follow_up .
- filter(?days_to_last_follow_up>550) 
+ filter(?days_to_last_follow_up>550)
 
  ?follow_up tcga:hasVitalStatus ?vital_status .
  ?vital_status rdfs:label ?vital_status_label .
@@ -115,7 +115,7 @@ df.path
 You can directly copy those files to a project, make sure if the files is
 controlled access
 
-- project support TCGA controlled access 
+- project support TCGA controlled access
 - you log in from eRA Commons
 
 ```{r}
@@ -140,7 +140,7 @@ Doing a HTTP GET on this endpoint one will get a resource with links to all enti
 
 #### Return datasets accessible trough the CGC
 
-Create an Auth object with your token, make sure you are using the correct url. 
+Create an Auth object with your token, make sure you are using the correct URL.
 
 - https://cgc-datasets-api.sbgenomics.com/
 
@@ -160,7 +160,7 @@ You can issue another GET request to the href of the tcga object, if you want to
 access TCGA data.
 
 ```{r}
-a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0", 
+a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0",
          token = "your_cgc_token")
 (res = a$api())  # default method is GET
 # list all resources/entities
@@ -184,8 +184,8 @@ a$api(path = "files/schema")
 #### Copy files to you project
 
 Get file id from Data set API, then use public API to copy files. Make sure your
-project is "TCGA" compatible, otherwise if you are trying to copy controlled access data 
-to your non-TCGA project, you will get 
+project is "TCGA" compatible, otherwise if you are trying to copy controlled
+access data to your non-TCGA project, you will get
 
 "HTTP Status 403: Insufficient privileges to access the requested file."
 
@@ -203,7 +203,7 @@ a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
 
 ### Post with query
 
-endpoint user can filter collection resources by using a DSL in JSON format that translates as a subset of SPARQL. Main advantage here is that an end user gets the subset SPARQL expressiveness without the need to learn SPARQL specifics. 
+endpoint user can filter collection resources by using a DSL in JSON format that translates as a subset of SPARQL. Main advantage here is that an end user gets the subset SPARQL expressiveness without the need to learn SPARQL specification.
 
 #### Find samples connected to a case
 
@@ -240,7 +240,7 @@ body = list(
    "entity" = "cases",
    "hasAgeAtDiagnosis" = list(
        "filter" = list(
-           "gt" = 10, 
+           "gt" = 10,
            "lt" = 50
        )
    )
@@ -257,7 +257,7 @@ body = list(
    "entity" = "cases",
    "hasAgeAtDiagnosis" = list(
        "filter" = list(
-           "gt" = 10, 
+           "gt" = 10,
            "lt" = 50
        )
    ),
@@ -292,11 +292,9 @@ a$api(path = "query", body = body, method = "POST")
 Issuing a GET request to the href path
 
 ```{r}
-content(api(token = a$token, 
+content(api(token = a$token,
             base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"))
-
 ```
-
 
 #### Query with multiple filters on a case
 
