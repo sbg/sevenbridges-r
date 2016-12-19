@@ -94,9 +94,9 @@ This installation requires that you have the `devtools` package. If you do not h
 install.packages("devtools")
 ```
 
-You may got an error and need system dependecies for curl and ssl. For example, in ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
+You may got an error and need system dependecies for curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
 
-```
+```bash
 apt-get update
 apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 ```

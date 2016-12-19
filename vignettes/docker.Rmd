@@ -376,7 +376,7 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 
 1. I created some project called 'docker' on my GitHub and it has all container that crated from a Dockerfile, for example, tengfei/docker/runif, please go [here](https://github.com/tengfei/docker/tree/master/runif) to check it out
 2. This folder root has a Dockerfile and subfolders for extra materials I added at build time, like script or report template.
-3. login your Docker Hub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it.
+3. Log into your Docker Hub account, following this [tutorial](https://docs.docker.com/docker-hub/builds/) to make "automated build" from your GitHub account. Make sure you input the right location for your Dockerfile, by customizing it.
 4. Then you will have auto-build every time you push a new update in GitHub.
 5. Start using your Docker image like `tengfei/runif`.
 6. Feel free to push it onto your Seven Bridges platform registry as well.

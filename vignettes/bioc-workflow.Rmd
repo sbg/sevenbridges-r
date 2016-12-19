@@ -312,7 +312,7 @@ I does couple things
 
 In next section, I will show you how to create command line interface
 
-### Step 3: Create your command line interface.
+### Step 3: Create your command line interface
 
 In this step, I am going to
 
@@ -372,7 +372,7 @@ Now you have
 
 You are ready to build Docker container and push it to the registry. You can choose to use registry like dockerhub or use CGC's own Docker registry (cgc-images.sbgenomics.com). To learn how to use CGC Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/docs/the-cgc-image-registry).
 
-### Step 5: Describe your tool in R into CWL.
+### Step 5: Describe your tool in R into CWL
 
 Finally it's time to describe your tool in R (CWL format)!
 
