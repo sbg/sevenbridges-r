@@ -83,7 +83,7 @@ Bioconductor project ensures that all the packages within a release
 will work together in harmony (hence the "conductor" metaphor).
 The packages used in this workflow are loaded with the
 *library* function and can be installed by following the
-[Bioconductor package installation instructions](http://bioconductor.org/install/#install-bioconductor-packages).
+[Bioconductor package installation instructions](https://bioconductor.org/install/#install-bioconductor-packages).
 
 If you have questions about this workflow or any Bioconductor
 software, please post these to the
@@ -91,7 +91,7 @@ software, please post these to the
 If the questions concern a specific package, you can tag the post with
 the name of the package, or for general questions about the workflow,
 tag the post with `rnaseqgene`. Note the
-[posting guide](http://www.bioconductor.org/help/support/posting-guide/)
+[posting guide](https://www.bioconductor.org/help/support/posting-guide/)
 for crafting an optimal question for the support site.
 
 ## Experimental data
@@ -106,9 +106,9 @@ four primary human airway smooth muscle cell lines were treated with 1
 micromolar dexamethasone for 18 hours. For each of the four cell
 lines, we have a treated and an untreated sample. For more description
 of the experiment see the
-[PubMed entry 24926665](http://www.ncbi.nlm.nih.gov/pubmed/24926665)
+[PubMed entry 24926665](https://www.ncbi.nlm.nih.gov/pubmed/24926665)
 and for raw data see the
-[GEO entry GSE52778](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52778).
+[GEO entry GSE52778](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52778).
 
 <a id="count"></a>
 

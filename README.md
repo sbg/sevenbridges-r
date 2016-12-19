@@ -33,7 +33,7 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 ### Bioconductor - Release Version
 
-This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.3, and it works with __R version 3.3.0__. Users of older R and Bioconductor versions must update their installation to take advantage of new features.
+This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.4, and it works with __R version 3.3.2__. Users of older R and Bioconductor versions should update their installation to take advantage of new features.
 
 If you do not want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
 
@@ -199,7 +199,7 @@ rbx$toYAML()
 * Utilities for Tool and Flow, for example
 
 ```r
-# converting a SBG CWL json file
+# converting a SBG CWL JSON file
 library("sevenbridges")
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 # convert json file into a Tool object
@@ -261,7 +261,7 @@ _Note_: Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a 
 
 The best place to ask questions about the sevenbridges package is the [mailing list](https://groups.google.com/forum/#!forum/sevenbridges-r).
 
-- __Q__: Does this package support Seven Bridges' API v1 which was not cwl compatible?<br />
+- __Q__: Does this package support Seven Bridges' API v1 which was not CWL compatible?<br />
   __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated.
 
 - __Q__: Which version of the Common Workflow Language (CWL) is supported?<br />

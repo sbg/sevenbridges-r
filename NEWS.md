@@ -2,9 +2,12 @@
 
 ## Improvements
 
-- Redesigned authentication process: compliant with the new specification.
+- Redesigned authentication: compliant with the new specification.
 - Updated platform types: users can now choose from `cgc`, `aws-us`, `aws-eu`, `gcp`, and `cavatica`.
+- File ID support on task input (directly) ([#27](https://github.com/sbg/sevenbridges-r/issues/27))
 - Removed credential information parsing when package is loaded.
+- Improved robustness of `convert_app` when a CWL JSON has more fields than defined ([#44](https://github.com/sbg/sevenbridges-r/issues/44))
+- Migrate Docker images to Seven Bridges Docker Hub account [#43](https://github.com/sbg/sevenbridges-r/issues/43)
 
 # sevenbridges 1.5.4
 
