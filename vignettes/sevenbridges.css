@@ -5,7 +5,7 @@ body {
     overflow: visible;
     padding-left: 2em;
     padding-right: 2em;
-    font-family: Lato, "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 1.35;
 }
@@ -30,7 +30,7 @@ h4.date {
     line-height: 1.5;
 }
 #TOC .toctitle {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 16px;
     margin-left: 5px;
 }
@@ -92,7 +92,7 @@ dl dd {
     margin-left: 13px;
 }
 dl dt {
-    font-weight: bold;
+    font-weight: 600;
 }
 ul {
     margin-top: 0;
