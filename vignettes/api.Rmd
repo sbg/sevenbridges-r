@@ -31,7 +31,7 @@ Learn more from our documentation on the [Seven Bridges Platform](http://docs.se
 
 ## R Client for Seven Bridges API
 
-The `sevenbridges` package only supports V2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
+The `sevenbridges` package only supports v2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
 
 There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like `path`, `query`, and `body`. These are documented in the API reference libraries for the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/list-of-api-calls) and the [CGC](http://docs.cancergenomicscloud.org/docs/new-1). An example of a low-level request to "list all projects" is shown below. In this request, you can also pass `query` and `body` as a list.
 
@@ -88,7 +88,7 @@ Since we are constantly improving our API and client libraries, please also visi
 
 **If you do not have `devtools`**
 
-This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/web/packages/devtools/index.html).
+This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/package=devtools).
 
 ```r
 install.packages("devtools")

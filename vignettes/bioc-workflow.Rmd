@@ -29,7 +29,7 @@ In this tutorial, you will learn
 
 1. API client in R with __sevenbridges__ R package to fully automate analysis
 2. Describe command line interface with R package __docopt__
-3. Make your own docker app
+3. Make your own Docker app
 4. Describe a standard RNA-seq Bioconductor workflow in CWL with pre-defined report template
 5. Execute it in the cloud
 6. Reporting tool to generate as many R markdown report or Shiny apps report as you want
@@ -41,20 +41,17 @@ This tutorial doesn't require you to be an advanced R user, everything you need
 is  R or even better, a cool IDE like Rstudio (or Emacs+ESS), then just open
 this Rmarkdown in Rstudio. It's easy to learn!
 
-Suggest learning for all users: docker.
+Suggest learning for all users: Docker.
 
 Now we are ready to go!
 
 ## Installation
 
-First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to yoru Rstudio or your favorite IDE to run through all examples and tweak setup.
+First download the [R markdown file](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) of this page, so you can load it to your Rstudio or your favorite IDE to run through all examples and tweak setup.
 
-This package __sevenbridges__ is already on Bioconductor [devel branch](https://www.bioconductor.org/packages/3.3/bioc/html/sevenbridges.html),
-the release day is going to be May 4th, 2016. Please check the detailed [release schedule](https://www.bioconductor.org/developers/release-schedule/).
-It is also synced on [GitHub repository](https://github.com/sbg/sevenbridges-r).
+This package `sevenbridges` is available on Bioconductor ([release branch](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html), [development branch](https://bioconductor.org/packages/devel/bioc/html/sevenbridges.html)). The latest development version is on [GitHub](https://github.com/sbg/sevenbridges-r).
 
-For now I recommend you to install the latest version of `sevenbridges-r`
-from github directly by running the script:
+To install the latest development version from GitHub, run the following commands in R:
 
 ```{r}
 if (!require("devtools", quietly = TRUE)) install.packages("devtools")
@@ -90,7 +87,7 @@ Get you token and secret ready to deploy
 
 ## Issues report
 
-This package is under active development, will bring many new features as well, at any moment, if you have questions or problem about this R package, please file issue on [github issue page here](https://github.com/sbg/sevenbridges-r/issues)
+This package is under active development, will bring many new features as well, at any moment, if you have questions or problem about this R package, please file issue on [GitHub issue page here](https://github.com/sbg/sevenbridges-r/issues)
 
 If you have question about the cancer genomics cloud platform or other seven bridges platform, we have a different channel for each platform, for example, cancer genomics cloud have lots [documentation](http://docs.cancergenomicscloud.org/docs) and a [forum](http://docs.cancergenomicscloud.org/discuss).
 
@@ -244,7 +241,7 @@ Official R Docker images is called "Rocker" project and is on [GitHub](https://g
 | `rocker/ropensci`    | hadleyverse + rOpenSci packages    |
 | `rocker/r-devel-san` | base, SVN's R-devel and SAN        |
 
-Bioconductor have a nice [page](https://bioconductor.org/help/docker/) about the official docker images, please read for more details.
+Bioconductor have a nice [page](https://bioconductor.org/help/docker/) about the official Docker images, please read for more details.
 
 | Image (release branch)              | Image (development branch)          |
 | ----------------------------------- | ----------------------------------- |
@@ -373,7 +370,7 @@ Now you have
 - Dockerfile
 - Command line interface with report template
 
-You are ready to build docker container and push it to the registry. You can choose to use registry like dockerhub or use CGC's own Docker registry (cgc-images.sbgenomics.com). To learn how to use CGC Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/docs/the-cgc-image-registry).
+You are ready to build Docker container and push it to the registry. You can choose to use registry like dockerhub or use CGC's own Docker registry (cgc-images.sbgenomics.com). To learn how to use CGC Image registry, please read out [tutorial](http://docs.cancergenomicscloud.org/docs/the-cgc-image-registry).
 
 ### Step 5: Describe your tool in R into CWL.
 
@@ -392,7 +389,7 @@ For example, you can see the same in the `sbg/sevenbridges-r` GitHub repo, under
 
 Tool is the simple basic unit of a workflow, you can put the whole flow in one container and one tool, it of course works, just make it hard to factorize components. This is the exact example, I can make one tool for DESeq2 and one tool for Rsamtools, I can also put everything I need in one tool and provide single functionality.
 
-Note: you can use single docker image, but describe as many tools as you want if it contains what you need such as different command.
+Note: you can use single Docker image, but describe as many tools as you want if it contains what you need such as different command.
 
 Follow the example to create Tool with `Tool` function. It's straightforward. Especially if you are familiar with Seven Bridges Tool editor already.
 
@@ -618,9 +615,9 @@ For more details, check R API tutorial.
 
 ### What is report tool?
 
-In our last section, we demonstrate how to hardcode a R report template into your docker container and your command line will output a new report with new input files.
+In our last section, we demonstrate how to hardcode a R report template into your Docker container and your command line will output a new report with new input files.
 
-But how about this, instead of coding template into docker, I want to
+But how about this, instead of coding template into Docker, I want to
 
 - provide multiple R markdown template as input
 - provide multiple shiny template as input
@@ -650,7 +647,7 @@ connect output into those folders, so data flows into it.
 
 
 
-If you are interested, you can still read my dockerfile, command line, tool generator and JSON.
+If you are interested, you can still read my Dockerfile, command line, tool generator and JSON.
 
 _I will suggest you directly copy the json into your project._ just to try add an app
 in different way.
@@ -669,7 +666,7 @@ p <- a$project(id = "tengfei/hackathon")
 (report.app <- p$app_add("report-tool", fl))
 ```
 
-Checkout the dockerfile
+Checkout the Dockerfile
 
 ```{r comment = "", eval = TRUE}
 fl <- system.file("docker/reporttool/Dockerfile",

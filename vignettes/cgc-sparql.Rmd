@@ -226,7 +226,9 @@ Issuing a GET request to the href path will return the following data:
 Note: `api` function is a light layer of httr package, it's different from `Auth$api` call.
 
 ```{r}
-content(api(token = a$token, base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"))
+httr::content(
+    api(token = a$token,
+        base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"))
 ```
 
 #### Find cases with given age at diagnosis
@@ -292,8 +294,9 @@ a$api(path = "query", body = body, method = "POST")
 Issuing a GET request to the href path
 
 ```{r}
-content(api(token = a$token,
-            base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"))
+httr::content(
+    api(token = a$token,
+        base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"))
 ```
 
 #### Query with multiple filters on a case

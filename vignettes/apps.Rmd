@@ -52,7 +52,7 @@ Why we are using CWL? Imagine a single file represeting a tool or workflow,  cou
 
 `Tool` is the basic unit, and also your "lego brick" you usually start with. As developer you also want to provide those "lego" piecies to users to directly run it or make their own flow with it.
 
-The main interface provided by `sevenbridges` package is `Tool` function, it's much more straight forward to describe than composing your raw CWL json file from scratch. A "Tool" object in R could be exported into JSON or imported from a CWL JSON file.
+The main interface provided by `sevenbridges` package is `Tool` function, it's much more straight forward to describe than composing your raw CWL JSON file from scratch. A "Tool" object in R could be exported into JSON or imported from a CWL JSON file.
 
 I highly recommend going over documentation [The Tool Editor](http://docs.cancergenomicscloud.org/docs/the-tool-editor) chapter for the Cancer Genomics Cloud to understand how it works, and even try it on the platform with the GUI. This will help understand our R interface better.
 
@@ -280,7 +280,6 @@ in.lst <- list(input(id = "number",
                      prefix = "--seed",
                      default = 1))
 
-
 ## the same method for outputs
 out.lst <- list(output(id = "random",
                        type = "file",
@@ -291,7 +290,6 @@ out.lst <- list(output(id = "random",
                        type = "file",
                        label = "report",
                        glob = "*.html"))
-
 
 rbx <- Tool(id = "runif",
             label = "Random number generator",
@@ -324,13 +322,11 @@ rbx <- Tool(id = "runif",
             hints = requirements(docker(pull = "tengfei/runif"),
                                  cpu(1), mem(2000)),
             baseCommand = "runif.R",
-            inputs = in.df, ## or ins.df
+            inputs = in.df,  # or ins.df
             outputs = out.df)
-
-
 ```
 
-### Quick command line interface with commandArgs (position and named args)
+### Quick command line interface with `commandArgs` (position and named args)
 
 Now you must be wondering, I have a Docker container with R, but I don't have any existing command line that I could directly use. Can I provide a script with a formal and quick command line interface to make an App for existing container. The anwser is yes. When you add script to your tool, you can always use some trick to do so, one popular one you may already head of is `commandArgs`. More formal one is called "docopt" which I will show you later.
 
@@ -348,9 +344,10 @@ Rscript runif2spin.R 10 30 50
 
 This is how you do in your R script
 
-```{r, eval = TRUE, comment=''}
-fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+```{r, eval = TRUE, comment = ""}
+fl <- system.file("docker/sevenbridges/src", "runif2spin.R",
+                  package = "sevenbridges")
+cat(readLines(fl), sep = "\n")
 ```
 
 Ignore the comment part, I will introduce spin/stich later.
@@ -369,14 +366,14 @@ rbx <- Tool(id = "runif",
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
+            inputs = list(input(id       = "number",
+                                type     = "integer",
                                 position = 1),
-                          input(id = "min",
-                                type = "float",
+                          input(id       = "min",
+                                type     = "float",
                                 position = 2),
-                          input(id = "max",
-                                type = "float",
+                          input(id       = "max",
+                                type     = "float",
                                 position = 3)),
             outputs = output(id = "random", glob = "output.txt"))
 ```
@@ -411,18 +408,18 @@ rbx <- Tool(id = "runif",
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
+            inputs = list(input(id       = "number",
+                                type     = "integer",
                                 separate = FALSE,
-                                prefix = "--n="),
-                          input(id = "min",
-                                type = "float",
+                                prefix   = "--n="),
+                          input(id       = "min",
+                                type     = "float",
                                 separate = FALSE,
-                                prefix = "--min="),
-                          input(id = "max",
-                                type = "float",
-                                 separate = FALSE,
-                                prefix = "--max=")),
+                                prefix   = "--min="),
+                          input(id       = "max",
+                                type     = "float",
+                                separate = FALSE,
+                                prefix   = "--max=")),
             outputs = output(id = "random", glob = "output.txt"))
 ```
 
@@ -459,18 +456,18 @@ rbx <- Tool(id = "runif",
             requirements = requirements(fd),
             baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
             stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
-                                 separate = FALSE,
-                                prefix = "--n="),
-                          input(id = "min",
-                                type = "float",
-                                 separate = FALSE,
-                                prefix = "--min="),
-                          input(id = "max",
-                                type = "float",
-                                 separate = FALSE,
-                                prefix = "--max=")),
+            inputs = list(input(id       = "number",
+                                type     = "integer",
+                                separate = FALSE,
+                                prefix   = "--n="),
+                          input(id       = "min",
+                                type     = "float",
+                                separate = FALSE,
+                                prefix   = "--min="),
+                          input(id       = "max",
+                                type     = "float",
+                                separate = FALSE,
+                                prefix   = "--max=")),
             outputs = list(output(id = "stdout", type = "file", glob = "output.txt"),
                            output(id = "random", type = "file", glob = "*.csv"),
                            output(id = "report", type = "file", glob = "*.html")))
@@ -767,7 +764,7 @@ While developing tools it is useful to test them locally first. For that we can 
 docker pull tengfei/testenv
 ```
 
-Dump your rabix tool as json into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:
+Dump your rabix tool as JSON into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:
 
 ```bash
 docker run --privileged --name bunny -v </path/to/data_dir>:/bunny_data -dit tengfei/testenv

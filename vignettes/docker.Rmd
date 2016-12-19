@@ -383,4 +383,4 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 
 # More examples
 
-There are more examples under 'inst/docker' folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor.
+There are more examples under `inst/docker` folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor.

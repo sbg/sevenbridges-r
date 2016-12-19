@@ -17,9 +17,9 @@ vignette: >
 
 # Introduction
 
-The goal of this `sevenbridges/sevenbridges-r` Docker image is to provide
+The goal of this [sevenbridges/sevenbridges-r](https://hub.docker.com/r/sevenbridges/sevenbridges-r/) Docker image is to provide
 
-- SDK environment that includes
+- Seven Bridges SDK environment that includes
     - Command line uploader
     - Seven Bridgs Command line tools
     - sevenbridges R package
