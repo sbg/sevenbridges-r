@@ -1294,12 +1294,14 @@ a$project("demo")$download("~/Downloads")
 
 Seven Bridges environments provide a few different methods for data import, as follows:
 
-- The command line uploader
+    - The command line uploader
 - A graphic visual interface uploader
 - From FTP, HTTP, etc. from the visual interface directly
 - The API uploader that you can directly call with the `sevenbridges` package
 
-Use the API client uploader by calling the `project$upload` function to upload a file, a file list, or a folder recursively:
+Use the API client uploader by calling the `project$upload` function to upload a file, a file list, or a folder recursively or via a manifest file
+
+#### Upload single file
 
 ```{r}
 a  <- Auth(username = "tengfei", platform = "cgc")
@@ -1316,7 +1318,7 @@ p$upload(fl, overwrite = TRUE, name = "sample_new_name.fastq",
          metadata = list(library_id = "new_id"))
 ```
 
-**Upload a folder**
+#### Upload a folder
 
 ```{r}
 dir.ext <- system.file("extdata", package = "sevenbridges")
@@ -1324,7 +1326,7 @@ list.files(dir.ext)
 p$upload(dir.ext, overwrite = TRUE)
 ```
 
-Upload a file list
+#### Upload a file list
 
 
 ```{r}
@@ -1333,6 +1335,37 @@ dir.ext <- system.file("extdata", package = "sevenbridges")
 fls <- list.files(dir.ext, recursive = TRUE, full.names = TRUE)
 p$upload(fls, overwrite = TRUE)
 p$upload("~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf")
+```
+
+#### Upload files via defined manifest file
+
+A manifest file is a file used to define metadata values for a set of files. It can be used when uploading files to the Platform to set their metadata.The supported file format for the manifest file is CSV, i.e. comma separated values. A CSV file contains a number of rows with columns which are separated with a comma. Format of manifest file is defined in the [documentaion online](http://docs.sevenbridges.com/docs/format-of-a-manifest-file)
+
+Some requirements
+
+- The first row has to contain column names which are parsed as metadata fields (e.g. "sample"", "library""). When it's not customized fields, we do converstion for meta fields like "sample_id" which need to be string.
+- The first column has to contain the names of the files which will be uploaded. In case the files are not in the same directory as the manifest file, you should also include a path to the files (e.g. ../filename.fastq).
+
+We allow users to
+
+- choose to upload metadata or not.
+- choose to use `subset` style to upload only part of metadata
+- choose to use `subset` style to upload only part of files with filter
+
+Please check couple examples below
+
+```
+## upload all fiels and all metadatas
+p$upload(manifest_file = "~/manifest.csv")
+## verbal = TRUE, print single file level progress
+p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, verbal = TRUE)
+## manifest_metadata = FALSE doens't attach any meta
+p$upload(manifest_file = "~/manifest.csv", manifest_metadata = FALSE, overwrite = TRUE)
+## filter fils first, upload only files that score < 0.5
+p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, subset = score < 0.5)
+## attach all meta except "bad_field" and "sample_id"
+p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
+         subset = score < 0.5, select = -c(bad_field, sample_id))
 ```
 
 <div align="right"><a href="#top">top</a></div>

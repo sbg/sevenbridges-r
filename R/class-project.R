@@ -273,10 +273,120 @@ Project <- setRefClass("Project", contains = "Item",
 
                            },
 
-                           upload = function(filename  = NULL,
-                                             name      = NULL,
-                                             metadata  = list(),
-                                             overwrite = FALSE, ...) {
+                           upload = function(filename          = NULL,
+                                             name              = NULL,
+                                             metadata          = list(),
+                                             overwrite         = FALSE,
+                                             manifest_file     = NULL,
+                                             manifest_metadata = TRUE,
+                                             subset, select,
+                                             verbal            = FALSE,
+                                             ...) {
+
+                               # upload via a manifest
+                               if(!is.null(manifest_file)){
+                                   if (!file.exists(manifest_file))
+                                       stop("manifest file not found")
+
+                                   # importing
+                                   manf = read.csv(manifest_file, stringsAsFactors = FALSE)
+
+                                   # subseting
+                                   # revision on subset.data.frame to hack on missing -> NULL
+                                   # browser()
+
+                                   r <- if (missing(subset)){
+                                       rep_len(TRUE, nrow(manf))
+                                   }else {
+                                       e <- substitute(subset)
+                                       r <- eval(e, manf, parent.frame())
+                                       if (!is.logical(r))
+                                           stop("'subset' must be logical")
+                                       r & !is.na(r)
+                                   }
+
+                                   vars <- if (missing(select)){
+                                       TRUE
+                                   }else {
+                                       nl <- as.list(seq_along(manf))
+                                       names(nl) <- names(manf)
+                                       eval(substitute(select), nl, parent.frame())
+                                   }
+
+                                   manf.sub = manf[r, vars, drop = FALSE]
+                                   if(!missing(subset) || !missing(select)){
+                                       message(nrow(manf.sub)," out of ", nrow(manf), " item subsetted.")
+                                   }
+
+                                   # if(!missing(subset) || !missing(select)){
+                                   #
+                                   #     manf.sub = subset(manf, subset = parse(subset),
+                                   #                       select = parse(select))
+                                   #     message(nrow(manf.sub)," out of ", nrow(manf), " item subsetted.")
+                                   # }else{
+                                   #     manf.sub = manf
+                                   # }
+
+                                   # formalize data frame to right type
+                                   manf.sub = formalizeMetaDataFrame(manf.sub)
+
+
+                                   # validation: first column of data.frame has to be file path and it exists
+                                   fc = sapply(manf.sub[, 1], function(x){
+                                       is.character(x)
+                                   })
+
+                                   if(!all(fc)){
+                                       message("Following rows are invalid: ", paste(which(!fc), collapse = " "))
+                                       stop("The first column of manifest file has to be character to represent file path")
+
+                                   }
+
+                                   fe = sapply(manf.sub[, 1], function(x){
+                                       file.exists(x)
+                                   })
+
+                                   if(!all(fe)){
+                                       message("Following rows are invalid (not exists): ", paste(which(!fe), collapse = " "))
+                                       stop("The first colunn of manifest file has to be valid file path")
+
+
+                                   }
+
+                                   # if verbal = TRUE, print file uploading progress info for each file
+                                   # if verbal = FALSE, print all files uploading progress in single bar
+                                   if(!verbal){
+                                       message("uploaded files progress:")
+                                       pb <- txtProgressBar(min = 0, max = nrow(manf.sub), style = 3)
+                                   }
+
+                                   for(i in 1:nrow(manf.sub)){
+
+                                       x = manf.sub[i, ]
+
+
+                                       if(manifest_metadata){
+                                           .m = as.list(x)[-1]
+                                       }else{
+                                           .m = list()
+                                       }
+                                       if(verbal){
+                                           upload(x[, 1], metadata = .m, overwrite = overwrite, verbal = verbal, ...)
+                                       }else{
+                                           suppressMessages(upload(x[, 1], metadata = .m, overwrite = overwrite,
+                                                                   verbal = verbal, ...))
+                                           setTxtProgressBar(pb, i)
+                                       }
+                                   }
+                                   if(!verbal){
+                                       close(pb)
+                                   }
+
+                                   return(invisible())
+
+                               }
+
+
 
                                # if filename is a list
                                if (length(filename) > 1) {
@@ -311,7 +421,8 @@ Project <- setRefClass("Project", contains = "Item",
                                           metadata   = metadata, ...)
 
                                u$upload_file(metadata = metadata,
-                                             overwrite = overwrite)
+                                             overwrite = overwrite,
+                                             verbal = verbal)
 
                            },
 

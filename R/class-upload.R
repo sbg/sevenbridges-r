@@ -216,7 +216,7 @@ Upload <- setRefClass("Upload", contains = "Item",
                               res
                           },
 
-                          upload_file = function(metadata = list(), overwrite = FALSE) {
+                          upload_file = function(metadata = list(), overwrite = FALSE, verbal = TRUE) {
 
                               # make this one easy to use
 
@@ -227,7 +227,9 @@ Upload <- setRefClass("Upload", contains = "Item",
                               message("part_length: ", part_length)
                               message("parallel_uploads: ", parallel_uploads)
 
-                              pb <- txtProgressBar(min = 0, max = N, style = 3)
+                              if(verbal){
+                                  pb <- txtProgressBar(min = 0, max = N, style = 3)
+                              }
 
                               .start = Sys.time()
                               con <- file(file, "rb")
@@ -242,9 +244,13 @@ Upload <- setRefClass("Upload", contains = "Item",
                                   # part[[i]]$etag <<- etag
                                   upload_complete_part(i, etag)
                                   # part_finished <<- as.integer(i)
-                                  setTxtProgressBar(pb, i)
+                                  if(verbal){
+                                      setTxtProgressBar(pb, i)
+                                  }
                               }
-                              close(pb)
+                              if(verbal){
+                                  close(pb)
+                              }
                               res <- upload_complete_all()
                               close(con)
                               .end = Sys.time()
