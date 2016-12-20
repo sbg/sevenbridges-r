@@ -791,39 +791,7 @@ lst <- as.list(nm.cls)
 Metadata <- setRefClass("Metadata",
                         fields = c(lst, list(extra = "listORNULL")),
                         methods = list(
-                            initialize = function(
-                                # experimental_strategy = NULL,
-                                # library_id = NULL,
-                                # platform = NULL,
-                                # platform_unit_id = NULL,
-                                # file_segment_number = NULL,
-                                # quality_scale = NULL ,
-                                # paired_end = NULL,
-                                # data_format = NULL,
-                                # file_extension = NULL,
-                                # reference_genome = NULL,
-                                # data_type = NULL,
-                                # data_subtype = NULL ,
-                                # analysis_uuid = NULL,
-                                # gdc_file_uuid = NULL,
-                                # access_level = NULL,
-                                # investigation = NULL,
-                                # case_id = NULL,
-                                # case_uuid = NULL,
-                                # gender = NULL,
-                                # race = NULL,
-                                # ethnicity = NULL,
-                                # primary_site = NULL,
-                                # disease_type = NULL,
-                                # age_at_diagnosis = NULL,
-                                # vital_status = NULL,
-                                # days_to_death = NULL,
-                                # sample_id = NULL,
-                                # sample_uuid = NULL,
-                                # sample_type = NULL,
-                                # aliquot_id = NULL,
-                                # aliquot_uuid = NULL,
-                                ...) {
+                            initialize = function(...) {
 
                                 args <- .dotargsAsList(...)
 
@@ -894,4 +862,20 @@ normalizeMeta <- function(x) {
         stop("metadata has to be a list or Metadata object")
     }
     res
+}
+
+formalizeMetaDataFrame = function(x){
+    .clnms =  colnames(x)
+    .i = intersect(.clnms, names(Metadata$fields()))
+    if(length(.i)){
+        for(i in .i){
+            cls = getRefClass(i)$fields()["type"]
+            if(cls == "characterORNULL"){
+                message("converting column ", i, " to character")
+                x[,i] = as.character(x[,i])
+            }
+        }
+
+    }
+   x
 }
