@@ -7,7 +7,7 @@ options:
 --max=<float>   upper limits of the distribution. Must be finite [default: 1].
 --seed=<float>  seed for set.seed() function [default: 1]'  -> doc
 
-library(docopt)
+library("docopt")
 opts <- docopt(doc)
 
 ## create param list

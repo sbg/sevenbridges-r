@@ -23,9 +23,9 @@ options:
 
 .curPath <- normalizePath(".")
 library(docopt)
-## a hack for packrat
+# a hack for packrat
 install.packages(c('shiny', 'rsconnect', 'packrat'),
-                 repos='https://cran.rstudio.com/', quiet = TRUE)
+                 repos = 'https://cran.rstudio.com/', quiet = TRUE)
 
 opts <- docopt(doc)
 deFiles <- function(x, split = ","){
@@ -34,23 +34,20 @@ deFiles <- function(x, split = ","){
 
 engine <- opts$engine
 
-## make working directory
-app_name <- function(x, prefix = NULL, suffix = NULL,...){
+# make working directory
+app_name <- function(x, prefix = NULL, suffix = NULL,...) {
     nm <- tools::file_path_sans_ext(basename(x), ...)
     paste0(prefix, nm, suffix)
 }
 
-
-
-copyFiles <- function(fl, opts){
-
+copyFiles <- function(fl, opts) {
 
     appName <- tools::file_path_sans_ext(basename(fl), compression = TRUE)
-    ## dir.create(appName)
+    # dir.create(appName)
     .fullPath <- file.path(.curPath, appName)
     dir.create(.fullPath, FALSE)
 
-    ## copy file over
+    # copy file over
     if(!is.null(opts$data)){
         message("copy to data folder")
         .data <- file.path(.fullPath, "data")
@@ -80,10 +77,8 @@ copyFiles <- function(fl, opts){
     .fullPath
 }
 
-
-
 unpackShiny <- function(input, outdir = NULL){
-    # ## extract
+    # extract
 
     appName <- tools::file_path_sans_ext(basename(input), compression = TRUE)
     extName <- tools::file_ext(basename(input))
@@ -93,7 +88,7 @@ unpackShiny <- function(input, outdir = NULL){
 
     }
     dir.create(outdir, FALSE)
-    ## .d <- tempfile()
+    # .d <- tempfile()
     .d <- file.path(.curPath,basename(tempfile()))
     dir.create(.d, FALSE)
 
@@ -134,29 +129,25 @@ unpackShiny <- function(input, outdir = NULL){
 
 }
 
-## Set account info for Shiny apps
+# Set account info for Shiny apps
 toDeploy <- TRUE
 if(is.null(opts$setAccountInfo)){
-    if(any(is.null(opts$name), is.null(opts$token), is.null(opts$secret))){
+    if (any(is.null(opts$name), is.null(opts$token), is.null(opts$secret))) {
         toDeploy <- FALSE
-    }else{
+    } else {
         rs = paste("rsconnect::setAccountInfo(name =", opts$name, ",",
                    "token = ", opts$token, ",",
                    "secret = ", opts$secret)
     }
-}else{
-    ## allow you to copy-paste from shinyapps.io or other services
+} else {
+    # allow you to copy-paste from shinyapps.io or other services
     rs = opts$setAccountInfo
 }
 
+# Start with knitr template
+if (!is.null(opts$knitrTemplate)) {
 
-
-
-
-
-## Start with knitr template
-if(!is.null(opts$knitrTemplate)){
-    ## create rmarkdown
+    # create rmarkdown
     fls <- deFiles(opts$knitrTemplate)
 
     sapply(fls, function(x){
@@ -173,7 +164,7 @@ if(!is.null(opts$knitrTemplate)){
                packrat = {
                    .dd <- tempfile()
                    dir.create(.dd, FALSE)
-                   ## build in temp dir
+                   # build in temp dir
                    file.copy(x, .dd,  overwrite = TRUE, recursive = TRUE)
                    suppressMessages({
                        packrat::init(.dd)
@@ -183,10 +174,9 @@ if(!is.null(opts$knitrTemplate)){
                        devtools::install_github(c('rstudio/rsconnect', 'rstudio/shinyapps'),
                                                 quiet = TRUE)
                    })
-                   ## fixme
+                   # FIXME
                    rmarkdown::render(x, output_dir = .curPath)
                    packrat::off()
-
 
                },
                {
@@ -196,9 +186,9 @@ if(!is.null(opts$knitrTemplate)){
 
 }
 
-# Start with shiny template
-if(!is.null(opts$shinyTemplate)){
-    ## make working directory
+# Start with Shiny template
+if (!is.null(opts$shinyTemplate)) {
+    # make working directory
 
     fls <- deFiles(opts$shinyTemplate)
     sapply(fls, function(x){

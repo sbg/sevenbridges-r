@@ -10,5 +10,3 @@ ADD report/rnaseqGene.Rmd /report/
 
 RUN chmod a+x /usr/local/bin/performDE.R \
     && chmod -R a+x /report
-
-
