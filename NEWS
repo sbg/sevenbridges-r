@@ -2,7 +2,7 @@
 
 ## Improvements
 
-- Redesigned authentication: compliant with the new specification.
+- Support three authentication methods: direct authentication, via environment variables, or via user configuration file. Compliant with the new API client authentication specification.
 - Updated platform types: users can now choose from `cgc`, `aws-us`, `aws-eu`, `gcp`, and `cavatica`.
 - File ID support on task input (directly) ([#27](https://github.com/sbg/sevenbridges-r/issues/27))
 - Removed credential information parsing when package is loaded.

@@ -23,7 +23,7 @@ knitr::opts_chunk$set(comment = "")
 
 This tutorial assume you have basic knowledge about Docker concept.
 
-Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL V1.0 soon.
+Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL v1.0 soon.
 
 # App, Workflow, and Tool
 
@@ -63,10 +63,10 @@ Sometimes people share Tool in pure JSON text format. You can simply load it int
 ```{r}
 library("sevenbridges")
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
-## convert json file into a Tool object
+# # convert json file into a Tool object
 t1 = convert_app(t1)
-## try print it yourself
-## t1
+# # try print it yourself
+# t1
 ```
 
 In this way, you can load it, revise it, use it with API or edit and export it back to JSON file. However, in this tutorial, the most important thing is that you learn how to desribe it directly in R.
@@ -78,37 +78,37 @@ We provide couple utitlities to help construct your own CWL tool quickly in R. F
 Some utiles you will find it useful when you execute a task, you need to know what is the input type and what is the input id and if it's required or not, so you can execute the task with parameters it need. Try play with `input_matrix` or `input_type` as shown below.
 
 ```{r}
-## get input type information
+# get input type information
 head(t1$input_type())
-## get output type information
+# get output type information
 head(t1$output_type())
-## return a input matrix with more informtion
+# return a input matrix with more informtion
 head(t1$input_matrix())
-## return only a few fields
+# return only a few fields
 head(t1$input_matrix(c("id", "type", "required")))
-## return only required
+# return only required
 t1$input_matrix(required = TRUE)
-## return a output matrix with more informtion
+# return a output matrix with more informtion
 t1$output_matrix()
-## return only a few fields
+# return only a few fields
 t1$output_matrix(c("id", "type"))
-## get required input id
+# get required input id
 t1$get_required()
-## set new required input with ID, # or without #
+# set new required input with ID, # or without #
 t1$set_required(c("#reads", "winFlankNbins"))
 t1$get_required()
-## turn off requirements for input node #reads
+# turn off requirements for input node #reads
 t1$set_required("reads", FALSE)
 t1$get_required()
-#' ## get input id
+# get input id
 head(t1$input_id())
-#' ## get full input id with Tool name
+# get full input id with Tool name
 head(t1$input_id(TRUE))
-## get output id
+# get output id
 head(t1$output_id())
-## get full output id
+# get full output id
 head(t1$output_id(TRUE))
-## get input and output object
+# get input and output object
 t1$get_input(id = "#winFlankNbins")
 t1$get_input(name = "ins")
 t1$get_output(id = "#aligned_reads")
@@ -178,18 +178,18 @@ rbx$toYAML()
 Now you make want to run your own R script, but you still don't want to create new command line and a new Docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
 
 ```{r}
-## Make a new file
+# Make a new file
 fd <- fileDef(name = "runif.R",
               content = "set.seed(1)
                    runif(100)")
 
-## read via reader
+# read via reader
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
 library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(.srcfile))
 
-## add script to your tool
+# add script to your tool
 rbx <- Tool(id = "runif",
             label = "runif",
             hints = requirements(docker(pull = "rocker/r-base")),
@@ -202,7 +202,7 @@ rbx <- Tool(id = "runif",
 How about multiple script?
 
 ```{r}
-## or simply readLines
+# or simply readLines
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
 library("readr")
 fd1 <- fileDef(name = "runif.R",
@@ -252,7 +252,7 @@ To define input, you can specify
 Output is similar, espeicaly when you want to collect file, you can use `glob` for pattern matching.
 
 ```{r}
-## pass a input list
+# pass a input list
 in.lst <- list(input(id = "number",
                      description = "number of observations",
                      type = "integer",
@@ -280,7 +280,7 @@ in.lst <- list(input(id = "number",
                      prefix = "--seed",
                      default = 1))
 
-## the same method for outputs
+# the same method for outputs
 out.lst <- list(output(id = "random",
                        type = "file",
                        label = "output",
@@ -295,7 +295,7 @@ rbx <- Tool(id = "runif",
             label = "Random number generator",
             hints = requirements(docker(pull = "tengfei/runif")),
             baseCommand = "runif.R",
-            inputs = in.lst, ## or ins.df
+            inputs = in.lst,  # or ins.df
             outputs = out.lst)
 ```
 
@@ -539,8 +539,8 @@ Yes, you could use the same function `convert_app` to import JSON files.
 ```{r}
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 f1 = convert_app(f1)
-## show it
-## f1
+# show it
+# f1
 ```
 
 ## Utilities for `Flow` objects
@@ -550,27 +550,27 @@ Just like `Tool` object, you also have convenient utils for it, especially usefu
 ```{r}
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 f1 = convert_app(f1)
-## input matrix
+# input matrix
 head(f1$input_matrix())
-## by name
+# by name
 head(f1$input_matrix(c("id", "type", "required")))
-## return only required
+# return only required
 head(f1$input_matrix(required = TRUE))
-## return everything
+# return everything
 head(f1$input_matrix(NULL))
-## return a output matrix with more informtion
+# return a output matrix with more informtion
 head(f1$output_matrix())
-## return only a few fields
+# return only a few fields
 head(f1$output_matrix(c("id", "type")))
-## return everything
+# return everything
 head(f1$output_matrix(NULL))
-## flow inputs
+# flow inputs
 f1$input_type()
-## flow outouts
+# flow outouts
 f1$output_type()
-## list tools
+# list tools
 f1$list_tool()
-## f1$get_tool("STAR")
+# f1$get_tool("STAR")
 ```
 
 There are more utilities please check example at `help(Flow)`
@@ -596,7 +596,7 @@ Let's create tools from scratch to perform a simple task
 
 ```{r}
 library("sevenbridges")
-## A tool that generates 100 random numbers
+# A tool that generates 100 random numbers
 t1 <- Tool(id = "runif new test 3", label = "random number",
            hints = requirements(docker(pull = "rocker/r-base")),
            baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'",
@@ -604,7 +604,7 @@ t1 <- Tool(id = "runif new test 3", label = "random number",
                             type = "file",
                             glob = "random.txt"))
 
-## A tool that takes log
+# A tool that takes log
 fd <- fileDef(name = "log.R",
               content = "args = commandArgs(TRUE)
                          x = read.table(args[1], header = TRUE)[,'x']
@@ -622,7 +622,7 @@ t2 <- Tool(id = "log new test 3", label = "get log",
                             type = "file",
                             glob = "*.txt"))
 
-## A tool that do a mean
+# A tool that do a mean
 fd <- fileDef(name = "mean.R",
               content = "args = commandArgs(TRUE)
                          x = read.table(args[1], header = TRUE)[,'x']
@@ -642,15 +642,15 @@ t3 <- Tool(id = "mean new test 3", label = "get mean",
 f = t1 %>>% t2
 f = link(t1, t2, "#random", "#number")
 
-## you cannot directly copy-paste it
-## please push it using API, we will register each tool for you
+# # you cannot directly copy-paste it
+# # please push it using API, we will register each tool for you
 
 # library("clipr")
 # write_clip(f$toJSON(pretty = TRUE))
 
 t2 <- Tool(id = "log new test 3", label = "get log",
            hints = requirements(docker(pull = "rocker/r-base")),
-           ## requirements = requirements(fd),
+           # requirements = requirements(fd),
            baseCommand = "Rscript log.R",
            inputs = input(id = "number",
                            type = "file",
@@ -666,7 +666,7 @@ t2 <- Tool(id = "log new test 3", label = "get log",
 __Note__: this workflow contains tools that do not exist on the platform, so if you directly copy and paste the JSON into the GUI, it won't work properly, however, a simple way is to push your app to platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternative if you connect two tools you know they exist on the platform, you don't need to do so.
 
 ```{r, eval = FALSE}
-## auto-check tool info and push new tools
+# auto-check tool info and push new tools
 p$app_add("new_flow_log", f)
 ```
 
@@ -688,11 +688,11 @@ t2 = system.file("extdata/app", "tool_star.json",
                  package = "sevenbridges")
 t1 = convert_app(t1)
 t2 = convert_app(t2)
-## check possible link
+# check possible link
 link_what(t1, t2)
-## link
+# link
 f1 = link(t1, t2, "output_fastq_files", "reads")
-## link
+# link
 t1$output_id(TRUE)
 t2$input_id(TRUE)
 f2 = link(t1, t2, "output_fastq_files", "reads",
@@ -711,19 +711,19 @@ flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 
 t1 = convert_app(tool.in)
 f2 = convert_app(flow.in)
-## consulting link_what first
+# consulting link_what first
 f2$link_map()
-## then link
+# then link
 
 f3 = link(t1, f2, c("output_fastq_files"), c("#SBG_FASTQ_Quality_Detector.fastq"))
 
 link_what(f2, t1)
 f4 = link(f2, t1, c("#Picard_SortSam.sorted_bam", "#SBG_FASTQ_Quality_Detector.result"), c("#input_archive_file", "#input_archive_file"))
 
-## TODO
-## all outputs
-## flow + flow
-## print message when name wrong
+# # TODO
+# # all outputs
+# # flow + flow
+# # print message when name wrong
 # library("clipr")
 # write_clip(f4$toJSON())
 ```
@@ -743,7 +743,7 @@ With API function, you can directly load your Tool into the account. Run a task,
 Here is a quick demo:
 
 ```{r, eval = FALSE}
-a = Auth(url = "api_url", token = "your_token")
+a = Auth(platform = "platform_name", token = "your_token")
 p = a$project("demo")
 app.runif = p$app_add("runif555", rbx)
 aid = app.runif$id
@@ -805,7 +805,7 @@ rbx <- Tool(id = "runif",
             hints = requirements(docker(pull = "tengfei/runif"),
                                  cpu(1), mem(2000)),
             baseCommand = "runif.R",
-            inputs = in.df, ## or ins.df
+            inputs = in.df,  # or ins.df
             outputs = out.df)
 params <- list(number = 3, max = 5)
 

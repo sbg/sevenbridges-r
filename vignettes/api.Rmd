@@ -124,29 +124,26 @@ For more details about how to use the API client in R, please consult the [Seven
 
 ## Create `Auth` Object
 
-Before you can access your account via the API, you have to pass along your credentials. You can obtain your credentials in the form of an [authentication token](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, let's set up the `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
+Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an ["authentication token"](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, create an `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
 
-**Step 1: Load the package**
+Let's load the package first:
 
 ```{r, eval = TRUE, message = FALSE}
 library("sevenbridges")
 ```
 
-**Step 2: Set up your authentication token**
+You have three different ways to provide your token. Choose from one method below:
 
-You have three different ways to set up your token. Choose from one method below:
+1. [Direct authentication.](#method1) This explicitly and temporarily sets up your token and platform type (or alternatively, API base url) in the function call arguments to `Auth()`.
+2. [Authentication via system environment variables.](#method2) This will read the credential information from two system environment variables: `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`.
+3. [Authentication via user configuration file.](#method3) This file, by default `$HOME/.sevenbridges/credentials`, provides an organized way to collect and manage all your API authentication information for Seven Bridges platforms.
 
-1. [Direct authentication:](#method1) This explicitly and temporarily sets up your token and platform type (or alternatively, API base url) in the function call arguments.
-2. [Authentication via pre-set system environment variables:](#method2) This will read the credential information from two system environment variables: `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`.
-3. [Authentication via user configuration file:](#method3) This file, by default `$HOME/.sevenbridges/credentials`, provides an organized way to collection and manage all your API authentication information for Seven Bridges platforms.
+<div style="margin-left:3em"><a name="method1"/>**Method 1: Direct authentication**
 
-<div style="margin-left:3em"><a name="method1"/>***Method 1: Direct authentication***
-
-This is the most common way to construct your `auth` object.
+This is the most common method to construct the `Auth` object. For example:
 
 ```{r}
-# direct authentication
-(a <- Auth(token = "<your_token>", platform = "cgc"))
+(a <- Auth(platform = "cgc", token = "your_token"))
 ```
 
 ```
@@ -156,13 +153,7 @@ url : https://cgc-api.sbgenomics.com/v2/
 token : <your_token>
 ```
 
-<a name="method2"/>***Method 2: Environment variables***
-
-```{r}
-# read two system environment variables:
-# `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`
-a <- Auth(from = "env")
-```
+<a name="method2"/>**Method 2: Environment variables**
 
 To set the two environment variables in your system, you could use
 the function `sbg_set_env()`. For example:
@@ -171,34 +162,74 @@ the function `sbg_set_env()`. For example:
 sbg_set_env("https://cgc-api.sbgenomics.com/v2", "your_token")
 ```
 
-Note that this change might be just temporary, please use the standard
-methods to set more persistent environment variables according to your
-operation system type.
+Note that this change might be just temporary, please feel free to
+use the standard method to set persistent environment variables
+according to your operation system.
+
+Create an `Auth` object:
+
+```{r}
+a <- Auth(from = "env")
+```
 
 <a name="method3"/>***Method 3: User configuration file***
 
+Assume we have already created the configuration file named
+`credentials` under the directory `$HOME/.sevenbridges/`:
+
+```
+[aws-us-tengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+# This is a comment:
+# another user on the same platform
+[aws-us-yintengfei]
+api_endpoint = https://api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[default]
+api_endpoint = https://cgc-api.sbgenomics.com/v2
+auth_token = token_for_this_user
+
+[gcp]
+api_endpoint = https://gcp-api.sbgenomics.com/v2
+auth_token = token_for_this_user
+```
+
+To load the user profile `aws-us-tengfei` from this configuration file,
+simply use:
+
 ```{r}
-# load profile `aws-us-tengfei` from `$HOME/.sevenbridges/credentials`
 a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 ```
 
-***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some environments are as follows:
+If `profile_name` is not specified, we will try to load the profile named `[default]`:
 
-+-------------------------------------------------------+------------------------------------------+
-| Platform                                              | API Base URL                             |
-+=======================================================+==========================================+
-| Cancer Genomics Cloud (CGC)                           | `https://cgc-api.sbgenomics.com/v2`      |
-+-------------------------------------------------------+------------------------------------------+
-| Seven Bridges Platform on Amazon Web Services (US)    | `https://api.sbgenomics.com/v2`          |
-+-------------------------------------------------------+------------------------------------------+
-| Seven Bridges Platform on Amazon Web Services (EU)    | `https://eu-api.sbgenomics.com/v2`       |
-+-------------------------------------------------------+------------------------------------------+
-| Seven Bridges Platform on Google Cloud Platform (GCP) | `https://gcp-api.sbgenomics.com/v2`      |
-+-------------------------------------------------------+------------------------------------------+
-| Cavatica                                              | `https://cavatica-api.sbgenomics.com/v2` |
-+-------------------------------------------------------+------------------------------------------+
+```{r}
+a <- Auth(from = "file")
+```
+
+***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are as follows:
+
++-------------------------------------------------------+------------------------------------------+---------------+
+| Platform                                              | API Base URL                             | Platform Name |
++=======================================================+==========================================+===============+
+| Cancer Genomics Cloud (CGC)                           | `https://cgc-api.sbgenomics.com/v2`      | `"cgc"`       |
++-------------------------------------------------------+------------------------------------------+---------------+
+| Seven Bridges Platform on Amazon Web Services (US)    | `https://api.sbgenomics.com/v2`          | `"aws-us"`    |
++-------------------------------------------------------+------------------------------------------+---------------+
+| Seven Bridges Platform on Amazon Web Services (EU)    | `https://eu-api.sbgenomics.com/v2`       | `"aws-eu"`    |
++-------------------------------------------------------+------------------------------------------+---------------+
+| Seven Bridges Platform on Google Cloud Platform (GCP) | `https://gcp-api.sbgenomics.com/v2`      | `"gcp"`       |
++-------------------------------------------------------+------------------------------------------+---------------+
+| Cavatica                                              | `https://cavatica-api.sbgenomics.com/v2` | `"cavatica"`  |
++-------------------------------------------------------+------------------------------------------+---------------+
+
+Please refer to the [API reference section](#auth-reference) for more usage and technical details about the three authentication methods.
 
 </div>
+
 <div align="right"><a href="#top">top</a></div>
 
 ## Get User Information
@@ -273,7 +304,7 @@ a$billing(id = "your_billing_id", breakdown = TRUE)
 
 ## Create Project
 
-Projects are the core building blocks of the Platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.
+Projects are the core building blocks of the platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.
 
 Create a new project called "api testing" with the billing group `id` obtained above.
 
@@ -629,11 +660,90 @@ The `sevenbridges` package provides a user-friendly interface so you do not have
 
 <div align="right"><a href="#top">top</a></div>
 
+<a name="auth-reference"/>
+
 ## Authentication
 
-### Set up a default token for different environments
+Before you can interact with the API, you need to construct an `Auth` object which stores the following information:
 
-You can create a file named `credentials` under the folder `$HOME/.sevenbridges/` and maintain your credentials for multiple accounts across various Seven Bridges environments as follows.
+- Your authentication token. This is used to authenticate your credentials with the API. Learn more about obtaining your authentication token on the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) and the [Cancer Genomics Cloud](http://docs.cancergenomicscloud.org/v1.0/docs/get-your-authentication-token). The approach for obtaining the authentication token also applies to the other Seven Bridges platforms.
+- The path for the API (base URL).
+- The platform name you are using (e.g. Seven Bridges Platform on AWS US, Seven Bridges Platform on AWS EU, Seven Bridges Platform on GCP, Cancer Genomics Cloud, or Cavatica). This is an optional field, as the base URL of the API ultimately decides where the API calls will be sent to. This field will only be blank when the URL was directly provided and the platform name could not be inferred from that URL.
+
+The general authentication logic for `Auth()` is as follows:
+
+1. The package will use the direct authentication method if `from` is not specified explicitly or specified as `from = "direct"`.
+2. The package will load the authentication information from environment variables when `from = "env"`, or user configuration file when `from = "file"`.
+
+### Direct authentication
+
+To use direct authentication, users need to specify one of `platform` or `url`,
+with the corresponding `token`. Examples of direct authentication:
+
+```{r}
+a = Auth(token = "1c0e6e202b544030870ccc147092c250",
+         platform = "aws-us")
+```
+
+The above will use the Seven Bridges Platform on AWS (US).
+
+```{r}
+a = Auth(token = "1c0e6e202b544030870ccc147092c257",
+         url = "https://gcp-api.sbgenomics.com/v2")
+```
+
+The above will use the specified `url` as base URL for the API calls. In this example, the `url` points to the Seven Bridges Platform on Google Cloud Platform (GCP).
+
+```{r}
+a = Auth(token = "2c0e6e202b544030870ccc147092c257")
+```
+
+The above will use the Cancer Genomics Cloud environment, since no `platform` nor `url` were explicitly specified (not recommended).
+
+***Note:*** `platform` and `url` should not be specified in the same time.
+
+<div align="right"><a href="#top">top</a></div>
+
+### Authentication via system environment variables
+
+The R API client supports reading authentication information stored in
+system environment variables.
+
+To set the two environment variables in your system, you could use
+the function `sbg_set_env()`. For example:
+
+```{r}
+sbg_set_env(url = "https://cgc-api.sbgenomics.com/v2",
+            token = "your_token")
+```
+
+See if the environment variables are correctly set:
+
+```{r}
+sbg_get_env("SB_API_ENDPOINT")
+## "https://cgc-api.sbgenomics.com/v2"
+sbg_get_env("SB_AUTH_TOKEN")
+## "your_token"
+```
+
+To create an `Auth` object:
+
+```{r}
+a <- Auth(from = "env")
+```
+
+To unset the two environment variables:
+
+```{r}
+Sys.unsetenv("SB_API_ENDPOINT")
+Sys.unsetenv("SB_AUTH_TOKEN")
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Authentication via user configuration file
+
+You can create an ini-like file named `credentials` under the folder `$HOME/.sevenbridges/` and maintain your credentials for multiple accounts across various Seven Bridges environments. An example:
 
 ```
 [aws-us-tengfei]
@@ -646,7 +756,7 @@ auth_token = token_for_this_user
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
-[cgc]
+[default]
 api_endpoint = https://cgc-api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
@@ -655,33 +765,31 @@ api_endpoint = https://gcp-api.sbgenomics.com/v2
 auth_token = token_for_this_user
 ```
 
-Please make sure to have the fields (exactly) named `api_endpoint` and `auth_token` under each profile.
+Please make sure to have two fields **exactly** named as `api_endpoint` and `auth_token` under each profile.
 
-***Note:*** If you edited the `credentials` file, please use `Auth()` to re-authenticate.
-
-<div align="right"><a href="#top">top</a></div>
-
-### Create `Auth` object directly
-
-Before you can interact with the API, you need to construct an `Auth` object which stores the following:
-
-- Your authentication token. This is used to authenticate your credentials with the API. Learn more about obtaining your authentication token on the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) and the [Cancer Genomics Cloud](http://docs.cancergenomicscloud.org/v1.0/docs/get-your-authentication-token).
-- The path for the API (base URL).
-- The platform name you are using (e.g. Seven Bridges Platform on AWS US, Seven Bridges Platform on AWS EU, Seven Bridges Platform on GCP, Cancer Genomics Cloud, or Cavatica). This is an optional field, as the base URL of the API decides where the API calls will be sent to.
-
-The authentication logic is as follows:
-
-1. If you did not pass API base URL or token, the package will assume you are loading it from the user config file.
-2. If no environment or user is specified, the package will use the first item in your config file. __This is not recommended. Please provide an environment and username.__
+To load the default profile (named `[default]`) from the default user
+configuration file (`$HOME/.sevenbridges/credentials`), please use:
 
 ```{r}
-library("sevenbridges")
-# direct authentication
-a = Auth(token = "1c0e6e202b544030870ccc147092c257",
-         platform = "aws-us")
+a <- Auth(from = "file")
 ```
 
-The above will point to the Cancer Genomics Cloud environment, unless you specify the API URL or the environment. The `sevenbridges` package currently supports specifying `cgc` for the Cancer Genomics Cloud, `aws-us` for the Seven Bridges Platform on AWS, and `gcp` for the Seven Bridges Platform on GCP.
+To load the user profile `aws-us-tengfei` from this configuration file,
+change the `profile_name`:
+
+```{r}
+a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+```
+
+To use a user configuration file from other locations (not recommended),
+please specify the file path using the argument `config_file`. For example:
+
+```{r}
+a <- Auth(from = "file", config_file = "~/sevenbridges.cfg",
+          profile_name = "aws-us-tengfei")
+```
+
+***Note:*** If you edited the `credentials` file, please use `Auth()` to re-authenticate.
 
 <div align="right"><a href="#top">top</a></div>
 

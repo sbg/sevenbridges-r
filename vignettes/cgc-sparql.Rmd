@@ -1,5 +1,5 @@
 ---
-title: "Find Data on CGC via Data Exploerer, SPARQL, and Data API"
+title: "Find Data on CGC via Data Exploerer, SPARQL, and Datasets API"
 author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ output:
       in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL, and Data API}
+  %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL, and Datasets API}
 ---
 
 ```{r include=FALSE}
@@ -25,17 +25,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introdution
 
-There are currently three ways to find the data you need on CGC
+There are currently three ways to find the data you need on CGC:
 
 - Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
 - Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
-- Most sweet: use our Data set API, by creating a query list in R (comming soon)
+- Most sweet: use our Datasets API, by creating a query list in R (comming soon)
 
-# Quick start
+# Quick Start
 
 ## Graphical data explorer
 
-Please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser).
+Please read the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser).
 
 ## SPARQL examples
 
@@ -98,7 +98,7 @@ where
 }
 
 "
-qd <- SPARQL(endpoint,query)
+qd <- SPARQL(endpoint, query)
 df <- qd$results
 head(df)
 ```
@@ -120,7 +120,7 @@ controlled access
 
 ```{r}
 library("sevenbridges")
-a = Auth(platform = "cgc", username = "tengfei")
+a = Auth(platform = "cgc", token = "your_cgc_token")
 # get id (only works for CGC platform)
 ids = a$get_id_from_path(df.path)
 # copy file from id to project with controlled access
@@ -128,23 +128,23 @@ ids = a$get_id_from_path(df.path)
 a$copyFile(ids, p$id)
 ```
 
-Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
+Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries).
 
-## Dataset API examples
+## Datasets API examples
 
-Please read the [tutorials](http://docs.cancergenomicscloud.org/docs/datasets-api-overview)
+Please read the [tutorials](http://docs.cancergenomicscloud.org/docs/datasets-api-overview).
 
 ### Browse TCGA via the Datasets API
 
-Doing a HTTP GET on this endpoint one will get a resource with links to all entities in the dataset. Following these links (doing an HTTP GET on them) one will go to a list of entities (for example /files) from TCGA dataset identified with their proper URL. Further following one of these links you'll get a particular resource (if we went to /files, we'll get a description of a particular file) with all specific properties like id, label, etc. and links to other entities that are connected to a specific resource (for example /cases) that you can explore further. From there on, the process repeats as long as you follow the links.
+Doing a HTTP `GET` on this endpoint one will get a resource with links to all entities in the dataset. Following these links (doing an HTTP `GET` on them) one will go to a list of entities (for example `/files`) from TCGA dataset identified with their proper URL. Further following one of these links you'll get a particular resource (if we went to `/files`, we'll get a description of a particular file) with all specific properties like id, label, etc. and links to other entities that are connected to a specific resource (for example `/cases`) that you can explore further. From there on, the process repeats as long as you follow the links.
 
 #### Return datasets accessible trough the CGC
 
 Create an Auth object with your token, make sure you are using the correct URL.
 
-- https://cgc-datasets-api.sbgenomics.com/
+- `https://cgc-datasets-api.sbgenomics.com/`
 
-use `Auth$api()` method you don't have to re-type token and url.
+use `Auth$api()` method so there is no need to type base URL or token again.
 
 ```{r}
 library("sevenbridges")
@@ -156,8 +156,8 @@ a$api(path = "datasets")
 
 #### Return list of all TCGA entities
 
-You can issue another GET request to the href of the tcga object, if you want to
-access TCGA data.
+You can issue another `GET` request to the href of the tcga object, if you want
+to access TCGA data.
 
 ```{r}
 a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0",
@@ -183,12 +183,13 @@ a$api(path = "files/schema")
 
 #### Copy files to you project
 
-Get file id from Data set API, then use public API to copy files. Make sure your
+Get file id from Datasets API, then use public API to copy files. Make sure your
 project is "TCGA" compatible, otherwise if you are trying to copy controlled
 access data to your non-TCGA project, you will get
 
+```
 "HTTP Status 403: Insufficient privileges to access the requested file."
-
+```
 
 ```{r}
 (res = a$api(path = "files"))
@@ -197,7 +198,7 @@ get_id = function(obj){
 }
 ids = get_id(res)
 # create CGC auth
-a_cgc = Auth(token = a$token, url = "https://cgc-api.sbgenomics.com/v2/")
+a_cgc = Auth(platform = "cgc", token = a$token)
 a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
 ```
 
@@ -221,7 +222,7 @@ Count samples connected to a case
 a$api(path = "query/total", body = body, method = "POST")
 ```
 
-Issuing a GET request to the href path will return the following data:
+Issuing a `GET` request to the href path will return the following data:
 
 Note: `api` function is a light layer of httr package, it's different from `Auth$api` call.
 
@@ -291,7 +292,7 @@ body = list(
 a$api(path = "query", body = body, method = "POST")
 ```
 
-Issuing a GET request to the href path
+Issuing a `GET` request to the href path
 
 ```{r}
 httr::content(

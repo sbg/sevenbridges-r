@@ -65,12 +65,14 @@ To understand the image quickly here is the short instruction for the image name
 
 - __release__ images are based on `rocker/rstudio`
 - __devel__ images are based on `rocker/rstudio-daily`
+
 - __base__: Contains R, RStudio, and BiocInstaller + system dependencies.
 - __core__: base + a selection of core.
 - __flow__: core + all packages tagged with the _FlowCytometry_ biocView.
 - __microarray__: core + all packages tagged with the _Microarray_ biocView.
 - __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
 - __sequencing__: core + all packages tagged with the _Sequencing_ biocView.
+- __metabolomics__: core + all packages tagged with the _Metabolomics_ biocView.
 
 ### Docker Hub
 
@@ -86,18 +88,18 @@ Example Seven Bridges registry:
 - __Cancer Genomics Cloud__: `cgc-images.sbgenomics.com/<repository>[:<tag>]`
 
 
-# Tutorial: random number generator
+# Tutorial: Random Number Generator
 
 Our goal here is to making a CWL app to generate uniform random numbers, yes,
 the core function is `runif()`, it's a native function in R.
 
 ```{r}
-runif
+dput(runif)
 set.seed(1001)
 runif(10)
 ```
 
-## Using `docopt` package
+## Using `docopt` Package
 
 In R, we also have a nice implementation in a package called `docopt`, developed by *Edwin de Jonge*. Check out its [tutorial](https://github.com/docopt/docopt.R) on GitHub.
 
@@ -198,7 +200,7 @@ Loading required package: methods
 
 For full example you can check my GitHub [example](https://github.com/tengfei/docker/tree/master/runif).
 
-## Quick command line interface with `commandArgs` (position and named args)
+## Quick Command Line Interface with `commandArgs` (Position and Named Args)
 
 For advanced users, please read another tutorial "Creating Your Docker Container and Command Line Interface (with docopt)", "docopt" is more formal way to construct your command line interface, but there is a quick way to make command line interface here using just `commandArgs`.
 
@@ -288,7 +290,7 @@ rbx <- Tool(id = "runif",
             outputs = output(id = "random", glob = "output.txt"))
 ```
 
-## Quick report: Spin and Stich
+## Quick Report: Spin and Stich
 
 Alternative, you can use spin/stich from knitr to generate report directly
 from an R script with special format. For example, let's use the above example
@@ -338,7 +340,7 @@ rbx <- Tool(id = "runif",
 
 You will get a report in the end.
 
-## Executable report with R Markdown (advanced)
+## Executable Report with R Markdown (Advanced)
 
 We cannot really make a R Markdown file executable in it by simply put
 
@@ -370,7 +372,7 @@ fl <- system.file("docker/sevenbridges/report/", "report.Rmd", package = "sevenb
 cat(readLines(fl), sep = '\n')
 ```
 
-# Setup dockerhub automated build
+# Setup Docker Hub Automated Build
 
 To make things more reproducible and explicit and automatic, you can do a autohook to automatically build your container/image on Docker Hub. Here is what I do
 
@@ -381,6 +383,6 @@ To make things more reproducible and explicit and automatic, you can do a autoho
 5. Start using your Docker image like `tengfei/runif`.
 6. Feel free to push it onto your Seven Bridges platform registry as well.
 
-# More examples
+# More Examples
 
 There are more examples under `inst/docker` folder, you can check out how to describe command line and build Docker, how to make report template. You may read the online GitHub [code](https://github.com/sbg/sevenbridges-r/tree/master/inst/docker). Or you could read another [tutorial](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) about how we wrap RNA-seq workflow from Bioconductor.
