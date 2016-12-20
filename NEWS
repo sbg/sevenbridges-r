@@ -1,4 +1,4 @@
-# sevenbridges 1.5.5 (TBD)
+# sevenbridges 1.5.5
 
 ## Improvements
 
