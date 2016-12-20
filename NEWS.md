@@ -9,6 +9,7 @@
 - Improved robustness of `convert_app` when a CWL JSON has more fields than defined ([#44](https://github.com/sbg/sevenbridges-r/issues/44))
 - Migrate Docker images to Seven Bridges Docker Hub account ([#43](https://github.com/sbg/sevenbridges-r/issues/43))
 - New argument `keep_test` for `task_add()` added: when users push a Tool object with no `sbg:job` information, can still use `keep_test = TRUE` to keep previous test information. ([#31](https://github.com/sbg/sevenbridges-r/issues/31))
+- Support manifest file upload with fitler and subsetting for uploader ([#46](https://github.com/sbg/sevenbridges-r/issues/46))
 - New vignette style ([#38](https://github.com/sbg/sevenbridges-r/issues/38))
 
 # sevenbridges 1.5.4
