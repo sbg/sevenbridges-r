@@ -2,14 +2,28 @@
 
 ## Improvements
 
-- Support three authentication methods: direct authentication, via environment variables, or via user configuration file. Compliant with the new API client authentication specification.
-- Updated platform types: users can now choose from `cgc`, `aws-us`, `aws-eu`, `gcp`, and `cavatica`.
-- File ID support on task input (directly) ([#27](https://github.com/sbg/sevenbridges-r/issues/27))
+### API Client (Authentication)
+
+- Support three authentication methods: direct authentication, via environment variables, or via user configuration file. Compliant with the new API client authentication specification. Please check the latest vignette `vignette("api", package = "sevenbridges")` for the current authentication methods.
+- Updated platform types: now users can choose from `"cgc"`, `"aws-us"`, `"aws-eu"`, `"gcp"`, and `"cavatica"` in `Auth()` to avoid using API base URLs directly.
 - Removed credential information parsing when package is loaded.
-- Improved robustness of `convert_app` when a CWL JSON has more fields than defined ([#44](https://github.com/sbg/sevenbridges-r/issues/44))
-- Migrate Docker images to Seven Bridges Docker Hub account ([#43](https://github.com/sbg/sevenbridges-r/issues/43))
+
+### API Client (Task and Upload)
+
+- File ID support on task input (directly) ([#27](https://github.com/sbg/sevenbridges-r/issues/27))
 - New argument `keep_test` for `task_add()` added: when users push a Tool object with no `sbg:job` information, can still use `keep_test = TRUE` to keep previous test information. ([#31](https://github.com/sbg/sevenbridges-r/issues/31))
 - Support manifest file upload with fitler and subsetting for uploader ([#46](https://github.com/sbg/sevenbridges-r/issues/46))
+
+### Docker Image
+
+- Migrate Docker images to Seven Bridges Docker Hub account ([#43](https://github.com/sbg/sevenbridges-r/issues/43)), now users could use `docker pull sevenbridges/sevenbridges-r`
+
+### CWL Support
+
+- Improved robustness of `convert_app()` when a CWL JSON has more fields than defined ([#44](https://github.com/sbg/sevenbridges-r/issues/44))
+
+### Miscellaneous
+
 - New vignette style ([#38](https://github.com/sbg/sevenbridges-r/issues/38))
 
 # sevenbridges 1.5.4
