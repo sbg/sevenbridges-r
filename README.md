@@ -156,16 +156,33 @@ tsk$monitor()
                                  gtffile = gtf.in)))
 ```
 
-* Cross-platform support for Seven Bridges, such as [NCI Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either the Google Cloud Platform or Amazon Web Services deploy.
+* Cross-platform support for Seven Bridges environments, such as [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either Amazon Web Services or Google Cloud Platform.
 
-* Manage your authentication credentials for various Seven Bridges products, such as the Platform and the Cancer Genomics Cloud, via a configuration file as follows:
+* Multiple authentication methods support.
+
+Direct authentication:
 
 ```r
-# standard
-a = Auth(token = "fake_token", url = "api_url")
-# OR from config file, multiple platform/user support
-a = Auth(username = "tengfei", platform = "cgc")
+# direct authentication
+a = Auth(token = "your_token", platform = "cgc")
+# or use base url
+a = Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
 ```
+
+Authentication via system environment variables:
+
+```r
+sbg_set_env(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
+a <- Auth(from = "env")
+```
+
+Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
+
+```r
+a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+```
+
+Please check `vignette("api", package = "sevenbridges")` for technical details about all available authentication methods.
 
 * A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:
 
