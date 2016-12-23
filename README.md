@@ -124,9 +124,9 @@ The sevenbridges package includes the following features:
 
 ```r
 # Get a project by pattern-matching its name
-p = a$project("demo")
+p <- a$project("demo")
 # Get a project by its id
-p = a$project(id = "tengfei/demo")
+p <- a$project(id = "tengfei/demo")
 # Delete files from a project
 p$file("sample.tz")$delete()
 # Upload fies from a folder to a project and include file metadata
@@ -182,9 +182,9 @@ Direct authentication:
 
 ```r
 # direct authentication
-a = Auth(token = "your_token", platform = "cgc")
+a <- Auth(token = "your_token", platform = "cgc")
 # or use base url
-a = Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
+a <- Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
 ```
 
 Authentication via system environment variables:
@@ -240,9 +240,9 @@ rbx$toYAML()
 ```r
 # converting a SBG CWL JSON file
 library("sevenbridges")
-t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+t1 <- system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 # convert json file into a Tool object
-t1 = convert_app(t1)
+t1 <- convert_app(t1)
 # shows all input matrix
 t1$input_matrix()
 ```
