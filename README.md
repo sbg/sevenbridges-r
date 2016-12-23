@@ -18,16 +18,24 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 ## Table of Contents
 
-* [Installation](#installation)
-  * [Bioconductor - Release Version](#bioconductor---release-version)
-  * [Bioconductor - Development Version](#bioconductor---development-version)
-  * [Latest Development Version](#latest-development-version)
-* [Features](#features)
-* [Tutorials](#tutorials)
-* [IDE Docker Image](#ide-docker-image)
-* [FAQ](#faq)
-* [Events](#events)
-* [Contribute](#contribute)
+- [Overview](#overview)
+- [Installation](#installation)
+  - [Bioconductor - Release Version](#bioconductor---release-version)
+  - [Bioconductor - Development Version](#bioconductor---development-version)
+  - [Latest Development Version](#latest-development-version)
+- [Features](#features)
+  - [Complete API R Client](#complete-api-r-client)
+  - [Task Monitoring](#task-monitoring)
+  - [Batch Tasks Support](#batch-tasks-support)
+  - [Cross Environment Support](#cross-environment-support)
+  - [Flexible Authentication Methods](#flexible-authentication-methods)
+  - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
+  - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
+- [Tutorials](#tutorials)
+- [IDE Docker Image](#ide-docker-image)
+- [FAQ](#faq)
+- [Events](#events)
+- [Contribute](#contribute)
 
 ## Installation
 
@@ -110,6 +118,8 @@ If you have trouble with `pandoc` and do not want to install it,  set `build_vig
 
 The sevenbridges package includes the following features:
 
+### Complete API R Client
+
 * A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
 
 ```r
@@ -123,6 +133,8 @@ p$file("sample.tz")$delete()
 p$upload("folder_path", metadata = list(platform = "Illumina"))
 ```
 
+### Task Monitoring
+
 * A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:
 
 ```r
@@ -131,6 +143,8 @@ setTaskHook("completed", function() {
 })
 tsk$monitor()
 ```
+
+### Batch Tasks Support
 
 * Batch tasks by metadata and by item.
 
@@ -156,7 +170,11 @@ tsk$monitor()
                                  gtffile = gtf.in)))
 ```
 
+### Cross Environment Support
+
 * Cross-platform support for Seven Bridges environments, such as [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either Amazon Web Services or Google Cloud Platform.
+
+### Flexible Authentication Methods
 
 * Multiple authentication methods support.
 
@@ -183,6 +201,8 @@ a <- Auth(from = "file", profile_name = "aws-us-tengfei")
 ```
 
 Please check `vignette("api", package = "sevenbridges")` for technical details about all available authentication methods.
+
+### Common Workflow Language Tool Interface
 
 * A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:
 
@@ -212,6 +232,8 @@ rbx$toJSON(pretty = TRUE)
 # output CWL YAML
 rbx$toYAML()
 ```
+
+### Utilities for Tool and Flow
 
 * Utilities for Tool and Flow, for example
 
