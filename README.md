@@ -24,11 +24,11 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
   - [Bioconductor - Development Version](#bioconductor---development-version)
   - [Latest Development Version](#latest-development-version)
 - [Features](#features)
+  - [Flexible Authentication Methods](#flexible-authentication-methods)
   - [Complete API R Client](#complete-api-r-client)
   - [Task Monitoring](#task-monitoring)
   - [Batch Tasks Support](#batch-tasks-support)
   - [Cross Environment Support](#cross-environment-support)
-  - [Flexible Authentication Methods](#flexible-authentication-methods)
   - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
   - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
 - [Tutorials](#tutorials)
@@ -118,6 +118,34 @@ If you have trouble with `pandoc` and do not want to install it,  set `build_vig
 
 The sevenbridges package includes the following features:
 
+### Flexible Authentication Methods
+
+* Multiple authentication methods support.
+
+Direct authentication:
+
+```r
+# direct authentication
+a <- Auth(token = "your_token", platform = "cgc")
+# or use base url
+a <- Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
+```
+
+Authentication via system environment variables:
+
+```r
+sbg_set_env(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
+a <- Auth(from = "env")
+```
+
+Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
+
+```r
+a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+```
+
+Please check `vignette("api", package = "sevenbridges")` for technical details about all available authentication methods.
+
 ### Complete API R Client
 
 * A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
@@ -173,34 +201,6 @@ tsk$monitor()
 ### Cross Environment Support
 
 * Cross-platform support for Seven Bridges environments, such as [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either Amazon Web Services or Google Cloud Platform.
-
-### Flexible Authentication Methods
-
-* Multiple authentication methods support.
-
-Direct authentication:
-
-```r
-# direct authentication
-a <- Auth(token = "your_token", platform = "cgc")
-# or use base url
-a <- Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
-```
-
-Authentication via system environment variables:
-
-```r
-sbg_set_env(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
-a <- Auth(from = "env")
-```
-
-Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
-
-```r
-a <- Auth(from = "file", profile_name = "aws-us-tengfei")
-```
-
-Please check `vignette("api", package = "sevenbridges")` for technical details about all available authentication methods.
 
 ### Common Workflow Language Tool Interface
 
