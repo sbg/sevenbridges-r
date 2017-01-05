@@ -1,4 +1,4 @@
-#' R Client for Seven Bridges Platform API and CWL Tool Builder in R
+#' Seven Bridges Platform API Client and CWL Tool Builder in R
 #'
 #' R client and utilities for Seven Bridges platform API, from Cancer
 #' Genomics Cloud to other Seven Bridges supported platforms.

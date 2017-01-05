@@ -5,7 +5,7 @@
 ### API Client (Authentication)
 
 - Support three authentication methods: direct authentication, via environment variables, or via user configuration file. Compliant with the new API client authentication specification. Please check the latest vignette `vignette("api", package = "sevenbridges")` for the current authentication methods.
-- Updated platform types: now users can choose from `"cgc"`, `"aws-us"`, `"aws-eu"`, `"gcp"`, and `"cavatica"` in `Auth()` to avoid using API base URLs directly.
+- Updated platform types: now users can choose from `"cgc"`, `"aws-us"`, `"aws-eu"`, `"gcp"`, and `"cavatica"` in `Auth()` to avoid using API base URLs explicitly.
 - Removed credential information parsing when package is loaded.
 
 ### API Client (Task and Upload)
@@ -16,7 +16,7 @@
 
 ### Docker Image
 
-- Migrate Docker images to Seven Bridges Docker Hub account ([#43](https://github.com/sbg/sevenbridges-r/issues/43)), now users could use `docker pull sevenbridges/sevenbridges-r`
+- Migrated Docker images to Seven Bridges Docker Hub account ([#43](https://github.com/sbg/sevenbridges-r/issues/43)), now users could use `docker pull sevenbridges/sevenbridges-r`
 
 ### CWL Support
 
