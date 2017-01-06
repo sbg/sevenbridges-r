@@ -258,8 +258,16 @@ setMethod("asList", "DSCList", function(object, ...){
                     r <- x
                 }
             } else if (is(x, "ItemArray")) {
-                r <- list(items = as.character(x$items),
-                          type = as.character(x$type))
+                if(is(x$items, "enum")){
+
+                    r <- list(type = as.character(x$type),
+                              items = x$items$toList())
+                }else{
+                    r <- list(items = as.character(x$items),
+                              type = as.character(x$type))
+
+                }
+
             } else if(is(x, "enum")) {
                 r <- list(name = as.character(x$name),
                           symbols = as.character(x$symbols),
@@ -394,25 +402,6 @@ ComplexEnum <- setSingleEnum("Complex" , levels = .CWL.Complex)
 DatatypeEnum <- setSingleEnum("Datatype",
                               levels = c(.CWL.Primitive, .CWL.Complex, "File"))
 
-#' @rdname Enum
-#' @aliases ItemArray
-#' @export ItemArray
-#' @exportClass ItemArray
-ItemArray <- setRefClass("ItemArray", contains = "CWL",
-                         fields = list(
-                             items = "DatatypeSingleEnum",
-                             name  = "characterORNULL",
-                             type  = "character"),
-                         methods = list(
-                             initialize = function(
-                                 items = "",
-                                 name  = NULL,
-                                 type  = "array") {
-                                 type  <<- type
-                                 name  <<- name
-                                 items <<- DatatypeEnum(deType(items))
-                             }
-                         ))
 
 #' @rdname Enum
 #' @aliases enum
@@ -439,6 +428,35 @@ enum <- setRefClass("enum", contains = "CWL",
                             type <<- type
                         }
                     ))
+
+setClassUnion("DatatypeSingleEnumORenum", c("DatatypeSingleEnum", "enum"))
+
+#' @rdname Enum
+#' @aliases ItemArray
+#' @export ItemArray
+#' @exportClass ItemArray
+ItemArray <- setRefClass("ItemArray", contains = "CWL",
+                         fields = list(
+                             items = "DatatypeSingleEnumORenum",
+                             name  = "characterORNULL",
+                             type  = "character"),
+                         methods = list(
+                             initialize = function(
+                                 items = "",
+                                 name  = NULL,
+                                 type  = "array") {
+
+                                 type  <<- type
+                                 name  <<- name
+
+                                 if("type" %in% names(items) && items$type == "enum"){
+                                     items <<- do.call(enum, items)
+                                 }else{
+                                     items <<- DatatypeEnum(deType(items))
+                                 }
+
+                             }
+                         ))
 
 # TODO: singleEnum <> Enum
 setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray", "enum"))
@@ -1636,7 +1654,7 @@ CommandInputSchema <-
 CommandOutputBinding <-
     setRefClass("CommandOutputBinding", contains = "Binding",
                 fields = list(
-                    glob       = "characterORExpression",
+                    glob       = "characterORExpressionORNULL",
                     outputEval = "ExpressionORNULL"
                 ))
 
@@ -1863,13 +1881,15 @@ SBGWorkflowOutputParameter <- setRefClass("SBGWorkflowOutputParameter",
                                               "sbg:x"              = "numericORNULL",
                                               "sbg:y"              = "numericORNULL",
                                               "sbg:includeInPorts" = "logicalORNULL",
-                                              "required"           = "logicalORNULL"
+                                              "required"           = "logicalORNULL",
+                                              "sbg:fileTypes"      = "characterORNULL"
                                           ),
                                           methods = list(
                                               initialize = function(
                                                   x = NULL, y = NULL,
                                                   includeInPorts = TRUE,
-                                                  required = FALSE, ...) {
+                                                  required = FALSE,
+                                                  fileTypes = NULL, ...) {
                                                   args <- mget(names(formals()),
                                                                sys.frame(sys.nframe()))
                                                   nms <- c("x", "y", "includeInPorts")
@@ -2304,6 +2324,7 @@ input <- function(id = NULL, type = NULL, label = "",
                 ib <- do.call(SCLB, o.b)
             }
 
+
             o <- c(o[!names(o) %in% c("inputBinding",
                                       "sbg:category",
                                       "required",
@@ -2413,11 +2434,16 @@ output <- function(id = NULL, type = "file", label = "",
 
             o.b <- o$outputBinding
             # glob
-            if (length(o.b$glob) == 1 && is.character(o.b$glob)) {
-                res.glob <- o.b$glob
+            if(length(o.b$glob)){
+                if (length(o.b$glob) == 1 && is.character(o.b$glob)) {
+                    res.glob <- o.b$glob
+                } else {
+                    res.glob <- do.call("Expression", o.b$glob)
+                }
             } else {
-                res.glob <- do.call("Expression", o.b$glob)
+                res.glob <- NULL
             }
+
             # load Contents
             if (length(o.b$loadContents)) {
                 res.load <- o.b$loadContetns

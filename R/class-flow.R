@@ -105,7 +105,6 @@
 SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
 
                            fields = list(
-                               "sbg:update"      = "characterORNULL",
                                "sbg:canvas_zoom" = "numericORNULL",
                                "sbg:canvas_y"    = "numericORNULL",
                                "sbg:canvas_x"    = "numericORNULL",
