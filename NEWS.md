@@ -1,3 +1,11 @@
+# sevenbridges 1.5.6
+
+## Improvements
+
+### CWL
+
+- Added more default SBG fields; fixed conversion error; support array type enum ([79274b8](https://github.com/sbg/sevenbridges-r/commit/79274b8d75f838934d736c30f11da417416030c5)).
+
 # sevenbridges 1.5.5
 
 ## Improvements

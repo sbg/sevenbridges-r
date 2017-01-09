@@ -19,7 +19,7 @@ with more seven bridges flabored fields the \code{SBG} class.
 
 \describe{
 \item{\code{context}}{[character] by default:
-"https://github.com/common-workflow-language/common-workflow-language/blob/draft-1/specification/tool-description.md"}
+\url{http://www.commonwl.org/draft-2/}}
 
 \item{\code{owner}}{[list] a list of owner names.}
 

@@ -60,7 +60,7 @@ SBG <- setRefClass("SBG", contains  = "CWL",
                        "sbg:updateRevisionNotes" = "characterORNULL",
                        "sbg:updateModifiedBy"    = "characterORNULL",
                        "sbg:update"              = "characterORNULL"
-                      ),
+                   ),
 
                    methods = list(
 
@@ -110,7 +110,7 @@ SBG <- setRefClass("SBG", contains  = "CWL",
 #' \code{Tool} object into a text JSON/YAML file.
 #'
 #' @field context [character] by default:
-#' "https://github.com/common-workflow-language/common-workflow-language/blob/draft-1/specification/tool-description.md"
+#' \url{http://www.commonwl.org/draft-2/}
 #' @field owner [list] a list of owner names.
 #' @field contributor [list] a list of contributor names.
 #'

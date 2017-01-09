@@ -258,17 +258,15 @@ setMethod("asList", "DSCList", function(object, ...){
                     r <- x
                 }
             } else if (is(x, "ItemArray")) {
-                if(is(x$items, "enum")){
-
+                if (is(x$items, "enum")) {
                     r <- list(type = as.character(x$type),
                               items = x$items$toList())
-                }else{
+                } else {
                     r <- list(items = as.character(x$items),
                               type = as.character(x$type))
-
                 }
 
-            } else if(is(x, "enum")) {
+            } else if (is(x, "enum")) {
                 r <- list(name = as.character(x$name),
                           symbols = as.character(x$symbols),
                           type = as.character(x$type))
@@ -449,9 +447,9 @@ ItemArray <- setRefClass("ItemArray", contains = "CWL",
                                  type  <<- type
                                  name  <<- name
 
-                                 if("type" %in% names(items) && items$type == "enum"){
+                                 if ("type" %in% names(items) && items$type == "enum") {
                                      items <<- do.call(enum, items)
-                                 }else{
+                                 } else {
                                      items <<- DatatypeEnum(deType(items))
                                  }
 
@@ -2434,7 +2432,7 @@ output <- function(id = NULL, type = "file", label = "",
 
             o.b <- o$outputBinding
             # glob
-            if(length(o.b$glob)){
+            if (length(o.b$glob)) {
                 if (length(o.b$glob) == 1 && is.character(o.b$glob)) {
                     res.glob <- o.b$glob
                 } else {
@@ -2819,7 +2817,7 @@ setAs("SBGInputParameter", "data.frame", function(from) {
              ib)
 
     res = lapply(res, function(x) {
-        if(is.null(x))
+        if (is.null(x))
             return("null")
         else
             return(x)
