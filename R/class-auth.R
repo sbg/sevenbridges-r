@@ -486,7 +486,8 @@ Auth <- setRefClass("Auth", fields = list(from         = "character",
                                         .limit = 100
                                         .offset = (i - 1) * 100
                                         req = sevenbridges::api(token, base_url = url,
-                                                                limit = .limit, offset = .offset, ...)
+                                                                limit = .limit, offset = .offset,
+                                                                fields = fields, ...)
                                         req = status_check(req)
                                         res$items = c(res$items, req$items)
                                         setTxtProgressBar(pb, i)
