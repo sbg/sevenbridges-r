@@ -52,7 +52,8 @@ The default value is \code{"default"}.}
 
 \describe{
 \item{\code{api(..., limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset, complete = FALSE)}}{This call returns all API paths, and pass arguments
+  offset = getOption("sevenbridges")$offset, fields = NULL,
+  complete = FALSE)}}{This call returns all API paths, and pass arguments
 to api() function and input token and url automatically}
 
 \item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{If no id provided, This call returns a list of

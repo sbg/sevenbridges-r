@@ -8,7 +8,7 @@ api(token = NULL, version = "v2", path = NULL, method = c("GET", "POST",
   "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
   encode = c("json", "form", "multipart"),
   limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset,
+  offset = getOption("sevenbridges")$offset, fields = NULL,
   base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
 }
 \arguments{
@@ -41,6 +41,13 @@ a length 1 vector as a vector, wrap in \code{I()}.}
 \item{limit}{How many results to return}
 
 \item{offset}{The point at which to start displaying them}
+
+\item{fields}{All API calls take the optional query parameter fields.
+This parameter enables you to specify the fields you want to be returned
+when listing resources (e.g. all your projects) or getting details of a
+specific resource (e.g. a given project). For example, fields="id,name,size"
+to return the fields id, name and size for files. More details please check
+\url{http://docs.sevenbridges.com/reference#section-general-api-information}}
 
 \item{base_url}{defeault is \code{"https://api.sbgenomics.com/v2"}}
 
