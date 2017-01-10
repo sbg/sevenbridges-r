@@ -84,24 +84,19 @@ App <- setRefClass("App", contains = "Item",
                            if (is.null(raw)) {
                                message("get cwl raw file")
                                cwl()
-                               raw_obj <<- convert_app(.self)
+
                            }
-                           if (is.null(raw_obj)) {
-                               raw_obj <<- convert_app(.self)
-                           }
-                           raw_obj$input_matrix(...)
+                           sevenbridges:::input_matrix(raw, ...)
+
                        },
 
                        output_matrix = function(...) {
                            if (is.null(raw)) {
                                message("get cwl raw file")
                                cwl()
-                               raw_obj <<- convert_app(.self)
+
                            }
-                           if (is.null(raw_obj)) {
-                               raw_obj <<- convert_app(.self)
-                           }
-                           raw_obj$output_matrix(...)
+                           sevenbridges:::output_matrix(raw, ...)
                        },
 
                        input_type = function(...) {
@@ -608,3 +603,9 @@ get_steplist_item = function(input) {
     ss = obj$steps
     do.call(SBGStepList, lapply(ss, get_step_item))
 }
+
+
+
+
+
+

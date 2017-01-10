@@ -873,3 +873,236 @@ deType <- function(x) {
     }
     res
 }
+
+#' get input/output matrix out of json cwl file directly
+#'
+#' an efficient way to access json file, no need to convert a json into a Tool or Flow object before access, directly
+#' operate on a list parsed from json file. Compare to \code{convert_app}, it's much faster.
+#'
+#' @param from a json file path
+#' @param new.order a vector of column orders by default for input it's
+#' "id", "label", "type", "required", "prefix", "fileTypes"; For output it's
+#'  "id", "label", "type", "fileTypes"
+#' @param required logical value, show requried input node only or not.
+#' @export input_matrix
+#' @rdname input_output_matrix
+#' @examples
+#' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' input_matrix(tool.in)
+#' input_matrix(tool.in, required = TRUE)
+#' input_matrix(flow.in)
+#' input_matrix(flow.in, c("id", "type"))
+#' input_matrix(flow.in, required = TRUE)
+input_matrix = function(from,
+                        new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+                        required = NULL){
+
+    if(is.character(from) && file.exists(from)){
+        ## json cwl file
+        obj <- fromJSON(from, FALSE)
+    }else{
+        ## parsed list
+        obj <- from
+    }
+
+    in.lst = obj$inputs
+    lst = lapply(in.lst, function(x){
+        ib = x$inputBinding
+        res =  c(x[!names(x) %in% c("inputBinding",
+                                    "sbg:category",
+                                    "required",
+                                    "sbg:fileTypes",
+                                    "type", "fileTypes",
+                                    "sbg:stageInput")],
+                 list(
+
+                     required   = sevenbridges:::is_required(x),
+                     type       = sevenbridges:::make_type(x$type),
+                     category   = x[["sbg:category"]],
+                     fileTypes  = x[["sbg:fileTypes"]],
+                     stageInput = x[["sbg:stageInput"]]),
+                 ib)
+
+        res[sapply(res, is.null)] <- "null"
+        res = do.call(data.frame, res)
+        .fullnames = names(res)
+
+        .names.sbg      = sort(.fullnames[grep("^sbg", .fullnames)])
+        .names.other    = sort(setdiff(.fullnames, .names.sbg))
+        .names.priority = c("id", "type", "required", "fileTypes", "label")
+        .names.p2       = sort(setdiff(.names.other, .names.priority))
+        new.order       = c(.names.priority, .names.p2, .names.sbg)
+
+        res[, new.order]
+    })
+
+    res = suppressWarnings(do.call("bind_rows", lst))
+
+
+    # reorder for File File...
+    idx = res$type %in% c("File", "File...")
+    res1 = res[idx, ]
+    res2 = res[!idx, ]
+    res = rbind(res1, res2)
+
+    # required or not
+
+    if (!is.null(required)) {
+        stopifnot(is.logical(required))
+        res = res[res$required == required, ]
+        if (!nrow(res)) {
+            return(NULL)
+        }
+    }
+
+    if (!is.null(new.order)) {
+        new.order = intersect(new.order, names(res))
+        res[, new.order]
+    } else {
+        res
+    }
+}
+
+#' @rdname input_output_matrix
+#' @export output_matrix
+#' @examples
+#' tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+#' flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+#' output_matrix(tool.in)
+#' output_matrix(flow.in)
+output_matrix = function(from, new.order = c("id", "label", "type", "fileTypes")){
+
+    if(is.character(from) && file.exists(from)){
+        ## json cwl file
+        obj <- fromJSON(from, FALSE)
+    }else{
+        ## parsed list
+        obj <- from
+    }
+
+    .c = obj$class
+    out.lst = obj$outputs
+    switch(.c,
+           "CommandLineTool" = {
+               lst = lapply(out.lst, function(x){
+
+                   o.b <- x$outputBinding
+                   # glob
+                   if (length(o.b$glob) == 1 && is.character(o.b$glob)) {
+                       res.glob <- o.b$glob
+                   } else {
+                       res.glob <- o.b$glob$script
+                   }
+                   # load Contents
+                   if (length(o.b$loadContents)) {
+                       res.load <- o.b$loadContetns
+                   } else {
+                       res.load <- NULL
+                   }
+                   #
+                   if (length(o.b$outputEval)) {
+                       if (length(o.b$outputEval) == 1 &&
+                           is.character(o.b$outputEval)){
+                           res.eval <- o.b$outputEval
+                       } else {
+                           res.eval <- o.b$outputEval$script
+                       }
+                   } else {
+                       res.eval <- NULL
+                   }
+                   ob <- list(glob = res.glob,
+                              loadContents = res.load,
+                              outputEval = res.eval,
+                              inheritMetadataFrom = x$`sbg:inheritMetadataFrom`,
+                              metadata = x$`sbg:metadata`,
+                              secondaryFiles = x$seconaryFiles)
+
+                   res =  c(x[!names(x) %in% c("sbg:fileTypes",
+                                               "outputBinding",
+                                               "type",
+                                               "fileTypes",
+                                               "sbg:inheritMetadataFrom",
+                                               "sbg:metadata")],
+                            list(type = sevenbridges:::make_type(x$type),
+
+                                 fileTypes = x[["sbg:fileTypes"]]), ob)
+
+                   res[sapply(res, is.null)] <- "null"
+
+                   res = do.call(data.frame, res)
+                   .fullnames = names(res)
+
+                   .names.sbg      = sort(.fullnames[grep("^sbg", .fullnames)])
+                   .names.other    = sort(setdiff(.fullnames, .names.sbg))
+                   .names.priority = c("id", "label", "type")
+                   .names.p2       = sort(setdiff(.names.other, .names.priority))
+                   new.order       = c(.names.priority, .names.p2, .names.sbg)
+
+                   res[, new.order]
+               })
+
+               res  = suppressWarnings(do.call("bind_rows", lst))
+               # reorder for File File...
+               idx  = res$type %in% c("File", "File...")
+               res1 = res[idx, ]
+               res2 = res[!idx, ]
+               res = rbind(res1, res2)
+
+               # new order
+               if (!is.null(new.order)) {
+                   new.order = intersect(new.order, names(res))
+                   res[, new.order]
+               } else {
+                   res
+               }
+           },
+           "Workflow" = {
+               lst = lapply(out.lst, function(x){
+                   res =  c(x[!names(x) %in% c("sbg:fileTypes",
+                                               "type",
+                                               "fileTypes",
+                                               "sbg:inheritMetadataFrom",
+                                               "sbg:metadata")],
+                            list(type = sevenbridges:::make_type(x$type),
+
+                                 fileTypes = x[["sbg:fileTypes"]]))
+
+
+                   res[sapply(res, is.null)] <- "null"
+                   res = do.call(data.frame, res)
+                   .fullnames = names(res)
+
+                   .names.sbg      = sort(.fullnames[grep("^sbg", .fullnames)])
+                   .names.other    = sort(setdiff(.fullnames, .names.sbg))
+                   .names.priority = c("id", "label", "type")
+                   .names.p2       = sort(setdiff(.names.other, .names.priority))
+                   new.order       = c(.names.priority, .names.p2, .names.sbg)
+
+                   res[, new.order]
+               })
+               res  = suppressWarnings(do.call("bind_rows", lst))
+               # reorder for File File...
+               idx  = res$type %in% c("File", "File...")
+               res1 = res[idx, ]
+               res2 = res[!idx, ]
+               res = rbind(res1, res2)
+               # new order
+               if ("link_to" %in% new.order || is.null(new.order)) {
+                   lm = link_map()
+                   res$link_to = sapply(res$id, function(i) {
+                       paste0(as.character(lm[which(lm$id == i), "source"]), collapse = " | ")
+                   })
+               }
+
+               if (!is.null(new.order)) {
+                   new.order = intersect(new.order, names(res))
+                   res[, new.order]
+               } else {
+                   res
+               }
+
+
+           })
+
+}

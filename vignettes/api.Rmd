@@ -455,14 +455,15 @@ To draft a new task, you need to specify the following:
 
 You can always check the App details on the visual interface for task input requirements. To find the required inputs with R, you need to get an `App` object first.
 
+
+
 ```{r}
 app <- a$app(id = "tengfei/api-testing-2/newcopyofstar")
 # get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
+# get required node only
 app$input_matrix(c("id", "label", "type"), required = TRUE)
-# get required input names and types only
-app$get_required()
 ```
 
 Conversely, you can load the app from a CWL JSON and convert it into an R object first, as shown below.
@@ -474,8 +475,20 @@ app <- convert_app(f1)
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
 app$input_matrix(c("id", "label", "type"), required = TRUE)
-# get required input names and types only
-app$get_required()
+```
+
+Note `input_matrix` and `output_matrix` are useful accessor for Tool, Flow, App object as shown below in App example, you can directly call these two function on a JSON file as well. 
+
+```{r}
+tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+input_matrix(tool.in)
+input_matrix(tool.in, required = TRUE)
+input_matrix(flow.in)
+input_matrix(flow.in, c("id", "type"))
+input_matrix(flow.in, required = TRUE)
+output_matrix(tool.in)
+output_matrix(flow.in)
 ```
 
 In the response body, locate the names of the required inputs. Note that task inputs need to match the expected data type and name. In the above example, we see two required fields:
