@@ -27,6 +27,12 @@
 #' a length 1 vector as a vector, wrap in \code{I()}.
 #' @param limit How many results to return
 #' @param offset The point at which to start displaying them
+#' @param fields All API calls take the optional query parameter fields.
+#' This parameter enables you to specify the fields you want to be returned
+#' when listing resources (e.g. all your projects) or getting details of a
+#' specific resource (e.g. a given project). For example, fields="id,name,size"
+#' to return the fields id, name and size for files. More details please check
+#' \url{http://docs.sevenbridges.com/reference#section-general-api-information}
 #' @param base_url defeault is \code{"https://api.sbgenomics.com/v2"}
 #' @param ... passed to GET/POST/PUT/DELETE/PATCH call.
 #'
@@ -47,6 +53,7 @@ api = function(token = NULL, version = 'v2', path = NULL,
                encode = c("json", "form", "multipart"),
                limit = getOption("sevenbridges")$limit,
                offset = getOption("sevenbridges")$offset,
+               fields = NULL,
                base_url = paste0("https://api.sbgenomics.com/", version, "/"),
                ...) {
 
@@ -63,7 +70,7 @@ api = function(token = NULL, version = 'v2', path = NULL,
     )
 
     # setup query
-    query = c(query, list(limit = limit, offset = offset))
+    query = c(query, list(limit = limit, offset = offset, fields = fields))
     idx = !sapply(query, is.null)
     if (any(idx)) {
         query <- query[idx]

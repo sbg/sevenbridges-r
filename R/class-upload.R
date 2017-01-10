@@ -181,7 +181,6 @@ Upload <- setRefClass("Upload", contains = "Item",
                               # size <<- res$size
                               parallel_uploads <<-  as.logical(res$parallel_uploads)
                               part_length      <<- as.integer(ceiling(.self$size/part_size))
-                              message("Initialized")
                               invisible(res)
 
                           },
@@ -216,16 +215,19 @@ Upload <- setRefClass("Upload", contains = "Item",
                               res
                           },
 
-                          upload_file = function(metadata = list(), overwrite = FALSE, verbal = TRUE) {
+                          upload_file = function(metadata = list(), overwrite = FALSE,
+                                                 verbal = TRUE) {
 
                               # make this one easy to use
 
                               res <- upload_init(overwrite = overwrite)
                               N   <- part_length
+                              if(verbal){
                               message("size: ", size)
                               message("part_size: ", part_size)
                               message("part_length: ", part_length)
                               message("parallel_uploads: ", parallel_uploads)
+                              }
 
                               if(verbal){
                                   pb <- txtProgressBar(min = 0, max = N, style = 3)
@@ -255,12 +257,14 @@ Upload <- setRefClass("Upload", contains = "Item",
                               close(con)
                               .end = Sys.time()
                               .diff = .end - .start
+                              if(verbal){
                               message("file uploading complete in: ",
                                       ceiling(as.numeric(.diff)),  " ", attr(.diff, "unit") )
 
                               message("Estimated uploading speed: ",
                                       ceiling(size/1024/1024/as.numeric(.diff)),
                                       " Mb/", attr(.diff, "unit"))
+                              }
 
                               # # when we complete we could add meta
                               # meta <- .self$metadata$asList()

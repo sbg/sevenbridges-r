@@ -847,6 +847,57 @@ a$app(visibility = "public", name = "bed converter", complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
+## Ouery parameter 'fields'
+
+Please read the documentation [detail](http://docs.sevenbridges.com/reference#section-general-api-information)
+
+All API calls take the optional query parameter fields. This parameter enables you
+to specify the fields you want to be returned when listing resources 
+(e.g. all your projects) or getting details of a specific resource (e.g. a given project).
+
+The fields parameter can be used in the following ways:
+
+1. No fields parameter specified: calls return default fields. For calls that return 
+complete details of a single resource, this is all their properties; for calls that list 
+resources of a certain type, this is some default properties.
+
+2. The fields parameter can be set to a list of fields: for example, to return the fields
+id, name and size for files in a project, you may issue the call `p$file(fields = "id,name,size")`
+
+3. The fields parameter can be used to exclude a specific file: if you wish to omit certain 
+field from the response, do so using the fields parameter with the prefix !: for example, 
+to get the details of a file without listing its metadata, issue a call 
+`p$file(fields = '!metadata')` The entire metadata field will be removed from the response.
+
+4. The fields parameter can be used to include or omit certain nested fields, in the same 
+way as listed in 2 and 3 above: for example, you can use metadata.sample_id or 
+origin.task for files.
+
+5. To see all fields for a resource, specify `fields="_all"`. This returns all fields 
+for each resource returned. Note that if you are getting the details of a specific resource, 
+the use of `fields="_all"` won't return any more properties than would have been shown 
+without this parameter – the use case is instead for when you are listing details 
+of many resources. Please use with care if your resource has particularly large fields; 
+for example, the raw field for an app resource contains the complete CWL specification 
+of the app which can result in bulky response if listing many apps.
+
+6. Negations and nesting can be combined freely, so, for example, you can issue `p$file(fields="id,name,status,!metadata.library,!origin")` or `p$task(fields="!inputs,!outputs")`.
+
+Please try following examples
+
+```{r}
+## default fields id, name, project
+p$file()
+## return file(s) with id, name, siae information
+p$file(fields = "id,name,size")
+## return file(s) with all available info
+p$file(detail = TRUE)
+## same as above
+p$file(fields = "_all")
+```
+
+<div align="right"><a href="#top">top</a></div>
+
 ## Rate Limits
 
 This call returns information about your current rate limit.

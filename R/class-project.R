@@ -280,7 +280,7 @@ Project <- setRefClass("Project", contains = "Item",
                                              manifest_file     = NULL,
                                              manifest_metadata = TRUE,
                                              subset, select,
-                                             verbal            = FALSE,
+                                             verbal            = NULL,
                                              ...) {
 
                                # upload via a manifest
@@ -353,10 +353,13 @@ Project <- setRefClass("Project", contains = "Item",
 
                                    }
 
+                                   if(is.null(verbal))
+                                       verbal <- FALSE
+
                                    # if verbal = TRUE, print file uploading progress info for each file
                                    # if verbal = FALSE, print all files uploading progress in single bar
                                    if(!verbal){
-                                       message("uploaded files progress:")
+                                       message("files uploading progress:")
                                        pb <- txtProgressBar(min = 0, max = nrow(manf.sub), style = 3)
                                    }
 
@@ -390,14 +393,34 @@ Project <- setRefClass("Project", contains = "Item",
 
                                # if filename is a list
                                if (length(filename) > 1) {
-                                   for (fl in filename) {
-                                       message(fl)
-                                       if (file.info(fl)$size > 0) {
-                                           upload(fl, metadata = metadata,
-                                                  overwrite = overwrite, ...)
+                                   if(is.null(verbal))
+                                       verbal <- FALSE
+                                   # if verbal = TRUE, print file uploading progress info for each file
+                                   # if verbal = FALSE, print all files uploading progress in single bar
+                                   if(!verbal){
+                                       message("files uploading progress:")
+                                       pb <- txtProgressBar(min = 0, max = length(filename), style = 3)
+                                   }
+                                   for (i in 1:length(filename)) {
+                                       fl = filename[i]
+                                       if(verbal){
+                                           message(fl)
+                                           if (file.info(fl)$size > 0) {
+                                               upload(fl, metadata = metadata,
+                                                      overwrite = overwrite, verbal = verbal, ...)
+                                           } else {
+                                               warning("skip uploading: empty file")
+                                           }
                                        } else {
-                                           warning("skip uploading: empty file")
+                                           if (file.info(fl)$size > 0) {
+                                               upload(fl, metadata = metadata,
+                                                      overwrite = overwrite, verbal = verbal, ...)
+                                               setTxtProgressBar(pb, i)
+                                           }
                                        }
+                                   }
+                                   if(!verbal){
+                                       close(pb)
                                    }
                                    return(invisible())
                                }
@@ -407,7 +430,7 @@ Project <- setRefClass("Project", contains = "Item",
                                    message("Upload all files in the folder: ", filename)
                                    fls = list.files(filename, recursive = TRUE, full.names = TRUE)
                                    upload(fls, metadata = metadata,
-                                          overwrite = overwrite, ...)
+                                          overwrite = overwrite, verbal = verbal, ...)
                                    return(invisible())
                                }
 
@@ -420,6 +443,8 @@ Project <- setRefClass("Project", contains = "Item",
                                           project_id = id,
                                           metadata   = metadata, ...)
 
+                               if(is.null(verbal))
+                                   verbal <- TRUE
                                u$upload_file(metadata = metadata,
                                              overwrite = overwrite,
                                              verbal = verbal)
