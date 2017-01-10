@@ -2,9 +2,19 @@
 
 ## Improvements
 
+### API Client
+
+- Added `fields` as query default in API calls, the same with `limit`, `offset`; now requests on file detail will use `fields = _all` directly so that only one request is issued. The same applies to updating a upload logic for folder/multiple files ([54488bc](https://github.com/sbg/sevenbridges-r/commit/54488bcaa77e999b198999e81af8c6c471908d9f)). Thanks: Raunaq Malhotra.
+
 ### CWL
 
-- Added more default SBG fields; fixed conversion error; support array type enum ([79274b8](https://github.com/sbg/sevenbridges-r/commit/79274b8d75f838934d736c30f11da417416030c5)).
+- Added more default SBG fields to fix conversion error; support array type enum ([79274b8](https://github.com/sbg/sevenbridges-r/commit/79274b8d75f838934d736c30f11da417416030c5)).
+
+## Bug Fixes
+
+### CWL
+
+- Fixed `filename` and `fileContent` conversion to `Expression` ([4c0a686](https://github.com/sbg/sevenbridges-r/commit/4c0a6867b597d0c6e882ed63216c7c3882257404)).
 
 # sevenbridges 1.5.5
 
