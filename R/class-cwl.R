@@ -731,8 +731,25 @@ SubworkflowFeatureRequirement <-
 #' @rdname ProcessRequirement
 FileDef <- setRefClass("FileDef",
                        fields = list(
-                           filename    = "characterORExpression",
-                           fileContent = "characterORExpression"
+                           filename    = "characterORExpressionORNULL",
+                           fileContent = "characterORExpressionORNULL"
+                       ),
+                       methods = list(
+                           initialize = function(filename = NULL, fileContent = NULL){
+
+                               if (is.list(filename)) {
+                                   filename <<- do.call(Expression, filename)
+                               } else {
+                                   filename <<- filename
+                               }
+
+
+                               if (is.list(fileContent)) {
+                                   fileContent <<- do.call(Expression, fileContent)
+                               } else {
+                                   fileContent <<- fileContent
+                               }
+                           }
                        ))
 
 #' @export FileDefList
