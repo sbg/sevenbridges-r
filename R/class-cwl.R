@@ -2273,6 +2273,7 @@ SBGInputParameter <- setRefClass(
                   "sbg:includeInPorts"   = "logicalORNULL",
                   "sbg:toolDefaultValue" = "characterORNULL",
                   "sbg:altPrefix"        = "characterORNULL",
+                  "sbg:suggestedValue"   = "listORNULL",
                   "required"             = "logicalORNULL",
                   "batchType"            = "characterORNULL"),
     methods = list(
@@ -2284,6 +2285,7 @@ SBGInputParameter <- setRefClass(
                               includeInPorts   = NULL,
                               toolDefaultValue = NULL,
                               altPrefix        = NULL,
+                              suggestedValue   = NULL,
                               required         = FALSE,
                               batchType        = NULL, ...) {
 
@@ -2301,6 +2303,7 @@ SBGInputParameter <- setRefClass(
             .self$field("sbg:includeInPorts", includeInPorts)
             .self$field("sbg:toolDefaultValue", toolDefaultValue)
             .self$field("sbg:altPrefix", altPrefix)
+            .self$field("sbg:suggestedValue", suggestedValue)
             .self$field("batchType", batchType)
             .self$field("required", required)
             callSuper(...)
@@ -2988,3 +2991,6 @@ setAs("SBGWorkflowOutputParameterList", "data.frame", function(from) {
     rbind(res1, res2)
 
 })
+
+
+
