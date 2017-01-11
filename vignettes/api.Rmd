@@ -477,7 +477,7 @@ app$input_matrix(c("id", "label", "type"))
 app$input_matrix(c("id", "label", "type"), required = TRUE)
 ```
 
-Note `input_matrix` and `output_matrix` are useful accessor for Tool, Flow, App object as shown below in App example, you can directly call these two function on a JSON file as well. 
+Note `input_matrix` and `output_matrix` are useful accessor for `Tool`, `Flow`, `App` object as shown below in App example, you can directly call these two function on a JSON file as well. 
 
 ```{r}
 tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")

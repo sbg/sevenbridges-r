@@ -3,7 +3,7 @@
 \name{input_matrix}
 \alias{input_matrix}
 \alias{output_matrix}
-\title{get input/output matrix out of json cwl file directly}
+\title{Get input/output matrix out of JSON CWL file directly}
 \usage{
 input_matrix(from, new.order = c("id", "label", "type", "required", "prefix",
   "fileTypes"), required = NULL)
@@ -11,17 +11,19 @@ input_matrix(from, new.order = c("id", "label", "type", "required", "prefix",
 output_matrix(from, new.order = c("id", "label", "type", "fileTypes"))
 }
 \arguments{
-\item{from}{a json file path}
+\item{from}{JSON file path}
 
 \item{new.order}{a vector of column orders by default for input it's
-"id", "label", "type", "required", "prefix", "fileTypes"; For output it's
- "id", "label", "type", "fileTypes"}
+\code{"id"}, \code{"label"}, \code{"type"}, \code{"required"},
+\code{"prefix"}, \code{"fileTypes"}; For output it's
+\code{"id"}, \code{"label"}, \code{"type"}, \code{"fileTypes"}}
 
 \item{required}{logical value, show requried input node only or not.}
 }
 \description{
-an efficient way to access json file, no need to convert a json into a Tool or Flow object before access, directly
-operate on a list parsed from json file. Compare to \code{convert_app}, it's much faster.
+An efficient way to access JSON file, no need to convert a JSON into a
+\code{Tool} or \code{Flow} object before access, directly operate on a
+list parsed from JSON file. Compare to \code{convert_app}, it is much faster.
 }
 \examples{
 tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
