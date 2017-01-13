@@ -1,6 +1,6 @@
 Package: sevenbridges
 Type: Package
-Title: Seven Bridges Platform API Client and CWL Tool Builder in R
+Title: Seven Bridges Platform API Client and Common Workflow Language Tool Builder in R
 Version: 1.5.6
 Date: 2017-01-11
 Authors@R: c(
