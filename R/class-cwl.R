@@ -2310,7 +2310,7 @@ SBGInputParameter <- setRefClass(
 
         }))
 
-is_required = function(x) {
+.is_required = function(x) {
     # x is input item
     !(is.character(x$type[[1]]) && x$type[[1]] == "null")
 }
@@ -2351,7 +2351,7 @@ input <- function(id = NULL, type = NULL, label = "",
                                       "fileTypes",
                                       "sbg:stageInput")],
                    list(inputBinding = ib,
-                        required     = is_required(o),
+                        required     = .is_required(o),
                         type         = format_type(o$type),
                         category     = o[["sbg:category"]],
                         fileTypes    = o[["sbg:fileTypes"]],
@@ -2829,8 +2829,8 @@ setAs("SBGInputParameter", "data.frame", function(from) {
                                     "sbg:stageInput")],
              list(
                  # inputBinding = ib,
-                 required   = is_required(lst),
-                 type       = make_type(lst$type),
+                 required   = .is_required(lst),
+                 type       = .make_type(lst$type),
                  category   = lst[["sbg:category"]],
                  fileTypes  = lst[["sbg:fileTypes"]],
                  stageInput = lst[["sbg:stageInput"]]),
@@ -2909,7 +2909,7 @@ setAs("SBGCommandOutputParameter", "data.frame", function(from) {
                                     "fileTypes",
                                     "sbg:inheritMetadataFrom",
                                     "sbg:metadata")],
-             list(type = make_type(lst$type),
+             list(type = .make_type(lst$type),
 
                   fileTypes = lst[["sbg:fileTypes"]]), ob)
 
@@ -2954,7 +2954,7 @@ setAs("SBGWorkflowOutputParameter", "data.frame", function(from) {
                                     "fileTypes",
                                     "sbg:inheritMetadataFrom",
                                     "sbg:metadata")],
-             list(type = make_type(lst$type),
+             list(type = .make_type(lst$type),
 
                   fileTypes = lst[["sbg:fileTypes"]]))
 

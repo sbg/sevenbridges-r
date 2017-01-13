@@ -358,7 +358,7 @@ Tool <- setRefClass("Tool", contains = c("CommandLineTool", "SBG"),
                             res = sapply(.inputs, function(i) {
                                 if (full) {
                                     res = paste0(tool.name, ".", de_sharp(i$id))
-                                    names(res) = make_type(i$toList()$type)
+                                    names(res) = .make_type(i$toList()$type)
                                     res
                                 } else {
                                     res = i$id
@@ -377,7 +377,7 @@ Tool <- setRefClass("Tool", contains = c("CommandLineTool", "SBG"),
                             res = sapply(outputs, function(o) {
                                 if (full) {
                                     res = paste0(tool.name, ".", de_sharp(o$id))
-                                    names(res) =  make_type(o$toList()$type)
+                                    names(res) = .make_type(o$toList()$type)
                                     res
                                 } else {
                                     res = o$id

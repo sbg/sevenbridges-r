@@ -627,7 +627,7 @@ getOutputId <- function(x) {
     }
 }
 
-make_type = function(.t) {
+.make_type = function(.t) {
     .t = sapply(.t, function(s) {
         # file array problem
         if (!is.null(names(s)) && "type" %in% names(s)) {
@@ -659,7 +659,7 @@ getInputType <- function(x) {
         sapply(ins, function(i) {
             .t <- i$type
             .id <- gsub("^#", "", i$id)
-            .t <- make_type(.t)
+            .t <- .make_type(.t)
             res <- .t
             names(res) <- .id
             res
@@ -675,7 +675,7 @@ getOutputType <- function(x) {
         sapply(os, function(i) {
             .t <- i$type
             .id <- gsub("^#", "", i$id)
-            .t <- make_type(.t)
+            .t <- .make_type(.t)
 
             res <- .t
             names(res) <- .id
@@ -917,8 +917,8 @@ input_matrix = function(from,
                                     "sbg:fileTypes",
                                     "type", "fileTypes",
                                     "sbg:stageInput")],
-                 list(required   = sevenbridges::is_required(x),
-                      type       = sevenbridges::make_type(x$type),
+                 list(required   = .is_required(x),
+                      type       = .make_type(x$type),
                       category   = x[["sbg:category"]],
                       fileTypes  = x[["sbg:fileTypes"]],
                       stageInput = x[["sbg:stageInput"]]),
@@ -1027,7 +1027,7 @@ output_matrix = function(from,
                                                "fileTypes",
                                                "sbg:inheritMetadataFrom",
                                                "sbg:metadata")],
-                            list(type = sevenbridges::make_type(x$type),
+                            list(type = .make_type(x$type),
                                  fileTypes = x[["sbg:fileTypes"]]),
                             ob)
 
@@ -1071,7 +1071,7 @@ output_matrix = function(from,
                                                "fileTypes",
                                                "sbg:inheritMetadataFrom",
                                                "sbg:metadata")],
-                            list(type = sevenbridges::make_type(x$type),
+                            list(type = .make_type(x$type),
                                  fileTypes = x[["sbg:fileTypes"]]))
 
                    res[sapply(res, is.null)] <- "null"
