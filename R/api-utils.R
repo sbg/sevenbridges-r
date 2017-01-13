@@ -917,8 +917,8 @@ input_matrix = function(from,
                                     "sbg:fileTypes",
                                     "type", "fileTypes",
                                     "sbg:stageInput")],
-                 list(required   = sevenbridges:::is_required(x),
-                      type       = sevenbridges:::make_type(x$type),
+                 list(required   = sevenbridges::is_required(x),
+                      type       = sevenbridges::make_type(x$type),
                       category   = x[["sbg:category"]],
                       fileTypes  = x[["sbg:fileTypes"]],
                       stageInput = x[["sbg:stageInput"]]),
@@ -1027,7 +1027,7 @@ output_matrix = function(from,
                                                "fileTypes",
                                                "sbg:inheritMetadataFrom",
                                                "sbg:metadata")],
-                            list(type = sevenbridges:::make_type(x$type),
+                            list(type = sevenbridges::make_type(x$type),
                                  fileTypes = x[["sbg:fileTypes"]]),
                             ob)
 
@@ -1071,7 +1071,7 @@ output_matrix = function(from,
                                                "fileTypes",
                                                "sbg:inheritMetadataFrom",
                                                "sbg:metadata")],
-                            list(type = sevenbridges:::make_type(x$type),
+                            list(type = sevenbridges::make_type(x$type),
                                  fileTypes = x[["sbg:fileTypes"]]))
 
                    res[sapply(res, is.null)] <- "null"
