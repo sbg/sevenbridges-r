@@ -886,6 +886,7 @@ deType <- function(x) {
 #' \code{"prefix"}, \code{"fileTypes"}; For output it's
 #' \code{"id"}, \code{"label"}, \code{"type"}, \code{"fileTypes"}
 #' @param required logical value, show requried input node only or not.
+#' @return A data frame of input/output information.
 #' @export input_matrix
 #' @rdname input_output_matrix
 #' @examples

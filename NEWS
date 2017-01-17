@@ -4,13 +4,13 @@
 
 ### API Client
 
-- Added `fields` as query default in API calls, the same with `limit`, `offset`; now requests on file detail will use `fields = _all` directly so that only one request is issued. The same applies to updating a upload logic for folder/multiple files ([54488bc](https://github.com/sbg/sevenbridges-r/commit/54488bcaa77e999b198999e81af8c6c471908d9f)). Thanks: Raunaq Malhotra.
+- Added `fields` as query default in API calls, the same with `limit`, `offset`; now requests on file details will use `fields = "_all"` directly so that only one request is issued. The same applies to updating a upload logic for folder/multiple files ([54488bc](https://github.com/sbg/sevenbridges-r/commit/54488bcaa77e999b198999e81af8c6c471908d9f)). Thanks: Raunaq Malhotra.
 
-- Added functions `input_matrix()` and `output_matrix()` ([2ec7c84](https://github.com/sbg/sevenbridges-r/commit/2ec7c84ede491e50639502ca0d34bae04c5cde8f)). Now it can work on JSON directly, and app will use this method to quickly access JSON list instead of convert it to `Tool` or `Flow` objects. It is faster than the old method, and more stable to custom fields.
+- Added functions `input_matrix()` and `output_matrix()` ([2ec7c84](https://github.com/sbg/sevenbridges-r/commit/2ec7c84ede491e50639502ca0d34bae04c5cde8f)) to extract input/output matrix from CWL JSON files directly, without converting CWL JSON to `Tool` or `Flow` objects. This is a faster implementation compared to the old method, and more stable to custom fields.
 
 ### CWL
 
-- Added more default SBG fields to fix conversion error; support array type enum ([79274b8](https://github.com/sbg/sevenbridges-r/commit/79274b8d75f838934d736c30f11da417416030c5), [8ff4c68](https://github.com/sbg/sevenbridges-r/commit/8ff4c6832e7aff63fbdeb0904d0d7f937334eb0c)).
+- Added more default SBG fields to fix conversion errors; support array type enum ([79274b8](https://github.com/sbg/sevenbridges-r/commit/79274b8d75f838934d736c30f11da417416030c5), [8ff4c68](https://github.com/sbg/sevenbridges-r/commit/8ff4c6832e7aff63fbdeb0904d0d7f937334eb0c)).
 
 ## Bug Fixes
 
@@ -81,7 +81,7 @@
 - Full support for API V2, user-friendly call from R
 - CWL Draft 2+ generator in R, create JSON/YAML tool directly
 - 5 Vignettes added for comprehensive tutorials and reference
-- Three examples inlcuded under inst/docker for cwl app examples
+- Three examples inlcuded under inst/docker for CWL app examples
 - Auth configuration file to maintain multiple platforms and user account
 - Works for multiple Seven Bridges supported platforms
 - More features like task hook function to ease the automation

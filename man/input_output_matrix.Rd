@@ -20,6 +20,9 @@ output_matrix(from, new.order = c("id", "label", "type", "fileTypes"))
 
 \item{required}{logical value, show requried input node only or not.}
 }
+\value{
+A data frame of input/output information.
+}
 \description{
 An efficient way to access JSON file, no need to convert a JSON into a
 \code{Tool} or \code{Flow} object before access, directly operate on a
