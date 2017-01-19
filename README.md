@@ -319,7 +319,7 @@ The best place to ask questions about the sevenbridges package is the [mailing l
 
 | Time              | Event  | Location |
 |:------------------|:-------|:---------|
-| Jan 12, 2017 | [Genomics in the Cloud - Boston Bioconductor Meetup](https://www.meetup.com/Boston-R-Bioconductor-for-genomics/events/235580582/) (talk) | Dana-Farber Cancer Institute, Boston, MA |
+| Jan 12, 2017 | [Genomics in the Cloud - Boston Bioconductor Meetup](https://www.meetup.com/Boston-R-Bioconductor-for-genomics/events/235580582/) (talk) [[slides](https://nanx.me/talks/bioc-meetup-cgc-170112.pdf)] | Dana-Farber Cancer Institute, Boston, MA |
 | Sep 12 - 14, 2016 | [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) (poster) | University of Oxford, Oxford, UK |
 | May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html) (talk) | Renmin University of China, Beijng, China |
 | Jun 27 - 30, 2016 | [The R User Conference 2016](http://user2016.org/) (talk) | Stanford University, Stanford, CA |
