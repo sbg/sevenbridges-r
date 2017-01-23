@@ -28,4 +28,8 @@ after_success:
 
 notifications:
   email:
-    on_failure: yintengfei@gmail.com
+    recipients:
+      - yintengfei@gmail.com
+      - nan.xiao@sbgenomics.com
+    on_success: change
+    on_failure: always
