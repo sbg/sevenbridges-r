@@ -301,7 +301,7 @@ _Note_: Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a 
 The best place to ask questions about the sevenbridges package is the [mailing list](https://groups.google.com/forum/#!forum/sevenbridges-r).
 
 - __Q__: Does this package support Seven Bridges' API v1 which was not CWL compatible?<br />
-  __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated.
+  __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated eventually.
 
 - __Q__: Which version of the Common Workflow Language (CWL) is supported?<br />
   __A__: We support draft 2 and are making progress on supporting draft 3.
@@ -313,7 +313,7 @@ The best place to ask questions about the sevenbridges package is the [mailing l
   __A__: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use `options(warn = -1)`
 
 - __Q__: I still have problems despite dismissing the messages.<br />
-  __A__: Please try to use the latest package on GitHub or update your package on Bioconductor. This usually includes the most recent bug fixes.
+  __A__: Please try to use the latest package on GitHub or [update installed Bioconductor packages](https://bioconductor.org/install/#update-bioconductor-packages). This usually includes the most recent bug fixes.
 
 ## Events
 
@@ -332,4 +332,4 @@ All feedback is welcome! Please file bug reports/feature requests on the [issue 
 
 <hr>
 
-© 2016 Seven Bridges Genomics, Inc. Licensed under the Apache License 2.0.
+© 2017 Seven Bridges Genomics, Inc. Licensed under the Apache License 2.0.
