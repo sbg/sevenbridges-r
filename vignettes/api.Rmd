@@ -33,7 +33,7 @@ Learn more from our documentation on the [Seven Bridges Platform](http://docs.se
 
 The `sevenbridges` package only supports v2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.
 
-There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like `path`, `query`, and `body`. These are documented in the API reference libraries for the [Seven Bridges Platform](http://docs.sevenbridges.com/v1.0/docs/list-of-api-calls) and the [CGC](http://docs.cancergenomicscloud.org/docs/new-1). An example of a low-level request to "list all projects" is shown below. In this request, you can also pass `query` and `body` as a list.
+There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like `path`, `query`, and `body`. These are documented in the API reference libraries for the [Seven Bridges Platform](http://docs.sevenbridges.com/reference#list-all-api-paths) and the [CGC](http://docs.cancergenomicscloud.org/docs/new-1). An example of a low-level request to "list all projects" is shown below. In this request, you can also pass `query` and `body` as a list.
 
 ```{r}
 library("sevenbridges")
@@ -108,7 +108,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 Install the latest version for `sevenbridges` from GitHub with the following:
 
 ```r
-source("http://bioconductor.org/biocLite.R")
+source("https://bioconductor.org/biocLite.R")
 biocLite("readr")
 
 devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,

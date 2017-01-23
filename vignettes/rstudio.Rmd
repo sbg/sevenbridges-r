@@ -68,7 +68,7 @@ docker run -d -p 8787:8787 -e USER=<username> -e PASSWORD=<password> rocker/rstu
 
 You will be able to access the RStudio in the browser by something like
 
-`http://<your ip address>:8787`
+`http://<your_ip_address>:8787`
 
 Sometimes you want to add more users, to add users
 

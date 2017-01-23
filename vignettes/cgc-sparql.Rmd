@@ -27,15 +27,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 There are currently three ways to find the data you need on CGC:
 
-- Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser)
-- Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
-- Most sweet: use our Datasets API, by creating a query list in R (comming soon)
+- Most easy: use our powerful and pretty GUI called 'data explorer' interactively on the platform, please read the tutorial [here](http://docs.cancergenomicscloud.org/docs/about-the-data-browser).
+- Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-via-sparql).
+- Most sweet: use CGC Datasets API, by creating a query list in R (comming soon).
 
 # Quick Start
 
 ## Graphical data explorer
 
-Please read the tutorial [here](http://docs.cancergenomicscloud.org/docs/the-data-browser).
+Please read the tutorial [here](http://docs.cancergenomicscloud.org/docs/about-the-data-browser).
 
 ## SPARQL examples
 
@@ -43,10 +43,10 @@ Seven Bridges' SPARQL console, available at [https://opensparql.sbgenomics.com](
 
 Please read following tutorials first
 
-- [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries)
-- [Examples of TCGA metadata queries in SPARQL](http://docs.cancergenomicscloud.org/docs/sample-sparql-queries)
+- [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-via-sparql)
+- [Example TCGA metadata queries in SPARQL](http://docs.cancergenomicscloud.org/docs/example-sparql-queries)
 
-Here let me show you an example here, you will need R package "SPARQL":
+Let's see an example here, you will need the R package `SPARQL`:
 
 ```{r, eval = FALSE}
 library("SPARQL")
@@ -103,7 +103,7 @@ df <- qd$results
 head(df)
 ```
 
-You can use the CGC API to access the TCGA files found using SPARQL queries. To get files that have download links, you will need to use the SPARQL variable __path__ in your query.
+You can use the CGC API to access the TCGA files found via SPARQL queries. To get files that have download links, you will need to use the SPARQL variable __path__ in your query.
 
 ```{r}
 # api(api_url = base, auth_token = auth_token, path = "action/files/get_ids",
@@ -116,7 +116,7 @@ You can directly copy those files to a project, make sure if the files is
 controlled access
 
 - project support TCGA controlled access
-- you log in from eRA Commons
+- you log in from NIH eRA Commons
 
 ```{r}
 library("sevenbridges")
@@ -128,7 +128,7 @@ ids = a$get_id_from_path(df.path)
 a$copyFile(ids, p$id)
 ```
 
-Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-tcga-metadata-programmatically#section-example-queries).
+Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-via-sparql).
 
 ## Datasets API examples
 
