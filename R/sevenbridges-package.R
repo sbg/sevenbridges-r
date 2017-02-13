@@ -23,7 +23,7 @@
 #' @importFrom yaml yaml.load_file as.yaml yaml.load
 #' @importFrom jsonlite toJSON fromJSON prettify unbox
 #' @importFrom docopt docopt
-#' @importClassesFrom S4Vectors characterORNULL List SimpleList
+#' @importClassesFrom S4Vectors List SimpleList
 #' @importFrom S4Vectors elementType endoapply
 #' @importClassesFrom objectProperties SingleEnum Enum
 #' @importFrom objectProperties setSingleEnum
