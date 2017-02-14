@@ -330,7 +330,7 @@ The best place to ask questions about the sevenbridges package is the [mailing l
 
 All feedback is welcome! Please file bug reports/feature requests on the [issue page](https://github.com/sbg/sevenbridges-r/issues), or create pull requests [here](https://github.com/sbg/sevenbridges-r/pulls).
 
-Contributors should read the [Seven Bridges Notice to Contributors](https://drive.google.com/file/d/0B9ms5nmyMyvSYWpXdFl1UmNYaFk/view?usp=sharing) and sign the [Seven Bridges Contributor Agreement](https://secure.na1.echosign.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhAqt_9rHEqy2MggS0uWRmKHUN2HYi8DWNjkgg5N68iKAhRFTy7k2AOEpRHMMorxc_0*) before submitting a pull request.
+Contributors should read the [Seven Bridges Notice to Contributors](https://drive.google.com/file/d/0B9ms5nmyMyvSY3ZmeDRqV1p4SHc/view?usp=sharing) and sign the [Seven Bridges Contributor Agreement](https://secure.na1.echosign.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhAqt_9rHEqy2MggS0uWRmKHUN2HYi8DWNjkgg5N68iKAhRFTy7k2AOEpRHMMorxc_0*) before submitting a pull request.
 
 <hr>
 
