@@ -47,10 +47,10 @@ NeedsCompilation: no
 RoxygenNote: 5.0.1
 Collate:
     sevenbridges-package.R
+    class-all.R
     api-http.R
     api-utils.R
     api-misc.R
-    class-all.R
     class-filesystem.R
     class-cwl.R
     class-auth-utils.R
