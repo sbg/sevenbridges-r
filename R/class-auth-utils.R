@@ -11,7 +11,7 @@
 .sbg_default_platform = "cgc"
 
 # default user configuration file
-.sbg_default_config_file  = "~/.sevenbridges/credential"
+.sbg_default_config_file  = "~/.sevenbridges/credentials"
 .sbg_default_profile_name = "default"
 
 # default system environment variable names
