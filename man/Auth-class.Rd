@@ -41,7 +41,7 @@ the API base URL. By default: \code{"SB_API_ENDPOINT"}.}
 the auth token. By default: \code{"SB_AUTH_TOKEN"}.}
 
 \item{\code{config_file}}{[character] Location of the user configuration file.
-By default: \code{"~/.sevenbridges/credential"}.}
+By default: \code{"~/.sevenbridges/credentials"}.}
 
 \item{\code{profile_name}}{[character] Profile name in the user configuration file.
 The default value is \code{"default"}.}
@@ -136,7 +136,7 @@ a <- Auth(from = "env")
 
 # Authentication with user configuration file
 # This will load profile `default` from config
-# file `~/.sevenbridges/credential` by default
+# file `~/.sevenbridges/credentials` by default
 a <- Auth(from = "file")}
 }
 
