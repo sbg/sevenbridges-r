@@ -1,3 +1,11 @@
+# sevenbridges 1.5.7
+
+## Bug Fixes
+
+- Fixed task creation issues introduced by the recently added field `created_time` in the API ([#51](https://github.com/sbg/sevenbridges-r/issues/51)).
+
+- Fixed the user configuration file path (from `~/.sevenbridges/credential` to `~/.sevenbridges/credentials`), following the authentication specification. Thanks: Fabian Zimmer
+
 # sevenbridges 1.5.6
 
 ## Improvements
