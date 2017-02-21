@@ -1,8 +1,9 @@
 Package: sevenbridges
 Type: Package
-Title: Seven Bridges Platform API Client and Common Workflow Language Tool Builder in R
-Version: 1.5.6
-Date: 2017-01-24
+Title: Seven Bridges Platform API Client and Common Workflow Language Tool
+    Builder in R
+Version: 1.5.7
+Date: 2017-02-21
 Authors@R: c(
     person("Nan", "Xiao", email = "nan.xiao@sbgenomics.com", role = c("aut", "cre")),
     person("Dusan", "Randjelovic", email = "dusan.randjelovic@sbgenomics.com", role = "aut"),
@@ -15,7 +16,8 @@ Description: R client and utilities for Seven Bridges platform API, from Cancer
     Genomics Cloud to other Seven Bridges supported platforms.
 License: Apache License 2.0 | file LICENSE
 VignetteBuilder: knitr
-URL: https://www.sevenbridges.com, https://sbg.github.io/sevenbridges-r/, https://github.com/sbg/sevenbridges-r
+URL: https://www.sevenbridges.com, https://sbg.github.io/sevenbridges-r/,
+    https://github.com/sbg/sevenbridges-r
 BugReports: https://github.com/sbg/sevenbridges-r/issues
 biocViews: Software, DataImport, ThirdPartyClient
 Depends:
