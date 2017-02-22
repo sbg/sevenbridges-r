@@ -107,9 +107,10 @@ Install latest version of sevenbridges from GitHub with the following:
 source("https://bioconductor.org/biocLite.R")
 biocLite("readr")
 
-devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
-                         repos = BiocInstaller::biocinstallRepos(),
-                         dependencies = TRUE)
+devtools::install_github(
+    "sbg/sevenbridges-r",
+    repos = BiocInstaller::biocinstallRepos(),
+    build_vignettes = TRUE, dependencies = TRUE)
 ```
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
@@ -178,24 +179,27 @@ tsk$monitor()
 
 ```r
 # Batch by item
-(tsk <- p$task_add(name = "RNA DE report new batch 2",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "bamfiles"),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+    name = "RNA DE report new batch 2",
+    description = "RNA DE analysis report",
+    app = rna.app$id,
+    batch = batch(input = "bamfiles"),
+    inputs = list(bamfiles = bamfiles.in,
+                  design = design.in,
+                  gtffile = gtf.in)))
 
-# Batch by metadata. Note that input files must have relevant metadata fields specified.
-(tsk <- p$task_add(name = "RNA DE report new batch 3",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "fastq",
-                                 c("metadata.sample_id",
-                                 "metadata.library_id")),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+# Batch by metadata. Note that input files must
+# have relevant metadata fields specified.
+(tsk <- p$task_add(
+    name = "RNA DE report new batch 3",
+    description = "RNA DE analysis report",
+    app = rna.app$id,
+    batch = batch(input = "fastq",
+                  c("metadata.sample_id",
+                    "metadata.library_id")),
+    inputs = list(bamfiles = bamfiles.in,
+                  design = design.in,
+                  gtffile = gtf.in)))
 ```
 
 ### Cross Environment Support
@@ -210,23 +214,20 @@ tsk$monitor()
 library("readr")
 fd <- fileDef(name = "runif.R",
               content = read_file(fl))
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"),
-                                 cpu(1), mem(2000)),
-            requirements = requirements(fd),
-            baseCommand = "Rscript runif.R",
-            stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
-                                position = 1),
-                          input(id = "min",
-                                type = "float",
-                                position = 2),
-                          input(id = "max",
-                                type = "float",
-                                position = 3)),
-            outputs = output(id = "random", glob = "output.txt"))
+rbx <- Tool(
+    id    = "runif",
+    label = "runif",
+    hints = requirements(
+        docker(pull = "rocker/r-base"),
+        cpu(1), mem(2000)),
+    requirements = requirements(fd),
+    baseCommand  = "Rscript runif.R",
+    stdout = "output.txt",
+    inputs = list(
+        input(id = "number", type = "integer", position = 1),
+        input(id = "min",    type = "float",   position = 2),
+        input(id = "max",    type = "float",   position = 3)),
+    outputs = output(id = "random", glob = "output.txt"))
 # output CWL JSON
 rbx$toJSON(pretty = TRUE)
 # output CWL YAML
