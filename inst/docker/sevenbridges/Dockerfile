@@ -92,9 +92,9 @@ RUN rm -rf /var/lib/apt/lists/ \
 ## thanks to the official Shiny Dockerfile
 
 ## download and install libssl 0.9.8
-RUN wget --no-verbose http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb && \
-   dpkg -i libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb && \
-   rm -f libssl1.0.0_1.0.1t-1+deb8u5_amd64.deb
+RUN wget --no-verbose http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u6_amd64.deb && \
+   dpkg -i libssl1.0.0_1.0.1t-1+deb8u6_amd64.deb && \
+   rm -f libssl1.0.0_1.0.1t-1+deb8u6_amd64.deb
 
 ## download and install Shiny Server
 RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubuntu-12.04/x86_64/VERSION -O "version.txt" && \
@@ -117,9 +117,9 @@ RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /home/rstudio/ShinyApps
 
 EXPOSE 3838 8787
 
-# COPY src/shiny-server.sh /usr/bin/shiny-server.sh
-# RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/shiny-server.conf -P /etc/shiny-server/
-# RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/supervisord.conf	-P /etc/shiny-server/
+#COPY src/shiny-server.sh /usr/bin/shiny-server.sh
+#RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/shiny-server.conf -P /etc/shiny-server/
+#RUN wget --no-verbos https://raw.githubusercontent.com/sbg/sevenbridges-r/master/inst/docker/sevenbridges/src/supervisord.conf	-P /etc/shiny-server/
 COPY src/shiny-server.conf  /etc/shiny-server/shiny-server.conf
 COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
