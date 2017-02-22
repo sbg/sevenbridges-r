@@ -212,8 +212,8 @@ tsk$monitor()
 
 ```r
 library("readr")
-fd <- fileDef(name = "runif.R",
-              content = read_file(fl))
+fd <- fileDef(name = "runif.R", content = read_file(fl))
+
 rbx <- Tool(
     id    = "runif",
     label = "runif",
@@ -228,6 +228,7 @@ rbx <- Tool(
         input(id = "min",    type = "float",   position = 2),
         input(id = "max",    type = "float",   position = 3)),
     outputs = output(id = "random", glob = "output.txt"))
+
 # output CWL JSON
 rbx$toJSON(pretty = TRUE)
 # output CWL YAML
