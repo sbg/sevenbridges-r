@@ -75,19 +75,19 @@ project that you can access. For each file, the call
 returns: 1) Its ID 2) Its filename The project is
 specified as a query parameter in the call.}
 
-\item{\code{invoice(id = NULL, ...)}}{                            If no id provided, This call returns a list of invoices,
-                            with information about each, including whether or not
-                            the invoice is pending and the billing period it covers.
+\item{\code{invoice(id = NULL, ...)}}{            If no id provided, This call returns a list of invoices,
+            with information about each, including whether or not
+            the invoice is pending and the billing period it covers.
 
-                            The call returns information about all your available
-                            invoices, unless you use the query parameter bg_id to
-                            specify the ID of a particular billing group, in which
-                            case it will return the invoice incurred by that billing
-                            group only.
+            The call returns information about all your available
+            invoices, unless you use the query parameter bg_id to
+            specify the ID of a particular billing group, in which
+            case it will return the invoice incurred by that billing
+            group only.
 
-                            If id was provided, This call retrieves information about
-                            a selected invoice, including the costs for analysis
-                            and storage, and the invoice period.}
+            If id was provided, This call retrieves information about
+            a selected invoice, including the costs for analysis
+            and storage, and the invoice period.}
 
 \item{\code{project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, owner = NULL, detail = FALSE, ...)}}{If no id or name provided, this call returns a
@@ -108,14 +108,14 @@ Each project's ID and URL will be returned.}
 rate limit. This is the number of API calls you can
 make in one hour.}
 
-\item{\code{user(username = NULL, ...)}}{                            This call returns a list of the resources, such as projects,
-                            billing groups, and organizations, that are accessible to you.
+\item{\code{user(username = NULL, ...)}}{            This call returns a list of the resources, such as projects,
+            billing groups, and organizations, that are accessible to you.
 
-                            If you are not an administrator, this call will only return a
-                            successful response if {username} is replaced with your own
-                            username. If you are an administrator, you can replace
-                            {username} with the username of any CGC user, to return
-                            information on their resources.}
+            If you are not an administrator, this call will only return a
+            successful response if {username} is replaced with your own
+            username. If you are an administrator, you can replace
+            {username} with the username of any CGC user, to return
+            information on their resources.}
 
 \item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list

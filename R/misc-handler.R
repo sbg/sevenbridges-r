@@ -13,10 +13,12 @@
 #' yaml file, for example, push it to SevenBridges platform as an app.
 #'
 #' @return a Handler object
-Handler = setRefClass("Handler",
-                      fields = list(dockerfileHandler = "functionORNULL",
-                                    dockerHandler     = "functionORNULL",
-                                    cwlHandler        = "functionORNULL"))
+Handler = setRefClass(
+    "Handler",
+    fields = list(
+        dockerfileHandler = "functionORNULL",
+        dockerHandler     = "functionORNULL",
+        cwlHandler        = "functionORNULL"))
 
 gitHandler = function(token = NULL) {
 

@@ -35,9 +35,10 @@ asJSON(object, ...)
 \S4method{asList}{DSCList}(object, ...)
 }
 \arguments{
-\item{object}{object, could be S4/R5 object, for example, class CWL, SimpleList.}
+\item{object}{object, could be S4/R5 object.
+For example, class CWL, SimpleList.}
 
-\item{...}{other parameters passed to as.yaml or toJSON.}
+\item{...}{other parameters passed to \code{as.yaml} or \code{toJSON}.}
 }
 \value{
 a list object or json or yaml file.

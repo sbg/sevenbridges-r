@@ -1,5 +1,6 @@
-.response_folders = c("id", "name", "project", "parent",
-                      "type", "created_on", "modified_on")
+.response_folders = c(
+    "id", "name", "project", "parent",
+    "type", "created_on", "modified_on")
 
 #' Class Folders
 #'
@@ -27,85 +28,87 @@
 #' @exportClass Folders
 #' @examples
 #' Folders(id = "test_id", name = "test.bam")
-Folders <- setRefClass("Folders", contains = c("Item"),
+Folders <- setRefClass(
+    "Folders", contains = c("Item"),
 
-                       fields = list(id          = "characterORNULL",
-                                     name        = "characterORNULL",
-                                     project     = "characterORNULL",
-                                     parent      = "characterORNULL",
-                                     type        = "characterORNULL",
-                                     created_on  = "characterORNULL",
-                                     modified_on = "characterORNULL"),
+    fields = list(
+        id          = "characterORNULL",
+        name        = "characterORNULL",
+        project     = "characterORNULL",
+        parent      = "characterORNULL",
+        type        = "characterORNULL",
+        created_on  = "characterORNULL",
+        modified_on = "characterORNULL"),
 
-                       methods = list(
+    methods = list(
 
-                           initialize = function(id          = NULL,
-                                                 name        = NULL,
-                                                 project     = NULL,
-                                                 parent      = NULL,
-                                                 type        = NULL,
-                                                 created_on  = NULL,
-                                                 modified_on = NULL, ...) {
+        initialize = function(id          = NULL,
+                              name        = NULL,
+                              project     = NULL,
+                              parent      = NULL,
+                              type        = NULL,
+                              created_on  = NULL,
+                              modified_on = NULL, ...) {
 
-                               id          <<- id
-                               name        <<- name
-                               project     <<- project
-                               parent      <<- parent
-                               type        <<- type
-                               created_on  <<- created_on
-                               modified_on <<- modified_on
+            id          <<- id
+            name        <<- name
+            project     <<- project
+            parent      <<- parent
+            type        <<- type
+            created_on  <<- created_on
+            modified_on <<- modified_on
 
-                               callSuper(...)
+            callSuper(...)
 
-                           },
+        },
 
-                           create_folder = function(name = NULL, ...) {
-                               'create a new folder'
+        create_folder = function(name = NULL, ...) {
+            'create a new folder'
 
-                               if (is.null(name))
-                                   stop('folder `name` must be specified')
+            if (is.null(name))
+                stop('folder `name` must be specified')
 
-                               if (identical(substr(name, 1L, 2L), '__'))
-                                   stop('folder name should not start with `__`')
+            if (identical(substr(name, 1L, 2L), '__'))
+                stop('folder name should not start with `__`')
 
-                               body = list('name'   = name,
-                                           'parent' = id,
-                                           'type'   = 'FOLDER')
+            body = list('name'   = name,
+                        'parent' = id,
+                        'type'   = 'FOLDER')
 
-                               auth$api(path = "files", method = "POST",
-                                        body = body, ...)
+            auth$api(path = "files", method = "POST",
+                     body = body, ...)
 
-                           },
+        },
 
-                           list_contents = function(...) {
-                               'list folder contents'
+        list_contents = function(...) {
+            'list folder contents'
 
-                               auth$api(path = paste0("files/", id, '/list'),
-                                        method = "GET", ...)
-                           },
+            auth$api(path = paste0("files/", id, '/list'),
+                     method = "GET", ...)
+        },
 
-                           copy_file_to_folder = function(...) {
-                               'copy a file between folders'
-                               NULL
-                           },
+        copy_file_to_folder = function(...) {
+            'copy a file between folders'
+            NULL
+        },
 
-                           move_file_to_folder = function(...) {
-                               'move a file between folders'
-                               NULL
-                           },
+        move_file_to_folder = function(...) {
+            'move a file between folders'
+            NULL
+        },
 
-                           delete = function(...) {
-                               'delete the folder'
+        delete = function(...) {
+            'delete the folder'
 
-                               auth$api(path = paste0("files/", id),
-                                        method = "DELETE", ...)
-                           },
+            auth$api(path = paste0("files/", id),
+                     method = "DELETE", ...)
+        },
 
-                           show = function() {
-                               .showFields(.self, "== Folders ==", .response_folders)
-                           }
+        show = function() {
+            .showFields(.self, "== Folders ==", .response_folders)
+        }
 
-                       ))
+    ))
 
 .asFolders <- function(x) {
     Folders(id          = x$id,

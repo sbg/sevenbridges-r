@@ -1,69 +1,73 @@
-User <- setRefClass("User", contains = "Item",
+User <- setRefClass(
+    "User", contains = "Item",
 
-                    fields = c("username", "email",
-                               "first_name", "last_name",
-                               "affiliation", "phone", "address",
-                               "city", "state", "country", "zip_code",
-                               "projects", "billing_groups", "tasks"),
+    fields = c(
+        "username", "email",
+        "first_name", "last_name",
+        "affiliation", "phone", "address",
+        "city", "state", "country", "zip_code",
+        "projects", "billing_groups", "tasks"),
 
-                    methods = list(
+    methods = list(
 
-                        initialize = function(
-                            username       = "",
-                            email          = "",
-                            first_name     = "",
-                            last_name      = "",
-                            affiliation    = "",
-                            phone          = "",
-                            address        = "",
-                            city           = "",
-                            state          = "",
-                            country        = "",
-                            zip_code       = "",
-                            projects       = "",
-                            billing_groups = "",
-                            tasks          = "", ...) {
+        initialize = function(
+            username       = "",
+            email          = "",
+            first_name     = "",
+            last_name      = "",
+            affiliation    = "",
+            phone          = "",
+            address        = "",
+            city           = "",
+            state          = "",
+            country        = "",
+            zip_code       = "",
+            projects       = "",
+            billing_groups = "",
+            tasks          = "", ...) {
 
-                            username       <<- username
-                            email          <<- email
-                            first_name     <<- first_name
-                            last_name      <<- last_name
-                            affiliation    <<- affiliation
-                            phone          <<- phone
-                            address        <<- address
-                            city           <<- city
-                            state          <<- state
-                            country        <<- country
-                            zip_code       <<- zip_code
-                            projects       <<- projects
-                            billing_groups <<- billing_groups
-                            tasks          <<- tasks
+            username       <<- username
+            email          <<- email
+            first_name     <<- first_name
+            last_name      <<- last_name
+            affiliation    <<- affiliation
+            phone          <<- phone
+            address        <<- address
+            city           <<- city
+            state          <<- state
+            country        <<- country
+            zip_code       <<- zip_code
+            projects       <<- projects
+            billing_groups <<- billing_groups
+            tasks          <<- tasks
 
-                            callSuper(...)
+            callSuper(...)
 
-                        },
+        },
 
-                        show = function() {
-                            .showFields(.self,
-                                        "== User ==",
-                                        values = c("href",
-                                                   "username",
-                                                   "email",
-                                                   "first_name",
-                                                   "last_name",
-                                                   "affiliation",
-                                                   "phone",
-                                                   "address",
-                                                   "city",
-                                                   "state",
-                                                   "country",
-                                                   "zip_code",
-                                                   "projects",
-                                                   "billing_groups",
-                                                   "tasks"))
-                        }
+        show = function() {
+            .showFields(
+                .self,
+                "== User ==",
+                values = c(
+                    "href",
+                    "username",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "affiliation",
+                    "phone",
+                    "address",
+                    "city",
+                    "state",
+                    "country",
+                    "zip_code",
+                    "projects",
+                    "billing_groups",
+                    "tasks"))
+        }
 
-                    ))
+    ))
 
 .asUser <- function(x) {
 

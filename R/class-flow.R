@@ -2,7 +2,8 @@
 #'
 #' Build workflow
 #'
-#' @param graph if add graph coordinates or not, used for visualization on seven bridges platform.
+#' @param graph if add graph coordinates or not,
+#' used for flow visualization on Seven Bridges platforms.
 #' @param x.width x scale width
 #' @param y.width y scale width
 #' @param x.start node x start point for a flow
@@ -102,617 +103,618 @@
 #' f1$link_map()
 #' f1$add_source_to_id(c("test1", "test2"), c("#STAR.genome", "#STAR.reads"))
 #' f1$link_map()
-SBGWorkflow <- setRefClass("SBGWorkflow", contains = c("Workflow", "SBG"),
-
-                           fields = list(
-                               "sbg:canvas_zoom" = "numericORNULL",
-                               "sbg:canvas_y"    = "numericORNULL",
-                               "sbg:canvas_x"    = "numericORNULL",
-                               "sbg:batchInput"  = "characterORNULL",
-                               "sbg:batchBy"     = "listORNULL"),
-
-                           methods = list(
-
-                               initialize = function(id          = NULL,
-                                                     label       = NULL,
-                                                     canvas_zoom = 1,
-                                                     canvas_y    = NULL,
-                                                     canvas_x    = NULL,
-                                                     batchInput  = NULL,
-                                                     batchBy     = NULL,
-                                                     steps       = list(), ...) {
-
-                                   stopifnot(!is.null(id))
-
-                                   stopifnot(!is.null(label))
-
-                                   args <- mget(names(formals()),
-                                                sys.frame(sys.nframe()))
-
-                                   nms <- c("canvas_x", "canvas_y",
-                                            "canvas_zoom", "update",
-                                            "batchInput", "batchBy")
-                                   for(nm in nms){
-                                       .self$field(paste0("sbg:", nm), args[[nm]])
-                                   }
-                                   steps <<- steps
-
-                                   callSuper(id = id, label = label, ...)
-
-                               },
-
-                               copy_obj = function() {
-                                   'this is a hack to make copy of reference cwl object'
-                                   tmp = tempfile()
-                                   write(toJSON(pretty = TRUE), tmp)
-                                   res = convert_app(tmp)
-                                   file.remove(tmp)
-                                   res
-                               },
-
-                               set_flow_output = function(oid = NULL, add = TRUE){
-                                   '
-                                   expose tool output node as flow output,
-                                   default is additative, if \\code{add = FALSE}
-                                   this will overwrite and only made provided
-                                   id outputs of flow'
-                                   # just add to output node
-                                   if (!length(oid)) return(NULL)
-                                   # get exist
-                                   if (add) {
-                                       old.id <- output_id()
-                                       oid <- unique(c(old.id, oid))
-                                   }
-                                   oi <- sapply(oid, .id_only)
-                                   ol <- get_output(oid, TRUE)
-
-                                   sol <- as(ol, "SBGWorkflowOutputParameterList")
-                                   lst <- lapply(sol, function(ol) {
-                                       .id <- ol$id
-                                       nm <- names(oi[oi == .id])
-                                       # should be full name
-                                       ol$source <- set_box(nm)
-                                       ol
-                                   })
-                                   sol <- do.call("SBGWorkflowOutputParameterList",
-                                                  lst)
-                                   for (i in 1:length(sol)) {
-                                       sol[[i]]$'sbg:includeInPorts' <- TRUE
-                                   }
-
-                                   outputs <<- sol
-
-                                   addGraph(.self)
-                               },
-
-                               set_flow_input = function(iid = NULL, add = TRUE){
-                                   # validate if the input is File or File...
-                                   '
-                                   expose tool input node as flow input, default
-                                   is additative, if \\code{add = FALSE} this
-                                   will overwrite and only made provided id
-                                   inputs of flow'
-
-                                   .id = step_input_id(TRUE)
-                                   if (!all(iid %in% .id)) {
-                                       stop("input id doesn't exist")
-                                   }
-
-                                   if (add) {
-                                       oid = input_id()
-                                       nid = iid[which(is.na(match(sapply(iid, .id_only), oid)))]
-                                       .nnl = get_input(id = nid)
-                                       if (length(.nnl) == 1) {
-                                           .nnl = list(.nnl)
-                                       } else {
-                                           .nnl = as.list(.nnl)
-                                       }
-
-                                       inl = do.call("IPList", c(.nnl, as.list(inputs)))
-
-                                   } else {
-                                       nid = iid
-                                       inl = get_input(id = nid, TRUE)
-
-                                   }
-                                   # get connected from step list
-
-                                   sapply(nid, function(x) {
-                                       tool.id = get_tool_id_from_full(x)
-                                       sins = get_step(id = tool.id)$inputs
-                                       idx = which(x == sapply(sins, function(i) i$id))
-                                       input.id = get_input_id_from_full(x)
-                                       sins[[idx]]$source = set_box(input.id)
-                                   })
-
-                                   for (i in 1:length(inl)) {
-                                       # all exposed
-                                       inl[[i]]$'sbg:includeInPorts' <- TRUE
-                                   }
-                                   inputs <<- inl
-                                   addGraph(.self)
-                               },
-
-                               linked_output_id = function() {
-                                   'output id that linked to an input'
-                                   res = unlist(sapply(steps, function(s) {
-                                       if (length(s$inputs)) {
-                                           sapply(s$inputs, function(i) {
-                                               res <- i$source
-                                               if(length(res)){
-                                                   return(unname(i$source))
-                                               } else {
-                                                   return(NULL)
-                                               }
-                                           })
-                                       } else {
-                                           return(NULL)
-                                       }
-                                   }))
-                                   res[is_full_name(res)]
-                               },
-
-                               linked_input_id = function() {
-                                   'input id that linked to an output'
-                                   res = unlist(sapply(steps, function(s) {
-                                       if (length(s$inputs)) {
-                                           sapply(s$inputs, function(i) {
-                                               res <- i$source
-                                               if (length(res)) {
-                                                   return(unname(i$id))
-                                               } else {
-                                                   return(NULL)
-                                               }
-                                           })} else {
-                                               return(NULL)
-                                           }
-                                   }))
-                                   res[is_full_name(res)]
-                               },
-
-                               link_map = function() {
-                                   'show a table of all linked nodes'
-
-                                   lst = lapply(steps, function(s) {
-                                       ilst = s$inputs
-
-                                       res = do.call(rbind, lapply(ilst, function(ii) {
-
-                                           ii = ii$toList()
-
-                                           if ("source" %in% names(ii)) {
-                                               data.frame(
-                                                   id = unname(ii$id),
-                                                   source = as.character(ii$source),
-                                                   type = "input")
-                                           } else {
-                                               NULL
-                                           }
-                                       }))
-
-                                       if (length(res)) {
-                                           rownames(res) = NULL
-                                           res
-                                       } else {
-                                           NULL
-                                       }
-
-                                   })
-                                   r1 = do.call(rbind, lst)
-
-                                   lst = lapply(outputs, function(o){
-
-                                       data.frame(id = unname(o$id),
-                                                  source = as.character(o$source),
-                                                  type = "output")
-                                   })
-                                   r2 = do.call(rbind, lst)
-                                   rbind(r1, r2)
-                                   # output
-                               },
-
-                               get_id_by_source = function(sname) {
-                                   lm = link_map()
-                                   paste0(as.character(lm[which(lm$source == sname), "id"]), collapse = " | ")
-                               },
-
-                               add_source_to_id = function(sources, ids) {
-
-                                   if (length(sources) != length(ids)) {
-                                       stop("sources and ids lengths must be the same")
-                                   }
-
-                                   for (i in 1:length(sources)) {
-                                       .s = get_step(id = get_tool_id_from_full(ids[i]))
-                                       idx = which(sapply(.s$inputs, function(x){x$id == ids[i]}))
-                                       .s$inputs[[idx]]$source = c(.s$inputs[[idx]]$source, set_box(sources[i]))
-                                   }
-                                   .self
-
-                               },
-
-                               list_tool = function() {
-                                   'list all tools included in this flow'
-                                   res = lapply(steps, function(x){
-                                       data.frame(label = x$run$label,
-                                                  sbgid = x$run$id,
-                                                  id = x$id)
-                                   })
-                                   res = do.call(rbind, res)
-                                   rownames(res) <- NULL
-                                   res
-                               },
-
-                               get_tool = function(name = NULL, id = NULL) {
-                                   'get a tool object by name or id, name support pattern match'
-                                   if (is.null(name) && is.null(id)) {
-                                       stop("please provide name or id")
-                                   }
-                                   dt = list_tool()
-                                   if (!is.null(name)) {
-                                       idx = which(grepl(name, dt$label))
-                                   }
-                                   if (!is.null(id)) {
-                                       idx = which(id == dt$id)
-                                   }
-                                   if (length(idx) == 0) {
-                                       return(NULL)
-                                   } else if (length(idx) == 1) {
-                                       return(steps[[idx]]$run)
-                                   } else if (length(idx) >1) {
-                                       return(lapply(steps[idx], function(x) x$run))
-                                   }
-                               },
-
-                               get_step = function(name = NULL, id = NULL) {
-                                   'get step object by name or id, name support pattern match'
-                                   if (is.null(name) && is.null(id)) {
-                                       stop("please provide name or id")
-                                   }
-                                   dt = list_tool()
-                                   if (!is.null(name)) {
-                                       idx = which(grepl(name, dt$label))
-                                   }
-                                   if (!is.null(id)) {
-                                       idx = which(id == dt$id)
-                                   }
-                                   if (length(idx) == 0) {
-                                       return(NULL)
-                                   } else if (length(idx) == 1) {
-                                       return(steps[[idx]])
-                                   } else if (length(idx) >1) {
-                                       return(steps[idx])
-                                   }
-                               },
-
-                               get_input = function(ids, force = FALSE) {
-                                   'get input by pure input id from all steps'
-
-                                   ids = addIdNum(ids)
-                                   idx = is_full_name(ids)
-                                   res = NULL
-                                   if (sum(idx)) {
-                                       ids.full = ids[idx]
-                                       tool.name = get_tool_id_from_full(ids[idx])
-                                       input.name = get_input_id_from_full(ids[idx])
-                                       for(i in 1:length(tool.name)){
-                                           res = c(res, get_tool(id = tool.name[i])$get_input(id = input.name[i]))
-                                       }
-                                   }
-
-                                   if (sum(!idx)) {
-                                       for (.id in ids[!idx]) {
-                                           for (i in seq_len(length(steps))) {
-                                               r = steps[[i]]$run
-                                               idx = which(.id == r$input_id())
-                                               if (length(idx)) {
-                                                   res = c(res, r$inputs[[idx]])
-                                               }
-                                           }}
-                                   }
-
-                                   if(force) {
-                                       if (length(res)) {
-                                           return(do.call("InputParameterList", res))
-                                       } else {
-                                           return(NULL)
-                                       }
-                                   } else {
-                                       if (length(res) > 1) {
-                                           return(do.call("InputParameterList", res))
-                                       } else if (length(res) == 1) {
-                                           return(res[[1]])
-                                       } else {
-                                           return(NULL)
-                                       }
-                                   }
-
-                               },
-
-                               get_output = function(ids, force = FALSE) {
-                                   'get output by pure output id from all steps'
-                                   res = NULL
-
-                                   ids = addIdNum(ids)
-                                   idx = is_full_name(ids)
-                                   if (sum(idx)) {
-                                       ids.full = ids[idx]
-                                       tool.name = get_tool_id_from_full(ids[idx])
-                                       output.name = get_input_id_from_full(ids[idx])
-                                       for (i in 1:length(tool.name)) {
-                                           res = c(res, get_tool(id = tool.name[i])$get_output(id = output.name[i]))
-                                       }
-                                   }
-                                   if (sum(!idx)) {
-                                       for (.id in ids[!idx]) {
-                                           for (i in seq_len(length(steps))) {
-
-                                               r = steps[[i]]$run
-
-                                               idx = which(.id == r$output_id())
-                                               if (length(idx)) {
-                                                   res = c(res, r$outputs[[idx]])
-                                               }
-
-                                           }}
-                                   }
-                                   if (force) {
-                                       if (length(res)) {
-                                           return(do.call("OutputParameterList", res))
-                                       } else {
-                                           return(NULL)
-                                       }
-                                   } else {
-                                       if (length(res) > 1) {
-                                           return(do.call("OutputParameterList", res))
-                                       } else if (length(res) == 1) {
-                                           return(res[[1]])
-                                       } else {
-                                           return(NULL)
-                                       }
-                                   }
-
-                               },
-
-                               input_type = function() {
-                                   '
-                                   show a vector of flow input type,
-                                   names of them are input id'
-                                   getInputType(toList())
-                               },
-
-                               output_type = function() {
-                                   '
-                                   show a vector of flow output type,
-                                   names of them are output id'
-                                   getOutputType(toList())
-                               },
-
-                               input_id = function() {
-                                   'show input id'
-                                   res = unname(sapply(inputs, function(i) i$id))
-                                   if (length(res)) {
-                                       return(res)
-                                   } else {
-                                       return(NULL)
-                                   }
-                               },
-
-                               output_id = function() {
-                                   'show output id'
-                                   res = unname(sapply(outputs, function(o) o$id))
-                                   if (length(res)) {
-                                       return(res)
-                                   } else {
-                                       return(NULL)
-                                   }
-                               },
-
-                               input_matrix = function(
-                                   new.order = c("id", "label", "type",
-                                                 "required", "prefix", "fileTypes"),
-                                   required = NULL) {
-                                   '
-                                   This return a matrix of input parameters,
-                                   by default, following the order id, label,
-                                   type, required, prefix, fileTypes.
-                                   new.order accept names of column you want to
-                                   print, but it has to be a field of inputs.
-                                   When its set to NULL, it prints all fields.
-                                   When required = TRUE, only print required field.'
-
-                                   res = suppressWarnings(as(inputs, "data.frame"))
-
-                                   if ("link_to" %in% new.order || is.null(new.order)) {
-                                       res$link_to = sapply(res$id, .self$get_id_by_source)
-                                   }
-
-                                   if (!is.null(required)) {
-                                       stopifnot(is.logical(required))
-                                       res = res[res$required == required, ]
-                                       if (!nrow(res)) {
-                                           return(NULL)
-                                       }
-                                   }
-
-                                   if (!is.null(new.order)) {
-                                       new.order = intersect(new.order, names(res))
-                                       res[, new.order]
-                                   } else {
-                                       res
-                                   }
-
-                               },
-
-                               output_matrix = function(
-                                   new.order = c("id", "label", "type", "fileTypes")) {
-                                   '
-                                   This return a matrix of output parameters,
-                                   by default, following the order id, label,
-                                   type, fileTypes. new.order accept names of
-                                   column you want to print, but it has to be
-                                   a field of outputs.
-                                   When its set to NULL, it prints all fields.
-                                   When required = TRUE, only print required field.'
-
-                                   res = suppressWarnings(as(outputs, "data.frame"))
-
-                                   if ("link_to" %in% new.order || is.null(new.order)) {
-                                       lm = link_map()
-                                       res$link_to = sapply(res$id, function(i) {
-                                           paste0(as.character(lm[which(lm$id == i), "source"]), collapse = " | ")
-                                       })
-                                   }
-
-                                   if (!is.null(new.order)) {
-                                       new.order = intersect(new.order, names(res))
-                                       res[, new.order]
-                                   } else {
-                                       res
-                                   }
-
-                               },
-
-                               step_input_id = function(full = FALSE) {
-                                   '
-                                   Show step input id, default names of them is
-                                   tool id. When \\code{full = TRUE}, show full
-                                   name then names of vector is type.'
-                                   unlist(sapply(steps, function(x){
-                                       x$run$input_id(full = full)
-                                   }))
-                               },
-
-                               step_output_id = function(full = FALSE) {
-                                   '
-                                   Show step output id, default names of them is
-                                   tool id. when \\code{full = TRUE}, show full
-                                   name then names of vector is type.'
-                                   unlist(sapply(steps, function(x){
-                                       x$run$output_id(full = full)
-                                   }))
-                               },
-
-                               get_required = function() {
-                                   'show flow required input id and types'
-                                   nms = unlist(sapply(steps, function(x){
-                                       x$run$get_required()
-                                   }))
-                                   # get exposed from workflow
-
-                                   it = input_type()
-                                   enms = names(it)
-                                   res = intersect(names(nms), enms)
-                                   if (length(res)) {
-                                       it[enms %in% res]
-                                   } else {
-                                       return(NULL)
-                                   }
-                               },
-
-                               set_required = function(ids, required = TRUE) {
-                                   '
-                                   Set a input node required (\\code{TRUE}) or
-                                   not required (\\code{FALSE}) this require
-                                   full input id (with tool id prefix) such as
-                                   #STAR.alignIntronMax'
-                                   tool.name = get_tool_id_from_full(ids)
-                                   input.name = get_input_id_from_full(ids)
-
-                                   tools = get_tool(tool.name)
-                                   for (i in 1:length(tool.name)) {
-                                       tools[[i]]$set_required(input.name, required)
-                                   }
-
-                               },
-
-                               get_input_port = function() {
-                                   'show included port of all inputs'
-
-                                   unlist(sapply(steps, function(x) {
-                                       x$run$get_input_port()
-                                   }))
-                               },
-
-                               set_input_port = function(ids, include = TRUE) {
-                                   'set included port for provided input id(s)'
-                                   ids = add_sharp(ids)
-                                   idx = is_full_name(ids)
-                                   if(sum(idx)){
-                                       ids.full = ids[idx]
-                                       tool.name = get_tool_id_from_full(ids[idx])
-                                       input.name = get_input_id_from_full(ids[idx])
-                                       for(i in 1:length(tool.name)){
-                                           get_tool(id = tool.name[i])$set_input_port(id = input.name[i], include = include)
-                                       }
-                                   }
-                                   if(sum(!idx)){
-                                       for(.id in ids[!idx]){
-                                           get_input(id = .id)$field('sbg:includeInPorts', include)
-                                       }
-                                   }
-
-                               },
-
-                               get_input_node = function() {
-                                   'get input file nodes id'
-                                   it = input_type()
-                                   add_sharp(names(it[it %in% c("File", "File...")]))
-                               },
-
-                               get_output_node = function() {
-                                   'get output file nodes id'
-                                   it = output_type()
-                                   add_sharp(names(it[it %in% c("File", "File...")]))
-                               },
-
-                               get_input_exposed = function() {
-                                   'exposed input id other than file'
-                                   it = input_type()
-                                   add_sharp(names(it[!it %in% c("File", "File...")]))
-                               },
-
-                               set_batch = function(input    = NULL,
-                                                    criteria = NULL,
-                                                    type     = c("ITEM", "CRITERIA")) {
-                                   '
-                                   Set a flow input node into a batch mode,
-                                   this is now required before you execute
-                                   a batch task on a batch-not-enabled flow.'
-
-                                   lst = batch(input = input, criteria = criteria, type = type)
-                                   lst$batch_by$type = tolower(lst$batch_by$type)
-                                   # flow level
-                                   .self$field("sbg:batchInput", addIdNum(lst$batch_input))
-                                   .self$field("sbg:batchBy", lst$batch_by)
-
-                                   # step level
-                                   idx = which(sapply(.self$inputs, function(x) x$id) == addIdNum(input))
-                                   .self$inputs[[idx]]$field("batchType", tail(criteria, 1))
-                                   .self
-
-                               },
-
-                               run = function(run_inputs = list(),
-                                              engine = c("bunny", "rabix", "cwlrun")) {
-                                   '
-                                   Run this tool with inputs locally.
-                                   engine supported: bunny, rabix, cwlrun.
-                                   inputs accept list or JSON.'
-                                   engine = match.arg(engine)
-                                   run_inputs = lapply(run_inputs, asTaskInput)
-                                   switch(engine,
-                                          bunny = {
-                                              test_tool_bunny(.self, run_inputs)
-                                          },
-                                          cwlrun = {
-                                              test_tool_cwlrun(.self, run_inputs)
-                                          },
-                                          rabix = {
-                                              test_tool_rabix(.self, run_inputs)
-                                          })
-                               }
-                               ))
+SBGWorkflow <- setRefClass(
+    "SBGWorkflow", contains = c("Workflow", "SBG"),
+
+    fields = list(
+        "sbg:canvas_zoom" = "numericORNULL",
+        "sbg:canvas_y"    = "numericORNULL",
+        "sbg:canvas_x"    = "numericORNULL",
+        "sbg:batchInput"  = "characterORNULL",
+        "sbg:batchBy"     = "listORNULL"),
+
+    methods = list(
+
+        initialize = function(id          = NULL,
+                              label       = NULL,
+                              canvas_zoom = 1,
+                              canvas_y    = NULL,
+                              canvas_x    = NULL,
+                              batchInput  = NULL,
+                              batchBy     = NULL,
+                              steps       = list(), ...) {
+
+            stopifnot(!is.null(id))
+
+            stopifnot(!is.null(label))
+
+            args <- mget(names(formals()),
+                         sys.frame(sys.nframe()))
+
+            nms <- c("canvas_x", "canvas_y",
+                     "canvas_zoom", "update",
+                     "batchInput", "batchBy")
+            for(nm in nms){
+                .self$field(paste0("sbg:", nm), args[[nm]])
+            }
+            steps <<- steps
+
+            callSuper(id = id, label = label, ...)
+
+        },
+
+        copy_obj = function() {
+            'this is a hack to make copy of reference cwl object'
+            tmp = tempfile()
+            write(toJSON(pretty = TRUE), tmp)
+            res = convert_app(tmp)
+            file.remove(tmp)
+            res
+        },
+
+        set_flow_output = function(oid = NULL, add = TRUE){
+            '
+            expose tool output node as flow output,
+            default is additative, if \\code{add = FALSE}
+            this will overwrite and only made provided
+            id outputs of flow'
+            # just add to output node
+            if (!length(oid)) return(NULL)
+            # get exist
+            if (add) {
+                old.id <- output_id()
+                oid <- unique(c(old.id, oid))
+            }
+            oi <- sapply(oid, .id_only)
+            ol <- get_output(oid, TRUE)
+
+            sol <- as(ol, "SBGWorkflowOutputParameterList")
+            lst <- lapply(sol, function(ol) {
+                .id <- ol$id
+                nm <- names(oi[oi == .id])
+                # should be full name
+                ol$source <- set_box(nm)
+                ol
+            })
+            sol <- do.call("SBGWorkflowOutputParameterList",
+                           lst)
+            for (i in 1:length(sol)) {
+                sol[[i]]$'sbg:includeInPorts' <- TRUE
+            }
+
+            outputs <<- sol
+
+            addGraph(.self)
+        },
+
+        set_flow_input = function(iid = NULL, add = TRUE){
+            # validate if the input is File or File...
+            '
+            expose tool input node as flow input, default
+            is additative, if \\code{add = FALSE} this
+            will overwrite and only made provided id
+            inputs of flow'
+
+            .id = step_input_id(TRUE)
+            if (!all(iid %in% .id)) {
+                stop("input id doesn't exist")
+            }
+
+            if (add) {
+                oid = input_id()
+                nid = iid[which(is.na(match(sapply(iid, .id_only), oid)))]
+                .nnl = get_input(id = nid)
+                if (length(.nnl) == 1) {
+                    .nnl = list(.nnl)
+                } else {
+                    .nnl = as.list(.nnl)
+                }
+
+                inl = do.call("IPList", c(.nnl, as.list(inputs)))
+
+            } else {
+                nid = iid
+                inl = get_input(id = nid, TRUE)
+
+            }
+            # get connected from step list
+
+            sapply(nid, function(x) {
+                tool.id = get_tool_id_from_full(x)
+                sins = get_step(id = tool.id)$inputs
+                idx = which(x == sapply(sins, function(i) i$id))
+                input.id = get_input_id_from_full(x)
+                sins[[idx]]$source = set_box(input.id)
+            })
+
+            for (i in 1:length(inl)) {
+                # all exposed
+                inl[[i]]$'sbg:includeInPorts' <- TRUE
+            }
+            inputs <<- inl
+            addGraph(.self)
+        },
+
+        linked_output_id = function() {
+            'output id that linked to an input'
+            res = unlist(sapply(steps, function(s) {
+                if (length(s$inputs)) {
+                    sapply(s$inputs, function(i) {
+                        res <- i$source
+                        if(length(res)){
+                            return(unname(i$source))
+                        } else {
+                            return(NULL)
+                        }
+                    })
+                } else {
+                    return(NULL)
+                }
+            }))
+            res[is_full_name(res)]
+        },
+
+        linked_input_id = function() {
+            'input id that linked to an output'
+            res = unlist(sapply(steps, function(s) {
+                if (length(s$inputs)) {
+                    sapply(s$inputs, function(i) {
+                        res <- i$source
+                        if (length(res)) {
+                            return(unname(i$id))
+                        } else {
+                            return(NULL)
+                        }
+                    })} else {
+                        return(NULL)
+                    }
+            }))
+            res[is_full_name(res)]
+        },
+
+        link_map = function() {
+            'show a table of all linked nodes'
+
+            lst = lapply(steps, function(s) {
+                ilst = s$inputs
+
+                res = do.call(rbind, lapply(ilst, function(ii) {
+
+                    ii = ii$toList()
+
+                    if ("source" %in% names(ii)) {
+                        data.frame(
+                            id = unname(ii$id),
+                            source = as.character(ii$source),
+                            type = "input")
+                    } else {
+                        NULL
+                    }
+                }))
+
+                if (length(res)) {
+                    rownames(res) = NULL
+                    res
+                } else {
+                    NULL
+                }
+
+            })
+            r1 = do.call(rbind, lst)
+
+            lst = lapply(outputs, function(o){
+
+                data.frame(id = unname(o$id),
+                           source = as.character(o$source),
+                           type = "output")
+            })
+            r2 = do.call(rbind, lst)
+            rbind(r1, r2)
+            # output
+        },
+
+        get_id_by_source = function(sname) {
+            lm = link_map()
+            paste0(as.character(lm[which(lm$source == sname), "id"]), collapse = " | ")
+        },
+
+        add_source_to_id = function(sources, ids) {
+
+            if (length(sources) != length(ids)) {
+                stop("sources and ids lengths must be the same")
+            }
+
+            for (i in 1:length(sources)) {
+                .s = get_step(id = get_tool_id_from_full(ids[i]))
+                idx = which(sapply(.s$inputs, function(x){x$id == ids[i]}))
+                .s$inputs[[idx]]$source = c(.s$inputs[[idx]]$source, set_box(sources[i]))
+            }
+            .self
+
+        },
+
+        list_tool = function() {
+            'list all tools included in this flow'
+            res = lapply(steps, function(x){
+                data.frame(label = x$run$label,
+                           sbgid = x$run$id,
+                           id = x$id)
+            })
+            res = do.call(rbind, res)
+            rownames(res) <- NULL
+            res
+        },
+
+        get_tool = function(name = NULL, id = NULL) {
+            'get a tool object by name or id, name support pattern match'
+            if (is.null(name) && is.null(id)) {
+                stop("please provide name or id")
+            }
+            dt = list_tool()
+            if (!is.null(name)) {
+                idx = which(grepl(name, dt$label))
+            }
+            if (!is.null(id)) {
+                idx = which(id == dt$id)
+            }
+            if (length(idx) == 0) {
+                return(NULL)
+            } else if (length(idx) == 1) {
+                return(steps[[idx]]$run)
+            } else if (length(idx) >1) {
+                return(lapply(steps[idx], function(x) x$run))
+            }
+        },
+
+        get_step = function(name = NULL, id = NULL) {
+            'get step object by name or id, name support pattern match'
+            if (is.null(name) && is.null(id)) {
+                stop("please provide name or id")
+            }
+            dt = list_tool()
+            if (!is.null(name)) {
+                idx = which(grepl(name, dt$label))
+            }
+            if (!is.null(id)) {
+                idx = which(id == dt$id)
+            }
+            if (length(idx) == 0) {
+                return(NULL)
+            } else if (length(idx) == 1) {
+                return(steps[[idx]])
+            } else if (length(idx) >1) {
+                return(steps[idx])
+            }
+        },
+
+        get_input = function(ids, force = FALSE) {
+            'get input by pure input id from all steps'
+
+            ids = addIdNum(ids)
+            idx = is_full_name(ids)
+            res = NULL
+            if (sum(idx)) {
+                ids.full = ids[idx]
+                tool.name = get_tool_id_from_full(ids[idx])
+                input.name = get_input_id_from_full(ids[idx])
+                for(i in 1:length(tool.name)){
+                    res = c(res, get_tool(id = tool.name[i])$get_input(id = input.name[i]))
+                }
+            }
+
+            if (sum(!idx)) {
+                for (.id in ids[!idx]) {
+                    for (i in seq_len(length(steps))) {
+                        r = steps[[i]]$run
+                        idx = which(.id == r$input_id())
+                        if (length(idx)) {
+                            res = c(res, r$inputs[[idx]])
+                        }
+                    }}
+            }
+
+            if(force) {
+                if (length(res)) {
+                    return(do.call("InputParameterList", res))
+                } else {
+                    return(NULL)
+                }
+            } else {
+                if (length(res) > 1) {
+                    return(do.call("InputParameterList", res))
+                } else if (length(res) == 1) {
+                    return(res[[1]])
+                } else {
+                    return(NULL)
+                }
+            }
+
+        },
+
+        get_output = function(ids, force = FALSE) {
+            'get output by pure output id from all steps'
+            res = NULL
+
+            ids = addIdNum(ids)
+            idx = is_full_name(ids)
+            if (sum(idx)) {
+                ids.full = ids[idx]
+                tool.name = get_tool_id_from_full(ids[idx])
+                output.name = get_input_id_from_full(ids[idx])
+                for (i in 1:length(tool.name)) {
+                    res = c(res, get_tool(id = tool.name[i])$get_output(id = output.name[i]))
+                }
+            }
+            if (sum(!idx)) {
+                for (.id in ids[!idx]) {
+                    for (i in seq_len(length(steps))) {
+
+                        r = steps[[i]]$run
+
+                        idx = which(.id == r$output_id())
+                        if (length(idx)) {
+                            res = c(res, r$outputs[[idx]])
+                        }
+
+                    }}
+            }
+            if (force) {
+                if (length(res)) {
+                    return(do.call("OutputParameterList", res))
+                } else {
+                    return(NULL)
+                }
+            } else {
+                if (length(res) > 1) {
+                    return(do.call("OutputParameterList", res))
+                } else if (length(res) == 1) {
+                    return(res[[1]])
+                } else {
+                    return(NULL)
+                }
+            }
+
+        },
+
+        input_type = function() {
+            '
+            show a vector of flow input type,
+            names of them are input id'
+            getInputType(toList())
+        },
+
+        output_type = function() {
+            '
+            show a vector of flow output type,
+            names of them are output id'
+            getOutputType(toList())
+        },
+
+        input_id = function() {
+            'show input id'
+            res = unname(sapply(inputs, function(i) i$id))
+            if (length(res)) {
+                return(res)
+            } else {
+                return(NULL)
+            }
+        },
+
+        output_id = function() {
+            'show output id'
+            res = unname(sapply(outputs, function(o) o$id))
+            if (length(res)) {
+                return(res)
+            } else {
+                return(NULL)
+            }
+        },
+
+        input_matrix = function(
+            new.order = c("id", "label", "type",
+                          "required", "prefix", "fileTypes"),
+            required = NULL) {
+            '
+            This return a matrix of input parameters,
+            by default, following the order id, label,
+            type, required, prefix, fileTypes.
+            new.order accept names of column you want to
+            print, but it has to be a field of inputs.
+            When its set to NULL, it prints all fields.
+            When required = TRUE, only print required field.'
+
+            res = suppressWarnings(as(inputs, "data.frame"))
+
+            if ("link_to" %in% new.order || is.null(new.order)) {
+                res$link_to = sapply(res$id, .self$get_id_by_source)
+            }
+
+            if (!is.null(required)) {
+                stopifnot(is.logical(required))
+                res = res[res$required == required, ]
+                if (!nrow(res)) {
+                    return(NULL)
+                }
+            }
+
+            if (!is.null(new.order)) {
+                new.order = intersect(new.order, names(res))
+                res[, new.order]
+            } else {
+                res
+            }
+
+        },
+
+        output_matrix = function(
+            new.order = c("id", "label", "type", "fileTypes")) {
+            '
+            This return a matrix of output parameters,
+            by default, following the order id, label,
+            type, fileTypes. new.order accept names of
+            column you want to print, but it has to be
+            a field of outputs.
+            When its set to NULL, it prints all fields.
+            When required = TRUE, only print required field.'
+
+            res = suppressWarnings(as(outputs, "data.frame"))
+
+            if ("link_to" %in% new.order || is.null(new.order)) {
+                lm = link_map()
+                res$link_to = sapply(res$id, function(i) {
+                    paste0(as.character(lm[which(lm$id == i), "source"]), collapse = " | ")
+                })
+            }
+
+            if (!is.null(new.order)) {
+                new.order = intersect(new.order, names(res))
+                res[, new.order]
+            } else {
+                res
+            }
+
+        },
+
+        step_input_id = function(full = FALSE) {
+            '
+            Show step input id, default names of them is
+            tool id. When \\code{full = TRUE}, show full
+            name then names of vector is type.'
+            unlist(sapply(steps, function(x){
+                x$run$input_id(full = full)
+            }))
+        },
+
+        step_output_id = function(full = FALSE) {
+            '
+            Show step output id, default names of them is
+            tool id. when \\code{full = TRUE}, show full
+            name then names of vector is type.'
+            unlist(sapply(steps, function(x){
+                x$run$output_id(full = full)
+            }))
+        },
+
+        get_required = function() {
+            'show flow required input id and types'
+            nms = unlist(sapply(steps, function(x){
+                x$run$get_required()
+            }))
+            # get exposed from workflow
+
+            it = input_type()
+            enms = names(it)
+            res = intersect(names(nms), enms)
+            if (length(res)) {
+                it[enms %in% res]
+            } else {
+                return(NULL)
+            }
+        },
+
+        set_required = function(ids, required = TRUE) {
+            '
+            Set a input node required (\\code{TRUE}) or
+            not required (\\code{FALSE}) this require
+            full input id (with tool id prefix) such as
+            #STAR.alignIntronMax'
+            tool.name = get_tool_id_from_full(ids)
+            input.name = get_input_id_from_full(ids)
+
+            tools = get_tool(tool.name)
+            for (i in 1:length(tool.name)) {
+                tools[[i]]$set_required(input.name, required)
+            }
+
+        },
+
+        get_input_port = function() {
+            'show included port of all inputs'
+
+            unlist(sapply(steps, function(x) {
+                x$run$get_input_port()
+            }))
+        },
+
+        set_input_port = function(ids, include = TRUE) {
+            'set included port for provided input id(s)'
+            ids = add_sharp(ids)
+            idx = is_full_name(ids)
+            if(sum(idx)){
+                ids.full = ids[idx]
+                tool.name = get_tool_id_from_full(ids[idx])
+                input.name = get_input_id_from_full(ids[idx])
+                for(i in 1:length(tool.name)){
+                    get_tool(id = tool.name[i])$set_input_port(id = input.name[i], include = include)
+                }
+            }
+            if(sum(!idx)){
+                for(.id in ids[!idx]){
+                    get_input(id = .id)$field('sbg:includeInPorts', include)
+                }
+            }
+
+        },
+
+        get_input_node = function() {
+            'get input file nodes id'
+            it = input_type()
+            add_sharp(names(it[it %in% c("File", "File...")]))
+        },
+
+        get_output_node = function() {
+            'get output file nodes id'
+            it = output_type()
+            add_sharp(names(it[it %in% c("File", "File...")]))
+        },
+
+        get_input_exposed = function() {
+            'exposed input id other than file'
+            it = input_type()
+            add_sharp(names(it[!it %in% c("File", "File...")]))
+        },
+
+        set_batch = function(input    = NULL,
+                             criteria = NULL,
+                             type     = c("ITEM", "CRITERIA")) {
+            '
+            Set a flow input node into a batch mode,
+            this is now required before you execute
+            a batch task on a batch-not-enabled flow.'
+
+            lst = batch(input = input, criteria = criteria, type = type)
+            lst$batch_by$type = tolower(lst$batch_by$type)
+            # flow level
+            .self$field("sbg:batchInput", addIdNum(lst$batch_input))
+            .self$field("sbg:batchBy", lst$batch_by)
+
+            # step level
+            idx = which(sapply(.self$inputs, function(x) x$id) == addIdNum(input))
+            .self$inputs[[idx]]$field("batchType", tail(criteria, 1))
+            .self
+
+        },
+
+        run = function(run_inputs = list(),
+                       engine = c("bunny", "rabix", "cwlrun")) {
+            '
+            Run this tool with inputs locally.
+            engine supported: bunny, rabix, cwlrun.
+            inputs accept list or JSON.'
+            engine = match.arg(engine)
+            run_inputs = lapply(run_inputs, asTaskInput)
+            switch(engine,
+                   bunny = {
+                       test_tool_bunny(.self, run_inputs)
+                   },
+                   cwlrun = {
+                       test_tool_cwlrun(.self, run_inputs)
+                   },
+                   rabix = {
+                       test_tool_rabix(.self, run_inputs)
+                   })
+        }
+        ))
 
 #' @rdname Flow
 #'
@@ -993,57 +995,58 @@ setMethod("addGraph", "SBGStepList", function(obj,
     obj
 })
 
-setMethod("addGraph", "SBGWorkflow", function(obj,
-                                              x.width     = 1000,
-                                              y.width     = 400,
-                                              x.start     = 100,
-                                              y.start     = 200,
-                                              canvas_zoom = 1,
-                                              canvas_x    = 40,
-                                              canvas_y    = 130) {
+setMethod("addGraph", "SBGWorkflow",
+          function(obj,
+                   x.width     = 1000,
+                   y.width     = 400,
+                   x.start     = 100,
+                   y.start     = 200,
+                   canvas_zoom = 1,
+                   canvas_x    = 40,
+                   canvas_y    = 130) {
 
-    obj$steps <- addGraph(obj$steps)
-    slst <- obj$steps
-    x.step <- x.width/(length(slst)+1)
-    # outputs
-    os <- obj$outputs
-    N <- length(os)
-    if (N) {
-        y.step <- y.width/(N + 1)
-        for (i in 1:N) {
-            x = obj$outputs[[i]]$field("sbg:x")
-            y = obj$outputs[[i]]$field("sbg:y")
-            if (is.null(x) || is.null(y)) {
-                obj$outputs[[i]]$field("sbg:x", x.width - x.step)
-                obj$outputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
-            }
-        }
-    }
-    # inputs
-    ins <- obj$inputs
-    N <- length(ins)
-    if (N) {
-        y.step <- y.width/(N + 1)
-        for (i in 1:N) {
-            x = obj$inputs[[i]]$field("sbg:x")
-            y = obj$inputs[[i]]$field("sbg:y")
-            if (is.null(x) || is.null(y)) {
-                obj$inputs[[i]]$field("sbg:x", 0 + x.step)
-                obj$inputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
-            }
-        }
-    }
-    if (is.null( obj$field("sbg:canvas_zoom"))) {
-        obj$field("sbg:canvas_zoom", canvas_zoom)
-    }
-    if (is.null(obj$field("sbg:canvas_x"))) {
-        obj$field("sbg:canvas_x", canvas_x)
-    }
-    if (is.null(obj$field("sbg:canvas_y"))) {
-        obj$field("sbg:canvas_y", canvas_y)
-    }
-    obj
-})
+              obj$steps <- addGraph(obj$steps)
+              slst <- obj$steps
+              x.step <- x.width/(length(slst)+1)
+              # outputs
+              os <- obj$outputs
+              N <- length(os)
+              if (N) {
+                  y.step <- y.width/(N + 1)
+                  for (i in 1:N) {
+                      x = obj$outputs[[i]]$field("sbg:x")
+                      y = obj$outputs[[i]]$field("sbg:y")
+                      if (is.null(x) || is.null(y)) {
+                          obj$outputs[[i]]$field("sbg:x", x.width - x.step)
+                          obj$outputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
+                      }
+                  }
+              }
+              # inputs
+              ins <- obj$inputs
+              N <- length(ins)
+              if (N) {
+                  y.step <- y.width/(N + 1)
+                  for (i in 1:N) {
+                      x = obj$inputs[[i]]$field("sbg:x")
+                      y = obj$inputs[[i]]$field("sbg:y")
+                      if (is.null(x) || is.null(y)) {
+                          obj$inputs[[i]]$field("sbg:x", 0 + x.step)
+                          obj$inputs[[i]]$field("sbg:y", y.start + y.step * (i-1))
+                      }
+                  }
+              }
+              if (is.null( obj$field("sbg:canvas_zoom"))) {
+                  obj$field("sbg:canvas_zoom", canvas_zoom)
+              }
+              if (is.null(obj$field("sbg:canvas_x"))) {
+                  obj$field("sbg:canvas_x", canvas_x)
+              }
+              if (is.null(obj$field("sbg:canvas_y"))) {
+                  obj$field("sbg:canvas_y", canvas_y)
+              }
+              obj
+          })
 
 # link Generic
 setClassUnion("ToolORWorkflow", c("Tool", "Workflow"))
@@ -1087,216 +1090,219 @@ setGeneric("link", function(from, to, ...) standardGeneric("link"))
 #' f2 = link(t1, t2, "output_fastq_files", "reads",
 #'          flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
 #'          flow_output = "#STAR.log_files")
-setMethod("link", c("Tool", "Tool"), function(from, to, id1, id2,
-                                              flow_id     = NULL,
-                                              flow_label  = NULL,
-                                              flow_input  = NULL,
-                                              flow_output = NULL) {
+setMethod("link", c("Tool", "Tool"),
+          function(from, to, id1, id2,
+                   flow_id     = NULL,
+                   flow_label  = NULL,
+                   flow_input  = NULL,
+                   flow_output = NULL) {
 
-    if (is.null(flow_id)) {
-        flow_id <- paste(parseLabel(from$label), parseLabel(to$label), sep = "_")
-    }
-    if (is.null(flow_label)) {
-        flow_label <- paste(parseLabel(from$label), parseLabel(to$label))
-    }
+              if (is.null(flow_id)) {
+                  flow_id <- paste(parseLabel(from$label), parseLabel(to$label), sep = "_")
+              }
+              if (is.null(flow_label)) {
+                  flow_label <- paste(parseLabel(from$label), parseLabel(to$label))
+              }
 
-    .out.id <- id1
-    .in.id <- id2
+              .out.id <- id1
+              .in.id <- id2
 
-    .out1 <- unname(from$output_id(TRUE))
-    .out2 <- unname(to$output_id(TRUE))
-    o1 <- do.call("WorkflowStepOutputList",
-                  lapply(.out1, function(oid) WorkflowStepOutput(id = oid)))
-    o2 <- do.call("WorkflowStepOutputList",
-                  lapply(.out2, function(oid) WorkflowStepOutput(id = oid)))
+              .out1 <- unname(from$output_id(TRUE))
+              .out2 <- unname(to$output_id(TRUE))
+              o1 <- do.call("WorkflowStepOutputList",
+                            lapply(.out1, function(oid) WorkflowStepOutput(id = oid)))
+              o2 <- do.call("WorkflowStepOutputList",
+                            lapply(.out2, function(oid) WorkflowStepOutput(id = oid)))
 
-    .in1 <- from$input_id(TRUE)
-    .in2 <- to$input_id(TRUE)
+              .in1 <- from$input_id(TRUE)
+              .in2 <- to$input_id(TRUE)
 
-    if (length(.in1)) {
-        in.lst1 <- do.call(WorkflowStepInputList, lapply(1:length(.in1), function(i) {
+              if (length(.in1)) {
+                  in.lst1 <- do.call(WorkflowStepInputList, lapply(1:length(.in1), function(i) {
 
-            WorkflowStepInput(id = unname(.in1[i]))
-        }))
-    } else {
-        in.lst1 <- WorkflowStepInputList()
-    }
+                      WorkflowStepInput(id = unname(.in1[i]))
+                  }))
+              } else {
+                  in.lst1 <- WorkflowStepInputList()
+              }
 
-    if (length(.in2)) {
-        in.lst2 <- do.call(WorkflowStepInputList, lapply(1:length(.in2), function(i) {
+              if (length(.in2)) {
+                  in.lst2 <- do.call(WorkflowStepInputList, lapply(1:length(.in2), function(i) {
 
-            idx = which(get_input_id_from_full(.in2[i]) ==
-                            get_input_id_from_full(id2))
+                      idx = which(get_input_id_from_full(.in2[i]) ==
+                                      get_input_id_from_full(id2))
 
-            if (length(idx)) {
+                      if (length(idx)) {
 
-                if (is_full_name(id1[i])) {
-                    .s = id1[i]
-                } else {
-                    .s = paste(getId(from), de_sharp(id1[i]), sep = ".")
-                }
+                          if (is_full_name(id1[i])) {
+                              .s = id1[i]
+                          } else {
+                              .s = paste(getId(from), de_sharp(id1[i]), sep = ".")
+                          }
 
-                WorkflowStepInput(id = unname(.in2[i]),
-                                  source = set_box(unname(add_sharp(.s))))
-            } else {
-                WorkflowStepInput(id = unname(.in2[i]))
-            }
+                          WorkflowStepInput(id = unname(.in2[i]),
+                                            source = set_box(unname(add_sharp(.s))))
+                      } else {
+                          WorkflowStepInput(id = unname(.in2[i]))
+                      }
 
-        }))
-    } else {
-        in.lst2 <- WorkflowStepInputList()
-    }
+                  }))
+              } else {
+                  in.lst2 <- WorkflowStepInputList()
+              }
 
-    steplst <- SBGStepList(SBGStep(id = getId(from),
-                                   run = from,
-                                   outputs = o1,
-                                   inputs = in.lst1),
-                           SBGStep(id = getId(to),
-                                   run = to,
-                                   outputs = o2,
-                                   inputs = in.lst2))
-    res = Flow(id = flow_id, label = flow_label, steps = steplst)
+              steplst <- SBGStepList(SBGStep(id = getId(from),
+                                             run = from,
+                                             outputs = o1,
+                                             inputs = in.lst1),
+                                     SBGStep(id = getId(to),
+                                             run = to,
+                                             outputs = o2,
+                                             inputs = in.lst2))
+              res = Flow(id = flow_id, label = flow_label, steps = steplst)
 
-    if (is.null(flow_input)) {
-        # auto parse input file
+              if (is.null(flow_input)) {
+                  # auto parse input file
 
-        i.f = c(from$input_id(TRUE), to$input_id(TRUE))
-        flow_input.all = addIdNum(i.f[names(i.f) %in% c("File", "File...")])
-        flow_input.linked = res$linked_input_id()
-        flow_input = setdiff(flow_input.all, flow_input.linked)
+                  i.f = c(from$input_id(TRUE), to$input_id(TRUE))
+                  flow_input.all = addIdNum(i.f[names(i.f) %in% c("File", "File...")])
+                  flow_input.linked = res$linked_input_id()
+                  flow_input = setdiff(flow_input.all, flow_input.linked)
 
-    } else {
-        # need to get required file.. input
-        i.f = c(from$input_id(TRUE, TRUE), to$input_id(TRUE, TRUE))
-        flow_input.all = addIdNum(i.f[names(i.f) %in% c("File", "File...")])
-        flow_input.linked = res$linked_input_id()
-        flow_input = unique(c(flow_input, setdiff(flow_input.all, flow_input.linked)))
+              } else {
+                  # need to get required file.. input
+                  i.f = c(from$input_id(TRUE, TRUE), to$input_id(TRUE, TRUE))
+                  flow_input.all = addIdNum(i.f[names(i.f) %in% c("File", "File...")])
+                  flow_input.linked = res$linked_input_id()
+                  flow_input = unique(c(flow_input, setdiff(flow_input.all, flow_input.linked)))
 
-    }
+              }
 
-    if (length(flow_input)) {
-        message("flow_input: ", paste0(flow_input ,collapse = " / "))
-        res$set_flow_input(flow_input)
-    }
+              if (length(flow_input)) {
+                  message("flow_input: ", paste0(flow_input ,collapse = " / "))
+                  res$set_flow_input(flow_input)
+              }
 
-    if (is.null(flow_output)) {
-        # auto parse output file
-        o.f = c(from$output_id(TRUE), to$output_id(TRUE))
-        flow_output.all = addIdNum(o.f[names(o.f) %in% c("File", "File...")])
-        flow_output.linked = res$linked_output_id()
-        flow_output = setdiff(flow_output.all, flow_output.linked)
+              if (is.null(flow_output)) {
+                  # auto parse output file
+                  o.f = c(from$output_id(TRUE), to$output_id(TRUE))
+                  flow_output.all = addIdNum(o.f[names(o.f) %in% c("File", "File...")])
+                  flow_output.linked = res$linked_output_id()
+                  flow_output = setdiff(flow_output.all, flow_output.linked)
 
-    }
+              }
 
-    if (length(flow_output)) {
-        message("flow_output: ", paste0(flow_output ,collapse = " / "))
-        res$set_flow_output(flow_output)
-    }
+              if (length(flow_output)) {
+                  message("flow_output: ", paste0(flow_output ,collapse = " / "))
+                  res$set_flow_output(flow_output)
+              }
 
-    res
+              res
 
-})
+          })
 
 #' @rdname link
 #' @export
 #' @docType methods
 #' @aliases link,Tool,Workflow-method
-setMethod("link", c("Tool", "Workflow"), function(from, to, id1, id2,
-                                                  flow_id     = NULL,
-                                                  flow_label  = NULL,
-                                                  flow_input  = NULL,
-                                                  flow_output = NULL) {
+setMethod("link", c("Tool", "Workflow"),
+          function(from, to, id1, id2,
+                   flow_id     = NULL,
+                   flow_label  = NULL,
+                   flow_input  = NULL,
+                   flow_output = NULL) {
 
 
 
-})
+          })
 
 #' @rdname link
 #' @export
 #' @docType methods
 #' @aliases link,Workflow,Tool-method
-setMethod("link", c("Workflow", "Tool"), function(from, to, id1, id2,
-                                                  flow_id     = NULL,
-                                                  flow_label  = NULL,
-                                                  flow_input  = NULL,
-                                                  flow_output = NULL) {
+setMethod("link", c("Workflow", "Tool"),
+          function(from, to, id1, id2,
+                   flow_id     = NULL,
+                   flow_label  = NULL,
+                   flow_input  = NULL,
+                   flow_output = NULL) {
 
-    # make a realy copy not reference with a hack
-    from.new = from$copy_obj()
+              # make a realy copy not reference with a hack
+              from.new = from$copy_obj()
 
-    if(!is.null(flow_id)){
-        from.new$id = flow_id
-    }
+              if(!is.null(flow_id)){
+                  from.new$id = flow_id
+              }
 
-    if(!is.null(flow_label)){
-        from.new$label = flow_label
-    }
+              if(!is.null(flow_label)){
+                  from.new$label = flow_label
+              }
 
-    if(!all(sapply(id1, is_full_name))){
-        stop("id2 should be fule name following #Tool_name.input_id style, check link_what")
-    }
+              if(!all(sapply(id1, is_full_name))){
+                  stop("id2 should be fule name following #Tool_name.input_id style, check link_what")
+              }
 
-    # register the new tool as new step
-    # to.tool = to$get_tool(id = get_tool_id_from_full(id2))
-    out <- unname(to$output_id(TRUE))
-    o <- do.call("WorkflowStepOutputList",
-                 lapply(out, function(oid) WorkflowStepOutput(id = oid)))
-    ini = to$input_id(TRUE)
-    if (length(ini)) {
-        in.lst <- do.call(WorkflowStepInputList, lapply(1:length(ini), function(i){
+              # register the new tool as new step
+              # to.tool = to$get_tool(id = get_tool_id_from_full(id2))
+              out <- unname(to$output_id(TRUE))
+              o <- do.call("WorkflowStepOutputList",
+                           lapply(out, function(oid) WorkflowStepOutput(id = oid)))
+              ini = to$input_id(TRUE)
+              if (length(ini)) {
+                  in.lst <- do.call(WorkflowStepInputList, lapply(1:length(ini), function(i){
 
-            WorkflowStepInput(id = unname(ini[i]))
-        }))
-    } else {
-        in.lst <- WorkflowStepInputList()
-    }
+                      WorkflowStepInput(id = unname(ini[i]))
+                  }))
+              } else {
+                  in.lst <- WorkflowStepInputList()
+              }
 
-    s.new = SBGStep(id      = getId(to),
-                    run     = to,
-                    outputs = o,
-                    inputs  = in.lst)
+              s.new = SBGStep(id      = getId(to),
+                              run     = to,
+                              outputs = o,
+                              inputs  = in.lst)
 
-    from.new$steps = do.call("SBGStepList", c(as.list(from$steps), s.new))
+              from.new$steps = do.call("SBGStepList", c(as.list(from$steps), s.new))
 
-    # then udpate the linked tools's step info
-    # id1 is short id name, id2 is full
-    tool.name = s.new$id
-    # make full names
-    id2 = paste(tool.name, de_sharp(id2), sep = ".")
-    # add source to id
+              # then udpate the linked tools's step info
+              # id1 is short id name, id2 is full
+              tool.name = s.new$id
+              # make full names
+              id2 = paste(tool.name, de_sharp(id2), sep = ".")
+              # add source to id
 
-    from.new$add_source_to_id(id1, id2)
+              from.new$add_source_to_id(id1, id2)
 
-    # keep old input,  set new flow input that belongs to new tool
+              # keep old input,  set new flow input that belongs to new tool
 
-    if (is.null(flow_input)) {
-        # auto parse input file
+              if (is.null(flow_input)) {
+                  # auto parse input file
 
-        i.f = to$input_id(TRUE, TRUE)
-        flow_input = add_sharp(i.f[names(i.f) %in% c("File", "File...")])
-    } else {
-        # need to get required file.. input
-        i.f = to$input_id(TRUE, TRUE)
-        flow_input.all = add_sharp(i.f[names(i.f) %in% c("File", "File...")])
-        flow_input = unique(c(flow_input, flow_input.all))
-    }
+                  i.f = to$input_id(TRUE, TRUE)
+                  flow_input = add_sharp(i.f[names(i.f) %in% c("File", "File...")])
+              } else {
+                  # need to get required file.. input
+                  i.f = to$input_id(TRUE, TRUE)
+                  flow_input.all = add_sharp(i.f[names(i.f) %in% c("File", "File...")])
+                  flow_input = unique(c(flow_input, flow_input.all))
+              }
 
-    if (length(flow_input)) {
-        message("flow_input: ", paste0(flow_input ,collapse = " / "))
-        from.new$set_flow_input(flow_input)
-    }
+              if (length(flow_input)) {
+                  message("flow_input: ", paste0(flow_input ,collapse = " / "))
+                  from.new$set_flow_input(flow_input)
+              }
 
-    if (is.null(flow_output)) {
-        # auto parse output file
-        flow_output = to$output_id(TRUE)
-    }
+              if (is.null(flow_output)) {
+                  # auto parse output file
+                  flow_output = to$output_id(TRUE)
+              }
 
-    if (length(flow_output)) {
-        message("flow_output: ", paste0(flow_output ,collapse = " / "))
-        from.new$set_flow_output(flow_output)
-    }
-    from.new
-})
+              if (length(flow_output)) {
+                  message("flow_output: ", paste0(flow_output ,collapse = " / "))
+                  from.new$set_flow_output(flow_output)
+              }
+              from.new
+          })
 
 #' @rdname link
 #' @export

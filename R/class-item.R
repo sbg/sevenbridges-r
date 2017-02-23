@@ -8,11 +8,12 @@
 #' @field response save the raw response from a request.
 #' @field auth_token propagate the auth_token from parent.
 #' @field href API href
-Item <- setRefClass("Item",
-
-                    fields = list(response = "ANY",
-                                  href     = "characterORNULL",
-                                  auth     = "AuthORNULL")
+Item <- setRefClass(
+    "Item",
+    fields = list(
+        response = "ANY",
+        href     = "characterORNULL",
+        auth     = "AuthORNULL")
 )
 
 #' Get raw response from an Item object

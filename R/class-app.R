@@ -27,242 +27,243 @@
 #' app = a$public_app(id = "admin/sbg-public-data/star")
 #' app$input_matrix()
 #' app$output_matrix()}
-App <- setRefClass("App", contains = "Item",
+App <- setRefClass(
+    "App", contains = "Item",
 
-                   fields = list(id       = "characterORNULL",
-                                 project  = "characterORNULL",
-                                 name     = "characterORNULL",
-                                 revision = "characterORNULL",
-                                 raw      = "ANY",
-                                 raw_obj  = "ANY"),
+    fields = list(id       = "characterORNULL",
+                  project  = "characterORNULL",
+                  name     = "characterORNULL",
+                  revision = "characterORNULL",
+                  raw      = "ANY",
+                  raw_obj  = "ANY"),
 
-                   methods = list(
+    methods = list(
 
-                       initialize = function(id       = NULL,
-                                             project  = NULL,
-                                             name     = NULL,
-                                             revision = NULL,
-                                             raw      = NULL,
-                                             raw_obj  = NULL, ...) {
-                           id       <<- id
-                           project  <<- project
-                           name     <<- name
-                           revision <<- revision
-                           raw      <<- raw
-                           raw_obj  <<- raw_obj
-                           callSuper(...)
-                       },
+        initialize = function(id       = NULL,
+                              project  = NULL,
+                              name     = NULL,
+                              revision = NULL,
+                              raw      = NULL,
+                              raw_obj  = NULL, ...) {
+            id       <<- id
+            project  <<- project
+            name     <<- name
+            revision <<- revision
+            raw      <<- raw
+            raw_obj  <<- raw_obj
+            callSuper(...)
+        },
 
-                       copyTo = function(project = NULL, name = NULL) {
-                           auth$copy_app(id, project = project, name = name)
-                       },
+        copyTo = function(project = NULL, name = NULL) {
+            auth$copy_app(id, project = project, name = name)
+        },
 
-                       copy_to = function(project = NULL, name = NULL) {
-                           copyTo(project = project, name = name)
-                       },
+        copy_to = function(project = NULL, name = NULL) {
+            copyTo(project = project, name = name)
+        },
 
-                       cwl = function(revision = NULL, ...) {
-                           if (!is.null(revision)) {
-                               .id <- .update_revision(id, revision)
-                           } else {
-                               .id <- id
-                           }
-                           if (is.null(auth)) {
-                               stop("auth missing")
-                           }
-                           raw <<- auth$api(path = paste0("apps/", .id, "/raw"),
-                                            methods = "GET", ...)
-                           raw
-                       },
+        cwl = function(revision = NULL, ...) {
+            if (!is.null(revision)) {
+                .id <- .update_revision(id, revision)
+            } else {
+                .id <- id
+            }
+            if (is.null(auth)) {
+                stop("auth missing")
+            }
+            raw <<- auth$api(path = paste0("apps/", .id, "/raw"),
+                             methods = "GET", ...)
+            raw
+        },
 
-                       get_required = function() {
-                           obj = convert_app(.self)
-                           obj$get_required()
-                       },
+        get_required = function() {
+            obj = convert_app(.self)
+            obj$get_required()
+        },
 
-                       input_matrix = function(...) {
-                           if (is.null(raw)) {
-                               message("get cwl raw file")
-                               cwl()
+        input_matrix = function(...) {
+            if (is.null(raw)) {
+                message("get cwl raw file")
+                cwl()
 
-                           }
-                           sevenbridges:::input_matrix(raw, ...)
+            }
+            sevenbridges:::input_matrix(raw, ...)
 
-                       },
+        },
 
-                       output_matrix = function(...) {
-                           if (is.null(raw)) {
-                               message("get cwl raw file")
-                               cwl()
+        output_matrix = function(...) {
+            if (is.null(raw)) {
+                message("get cwl raw file")
+                cwl()
 
-                           }
-                           sevenbridges:::output_matrix(raw, ...)
-                       },
+            }
+            sevenbridges:::output_matrix(raw, ...)
+        },
 
-                       input_type = function(...) {
-                           if (is.null(raw)) {
-                               message("get cwl raw file")
-                               cwl()
-                           }
-                           # obj = convert_app(.self)
-                           # obj$input_type(...)
-                           getInputType(raw)
-                       },
+        input_type = function(...) {
+            if (is.null(raw)) {
+                message("get cwl raw file")
+                cwl()
+            }
+            # obj = convert_app(.self)
+            # obj$input_type(...)
+            getInputType(raw)
+        },
 
-                       output_type = function(...) {
-                           if (is.null(raw)) {
-                               message("get cwl raw file")
-                               cwl()
-                           }
-                           # obj = convert_app(.self)
-                           # obj$output_type(...)
-                           getOutputType(raw)
-                       },
+        output_type = function(...) {
+            if (is.null(raw)) {
+                message("get cwl raw file")
+                cwl()
+            }
+            # obj = convert_app(.self)
+            # obj$output_type(...)
+            getOutputType(raw)
+        },
 
-                       set_batch = function(input = NULL,
-                                            criteria = NULL,
-                                            type = c("ITEM", "CRITERIA")) {
-                           obj = convert_app(.self)
-                           if (is(obj, "Tool"))
-                               stop("Tool is not supported for batching yet, only Workflow supports batch")
+        set_batch = function(input = NULL,
+                             criteria = NULL,
+                             type = c("ITEM", "CRITERIA")) {
+            obj = convert_app(.self)
+            if (is(obj, "Tool"))
+                stop("Tool is not supported for batching yet, only Workflow supports batch")
 
-                           obj$set_batch(input = input, criteria = criteria, type = type)
-                           message("updating app ...")
-                           p = auth$project(id = project)
+            obj$set_batch(input = input, criteria = criteria, type = type)
+            message("updating app ...")
+            p = auth$project(id = project)
 
-                           pattern<-".+\\/.+\\/(.+)/.+"
-                           shortname = str_match(id, pattern)[1, 2]
-                           p$app_add(shortname, obj)
-                           message("done")
-                       },
+            pattern<-".+\\/.+\\/(.+)/.+"
+            shortname = str_match(id, pattern)[1, 2]
+            p$app_add(shortname, obj)
+            message("done")
+        },
 
-                       input_check = function(input, batch = NULL, proj = NULL) {
+        input_check = function(input, batch = NULL, proj = NULL) {
 
-                           message("check id match")
-                           in_type = input_type()
-                           in_id   = names(in_type)
-                           cus_id  = names(input)
-                           idx     = cus_id %in% in_id
+            message("check id match")
+            in_type = input_type()
+            in_id   = names(in_type)
+            cus_id  = names(input)
+            idx     = cus_id %in% in_id
 
-                           if (sum(!idx)) {
-                               stop("id not matched: ", paste(cus_id[!idx], collapse = " "),
-                                    ".", "\n Inputs id should be \n", paste(in_id, collapse = " "))
-                           }
+            if (sum(!idx)) {
+                stop("id not matched: ", paste(cus_id[!idx], collapse = " "),
+                     ".", "\n Inputs id should be \n", paste(in_id, collapse = " "))
+            }
 
-                           .type  = in_type[match(cus_id, in_id)]
-                           # conversion for single file trick
-                           id.fl  = which("File" == .type)
-                           id.fls = which("File..." == .type)
+            .type  = in_type[match(cus_id, in_id)]
+            # conversion for single file trick
+            id.fl  = which("File" == .type)
+            id.fls = which("File..." == .type)
 
-                           # convert string (id or names) first!
-                           # Based on: is a string a valid file id or not
-                           is_file_id = function(x){
-                               nchar(x) == 24 && !grepl("[^0-9a-fA-F]", x)
-                           }
+            # convert string (id or names) first!
+            # Based on: is a string a valid file id or not
+            is_file_id = function(x){
+                nchar(x) == 24 && !grepl("[^0-9a-fA-F]", x)
+            }
 
-                           # convert a string to Files/FilesList
-                           # p: Project
-                           as_files = function(p, x){
-                               if(!all(sapply(x, is.character))){
-                                   stop("please provide file id(s)")
-                               }
+            # convert a string to Files/FilesList
+            # p: Project
+            as_files = function(p, x){
+                if(!all(sapply(x, is.character))){
+                    stop("please provide file id(s)")
+                }
 
-                               res = lapply(x, function(f){
-                                   if(is_file_id(f)){
-                                       r = p$file(id = f)
-                                       if(is.null(r)){
-                                           stop(paste("id doesn't exists: ", f))
-                                       }else{
-                                           message("file id: ", f)
-                                       }
-                                       r
-                                   }else{
-                                       r = p$file(name = f, exact = TRUE)
-                                       if(is.null(r)){
-                                           stop(paste("name doesn't exists: ", f))
-                                       }else{
-                                           message("file name: ", f)
-                                       }
-                                       r
-                                   }
+                res = lapply(x, function(f){
+                    if(is_file_id(f)){
+                        r = p$file(id = f)
+                        if(is.null(r)){
+                            stop(paste("id doesn't exists: ", f))
+                        }else{
+                            message("file id: ", f)
+                        }
+                        r
+                    }else{
+                        r = p$file(name = f, exact = TRUE)
+                        if(is.null(r)){
+                            stop(paste("name doesn't exists: ", f))
+                        }else{
+                            message("file name: ", f)
+                        }
+                        r
+                    }
 
-                               })
+                })
 
-                               if(length(x) == 1){
-                                   res[[1]]
-                               }else{
-                                   do.call(FilesList, res)
-                               }
-                           }
+                if(length(x) == 1){
+                    res[[1]]
+                }else{
+                    do.call(FilesList, res)
+                }
+            }
 
-                           for(i in c(id.fl, id.fls)){
-                               if(is.character(input[[i]])){
-                                   input[[i]]  = as_files(proj, input[[i]])
-                               }
-                           }
+            for(i in c(id.fl, id.fls)){
+                if(is.character(input[[i]])){
+                    input[[i]]  = as_files(proj, input[[i]])
+                }
+            }
 
 
-                           # solve edge cases
-                           if (length(id.fl)) {
-                               # solve edge case
-                               for (i in id.fl) {
-                                   # input should be File
-                                   if(is(input[[i]], "Files")){
+            # solve edge cases
+            if (length(id.fl)) {
+                # solve edge case
+                for (i in id.fl) {
+                    # input should be File
+                    if(is(input[[i]], "Files")){
 
-                                       if(!is.null(batch)  && cus_id[i] == batch$batch_input){
-                                           ## only operate on the batch input node, otherwise will cause error
-                                           message("Converting single Files as a list for batch mode: ", cus_id[i])
-                                           input[[i]] = list(input[[i]])
-                                       }
-                                   }
-                                   if (is(input[[i]], "FilesList")) {
-                                       if (length(input[[i]]) == 1) {
-                                           if(is.null(batch)){
-                                               message("Converting to single Files type: ", names(input[[i]]))
-                                               input[[i]] = input[[i]][[1]]
-                                           }
+                        if(!is.null(batch)  && cus_id[i] == batch$batch_input){
+                            ## only operate on the batch input node, otherwise will cause error
+                            message("Converting single Files as a list for batch mode: ", cus_id[i])
+                            input[[i]] = list(input[[i]])
+                        }
+                    }
+                    if (is(input[[i]], "FilesList")) {
+                        if (length(input[[i]]) == 1) {
+                            if(is.null(batch)){
+                                message("Converting to single Files type: ", names(input[[i]]))
+                                input[[i]] = input[[i]][[1]]
+                            }
 
-                                       } else {
-                                           if(is.null(batch)){
-                                               stop(in_id[i], " only accept single File")
-                                           }
+                        } else {
+                            if(is.null(batch)){
+                                stop(in_id[i], " only accept single File")
+                            }
 
-                                       }
-                                   }
+                        }
+                    }
 
-                                   if (is.list(input[[i]])) {
-                                       if (length(input[[i]]) == 1 && is(input[[i]][[1]], "Files")) {
-                                           if(is.null(batch)){
-                                               message("Converting to single Files type: ", names(input[[i]]))
-                                               input[[i]] = input[[i]][[1]]
-                                           }
-                                       }
-                                       if (length(input[[i]]) > 1) {
-                                           if(is.null(batch)){
-                                               stop(in_id[i], " only accept single File")
-                                           }
-                                       }
-                                   }
-                               }
-                           }
+                    if (is.list(input[[i]])) {
+                        if (length(input[[i]]) == 1 && is(input[[i]][[1]], "Files")) {
+                            if(is.null(batch)){
+                                message("Converting to single Files type: ", names(input[[i]]))
+                                input[[i]] = input[[i]][[1]]
+                            }
+                        }
+                        if (length(input[[i]]) > 1) {
+                            if(is.null(batch)){
+                                stop(in_id[i], " only accept single File")
+                            }
+                        }
+                    }
+                }
+            }
 
-                           if (length(id.fls)) {
-                               # solve edge case
-                               for (i in id.fls) {
-                                   if (is(input[[i]], "Files")) {
-                                       message("Coverting your single File to a FileList")
-                                       input[[i]] = list(input[[i]])
-                                   }
-                               }
-                           }
+            if (length(id.fls)) {
+                # solve edge case
+                for (i in id.fls) {
+                    if (is(input[[i]], "Files")) {
+                        message("Coverting your single File to a FileList")
+                        input[[i]] = list(input[[i]])
+                    }
+                }
+            }
 
-                           input
+            input
 
-                       },
+        },
 
-                       show = function() .showFields(.self, "== App ==", .response_app)
+        show = function() .showFields(.self, "== App ==", .response_app)
 
-                   ))
+    ))
 
 .asApp <- function(x) {
 
@@ -603,9 +604,3 @@ get_steplist_item = function(input) {
     ss = obj$steps
     do.call(SBGStepList, lapply(ss, get_step_item))
 }
-
-
-
-
-
-

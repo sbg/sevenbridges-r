@@ -57,7 +57,8 @@ e1 \%>>\% e2
 \arguments{
 \item{...}{extra arguments passed to SBGWorkflow}
 
-\item{graph}{if add graph coordinates or not, used for visualization on seven bridges platform.}
+\item{graph}{if add graph coordinates or not,
+used for flow visualization on Seven Bridges platforms.}
 
 \item{x.width}{x scale width}
 

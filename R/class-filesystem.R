@@ -12,76 +12,77 @@
 #' @importFrom uuid UUIDgenerate
 #'
 #' @export FS
-FS <- setRefClass("FS",
+FS <- setRefClass(
+    "FS",
 
-                  fields = list(
-                      mount_point    = "characterORNULL",
-                      mode           = "characterORNULL",
-                      debug          = "logicalORNULL",
-                      cache_dir      = "characterORNULL",
-                      cache_size     = "characterORNULL",
-                      api_address    = "characterORNULL",
-                      token          = "characterORNULL",
-                      project_id     = "listORNULL",
-                      lastproject_id = "characterORNULL",
-                      secure         = "logicalORNULL",
-                      server_address = "characterORNULL",
-                      vsfs_jar       = "characterORNULL"),
+    fields = list(
+        mount_point    = "characterORNULL",
+        mode           = "characterORNULL",
+        debug          = "logicalORNULL",
+        cache_dir      = "characterORNULL",
+        cache_size     = "characterORNULL",
+        api_address    = "characterORNULL",
+        token          = "characterORNULL",
+        project_id     = "listORNULL",
+        lastproject_id = "characterORNULL",
+        secure         = "logicalORNULL",
+        server_address = "characterORNULL",
+        vsfs_jar       = "characterORNULL"),
 
-                  methods = list(
+    methods = list(
 
-                      initialize = function(
-                          server_address = "fs.sbgenomics.com",
-                          api_address    = "https://api.sbgenomics.com",
-                          vsfs_jar       = NULL,
-                          cache_dir      = "~/vsfs_cache",
-                          cache_size     = "10GB",
-                          project_id     = list(), ...) {
+        initialize = function(
+            server_address = "fs.sbgenomics.com",
+            api_address    = "https://api.sbgenomics.com",
+            vsfs_jar       = NULL,
+            cache_dir      = "~/vsfs_cache",
+            cache_size     = "10GB",
+            project_id     = list(), ...) {
 
-                          if (is.null(vsfs_jar)) {
-                              # vsfs_jar <<- system.file("java", "sbg-vsfs.jar", package = "vsfsr")
-                              stop("please provie jar library")
-                          } else {
-                              vsfs_jar <<- vsfs_jar
-                          }
+            if (is.null(vsfs_jar)) {
+                # vsfs_jar <<- system.file("java", "sbg-vsfs.jar", package = "vsfsr")
+                stop("please provie jar library")
+            } else {
+                vsfs_jar <<- vsfs_jar
+            }
 
-                          server_address <<- server_address
-                          api_address    <<- api_address
+            server_address <<- server_address
+            api_address    <<- api_address
 
-                          cache_dir      <<- cache_dir
-                          cache_size     <<- cache_size
-                          # db           <<- db
-                          # icoll        <<- icoll
+            cache_dir      <<- cache_dir
+            cache_size     <<- cache_size
+            # db           <<- db
+            # icoll        <<- icoll
 
-                          # check project_id, has to be integer if any
-                          if (length(project_id)) {
-                              if (!is.list(project_id)) {
-                                  if (length(project_id) > 1 && is.numeric(project_id)) {
-                                      .project_id <- as.list(project_id)
-                                  } else {
-                                      .project_id <- list(project_id)
-                                  }
-                              } else {
-                                  .project_id <- project_id
-                              }
+            # check project_id, has to be integer if any
+            if (length(project_id)) {
+                if (!is.list(project_id)) {
+                    if (length(project_id) > 1 && is.numeric(project_id)) {
+                        .project_id <- as.list(project_id)
+                    } else {
+                        .project_id <- list(project_id)
+                    }
+                } else {
+                    .project_id <- project_id
+                }
 
-                              .project_id <- lapply(.project_id, function(id) {
-                                  if (is.numeric(id) && !is.integer(id)) {
-                                      id <- as.integer(id)
-                                      message("Converting numerical value to integer")
-                                  }
-                                  stopifnot(is.integer(id))
-                                  id
-                              })
-                              project_id <<- .project_id
-                          }
+                .project_id <- lapply(.project_id, function(id) {
+                    if (is.numeric(id) && !is.integer(id)) {
+                        id <- as.integer(id)
+                        message("Converting numerical value to integer")
+                    }
+                    stopifnot(is.integer(id))
+                    id
+                })
+                project_id <<- .project_id
+            }
 
-                          lastproject_id <<- unlist(tail(project_id, n = 1))
+            lastproject_id <<- unlist(tail(project_id, n = 1))
 
-                          callSuper(...)
+            callSuper(...)
 
-                      }
-                  ))
+        }
+    ))
 
 FS$methods(
 

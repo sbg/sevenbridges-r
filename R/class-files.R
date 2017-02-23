@@ -1,6 +1,7 @@
-.response_files = c("id", "name", "size", "project",
-                    "created_on", "modified_on", "storage",
-                    "origin", "tags", "metadata", "url")
+.response_files = c(
+    "id", "name", "size", "project",
+    "created_on", "modified_on", "storage",
+    "origin", "tags", "metadata", "url")
 
 #' Class Files
 #'
@@ -34,216 +35,217 @@
 #' @exportClass Files
 #' @examples
 #' Files(id = "test_id", name = "test.bam")
-Files <- setRefClass("Files", contains = c("Item"),
+Files <- setRefClass(
+    "Files", contains = c("Item"),
 
-                     fields = list(id          = "characterORNULL",
-                                   name        = "characterORNULL",
-                                   size        = "numericORNULL",
-                                   project     = "characterORNULL",
-                                   created_on  = "characterORNULL",
-                                   modified_on = "characterORNULL",
-                                   storage     = "listORNULL",
-                                   origin      = "listORNULL",
-                                   tags        = "listORNULL",
-                                   metadata    = "listORNULL",
-                                   url         = "characterORNULL"),
+    fields = list(id          = "characterORNULL",
+                  name        = "characterORNULL",
+                  size        = "numericORNULL",
+                  project     = "characterORNULL",
+                  created_on  = "characterORNULL",
+                  modified_on = "characterORNULL",
+                  storage     = "listORNULL",
+                  origin      = "listORNULL",
+                  tags        = "listORNULL",
+                  metadata    = "listORNULL",
+                  url         = "characterORNULL"),
 
-                     methods = list(
+    methods = list(
 
-                         initialize = function(id          = NULL,
-                                               name        = NULL,
-                                               size        = NULL,
-                                               project     = NULL,
-                                               created_on  = NULL,
-                                               modified_on = NULL,
-                                               storage     = list(),
-                                               origin      = list(),
-                                               tags        = list(),
-                                               metadata    = list(),
-                                               url         = NULL, ...) {
+        initialize = function(id          = NULL,
+                              name        = NULL,
+                              size        = NULL,
+                              project     = NULL,
+                              created_on  = NULL,
+                              modified_on = NULL,
+                              storage     = list(),
+                              origin      = list(),
+                              tags        = list(),
+                              metadata    = list(),
+                              url         = NULL, ...) {
 
-                             id          <<- id
-                             name        <<- name
-                             size        <<- size
-                             project     <<- project
-                             created_on  <<- created_on
-                             modified_on <<- modified_on
-                             storage     <<- storage
-                             origin      <<- origin
-                             tags        <<- tags
-                             metadata    <<- metadata
-                             url         <<- url
+            id          <<- id
+            name        <<- name
+            size        <<- size
+            project     <<- project
+            created_on  <<- created_on
+            modified_on <<- modified_on
+            storage     <<- storage
+            origin      <<- origin
+            tags        <<- tags
+            metadata    <<- metadata
+            url         <<- url
 
-                             callSuper(...)
+            callSuper(...)
 
-                         },
+        },
 
-                         delete = function() {
-                             auth$api(path = paste0("files/", id),
-                                      method = "DELETE")
-                         },
+        delete = function() {
+            auth$api(path = paste0("files/", id),
+                     method = "DELETE")
+        },
 
-                         download_url = function() {
-                             auth$api(path = paste0("files/", id,
-                                                    "/download_info"),
-                                      method = "GET")
-                         },
+        download_url = function() {
+            auth$api(path = paste0("files/", id,
+                                   "/download_info"),
+                     method = "GET")
+        },
 
-                         download = function(destfile, ..., method = "curl") {
-                             'see `help(download.file)` for more options'
+        download = function(destfile, ..., method = "curl") {
+            'see `help(download.file)` for more options'
 
-                             if (is.null(url))
-                                 url <<- download_url()$url
+            if (is.null(url))
+                url <<- download_url()$url
 
-                             # For backward compatibility:
-                             # R 3.1 does not have `dir.exists()`
-                             .dir.exists = function(d) {
-                                 dirinfo = file.info(d)$isdir
-                                 ifelse(is.na(dirinfo), FALSE, dirinfo)
-                             }
+            # For backward compatibility:
+            # R 3.1 does not have `dir.exists()`
+            .dir.exists = function(d) {
+                dirinfo = file.info(d)$isdir
+                ifelse(is.na(dirinfo), FALSE, dirinfo)
+            }
 
-                             if (.dir.exists(destfile)) {
-                                 # is directory
-                                 if (!is.null(name))
-                                     destfile = file.path(destfile, name)
-                             } else {
-                                 stop("Destination directory does not exist")
-                             }
+            if (.dir.exists(destfile)) {
+                # is directory
+                if (!is.null(name))
+                    destfile = file.path(destfile, name)
+            } else {
+                stop("Destination directory does not exist")
+            }
 
-                             download.file(url, destfile, ..., method = method)
+            download.file(url, destfile, ..., method = method)
 
-                         },
+        },
 
-                         copyTo = function(project = NULL, name = NULL) {
-                             auth$copyFile(id, project = project, name = name)
-                         },
+        copyTo = function(project = NULL, name = NULL) {
+            auth$copyFile(id, project = project, name = name)
+        },
 
-                         copy_to = function(project = NULL, name = NULL) {
-                             'copy a file to a project (id) with new name'
+        copy_to = function(project = NULL, name = NULL) {
+            'copy a file to a project (id) with new name'
 
-                             copyTo(project = project, name = name)
+            copyTo(project = project, name = name)
 
-                         },
+        },
 
-                         meta = function() {
-                             'get metadata from a file'
+        meta = function() {
+            'get metadata from a file'
 
-                             req = auth$api(path = paste0('files/', id, '/metadata'),
-                                            methods = "GET")
-                             # update
-                             metadata <<- req
-                             req
+            req = auth$api(path = paste0('files/', id, '/metadata'),
+                           methods = "GET")
+            # update
+            metadata <<- req
+            req
 
-                         },
+        },
 
-                         setMeta = function(..., overwrite = FALSE) {
-                             '
-                             set metadata with provided list, when overwrite
-                             is set to TRUE, it overwrites the metadata'
+        setMeta = function(..., overwrite = FALSE) {
+            '
+            set metadata with provided list, when overwrite
+            is set to TRUE, it overwrites the metadata'
 
-                             o = .self$metadata
+            o = .self$metadata
 
-                             md = .dotargsAsList(...)
+            md = .dotargsAsList(...)
 
-                             if (length(md)) {
-                                 if (!overwrite) {
-                                     req = auth$api(path = paste0('files/', id, '/metadata'),
-                                                    body = md,
-                                                    method = 'PATCH')
-                                 } else {
-                                     req = auth$api(path = paste0('files/', id, '/metadata'),
-                                                    body = md,
-                                                    method = 'PUT')
-                                 }
-                             } else {
-                                 if (overwrite) {
-                                     # overwrite!
-                                     message("reset meta")
-                                     req = auth$api(path = paste0('files/', id, '/metadata'),
-                                                    method = 'PUT')
-                                 } else {
-                                     message("Nothing to add")
-                                     req = NULL
-                                 }
-                             }
+            if (length(md)) {
+                if (!overwrite) {
+                    req = auth$api(path = paste0('files/', id, '/metadata'),
+                                   body = md,
+                                   method = 'PATCH')
+                } else {
+                    req = auth$api(path = paste0('files/', id, '/metadata'),
+                                   body = md,
+                                   method = 'PUT')
+                }
+            } else {
+                if (overwrite) {
+                    # overwrite!
+                    message("reset meta")
+                    req = auth$api(path = paste0('files/', id, '/metadata'),
+                                   method = 'PUT')
+                } else {
+                    message("Nothing to add")
+                    req = NULL
+                }
+            }
 
-                             # edit the object only when update is successful
-                             metadata <<- req
-                             req
+            # edit the object only when update is successful
+            metadata <<- req
+            req
 
-                         },
+        },
 
-                         set_meta = function(..., overwrite = FALSE) {
-                             '
-                             set metadata with provided list, when overwrite
-                             is set to TRUE, it overwrites the metadata'
-                             setMeta(..., overwrite = overwrite)
-                         },
+        set_meta = function(..., overwrite = FALSE) {
+            '
+            set metadata with provided list, when overwrite
+            is set to TRUE, it overwrites the metadata'
+            setMeta(..., overwrite = overwrite)
+        },
 
-                         tag = function() {
-                             'get tag from a file'
-                             update()
-                             .self$tags
-                         },
+        tag = function() {
+            'get tag from a file'
+            update()
+            .self$tags
+        },
 
-                         set_tag = function(x = NULL, overwrite = TRUE, ...) {
-                             'set a tag for a file, your tag need to be a list or vector'
-                             if (is.null(x)) stop("please provided your tags")
-                             if (is.character(x)) x = as.list(x)
-                             if (overwrite) {
-                                 auth$api(path = paste0("files/", id, "/tags"),
-                                          method = "PUT",
-                                          body = x, ...)
-                                 tags <<- x
-                             } else {
-                                 .tags = tag()
-                                 .tags = c(.tags, x)
-                                 auth$api(path = paste0("files/", id, "/tags"),
-                                          method = "PUT",
-                                          body = .tags, ...)
-                                 tags <<- .tags
-                             }
+        set_tag = function(x = NULL, overwrite = TRUE, ...) {
+            'set a tag for a file, your tag need to be a list or vector'
+            if (is.null(x)) stop("please provided your tags")
+            if (is.character(x)) x = as.list(x)
+            if (overwrite) {
+                auth$api(path = paste0("files/", id, "/tags"),
+                         method = "PUT",
+                         body = x, ...)
+                tags <<- x
+            } else {
+                .tags = tag()
+                .tags = c(.tags, x)
+                auth$api(path = paste0("files/", id, "/tags"),
+                         method = "PUT",
+                         body = .tags, ...)
+                tags <<- .tags
+            }
 
-                             tags
+            tags
 
-                         },
+        },
 
-                         add_tag = function(x, ...) {
-                             'add new tags while keeping old tags'
-                             set_tag(x, overwrite = FALSE, ...)
-                         },
+        add_tag = function(x, ...) {
+            'add new tags while keeping old tags'
+            set_tag(x, overwrite = FALSE, ...)
+        },
 
-                         update  = function(name = NULL, metadata = NULL,
-                                            tags = NULL) {
-                             '
-                             This call updates the name, the full set metadata,
-                             and tags for a specified file.'
+        update  = function(name = NULL, metadata = NULL,
+                           tags = NULL) {
+            '
+            This call updates the name, the full set metadata,
+            and tags for a specified file.'
 
-                             body = list(name = name, metadata = metadata, tags = tags)
-                             body = body[!sapply(body, is.null)]
-                             if (length(body)) {
-                                 req = auth$api(path = paste0('files/', id),
-                                                body = body,
-                                                method = 'PATCH')
-                                 res = .asFiles(req)
-                             } else {
-                                 req = auth$api(path = paste0('files/', id),
-                                                method = 'GET')
-                                 res = .asFiles(req)
-                             }
+            body = list(name = name, metadata = metadata, tags = tags)
+            body = body[!sapply(body, is.null)]
+            if (length(body)) {
+                req = auth$api(path = paste0('files/', id),
+                               body = body,
+                               method = 'PATCH')
+                res = .asFiles(req)
+            } else {
+                req = auth$api(path = paste0('files/', id),
+                               method = 'GET')
+                res = .asFiles(req)
+            }
 
-                             # update fields
-                             for (fld in .response_files) .self$field(fld,res[[fld]])
+            # update fields
+            for (fld in .response_files) .self$field(fld,res[[fld]])
 
-                             res
+            res
 
-                         },
+        },
 
-                         show = function() {
-                             .showFields(.self, "== Files ==", .response_files)
-                         }
+        show = function() {
+            .showFields(.self, "== Files ==", .response_files)
+        }
 
-                     ))
+    ))
 
 .asFiles <- function(x) {
     Files(id          = x$id,

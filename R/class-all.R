@@ -6,4 +6,3 @@ setClassUnion("logicalORlistORNULL", c("logical", "list", "NULL"))
 setClassUnion("functionORNULL", c("function", "NULL"))
 setClassUnion("integerORNULL", c("integer", "NULL"))
 setClassUnion("characterORNULL", c("character", "NULL"))
-

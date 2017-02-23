@@ -3,63 +3,64 @@
 # # Billing
 # # to make it simple to update, return a list, not an object,
 # # because no action defined an this object
-Billing <- setRefClass("Billing", contains = "Item",
+Billing <- setRefClass(
+    "Billing", contains = "Item",
 
-                       fields = list(
-                           id                = "characterORNULL",
-                           name              = "characterORNULL",
-                           owner             = "characterORNULL",
-                           privileges        = "listORNULL",
-                           type              = "characterORNULL",
-                           pending           = "logicalORNULL",
-                           disabled          = "logicalORNULL",
-                           active            = "logicalORNULL",
-                           balance           = "listORNULL",
-                           project_breakdown = "listORNULL",
-                           total_spending    = "listORNULL"),  # 1.1
+    fields = list(
+        id                = "characterORNULL",
+        name              = "characterORNULL",
+        owner             = "characterORNULL",
+        privileges        = "listORNULL",
+        type              = "characterORNULL",
+        pending           = "logicalORNULL",
+        disabled          = "logicalORNULL",
+        active            = "logicalORNULL",
+        balance           = "listORNULL",
+        project_breakdown = "listORNULL",
+        total_spending    = "listORNULL"),  # 1.1
 
-                       methods = list(
+    methods = list(
 
-                           initialize = function(
-                               id                = NULL,
-                               name              = NULL,
-                               owner             = NULL,
-                               privileges        = list(),
-                               type              = NULL,
-                               pending           = NULL,
-                               disabled          = NULL,
-                               active            = NULL,
-                               balance           = list(),
-                               project_breakdown = list(),
-                               total_spending    = list(), ...) {
+        initialize = function(
+            id                = NULL,
+            name              = NULL,
+            owner             = NULL,
+            privileges        = list(),
+            type              = NULL,
+            pending           = NULL,
+            disabled          = NULL,
+            active            = NULL,
+            balance           = list(),
+            project_breakdown = list(),
+            total_spending    = list(), ...) {
 
-                               id         <<- id
-                               name       <<- name
-                               owner      <<- owner
-                               privileges <<- privileges
-                               type       <<- type
-                               disabled   <<- disabled
-                               active     <<- active
-                               balance    <<- balance
+            id         <<- id
+            name       <<- name
+            owner      <<- owner
+            privileges <<- privileges
+            type       <<- type
+            disabled   <<- disabled
+            active     <<- active
+            balance    <<- balance
 
-                               # for breakdown
-                               project_breakdown <<- project_breakdown
-                               total_spending    <<- total_spending
+            # for breakdown
+            project_breakdown <<- project_breakdown
+            total_spending    <<- total_spending
 
-                               callSuper(...)
+            callSuper(...)
 
-                           },
+        },
 
-                           show = function() {
-                               .showFields(
-                                   .self, "== Billing ==",
-                                   values = c("id", "href", "name",
-                                              "owner", "privileges", "type",
-                                              "disabled", "active", "balance",
-                                              "project_breakdown", "total_spending"))
-                           }
+        show = function() {
+            .showFields(
+                .self, "== Billing ==",
+                values = c("id", "href", "name",
+                           "owner", "privileges", "type",
+                           "disabled", "active", "balance",
+                           "project_breakdown", "total_spending"))
+        }
 
-                       ))
+    ))
 
 .asBilling <- function(x) {
 

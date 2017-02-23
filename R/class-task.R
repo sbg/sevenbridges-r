@@ -1,152 +1,155 @@
-.ts <- c("id", "name", "description", "status", "app", "type",
-         "created_by", "created_time", "executed_by", "start_time", "end_time",
-         "execution_status", "price", "inputs", "outputs", "project",
-         "batch", "batch_input", "batch_by",  "parent", "batch_group",
-         "errors", "warnings")
+.ts <- c(
+    "id", "name", "description", "status", "app", "type",
+    "created_by", "created_time", "executed_by", "start_time", "end_time",
+    "execution_status", "price", "inputs", "outputs", "project",
+    "batch", "batch_input", "batch_by",  "parent", "batch_group",
+    "errors", "warnings")
 
-Task <- setRefClass("Task", contains = "Item",
+Task <- setRefClass(
+    "Task", contains = "Item",
 
-                    fields = list(id               = "characterORNULL",
-                                  name             = "characterORNULL",
-                                  description      = "characterORNULL",
-                                  status           = "characterORNULL",
-                                  app              = "characterORNULL",
-                                  type             = "characterORNULL",
-                                  created_by       = "characterORNULL",
-                                  created_time     = "characterORNULL",
-                                  executed_by      = "characterORNULL",
-                                  start_time       = "characterORNULL",
-                                  end_time         = "characterORNULL",
-                                  execution_status = "listORNULL",
-                                  price            = "listORNULL",
-                                  inputs           = "listORNULL",
-                                  outputs          = "listORNULL",
-                                  project          = "characterORNULL",
-                                  batch            = "logicalORNULL",
-                                  batch_input      = "characterORNULL",
-                                  batch_by         = "listORNULL",
-                                  parent           = "characterORNULL",
-                                  batch_group      = "listORNULL",
-                                  errors           = "listORNULL",
-                                  warnings         = "listORNULL"),
+    fields = list(
+        id               = "characterORNULL",
+        name             = "characterORNULL",
+        description      = "characterORNULL",
+        status           = "characterORNULL",
+        app              = "characterORNULL",
+        type             = "characterORNULL",
+        created_by       = "characterORNULL",
+        created_time     = "characterORNULL",
+        executed_by      = "characterORNULL",
+        start_time       = "characterORNULL",
+        end_time         = "characterORNULL",
+        execution_status = "listORNULL",
+        price            = "listORNULL",
+        inputs           = "listORNULL",
+        outputs          = "listORNULL",
+        project          = "characterORNULL",
+        batch            = "logicalORNULL",
+        batch_input      = "characterORNULL",
+        batch_by         = "listORNULL",
+        parent           = "characterORNULL",
+        batch_group      = "listORNULL",
+        errors           = "listORNULL",
+        warnings         = "listORNULL"),
 
-                    methods = list(
-                        # initialize = function(execution_status = NULL, ...) {
-                        #     if (!is.null(execution_status)) {
-                        #         .self$execution_status <<- do.call(EStatus, execution_status)
-                        #     }
-                        #     callSuper(...)
-                        # },
-                        update = function(name = NULL,
-                                          description = NULL,
-                                          inputs = NULL, ...) {
+    methods = list(
+        # initialize = function(execution_status = NULL, ...) {
+        #     if (!is.null(execution_status)) {
+        #         .self$execution_status <<- do.call(EStatus, execution_status)
+        #     }
+        #     callSuper(...)
+        # },
+        update = function(name = NULL,
+                          description = NULL,
+                          inputs = NULL, ...) {
 
-                            if (is.null(name) && is.null(description) && !is.null(inputs)) {
-                                res = auth$api(path = paste0("tasks/", id, "/inputs"),
-                                               body = inputs, method = "PATCH", ...)
-                                return(update())
-                            }
+            if (is.null(name) && is.null(description) && !is.null(inputs)) {
+                res = auth$api(path = paste0("tasks/", id, "/inputs"),
+                               body = inputs, method = "PATCH", ...)
+                return(update())
+            }
 
-                            body = list(name        = name,
-                                        description = description,
-                                        inputs      = inputs)
+            body = list(name        = name,
+                        description = description,
+                        inputs      = inputs)
 
-                            if (all(sapply(body, is.null))) {
-                                res = auth$api(path = paste0("tasks/", id),
-                                               method = "GET", ...)
-                            } else {
-                                res = auth$api(path = paste0("tasks/", id),
-                                               body = body, method = "PATCH",
-                                               ...)
-                            }
+            if (all(sapply(body, is.null))) {
+                res = auth$api(path = paste0("tasks/", id),
+                               method = "GET", ...)
+            } else {
+                res = auth$api(path = paste0("tasks/", id),
+                               body = body, method = "PATCH",
+                               ...)
+            }
 
-                            # update object
-                            for (nm in .ts) .self$field(nm, res[[nm]])
-                            .asTask(res)
+            # update object
+            for (nm in .ts) .self$field(nm, res[[nm]])
+            .asTask(res)
 
-                        },
+        },
 
-                        getInputs = function(...) {
-                            auth$api(path = paste0("tasks/", id, "/inputs"),
-                                     method = "GET", ...)
-                        },
+        getInputs = function(...) {
+            auth$api(path = paste0("tasks/", id, "/inputs"),
+                     method = "GET", ...)
+        },
 
-                        get_input = function(...) {
-                            getInputs(...)
-                        },
+        get_input = function(...) {
+            getInputs(...)
+        },
 
-                        delete = function(...) {
-                            auth$api(path = paste0("tasks/", id),
-                                     method = "DELETE", ...)
-                        },
+        delete = function(...) {
+            auth$api(path = paste0("tasks/", id),
+                     method = "DELETE", ...)
+        },
 
-                        abort = function(...) {
-                            # turn this into a list
-                            req <- auth$api(path = paste0("tasks/", id, "/actions/abort"),
-                                            method = "POST", ...)
+        abort = function(...) {
+            # turn this into a list
+            req <- auth$api(path = paste0("tasks/", id, "/actions/abort"),
+                            method = "POST", ...)
 
-                            # update object
-                            for (nm in .ts) .self$field(nm, req[[nm]])
-                            .asTask(req)
-                        },
+            # update object
+            for (nm in .ts) .self$field(nm, req[[nm]])
+            .asTask(req)
+        },
 
-                        monitor = function(time = 30, ...) {
-                            # TODO:
-                            # set hook function
-                            # get hook
-                            t0 <- Sys.time()
-                            message("Monitoring ...")
-                            while (TRUE) {
-                                # get status
-                                d    <- tolower(update()$status)
-                                .fun <- getTaskHook(d)
-                                res  <- .fun(...)
-                                if (!is.logical(res) || isTRUE(res)) {
-                                    break
-                                }
-                                Sys.sleep(time)
-                            }
-                        },
+        monitor = function(time = 30, ...) {
+            # TODO:
+            # set hook function
+            # get hook
+            t0 <- Sys.time()
+            message("Monitoring ...")
+            while (TRUE) {
+                # get status
+                d    <- tolower(update()$status)
+                .fun <- getTaskHook(d)
+                res  <- .fun(...)
+                if (!is.logical(res) || isTRUE(res)) {
+                    break
+                }
+                Sys.sleep(time)
+            }
+        },
 
-                        file = function(...) {
-                            auth$file(project = project, origin.task = id, ...)
-                        },
+        file = function(...) {
+            auth$file(project = project, origin.task = id, ...)
+        },
 
-                        download = function(destfile, ..., method = "curl") {
+        download = function(destfile, ..., method = "curl") {
 
-                            if (is.null(outputs)) update()
+            if (is.null(outputs)) update()
 
-                            tmp  <- unlist(outputs)
-                            idx  <- which(grepl('*.path$', names(tmp)))
-                            fids <- unname(tmp[idx])
-                            # fids <- sapply(outputs, function(x) x$path)
+            tmp  <- unlist(outputs)
+            idx  <- which(grepl('*.path$', names(tmp)))
+            fids <- unname(tmp[idx])
+            # fids <- sapply(outputs, function(x) x$path)
 
-                            p    <- auth$project(id = project)
+            p    <- auth$project(id = project)
 
-                            for (fid in fids) {
-                                fl <- p$file(id = fid)
-                                message("\n Downloading: ", fl$name)
-                                fl$download(destfile, ..., method = method)
-                            }
+            for (fid in fids) {
+                fl <- p$file(id = fid)
+                message("\n Downloading: ", fl$name)
+                fl$download(destfile, ..., method = method)
+            }
 
-                        },
+        },
 
-                        run = function(...) {
-                            # turn this into a list
-                            req <- auth$api(path = paste0("tasks/", id, "/actions/run"),
-                                            method = "POST", ...)
-                            # update object
-                            for (nm in .ts) {
-                                .self$field(nm, req[[nm]])
-                            }
-                            .asTask(req)
-                        },
+        run = function(...) {
+            # turn this into a list
+            req <- auth$api(path = paste0("tasks/", id, "/actions/run"),
+                            method = "POST", ...)
+            # update object
+            for (nm in .ts) {
+                .self$field(nm, req[[nm]])
+            }
+            .asTask(req)
+        },
 
-                        show = function() {
-                            .showFields(.self, "== Task ==", .ts)
-                        }
+        show = function() {
+            .showFields(.self, "== Task ==", .ts)
+        }
 
-                    ))
+    ))
 
 .asTask <- function(x) {
     res <- do.call(Task, x)
@@ -164,83 +167,84 @@ TaskList <- setListClass("Task", contains = "Item0")
 }
 
 # Hook
-TaskHook <- setRefClass("TaskHook",
+TaskHook <- setRefClass(
+    "TaskHook",
 
-                        fields = list(
-                            queued    = "function",
-                            draft     = "function",
-                            running   = "function",
-                            completed = "function",
-                            aborted   = "function",
-                            failed    = "function"),
+    fields = list(
+        queued    = "function",
+        draft     = "function",
+        running   = "function",
+        completed = "function",
+        aborted   = "function",
+        failed    = "function"),
 
-                        methods = list(
+    methods = list(
 
-                            initialize = function(queued    = NULL,
-                                                  draft     = NULL,
-                                                  running   = NULL,
-                                                  completed = NULL,
-                                                  aborted   = NULL,
-                                                  failed    = NULL, ...) {
+        initialize = function(queued    = NULL,
+                              draft     = NULL,
+                              running   = NULL,
+                              completed = NULL,
+                              aborted   = NULL,
+                              failed    = NULL, ...) {
 
-                                if (is.null(completed)) {
-                                    completed <<- function(...) {
-                                        cat("\r", "completed")
-                                        return(TRUE)
-                                    }
-                                }
+            if (is.null(completed)) {
+                completed <<- function(...) {
+                    cat("\r", "completed")
+                    return(TRUE)
+                }
+            }
 
-                                if (is.null(queued)) {
-                                    queued <<- function(...) {
-                                        cat("\r", "queued")
-                                        return(FALSE)
-                                    }
-                                }
+            if (is.null(queued)) {
+                queued <<- function(...) {
+                    cat("\r", "queued")
+                    return(FALSE)
+                }
+            }
 
-                                if (is.null(draft)) {
-                                    draft <<- function(....) {
-                                        # should not happen in a running task
-                                        message("draft")
-                                        return(FALSE)
-                                    }
-                                }
+            if (is.null(draft)) {
+                draft <<- function(....) {
+                    # should not happen in a running task
+                    message("draft")
+                    return(FALSE)
+                }
+            }
 
-                                if (is.null(running)) {
-                                    running <<- function(...) {
-                                        cat("\r", "running ...")
-                                        return(FALSE)
-                                    }
-                                }
+            if (is.null(running)) {
+                running <<- function(...) {
+                    cat("\r", "running ...")
+                    return(FALSE)
+                }
+            }
 
-                                if (is.null(aborted)) {
-                                    aborted <<- function(...) {
-                                        message("aborted")
-                                        return(TRUE)
-                                    }
-                                }
+            if (is.null(aborted)) {
+                aborted <<- function(...) {
+                    message("aborted")
+                    return(TRUE)
+                }
+            }
 
-                                if (is.null(failed)) {
-                                    failed <<- function(...) {
-                                        cat("\r", "failed")
-                                        return(TRUE)
-                                    }
-                                }
+            if (is.null(failed)) {
+                failed <<- function(...) {
+                    cat("\r", "failed")
+                    return(TRUE)
+                }
+            }
 
-                            },
+        },
 
-                            setHook = function(status = c("queued", "draft", "running",
-                                                          "completed", "aborted", "failed"), fun) {
-                                stopifnot(is.function(fun))
-                                status <- match.arg(status)
-                                .self$field(status, fun)
-                            },
+        setHook = function(status = c("queued", "draft", "running",
+                                      "completed", "aborted", "failed"), fun) {
+            stopifnot(is.function(fun))
+            status <- match.arg(status)
+            .self$field(status, fun)
+        },
 
-                            getHook = function(status = c("queued", "draft", "running",
-                                                          "completed", "aborted", "failed")) {
-                                status <- match.arg(status)
-                                .self[[status]]
-                            }
-                        ))
+        getHook = function(status = c("queued", "draft", "running",
+                                      "completed", "aborted", "failed")) {
+            status <- match.arg(status)
+            .self[[status]]
+        }
+    ))
 
 #' set task function hook
 #'

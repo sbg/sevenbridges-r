@@ -3,11 +3,12 @@
 # Meta Schema v2
 # I use all lower case for field
 # courtesy to SBG team, the Python code
-uuid_regex = c('^$|[0-9a-f]{8}-',
-               '[0-9a-f]{4}-',
-               '[1-5][0-9a-f]{3}-',
-               '[89ab][0-9a-f]{3}-',
-               '[0-9a-f]{12}')
+uuid_regex = c(
+    '^$|[0-9a-f]{8}-',
+    '[0-9a-f]{4}-',
+    '[1-5][0-9a-f]{3}-',
+    '[89ab][0-9a-f]{3}-',
+    '[0-9a-f]{12}')
 
 max_length = function(n) paste0("^.{0,", as.character(n),"}$")
 
@@ -19,11 +20,12 @@ regErrFun = function(x, max = max_chars)
 regErrFun("asdf")
 
 metadata_groups_order <- list(
-    File = c("experimental_strategy", "library_id", "platform",
-             "platform_unit_id", "file_segment_number", "quality_scale",
-             "paired_end", "data_format", "file_extension",
-             "reference_genome", "data_type", "data_subtype",
-             "analysis_uuid", "gdc_file_uuid", "access_level"),
+    File = c(
+        "experimental_strategy", "library_id", "platform",
+        "platform_unit_id", "file_segment_number", "quality_scale",
+        "paired_end", "data_format", "file_extension",
+        "reference_genome", "data_type", "data_subtype",
+        "analysis_uuid", "gdc_file_uuid", "access_level"),
     General          = c("investigation"),
     Case             = c("case_id", "case_uuid"),
     Case_Demographic = c("gender", "race", "ethnicity"),
@@ -41,82 +43,84 @@ find_meta_group <- function(meta) {
     names(which(res))
 }
 
-key_order = c("experimental_strategy", "library_id", "platform",
-              "platform_unit_id", "file_segment_number", "quality_scale",
-              "paired_end", "data_format", "file_extension", "reference_genome",
-              "data_type", "data_subtype", "analysis_uuid", "gdc_file_uuid",
-              "access_level", "investigation", "case_id", "case_uuid", "gender",
-              "race", "ethnicity", "primary_site", "disease_type",
-              "age_at_diagnosis", "vital_status", "days_to_death", "sample_id",
-              "sample_uuid", "sample_type", "aliquot_id", "aliquot_uuid")
+key_order = c(
+    "experimental_strategy", "library_id", "platform",
+    "platform_unit_id", "file_segment_number", "quality_scale",
+    "paired_end", "data_format", "file_extension", "reference_genome",
+    "data_type", "data_subtype", "analysis_uuid", "gdc_file_uuid",
+    "access_level", "investigation", "case_id", "case_uuid", "gender",
+    "race", "ethnicity", "primary_site", "disease_type",
+    "age_at_diagnosis", "vital_status", "days_to_death", "sample_id",
+    "sample_uuid", "sample_type", "aliquot_id", "aliquot_uuid")
 
-Meta <- setRefClass("Meta",
+Meta <- setRefClass(
+    "Meta",
 
-                    fields = list(
-                        data             = "ANY",
-                        name             = "characterORNULL",
-                        description      = "characterORNULL",
-                        category         = "characterORNULL",
-                        locked           = "logicalORNULL",
-                        type             = "characterORNULL",
-                        suggested_values = "characterORNULL",
-                        regex            = "characterORNULL",
-                        regexErrMsg      = "characterORNULL"),
+    fields = list(
+        data             = "ANY",
+        name             = "characterORNULL",
+        description      = "characterORNULL",
+        category         = "characterORNULL",
+        locked           = "logicalORNULL",
+        type             = "characterORNULL",
+        suggested_values = "characterORNULL",
+        regex            = "characterORNULL",
+        regexErrMsg      = "characterORNULL"),
 
-                    methods = list(
+    methods = list(
 
-                        initialize = function(
-                            data             = NA_character_,
-                            name             = NULL,
-                            description      = NULL,
-                            category         = NULL,
-                            locked           = FALSE,
-                            type             = NULL,
-                            suggested_values = NULL,
-                            regex            = NULL,
-                            regexErrMsg      = NULL) {
+        initialize = function(
+            data             = NA_character_,
+            name             = NULL,
+            description      = NULL,
+            category         = NULL,
+            locked           = FALSE,
+            type             = NULL,
+            suggested_values = NULL,
+            regex            = NULL,
+            regexErrMsg      = NULL) {
 
-                            data <<- transformData(data)
+            data <<- transformData(data)
 
-                            # FIXME: validation
-                            if(!is.null(type)) stopifnot(is(data, type))
+            # FIXME: validation
+            if(!is.null(type)) stopifnot(is(data, type))
 
-                            name             <<- name
-                            description      <<- description
-                            category         <<- category
-                            locked           <<- locked
-                            type             <<- type
-                            suggested_values <<- suggested_values
-                            regex            <<- regex
-                            regexErrMsg      <<- regexErrMsg
+            name             <<- name
+            description      <<- description
+            category         <<- category
+            locked           <<- locked
+            type             <<- type
+            suggested_values <<- suggested_values
+            regex            <<- regex
+            regexErrMsg      <<- regexErrMsg
 
-                        },
+        },
 
-                        transformData = function(x) {
-                            x
-                        },
+        transformData = function(x) {
+            x
+        },
 
-                        # asList = function() {
-                        #
-                        # },
+        # asList = function() {
+        #
+        # },
 
-                        show = function(short = FALSE, full = TRUE) {
-                            if (short) {
-                                .nms <- "data"
-                            } else {
-                                .nms <- c("data", "name", "description",
-                                          "category",
-                                          "locked", "type", "suggested_values",
-                                          "regex", "regexErrMsg")
-                            }
-                            if (is.null(name)) {
-                                x <- "== Meta =="
-                            } else {
-                                x <- paste("--", name, "--")
-                            }
-                            .showFields(.self, x,  .nms, full = full)
-                        }
-                    ))
+        show = function(short = FALSE, full = TRUE) {
+            if (short) {
+                .nms <- "data"
+            } else {
+                .nms <- c("data", "name", "description",
+                          "category",
+                          "locked", "type", "suggested_values",
+                          "regex", "regexErrMsg")
+            }
+            if (is.null(name)) {
+                x <- "== Meta =="
+            } else {
+                x <- paste("--", name, "--")
+            }
+            .showFields(.self, x,  .nms, full = full)
+        }
+    ))
 
 setMetaClass <- function(className     = NULL,
                          type          = "ANY",
@@ -788,56 +792,59 @@ lst <- as.list(nm.cls)
 #' quality_scale()
 #' # check their suggested value and construct your metadata
 #' Metadata(platform  = "Affymetrix SNP Array 6.0", paired_end = 1, quality_scale = "sanger")
-Metadata <- setRefClass("Metadata",
-                        fields = c(lst, list(extra = "listORNULL")),
-                        methods = list(
-                            initialize = function(...) {
+Metadata <- setRefClass(
+    "Metadata",
+    fields = c(lst, list(extra = "listORNULL")),
+    methods = list(
 
-                                args <- .dotargsAsList(...)
+        initialize = function(...) {
 
-                                args.key <- args[names(args)[names(args) %in% key_order]]
-                                args.extra <- args[names(args)[!names(args) %in% key_order]]
-                                if (length(args.extra))
-                                    extra <<- args.extra
+            args <- .dotargsAsList(...)
 
-                                for (nm in names(args.key)) {
-                                    .self$field(nm, do.call(nm, list(data = args.key[[nm]])))
-                                }
+            args.key <- args[names(args)[names(args) %in% key_order]]
+            args.extra <- args[names(args)[!names(args) %in% key_order]]
+            if (length(args.extra))
+                extra <<- args.extra
 
-                            },
+            for (nm in names(args.key)) {
+                .self$field(nm, do.call(nm, list(data = args.key[[nm]])))
+            }
 
-                            asList = function(full = FALSE) {
+        },
 
-                                lst <- .getFields(.self, key_order)
+        asList = function(full = FALSE) {
 
-                                res <- c(lst, extra)
+            lst <- .getFields(.self, key_order)
 
-                                res <- lapply(res, function(x) {
-                                    if (is(x, "Meta")) {
-                                        x$data
-                                    } else {
-                                        x
-                                    }
-                                })
-                                if (!full) {
-                                    idx <- sapply(res, is.null)
-                                    if (length(!idx)) {
-                                        res[!idx]
-                                    } else {
-                                        list()
-                                    }
+            res <- c(lst, extra)
 
-                                } else {
-                                    res
-                                }
+            res <- lapply(res, function(x) {
+                if (is(x, "Meta")) {
+                    x$data
+                } else {
+                    x
+                }
+            })
+            if (!full) {
+                idx <- sapply(res, is.null)
+                if (length(!idx)) {
+                    res[!idx]
+                } else {
+                    list()
+                }
 
-                            },
+            } else {
+                res
+            }
 
-                            show = function(full = FALSE, short = FALSE) {
-                                l <- asList(full = full)
-                                .showList(l, full = full)
-                            }
-                        ))
+        },
+
+        show = function(full = FALSE, short = FALSE) {
+            l <- asList(full = full)
+            .showList(l, full = full)
+        }
+
+    ))
 
 setClassUnion("MetadataORNULL", c("Metadata", "NULL"))
 
@@ -877,5 +884,5 @@ formalizeMetaDataFrame = function(x){
         }
 
     }
-   x
+    x
 }
