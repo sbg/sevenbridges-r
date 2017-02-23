@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/sevenbridges-r)
-[![platform](https://www.bioconductor.org/shields/availability/devel/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#archives)
-[![bioc](https://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
-[![downloads](https://www.bioconductor.org/shields/downloads/sevenbridges.svg)](https://bioconductor.org/packages/stats/bioc/sevenbridges/)
+[![BioC](https://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
+[![Docker Pulls](https://img.shields.io/docker/pulls/sevenbridges/sevenbridges-r.svg)](https://hub.docker.com/r/sevenbridges/sevenbridges-r/)
+[![Downloads](https://www.bioconductor.org/shields/downloads/sevenbridges.svg)](https://bioconductor.org/packages/stats/bioc/sevenbridges/)
 
 [BioC (Release)](https://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) · [BioC (Development)](https://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) · [GitHub (Latest)](https://github.com/sbg/sevenbridges-r)
 
