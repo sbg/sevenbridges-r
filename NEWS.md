@@ -1,3 +1,10 @@
+# sevenbridges 1.5.9
+
+## Bug Fixes
+
+- Fixed task output files download issue ([#52](https://github.com/sbg/sevenbridges-r/issues/52)).
+- Fixed IDE Docker image build issues; removed the libssl-dev dependency; updated Dockerfile.
+
 # sevenbridges 1.5.8
 
 ## Bug Fixes
