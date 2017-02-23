@@ -113,13 +113,19 @@ Task <- setRefClass("Task", contains = "Item",
                         },
 
                         download = function(destfile, ..., method = "curl") {
+
                             if (is.null(outputs)) update()
-                            fids <- sapply(outputs, function(x) x$path)
+
+                            tmp  <- unlist(outputs)
+                            idx  <- which(grepl('*.path$', names(tmp)))
+                            fids <- unname(tmp[idx])
+                            # fids <- sapply(outputs, function(x) x$path)
+
                             p    <- auth$project(id = project)
 
                             for (fid in fids) {
                                 fl <- p$file(id = fid)
-                                message("downloading: ", fl$name)
+                                message("\n Downloading: ", fl$name)
                                 fl$download(destfile, ..., method = method)
                             }
 

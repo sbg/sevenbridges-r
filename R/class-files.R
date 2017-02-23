@@ -107,7 +107,7 @@ Files <- setRefClass("Files", contains = c("Item"),
                                  if (!is.null(name))
                                      destfile = file.path(destfile, name)
                              } else {
-                                 stop("download dir does not exist")
+                                 stop("Destination directory does not exist")
                              }
 
                              download.file(url, destfile, ..., method = method)
