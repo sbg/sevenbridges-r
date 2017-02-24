@@ -71,6 +71,7 @@ Collate:
     class-task.R
     class-volume.R
     class-folders.R
+    misc-uploader.R
     misc-handler.R
     misc-lift.R
     misc-addins.R
