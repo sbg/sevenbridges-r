@@ -2,12 +2,14 @@
 
 ## New Features
 
-### Seven Bridges Command Line Uploader Support
+### Seven Bridges Command Line Uploader Interface
 
-With this update, users are able to download the Seven Bridges command line uploader (Java-based) for the corresponding platform, and control the command line uploader within R directly. This offers another option for uploading (large) files in addition to file uploading via the Seven Bridges API. Related changes are:
+With this update, users are able to download the Seven Bridges command line uploader (Java-based) for the corresponding platform, and control the command line uploader within R directly. This offers another option for uploading (large) files in addition to API file uploading. Related changes are:
 
 - New function `get_uploader()` for downloading Seven Bridges command line uploader for specific platforms. The old function `misc_get_uploader()` is deprecated.
 - New functions `cli_upload()`, `cli_list_projects()`, `cli_list_tags()` as the R interface for Seven Bridges command line uploader. The old function `misc_upload_cli()` is deprecated.
+
+For detailed usage of these functions, please check [this section](https://sbg.github.io/sevenbridges-r/articles/api.html#upload-files-via-command-line-uploader) in the vignette.
 
 ## Bug Fixes
 
