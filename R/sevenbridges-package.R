@@ -8,10 +8,10 @@
 #'
 #' @name sevenbridges-package
 #' @docType package
-#' @author Nan Xiao <\email{nan.xiao@@sbgenomics.com}>
-#'         Dusan Randjelovic <\email{dusan.randjelovic@sbgenomics.com}>
-#'         Emile Young <\email{emile.young@sbgenomics.com}>
-#'         Tengfei Yin <\email{tengfei.yin@@sbgenomics.com}>
+#' @author Nan Xiao <\email{nan.xiao@@sevenbridges.com}>
+#'         Dusan Randjelovic <\email{dusan.randjelovic@@sevenbridges.com}>
+#'         Emile Young <\email{emile.young@@sevenbridges.com}>
+#'         Tengfei Yin <\email{tengfei.yin@@sevenbridges.com}>
 #'
 #' @import httr methods
 #' @importFrom dplyr bind_rows

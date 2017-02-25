@@ -1,6 +1,7 @@
 ---
 title: "Complete Guide for Seven Bridges API R Client"
-author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>> <br>
+         Nan Xiao <<nan.xiao@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -23,7 +24,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # Introduction
 
-sevenbridges-r is an R/Bioconductor package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com) and [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org) public APIs.
+`sevenbridges` is an R/Bioconductor package that provides an interface for Seven Bridges public API. The supported platforms includes the [Seven Bridges Platform](https://igor.sbgenomics.com/), [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org), and [Cavatica](https://cavatica.sbgenomics.com).
 
 Learn more from our documentation on the [Seven Bridges Platform](http://docs.sevenbridges.com/page/api) and the [Cancer Genomics Cloud (CGC)](http://docs.cancergenomicscloud.org/v1.0/page/the-cgc-api).
 
@@ -246,7 +247,7 @@ a$user()
 == User ==
 href : https://cgc-api.sbgenomics.com/v2/users/tengfei
 username : tengfei
-email : tengfei.yin@sbgenomics.com
+email : tengfei.yin@sevenbridges.com
 first_name : Tengfei
 last_name : Yin
 affiliation : Seven Bridges Genomics

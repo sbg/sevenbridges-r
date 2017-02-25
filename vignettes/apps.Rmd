@@ -1,6 +1,6 @@
 ---
 title: "Describe and Execute CWL Tools/Workflows in R"
-author: "Tengfei Yin <<tengfei.yin@sbgenomics.com>>"
+author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
