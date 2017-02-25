@@ -767,6 +767,7 @@ lst <- as.list(nm.cls)
 #' race ethnicity primary_site disease_type
 #' age_at_diagnosis vital_status days_to_death sample_id
 #' sample_uuid sample_type aliquot_id aliquot_uuid
+#'
 #' @export Metadata
 #' @exportClass Metadata
 #' @export experimental_strategy library_id platform
@@ -777,6 +778,9 @@ lst <- as.list(nm.cls)
 #' @export race ethnicity primary_site disease_type
 #' @export age_at_diagnosis vital_status days_to_death sample_id
 #' @export sample_uuid sample_type aliquot_id aliquot_uuid
+#'
+#' @return a Metadata object
+#'
 #' @examples
 #' # show schema (you can still provide customized one)
 #' # empty beause they are all NULL

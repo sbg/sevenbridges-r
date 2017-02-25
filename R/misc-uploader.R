@@ -26,7 +26,9 @@
 #' @importFrom utils untar download.file
 #'
 #' @examples
-#' \donttest{get_uploader("cgc", "~/Download/")}
+#' # Download CGC CLI uploader to `~/Downloads`
+#' dir = "~/Downloads/"
+#' \donttest{get_uploader("cgc", dir)}
 get_uploader = function(
     platform = c('cgc', 'aws-us', 'aws-eu', 'gcp'),
     destdir = NULL, quiet = FALSE) {
@@ -118,9 +120,10 @@ misc_get_uploader = function() {
 #' @examples
 #' token = "your_token"
 #' \donttest{
-#' cli_upload(token = token,
-#'            uploader = "~/Downloads/cgc-uploader/",
-#'            file = "~/example.fastq", project = "username/project-name")}
+#' cli_upload(
+#'   token = token,
+#'   uploader = "~/Downloads/cgc-uploader/",
+#'   file = "~/example.fastq", project = "username/project-name")}
 cli_upload = function(
     token = NULL, uploader = NULL,
     file = NULL, project = NULL,
@@ -223,9 +226,10 @@ misc_upload_cli = function() {
 #'
 #' @examples
 #' token = "your_token"
-#' \donttest{cli_list_projects(
-#'             token = "your_token",
-#'             uploader = "~/Downloads/sbg-uploader/")}
+#' \donttest{
+#' cli_list_projects(
+#'   token = token,
+#'   uploader = "~/Downloads/sbg-uploader/")}
 cli_list_projects = function(
     token = NULL, uploader = NULL, proxy = NULL) {
 
@@ -281,10 +285,12 @@ cli_list_projects = function(
 #' @export cli_list_tags
 #'
 #' @examples
-#' \donttest{cli_list_tags(
-#'             token = "your_token",
-#'             uploader = "~/Downloads/sbg-uploader/",
-#'             project = "username/project-name")}
+#' token = "your_token"
+#' \donttest{
+#' cli_list_tags(
+#'   token = token,
+#'   uploader = "~/Downloads/sbg-uploader/",
+#'   project = "username/project-name")}
 cli_list_tags = function(
     token = NULL, uploader = NULL, project = NULL, proxy = NULL) {
 

@@ -27,10 +27,10 @@
 #' @export sbg_get_env
 #'
 #' @examples
-#' # set and get two environment variables for Cancer Genomics Cloud
+#' # set and get two environment variables for CGC
+#' token = "your_token"
 #' \dontrun{
-#' sbg_set_env("https://cgc-api.sbgenomics.com/v2",
-#'             "aef7e9f3fec54fb1b438ac4fcddf1a56")
+#' sbg_set_env("https://cgc-api.sbgenomics.com/v2", token)
 #' sbg_get_env("SB_API_ENDPOINT")
 #' sbg_get_env("SB_AUTH_TOKEN")}
 sbg_get_env = function(x) {
@@ -54,10 +54,10 @@ sbg_get_env = function(x) {
 #' @export sbg_set_env
 #'
 #' @examples
-#' # set and get environment variables for Cancer Genomics Cloud
+#' # set and get environment variables for CGC
+#' token = "your_token"
 #' \dontrun{
-#' sbg_set_env("https://cgc-api.sbgenomics.com/v2",
-#'             "aef7e9f3fec54fb1b438ac4fcddf1a56")
+#' sbg_set_env("https://cgc-api.sbgenomics.com/v2", token)
 #' sbg_get_env("SB_API_ENDPOINT")
 #' sbg_get_env("SB_AUTH_TOKEN")}
 sbg_set_env = function(url = NULL, token = NULL) {

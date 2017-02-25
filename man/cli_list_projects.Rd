@@ -25,9 +25,10 @@ command line uploader.
 }
 \examples{
 token = "your_token"
-\donttest{cli_list_projects(
-            token = "your_token",
-            uploader = "~/Downloads/sbg-uploader/")}
+\donttest{
+cli_list_projects(
+  token = token,
+  uploader = "~/Downloads/sbg-uploader/")}
 }
 \references{
 \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}

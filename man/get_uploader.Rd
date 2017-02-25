@@ -35,7 +35,9 @@ This function downloads Seven Bridges command line uploader and
 extract the \code{.tgz} archive to a specified directory.
 }
 \examples{
-\donttest{get_uploader("cgc", "~/Download/")}
+# Download CGC CLI uploader to `~/Downloads`
+dir = "~/Downloads/"
+\donttest{get_uploader("cgc", dir)}
 }
 \references{
 \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}

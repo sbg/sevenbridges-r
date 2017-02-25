@@ -63,9 +63,10 @@ should be installed. See the reference link below for details.
 \examples{
 token = "your_token"
 \donttest{
-cli_upload(token = token,
-           uploader = "~/Downloads/cgc-uploader/",
-           file = "~/example.fastq", project = "username/project-name")}
+cli_upload(
+  token = token,
+  uploader = "~/Downloads/cgc-uploader/",
+  file = "~/example.fastq", project = "username/project-name")}
 }
 \references{
 Seven Bridges Command Line Uploader:

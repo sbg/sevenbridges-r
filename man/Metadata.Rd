@@ -40,6 +40,9 @@
 \usage{
 misc_make_metadata()
 }
+\value{
+a Metadata object
+}
 \description{
 Meta schema
 }
