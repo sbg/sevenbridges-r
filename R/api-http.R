@@ -47,15 +47,16 @@
 #' \donttest{
 #' # list projects
 #' api(token = token, path = "projects", method = "GET")}
-api = function(token = NULL, version = 'v2', path = NULL,
-               method = c('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
-               query = NULL, body = list(),
-               encode = c("json", "form", "multipart"),
-               limit = getOption("sevenbridges")$limit,
-               offset = getOption("sevenbridges")$offset,
-               fields = NULL,
-               base_url = paste0("https://api.sbgenomics.com/", version, "/"),
-               ...) {
+api = function(
+    token = NULL, version = 'v2', path = NULL,
+    method = c('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
+    query = NULL, body = list(),
+    encode = c("json", "form", "multipart"),
+    limit = getOption("sevenbridges")$limit,
+    offset = getOption("sevenbridges")$offset,
+    fields = NULL,
+    base_url = paste0("https://api.sbgenomics.com/", version, "/"),
+    ...) {
 
     if (is.null(token))
         stop('token must be provided')

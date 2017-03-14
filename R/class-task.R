@@ -6,7 +6,10 @@
     "errors", "warnings")
 
 Task <- setRefClass(
-    "Task", contains = "Item",
+
+    "Task",
+
+    contains = "Item",
 
     fields = list(
         id               = "characterORNULL",
@@ -40,9 +43,10 @@ Task <- setRefClass(
         #     }
         #     callSuper(...)
         # },
-        update = function(name = NULL,
-                          description = NULL,
-                          inputs = NULL, ...) {
+        update = function(
+            name = NULL,
+            description = NULL,
+            inputs = NULL, ...) {
 
             if (is.null(name) && is.null(description) && !is.null(inputs)) {
                 res = auth$api(path = paste0("tasks/", id, "/inputs"),
@@ -168,6 +172,7 @@ TaskList <- setListClass("Task", contains = "Item0")
 
 # Hook
 TaskHook <- setRefClass(
+
     "TaskHook",
 
     fields = list(
@@ -180,12 +185,13 @@ TaskHook <- setRefClass(
 
     methods = list(
 
-        initialize = function(queued    = NULL,
-                              draft     = NULL,
-                              running   = NULL,
-                              completed = NULL,
-                              aborted   = NULL,
-                              failed    = NULL, ...) {
+        initialize = function(
+            queued    = NULL,
+            draft     = NULL,
+            running   = NULL,
+            completed = NULL,
+            aborted   = NULL,
+            failed    = NULL, ...) {
 
             if (is.null(completed)) {
                 completed <<- function(...) {

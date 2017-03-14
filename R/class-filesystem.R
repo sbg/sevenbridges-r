@@ -13,6 +13,7 @@
 #'
 #' @export FS
 FS <- setRefClass(
+
     "FS",
 
     fields = list(

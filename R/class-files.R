@@ -36,33 +36,38 @@
 #' @examples
 #' Files(id = "test_id", name = "test.bam")
 Files <- setRefClass(
-    "Files", contains = c("Item"),
 
-    fields = list(id          = "characterORNULL",
-                  name        = "characterORNULL",
-                  size        = "numericORNULL",
-                  project     = "characterORNULL",
-                  created_on  = "characterORNULL",
-                  modified_on = "characterORNULL",
-                  storage     = "listORNULL",
-                  origin      = "listORNULL",
-                  tags        = "listORNULL",
-                  metadata    = "listORNULL",
-                  url         = "characterORNULL"),
+    "Files",
+
+    contains = c("Item"),
+
+    fields = list(
+        id          = "characterORNULL",
+        name        = "characterORNULL",
+        size        = "numericORNULL",
+        project     = "characterORNULL",
+        created_on  = "characterORNULL",
+        modified_on = "characterORNULL",
+        storage     = "listORNULL",
+        origin      = "listORNULL",
+        tags        = "listORNULL",
+        metadata    = "listORNULL",
+        url         = "characterORNULL"),
 
     methods = list(
 
-        initialize = function(id          = NULL,
-                              name        = NULL,
-                              size        = NULL,
-                              project     = NULL,
-                              created_on  = NULL,
-                              modified_on = NULL,
-                              storage     = list(),
-                              origin      = list(),
-                              tags        = list(),
-                              metadata    = list(),
-                              url         = NULL, ...) {
+        initialize = function(
+            id          = NULL,
+            name        = NULL,
+            size        = NULL,
+            project     = NULL,
+            created_on  = NULL,
+            modified_on = NULL,
+            storage     = list(),
+            origin      = list(),
+            tags        = list(),
+            metadata    = list(),
+            url         = NULL, ...) {
 
             id          <<- id
             name        <<- name

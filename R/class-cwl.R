@@ -11,6 +11,7 @@
 #' ## no fields, only to provide methods to be extended
 #' x <- CWL()
 CWL <- setRefClass(
+
     "CWL",
 
     methods = list(
@@ -100,7 +101,8 @@ CWL <- setRefClass(
                    })
         }
 
-    ))
+    )
+)
 
 #' Convert a object slots/fields to a list, json, or yaml file
 #'
@@ -349,7 +351,8 @@ Schema <- setRefClass(
             }
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' SchemaDef Class
 #'
@@ -359,7 +362,8 @@ Schema <- setRefClass(
 #' @aliases SchemaDef
 SchemaDef <- setRefClass(
     "SchemaDef", contains = "Schema",
-    fields = list(name = "characterORNULL"))
+    fields = list(name = "characterORNULL")
+)
 
 #----------------------------------------------------------------------
 # Datatype
@@ -435,7 +439,8 @@ enum <- setRefClass(
             name <<- name
             type <<- type
         }
-    ))
+    )
+)
 
 setClassUnion("DatatypeSingleEnumORenum", c("DatatypeSingleEnum", "enum"))
 
@@ -465,7 +470,8 @@ ItemArray <- setRefClass(
             }
 
         }
-    ))
+    )
+)
 
 # TODO: singleEnum <> Enum
 setClassUnion("DSC", c("DatatypeSingleEnum", "Schema", "character", "ItemArray", "enum"))
@@ -520,7 +526,11 @@ FileList <- setListClass("File")
 #' f2
 #' fl
 File <- setRefClass(
-    "File", contains = "CWL",
+
+    "File",
+
+    contains = "CWL",
+
     fields = list(
         class         = "characterORNULL",
         path          = "characterORNULL",
@@ -528,12 +538,15 @@ File <- setRefClass(
         size          = "numericORNULL",  # integer has small limit
         secondaryFile = "FileList"
     ),
+
     methods = list(
         initialize = function(class = "File", ...) {
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+
+)
 
 #----------------------------------------------------------------------
 # Expression
@@ -561,13 +574,17 @@ setClassUnion("JsonPointerORcharacter", c("JsonPointer", "character"))
 #' @examples
 #' Expression(engine = "#cwl-js-engine", script = "$job.inputs['threads']")
 Expression <- setRefClass(
+
     "Expression",
+
     contains = "CWL",
+
     fields = list(
         engine = "JsonPointerORcharacter",
         script = "characterORNULL",
         class  = "characterORNULL"
     ),
+
     methods = list(
         initialize = function(
             script = NULL,
@@ -577,9 +594,10 @@ Expression <- setRefClass(
             script <<- script
             engine <<- engine
             class <<- class
-
         }
-    ))
+
+    )
+)
 
 setClassUnion("ExpressionORNULL", c("Expression", "NULL"))
 setClassUnion("characterORExpression", c("character", "Expression"))
@@ -626,7 +644,8 @@ setClassUnion("characterORExpressionORlistORNULL", c("character", "Expression", 
 ProcessRequirement <- setRefClass(
     "ProcessRequirement",
     contains = c("VIRTUAL", "CWL"),
-    field = list(class = "character"))
+    field = list(class = "character")
+)
 
 #' DockerRequirement Class
 #'
@@ -692,7 +711,8 @@ DockerRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @section SubworkflowFeatureRequirement Class:
 #'
@@ -713,7 +733,8 @@ SubworkflowFeatureRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @section FileDef Class:
 #'
@@ -796,7 +817,8 @@ CreateFileRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @section EnvironmentDef Class:
 #' \describe{
@@ -820,7 +842,8 @@ EnvironmentDef <- setRefClass(
     "EnvironmentDef",
     fields = list(
         envName  = "characterORNULL",
-        envValue = "characterORExpression"))
+        envValue = "characterORExpression")
+)
 
 #' @param \dots element or list of the element.
 #'
@@ -855,7 +878,8 @@ EnvVarRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @section ScatterFeatureRequirement Class:
 #'
@@ -875,7 +899,8 @@ ScatterFeatureRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' ProcessRequirementList
 #'
@@ -928,7 +953,8 @@ ExpressionEngineRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #----------------------------------------------------------------------
 # Process
@@ -946,7 +972,8 @@ SchemaDefList <- setListClass("SchemaDef")
 
 setRefClass("SchemaDefRequirement",
             contains = "ProcessRequirement",
-            fields = list(types = "SchemaDefList"))
+            fields = list(types = "SchemaDefList")
+)
 
 #----------------------------------------------------------------------
 # Binding
@@ -994,7 +1021,8 @@ Binding <- setRefClass(
     fields = list(
         loadContents   = "logicalORlistORNULL",
         secondaryFiles = "characterORExpressionORlistORNULL"  # FIXME: should be a list
-    ))
+    )
+)
 
 setClassUnion("BindingORNULL", c("Binding", "NULL"))
 
@@ -1075,7 +1103,8 @@ Parameter <- setRefClass(
             default    <<- default
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' InputParameterList
 #'
@@ -1176,7 +1205,8 @@ Process <- setRefClass(
             id <<- addIdNum(id)
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' InputSchema Class
 #'
@@ -1192,7 +1222,8 @@ Process <- setRefClass(
 #' @return a Schema object or sbuclass object.
 InputSchema <- setRefClass(
     "InputSchema", contains = "Schema",
-    fields = list(inputBinding = "Binding"))
+    fields = list(inputBinding = "Binding")
+)
 
 #' OutputSchema Class
 #'
@@ -1224,7 +1255,8 @@ InputParameter <- setRefClass(
             id <<- addIdNum(id)
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' OutputParameter Class
 #'
@@ -1242,7 +1274,8 @@ OutputParameter <- setRefClass(
             id <<- addIdNum(id)
             callSuper(...)
         }
-    ))
+    )
+)
 
 #----------------------------------------------------------------------
 # ExpressionTool (FIXME)
@@ -1275,7 +1308,8 @@ ExpressionTool <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 #----------------------------------------------------------------------
 # CommandLineTool
@@ -1364,7 +1398,8 @@ CommandLineBinding <- setRefClass(
             # order  <<- order
             callSuper(...)
         }
-    ))
+    )
+)
 
 setClassUnion("characterORCommandLineBinding",
               c("character", "CommandLineBinding"))
@@ -1611,7 +1646,8 @@ CommandLineTool <- setRefClass(
             callSuper(...)
 
         }
-    ))
+    )
+)
 
 #' CommandInputParameter Class
 #'
@@ -1693,7 +1729,8 @@ CommandOutputBinding <- setRefClass(
 #' CommandOutputSchema()
 CommandOutputSchema <- setRefClass(
     "CommandOutputSchema", contains = "Schema",
-    fields = list(outputBinding = "CommandOutputBinding"))
+    fields = list(outputBinding = "CommandOutputBinding")
+)
 
 #' CommandOutputParameter Class
 #'
@@ -1786,7 +1823,8 @@ WorkflowStepInput <- setRefClass(
             }
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @section WorkflowStepOutput Class:
 #' \describe{
@@ -1817,7 +1855,8 @@ WorkflowStepOutput <- setRefClass(
             id <<- addIdNum(id)
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' WorkflowStepInputList
 #'
@@ -1884,7 +1923,8 @@ WorkflowOutputParameter <- setRefClass(
             }
             callSuper(...)
         }
-    ))
+    )
+)
 
 #' @aliases WorkflowOutputParameterList-class
 #'
@@ -1921,7 +1961,8 @@ SBGWorkflowOutputParameter <- setRefClass(
             .self$required <<- required
             callSuper(...)
         }
-    ))
+    )
+)
 
 SBGWorkflowOutputParameterList <- setListClass("SBGWorkflowOutputParameter",
                                                contains = "OutputParameterList")
@@ -1988,7 +2029,8 @@ Workflow <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 setClass("ScatterMethod")
 
@@ -2122,7 +2164,8 @@ WorkflowStep <- setRefClass(
             scatter <<- scatter
             callSuper(...)
         }
-    ))
+    )
+)
 
 # SBG only
 
@@ -2268,7 +2311,8 @@ SCLB <- SBGCommandLineBinding <- setRefClass(
     methods = list(initialize = function(cmdInclude = FALSE, ...) {
         .self$field("sbg:cmdInclude", cmdInclude)
         callSuper(...)
-    }))
+    })
+)
 
 SBGInputParameter <- setRefClass(
     "SBGInputParameter", contains = "InputParameter",
@@ -2317,7 +2361,8 @@ SBGInputParameter <- setRefClass(
             .self$field("required", required)
             callSuper(...)
 
-        }))
+        })
+)
 
 .is_required = function(x) {
     # x is input item
@@ -2428,7 +2473,9 @@ SBGCommandOutputBinding <- setRefClass(
             callSuper(...)
 
         }
-    ))
+    )
+)
+
 SBGCOB <- SBGCommandOutputBinding
 
 SBGCommandOutputParameter <- setRefClass(
@@ -2442,7 +2489,8 @@ SBGCommandOutputParameter <- setRefClass(
             .self$field(paste0("sbg:", nm), fileTypes)
             callSuper(...)
         }
-    ))
+    )
+)
 
 output <- function(id = NULL, type = "file", label = "",
                    description = "",
@@ -2583,7 +2631,8 @@ CPURequirement <- setRefClass(
             value <<- .v
             callSuper(...)
         }
-    ))
+    )
+)
 
 cpu <- CPURequirement
 
@@ -2761,7 +2810,8 @@ MemRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 mem <- MemRequirement
 
@@ -2783,7 +2833,8 @@ AWSInstanceTypeRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 aws <- AWSInstanceTypeRequirement
 
@@ -2805,7 +2856,8 @@ AnyRequirement <- setRefClass(
             class <<- class
             callSuper(...)
         }
-    ))
+    )
+)
 
 anyReq <- AnyRequirement
 
@@ -2823,7 +2875,8 @@ SBGStep <- setRefClass(
             }
             callSuper(...)
         }
-    ))
+    )
+)
 
 SBGStepList <- setListClass("SBGStep", contains = "WorkflowStepList")
 

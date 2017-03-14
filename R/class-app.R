@@ -28,23 +28,28 @@
 #' app$input_matrix()
 #' app$output_matrix()}
 App <- setRefClass(
-    "App", contains = "Item",
 
-    fields = list(id       = "characterORNULL",
-                  project  = "characterORNULL",
-                  name     = "characterORNULL",
-                  revision = "characterORNULL",
-                  raw      = "ANY",
-                  raw_obj  = "ANY"),
+    "App",
+
+    contains = "Item",
+
+    fields = list(
+        id       = "characterORNULL",
+        project  = "characterORNULL",
+        name     = "characterORNULL",
+        revision = "characterORNULL",
+        raw      = "ANY",
+        raw_obj  = "ANY"),
 
     methods = list(
 
-        initialize = function(id       = NULL,
-                              project  = NULL,
-                              name     = NULL,
-                              revision = NULL,
-                              raw      = NULL,
-                              raw_obj  = NULL, ...) {
+        initialize = function(
+            id       = NULL,
+            project  = NULL,
+            name     = NULL,
+            revision = NULL,
+            raw      = NULL,
+            raw_obj  = NULL, ...) {
             id       <<- id
             project  <<- project
             name     <<- name

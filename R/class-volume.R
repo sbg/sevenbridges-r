@@ -1,5 +1,8 @@
 Volume = setRefClass(
-    "Volume", contains = "Item",
+
+    "Volume",
+
+    contains = "Item",
 
     fields = list(
         id          = "characterORNULL",
@@ -14,13 +17,14 @@ Volume = setRefClass(
 
     methods = list(
 
-        initialize = function(id          = NULL,
-                              name        = NULL,
-                              description = NULL,
-                              created_on  = NULL,
-                              modified_on = NULL,
-                              active      = NULL,
-                              service     = NULL, ...) {
+        initialize = function(
+            id          = NULL,
+            name        = NULL,
+            description = NULL,
+            created_on  = NULL,
+            modified_on = NULL,
+            active      = NULL,
+            service     = NULL, ...) {
 
             id          <<- id
             name        <<- name

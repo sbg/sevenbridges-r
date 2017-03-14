@@ -29,7 +29,10 @@
 #' @examples
 #' Folders(id = "test_id", name = "test.bam")
 Folders <- setRefClass(
-    "Folders", contains = c("Item"),
+
+    "Folders",
+
+    contains = c("Item"),
 
     fields = list(
         id          = "characterORNULL",
@@ -42,13 +45,14 @@ Folders <- setRefClass(
 
     methods = list(
 
-        initialize = function(id          = NULL,
-                              name        = NULL,
-                              project     = NULL,
-                              parent      = NULL,
-                              type        = NULL,
-                              created_on  = NULL,
-                              modified_on = NULL, ...) {
+        initialize = function(
+            id          = NULL,
+            name        = NULL,
+            project     = NULL,
+            parent      = NULL,
+            type        = NULL,
+            created_on  = NULL,
+            modified_on = NULL, ...) {
 
             id          <<- id
             name        <<- name
@@ -111,14 +115,16 @@ Folders <- setRefClass(
     ))
 
 .asFolders <- function(x) {
-    Folders(id          = x$id,
-            name        = x$name,
-            project     = x$project,
-            parent      = x$parent,
-            type        = x$type,
-            created_on  = x$created_on,
-            modified_on = x$modified_on,
-            response    = response(x))
+    Folders(
+        id          = x$id,
+        name        = x$name,
+        project     = x$project,
+        parent      = x$parent,
+        type        = x$type,
+        created_on  = x$created_on,
+        modified_on = x$modified_on,
+        response    = response(x)
+    )
 }
 
 FoldersList <- setListClass("Folders", contains = "Item0")

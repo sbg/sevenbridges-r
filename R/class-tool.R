@@ -191,13 +191,14 @@ Tool <- setRefClass(
 
     methods = list(
 
-        initialize = function(...,
-                              id      = NULL,
-                              label   = NULL,
-                              inputs  = NULL,
-                              outputs = NULL,
-                              x       = NULL,
-                              y       = NULL) {
+        initialize = function(
+            ...,
+            id      = NULL,
+            label   = NULL,
+            inputs  = NULL,
+            outputs = NULL,
+            x       = NULL,
+            y       = NULL) {
 
             stopifnot(!is.null(id))
 

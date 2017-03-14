@@ -54,6 +54,7 @@ key_order = c(
     "sample_uuid", "sample_type", "aliquot_id", "aliquot_uuid")
 
 Meta <- setRefClass(
+
     "Meta",
 
     fields = list(
@@ -83,7 +84,7 @@ Meta <- setRefClass(
             data <<- transformData(data)
 
             # FIXME: validation
-            if(!is.null(type)) stopifnot(is(data, type))
+            if (!is.null(type)) stopifnot(is(data, type))
 
             name             <<- name
             description      <<- description
@@ -122,10 +123,11 @@ Meta <- setRefClass(
         }
     ))
 
-setMetaClass <- function(className     = NULL,
-                         type          = "ANY",
-                         transformData = NULL,
-                         contains      = NULL, ...) {
+setMetaClass <- function(
+    className     = NULL,
+    type          = "ANY",
+    transformData = NULL,
+    contains      = NULL, ...) {
 
     stopifnot(!is.null(className))
 

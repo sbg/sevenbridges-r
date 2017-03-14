@@ -1,6 +1,9 @@
 # Rate limit
 Rate <- setRefClass(
-    "Rate", contains = "Item",
+
+    "Rate",
+
+    contains = "Item",
 
     fields = list(
         limit     = "numeric",

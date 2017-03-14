@@ -1,5 +1,8 @@
 Permission <- setRefClass(
-    "Permission", contains = "Item",
+
+    "Permission",
+
+    contains = "Item",
 
     fields = list(
         write           = "logicalORNULL",
@@ -46,11 +49,12 @@ Member <- setRefClass(
 
     methods = list(
 
-        update = function(write   = NULL,
-                          copy    = NULL,
-                          execute = NULL,
-                          admin   = NULL,
-                          read    = NULL, ...) {
+        update = function(
+            write   = NULL,
+            copy    = NULL,
+            execute = NULL,
+            admin   = NULL,
+            read    = NULL, ...) {
 
             if (is.null(pid)) stop("cannot find project id")
 
@@ -125,16 +129,20 @@ MemberList <- setListClass("Member", contains = "Item0")
 
 # The Project class should support both API v1.1 and API v2
 Project <- setRefClass(
-    "Project", contains = "Item",
 
-    fields = list(id               = "characterORNULL",
-                  name             = "characterORNULL",
-                  billing_group_id = "characterORNULL",
-                  description      = "characterORNULL",
-                  type             = "characterORNULL",
-                  # my_permission  = "Permission",
-                  owner            = "characterORNULL",
-                  tags             = "listORNULL"),
+    "Project",
+
+    contains = "Item",
+
+    fields = list(
+        id               = "characterORNULL",
+        name             = "characterORNULL",
+        billing_group_id = "characterORNULL",
+        description      = "characterORNULL",
+        type             = "characterORNULL",
+        # my_permission  = "Permission",
+        owner            = "characterORNULL",
+        tags             = "listORNULL"),
 
     methods = list(
 
@@ -170,9 +178,10 @@ Project <- setRefClass(
 
         },
 
-        update = function(name = NULL,
-                          description = NULL,
-                          billing_group_id = NULL, ... ) {
+        update = function(
+            name = NULL,
+            description = NULL,
+            billing_group_id = NULL, ... ) {
             'update name/description/billing group for a project'
 
             body = list('name'          = name,
@@ -201,10 +210,11 @@ Project <- setRefClass(
 
         },
 
-        member = function(username    = NULL,
-                          name        = username,
-                          ignore.case = TRUE,
-                          exact       = FALSE, ...) {
+        member = function(
+            username    = NULL,
+            name        = username,
+            ignore.case = TRUE,
+            exact       = FALSE, ...) {
 
             if (is.null(id)) stop("id must be provided")
 
@@ -236,21 +246,23 @@ Project <- setRefClass(
 
         },
 
-        member_add = function(username = NULL,
-                              name     = username,
-                              copy     = FALSE,
-                              write    = FALSE,
-                              execute  = FALSE,
-                              admin    = FALSE,
-                              read     = FALSE, ...) {
+        member_add = function(
+            username = NULL,
+            name     = username,
+            copy     = FALSE,
+            write    = FALSE,
+            execute  = FALSE,
+            admin    = FALSE,
+            read     = FALSE, ...) {
 
-            body = list('username' = name,
-                        'permissions' = list(
-                            'copy'    = copy,
-                            'write'   = write,
-                            'read'    = read,
-                            'execute' = execute,
-                            'admin'   = admin))
+            body = list(
+                'username' = name,
+                'permissions' = list(
+                    'copy'    = copy,
+                    'write'   = write,
+                    'read'    = read,
+                    'execute' = execute,
+                    'admin'   = admin))
 
             req = api(token = auth$token,
                       base_url = auth$url,
@@ -262,10 +274,11 @@ Project <- setRefClass(
 
         },
 
-        file = function(name   = NULL,
-                        id     = NULL,
-                        exact  = FALSE,
-                        detail = FALSE, ...) {
+        file = function(
+            name   = NULL,
+            id     = NULL,
+            exact  = FALSE,
+            detail = FALSE, ...) {
 
             res = auth$file(name    = name,
                             id      = id,
@@ -276,15 +289,16 @@ Project <- setRefClass(
 
         },
 
-        upload = function(filename          = NULL,
-                          name              = NULL,
-                          metadata          = list(),
-                          overwrite         = FALSE,
-                          manifest_file     = NULL,
-                          manifest_metadata = TRUE,
-                          subset, select,
-                          verbal            = NULL,
-                          ...) {
+        upload = function(
+            filename          = NULL,
+            name              = NULL,
+            metadata          = list(),
+            overwrite         = FALSE,
+            manifest_file     = NULL,
+            manifest_metadata = TRUE,
+            subset, select,
+            verbal            = NULL,
+            ...) {
 
             # upload via a manifest
             if (!is.null(manifest_file)) {

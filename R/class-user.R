@@ -1,5 +1,8 @@
 User <- setRefClass(
-    "User", contains = "Item",
+
+    "User",
+
+    contains = "Item",
 
     fields = c(
         "username", "email",

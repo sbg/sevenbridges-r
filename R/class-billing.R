@@ -4,7 +4,10 @@
 # # to make it simple to update, return a list, not an object,
 # # because no action defined an this object
 Billing <- setRefClass(
-    "Billing", contains = "Item",
+
+    "Billing",
+
+    contains = "Item",
 
     fields = list(
         id                = "characterORNULL",
@@ -54,29 +57,31 @@ Billing <- setRefClass(
         show = function() {
             .showFields(
                 .self, "== Billing ==",
-                values = c("id", "href", "name",
-                           "owner", "privileges", "type",
-                           "disabled", "active", "balance",
-                           "project_breakdown", "total_spending"))
+                values = c(
+                    "id", "href", "name",
+                    "owner", "privileges", "type",
+                    "disabled", "active", "balance",
+                    "project_breakdown", "total_spending"))
         }
 
     ))
 
 .asBilling <- function(x) {
 
-    Billing(id         = x$id,
-            href       = x$href,
-            name       = x$name,
-            owner      = x$owner,
-            privileges = x$privileges,
-            type       = x$type,
-            disabled   = x$disabled,
-            active     = x$active,
-            balance    = x$balance,
-            response   = response(x),
-            # for breakdown
-            project_breakdown = x$project_breakdown,
-            total_spending    = x$total_spending)
+    Billing(
+        id         = x$id,
+        href       = x$href,
+        name       = x$name,
+        owner      = x$owner,
+        privileges = x$privileges,
+        type       = x$type,
+        disabled   = x$disabled,
+        active     = x$active,
+        balance    = x$balance,
+        response   = response(x),
+        # for breakdown
+        project_breakdown = x$project_breakdown,
+        total_spending    = x$total_spending)
 
 }
 

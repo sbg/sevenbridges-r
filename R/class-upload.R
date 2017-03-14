@@ -1,5 +1,8 @@
 Part <- setRefClass(
-    "Part", contains = "Item",
+
+    "Part",
+
+    contains = "Item",
 
     fields = list(
         part_number   = "numericORNULL",
@@ -12,13 +15,14 @@ Part <- setRefClass(
 
     methods = list(
 
-        initialize = function(part_number   = NULL,
-                              part_size     = NULL,
-                              url           = NULL,
-                              expries       = NULL,
-                              success_codes = NULL,
-                              report        = NULL,
-                              etag          = NULL, ...) {
+        initialize = function(
+            part_number   = NULL,
+            part_size     = NULL,
+            url           = NULL,
+            expries       = NULL,
+            success_codes = NULL,
+            report        = NULL,
+            etag          = NULL, ...) {
 
             .part_number <- as.integer(as.character(part_number))
             .part_size <- as.integer(as.character(part_size))
