@@ -253,8 +253,8 @@ t1$input_matrix()
 
 We maintain 3 different sets of documentation: the sevenbridges-r GitHub repository (latest and most up-to-date), Bioconductor release channel, and Bioconductor development channel. Below, only the GitHub version is linked to provide the latest documentation. For the other versions, please visit [Bioconductor Release version](https://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) or [Bioconductor Development version](https://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html). The tutorials below are re-generated regularly as we update the package on GitHub.
 
-| Tutorial Title | HTML   | Rmd Source |
-|:---------------|:-------|:-----------|
+| Tutorial Title                                    | HTML       | Rmd Source   |
+|:--------------------------------------------------|:-----------|:-------------|
 | Complete Reference for the API R Client | [HTML](https://sbg.github.io/sevenbridges-r/articles/api.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/api.Rmd) |
 | Use R on the Cancer Genomics Cloud | [HTML](https://sbg.github.io/sevenbridges-r/articles/bioc-workflow.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd) |
 | Create a Docker Container and use Command Line Interface for R | [HTML](https://sbg.github.io/sevenbridges-r/articles/docker.html) | [Source](https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/docker.Rmd) |
@@ -319,8 +319,8 @@ The best place to ask questions about the sevenbridges package is the [mailing l
 
 ## Events
 
-| Time              | Event  | Location |
-|:------------------|:-------|:---------|
+| Time              | Event                     | Location                      |
+|:------------------|:--------------------------|:------------------------------|
 | Jan 12, 2017 | [Genomics in the Cloud - Boston Bioconductor Meetup](https://www.meetup.com/Boston-R-Bioconductor-for-genomics/events/235580582/) (talk) [[slides](https://nanx.me/talks/bioc-meetup-cgc-170112.pdf)] | Dana-Farber Cancer Institute, Boston, MA |
 | Sep 12 - 14, 2016 | [Probabilistic Modeling in Genomics](https://www.stats.ox.ac.uk/events/probgen16) (poster) | University of Oxford, Oxford, UK |
 | May 27 - 29, 2016 | [The 9th China-R Conference](http://china-r.org/bj2016/index.html) (talk) | Renmin University of China, Beijng, China |
