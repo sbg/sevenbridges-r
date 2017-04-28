@@ -41,7 +41,7 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 ### Bioconductor - Release Version
 
-This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.4, and it works with __R version 3.3.2__. Users of older R and Bioconductor versions should update their installation to take advantage of new features.
+This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.5, and it works with __R version 3.4.0__. Users of older R and Bioconductor versions should upgrade to take advantage of new features.
 
 If you do not want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
 
@@ -53,7 +53,7 @@ First, check which version of R you are using with the following:
 R.version.string
 ```
 
-If you are not running latest R, install R 3.3 by following [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R 3.3. RStudio will detect the new installation.
+If you are not running the latest release version of R, install it by the following [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R. RStudio will detect the new installation.
 
 #### Install the package
 
