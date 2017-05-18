@@ -98,7 +98,7 @@ FS$methods(
         'mount a specific project if project_id is provided,
         otherwise mount all projects'
 
-        .self$project_id <<- c(.self$project_id, list(project_id))
+        .self$project_id <- c(.self$project_id, list(project_id))
         lastproject_id <<- unlist(tail(project_id, n = 1))
 
         if (is.null(mount_point)) {
