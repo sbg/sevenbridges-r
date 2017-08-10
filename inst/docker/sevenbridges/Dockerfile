@@ -60,9 +60,9 @@ RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
 #################
 
 ## Install SBG Rabix
-RUN wget https://github.com/rabix/bunny/releases/download/v1.0.0-rc3/rabix-1.0.0-rc3.tar.gz \
-    && tar -zvxf rabix-1.0.0-rc3.tar.gz \
-    && ln -s  /rabix-1.0.0-rc3/rabix.sh /usr/local/bin/rabix.sh
+RUN wget https://github.com/rabix/bunny/releases/download/v1.0.1/rabix-1.0.1.tar.gz \
+    && tar -zvxf rabix-1.0.1.tar.gz \
+    && ln -s  /rabix-cli-1.0.1/rabix /usr/local/bin/rabix
 
 ## Install SBG Command line uploader
 # RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
