@@ -20,7 +20,7 @@
 #' downloaded and unarchived.
 #'
 #' @references
-#' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+#' \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #'
 #' @export get_uploader
 #' @importFrom utils untar download.file
@@ -113,9 +113,9 @@ misc_get_uploader = function() {
 #'
 #' @references
 #' Seven Bridges Command Line Uploader:
-#' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+#' \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #' Manifest file format:
-#' \url{http://docs.sevenbridges.com/docs/format-of-a-manifest-file}
+#' \url{https://docs.sevenbridges.com/docs/format-of-a-manifest-file}
 #'
 #' @examples
 #' token = "your_token"
@@ -214,7 +214,7 @@ misc_upload_cli = function() {
 #' \code{--proxy} in the reference below.
 #'
 #' @references
-#' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+#' \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #'
 #' @return Character vector of the available project names.
 #'
@@ -274,7 +274,7 @@ cli_list_projects = function(
 #' \code{--proxy} in the reference below.
 #'
 #' @references
-#' \url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+#' \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 #'
 #' @return Chracter vector of file tags in the project.
 #'

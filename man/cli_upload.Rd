@@ -70,9 +70,9 @@ cli_upload(
 }
 \references{
 Seven Bridges Command Line Uploader:
-\url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+\url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 Manifest file format:
-\url{http://docs.sevenbridges.com/docs/format-of-a-manifest-file}
+\url{https://docs.sevenbridges.com/docs/format-of-a-manifest-file}
 }
 \seealso{
 See \code{\link{get_uploader}} for downloading

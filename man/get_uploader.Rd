@@ -40,6 +40,6 @@ dir = "~/Downloads/"
 \donttest{get_uploader("cgc", dir)}
 }
 \references{
-\url{http://docs.sevenbridges.com/docs/upload-via-the-command-line}
+\url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 }
 

@@ -530,7 +530,7 @@ When you push your app to the platform, you will see the batch available at task
 
 # Describe Wokrflow in R
 
-***Note:*** The [GUI Tool Editor](http://docs.sevenbridges.com/docs/the-tool-editor) on Seven Bridges Platform is more conventient for this purpose.
+***Note:*** The [GUI Tool Editor](https://docs.sevenbridges.com/docs/the-tool-editor) on Seven Bridges Platform is more conventient for this purpose.
 
 ## Import from a JSON file
 
