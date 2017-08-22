@@ -8,7 +8,8 @@ api(token = NULL, version = "v2", path = NULL, method = c("GET", "POST",
   "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
   encode = c("json", "form", "multipart"),
   limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset, fields = NULL,
+  offset = getOption("sevenbridges")$offset,
+  advance_access = getOption("sevenbridges")$advance_access, fields = NULL,
   base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
 }
 \arguments{
@@ -41,6 +42,9 @@ a length 1 vector as a vector, wrap in \code{I()}.}
 \item{limit}{How many results to return}
 
 \item{offset}{The point at which to start displaying them}
+
+\item{advance_access}{Enable advance access features?
+Default is \code{FALSE}.}
 
 \item{fields}{All API calls take the optional query parameter fields.
 This parameter enables you to specify the fields you want to be returned

@@ -27,6 +27,8 @@
 #' a length 1 vector as a vector, wrap in \code{I()}.
 #' @param limit How many results to return
 #' @param offset The point at which to start displaying them
+#' @param advance_access Enable advance access features?
+#' Default is \code{FALSE}.
 #' @param fields All API calls take the optional query parameter fields.
 #' This parameter enables you to specify the fields you want to be returned
 #' when listing resources (e.g. all your projects) or getting details of a
@@ -54,6 +56,7 @@ api = function(
     encode = c("json", "form", "multipart"),
     limit = getOption("sevenbridges")$limit,
     offset = getOption("sevenbridges")$offset,
+    advance_access = getOption("sevenbridges")$advance_access,
     fields = NULL,
     base_url = paste0("https://api.sbgenomics.com/", version, "/"),
     ...) {
@@ -69,6 +72,10 @@ api = function(
         # 'Accept' = 'application/json',
         # 'Content-type' = 'application/json'
     )
+
+    # add optional advance access flag
+    if (advance_access) headers = c(
+        headers, 'X-SBG-advance-access' = 'advance')
 
     # setup query
     query = c(query, list(limit = limit, offset = offset, fields = fields))
