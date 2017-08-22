@@ -1,4 +1,4 @@
-# sevenbridges  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>
+# sevenbridges-r  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/sevenbridges-r)
@@ -10,7 +10,7 @@
 
 ## Overview
 
-sevenbridges is an [R](https://cran.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) public APIs.
+sevenbridges-r is an [R](https://cran.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sbgenomics.com/) and [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) public APIs.
 
 The Seven Bridges Platform is a cloud-based environment for conducting bioinformatic analyses. It is a central hub for teams to store, analyze, and jointly interpret their bioinformatic data. The Platform co-locates analysis workflows alongside the largest genomic datasets to optimize processing, allocating storage and compute resources on demand.
 
@@ -43,7 +43,7 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 
 This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.5, and it works with __R version 3.4.0__. Users of older R and Bioconductor versions should upgrade to take advantage of new features.
 
-If you do not want to update R, please install the sevenbridges package directly from GitHub by following the instructions below.
+If you do not want to update R, please install the `sevenbridges` package directly from GitHub by following the instructions below.
 
 #### Check R version
 
@@ -57,7 +57,7 @@ If you are not running the latest release version of R, install it by the follow
 
 #### Install the package
 
-Install the sevenbridges package as shown below:
+Install the `sevenbridges` package as shown below:
 
 ```r
 source("https://bioconductor.org/biocLite.R")
@@ -82,11 +82,11 @@ library("sevenbridges")
 
 ### Latest Development Version
 
-You can always install the latest development version of the sevenbridges package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
+You can always install the latest development version of the `sevenbridges` package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
 
 #### If `devtools` was not installed
 
-Installing the sevenbridges package requires you have the `devtools` package. If you do not have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
+Installing the `sevenbridges` package requires you have the `devtools` package. If you do not have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
 
 ```r
 install.packages("devtools")
@@ -101,7 +101,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 
 #### If `devtools` is already installed
 
-Install latest version of sevenbridges from GitHub with the following:
+Install latest version of `sevenbridges` from GitHub with the following:
 
 ```r
 source("https://bioconductor.org/biocLite.R")
@@ -117,7 +117,7 @@ If you have trouble with `pandoc` and do not want to install it,  set `build_vig
 
 ## Features
 
-The sevenbridges package includes the following features:
+The `sevenbridges` package includes the following features:
 
 ### Flexible Authentication Methods
 
@@ -300,7 +300,7 @@ _Note_: Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a 
 
 ## FAQ
 
-The best place to ask questions about the sevenbridges package is the [mailing list](https://groups.google.com/forum/#!forum/sevenbridges-r).
+The best place to ask questions about the `sevenbridges` package is the [mailing list](https://groups.google.com/forum/#!forum/sevenbridges-r).
 
 - __Q__: Does this package support Seven Bridges' API v1 which was not CWL compatible?<br />
   __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated eventually.
