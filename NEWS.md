@@ -1,3 +1,9 @@
+# sevenbridges 1.7.1
+
+## New Features
+
+- Added a new argument (global option) `advance_access` for enabling the access to Advance Access features.
+
 # sevenbridges 1.5.9
 
 ## New Features

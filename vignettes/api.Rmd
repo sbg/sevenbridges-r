@@ -817,15 +817,15 @@ a$api()
 
 <div align="right"><a href="#top">top</a></div>
 
-## Offset, Limit, and Search
+## Offset, Limit, Search, and Advance Access Features
 
-Before we start, keep in mind the following:
+### `offset` and `limit`
 
-__`offset` and `limit`__
+Every API call accepts two arguments named `offset` and `limit`.
 
-Every API call accept arguments called `offset` and `limit`.
-<ul><li>Offset defines where the retrieved items started.</li>
-<li>Limit defines the quantity of items you want to get.</li></ul>
+- `offset` defines where the retrieved items started.
+- `limit` defines the quantity of items you want to get.
+
 By default, `offset` is set to `0` and `limit` is set to `50`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
 
 ```{r}
@@ -833,11 +833,15 @@ getOption("sevenbridges")$offset
 getOption("sevenbridges")$limit
 ```
 
-__Search by ID__
+<div align="right"><a href="#top">top</a></div>
+
+### Search by ID
 
 When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set `offset` and `limit`. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
 
-__Search by name__
+<div align="right"><a href="#top">top</a></div>
+
+### Search by name
 
 Search by name returns all partial matches unless you specify `exact = TRUE`. This type of search will only search across current pulled content, so use `complete = TRUE` if you want to search across everything.
 
@@ -857,6 +861,99 @@ length(x)  # 272 by Nov 2016
 a$app(visibility = "public", name = "bed converter")
 # this return an app, because it pulls *all* app names and did search
 a$app(visibility = "public", name = "bed converter", complete = TRUE)
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Experiment with Advance Access features
+
+Similar to `offset` and `limit`, every API call accepts an argument named `advance_access`. This argument was first introduced in August 2017 and controls if a special field in the HTTP request header will be sent, which can enable the access to the "Advance Access" features in the Seven Bridges API. Note that the Advance Access features in the API are **not officially released yet**, therefore the API usages are subject to change, so please use with discretion.
+
+In addition to modifying each API call that uses Advance Access features, the option can be also set globally at the beginning of your API script. This offers a one-button switch for users who wants to experiment with the Advance Access features. The option is disabled by default:
+
+```{r}
+library("sevenbridges")
+getOption("sevenbridges")$advance_access
+```
+
+```
+## [1] FALSE
+```
+
+For example, the "folders" API is in Advance Access as of August, 2017. If we try to use the folders API to create a folder with the `advance_access` option disabled, it will return an error message:
+
+```{r}
+req = api(
+    token = "your_token", path = "files",
+    method = "POST", body = list(
+        "name" = "new-folder", "type" = "folder",
+        "project" = "owner/project"))
+
+httr::content(req)$"message"
+```
+
+```
+## [1] "Advance access feature needs X-SBG-Advance-Access: advance header."
+```
+
+To enable the Advance Access features, one can use
+
+```{r}
+opt = getOption("sevenbridges")
+opt$advance_access = TRUE
+options(sevenbridges = opt)
+```
+
+at the beginning of their scripts. Let's check if the option has been enabled:
+
+```{r}
+getOption("sevenbridges")$advance_access
+```
+
+```
+## [1] TRUE
+```
+
+Send the API call again:
+
+```{r}
+req = api(
+    token = "your_token", path = "files",
+    method = "POST", body = list(
+        "name" = "new-folder", "type" = "folder",
+        "project" = "owner/project"))
+```
+
+The information of the newly created folder will be returned:
+
+```{r}
+httr::content(req)
+```
+
+```
+## $href
+## [1] "https://api.sbgenomics.com/v2/files/{folder_id}"
+##
+## $id
+## [1] "folder_id"
+##
+## $name
+## [1] "new-folder"
+##
+## $project
+## [1] "owner/project"
+##
+## $parent
+## [1] "parent_folder_id"
+##
+## $type
+## [1] "folder"
+##
+## $created_on
+## [1] "2017-08-22T12:49:21Z"
+##
+## $modified_on
+## [1] "2017-08-22T12:49:21Z"
 ```
 
 <div align="right"><a href="#top">top</a></div>
