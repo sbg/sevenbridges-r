@@ -36,6 +36,7 @@ The Cancer Genomics Cloud (CGC), powered by Seven Bridges, is also a cloud-based
 - [FAQ](#faq)
 - [Events](#events)
 - [Contribute](#contribute)
+- [Copyright](#copyright)
 
 ## Installation
 
