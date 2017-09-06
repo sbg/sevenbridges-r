@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{ExpressionTool-class}
-\alias{ExpressionTool}
 \alias{ExpressionTool-class}
+\alias{ExpressionTool}
 \title{ExpressionTool Class}
 \description{
 Execute an expression as a process step.
@@ -15,9 +15,10 @@ Execute an expression as a process step.
 expression must return a JSON object which matches the output
 parameters of the ExpressionTool.}
 }}
+
+
 \examples{
 ExpressionTool(expression =
                   Expression(engine = "cwl:JsonPointer",
                              script = "$job.inputs['threads']"))
 }
-

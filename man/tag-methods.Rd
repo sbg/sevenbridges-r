@@ -2,12 +2,12 @@
 % Please edit documentation in R/class-files.R
 \docType{methods}
 \name{set_tag}
-\alias{add_tag}
-\alias{add_tag,Files-method}
-\alias{add_tag,FilesList-method}
 \alias{set_tag}
-\alias{set_tag,Files-method}
 \alias{set_tag,FilesList-method}
+\alias{set_tag,Files-method}
+\alias{add_tag}
+\alias{add_tag,FilesList-method}
+\alias{add_tag,Files-method}
 \title{Set file tags}
 \usage{
 set_tag(obj, ...)
@@ -47,4 +47,3 @@ fl = a$project("demo")$file("omni")
 add_tag(fl, "new tag")
 add_tag(fl, list("new tag", "new tag 2"))}
 }
-

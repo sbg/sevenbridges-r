@@ -2,10 +2,10 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{FileList}
-\alias{File}
-\alias{File-class}
 \alias{FileList}
 \alias{FileList-class}
+\alias{File-class}
+\alias{File}
 \title{FileList Class}
 \usage{
 FileList(...)
@@ -42,6 +42,8 @@ external references which must be included when loading primary
 document. A file object listed in secondaryFiles may itself include
 secondaryFiles for which the same rules apply.}
 }}
+
+
 \examples{
 library(jsonlite)
 library(yaml)
@@ -56,4 +58,3 @@ f1
 f2
 fl
 }
-

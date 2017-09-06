@@ -47,4 +47,3 @@ req = upload_init(token,
       project_id = "f0eb447f-3511-4b28-9253-eba96191d432",
       name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
 }
-

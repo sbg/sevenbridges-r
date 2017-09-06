@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-files.R
 \docType{class}
 \name{Files-class}
-\alias{Files}
 \alias{Files-class}
+\alias{Files}
 \alias{FilesList}
 \alias{FilesList-class}
 \title{Class Files}
@@ -51,6 +51,7 @@ it usually return the project id and stored with the object.}
 
 \item{\code{url}}{file download url}
 }}
+
 \section{Methods}{
 
 \describe{
@@ -75,6 +76,7 @@ is set to TRUE, it overwrites the metadata}
 \item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata,
 and tags for a specified file.}
 }}
+
 \note{
 In sevenbridges package version <= 1.5.4, the \code{Files} class
 inherits from the \code{File} class defined in CWL. To avoid confusion,
@@ -84,4 +86,3 @@ coupled anymore.
 \examples{
 Files(id = "test_id", name = "test.bam")
 }
-

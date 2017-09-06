@@ -15,4 +15,3 @@ Call this as an addin to create an Rabix tool object.
 \examples{
 NULL
 }
-

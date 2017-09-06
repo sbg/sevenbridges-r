@@ -25,4 +25,3 @@ token = "your_token"
 req = upload_delete(token,
       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 }
-

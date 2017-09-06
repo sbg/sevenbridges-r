@@ -38,4 +38,3 @@ See \code{\link{cli_upload}} for uploading files with
 the command line uploader, \code{\link{cli_list_tags}} for listing
 all tags in a project.
 }
-

@@ -2,16 +2,16 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{Parameter-class}
-\alias{InputParameter}
-\alias{InputParameter-class}
+\alias{Parameter-class}
+\alias{Parameter}
 \alias{InputParameterList}
 \alias{InputParameterList-class}
-\alias{OutputParameter}
-\alias{OutputParameter-class}
 \alias{OutputParameterList}
 \alias{OutputParameterList-class}
-\alias{Parameter}
-\alias{Parameter-class}
+\alias{InputParameter-class}
+\alias{InputParameter}
+\alias{OutputParameter-class}
+\alias{OutputParameter}
 \title{Paramter class (reference class)}
 \usage{
 InputParameterList(...)
@@ -26,14 +26,6 @@ Parameter object
 }
 \description{
 Define an input or output parameter to a process.
-
-InputParameterList
-
-OutputParameterList
-
-InputParameter Class
-
-OutputParameter Class
 }
 \section{Fields}{
 
@@ -64,6 +56,8 @@ as command line parameters.}
 
 \item{\code{id}}{(character) The unique identifier for this parameter object.}
 }}
+
+
 \examples{
 Parameter(type = "integer", label = "thread",
          description = "Specify the thread #",
@@ -86,4 +80,3 @@ ipl <- InputParameterList(
 )
 ipl
 }
-

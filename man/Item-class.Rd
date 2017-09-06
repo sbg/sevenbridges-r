@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-item.R
 \docType{class}
 \name{Item-class}
-\alias{Item}
 \alias{Item-class}
+\alias{Item}
 \title{Class Item}
 \description{
 Class Item
@@ -21,4 +21,5 @@ Project, Task, Pipeline, Files, etc.
 
 \item{\code{href}}{API href}
 }}
+
 

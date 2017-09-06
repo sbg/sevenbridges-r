@@ -46,7 +46,8 @@ Suggests:
     readr,
     clipr
 NeedsCompilation: no
-RoxygenNote: 5.0.1
+Encoding: UTF-8
+RoxygenNote: 6.0.1.9000
 Collate:
     sevenbridges-package.R
     class-all.R

@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-tool.R
 \docType{class}
 \name{Tool-class}
-\alias{Tool}
 \alias{Tool-class}
+\alias{Tool}
 \title{Class Tool}
 \value{
 a Tool object.
@@ -25,6 +25,7 @@ with more seven bridges flabored fields the \code{SBG} class.
 
 \item{\code{contributor}}{[list] a list of contributor names.}
 }}
+
 \section{Methods}{
 
 \describe{
@@ -76,6 +77,7 @@ parameter takes single input id or more than one ids.
 the second parameters \code{required} is the value you
 want to set to inputs. \code{TRUE} means set to required.}
 }}
+
 \examples{
 t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 # convert json file into a Tool object
@@ -139,4 +141,3 @@ set_test_env("dind", "tengfei/testenv", "~/mounts")
 t3$input_type()
 t3$run(list(input_file = Files(fl)))  # Not File}
 }
-

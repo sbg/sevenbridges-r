@@ -2,16 +2,16 @@
 % Please edit documentation in R/class-cwl.R
 \docType{methods}
 \name{asList}
-\alias{asJSON}
-\alias{asJSON,ANY-method}
 \alias{asList}
 \alias{asList,ANY-method}
 \alias{asList,CWL-method}
-\alias{asList,DSCList-method}
-\alias{asList,SimpleList-method}
 \alias{asList,SingleEnum-method}
+\alias{asList,SimpleList-method}
 \alias{asYAML}
 \alias{asYAML,ANY-method}
+\alias{asJSON}
+\alias{asJSON,ANY-method}
+\alias{asList,DSCList-method}
 \title{Convert a object slots/fields to a list, json, or yaml file}
 \usage{
 asList(object, ...)
@@ -76,4 +76,3 @@ asJSON(a)
 asJSON(b)
 b$toJSON()
 }
-

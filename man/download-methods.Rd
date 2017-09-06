@@ -3,8 +3,8 @@
 \docType{methods}
 \name{download}
 \alias{download}
-\alias{download,Files-method}
 \alias{download,FilesList-method}
+\alias{download,Files-method}
 \title{Download files}
 \usage{
 download(obj, ...)
@@ -30,4 +30,3 @@ a$project("demo")$file("omni")$download()
 # or
 download(a$project("demo")$file("omni"))}
 }
-

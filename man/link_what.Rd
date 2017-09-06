@@ -3,10 +3,10 @@
 \docType{methods}
 \name{link_what}
 \alias{link_what}
-\alias{link_what,SBGWorkflow,SBGWorkflow-method}
-\alias{link_what,SBGWorkflow,Tool-method}
-\alias{link_what,Tool,SBGWorkflow-method}
 \alias{link_what,Tool,Tool-method}
+\alias{link_what,Tool,SBGWorkflow-method}
+\alias{link_what,SBGWorkflow,Tool-method}
+\alias{link_what,SBGWorkflow,SBGWorkflow-method}
 \title{List possible linking methods}
 \usage{
 link_what(from, to, ...)
@@ -31,14 +31,6 @@ A Workflow object
 }
 \description{
 List possible linking methods
-
-shows potential link methods by providing grouped inputs/ouputs
-
-shows potential link methods by providing grouped inputs/ouputs
-
-shows potential link methods by providing grouped inputs/ouputs
-
-shows potential link methods by providing grouped inputs/ouputs
 }
 \details{
 Given two object of Tool, Flow or App, list all possible input/output match.
@@ -63,4 +55,3 @@ t1 = convert_app(tool.in)
 f2 = convert_app(flow.in)
 link_what(f2, t1)
 }
-

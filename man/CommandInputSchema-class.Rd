@@ -2,13 +2,13 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandInputSchema-class}
-\alias{CommandInputSchema}
 \alias{CommandInputSchema-class}
+\alias{CommandInputSchema}
 \title{CommandInputSchema Class}
 \description{
 CommandInputSchema Class
 }
+
 \examples{
 CommandInputSchema()
 }
-

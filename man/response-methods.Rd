@@ -3,12 +3,12 @@
 \docType{methods}
 \name{response}
 \alias{response}
-\alias{response,ANY-method}
-\alias{response,Item-method}
-\alias{response,SimpleList-method}
 \alias{response<-}
+\alias{response,ANY-method}
 \alias{response<-,ANY-method}
+\alias{response,Item-method}
 \alias{response<-,Item-method}
+\alias{response,SimpleList-method}
 \alias{response<-,SimpleList-method}
 \title{Get raw response from an Item object}
 \usage{
@@ -44,4 +44,3 @@ Get raw response from an Item object
 response(x)
 }
 }
-

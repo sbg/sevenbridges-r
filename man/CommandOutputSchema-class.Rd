@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandOutputSchema-class}
-\alias{CommandOutputSchema}
 \alias{CommandOutputSchema-class}
+\alias{CommandOutputSchema}
 \title{CommandOutputSchema}
 \description{
 CommandOutputSchema
@@ -15,7 +15,8 @@ CommandOutputSchema
 the concrete outputs of a process step (such as files created by a
 program) and describe them in the process output parameter.}
 }}
+
+
 \examples{
 CommandOutputSchema()
 }
-

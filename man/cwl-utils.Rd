@@ -27,4 +27,3 @@ get_cwl_class(flow.in)
 is_commandlinetool(flow.in)
 is_workflow(flow.in)
 }
-

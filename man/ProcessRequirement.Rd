@@ -2,30 +2,30 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{ProcessRequirement-class}
-\alias{CreateFileRequirement}
-\alias{CreateFileRequirement-class}
-\alias{DockerRequirement}
+\alias{ProcessRequirement-class}
+\alias{ProcessRequirement}
 \alias{DockerRequirement-class}
-\alias{EnvVarRequirement}
-\alias{EnvVarRequirement-class}
-\alias{EnvironmentDef}
-\alias{EnvironmentDef-class}
-\alias{EnvironmentDefList}
-\alias{EnvironmentDefList-class}
-\alias{ExpressionEngineRequirement}
-\alias{ExpressionEngineRequirement-class}
-\alias{FileDef}
+\alias{DockerRequirement}
+\alias{SubworkflowFeatureRequirement-class}
+\alias{SubworkflowFeatureRequirement}
 \alias{FileDef-class}
+\alias{FileDef}
 \alias{FileDefList}
 \alias{FileDefList-class}
-\alias{ProcessRequirement}
-\alias{ProcessRequirement-class}
+\alias{CreateFileRequirement-class}
+\alias{CreateFileRequirement}
+\alias{EnvironmentDef-class}
+\alias{EnvironmentDef}
+\alias{EnvironmentDefList}
+\alias{EnvironmentDefList-class}
+\alias{EnvVarRequirement-class}
+\alias{EnvVarRequirement}
+\alias{ScatterFeatureRequirement-class}
+\alias{ScatterFeatureRequirement}
 \alias{ProcessRequirementList}
 \alias{ProcessRequirementList-class}
-\alias{ScatterFeatureRequirement}
-\alias{ScatterFeatureRequirement-class}
-\alias{SubworkflowFeatureRequirement}
-\alias{SubworkflowFeatureRequirement-class}
+\alias{ExpressionEngineRequirement-class}
+\alias{ExpressionEngineRequirement}
 \title{ProcessRequirement Class}
 \usage{
 FileDefList(...)
@@ -47,6 +47,7 @@ DockerRequirement Class
 
 ProcessRequirementList
 }
+
 \section{ProcessRequirement}{
 
 
@@ -211,6 +212,7 @@ that will be called from CWL expressions.}
 
 }
 }
+
 \examples{
 dkr <- DockerRequirement(dockerImageId = "testid")
 cfr <- CreateFileRequirement(fileDef =
@@ -224,4 +226,3 @@ safr <- ScatterFeatureRequirement()
 eer <- ExpressionEngineRequirement(id = "hello")
 ProcessRequirementList(dkr, cfr, sfr, evr, safr, eer)
 }
-

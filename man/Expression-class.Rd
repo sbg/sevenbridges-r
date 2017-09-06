@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{Expression-class}
-\alias{Expression}
 \alias{Expression-class}
+\alias{Expression}
 \title{Expression Class}
 \description{
 Define an expression that will be evaluated and used to modify the
@@ -21,7 +21,8 @@ to use.}
 \item{\code{script}}{(character) The code to be executed by the expression
 engine.}
 }}
+
+
 \examples{
 Expression(engine = "#cwl-js-engine", script = "$job.inputs['threads']")
 }
-

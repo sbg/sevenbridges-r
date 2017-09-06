@@ -41,4 +41,3 @@ flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 output_matrix(tool.in)
 output_matrix(flow.in)
 }
-

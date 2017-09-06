@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-folders.R
 \docType{class}
 \name{Folders-class}
-\alias{Folders}
 \alias{Folders-class}
+\alias{Folders}
 \title{Class Folders}
 \value{
 Folders object
@@ -38,6 +38,7 @@ folder contents}
 
 \item{\code{modified_on}}{date the folder was modified}
 }}
+
 \section{Methods}{
 
 \describe{
@@ -51,7 +52,7 @@ folder contents}
 
 \item{\code{move_file_to_folder(...)}}{move a file between folders}
 }}
+
 \examples{
 Folders(id = "test_id", name = "test.bam")
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CWL-class}
-\alias{CWL}
 \alias{CWL-class}
+\alias{CWL}
 \title{Class CWL}
 \description{
 Define CWL class and generic methods, no fields defeind.
@@ -20,8 +20,8 @@ does not assume the value is primitive type.}
 
 \item{\code{toYAML(...)}}{Covert object to YAML}
 }}
+
 \examples{
 ## no fields, only to provide methods to be extended
 x <- CWL()
 }
-

@@ -2,24 +2,24 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{PrimitiveSingleEnum-class}
-\alias{ComplexEnum}
-\alias{ComplexSingleEnum-class}
-\alias{DatatypeEnum}
-\alias{DatatypeSingleEnum-class}
-\alias{ItemArray}
-\alias{ItemArray-class}
-\alias{PrimitiveEnum}
 \alias{PrimitiveSingleEnum-class}
-\alias{enum}
+\alias{PrimitiveEnum}
+\alias{ComplexSingleEnum-class}
+\alias{ComplexEnum}
+\alias{DatatypeSingleEnum-class}
+\alias{DatatypeEnum}
 \alias{enum-class}
+\alias{enum}
+\alias{ItemArray-class}
+\alias{ItemArray}
 \title{Pre-defiend enums}
 \description{
 Please check \code{cwl:::.CWL.Pritimive}, \code{cwl:::.CWL.Complex}.
 }
+
 \examples{
 PrimitiveEnum()
 PrimitiveEnum("boolean")
 ComplexEnum("record")
 DatatypeEnum("map")
 }
-

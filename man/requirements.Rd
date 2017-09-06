@@ -2,21 +2,21 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CPURequirement-class}
-\alias{AWSInstanceTypeRequirement}
-\alias{AWSInstanceTypeRequirement-class}
-\alias{AnyRequirement}
-\alias{AnyRequirement-class}
-\alias{CPURequirement}
 \alias{CPURequirement-class}
-\alias{MemRequirement}
-\alias{MemRequirement-class}
-\alias{anyReq}
-\alias{aws}
+\alias{CPURequirement}
 \alias{cpu}
 \alias{docker}
-\alias{fileDef}
-\alias{mem}
 \alias{requirements}
+\alias{fileDef}
+\alias{MemRequirement-class}
+\alias{MemRequirement}
+\alias{mem}
+\alias{AWSInstanceTypeRequirement-class}
+\alias{AWSInstanceTypeRequirement}
+\alias{aws}
+\alias{AnyRequirement-class}
+\alias{AnyRequirement}
+\alias{anyReq}
 \title{Rabix specifc Requirements}
 \usage{
 docker(pull = NULL, imageId = NULL, load = NULL, file = NULL,
@@ -83,6 +83,8 @@ CPU. For mem, default is 1000L. Note: for CPU, 0L means
 multi-tread, and non-zero value will be converted to 1L, which
 means single thread.}
 }}
+
+
 \examples{
 cpu(1)
 CPURequirement(value = 1L)
@@ -93,4 +95,3 @@ MemRequirement(value = 2000L)
 aws("c3.8xlarge")
 anyReq("any")
 }
-

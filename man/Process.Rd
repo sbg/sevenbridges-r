@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{Process-class}
-\alias{Process}
 \alias{Process-class}
+\alias{Process}
 \title{Process Class}
 \description{
 The base executable type in CWL is the Process object defined by
@@ -46,6 +46,8 @@ process object.}
 \item{\code{description}}{[character] A long, human-readable description
 of this process object.}
 }}
+
+
 \examples{
 ipl <- InputParameterList(
     InputParameter(id = "BAM", type = "File",
@@ -66,4 +68,3 @@ ipl
 p <- Process(id = "process", inputs = ipl)
 p
 }
-

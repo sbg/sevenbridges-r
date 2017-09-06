@@ -19,4 +19,3 @@ Contains DataypeSingleEnum, Schema, character
 \examples{
 DSCList("test", DatatypeEnum(), Schema())
 }
-

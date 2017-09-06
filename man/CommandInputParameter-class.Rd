@@ -2,12 +2,13 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandInputParameter-class}
-\alias{CommandInputParameter}
 \alias{CommandInputParameter-class}
+\alias{CommandInputParameter}
 \title{CommandInputParameter Class}
 \description{
 An input parameter for a CommandLineTool.
 }
+
 \examples{
 ipl <- InputParameterList(
     CommandInputParameter(id = "BAM", type = "File",
@@ -25,4 +26,3 @@ ipl <- InputParameterList(
                           ))
 )
 }
-

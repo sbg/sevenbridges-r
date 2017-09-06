@@ -25,4 +25,3 @@ token = "your_token"
 req = project_details(token,
       project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-auth.R
 \docType{class}
 \name{Auth-class}
-\alias{Auth}
 \alias{Auth-class}
+\alias{Auth}
 \title{Class Auth}
 \description{
 Auth object
@@ -48,6 +48,7 @@ The default value is \code{"default"}.}
 
 \item{\code{fs}}{FS object, for mount and unmount file system.}
 }}
+
 \section{Methods}{
 
 \describe{
@@ -122,6 +123,7 @@ make in one hour.}
 of all volumes you are a member of. If name or id
 provided, we did a match search the list}
 }}
+
 \examples{
 # Direct authentication (default)
 # replace with your auth token
@@ -139,4 +141,3 @@ a <- Auth(from = "env")
 # file `~/.sevenbridges/credentials` by default
 a <- Auth(from = "file")}
 }
-

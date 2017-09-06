@@ -80,4 +80,3 @@ the command line uploader for Seven Bridges platforms.
 See \code{\link{cli_list_projects}} and \code{\link{cli_list_tags}}
 for listing available projects or tags with the command line uploader.
 }
-

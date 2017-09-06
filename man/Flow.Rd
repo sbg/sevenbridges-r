@@ -2,31 +2,31 @@
 % Please edit documentation in R/class-flow.R
 \docType{class}
 \name{SBGWorkflow-class}
-\alias{"+",App,App-method}
-\alias{"+",Tool,Tool-method}
-\alias{"+",WorkflowStepList,App-method}
-\alias{"+",WorkflowStepList,Tool-method}
-\alias{"+",WorkflowStepList,WorkflowStepList-method}
-\alias{"\%>>\%"}
-\alias{"\%>>\%",App,App-method}
-\alias{"\%>>\%",Tool,Tool-method}
-\alias{"\%>>\%",Workflow,App-method}
-\alias{"\%>>\%",Workflow,Tool-method}
-\alias{"\%>>\%",Workflow,Workflow-method}
-\alias{+,App,App-method}
-\alias{+,Tool,Tool-method}
-\alias{+,WorkflowStepList,App-method}
-\alias{+,WorkflowStepList,Tool-method}
-\alias{+,WorkflowStepList,WorkflowStepList-method}
-\alias{Flow}
-\alias{SBGWorkflow}
 \alias{SBGWorkflow-class}
+\alias{SBGWorkflow}
+\alias{Flow}
+\alias{+,Tool,Tool-method}
+\alias{"+",Tool,Tool-method}
+\alias{+,WorkflowStepList,Tool-method}
+\alias{"+",WorkflowStepList,Tool-method}
+\alias{+,WorkflowStepList,WorkflowStepList-method}
+\alias{"+",WorkflowStepList,WorkflowStepList-method}
+\alias{+,App,App-method}
+\alias{"+",App,App-method}
+\alias{+,WorkflowStepList,App-method}
+\alias{"+",WorkflowStepList,App-method}
 \alias{\%>>\%}
-\alias{\%>>\%,App,App-method}
+\alias{"\%>>\%"}
 \alias{\%>>\%,Tool,Tool-method}
-\alias{\%>>\%,Workflow,App-method}
+\alias{"\%>>\%",Tool,Tool-method}
 \alias{\%>>\%,Workflow,Tool-method}
+\alias{"\%>>\%",Workflow,Tool-method}
 \alias{\%>>\%,Workflow,Workflow-method}
+\alias{"\%>>\%",Workflow,Workflow-method}
+\alias{\%>>\%,App,App-method}
+\alias{"\%>>\%",App,App-method}
+\alias{\%>>\%,Workflow,App-method}
+\alias{"\%>>\%",Workflow,App-method}
 \title{Build workflow}
 \usage{
 Flow(..., graph = TRUE, x.width = 1000, y.width = 400, x.start = 100,
@@ -175,6 +175,7 @@ name then names of vector is type.}
 tool id. when \code{full = TRUE}, show full
 name then names of vector is type.}
 }}
+
 \examples{
 f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 f1 = convert_app(f1)
@@ -261,4 +262,3 @@ f1$link_map()
 f1$add_source_to_id(c("test1", "test2"), c("#STAR.genome", "#STAR.reads"))
 f1$link_map()
 }
-

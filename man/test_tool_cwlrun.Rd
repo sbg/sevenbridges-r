@@ -26,4 +26,3 @@ set_test_env("tengfei/testenv", "<mount_dir>")
 test_tool_cwlrun(rbx, inputs)
 }
 }
-

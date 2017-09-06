@@ -26,4 +26,3 @@ token = "your_token"
 req = upload_complete_all(token,
       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
 }
-

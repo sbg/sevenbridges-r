@@ -3,12 +3,12 @@
 \docType{methods}
 \name{link}
 \alias{link}
-\alias{link,App,ToolORWorkflow-method}
 \alias{link,Tool,Tool-method}
 \alias{link,Tool,Workflow-method}
-\alias{link,ToolORWorkflow,App-method}
 \alias{link,Workflow,Tool-method}
 \alias{link,Workflow,Workflow-method}
+\alias{link,App,ToolORWorkflow-method}
+\alias{link,ToolORWorkflow,App-method}
 \title{link two nodes to form a new Workflow}
 \usage{
 link(from, to, ...)
@@ -70,4 +70,3 @@ f2 = link(t1, t2, "output_fastq_files", "reads",
          flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
          flow_output = "#STAR.log_files")
 }
-

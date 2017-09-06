@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandOutputBinding-class}
-\alias{CommandOutputBinding}
 \alias{CommandOutputBinding-class}
+\alias{CommandOutputBinding}
 \title{CommandOutputBinding Class}
 \description{
 Describes how to generate an output parameter based on the files
@@ -27,7 +27,8 @@ an array containing any files that were matched. Additionally, if
 loadContents is true, the file objects will include up to the first
 64 KiB of file contents in the contents field.}
 }}
+
+
 \examples{
 CommandOutputBinding(glob = "*.bam")
 }
-

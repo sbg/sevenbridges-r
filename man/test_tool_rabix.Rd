@@ -24,4 +24,3 @@ rbx <- <define rabix tool>
 set_test_env("tengfei/testenv", "<mount_dir>")
 test_tool_rabix(rbx, inputs)}
 }
-

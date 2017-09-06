@@ -2,18 +2,18 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{WorkflowStepInput-class}
-\alias{WorkflowStep}
-\alias{WorkflowStep-class}
-\alias{WorkflowStepInput}
 \alias{WorkflowStepInput-class}
+\alias{WorkflowStepInput}
+\alias{WorkflowStepOutput-class}
+\alias{WorkflowStepOutput}
 \alias{WorkflowStepInputList}
 \alias{WorkflowStepInputList-class}
-\alias{WorkflowStepList}
-\alias{WorkflowStepList-class}
-\alias{WorkflowStepOutput}
-\alias{WorkflowStepOutput-class}
 \alias{WorkflowStepOutputList}
 \alias{WorkflowStepOutputList-class}
+\alias{WorkflowStepList}
+\alias{WorkflowStepList-class}
+\alias{WorkflowStep-class}
+\alias{WorkflowStep}
 \title{WorkflowStepInputList}
 \usage{
 WorkflowStepInputList(...)
@@ -29,12 +29,6 @@ WorkflowStepList(...)
 a WorkflowStep object or subclass object.
 }
 \description{
-WorkflowStepInputList
-
-WorkflowStepOutputList
-
-WorkflowStepList
-
 A workflow step is an executable element of a workflow.
 It specifies the underlying process implementation (such as
 CommandLineTool) in the run field and connects the input and output
@@ -83,6 +77,8 @@ the process to run.}
 \item{\code{scatterMethod}}{[ScatterMethod] Required if scatter is an array of more
 than one element.}
 }}
+
+
 \section{WorkflowStepInput Class}{
 
 \describe{
@@ -195,6 +191,7 @@ To specify a nested workflow as part of a workflow step,
 SubworkflowFeatureRequirement must be specified in the workflow or
 workflow step requirements.
 }
+
 \examples{
 ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
              description = "align and sort",
@@ -203,4 +200,3 @@ ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
                  WorkflowStepInput(id = "id2")
              )))
 }
-

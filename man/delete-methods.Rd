@@ -3,8 +3,8 @@
 \docType{methods}
 \name{delete}
 \alias{delete}
-\alias{delete,Files-method}
 \alias{delete,SimpleList-method}
+\alias{delete,Files-method}
 \alias{delete,Task-method}
 \title{Delete files}
 \usage{
@@ -31,4 +31,3 @@ a$project("demo")$file("omni")$delete()
 # or
 delete(a$project("demo")$file("omni"))}
 }
-

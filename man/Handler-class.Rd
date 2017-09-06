@@ -2,8 +2,8 @@
 % Please edit documentation in R/misc-handler.R
 \docType{class}
 \name{Handler-class}
-\alias{Handler}
 \alias{Handler-class}
+\alias{Handler}
 \title{Handler instance}
 \value{
 a Handler object
@@ -27,4 +27,5 @@ container, for example, push it to DockerHub.}
 \item{\code{cwlHandler}}{a function or NULL, how you handle cwl json file or
 yaml file, for example, push it to SevenBridges platform as an app.}
 }}
+
 

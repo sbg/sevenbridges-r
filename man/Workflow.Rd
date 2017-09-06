@@ -2,12 +2,12 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{WorkflowOutputParameter-class}
-\alias{Workflow}
-\alias{Workflow-class}
-\alias{WorkflowOutputParameter}
 \alias{WorkflowOutputParameter-class}
+\alias{WorkflowOutputParameter}
 \alias{WorkflowOutputParameterList}
 \alias{WorkflowOutputParameterList-class}
+\alias{Workflow-class}
+\alias{Workflow}
 \title{Workflow}
 \usage{
 WorkflowOutputParameterList(...)
@@ -36,6 +36,8 @@ fufilled. An implementation may choose to execute the steps in a
 different order than listed and/or execute steps concurrently,
 provided that dependencies between steps are met.}
 }}
+
+
 \section{WorkflowOutputParameter Class}{
 
 \describe{
@@ -72,6 +74,7 @@ fufilled, the step is ready to execute.
 ScatterFeatureRequirement and SubworkflowFeatureRequirement are
 available as standard extensions to core workflow semantics.
 }
+
 \examples{
 ## need better examples here
 ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
@@ -82,4 +85,3 @@ ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
              )))
 Workflow(steps = ws)
 }
-

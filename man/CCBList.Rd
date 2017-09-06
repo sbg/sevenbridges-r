@@ -19,4 +19,3 @@ characterORCommandLineBindingList Class
 \examples{
 CCBList("-o output.bam")
 }
-

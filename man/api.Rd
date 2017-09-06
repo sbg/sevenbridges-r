@@ -77,4 +77,3 @@ api(token = token, path = "projects", method = "GET")}
 \references{
 \url{https://docs.sevenbridges.com/v1.0/page/api}
 }
-

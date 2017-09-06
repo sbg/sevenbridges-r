@@ -22,4 +22,3 @@ S4 class constructor
 \description{
 Extends IRanges SimpleList class and return constructor.
 }
-

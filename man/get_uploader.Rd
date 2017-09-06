@@ -42,4 +42,3 @@ dir = "~/Downloads/"
 \references{
 \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-filesystem.R
 \docType{class}
 \name{FS-class}
-\alias{FS}
 \alias{FS-class}
+\alias{FS}
 \title{FS class}
 \arguments{
 \item{server_address}{placehoder}

@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{Binding-class}
-\alias{Binding}
 \alias{Binding-class}
+\alias{Binding}
 \title{Binding}
 \description{
 Binding
@@ -27,7 +27,8 @@ from the path (the last period . and all following characters). If
 there are no file extensions, the path is unchanged.  Append the
 remainder of the string to the end of the file path.}
 }}
+
+
 \examples{
 Binding(loadContents = TRUE, secondaryFiles = "./test.txt")
 }
-

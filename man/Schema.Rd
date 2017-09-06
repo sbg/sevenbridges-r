@@ -2,18 +2,18 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{SchemaList}
-\alias{InputSchema}
-\alias{InputSchema-class}
-\alias{OutputSchema}
-\alias{OutputSchema-class}
-\alias{Schema}
-\alias{Schema-class}
-\alias{SchemaDef}
-\alias{SchemaDef-class}
-\alias{SchemaDefList}
-\alias{SchemaDefList-class}
 \alias{SchemaList}
 \alias{SchemaList-class}
+\alias{Schema-class}
+\alias{Schema}
+\alias{SchemaDef-class}
+\alias{SchemaDef}
+\alias{SchemaDefList}
+\alias{SchemaDefList-class}
+\alias{InputSchema-class}
+\alias{InputSchema}
+\alias{OutputSchema-class}
+\alias{OutputSchema}
 \title{SchemaList}
 \usage{
 SchemaList(...)
@@ -27,17 +27,7 @@ SchemaDefList(...)
 a Schema object or sbuclass object.
 }
 \description{
-SchemaList
-
 A schema defines a parameter type.
-
-SchemaDef Class
-
-SchemaDefList
-
-InputSchema Class
-
-OutputSchema Class
 }
 \section{Fields}{
 
@@ -59,7 +49,8 @@ key/value pairs.}
 the input object convert it into a concrete form for execution,
 such as command line parameters.}
 }}
+
+
 \examples{
 Schema(fields = SchemaList(SchemaDef(name = "schema")))
 }
-

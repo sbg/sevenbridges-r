@@ -3,14 +3,14 @@
 \docType{class}
 \name{CLB}
 \alias{CLB}
+\alias{argslist}
 \alias{COB}
 \alias{IPList}
-\alias{InPar}
 \alias{OPList}
-\alias{OutPar}
-\alias{argslist}
 \alias{input}
 \alias{output}
+\alias{InPar}
+\alias{OutPar}
 \title{Shorthand functions for cwl packages constructors}
 \arguments{
 \item{type}{[ANY] Specify valid types of data that may be assigned
@@ -43,6 +43,7 @@ as well.}
 \description{
 Shorthand functions for cwl packages constructors
 }
+
 \section{Shorthand}{
 
 CLB <- CommandLineBinding
@@ -120,6 +121,7 @@ remainder of the string to the end of the file path.}
 
 }
 }
+
 \examples{
 ipl <- IPList(
     input(id = "bam",
@@ -140,4 +142,3 @@ ipl <- IPList(
           position = 3L)
 )
 }
-

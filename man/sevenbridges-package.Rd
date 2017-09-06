@@ -18,4 +18,3 @@ Nan Xiao <\email{nan.xiao@sevenbridges.com}>
         Emile Young <\email{emile.young@sevenbridges.com}>
         Tengfei Yin <\email{tengfei.yin@sevenbridges.com}>
 }
-

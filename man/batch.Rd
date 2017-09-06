@@ -33,4 +33,3 @@ batch(input = "fastq", c("metadata.sample_id", "metadata.library_id"))
 # shorthand for this
 batch(input = "fastq", c("metadata.sample_id", "metadata.library_id"), type = "CRITERIA")
 }
-

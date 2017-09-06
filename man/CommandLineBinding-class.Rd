@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandLineBinding-class}
-\alias{CommandLineBinding}
 \alias{CommandLineBinding-class}
+\alias{CommandLineBinding}
 \title{CommandLineBinding Class}
 \description{
 When listed under inputBinding in the input schema, the term
@@ -56,7 +56,8 @@ input parameter, the "context" of the expression will be the value
 of the input parameter. When a binding is part of the
 CommandLineTool.arguments field, the valueFrom field is required.}
 }}
+
+
 \examples{
 CommandLineBinding(position = 1L, prefix = "-l")
 }
-

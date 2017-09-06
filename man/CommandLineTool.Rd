@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-cwl.R
 \docType{class}
 \name{CommandLineTool-class}
-\alias{CommandLineTool}
 \alias{CommandLineTool-class}
+\alias{CommandLineTool}
 \title{CommandLineTool Class}
 \description{
 A CommandLineTool process is a process implementation for executing
@@ -55,6 +55,8 @@ process failed due to a permanent logic error, where excuting the
 process with the same runtime environment and same inputs is
 expected to always fail.}
 }}
+
+
 \section{Input binding}{
 
 
@@ -174,6 +176,7 @@ listed in outputs and applying output bindings to the tool
 output. Output bindings are associated with output parameters using
 the outputBinding field. See CommandOutputBinding for details.
 }
+
 \examples{
 ipl <- InputParameterList(
     InputParameter(id = "BAM", type = "File",
@@ -193,4 +196,3 @@ ipl <- InputParameterList(
 
 clt <- CommandLineTool(inputs = ipl, baseCommand = "samtools sort")
 }
-

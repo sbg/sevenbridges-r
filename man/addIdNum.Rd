@@ -18,4 +18,3 @@ add \code{#} prefix to id
 \examples{
 addIdNum(c("bam", "#fastq"))
 }
-

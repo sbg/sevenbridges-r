@@ -2,8 +2,8 @@
 % Please edit documentation in R/class-app.R
 \docType{class}
 \name{App-class}
-\alias{App}
 \alias{App-class}
+\alias{App}
 \title{Class App}
 \value{
 App object.
@@ -24,6 +24,8 @@ Class App
 
 \item{\code{raw}}{raw cwl list, if doesn't have any, call \code{cwl()} method}
 }}
+
+
 \examples{
 \dontrun{
 a = Auth(url = "https://api.sbgenomics.com/v2/",
@@ -37,4 +39,3 @@ app = a$public_app(id = "admin/sbg-public-data/star")
 app$input_matrix()
 app$output_matrix()}
 }
-

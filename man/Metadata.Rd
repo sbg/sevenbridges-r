@@ -2,40 +2,40 @@
 % Please edit documentation in R/api-misc.R, R/class-meta.R
 \docType{class}
 \name{misc_make_metadata}
-\alias{Metadata}
-\alias{Metadata-class}
-\alias{access_level}
-\alias{age_at_diagnosis}
-\alias{aliquot_id}
-\alias{aliquot_uuid}
-\alias{analysis_uuid}
-\alias{case_id}
-\alias{case_uuid}
-\alias{data_format}
-\alias{data_subtype}
-\alias{data_type}
-\alias{days_to_death}
-\alias{disease_type}
-\alias{ethnicity}
-\alias{experimental_strategy}
-\alias{file_extension}
-\alias{file_segment_number}
-\alias{gdc_file_uuid}
-\alias{gender}
-\alias{investigation}
-\alias{library_id}
 \alias{misc_make_metadata}
-\alias{paired_end}
+\alias{Metadata-class}
+\alias{Metadata}
+\alias{experimental_strategy}
+\alias{library_id}
 \alias{platform}
 \alias{platform_unit_id}
-\alias{primary_site}
+\alias{file_segment_number}
 \alias{quality_scale}
-\alias{race}
+\alias{paired_end}
+\alias{data_format}
+\alias{file_extension}
 \alias{reference_genome}
-\alias{sample_id}
-\alias{sample_type}
-\alias{sample_uuid}
+\alias{data_type}
+\alias{data_subtype}
+\alias{analysis_uuid}
+\alias{gdc_file_uuid}
+\alias{access_level}
+\alias{investigation}
+\alias{case_id}
+\alias{case_uuid}
+\alias{gender}
+\alias{race}
+\alias{ethnicity}
+\alias{primary_site}
+\alias{disease_type}
+\alias{age_at_diagnosis}
 \alias{vital_status}
+\alias{days_to_death}
+\alias{sample_id}
+\alias{sample_uuid}
+\alias{sample_type}
+\alias{aliquot_id}
+\alias{aliquot_uuid}
 \title{Meta schema}
 \usage{
 misc_make_metadata()
@@ -49,6 +49,7 @@ Meta schema
 \details{
 V2 version for meta data schema
 }
+
 \examples{
 # show schema (you can still provide customized one)
 # empty beause they are all NULL
@@ -65,4 +66,3 @@ quality_scale()
 # check their suggested value and construct your metadata
 Metadata(platform  = "Affymetrix SNP Array 6.0", paired_end = 1, quality_scale = "sanger")
 }
-
