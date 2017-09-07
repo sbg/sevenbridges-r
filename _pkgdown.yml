@@ -2,3 +2,7 @@ template:
   params:
     bootswatch: cosmo
     ganalytics: UA-87185344-1
+
+navbar:
+  title: "sevenbridges-r"
+  type: inverse
