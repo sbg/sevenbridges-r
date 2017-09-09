@@ -142,7 +142,8 @@ Project <- setRefClass(
         type             = "characterORNULL",
         # my_permission  = "Permission",
         owner            = "characterORNULL",
-        tags             = "listORNULL"),
+        tags             = "listORNULL",
+        settings         = "listORNULL"),
 
     methods = list(
 
@@ -154,7 +155,8 @@ Project <- setRefClass(
             type             = "",
             # my_permission  = Permission(),
             owner            = NULL,
-            tags             = list(), ...) {
+            tags             = list(),
+            settings         = list(), ...) {
 
             if (is.null(id)) stop("id is required")
 
@@ -167,12 +169,13 @@ Project <- setRefClass(
 
             id               <<- id
             name             <<- name
+            billing_group_id <<- billing_group_id
             description      <<- description
-            # my_permission  <<- my_permission
             type             <<- type
+            # my_permission  <<- my_permission
             owner            <<- owner
             tags             <<- tags
-            billing_group_id <<- billing_group_id
+            settings         <<- settings
 
             callSuper(...)
 
@@ -663,6 +666,7 @@ Project <- setRefClass(
             tags  = x$tags,
             description = x$description,  # v1 only entry
             billing_group_id = x$billing_group,
+            settings = x$settings,
             response = response(x))
 
     # } else {
@@ -675,6 +679,7 @@ Project <- setRefClass(
     #             description = x$description,  # v1 only entry
     #             billing_group_id = x$billing_group,
     #             my_permission = do.call(Permission, x$my_permission),  # v1 only entry
+    #             settings = x$settings,
     #             response = response(x))
     #
     # }

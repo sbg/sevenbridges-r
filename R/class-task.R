@@ -1,9 +1,9 @@
 .ts <- c(
-    "id", "name", "description", "status", "app", "type",
-    "created_by", "created_time", "executed_by", "start_time", "end_time",
-    "execution_status", "price", "inputs", "outputs", "project",
-    "batch", "batch_input", "batch_by",  "parent", "batch_group",
-    "errors", "warnings")
+    "id", "name", "description", "status", "use_interruptible_instances",
+    "app", "type", "created_by", "created_time", "executed_by",
+    "start_time", "end_time", "execution_status", "price",
+    "inputs", "outputs", "project", "batch", "batch_input", "batch_by",
+    "parent", "batch_group", "errors", "warnings")
 
 Task <- setRefClass(
 
@@ -16,6 +16,7 @@ Task <- setRefClass(
         name             = "characterORNULL",
         description      = "characterORNULL",
         status           = "characterORNULL",
+        use_interruptible_instances = "logicalORNULL",
         app              = "characterORNULL",
         type             = "characterORNULL",
         created_by       = "characterORNULL",
