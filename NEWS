@@ -2,7 +2,7 @@
 
 ## Bug Fixes
 
-- Fix the task creation issue by introducting the new field `use_interruptible_instances` which supports the latest [spot instance feature](https://www.sevenbridges.com/spot-instances-cost-reduction/) ([ea14d5c](https://github.com/sbg/sevenbridges-r/commit/ea14d5c6333b999e754ebb760fc93f89ecdf6019)).
+- Fixed task creation issues by introducting the new field `use_interruptible_instances` which supports the latest [spot instance feature](https://www.sevenbridges.com/spot-instances-cost-reduction/) ([ea14d5c](https://github.com/sbg/sevenbridges-r/commit/ea14d5c6333b999e754ebb760fc93f89ecdf6019)).
 
 # sevenbridges 1.7.1
 
