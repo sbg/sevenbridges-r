@@ -1,4 +1,4 @@
-FROM rocker/hadleyverse
+FROM rocker/tidyverse
 
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
