@@ -9,8 +9,6 @@ output:
     toc_depth: 4
     number_sections: true
     css: sevenbridges.css
-    includes:
-      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Complete Guide for Seven Bridges API R Client}

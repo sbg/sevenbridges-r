@@ -8,8 +8,6 @@ output:
     toc_depth: 4
     number_sections: true
     css: sevenbridges.css
-    includes:
-      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Describe and Execute CWL Tools/Workflows in R}

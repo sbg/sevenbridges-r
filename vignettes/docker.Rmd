@@ -8,8 +8,6 @@ output:
     toc_depth: 4
     number_sections: true
     css: sevenbridges.css
-    includes:
-      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Creating Your Docker Container and Command Line Interface (with docopt)}
