@@ -1,3 +1,15 @@
+# sevenbridges 1.7.4
+
+## Bug Fixes
+
+- Fixed the `baseCommand` conversion issue ([#59](https://github.com/sbg/sevenbridges-r/issues/59)).
+
+# sevenbridges 1.7.3
+
+## Improvements
+
+- Use system font stack instead of Google Fonts in vignettes to avoid pandoc SSL issue.
+
 # sevenbridges 1.7.2
 
 ## Bug Fixes
