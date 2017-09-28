@@ -1623,6 +1623,9 @@ CommandLineTool <- setRefClass(
                 if (is.character(baseCommand)) {
                     baseCommand <<- list(baseCommand)
                 }
+            }else{
+                ## TODO: seems like it support expression now
+                baseCommand <<- baseCommand
             }
             if (is.character(arguments)) {
                 if (nchar(arguments)) {
