@@ -25,6 +25,10 @@
     "sbg:toolkit",
     "sbg:projectId",
     "sbg:image_url",
+    "sbg:appVersion",
+    "sbg:projectName",
+    "sbg:publisher",
+    "cwlVersion",
     "appUrl",
     "x")
 
@@ -61,7 +65,12 @@ SBG <- setRefClass(
         "sbg:image_url"           = "characterORNULL",
         "sbg:updateRevisionNotes" = "characterORNULL",
         "sbg:updateModifiedBy"    = "characterORNULL",
-        "sbg:update"              = "characterORNULL"
+        "sbg:update"              = "characterORNULL",
+        "sbg:appVersion"          = "listORNULL",
+        "sbg:projectName"         = "characterORNULL",
+        "sbg:publisher"           = "characterORNULL",
+        "cwlVersion"              = "characterORNULL"
+
     ),
 
     methods = list(
@@ -93,6 +102,10 @@ SBG <- setRefClass(
             updateRevisionNote = NULL,
             updateModifiedBy   = NULL,
             update             = NULL,
+            appVersion         = NULL,
+            projectName        = NULL,
+            publisher          = NULL,
+            cwlVersion         = NULL,
             ...) {
 
             args <- mget(names(formals()),sys.frame(sys.nframe()))
