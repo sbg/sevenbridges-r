@@ -6,3 +6,120 @@ template:
 navbar:
   title: "sevenbridges-r"
   type: inverse
+
+reference:
+  - title: "API Client"
+    desc: >
+      API client.
+    contents:
+      - get_token
+      - api
+      - response
+  - title: "Authentication"
+    desc: >
+      Authentication.
+    contents:
+      - Auth-class
+      - sbg_get_env
+      - sbg_set_env
+  - title: "Project"
+    desc: >
+      Managing projects.
+    contents:
+      - project_details
+      - project_members
+  - title: "Files"
+    desc: >
+      Files I/O.
+    contents:
+      - FileList
+      - FilesList
+      - download
+      - delete
+      - upload_complete_all
+      - upload_complete_part
+      - upload_delete
+      - upload_info_part
+      - upload_info
+      - upload_init
+      - set_tag
+      - add_tag
+  - title: "Tasks"
+    desc: >
+      Managing tasks.
+    contents:
+      - batch
+      - setTaskHook
+      - getTaskHook
+  - title: "File Systems"
+    desc: >
+      File systems class.
+    contents:
+      - FS-class
+  - title: "Folders"
+    desc: >
+      Folders class.
+    contents:
+      - Folders-class
+  - title: "CLI Uploader"
+    desc: >
+      Upload files with command line uploader.
+    contents:
+      - get_uploader
+      - cli_list_projects
+      - cli_list_tags
+      - cli_upload
+      - misc_upload_cli
+  - title: "Common Workflow Language"
+    desc: >
+      Creating CWL tools and workflows in R.
+    contents:
+      - App-class
+      - convert_app
+      - input_matrix
+      - output_matrix
+      - Tool-class
+      - ToolUI
+      - test_tool_rabix
+      - test_tool_cwlrun
+      - test_tool_bunny
+      - link
+      - link_what
+      - SBGWorkflow-class
+      - WorkflowStepInputList
+      - WorkflowOutputParameterList
+      - CWL-class
+      - get_cwl_class
+      - Process-class
+      - ProcessRequirement-class
+      - Parameter-class
+      - CommandInputParameter-class
+      - CommandInputSchema-class
+      - CommandLineBinding-class
+      - CommandLineTool-class
+      - CommandOutputBinding-class
+      - CommandOutputParameter-class
+      - CommandOutputSchema-class
+      - Expression-class
+      - ExpressionTool-class
+      - Handler-class
+      - docker
+      - DSCList
+      - CCBList
+      - CLB
+      - SchemaList
+      - PrimitiveSingleEnum-class
+      - Binding-class
+  - title: "Utilities"
+    desc: >
+      Utility functions.
+    contents:
+      - sevenbridges-package
+      - Item-class
+      - misc_make_metadata
+      - addIdNum
+      - asList
+      - asYAML
+      - asJSON
+      - set_test_env
+      - setListClass
