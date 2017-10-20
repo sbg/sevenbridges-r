@@ -1,3 +1,9 @@
+# sevenbridges 1.7.5
+
+## Improvements
+
+- Update `rabix-cli` (Bunny) to 1.0.2 for the Docker container.
+
 # sevenbridges 1.7.4
 
 ## Bug Fixes
