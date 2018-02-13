@@ -255,6 +255,7 @@ Tool <- setRefClass(
             } else {
                 stop("wrong inputs type")
             }
+            # now inputs should be a IPList, 
             # outputs
             if (is(outputs, "OutputParameterList") ||
                 (is.list(outputs) &&
@@ -431,15 +432,28 @@ Tool <- setRefClass(
             parameter takes single input id or more than one ids.
             the second parameters \\code{required} is the value you
             want to set to inputs. \\code{TRUE} means set to required.'
-            iid <- input_id()
-            ids <- addIdNum(ids)
-            idx = ids %in% iid
-            if (any(!idx)) {
-                stop("mistyped id name: ", paste(ids[!idx], collapse = " "))
-            }
-            sapply(match(ids, iid), function(id) {
-                inputs[[id]]$required <<- required
-            })
+            message("not implemented yet!")
+            # iid <- input_id()
+            # ids <- addIdNum(ids)
+            # idx = ids %in% iid
+            # if (any(!idx)) {
+            #     stop("mistyped id name: ", paste(ids[!idx], collapse = " "))
+            # }
+            
+            # sapply(match(ids, iid), function(id) {
+            #  
+            #   if(required){
+            #     if(!.is_required(inputs[[id]])){
+            #       print(inputs[[id]]$type)
+            #       inputs[[id]]$type <<- c(DSCList("null"), inputs[[id]]$type)
+            #     }
+            #   }else{
+            #     
+            #     if(.is_required(inputs[[id]])){
+            #       inputs[[id]]$type <<- inputs[[id]]$type[-1]
+            #     }
+            #   }
+            # })
         },
 
         get_input_port = function() {
