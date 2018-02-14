@@ -137,15 +137,7 @@ CWL <- setRefClass(
 #' asList(a)
 #' asList(b)
 #' b$toList()
-#'
-#' ## asYAML
-#' asYAML(a)
-#' asYAML(b)
 #' b$toYAML()
-#'
-#' ## asJSON
-#' asJSON(a)
-#' asJSON(b)
 #' b$toJSON()
 setGeneric("asList", function(object, ...) standardGeneric("asList"))
 
@@ -203,32 +195,6 @@ setMethod("asList", "SimpleList", function(object, ...) {
     }
     res
 })
-
-#' @docType methods
-#' @export asYAML
-#' @rdname as-methods
-#' @aliases asYAML
-setGeneric("asYAML", function(object, ...) standardGeneric("asYAML"))
-
-#' @rdname as-methods
-#' @aliases asYAML,ANY-method
-setMethod("asYAML", "ANY", function(object, ...) {
-    as.yaml(asList(object), ...)
-})
-
-#' @docType methods
-#' @export asJSON
-#' @aliases asJSON
-#' @rdname as-methods
-setGeneric("asJSON", function(object, ...) standardGeneric("asJSON"))
-
-#' @rdname as-methods
-#' @aliases asJSON,ANY-method
-setMethod("asJSON", "ANY", function(object, ...){
-    toJSON(asList(object), ...)
-})
-
-
 
 #' DSC list
 #'
@@ -521,7 +487,6 @@ FileList <- setListClass("File")
 #' fl <- FileList(f1, f2)
 #' asList(fl)
 #' writeLines(asYAML(fl))
-#' asJSON(fl)
 #' f1
 #' f2
 #' fl
