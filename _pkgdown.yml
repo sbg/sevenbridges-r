@@ -119,7 +119,5 @@ reference:
       - misc_make_metadata
       - addIdNum
       - asList
-      - asYAML
-      - asJSON
       - set_test_env
       - setListClass

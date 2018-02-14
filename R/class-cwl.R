@@ -486,7 +486,6 @@ FileList <- setListClass("File")
 #'            size = 3L, secondaryFile = FileList(File(path = "./out.bai")))
 #' fl <- FileList(f1, f2)
 #' asList(fl)
-#' writeLines(asYAML(fl))
 #' f1
 #' f2
 #' fl

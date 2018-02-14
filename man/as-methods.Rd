@@ -7,10 +7,6 @@
 \alias{asList,CWL-method}
 \alias{asList,SingleEnum-method}
 \alias{asList,SimpleList-method}
-\alias{asYAML}
-\alias{asYAML,ANY-method}
-\alias{asJSON}
-\alias{asJSON,ANY-method}
 \alias{asList,DSCList-method}
 \title{Convert a object slots/fields to a list, json, or yaml file}
 \usage{
@@ -23,14 +19,6 @@ asList(object, ...)
 \S4method{asList}{SingleEnum}(object, ...)
 
 \S4method{asList}{SimpleList}(object, ...)
-
-asYAML(object, ...)
-
-\S4method{asYAML}{ANY}(object, ...)
-
-asJSON(object, ...)
-
-\S4method{asJSON}{ANY}(object, ...)
 
 \S4method{asList}{DSCList}(object, ...)
 }
@@ -65,14 +53,6 @@ b$show("YAML")
 asList(a)
 asList(b)
 b$toList()
-
-## asYAML
-asYAML(a)
-asYAML(b)
 b$toYAML()
-
-## asJSON
-asJSON(a)
-asJSON(b)
 b$toJSON()
 }
