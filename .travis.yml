@@ -3,7 +3,7 @@ sudo: false
 cache: packages
 
 r:
-  - bioc-devel
+# - bioc-devel
   - bioc-release
 
 os:
