@@ -17,7 +17,6 @@
 #' @importFrom dplyr bind_rows
 #' @importFrom utils modifyList
 #' @importFrom rstudioapi getActiveDocumentContext
-#' @importFrom liftr lift render_docker
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
 #' @importFrom yaml yaml.load_file as.yaml yaml.load
