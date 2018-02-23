@@ -337,6 +337,6 @@ Contributors should read the [Seven Bridges Notice to Contributors](https://driv
 
 ## Copyright
 
-© 2017 Seven Bridges Genomics, Inc. All rights reserved.
+© 2018 Seven Bridges Genomics, Inc. All rights reserved.
 
 This project is licensed under the terms of the [Apache License 2.0](LICENSE).
