@@ -312,8 +312,8 @@ it introduced a simpler example with random number generator.
 ```{r, comment = "", eval = TRUE}
 rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"),
-                                 cpu(1), mem(2000)),
+            # hints = requirements(docker(pull = "rocker/r-base"),
+            #                      cpu(1), mem(2000)),
             baseCommand = "Rscript -e 'runif(100)'",
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))
@@ -339,8 +339,8 @@ fd <- fileDef(name = "runif.R",
                    runif(100)")
 rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"),
-                                 cpu(1), mem(2000)),
+            # hints = requirements(docker(pull = "rocker/r-base"),
+            #                      cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",  # run script you created.
             stdout = "output.txt",
@@ -494,7 +494,7 @@ the expression)
 rbx <- Tool(id = "rnaseqGene",
             label = "rnaseqgene",
             description = "A RNA-seq Differiencial Expression Flow and Report",
-            hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)),
+            # hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)),
             baseCommand = "performDE.R",
             inputs = list(
                 input(

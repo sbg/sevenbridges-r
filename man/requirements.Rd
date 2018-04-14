@@ -89,7 +89,7 @@ means single thread.}
 cpu(1)
 CPURequirement(value = 1L)
 docker("rocker/r-base")
-requirements(docker("rocker/r-base"), cpu(1), mem(1024))
+# requirements(docker("rocker/r-base"), cpu(1), mem(1024))
 mem(2000)
 MemRequirement(value = 2000L)
 aws("c3.8xlarge")

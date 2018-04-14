@@ -17,8 +17,8 @@ out.df <- data.frame(id   = c("res"),
                      glob = c("res.txt"))
 rbx <- Tool(id = "runif",
             label = "Random number generator",
-            hints = requirements(docker(pull = "ubuntu:14.04"),
-                                 cpu(1), mem(2000)),
+            # hints = requirements(docker(pull = "ubuntu:14.04"),
+            #                      cpu(1), mem(2000)),
             baseCommand = "echo 'radi!' > res.txt",
             inputs      = in.df,
             outputs     = out.df)
