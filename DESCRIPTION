@@ -32,7 +32,6 @@ Imports:
     S4Vectors,
     docopt,
     curl,
-    liftr,
     uuid,
     dplyr,
     shiny (>= 0.13),
