@@ -156,8 +156,8 @@
 <div id="bioconductor---release-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bioconductor---release-version" class="anchor"></a>Bioconductor - Release Version</h3>
-<p>This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.5, and it works with <strong>R version 3.4.0</strong>. Users of older R and Bioconductor versions should upgrade to take advantage of new features.</p>
-<p>If you do not want to update R, please install the <code>sevenbridges</code> package directly from GitHub by following the instructions below.</p>
+<p>This is recommended for most users as it is the most stable version. It supports the <a href="https://cran.r-project.org/">latest release version of R</a> and the <a href="https://bioconductor.org/about/release-announcements/">latest release version of Bioconductor</a>. Users of older R and Bioconductor versions should consider upgrade to take advantage of the new features.</p>
+<p>If you do not want to upgrade R, please install the <code>sevenbridges</code> package directly from GitHub by following the instructions below.</p>
 <div id="check-r-version" class="section level4">
 <h4 class="hasAnchor">
 <a href="#check-r-version" class="anchor"></a>Check R version</h4>
@@ -219,28 +219,30 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</code></pr
 <div id="flexible-authentication-methods" class="section level3">
 <h3 class="hasAnchor">
 <a href="#flexible-authentication-methods" class="anchor"></a>Flexible Authentication Methods</h3>
+<p>Multiple authentication methods support.</p>
 <ul>
-<li>Multiple authentication methods support.</li>
+<li>Direct authentication:</li>
 </ul>
-<p>Direct authentication:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Direct authentication</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># or use base url</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a></code></pre></div>
-<p>Authentication via system environment variables:</p>
+<ul>
+<li>Authentication via system environment variables:</li>
+</ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
-<p>Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:</p>
+<ul>
+<li>Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:</li>
+</ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-username"</span>)</a></code></pre></div>
 <p>Please check <code><a href="articles/api.html">vignette("api", package = "sevenbridges")</a></code> for technical details about all available authentication methods.</p>
 </div>
 <div id="complete-api-r-client" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complete-api-r-client" class="anchor"></a>Complete API R Client</h3>
-<ul>
-<li>A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:</li>
-</ul>
+<p>A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Get a project by pattern-matching its name</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"></a>
@@ -256,9 +258,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</code></pr
 <div id="task-monitoring" class="section level3">
 <h3 class="hasAnchor">
 <a href="#task-monitoring" class="anchor"></a>Task Monitoring</h3>
-<ul>
-<li>A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:</li>
-</ul>
+<p>A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  tsk<span class="op">$</span><span class="kw"><a href="reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">})</a>
@@ -267,9 +267,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</code></pr
 <div id="batch-tasks-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#batch-tasks-support" class="anchor"></a>Batch Tasks Support</h3>
-<ul>
-<li>Batch tasks by metadata and by item.</li>
-</ul>
+<p>Batch tasks by metadata and by item.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Batch by item</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
@@ -303,16 +301,12 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</code></pr
 <div id="cross-environment-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cross-environment-support" class="anchor"></a>Cross Environment Support</h3>
-<ul>
-<li>Cross-platform support for Seven Bridges environments, such as <a href="https://www.cancergenomicscloud.org/">Cancer Genomics Cloud</a> or <a href="https://www.sbgenomics.com/">Seven Bridges Platform</a> on either Amazon Web Services or Google Cloud Platform.</li>
-</ul>
+<p>Cross-platform support for Seven Bridges environments, such as <a href="https://www.cancergenomicscloud.org/">Cancer Genomics Cloud</a> or <a href="https://www.sbgenomics.com/">Seven Bridges Platform</a> on either Amazon Web Services or Google Cloud Platform.</p>
 </div>
 <div id="common-workflow-language-tool-interface" class="section level3">
 <h3 class="hasAnchor">
 <a href="#common-workflow-language-tool-interface" class="anchor"></a>Common Workflow Language Tool Interface</h3>
-<ul>
-<li>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</li>
-</ul>
+<p>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl))</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"></a>
@@ -334,24 +328,26 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</code></pr
 <a class="sourceLine" id="cb14-19" data-line-number="19">  <span class="dt">outputs =</span> <span class="kw"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
 <a class="sourceLine" id="cb14-20" data-line-number="20">)</a>
 <a class="sourceLine" id="cb14-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co"># output CWL JSON</span></a>
+<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co"># Print CWL JSON</span></a>
 <a class="sourceLine" id="cb14-23" data-line-number="23">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co"># output CWL YAML</span></a>
-<a class="sourceLine" id="cb14-25" data-line-number="25">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb14-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb14-25" data-line-number="25"><span class="co"># Print CWL YAML</span></a>
+<a class="sourceLine" id="cb14-26" data-line-number="26">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
 </div>
 <div id="utilities-for-tool-and-flow" class="section level3">
 <h3 class="hasAnchor">
 <a href="#utilities-for-tool-and-flow" class="anchor"></a>Utilities for Tool and Flow</h3>
-<ul>
-<li>Utilities for Tool and Flow, for example</li>
-</ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># converting a SBG CWL JSON file</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">t1 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co"># convert json file into a Tool object</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">t1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/convert_app.html">convert_app</a></span>(t1)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co"># shows all input matrix</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">t1<span class="op">$</span><span class="kw"><a href="reference/input_output_matrix.html">input_matrix</a></span>()</a></code></pre></div>
+<p>Utilities for <code>Tool</code> and <code>Flow</code>, for example</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co"># convert a SBG CWL JSON file</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">t1 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co"># convert json file into a Tool object</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">t1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/convert_app.html">convert_app</a></span>(t1)</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co"># shows all input matrix</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">t1<span class="op">$</span><span class="kw"><a href="reference/input_output_matrix.html">input_matrix</a></span>()</a></code></pre></div>
 </div>
 </div>
 <div id="tutorials" class="section level2">
