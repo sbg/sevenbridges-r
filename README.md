@@ -111,9 +111,10 @@ source("https://bioconductor.org/biocLite.R")
 biocLite("readr")
 
 devtools::install_github(
-    "sbg/sevenbridges-r",
-    repos = BiocInstaller::biocinstallRepos(),
-    build_vignettes = TRUE, dependencies = TRUE)
+  "sbg/sevenbridges-r",
+  repos = BiocInstaller::biocinstallRepos(),
+  build_vignettes = TRUE, dependencies = TRUE
+)
 ```
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid building the vignettes.
@@ -129,8 +130,9 @@ The `sevenbridges` package includes the following features:
 Direct authentication:
 
 ```r
-# direct authentication
+# Direct authentication
 a <- Auth(token = "your_token", platform = "cgc")
+
 # or use base url
 a <- Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
 ```
@@ -145,7 +147,7 @@ a <- Auth(from = "env")
 Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
 
 ```r
-a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+a <- Auth(from = "file", profile_name = "aws-us-username")
 ```
 
 Please check `vignette("api", package = "sevenbridges")` for technical details about all available authentication methods.
@@ -157,10 +159,13 @@ Please check `vignette("api", package = "sevenbridges")` for technical details a
 ```r
 # Get a project by pattern-matching its name
 p <- a$project("demo")
+
 # Get a project by its id
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "username/demo")
+
 # Delete files from a project
 p$file("sample.tz")$delete()
+
 # Upload fies from a folder to a project and include file metadata
 p$upload("folder_path", metadata = list(platform = "Illumina"))
 ```
@@ -171,7 +176,7 @@ p$upload("folder_path", metadata = list(platform = "Illumina"))
 
 ```r
 setTaskHook("completed", function() {
-    tsk$download("~/Downloads")
+  tsk$download("~/Downloads")
 })
 tsk$monitor()
 ```
@@ -183,26 +188,33 @@ tsk$monitor()
 ```r
 # Batch by item
 (tsk <- p$task_add(
-    name = "RNA DE report new batch 2",
-    description = "RNA DE analysis report",
-    app = rna.app$id,
-    batch = batch(input = "bamfiles"),
-    inputs = list(bamfiles = bamfiles.in,
-                  design = design.in,
-                  gtffile = gtf.in)))
+  name = "RNA DE report new batch 2",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(input = "bamfiles"),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 
 # Batch by metadata. Note that input files must
 # have relevant metadata fields specified.
 (tsk <- p$task_add(
-    name = "RNA DE report new batch 3",
-    description = "RNA DE analysis report",
-    app = rna.app$id,
-    batch = batch(input = "fastq",
-                  c("metadata.sample_id",
-                    "metadata.library_id")),
-    inputs = list(bamfiles = bamfiles.in,
-                  design = design.in,
-                  gtffile = gtf.in)))
+  name = "RNA DE report new batch 3",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(
+    input = "fastq",
+    c("metadata.sample_id", "metadata.library_id")
+  ),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 ```
 
 ### Cross Environment Support
@@ -218,19 +230,22 @@ library("readr")
 fd <- fileDef(name = "runif.R", content = read_file(fl))
 
 rbx <- Tool(
-    id    = "runif",
-    label = "runif",
-    hints = requirements(
-        docker(pull = "rocker/r-base"),
-        cpu(1), mem(2000)),
-    requirements = requirements(fd),
-    baseCommand  = "Rscript runif.R",
-    stdout = "output.txt",
-    inputs = list(
-        input(id = "number", type = "integer", position = 1),
-        input(id = "min",    type = "float",   position = 2),
-        input(id = "max",    type = "float",   position = 3)),
-    outputs = output(id = "random", glob = "output.txt"))
+  id = "runif",
+  label = "runif",
+  hints = requirements(
+    docker(pull = "rocker/r-base"),
+    cpu(1), mem(2000)
+  ),
+  requirements = requirements(fd),
+  baseCommand = "Rscript runif.R",
+  stdout = "output.txt",
+  inputs = list(
+    input(id = "number", type = "integer", position = 1),
+    input(id = "min", type = "float", position = 2),
+    input(id = "max", type = "float", position = 3)
+  ),
+  outputs = output(id = "random", glob = "output.txt")
+)
 
 # output CWL JSON
 rbx$toJSON(pretty = TRUE)
@@ -293,8 +308,11 @@ Log into your RStudio at `http://<url>:8787`. Then, try to copy an app to your h
 
 ```r
 dir.create("~/ShinyApps")
-file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/",
-          "~/ShinyApps/", recursive = TRUE)
+file.copy(
+  "/usr/local/lib/R/site-library/shiny/examples/01_hello/",
+  "~/ShinyApps/",
+  recursive = TRUE
+)
 ```
 
 If you are logged in as user `rstudio`, visit  `http://192.168.99.100:3838/rstudio/01_hello`. You should be able to see the "hello" example.
