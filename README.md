@@ -44,9 +44,9 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 ### Bioconductor - Release Version
 
-This installation is recommended for most users as it is the most stable. The current release of Bioconductor is version 3.5, and it works with __R version 3.4.0__. Users of older R and Bioconductor versions should upgrade to take advantage of new features.
+This is recommended for most users as it is the most stable version. It supports the [latest release version of R](https://cran.r-project.org/) and the [latest release version of Bioconductor](https://bioconductor.org/about/release-announcements/). Users of older R and Bioconductor versions should consider upgrade to take advantage of the new features.
 
-If you do not want to update R, please install the `sevenbridges` package directly from GitHub by following the instructions below.
+If you do not want to upgrade R, please install the `sevenbridges` package directly from GitHub by following the instructions below.
 
 #### Check R version
 
@@ -125,9 +125,9 @@ The `sevenbridges` package includes the following features:
 
 ### Flexible Authentication Methods
 
-* Multiple authentication methods support.
+Multiple authentication methods support.
 
-Direct authentication:
+- Direct authentication:
 
 ```r
 # Direct authentication
@@ -137,14 +137,14 @@ a <- Auth(token = "your_token", platform = "cgc")
 a <- Auth(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
 ```
 
-Authentication via system environment variables:
+- Authentication via system environment variables:
 
 ```r
 sbg_set_env(token = "your_token", url = "https://cgc-api.sbgenomics.com/v2")
 a <- Auth(from = "env")
 ```
 
-Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
+- Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:
 
 ```r
 a <- Auth(from = "file", profile_name = "aws-us-username")
@@ -154,7 +154,7 @@ Please check `vignette("api", package = "sevenbridges")` for technical details a
 
 ### Complete API R Client
 
-* A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
+A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:
 
 ```r
 # Get a project by pattern-matching its name
@@ -172,7 +172,7 @@ p$upload("folder_path", metadata = list(platform = "Illumina"))
 
 ### Task Monitoring
 
-* A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:
+A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:
 
 ```r
 setTaskHook("completed", function() {
@@ -183,7 +183,7 @@ tsk$monitor()
 
 ### Batch Tasks Support
 
-* Batch tasks by metadata and by item.
+Batch tasks by metadata and by item.
 
 ```r
 # Batch by item
@@ -219,11 +219,11 @@ tsk$monitor()
 
 ### Cross Environment Support
 
-* Cross-platform support for Seven Bridges environments, such as [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either Amazon Web Services or Google Cloud Platform.
+Cross-platform support for Seven Bridges environments, such as [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/) or [Seven Bridges Platform](https://www.sbgenomics.com/) on either Amazon Web Services or Google Cloud Platform.
 
 ### Common Workflow Language Tool Interface
 
-* A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:
+A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:
 
 ```r
 library("readr")
@@ -247,22 +247,26 @@ rbx <- Tool(
   outputs = output(id = "random", glob = "output.txt")
 )
 
-# output CWL JSON
+# Print CWL JSON
 rbx$toJSON(pretty = TRUE)
-# output CWL YAML
+
+# Print CWL YAML
 rbx$toYAML()
 ```
 
 ### Utilities for Tool and Flow
 
-* Utilities for Tool and Flow, for example
+Utilities for `Tool` and `Flow`, for example
 
 ```r
-# converting a SBG CWL JSON file
 library("sevenbridges")
+
+# convert a SBG CWL JSON file
 t1 <- system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+
 # convert json file into a Tool object
 t1 <- convert_app(t1)
+
 # shows all input matrix
 t1$input_matrix()
 ```
