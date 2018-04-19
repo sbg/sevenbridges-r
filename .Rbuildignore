@@ -3,9 +3,9 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^appveyor\.yml$
+^_pkgdown\.yml$
+^docs$
 ^.*~$
 hooks
 ^logo\.png$
-^docs$
-^_pkgdown\.yml$
 ^_NEWS\.md$
