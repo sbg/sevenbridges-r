@@ -46,8 +46,8 @@
 #' @export api
 #' @examples
 #' token = "your_token"
-#' \donttest{
 #' # list projects
+#' \dontrun{
 #' api(token = token, path = "projects", method = "GET")}
 api = function(
     token = NULL, version = 'v2', path = NULL,

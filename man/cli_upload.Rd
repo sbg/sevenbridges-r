@@ -62,7 +62,7 @@ should be installed. See the reference link below for details.
 }
 \examples{
 token = "your_token"
-\donttest{
+\dontrun{
 cli_upload(
   token = token,
   uploader = "~/Downloads/cgc-uploader/",

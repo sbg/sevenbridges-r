@@ -28,7 +28,7 @@
 #' @examples
 #' # Download CGC CLI uploader to `~/Downloads`
 #' dir = "~/Downloads/"
-#' \donttest{get_uploader("cgc", dir)}
+#' \dontrun{get_uploader("cgc", dir)}
 get_uploader = function(
     platform = c('cgc', 'aws-us', 'aws-eu', 'gcp'),
     destdir = NULL, quiet = FALSE) {
@@ -119,7 +119,7 @@ misc_get_uploader = function() {
 #'
 #' @examples
 #' token = "your_token"
-#' \donttest{
+#' \dontrun{
 #' cli_upload(
 #'   token = token,
 #'   uploader = "~/Downloads/cgc-uploader/",
@@ -226,7 +226,7 @@ misc_upload_cli = function() {
 #'
 #' @examples
 #' token = "your_token"
-#' \donttest{
+#' \dontrun{
 #' cli_list_projects(
 #'   token = token,
 #'   uploader = "~/Downloads/sbg-uploader/")}
@@ -286,7 +286,7 @@ cli_list_projects = function(
 #'
 #' @examples
 #' token = "your_token"
-#' \donttest{
+#' \dontrun{
 #' cli_list_tags(
 #'   token = token,
 #'   uploader = "~/Downloads/sbg-uploader/",

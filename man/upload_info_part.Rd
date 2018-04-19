@@ -25,8 +25,6 @@ upload to the signed URL in this time frame.
 }
 \examples{
 token = "your_token"
-\donttest{
-req = upload_info_part(token,
-      upload_id = "aVluXRqSX2bse6va3AFFgVAppOCQ9IABeA8HnyyiEw85j6pNyV989H4xvJpr53xa",
-      part_number = 1)}
+\dontrun{
+req = upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
 }

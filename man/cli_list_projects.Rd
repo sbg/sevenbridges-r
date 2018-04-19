@@ -25,7 +25,7 @@ command line uploader.
 }
 \examples{
 token = "your_token"
-\donttest{
+\dontrun{
 cli_list_projects(
   token = token,
   uploader = "~/Downloads/sbg-uploader/")}

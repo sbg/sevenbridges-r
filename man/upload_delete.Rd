@@ -21,7 +21,6 @@ Abort the upload; all upload records and the file are deleted.
 }
 \examples{
 token = "your_token"
-\donttest{
-req = upload_delete(token,
-      upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
+\dontrun{
+req = upload_delete(token, upload_id = "your_upload_id")}
 }

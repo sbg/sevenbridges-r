@@ -70,8 +70,8 @@ additional vignettes pages for more convenient usage.
 }
 \examples{
 token = "your_token"
-\donttest{
 # list projects
+\dontrun{
 api(token = token, path = "projects", method = "GET")}
 }
 \references{

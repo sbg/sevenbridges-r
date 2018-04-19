@@ -21,6 +21,5 @@ Returns the upload information for the ongoing upload.
 }
 \examples{
 token = "your_token"
-\donttest{req = upload_info(token,
-                upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
+\dontrun{req = upload_info(token, upload_id = "your_upload_id")}
 }

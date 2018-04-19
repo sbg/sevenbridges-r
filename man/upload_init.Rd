@@ -42,8 +42,9 @@ Limits: \itemize{
 }
 \examples{
 token = "your_token"
-\donttest{
-req = upload_init(token,
-      project_id = "f0eb447f-3511-4b28-9253-eba96191d432",
-      name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
+\dontrun{
+req = upload_init(
+  token,
+  project_id = "your_project_id",
+  name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
 }

@@ -23,5 +23,5 @@ The function will return the token string.
 \examples{
 token = NULL
 # Will be prompted to enter the auth token
-\donttest{token = get_token(platform = "cgc")}
+\dontrun{token = get_token(platform = "cgc")}
 }

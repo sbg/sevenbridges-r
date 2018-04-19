@@ -29,7 +29,7 @@ command line uploader.
 }
 \examples{
 token = "your_token"
-\donttest{
+\dontrun{
 cli_list_tags(
   token = token,
   uploader = "~/Downloads/sbg-uploader/",

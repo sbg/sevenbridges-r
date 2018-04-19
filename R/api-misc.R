@@ -13,8 +13,7 @@
 #' @export upload_info
 #' @examples
 #' token = "your_token"
-#' \donttest{req = upload_info(token,
-#'                 upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
+#' \dontrun{req = upload_info(token, upload_id = "your_upload_id")}
 upload_info = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -43,10 +42,8 @@ upload_info = function (token = NULL, upload_id = NULL, ...) {
 #' @export upload_info_part
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = upload_info_part(token,
-#'       upload_id = "aVluXRqSX2bse6va3AFFgVAppOCQ9IABeA8HnyyiEw85j6pNyV989H4xvJpr53xa",
-#'       part_number = 1)}
+#' \dontrun{
+#' req = upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
 upload_info_part = function (token = NULL,
                              upload_id = NULL, part_number = NULL, ...) {
 
@@ -90,10 +87,11 @@ upload_info_part = function (token = NULL,
 #' @export upload_init
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = upload_init(token,
-#'       project_id = "f0eb447f-3511-4b28-9253-eba96191d432",
-#'       name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
+#' \dontrun{
+#' req = upload_init(
+#'   token,
+#'   project_id = "your_project_id",
+#'   name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
 upload_init = function (token = NULL, project_id = NULL,
                         name = NULL, size = NULL, part_size = NULL, ...) {
 
@@ -130,11 +128,10 @@ upload_init = function (token = NULL, project_id = NULL,
 #' @export upload_complete_part
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = upload_complete_part(token,
-#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT",
-#'       part_number = "1",
-#'       e_tag = "d41d8cd98f00b204e9800998ecf8427e")}
+#' \dontrun{
+#' req = upload_complete_part(
+#'   token, upload_id = "your_upload_id",
+#'   part_number = "1", e_tag = "your_e_tag")}
 upload_complete_part = function (token = NULL, upload_id = NULL,
                                  part_number = NULL, e_tag = NULL, ...) {
 
@@ -166,9 +163,8 @@ upload_complete_part = function (token = NULL, upload_id = NULL,
 #' @export upload_complete_all
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = upload_complete_all(token,
-#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
+#' \dontrun{
+#' req = upload_complete_all(token, upload_id = "your_upload_id")}
 upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -194,9 +190,8 @@ upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 #' @export upload_delete
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = upload_delete(token,
-#'       upload_id = "8D7sQJxQk14ubsEnKaoeQZlRvV6ouQtMzBWaQNJdxPDLypUC3WogwtJdncevHxnT")}
+#' \dontrun{
+#' req = upload_delete(token, upload_id = "your_upload_id")}
 upload_delete = function (token = NULL, upload_id = NULL, ...) {
 
     if (is.null(upload_id)) stop('upload_id must be provided')
@@ -223,9 +218,8 @@ upload_delete = function (token = NULL, upload_id = NULL, ...) {
 #' @export project_details
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = project_details(token,
-#'       project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
+#' \dontrun{
+#' req = project_details(token, project_id = "your_project_id")}
 project_details = function (token = NULL, project_id = NULL, ...) {
 
     if (is.null(project_id)) stop('project_id must be provided')
@@ -252,9 +246,8 @@ project_details = function (token = NULL, project_id = NULL, ...) {
 #' @export project_members
 #' @examples
 #' token = "your_token"
-#' \donttest{
-#' req = project_members(token,
-#'       project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
+#' \dontrun{
+#' req = project_members(token, project_id = "your_project_id")}
 project_members = function (token = NULL, project_id = NULL, ...) {
 
     if (is.null(project_id)) stop('project_id must be provided')
@@ -284,7 +277,7 @@ project_members = function (token = NULL, project_id = NULL, ...) {
 #' @examples
 #' token = NULL
 #' # Will be prompted to enter the auth token
-#' \donttest{token = get_token(platform = "cgc")}
+#' \dontrun{token = get_token(platform = "cgc")}
 get_token = function(platform = c("cgc", "aws-us", "aws-eu", "gcp", "cavatica")) {
 
     platform = match.arg(platform)

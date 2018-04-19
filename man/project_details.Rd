@@ -21,7 +21,6 @@ Returns the details of the project.
 }
 \examples{
 token = "your_token"
-\donttest{
-req = project_details(token,
-      project_id = "b0b3a611-6bb0-47e5-add7-a83402cf7858")}
+\dontrun{
+req = project_details(token, project_id = "your_project_id")}
 }

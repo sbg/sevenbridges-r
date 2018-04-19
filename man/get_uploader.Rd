@@ -37,7 +37,7 @@ extract the \code{.tgz} archive to a specified directory.
 \examples{
 # Download CGC CLI uploader to `~/Downloads`
 dir = "~/Downloads/"
-\donttest{get_uploader("cgc", dir)}
+\dontrun{get_uploader("cgc", dir)}
 }
 \references{
 \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}
