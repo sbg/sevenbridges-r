@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Initializes the upload of the specified file — upload_init" />
 
 <meta property="og:description" content="This is the first operation performed when you wish to upload a file.
@@ -57,8 +60,6 @@ most users." />
 
   gtag('config', 'UA-87185344-1');
 </script>
-
-
 
   </head>
 
@@ -142,10 +143,11 @@ most users." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Initializes the upload of the specified file</h1>
-    <small>Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-misc.R'><code>R/api-misc.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-misc.R'><code>R/api-misc.R</code></a></small>
     <div class="hidden name"><code>upload_init.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This is the first operation performed when you wish to upload a file.
 Operation is initialized by providing file name, project id where you
@@ -155,6 +157,7 @@ part size to a low value if you experience problems with uploading large
 file parts, although default value of 5MB should be good enough for
 most users.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>upload_init</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>project_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>part_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>

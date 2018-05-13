@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Get input/output matrix out of JSON CWL file directly — input_matrix" />
 
 <meta property="og:description" content="An efficient way to access JSON file, no need to convert a JSON into a
@@ -53,8 +56,6 @@ list parsed from JSON file. Compare to convert_app, it is much faster." />
 
   gtag('config', 'UA-87185344-1');
 </script>
-
-
 
   </head>
 
@@ -138,15 +139,17 @@ list parsed from JSON file. Compare to convert_app, it is much faster." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get input/output matrix out of JSON CWL file directly</h1>
-    <small>Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-utils.R'><code>R/api-utils.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-utils.R'><code>R/api-utils.R</code></a></small>
     <div class="hidden name"><code>input_output_matrix.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>An efficient way to access JSON file, no need to convert a JSON into a
 <code>Tool</code> or <code>Flow</code> object before access, directly operate on a
 list parsed from JSON file. Compare to <code>convert_app</code>, it is much faster.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>input_matrix</span>(<span class='no'>from</span>, <span class='kw'>new.order</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"id"</span>, <span class='st'>"label"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"prefix"</span>,
   <span class='st'>"fileTypes"</span>), <span class='kw'>required</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)

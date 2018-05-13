@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Reports the completion of the part upload — upload_complete_part" />
 
 <meta property="og:description" content="The ETag is provided for the correctness check upon completion of the
@@ -53,8 +56,6 @@ uploading the file in the ETag header." />
 
   gtag('config', 'UA-87185344-1');
 </script>
-
-
 
   </head>
 
@@ -138,15 +139,17 @@ uploading the file in the ETag header." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Reports the completion of the part upload</h1>
-    <small>Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-misc.R'><code>R/api-misc.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/R/api-misc.R'><code>R/api-misc.R</code></a></small>
     <div class="hidden name"><code>upload_complete_part.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The ETag is provided for the correctness check upon completion of the
 whole upload. Value for the ETag is provided by AWS S3 service when
 uploading the file in the ETag header.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>upload_complete_part</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>upload_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>part_number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>e_tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>

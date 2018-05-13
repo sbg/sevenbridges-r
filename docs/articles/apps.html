@@ -104,9 +104,9 @@
       <h1>Describe and Execute CWL Tools/Workflows in R</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-04-19</h4>
+            <h4 class="date">2018-05-13</h4>
       
-      <small>Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
       <div class="hidden name"><code>apps.Rmd</code></div>
 
     </div>
@@ -474,7 +474,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <h3 class="hasAnchor">
 <a href="#using-existing-docker-images-and-command" class="anchor"></a>Using existing Docker images and command</h3>
 <p>If you already have a Docker image in mind that provide the functionality you need, you can just use it. The <code>baseCommand</code> is the command line you want to execute in that container. <code>stdout</code> specify the output file you want to capture the standard output and collect it on the platform.</p>
-<p>In this simple example, I know Docker image <code>rocker/r-base</code> has a function called <code>runif</code> I can directly called in command line with <code>Rscript -e</code>. Then I want the ouput is collected in <code>stdout</code> and ask the file system to capture the files matches “*.txt“. Please pay attention to this, you tool may produce many intermediate files in current folder, if you don’t tell which output you need, they will all be ignored, so make sure you collect those files via <code>outputs</code> parameter.</p>
+<p>In this simple example, I know Docker image <code>rocker/r-base</code> has a function called <code>runif</code> I can directly called in command line with <code>Rscript -e</code>. Then I want the ouput is collected in <code>stdout</code> and ask the file system to capture the files matches "*.txt". Please pay attention to this, you tool may produce many intermediate files in current folder, if you don’t tell which output you need, they will all be ignored, so make sure you collect those files via <code>outputs</code> parameter.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
