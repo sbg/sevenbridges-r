@@ -1,40 +1,40 @@
-# sevenbridges-r 1.9.1
+# sevenbridges 1.9.1
 
 ## Bug Fixes
 
 - Removed functions that prevents Shiny apps to load when the package is loaded ([#63](https://github.com/sbg/sevenbridges-r/issues/63)).
 
-# sevenbridges-r 1.7.5
+# sevenbridges 1.7.5
 
 ## Improvements
 
 - Update `rabix-cli` (Bunny) to 1.0.2 for the Docker container.
 
-# sevenbridges-r 1.7.4
+# sevenbridges 1.7.4
 
 ## Bug Fixes
 
 - Fixed the `baseCommand` conversion issue ([#59](https://github.com/sbg/sevenbridges-r/issues/59)).
 
-# sevenbridges-r 1.7.3
+# sevenbridges 1.7.3
 
 ## Improvements
 
 - Use system font stack instead of Google Fonts in vignettes to avoid pandoc SSL issue.
 
-# sevenbridges-r 1.7.2
+# sevenbridges 1.7.2
 
 ## Bug Fixes
 
 - Fixed task creation issues by introducting the new field `use_interruptible_instances` which supports the latest [spot instance feature](https://www.sevenbridges.com/spot-instances-cost-reduction/) ([ea14d5c](https://github.com/sbg/sevenbridges-r/commit/ea14d5c6333b999e754ebb760fc93f89ecdf6019)).
 
-# sevenbridges-r 1.7.1
+# sevenbridges 1.7.1
 
 ## New Features
 
 - Added a new argument (global option) `advance_access` for enabling the access to Advance Access features.
 
-# sevenbridges-r 1.5.9
+# sevenbridges 1.5.9
 
 ## New Features
 
@@ -59,7 +59,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 - API status code has been updated to the latest version.
 - Added docker pull stats badge ([#49](https://github.com/sbg/sevenbridges-r/issues/49)).
 
-# sevenbridges-r 1.5.8
+# sevenbridges 1.5.8
 
 ## Bug Fixes
 
@@ -67,7 +67,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 
 - Fixed the user configuration file path (from `~/.sevenbridges/credential` to `~/.sevenbridges/credentials`), following the authentication specification. Thanks: Fabian Zimmer
 
-# sevenbridges-r 1.5.6
+# sevenbridges 1.5.6
 
 ## Improvements
 
@@ -87,7 +87,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 
 - Fixed `filename` and `fileContent` conversion to `Expression` ([4c0a686](https://github.com/sbg/sevenbridges-r/commit/4c0a6867b597d0c6e882ed63216c7c3882257404)).
 
-# sevenbridges-r 1.5.5
+# sevenbridges 1.5.5
 
 ## Improvements
 
@@ -115,7 +115,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 
 - New vignette style ([#38](https://github.com/sbg/sevenbridges-r/issues/38))
 
-# sevenbridges-r 1.5.4
+# sevenbridges 1.5.4
 
 ## Bug Fixes
 
@@ -127,7 +127,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 - Decoupled Files class and (CWL) File class; updated Files class to support the latest API
 - Updated error status code to the latest version
 
-# sevenbridges-r 1.5.3
+# sevenbridges 1.5.3
 
 ## Bug Fixes
 
@@ -143,7 +143,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 - Structural and style improvements for `README.md`
 - General R code style improvements
 
-# sevenbridges-r 1.1.16
+# sevenbridges 1.1.16
 
 ## New Features
 
@@ -155,7 +155,7 @@ For detailed usage of these functions, please check [this section](https://sbg.g
 - Works for multiple Seven Bridges supported platforms
 - More features like task hook function to ease the automation
 
-# sevenbridges-r 1.0.0
+# sevenbridges 1.0.0
 
 ## New Features
 
