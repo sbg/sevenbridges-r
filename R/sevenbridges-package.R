@@ -3,8 +3,10 @@
 #' R client and utilities for Seven Bridges platform API, from Cancer
 #' Genomics Cloud to other Seven Bridges supported platforms.
 #'
-#' \tabular{ll}{ Package: \tab sevenbridges\cr Type: \tab Package\cr
-#' License: \tab Apache License 2.0\cr }
+#' \tabular{ll}{
+#' Package: \tab sevenbridges\cr
+#' Type: \tab Package\cr
+#' License: \tab Apache License 2.0}
 #'
 #' @name sevenbridges-package
 #' @docType package
