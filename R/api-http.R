@@ -287,6 +287,7 @@ status_check = function (req, as = 'parsed', ...) {
     "7022" = "Disabling batching action is only available for BATCH tasks.",
     "7023" = "Missing batch_by or batch_input fields. These fields must be included together.",
     "7024" = "Task can not be started due to validation errors.",
+    "7026" = "Editing is available only for tasks which are in DRAFT status. Tasks which are in RUNNING and COMPLETED states can only be renamed.",
 
     # 8xxx: Upload errors
     "8000" = "Upload service is currently unavailable.",
