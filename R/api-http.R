@@ -34,7 +34,7 @@
 #' when listing resources (e.g. all your projects) or getting details of a
 #' specific resource (e.g. a given project). For example, fields="id,name,size"
 #' to return the fields id, name and size for files. More details please check
-#' \url{https://docs.sevenbridges.com/reference#section-general-api-information}
+#' \url{https://docs.sevenbridges.com/docs/the-api#section-general-api-information}
 #' @param base_url defeault is \code{"https://api.sbgenomics.com/v2"}
 #' @param ... passed to GET/POST/PUT/DELETE/PATCH call.
 #'
