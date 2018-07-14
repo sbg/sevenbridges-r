@@ -22,8 +22,9 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 - [Overview](#overview)
 - [Installation](#installation)
-  - [Bioconductor - Release Version](#bioconductor---release-version)
-  - [Bioconductor - Development Version](#bioconductor---development-version)
+  - [Check R version](#check-r-version)
+  - [Bioconductor - Release Branch](#bioconductor---release-branch)
+  - [Bioconductor - Development Branch](#bioconductor---development-branch)
   - [Latest Development Version](#latest-development-version)
 - [Features](#features)
   - [Flexible Authentication Methods](#flexible-authentication-methods)
@@ -42,77 +43,64 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 ## Installation
 
-### Bioconductor - Release Version
+### Check R version
 
-This is recommended for most users as it is the most stable version. It supports the [latest release version of R](https://cran.r-project.org/) and the [latest release version of Bioconductor](https://bioconductor.org/about/release-announcements/). Users of older R and Bioconductor versions should consider upgrade to take advantage of the new features.
-
-If you do not want to upgrade R, please install the `sevenbridges` package directly from GitHub by following the instructions below.
-
-#### Check R version
-
-First, check which version of R you are using with the following:
+First, check the version of R you are using with the following command (in R):
 
 ```r
 R.version.string
 ```
 
-If you are not running the latest release version of R, install it by the following [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, close and restart RStudio after installing R. RStudio will detect the new installation.
+If you are not running the latest release version of R, install or upgrade with [these instructions](https://www.bioconductor.org/install/#install-R). If you are using RStudio, restart RStudio after installing R. RStudio will detect the new installation.
 
-#### Install the package
+### Bioconductor - Release Branch
 
-Install the `sevenbridges` package as shown below:
+This is recommended for most users as it is the most stable version.
+
+You can install the package from the `release` branch on Bioconductor using `BiocManager`:
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("sevenbridges")
+install.packages("BiocManager")
+BiocManager::install("sevenbridges")
 ```
 
-### Bioconductor - Development Version
+### Bioconductor - Development Branch
 
-If you are developing tools in the `devel` branch or if you are a user who uses the development version for R and Bioconductor, install the package from the bioconductor `devel` branch. You need to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](https://bioconductor.org/developers/how-to/useDevel/). After upgrading R, this method of installation is harder. To try the latest features, please install directly from GitHub as next shown below:
+If you are developing tools under the `devel` branch or use the development version of R and Bioconductor, install the package from the Bioconductor `devel` branch. You probably also want to install R-devel first by following the directions in ["Using the 'Devel' Version of Bioconductor"](https://bioconductor.org/developers/how-to/useDevel/).
 
-```r
-source("https://bioconductor.org/biocLite.R")
-useDevel(devel = TRUE)
-biocLite("sevenbridges")
-```
-
-To load the package in R, simply call
+To install the `sevenbridges` package from the `devel` branch, use
 
 ```r
-library("sevenbridges")
+install.packages("BiocManager")
+BiocManager::install("sevenbridges", version = "devel")
 ```
 
 ### Latest Development Version
 
-You can always install the latest development version of the `sevenbridges` package from GitHub. We push to the Bioconductor branch (`release`/`devel`) regularly.
+To try the latest features, please install the package directly from GitHub. We push to the Bioconductor branch (`release` and `devel`) regularly.
 
-#### If `devtools` was not installed
-
-Installing the `sevenbridges` package requires you have the `devtools` package. If you do not have `devtools`, install it from [CRAN](https://cran.r-project.org/web/packages/devtools/README.html).
+Installing the `sevenbridges` package from GitHub requires you have the `devtools` package. If you do not have `devtools`, install it from CRAN first.
 
 ```r
 install.packages("devtools")
 ```
 
-You may got an error and need system dependecies for curl and ssl. For example, you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc` under Ubuntu.
+You may get an error for missing system dependecies such as curl and ssl. You probably need to do the following first in order to install `devtools` and to build vignettes since you need `pandoc` under Ubuntu.
 
-```
+```bash
 apt-get update
 apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 ```
 
-#### If `devtools` is already installed
-
-Install latest version of `sevenbridges` from GitHub with the following:
+After `devtools` is installed, install the latest version of `sevenbridges` from GitHub:
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("readr")
+install.packages("BiocManager")
+install.packages("readr")
 
 devtools::install_github(
   "sbg/sevenbridges-r",
-  repos = BiocInstaller::biocinstallRepos(),
+  repos = BiocManager::repositories(),
   build_vignettes = TRUE, dependencies = TRUE
 )
 ```

@@ -53,10 +53,14 @@ To install the latest development version from GitHub, run the following command
 
 ```{r}
 if (!require("devtools", quietly = TRUE)) install.packages("devtools")
-source("https://bioconductor.org/biocLite.R")
+install.packages("BiocManager")
+install.packages("readr")
+
 devtools::install_github(
-    "sbg/sevenbridges-r", build_vignettes = TRUE,
-    repos = BiocInstaller::biocinstallRepos(), dependencies = TRUE)
+  "sbg/sevenbridges-r",
+  repos = BiocManager::repositories(),
+  build_vignettes = TRUE, dependencies = TRUE
+)
 ```
 
 After the installation you can always browse the vignettes

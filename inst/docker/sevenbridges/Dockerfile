@@ -45,19 +45,17 @@ RUN apt-get update -y \
 RUN Rscript -e "install.packages(c('rstudioapi', 'miniUI'), type = 'source');\
     devtools::install_github('rstudio/addinexamples')"
 
-################
-# Bioconductor #
-################
+##################
+# sevenbridges-r #
+##################
 
-# Install from GitHub instead of Bioconductor for latest version
-RUN Rscript -e "source('http://bioconductor.org/biocLite.R');\
-    devtools::install_github('sbg/sevenbridges-r', build_vignettes = FALSE, repos = BiocInstaller::biocinstallRepos(),  dependencies = TRUE)"
+# Install from GitHub instead of Bioconductor for the latest version
+RUN Rscript -e "install.packages('BiocManager');\
+    devtools::install_github('sbg/sevenbridges-r', repos = BiocManager::repositories(), build_vignettes = FALSE, dependencies = TRUE)"
 
-# RUN Rscript -e 'source("http://bioconductor.org/biocLite.R");library(BiocInstaller);biocLite("sevenbridges", dep = TRUE)'
-
-#################
-# Seven Bridges #
-#################
+#####################
+# Seven Bridges SDK #
+#####################
 
 ## Install SBG Rabix
 RUN wget https://github.com/rabix/bunny/releases/download/v1.0.3/rabix-1.0.3.tar.gz \

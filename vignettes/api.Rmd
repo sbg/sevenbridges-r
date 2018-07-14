@@ -73,12 +73,20 @@ Search by name returns all partial matches unless you specify `exact = TRUE`.
 
 ## Installation
 
-The `sevenbridges` package is on both the Bioconductor released and devel branches, as shown below. 
+The `sevenbridges` package is available on both the `release` and `devel` branch from Bioconductor.
+
+To install it from the `release` branch, use:
 
 ```{r}
-# try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("sevenbridges")
+install.packages("BiocManager")
+BiocManager::install("sevenbridges")
+```
+
+To install it from the `devel` branch, use:
+
+```{r}
+install.packages("BiocManager")
+BiocManager::install("sevenbridges", version = "devel")
 ```
 
 Since we are constantly improving our API and client libraries, please also visit our [GitHub repository](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version of the package.
@@ -93,7 +101,7 @@ This installation requires that you have the `devtools` package. If you do not h
 install.packages("devtools")
 ```
 
-You may got an error and need system dependecies for curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
+You may get an error for missing system dependecies such as curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
 
 ```bash
 apt-get update
@@ -107,12 +115,14 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 Install the latest version for `sevenbridges` from GitHub with the following:
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("readr")
+install.packages("BiocManager")
+install.packages("readr")
 
-devtools::install_github("sbg/sevenbridges-r", build_vignettes = TRUE,
-  repos = BiocInstaller::biocinstallRepos(),
-  dependencies = TRUE)
+devtools::install_github(
+  "sbg/sevenbridges-r",
+  repos = BiocManager::repositories(),
+  build_vignettes = TRUE, dependencies = TRUE
+)
 ```
 
 If you have trouble with `pandoc` and do not want to install it,  set `build_vignettes = FALSE` to avoid the vignettes build.
