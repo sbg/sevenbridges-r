@@ -1,8 +1,14 @@
+# sevenbridges 1.11.2
+
+## Improvements
+
+- Further remove all words related to the previous installation method per Bioconductor's request.
+
 # sevenbridges 1.11.1
 
 ## Improvements
 
-- Use the new Bioconductor package manager `BiocManager` instead of `biocLite()` for installation instructions.
+- Use the new Bioconductor package manager `BiocManager` for installation instructions.
 
 # sevenbridges 1.9.1
 

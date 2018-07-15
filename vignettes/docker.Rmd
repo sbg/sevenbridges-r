@@ -64,8 +64,8 @@ To understand the image quickly here is the short instruction for the image name
 - __release__ images are based on `rocker/rstudio`
 - __devel__ images are based on `rocker/rstudio-daily`
 
-- __base__: Contains R, RStudio, and BiocInstaller + system dependencies.
-- __core__: base + a selection of core.
+- __base__: Contains R, RStudio, and system dependencies.
+- __core__: base + a selection of core packages.
 - __flow__: core + all packages tagged with the _FlowCytometry_ biocView.
 - __microarray__: core + all packages tagged with the _Microarray_ biocView.
 - __proteomics__: core + all packages tagged with the _Proteomics_ biocView.
