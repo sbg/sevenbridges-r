@@ -303,11 +303,13 @@ Auth <- setRefClass(
                                billing_group_id = NULL,
                                description      = name,
                                tags             = list(),
-                               type             = "v2", ...) {
+                               type             = "v2",
+                               locked           = FALSE,
+                               use_interruptible_instances = FALSE, ...) {
             '
             Create new projects, required parameters: name,
-            billing_group_id, optional parameteres: tags and
-            description, type.'
+            billing_group_id, optional parameteres: tags,
+            description, type, and settings.'
 
             if (is.null(name) || is.null(billing_group_id))
                 stop("name, description, and billing_group_id must be provided")
@@ -319,7 +321,9 @@ Auth <- setRefClass(
                         "type"          = type,
                         "description"   = description,
                         "tags"          = tags,
-                        "billing_group" = billing_group_id)
+                        "billing_group" = billing_group_id,
+                        "settings"      = list("locked" = locked, "use_interruptible_instances" = use_interruptible_instances)
+            )
 
             res = api(path = "projects", body = body,
                       method = "POST", ...)

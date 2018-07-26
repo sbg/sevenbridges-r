@@ -593,15 +593,20 @@ Project <- setRefClass(
             app         = NULL,
             inputs      = NULL,
             input_check = getOption("sevenbridges")$input_check,
+            use_interruptible_instances = NULL,
             ...) {
 
+            # spot instance logic:
+            # if it's NULL, then follow the project settings (if project set it to TRUE, then use TRUE, and vice versa)
+            # if it's not NULL, then use the specified value
+            if (is.null(use_interruptible_instances)) use_interruptible_instances = .self$settings$use_interruptible_instances
+            if (!is.null(use_interruptible_instances)) use_interruptible_instances = as.logical(use_interruptible_instances)
 
             if (input_check) {
                 message("checking inputs ...")
                 apps = auth$app(id = app)
                 inputs = apps$input_check(inputs, batch, .self)
             }
-
 
             message("Task drafting ...")
 
@@ -615,6 +620,7 @@ Project <- setRefClass(
                         description = description,
                         project     = id,
                         app         = app,
+                        use_interruptible_instances = use_interruptible_instances,
                         inputs      = .i)
 
             if (!is.null(batch)) body = c(batch, body)
@@ -624,7 +630,7 @@ Project <- setRefClass(
             message("Done")
             res = .asTask(res)
             if (length(res$errors)) {
-                message("Errors found: please fix it in your script or in the UI")
+                message("Errors found: please fix it in your script or in the GUI")
                 .showList(res$errors)
             }
 
