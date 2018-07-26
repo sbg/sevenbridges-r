@@ -5,11 +5,11 @@
 \alias{getTaskHook}
 \title{set task function hook}
 \usage{
-setTaskHook(status = c("queued", "draft", "running", "completed", "aborted",
-  "failed"), fun)
+setTaskHook(status = c("queued", "draft", "running", "completed",
+  "aborted", "failed"), fun)
 
-getTaskHook(status = c("queued", "draft", "running", "completed", "aborted",
-  "failed"))
+getTaskHook(status = c("queued", "draft", "running", "completed",
+  "aborted", "failed"))
 }
 \arguments{
 \item{status}{one of "queued", "draft", "running",

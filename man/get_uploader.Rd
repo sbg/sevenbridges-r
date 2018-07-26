@@ -6,8 +6,8 @@
 \title{Download Seven Bridges command line uploader and extract to
 a specified directory}
 \usage{
-get_uploader(platform = c("cgc", "aws-us", "aws-eu", "gcp"), destdir = NULL,
-  quiet = FALSE)
+get_uploader(platform = c("cgc", "aws-us", "aws-eu", "gcp"),
+  destdir = NULL, quiet = FALSE)
 
 misc_get_uploader()
 }

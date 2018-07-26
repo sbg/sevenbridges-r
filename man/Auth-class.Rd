@@ -98,9 +98,10 @@ will be returned. If name or id provided,
 we did a match search the list}
 
 \item{\code{project_new(name = NULL, billing_group_id = NULL, description = name,
-  tags = list(), type = "v2", ...)}}{Create new projects, required parameters: name,
-billing_group_id, optional parameteres: tags and
-description, type.}
+  tags = list(), type = "v2", locked = FALSE,
+  use_interruptible_instances = FALSE, ...)}}{Create new projects, required parameters: name,
+billing_group_id, optional parameteres: tags,
+description, type, and settings.}
 
 \item{\code{project_owner(owner = NULL, ...)}}{List the projects owned by and accessible to a particular user.
 Each project's ID and URL will be returned.}

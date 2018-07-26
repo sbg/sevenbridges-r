@@ -5,10 +5,10 @@
 \alias{misc_upload_cli}
 \title{Upload files using Seven Bridges command line uploader}
 \usage{
-cli_upload(token = NULL, uploader = NULL, file = NULL, project = NULL,
-  proxy = NULL, tag = NULL, manifest_file = NULL,
-  manifest_metadata = c("all", "none", "partial"), metadata_fields = NULL,
-  dry_run = FALSE, dry_run_fields = NULL)
+cli_upload(token = NULL, uploader = NULL, file = NULL,
+  project = NULL, proxy = NULL, tag = NULL, manifest_file = NULL,
+  manifest_metadata = c("all", "none", "partial"),
+  metadata_fields = NULL, dry_run = FALSE, dry_run_fields = NULL)
 
 misc_upload_cli()
 }

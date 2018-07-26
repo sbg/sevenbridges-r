@@ -4,13 +4,14 @@
 \alias{api}
 \title{Core HTTP logic for Seven Bridges API}
 \usage{
-api(token = NULL, version = "v2", path = NULL, method = c("GET", "POST",
-  "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
+api(token = NULL, version = "v2", path = NULL, method = c("GET",
+  "POST", "PUT", "DELETE", "PATCH"), query = NULL, body = list(),
   encode = c("json", "form", "multipart"),
   limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset,
-  advance_access = getOption("sevenbridges")$advance_access, fields = NULL,
-  base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
+  advance_access = getOption("sevenbridges")$advance_access,
+  fields = NULL, base_url = paste0("https://api.sbgenomics.com/",
+  version, "/"), ...)
 }
 \arguments{
 \item{token}{authenticate token string.}

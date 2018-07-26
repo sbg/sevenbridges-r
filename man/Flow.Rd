@@ -29,8 +29,9 @@
 \alias{"\%>>\%",Workflow,App-method}
 \title{Build workflow}
 \usage{
-Flow(..., graph = TRUE, x.width = 1000, y.width = 400, x.start = 100,
-  y.start = 200, canvas_zoom = 1, canvas_x = 40, canvas_y = 130)
+Flow(..., graph = TRUE, x.width = 1000, y.width = 400,
+  x.start = 100, y.start = 200, canvas_zoom = 1, canvas_x = 40,
+  canvas_y = 130)
 
 \S4method{+}{Tool,Tool}(e1, e2)
 
