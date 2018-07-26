@@ -1,3 +1,9 @@
+# sevenbridges 1.11.3
+
+## Improvements
+
+- Added better support for the spot instance feature, by introducing the new argument `use_interruptible` for `project_new()` and `use_interruptible_instances` for `task_add()`. They will allow users to enable/disable the spot instance feature on both the project level and indivisual task level.
+
 # sevenbridges 1.11.2
 
 ## Improvements

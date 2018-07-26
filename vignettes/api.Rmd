@@ -656,7 +656,7 @@ set to `FALSE` when drafting the new task using `task_add()`.
 For example, if `p` is the above spot enable project, to draft
 a task that will **not** use spot instances to run:
 
-```
+```{r}
 tsk <- p$task_add(
   name = paste0("spot disabled task in a spot enabled project"),
   description = "spot disabled task",
