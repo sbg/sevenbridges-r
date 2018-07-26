@@ -633,6 +633,43 @@ tsk$getInputs()
 
 <div align="right"><a href="#top">top</a></div>
 
+## Run tasks using spot instances
+
+Running tasks with spot instances could potentially reduce a considerable
+amount of computational cost. This option can be controlled on the project
+level or the task level. This package follows the same logic as our platform's
+web interface.
+
+For example, when we create a project using `project_new()`,
+we can set `use_interruptible = TRUE` (it is `FALSE` by default):
+
+```{r}
+p <- a$project_new(
+  name = "spot-enabled-project", bid, description = "spot enabled project",
+  use_interruptible = TRUE)
+```
+
+Then all the new tasks created under this project will use spot instances to run
+**by default**, unless an argument `use_interruptible_instances` is specifically
+set to `FALSE` when drafting the new task using `task_add()`.
+
+For example, if `p` is the above spot enable project, to draft
+a task that will **not** use spot instances to run:
+
+```
+tsk <- p$task_add(
+  name = paste0("spot disabled task in a spot enabled project"),
+  description = "spot disabled task",
+  app = ...,
+  inputs = list(...),
+  use_interruptible_instances = FALSE
+)
+```
+
+Conversely, you can have a spot instance option disabled project,
+but draft and run specific tasks using the spot instances,
+by setting `use_interruptible_instances = TRUE` in `task_add()` explicitly.
+
 ## Task Monitoring
 
 To monitor your task as it runs, you can always request a task `update` to ask your task to report its status. Or, you can monitor a running task with a hook function, which triggers the function when that status is "completed". Please check the details in [section](#hooktask) below.
