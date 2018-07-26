@@ -635,10 +635,11 @@ tsk$getInputs()
 
 ## Run tasks using spot instances
 
-Running tasks with spot instances could potentially reduce a considerable
-amount of computational cost. This option can be controlled on the project
-level or the task level. This package follows the same logic as our platform's
-web interface.
+Running tasks with [spot instances](https://docs.sevenbridges.com/docs/about-spot-instances)
+could potentially [reduce a considerable amount of computational cost](https://www.sevenbridges.com/spot-instances-cost-reduction/).
+This option can be controlled on the project level or the task level on Seven Bridges platforms.
+Our package follows the same [logic](https://docs.sevenbridges.com/docs/use-spot-instances)
+as our platform's web interface.
 
 For example, when we create a project using `project_new()`,
 we can set `use_interruptible = TRUE` (it is `FALSE` by default):

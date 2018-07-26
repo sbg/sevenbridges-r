@@ -695,7 +695,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <div id="run-tasks-using-spot-instances" class="section level2">
 <h2 class="hasAnchor">
 <a href="#run-tasks-using-spot-instances" class="anchor"></a>Run tasks using spot instances</h2>
-<p>Running tasks with spot instances could potentially reduce a considerable amount of computational cost. This option can be controlled on the project level or the task level. This package follows the same logic as our platform’s web interface.</p>
+<p>Running tasks with <a href="https://docs.sevenbridges.com/docs/about-spot-instances">spot instances</a> could potentially <a href="https://www.sevenbridges.com/spot-instances-cost-reduction/">reduce a considerable amount of computational cost</a>. This option can be controlled on the project level or the task level on Seven Bridges platforms. Our package follows the same <a href="https://docs.sevenbridges.com/docs/use-spot-instances">logic</a> as our platform’s web interface.</p>
 <p>For example, when we create a project using <code>project_new()</code>, we can set <code>use_interruptible = TRUE</code> (it is <code>FALSE</code> by default):</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(</a>
 <a class="sourceLine" id="cb51-2" data-line-number="2">  <span class="dt">name =</span> <span class="st">"spot-enabled-project"</span>, bid, <span class="dt">description =</span> <span class="st">"spot enabled project"</span>,</a>
@@ -727,7 +727,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##                     cat("\r", "completed")
 ##                     return(TRUE)
 ##                 }
-## &lt;environment: 0x7fa67333bee0&gt;</code></pre>
+## &lt;environment: 0x7ffe5d9b1d90&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to local folder.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>(){</a>
