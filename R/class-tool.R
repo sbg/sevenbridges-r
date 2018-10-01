@@ -70,8 +70,8 @@ SBG <- setRefClass(
         "sbg:projectName"         = "characterORNULL",
         "sbg:publisher"           = "characterORNULL",
         "cwlVersion"              = "characterORNULL",
-        "$namespaces"             = "listORNULL"
-
+        "$namespaces"             = "listORNULL",
+        "sbg:expand_workflow"     = "logicalORNULL"
     ),
 
     methods = list(
