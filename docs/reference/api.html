@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
       </span>
     </div>
 
@@ -147,13 +147,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>api</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"v2"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"GET"</span>, <span class='st'>"POST"</span>,
-  <span class='st'>"PUT"</span>, <span class='st'>"DELETE"</span>, <span class='st'>"PATCH"</span>), <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>body</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+    <pre class="usage"><span class='fu'>api</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"v2"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"GET"</span>,
+  <span class='st'>"POST"</span>, <span class='st'>"PUT"</span>, <span class='st'>"DELETE"</span>, <span class='st'>"PATCH"</span>), <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>body</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
   <span class='kw'>encode</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"json"</span>, <span class='st'>"form"</span>, <span class='st'>"multipart"</span>),
   <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sevenbridges"</span>)$<span class='no'>limit</span>,
   <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sevenbridges"</span>)$<span class='no'>offset</span>,
-  <span class='kw'>advance_access</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sevenbridges"</span>)$<span class='no'>advance_access</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>base_url</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"https://api.sbgenomics.com/"</span>, <span class='no'>version</span>, <span class='st'>"/"</span>), <span class='no'>...</span>)</pre>
+  <span class='kw'>advance_access</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"sevenbridges"</span>)$<span class='no'>advance_access</span>,
+  <span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>base_url</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"https://api.sbgenomics.com/"</span>,
+  <span class='no'>version</span>, <span class='st'>"/"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,7 +219,7 @@ This parameter enables you to specify the fields you want to be returned
 when listing resources (e.g. all your projects) or getting details of a
 specific resource (e.g. a given project). For example, fields="id,name,size"
 to return the fields id, name and size for files. More details please check
-<a href='https://docs.sevenbridges.com/reference#section-general-api-information'>https://docs.sevenbridges.com/reference#section-general-api-information</a></p></td>
+<a href='https://docs.sevenbridges.com/docs/the-api#section-general-api-information'>https://docs.sevenbridges.com/docs/the-api#section-general-api-information</a></p></td>
     </tr>
     <tr>
       <th>base_url</th>

@@ -8,8 +8,8 @@
 <title>Master Tutorial: Use R for Cancer Genomics Cloud • sevenbridges</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Master Tutorial: Use R for Cancer Genomics Cloud">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Master Tutorial: Use R for Cancer Genomics Cloud">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
       </span>
     </div>
 
@@ -102,9 +102,9 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
-                        <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com">tengfei.yin@sevenbridges.com</a>&gt;</h4>
+                        <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-07-26</h4>
+            <h4 class="date">2018-10-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -157,7 +157,7 @@
 <h2 class="hasAnchor">
 <a href="#register-on-cancer-genomics-cloud" class="anchor"></a>Register on Cancer Genomics Cloud</h2>
 <p><img src="https://i.imgur.com/p52wIsi.png" width="100%" class="img-responsive" alt="cgc-home"></p>
-<p>You can find login/registration on the Cancer Genomics Cloud homepage <a href="https://www.cancergenomicscloud.org" class="uri">https://www.cancergenomicscloud.org</a>. Follow the <a href="http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc">signup tutorial</a> if you need to access TCGA Controlled Data on the CGC via NIH eRA Commons.</p>
+<p>You can find login/registration on the Cancer Genomics Cloud homepage <a href="https://www.cancergenomicscloud.org">https://www.cancergenomicscloud.org</a>. Follow the <a href="http://docs.cancergenomicscloud.org/docs/sign-up-for-the-cgc">signup tutorial</a> if you need to access TCGA Controlled Data on the CGC via NIH eRA Commons.</p>
 </div>
 <div id="authentication" class="section level2">
 <h2 class="hasAnchor">
@@ -167,7 +167,7 @@
 <div id="register-on-shinyapps-io-optional" class="section level2">
 <h2 class="hasAnchor">
 <a href="#register-on-shinyapps-io-optional" class="anchor"></a>Register on shinyapps.io (Optional)</h2>
-<p>In this tutorial, if you want to try to deploy the Shiny web application automatically on a remote server like shinyapps.io, please visit <a href="https://www.shinyapps.io/" class="uri">https://www.shinyapps.io/</a> to register and login.</p>
+<p>In this tutorial, if you want to try to deploy the Shiny web application automatically on a remote server like shinyapps.io, please visit <a href="https://www.shinyapps.io/">https://www.shinyapps.io/</a> to register and login.</p>
 <p>Get you token and secret ready to deploy:</p>
 <p><img src="https://i.imgur.com/ChCBhf6.png" width="100%" class="img-responsive" alt="shinyapps-token"></p>
 </div>
@@ -662,7 +662,10 @@ inputs:
     prefix: --bamfiles
     separate: yes
     itemSeparator: ','
+    shellQuote: no
     sbg:cmdInclude: yes
+    streamable: no
+    separator: ' '
   required: no
 - type:
   - 'null'
@@ -676,7 +679,10 @@ inputs:
     position: 0
     prefix: --design
     separate: yes
+    shellQuote: no
     sbg:cmdInclude: yes
+    streamable: no
+    separator: ' '
   required: no
 - type:
   - 'null'
@@ -690,7 +696,10 @@ inputs:
     position: 0
     prefix: --gtffile
     separate: yes
+    shellQuote: no
     sbg:cmdInclude: yes
+    streamable: no
+    separator: ' '
   required: no
 - type:
   - 'null'
@@ -708,7 +717,10 @@ inputs:
     position: 0
     prefix: --format
     separate: yes
+    shellQuote: no
     sbg:cmdInclude: yes
+    streamable: no
+    separator: ' '
   required: no
 outputs:
 - type:
@@ -790,7 +802,10 @@ arguments: []</code></pre>
         "prefix": "--bamfiles",
         "separate": true,
         "itemSeparator": ",",
-        "sbg:cmdInclude": true
+        "shellQuote": false,
+        "sbg:cmdInclude": true,
+        "streamable": false,
+        "separator": " "
       },
       "required": false
     },
@@ -805,7 +820,10 @@ arguments: []</code></pre>
         "position": 0,
         "prefix": "--design",
         "separate": true,
-        "sbg:cmdInclude": true
+        "shellQuote": false,
+        "sbg:cmdInclude": true,
+        "streamable": false,
+        "separator": " "
       },
       "required": false
     },
@@ -820,7 +838,10 @@ arguments: []</code></pre>
         "position": 0,
         "prefix": "--gtffile",
         "separate": true,
-        "sbg:cmdInclude": true
+        "shellQuote": false,
+        "sbg:cmdInclude": true,
+        "streamable": false,
+        "separator": " "
       },
       "required": false
     },
@@ -842,7 +863,10 @@ arguments: []</code></pre>
         "position": 0,
         "prefix": "--format",
         "separate": true,
-        "sbg:cmdInclude": true
+        "shellQuote": false,
+        "sbg:cmdInclude": true,
+        "streamable": false,
+        "separator": " "
       },
       "required": false
     }
@@ -908,7 +932,7 @@ arguments: []</code></pre>
   "arguments": []
 } </code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
-<pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","sbg:cmdInclude":true},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"sbg:cmdInclude":true},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"sbg:cmdInclude":true},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"sbg:cmdInclude":true},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']];\n                                                  if(x == 'undefined' || x == null){\n                                                   x = 'html';\n                                                    };\n                                                  'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
+<pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']];\n                                                  if(x == 'undefined' || x == null){\n                                                   x = 'html';\n                                                    };\n                                                  'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># or write to external file</span></a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co"># fl &lt;- "~/Downloads/rnaseqGene.json"</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co"># write(rbx$toJSON(pretty = TRUE), fl)</span></a></code></pre></div>

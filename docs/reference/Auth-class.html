@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
       </span>
     </div>
 
@@ -226,9 +226,10 @@ Each project's project_id and URL on the CGC
 will be returned. If name or id provided,
 we did a match search the list</p></dd>
     <dt><code>project_new(name = NULL, billing_group_id = NULL, description = name,
-  tags = list(), type = "v2", ...)</code></dt><dd><p>Create new projects, required parameters: name,
-billing_group_id, optional parameteres: tags and
-description, type.</p></dd>
+  tags = list(), type = "v2", locked = FALSE,
+  use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name,
+billing_group_id, optional parameteres: tags,
+description, type, and settings.</p></dd>
     <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user.
 Each project's ID and URL will be returned.</p></dd>
     <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current
