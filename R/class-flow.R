@@ -114,7 +114,10 @@ SBGWorkflow <- setRefClass(
         "sbg:canvas_y"    = "numericORNULL",
         "sbg:canvas_x"    = "numericORNULL",
         "sbg:batchInput"  = "characterORNULL",
-        "sbg:batchBy"     = "listORNULL"),
+        "sbg:batchBy"     = "listORNULL",
+        "y"               = "numericORNULL",
+        "x"               = "numericORNULL"
+    ),
 
     methods = list(
 

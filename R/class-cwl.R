@@ -2282,13 +2282,18 @@ SCLB <- SBGCommandLineBinding <- setRefClass(
 
     fields = list(
         "sbg:cmdInclude" = "logicalORNULL",
-        "shellQuote" = "logicalORNULL" # added in CWL v1.0
+        "shellQuote" = "logicalORNULL",
+        "streamable" = "logicalORNULL",
+        "separator" = "characterORNULL"
     ),
 
     methods = list(
-        initialize = function(cmdInclude = FALSE, shellQuote = FALSE, ...) {
+        initialize = function(
+            cmdInclude = FALSE, shellQuote = FALSE, streamable = FALSE, separator = " ", ...) {
             .self$field("sbg:cmdInclude", cmdInclude)
             .self$field("shellQuote", shellQuote)
+            .self$field("streamable", streamable)
+            .self$field("separator", separator)
             callSuper(...)
         }
     )
@@ -2309,7 +2314,8 @@ SBGInputParameter <- setRefClass(
                   "required"             = "logicalORNULL",
                   "batchType"            = "characterORNULL",
                   "format"               = "characterORNULL", # added in CWL v1.0
-                  "doc"                  = "characterORNULL" # added in CWL v1.0
+                  "doc"                  = "characterORNULL", # added in CWL v1.0
+                  "schema"               = "listORNULL"
     ),
 
     methods = list(
@@ -2323,7 +2329,11 @@ SBGInputParameter <- setRefClass(
                               altPrefix        = NULL,
                               suggestedValue   = NULL,
                               required         = FALSE,
-                              batchType        = NULL, ...) {
+                              batchType        = NULL,
+                              format           = NULL,
+                              doc              = NULL,
+                              schema           = NULL,
+                              ...) {
 
             if (!is.null(stageInput)) {
                 if (!stageInput %in% c("copy", "link")) {
@@ -2340,8 +2350,11 @@ SBGInputParameter <- setRefClass(
             .self$field("sbg:toolDefaultValue", toolDefaultValue)
             .self$field("sbg:altPrefix", altPrefix)
             .self$field("sbg:suggestedValue", suggestedValue)
-            .self$field("batchType", batchType)
             .self$field("required", required)
+            .self$field("batchType", batchType)
+            .self$field("format", format)
+            .self$field("doc", doc)
+            .self$field("schema", schema)
             callSuper(...)
 
         })
