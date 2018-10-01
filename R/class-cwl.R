@@ -568,6 +568,7 @@ setClassUnion("characterORExpression", c("character", "Expression"))
 setClassUnion("integerORExpression", c("integer", "Expression"))
 setClassUnion("characterORExpressionORNULL", c("character", "Expression", "NULL"))
 setClassUnion("characterORExpressionORlistORNULL", c("character", "Expression", "list", "NULL"))
+setClassUnion("integerORcharacterORExpressionORNULL", c("integer", "character", "Expression", "NULL")) # for CWL v1.0 - coresMin, ramMin
 
 #----------------------------------------------------------------------
 # ProcessRequirement
@@ -1341,7 +1342,8 @@ CommandLineBinding <- setRefClass(
         prefix        = "characterORNULL",
         separate      = "logical",
         itemSeparator = "characterORNULL",
-        valueFrom     = "characterORExpressionORNULL"
+        valueFrom     = "characterORExpressionORNULL",
+        shellQuote    = "logicalORNULL" # added in CWL v1.0
     ),
     methods = list(
         initialize = function(
@@ -1680,7 +1682,8 @@ CommandOutputBinding <- setRefClass(
     "CommandOutputBinding", contains = "Binding",
     fields = list(
         glob       = "characterORExpressionORNULL",
-        outputEval = "ExpressionORNULL")
+        outputEval = "characterORExpressionORNULL"
+    )
 )
 
 #' CommandOutputSchema
@@ -1911,7 +1914,8 @@ SBGWorkflowOutputParameter <- setRefClass(
         "sbg:y"              = "numericORNULL",
         "sbg:includeInPorts" = "logicalORNULL",
         "required"           = "logicalORNULL",
-        "sbg:fileTypes"      = "characterORNULL"
+        "sbg:fileTypes"      = "characterORNULL",
+        "outputSource"       = "listORNULL" # added in CWL v1.0
     ),
     methods = list(
         initialize = function(
@@ -2273,12 +2277,21 @@ InPar    <- InputParameter
 OutPar   <- OutputParameter
 
 SCLB <- SBGCommandLineBinding <- setRefClass(
-    "SBGCommandLineBinding", contains = "CommandLineBinding",
-    fields = list("sbg:cmdInclude" = "logicalORNULL"),
-    methods = list(initialize = function(cmdInclude = FALSE, ...) {
-        .self$field("sbg:cmdInclude", cmdInclude)
-        callSuper(...)
-    })
+    "SBGCommandLineBinding",
+    contains = "CommandLineBinding",
+
+    fields = list(
+        "sbg:cmdInclude" = "logicalORNULL",
+        "shellQuote" = "logicalORNULL" # added in CWL v1.0
+    ),
+
+    methods = list(
+        initialize = function(cmdInclude = FALSE, shellQuote = FALSE, ...) {
+            .self$field("sbg:cmdInclude", cmdInclude)
+            .self$field("shellQuote", shellQuote)
+            callSuper(...)
+        }
+    )
 )
 
 SBGInputParameter <- setRefClass(
@@ -2294,7 +2307,10 @@ SBGInputParameter <- setRefClass(
                   "sbg:altPrefix"        = "characterORNULL",
                   "sbg:suggestedValue"   = "integerORcharacterORlogicalORlistORNULL",
                   "required"             = "logicalORNULL",
-                  "batchType"            = "characterORNULL"),
+                  "batchType"            = "characterORNULL",
+                  "format"               = "characterORNULL", # added in CWL v1.0
+                  "doc"                  = "characterORNULL" # added in CWL v1.0
+    ),
 
     methods = list(
         initialize = function(category         = NULL,
@@ -2446,14 +2462,22 @@ SBGCommandOutputBinding <- setRefClass(
 SBGCOB <- SBGCommandOutputBinding
 
 SBGCommandOutputParameter <- setRefClass(
-    "SBGCommandOutputParameter", contains = "CommandOutputParameter",
+    "SBGCommandOutputParameter",
+    contains = "CommandOutputParameter",
     fields = list(
-        "sbg:fileTypes" = "characterORNULL"
+        "sbg:fileTypes" = "characterORNULL",
+        "format" = "characterORNULL", # added in CWL v1.0
+        "doc" = "characterORNULL", # added in CWL v1.0
+        "secondaryFiles" = "listORNULL" # added in CWL v1.0
     ),
     methods = list(
-        initialize = function(fileTypes  = NULL, ...) {
+        initialize = function(
+            fileTypes  = NULL, format = NULL, doc = NULL, secondaryFiles = NULL, ...) {
             nm <- "fileTypes"
             .self$field(paste0("sbg:", nm), fileTypes)
+            .self$field("format", format)
+            .self$field("doc", doc)
+            .self$field("secondaryFiles", secondaryFiles)
             callSuper(...)
         }
     )
@@ -2812,15 +2836,25 @@ aws <- AWSInstanceTypeRequirement
 #' @examples
 #' anyReq("any")
 AnyRequirement <- setRefClass(
-    "AnyRequirement", contains = "ProcessRequirement",
+    "AnyRequirement",
+    contains = "ProcessRequirement",
     fields = list(
-        value = "ANY"
+        value = "ANY",
+        coresMin = "integerORcharacterORExpressionORNULL", # added in CWL v1.0
+        ramMin = "integerORcharacterORExpressionORNULL", # added in CWL v1.0
+        listing = "listORNULL", # added in CWL v1.0
+        expressionLib = "listORNULL" # added in CWL v1.0
     ),
     methods = list(
-        initialize = function(value = NULL,
-                              class = "", ...) {
+        initialize = function(
+            value = NULL, coresMin = NULL, ramMin = NULL,
+            listing = NULL, expressionLib = NULL, class = "", ...) {
             value <<- value
             class <<- class
+            coresMin <<- coresMin
+            ramMin <<- ramMin
+            listing <<- listing
+            expressionLib <<- expressionLib
             callSuper(...)
         }
     )

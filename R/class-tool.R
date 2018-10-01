@@ -71,7 +71,8 @@ SBG <- setRefClass(
         "sbg:publisher"           = "characterORNULL",
         "cwlVersion"              = "characterORNULL",
         "$namespaces"             = "listORNULL",
-        "sbg:expand_workflow"     = "logicalORNULL"
+        "sbg:expand_workflow"     = "logicalORNULL",
+        "doc"                     = "characterORNULL" # added in CWL v1.0
     ),
 
     methods = list(
@@ -107,6 +108,9 @@ SBG <- setRefClass(
             projectName        = NULL,
             publisher          = NULL,
             cwlVersion         = NULL,
+            namespaces         = NULL,
+            expand_workflow    = NULL,
+            doc                = NULL,
             ...) {
 
             args <- mget(names(formals()),sys.frame(sys.nframe()))
