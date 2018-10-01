@@ -2292,7 +2292,7 @@ SBGInputParameter <- setRefClass(
                   "sbg:includeInPorts"   = "logicalORNULL",
                   "sbg:toolDefaultValue" = "characterORNULL",
                   "sbg:altPrefix"        = "characterORNULL",
-                  "sbg:suggestedValue"   = "listORNULL",
+                  "sbg:suggestedValue"   = "integerORcharacterORlogicalORlistORNULL",
                   "required"             = "logicalORNULL",
                   "batchType"            = "characterORNULL"),
 
@@ -2890,6 +2890,13 @@ setAs("InputParameterList", "data.frame", function(from) {
     lst = lapply(from, function(x) {
         as(x, "data.frame")
     })
+
+    # remove all sbg.suggestedValue fields (if any) from parameters
+    # since its definition is too flexible and caused conversion issues
+    lst = lapply(lst, function(x) {
+        x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
+    })
+
     res = do.call("bind_rows", lst)
     # reorder for File File...
     idx = res$type %in% c("File", "File...")
@@ -2967,6 +2974,13 @@ setAs("OutputParameterList", "data.frame", function(from) {
     lst = lapply(from, function(x) {
         as(x, "data.frame")
     })
+
+    # remove all sbg.suggestedValue fields (if any) from parameters
+    # since its definition is too flexible and caused conversion issues
+    lst = lapply(lst, function(x) {
+        x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
+    })
+
     res  = do.call("bind_rows", lst)
     # reorder for File File...
     idx  = res$type %in% c("File", "File...")
@@ -3013,6 +3027,13 @@ setAs("SBGWorkflowOutputParameterList", "data.frame", function(from) {
     lst = lapply(from, function(x) {
         as(x, "data.frame")
     })
+
+    # remove all sbg.suggestedValue fields (if any) from input parameters
+    # since its definition is too flexible and caused conversion issues
+    lst = lapply(lst, function(x) {
+        x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
+    })
+
     res  = do.call("bind_rows", lst)
     # reorder for File File...
     idx  = res$type %in% c("File", "File...")
