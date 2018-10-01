@@ -1,3 +1,9 @@
+# sevenbridges 1.11.4
+
+## Bug Fixes
+
+- Fixed several compatibility issues for CWL app conversion caused by newly introduced fields.
+
 # sevenbridges 1.11.3
 
 ## Improvements
