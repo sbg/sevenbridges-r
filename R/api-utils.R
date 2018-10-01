@@ -939,6 +939,12 @@ input_matrix = function(from,
 
     })
 
+    # remove all sbg.suggestedValue fields (if any) from parameters
+    # since its definition is too flexible and caused conversion issues
+    lst = lapply(lst, function(x) {
+        x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
+    })
+
     res = suppressWarnings(do.call("bind_rows", lst))
 
     # reorder for File File...
