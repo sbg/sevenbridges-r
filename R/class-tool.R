@@ -69,7 +69,8 @@ SBG <- setRefClass(
         "sbg:appVersion"          = "listORNULL",
         "sbg:projectName"         = "characterORNULL",
         "sbg:publisher"           = "characterORNULL",
-        "cwlVersion"              = "characterORNULL"
+        "cwlVersion"              = "characterORNULL",
+        "$namespaces"             = "listORNULL"
 
     ),
 
@@ -255,7 +256,7 @@ Tool <- setRefClass(
             } else {
                 stop("wrong inputs type")
             }
-            # now inputs should be a IPList, 
+            # now inputs should be a IPList,
             # outputs
             if (is(outputs, "OutputParameterList") ||
                 (is.list(outputs) &&
@@ -439,16 +440,16 @@ Tool <- setRefClass(
             # if (any(!idx)) {
             #     stop("mistyped id name: ", paste(ids[!idx], collapse = " "))
             # }
-            
+
             # sapply(match(ids, iid), function(id) {
-            #  
+            #
             #   if(required){
             #     if(!.is_required(inputs[[id]])){
             #       print(inputs[[id]]$type)
             #       inputs[[id]]$type <<- c(DSCList("null"), inputs[[id]]$type)
             #     }
             #   }else{
-            #     
+            #
             #     if(.is_required(inputs[[id]])){
             #       inputs[[id]]$type <<- inputs[[id]]$type[-1]
             #     }
