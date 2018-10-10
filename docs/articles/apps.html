@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.5</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1>Describe and Execute CWL Tools/Workflows in R</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-01</h4>
+            <h4 class="date">2018-10-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
       <div class="hidden name"><code>apps.Rmd</code></div>
@@ -487,7 +487,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb44-4" data-line-number="4">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb44-5" data-line-number="5">            <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'runif(100)'"</span>,</a>
 <a class="sourceLine" id="cb44-6" data-line-number="6">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
 <a class="sourceLine" id="cb44-7" data-line-number="7">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>))</a>
@@ -508,7 +508,9 @@ outputs:
   outputBinding:
     glob: '*.txt'
 requirements: []
-hints: []
+hints:
+- class: DockerRequirement
+  dockerPull: rocker/r-base
 label: runif
 class: CommandLineTool
 baseCommand:
@@ -516,10 +518,10 @@ baseCommand:
 arguments: []
 stdout: output.txt</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
-<pre><code>{"sbg:id":"runif","id":"#runif","inputs":[],"outputs":[{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#random","outputBinding":{"glob":"*.txt"}}],"requirements":[],"hints":[],"label":"runif","class":"CommandLineTool","baseCommand":["Rscript -e 'runif(100)'"],"arguments":[],"stdout":"output.txt"} </code></pre>
+<pre><code>{"sbg:id":"runif","id":"#runif","inputs":[],"outputs":[{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#random","outputBinding":{"glob":"*.txt"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"rocker/r-base"}],"label":"runif","class":"CommandLineTool","baseCommand":["Rscript -e 'runif(100)'"],"arguments":[],"stdout":"output.txt"} </code></pre>
 <p>By default the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON.</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
-<pre><code>{"sbg:id":"runif","id":"#runif","inputs":[],"outputs":[{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#random","outputBinding":{"glob":"*.txt"}}],"requirements":[],"hints":[],"label":"runif","class":"CommandLineTool","baseCommand":["Rscript -e 'runif(100)'"],"arguments":[],"stdout":"output.txt"} </code></pre>
+<pre><code>{"sbg:id":"runif","id":"#runif","inputs":[],"outputs":[{"type":["null","File"],"label":"","description":"","streamable":false,"default":"","id":"#random","outputBinding":{"glob":"*.txt"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"rocker/r-base"}],"label":"runif","class":"CommandLineTool","baseCommand":["Rscript -e 'runif(100)'"],"arguments":[],"stdout":"output.txt"} </code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>{
   "sbg:id": "runif",
@@ -539,7 +541,12 @@ stdout: output.txt</code></pre>
     }
   ],
   "requirements": [],
-  "hints": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "rocker/r-base"
+    }
+  ],
   "label": "runif",
   "class": "CommandLineTool",
   "baseCommand": [
@@ -549,7 +556,7 @@ stdout: output.txt</code></pre>
   "stdout": "output.txt"
 } </code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
-<pre><code>[1] "sbg:id: runif\nid: '#runif'\ninputs: []\noutputs:\n- type:\n  - 'null'\n  - File\n  label: ''\n  description: ''\n  streamable: no\n  default: ''\n  id: '#random'\n  outputBinding:\n    glob: '*.txt'\nrequirements: []\nhints: []\nlabel: runif\nclass: CommandLineTool\nbaseCommand:\n- Rscript -e 'runif(100)'\narguments: []\nstdout: output.txt\n"</code></pre>
+<pre><code>[1] "sbg:id: runif\nid: '#runif'\ninputs: []\noutputs:\n- type:\n  - 'null'\n  - File\n  label: ''\n  description: ''\n  streamable: no\n  default: ''\n  id: '#random'\n  outputBinding:\n    glob: '*.txt'\nrequirements: []\nhints:\n- class: DockerRequirement\n  dockerPull: rocker/r-base\nlabel: runif\nclass: CommandLineTool\nbaseCommand:\n- Rscript -e 'runif(100)'\narguments: []\nstdout: output.txt\n"</code></pre>
 </div>
 <div id="add-customized-script-to-existing-docker-image" class="section level3">
 <h3 class="hasAnchor">
@@ -569,7 +576,7 @@ stdout: output.txt</code></pre>
 <a class="sourceLine" id="cb54-12" data-line-number="12"><span class="co"># add script to your tool</span></a>
 <a class="sourceLine" id="cb54-13" data-line-number="13">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb54-14" data-line-number="14">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb54-15" data-line-number="15">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb54-15" data-line-number="15">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb54-16" data-line-number="16">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
 <a class="sourceLine" id="cb54-17" data-line-number="17">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
 <a class="sourceLine" id="cb54-18" data-line-number="18">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
@@ -586,7 +593,7 @@ stdout: output.txt</code></pre>
 <a class="sourceLine" id="cb55-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb55-10" data-line-number="10">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif_twoscript"</span>,</a>
 <a class="sourceLine" id="cb55-11" data-line-number="11">            <span class="dt">label =</span> <span class="st">"runif_twoscript"</span>,</a>
-<a class="sourceLine" id="cb55-12" data-line-number="12">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb55-13" data-line-number="13">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd1, fd2),</a>
 <a class="sourceLine" id="cb55-14" data-line-number="14">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
 <a class="sourceLine" id="cb55-15" data-line-number="15">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
@@ -665,7 +672,7 @@ stdout: output.txt</code></pre>
 <a class="sourceLine" id="cb57-39" data-line-number="39"></a>
 <a class="sourceLine" id="cb57-40" data-line-number="40">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb57-41" data-line-number="41">            <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb57-42" data-line-number="42">            <span class="co"># hints = requirements(docker(pull = "tengfei/runif")),</span></a>
+<a class="sourceLine" id="cb57-42" data-line-number="42">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/runif"</span>)),</a>
 <a class="sourceLine" id="cb57-43" data-line-number="43">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
 <a class="sourceLine" id="cb57-44" data-line-number="44">            <span class="dt">inputs =</span> in.lst,  <span class="co"># or ins.df</span></a>
 <a class="sourceLine" id="cb57-45" data-line-number="45">            <span class="dt">outputs =</span> out.lst)</a></code></pre></div>
@@ -687,11 +694,10 @@ stdout: output.txt</code></pre>
 <a class="sourceLine" id="cb58-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb58-16" data-line-number="16">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb58-17" data-line-number="17">            <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb58-18" data-line-number="18">            <span class="co"># hints = requirements(docker(pull = "tengfei/runif"),</span></a>
-<a class="sourceLine" id="cb58-19" data-line-number="19">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb58-20" data-line-number="20">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb58-21" data-line-number="21">            <span class="dt">inputs =</span> in.df,  <span class="co"># or ins.df</span></a>
-<a class="sourceLine" id="cb58-22" data-line-number="22">            <span class="dt">outputs =</span> out.df)</a></code></pre></div>
+<a class="sourceLine" id="cb58-18" data-line-number="18">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/runif"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb58-19" data-line-number="19">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb58-20" data-line-number="20">            <span class="dt">inputs =</span> in.df,  <span class="co"># or ins.df</span></a>
+<a class="sourceLine" id="cb58-21" data-line-number="21">            <span class="dt">outputs =</span> out.df)</a></code></pre></div>
 </div>
 <div id="quick-command-line-interface-with-commandargs-position-and-named-args" class="section level3">
 <h3 class="hasAnchor">
@@ -738,21 +744,20 @@ hist(r)</code></pre>
 <a class="sourceLine" id="cb62-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb62-5" data-line-number="5">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb62-6" data-line-number="6">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb62-7" data-line-number="7">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base"),</span></a>
-<a class="sourceLine" id="cb62-8" data-line-number="8">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb62-9" data-line-number="9">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb62-10" data-line-number="10">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb62-11" data-line-number="11">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb62-12" data-line-number="12">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb62-13" data-line-number="13">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb62-14" data-line-number="14">                                <span class="dt">position =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb62-15" data-line-number="15">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb62-16" data-line-number="16">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb62-17" data-line-number="17">                                <span class="dt">position =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb62-18" data-line-number="18">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb62-19" data-line-number="19">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb62-20" data-line-number="20">                                <span class="dt">position =</span> <span class="dv">3</span>)),</a>
-<a class="sourceLine" id="cb62-21" data-line-number="21">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb62-7" data-line-number="7">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb62-8" data-line-number="8">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb62-9" data-line-number="9">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
+<a class="sourceLine" id="cb62-10" data-line-number="10">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb62-11" data-line-number="11">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
+<a class="sourceLine" id="cb62-12" data-line-number="12">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
+<a class="sourceLine" id="cb62-13" data-line-number="13">                                <span class="dt">position =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb62-14" data-line-number="14">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
+<a class="sourceLine" id="cb62-15" data-line-number="15">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb62-16" data-line-number="16">                                <span class="dt">position =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb62-17" data-line-number="17">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
+<a class="sourceLine" id="cb62-18" data-line-number="18">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb62-19" data-line-number="19">                                <span class="dt">position =</span> <span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb62-20" data-line-number="20">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>))</a></code></pre></div>
 <p>How about named argumentments? I will still recommend use “docopt” package, but for simple way. You want command line looks like this</p>
 <pre><code>Rscript runif_args.R --n=10 --min=30 --max=50</code></pre>
 <p>Here is how you do in R script.</p>
@@ -800,24 +805,23 @@ write.csv(r, file = "out.csv")</code></pre>
 <a class="sourceLine" id="cb66-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb66-5" data-line-number="5">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb66-6" data-line-number="6">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base"),</span></a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb66-9" data-line-number="9">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb66-10" data-line-number="10">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb66-11" data-line-number="11">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb66-12" data-line-number="12">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb66-13" data-line-number="13">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb66-14" data-line-number="14">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb66-15" data-line-number="15">                                <span class="dt">prefix   =</span> <span class="st">"--n="</span>),</a>
-<a class="sourceLine" id="cb66-16" data-line-number="16">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb66-17" data-line-number="17">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb66-18" data-line-number="18">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb66-19" data-line-number="19">                                <span class="dt">prefix   =</span> <span class="st">"--min="</span>),</a>
-<a class="sourceLine" id="cb66-20" data-line-number="20">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb66-21" data-line-number="21">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb66-22" data-line-number="22">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb66-23" data-line-number="23">                                <span class="dt">prefix   =</span> <span class="st">"--max="</span>)),</a>
-<a class="sourceLine" id="cb66-24" data-line-number="24">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb66-7" data-line-number="7">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb66-8" data-line-number="8">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb66-9" data-line-number="9">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
+<a class="sourceLine" id="cb66-10" data-line-number="10">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb66-11" data-line-number="11">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
+<a class="sourceLine" id="cb66-12" data-line-number="12">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
+<a class="sourceLine" id="cb66-13" data-line-number="13">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb66-14" data-line-number="14">                                <span class="dt">prefix   =</span> <span class="st">"--n="</span>),</a>
+<a class="sourceLine" id="cb66-15" data-line-number="15">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
+<a class="sourceLine" id="cb66-16" data-line-number="16">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb66-17" data-line-number="17">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb66-18" data-line-number="18">                                <span class="dt">prefix   =</span> <span class="st">"--min="</span>),</a>
+<a class="sourceLine" id="cb66-19" data-line-number="19">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
+<a class="sourceLine" id="cb66-20" data-line-number="20">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb66-21" data-line-number="21">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb66-22" data-line-number="22">                                <span class="dt">prefix   =</span> <span class="st">"--max="</span>)),</a>
+<a class="sourceLine" id="cb66-23" data-line-number="23">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>))</a></code></pre></div>
 </div>
 <div id="docopt-a-better-and-formal-way-to-make-command-line-interface" class="section level3">
 <h3 class="hasAnchor">
@@ -867,33 +871,32 @@ hist(r)
 write.csv(r, file = "out.csv")</code></pre>
 <p>You command is something like this</p>
 <pre><code>Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50</code></pre>
-<p>And so I describe my tool like this with Docker image <code>rocker/hadleyverse</code> this contians knitr and rmarkdown package.</p>
+<p>And so I describe my tool like this with Docker image <code>rocker/tidyverse</code> which contians the knitr and rmarkdown packages.</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb70-2" data-line-number="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
 <a class="sourceLine" id="cb70-3" data-line-number="3">              <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl))</a>
 <a class="sourceLine" id="cb70-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb70-5" data-line-number="5">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb70-6" data-line-number="6">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb70-7" data-line-number="7">            <span class="co"># hints = requirements(docker(pull = "rocker/hadleyverse"),</span></a>
-<a class="sourceLine" id="cb70-8" data-line-number="8">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb70-9" data-line-number="9">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb70-10" data-line-number="10">            <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</a>
-<a class="sourceLine" id="cb70-11" data-line-number="11">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb70-12" data-line-number="12">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb70-13" data-line-number="13">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb70-14" data-line-number="14">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb70-15" data-line-number="15">                                <span class="dt">prefix   =</span> <span class="st">"--n="</span>),</a>
-<a class="sourceLine" id="cb70-16" data-line-number="16">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb70-17" data-line-number="17">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb70-18" data-line-number="18">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb70-19" data-line-number="19">                                <span class="dt">prefix   =</span> <span class="st">"--min="</span>),</a>
-<a class="sourceLine" id="cb70-20" data-line-number="20">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb70-21" data-line-number="21">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb70-22" data-line-number="22">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb70-23" data-line-number="23">                                <span class="dt">prefix   =</span> <span class="st">"--max="</span>)),</a>
-<a class="sourceLine" id="cb70-24" data-line-number="24">            <span class="dt">outputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</a>
-<a class="sourceLine" id="cb70-25" data-line-number="25">                           <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</a>
-<a class="sourceLine" id="cb70-26" data-line-number="26">                           <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)))</a></code></pre></div>
+<a class="sourceLine" id="cb70-7" data-line-number="7">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/tidyverse"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb70-8" data-line-number="8">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb70-9" data-line-number="9">            <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</a>
+<a class="sourceLine" id="cb70-10" data-line-number="10">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb70-11" data-line-number="11">            <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"number"</span>,</a>
+<a class="sourceLine" id="cb70-12" data-line-number="12">                                <span class="dt">type     =</span> <span class="st">"integer"</span>,</a>
+<a class="sourceLine" id="cb70-13" data-line-number="13">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb70-14" data-line-number="14">                                <span class="dt">prefix   =</span> <span class="st">"--n="</span>),</a>
+<a class="sourceLine" id="cb70-15" data-line-number="15">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"min"</span>,</a>
+<a class="sourceLine" id="cb70-16" data-line-number="16">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb70-17" data-line-number="17">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb70-18" data-line-number="18">                                <span class="dt">prefix   =</span> <span class="st">"--min="</span>),</a>
+<a class="sourceLine" id="cb70-19" data-line-number="19">                          <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id       =</span> <span class="st">"max"</span>,</a>
+<a class="sourceLine" id="cb70-20" data-line-number="20">                                <span class="dt">type     =</span> <span class="st">"float"</span>,</a>
+<a class="sourceLine" id="cb70-21" data-line-number="21">                                <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb70-22" data-line-number="22">                                <span class="dt">prefix   =</span> <span class="st">"--max="</span>)),</a>
+<a class="sourceLine" id="cb70-23" data-line-number="23">            <span class="dt">outputs =</span> <span class="kw">list</span>(<span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</a>
+<a class="sourceLine" id="cb70-24" data-line-number="24">                           <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</a>
+<a class="sourceLine" id="cb70-25" data-line-number="25">                           <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)))</a></code></pre></div>
 <p>You will get a report in the end.</p>
 </div>
 <div id="misc" class="section level3">
@@ -1225,7 +1228,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb100-2" data-line-number="2"><span class="co"># A tool that generates 100 random numbers</span></a>
 <a class="sourceLine" id="cb100-3" data-line-number="3">t1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif new test 3"</span>, <span class="dt">label =</span> <span class="st">"random number"</span>,</a>
-<a class="sourceLine" id="cb100-4" data-line-number="4">           <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb100-4" data-line-number="4">           <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb100-5" data-line-number="5">           <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'"</span>,</a>
 <a class="sourceLine" id="cb100-6" data-line-number="6">           <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>,</a>
 <a class="sourceLine" id="cb100-7" data-line-number="7">                            <span class="dt">type =</span> <span class="st">"file"</span>,</a>
@@ -1240,7 +1243,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <a class="sourceLine" id="cb100-16" data-line-number="16"><span class="st">                         "</span>)</a>
 <a class="sourceLine" id="cb100-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb100-18" data-line-number="18">t2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"log new test 3"</span>, <span class="dt">label =</span> <span class="st">"get log"</span>,</a>
-<a class="sourceLine" id="cb100-19" data-line-number="19">           <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb100-19" data-line-number="19">           <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb100-20" data-line-number="20">           <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
 <a class="sourceLine" id="cb100-21" data-line-number="21">           <span class="dt">baseCommand =</span> <span class="st">"Rscript log.R"</span>,</a>
 <a class="sourceLine" id="cb100-22" data-line-number="22">           <span class="dt">inputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>,</a>
@@ -1257,7 +1260,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <a class="sourceLine" id="cb100-33" data-line-number="33"><span class="st">                         write.csv(x, file = 'random_mean.txt', row.names = FALSE)"</span>)</a>
 <a class="sourceLine" id="cb100-34" data-line-number="34"></a>
 <a class="sourceLine" id="cb100-35" data-line-number="35">t3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"mean new test 3"</span>, <span class="dt">label =</span> <span class="st">"get mean"</span>,</a>
-<a class="sourceLine" id="cb100-36" data-line-number="36">           <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
+<a class="sourceLine" id="cb100-36" data-line-number="36">           <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
 <a class="sourceLine" id="cb100-37" data-line-number="37">           <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
 <a class="sourceLine" id="cb100-38" data-line-number="38">           <span class="dt">baseCommand =</span> <span class="st">"Rscript mean.R"</span>,</a>
 <a class="sourceLine" id="cb100-39" data-line-number="39">           <span class="dt">inputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>,</a>
@@ -1277,11 +1280,11 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <a class="sourceLine" id="cb104-5" data-line-number="5"><span class="co"># write_clip(f$toJSON(pretty = TRUE))</span></a>
 <a class="sourceLine" id="cb104-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb104-7" data-line-number="7">t2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"log new test 3"</span>, <span class="dt">label =</span> <span class="st">"get log"</span>,</a>
-<a class="sourceLine" id="cb104-8" data-line-number="8">           <span class="co"># hints = requirements(docker(pull = "rocker/r-base")),</span></a>
-<a class="sourceLine" id="cb104-9" data-line-number="9">           <span class="co"># requirements = requirements(fd),</span></a>
+<a class="sourceLine" id="cb104-8" data-line-number="8">           <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
+<a class="sourceLine" id="cb104-9" data-line-number="9">           <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
 <a class="sourceLine" id="cb104-10" data-line-number="10">           <span class="dt">baseCommand =</span> <span class="st">"Rscript log.R"</span>,</a>
 <a class="sourceLine" id="cb104-11" data-line-number="11">           <span class="dt">inputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb104-12" data-line-number="12">                           <span class="dt">type =</span> <span class="st">"file"</span>,</a>
+<a class="sourceLine" id="cb104-12" data-line-number="12">                          <span class="dt">type =</span> <span class="st">"file"</span>,</a>
 <a class="sourceLine" id="cb104-13" data-line-number="13">                          <span class="dt">secondaryFiles =</span> sevenbridges<span class="op">:::</span><span class="kw">set_box</span>(<span class="st">".bai"</span>)),</a>
 <a class="sourceLine" id="cb104-14" data-line-number="14">           <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"log"</span>,</a>
 <a class="sourceLine" id="cb104-15" data-line-number="15">                            <span class="dt">type =</span> <span class="st">"file"</span>,</a>
@@ -1702,15 +1705,14 @@ $File$to
 <a class="sourceLine" id="cb131-15" data-line-number="15">                     <span class="dt">glob =</span> <span class="kw">c</span>(<span class="st">"*.txt"</span>, <span class="st">"*.html"</span>))</a>
 <a class="sourceLine" id="cb131-16" data-line-number="16">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb131-17" data-line-number="17">            <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb131-18" data-line-number="18">            <span class="co"># hints = requirements(docker(pull = "tengfei/runif"),</span></a>
-<a class="sourceLine" id="cb131-19" data-line-number="19">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb131-20" data-line-number="20">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb131-21" data-line-number="21">            <span class="dt">inputs =</span> in.df,  <span class="co"># or ins.df</span></a>
-<a class="sourceLine" id="cb131-22" data-line-number="22">            <span class="dt">outputs =</span> out.df)</a>
-<a class="sourceLine" id="cb131-23" data-line-number="23">params &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">number =</span> <span class="dv">3</span>, <span class="dt">max =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb131-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb131-25" data-line-number="25"><span class="kw"><a href="../reference/set_test_env.html">set_test_env</a></span>(<span class="st">"tengfei/testenv"</span>, <span class="st">"mount_dir"</span>)</a>
-<a class="sourceLine" id="cb131-26" data-line-number="26"><span class="kw">test_tool</span>(rbx, params)</a></code></pre></div>
+<a class="sourceLine" id="cb131-18" data-line-number="18">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/runif"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb131-19" data-line-number="19">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb131-20" data-line-number="20">            <span class="dt">inputs =</span> in.df,  <span class="co"># or ins.df</span></a>
+<a class="sourceLine" id="cb131-21" data-line-number="21">            <span class="dt">outputs =</span> out.df)</a>
+<a class="sourceLine" id="cb131-22" data-line-number="22">params &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">number =</span> <span class="dv">3</span>, <span class="dt">max =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb131-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb131-24" data-line-number="24"><span class="kw"><a href="../reference/set_test_env.html">set_test_env</a></span>(<span class="st">"tengfei/testenv"</span>, <span class="st">"mount_dir"</span>)</a>
+<a class="sourceLine" id="cb131-25" data-line-number="25"><span class="kw">test_tool</span>(rbx, params)</a></code></pre></div>
 </div>
 </div>
   </div>

@@ -72,7 +72,7 @@ requirements and hints" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.5</span>
       </span>
     </div>
 
@@ -249,7 +249,7 @@ means single thread.</p></dd>
 <span class='fu'>cpu</span>(<span class='fl'>1</span>)
 <span class='fu'>CPURequirement</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
 <span class='fu'>docker</span>(<span class='st'>"rocker/r-base"</span>)
-<span class='co'># requirements(docker("rocker/r-base"), cpu(1), mem(1024))</span>
+<span class='fu'>requirements</span>(<span class='fu'>docker</span>(<span class='st'>"rocker/r-base"</span>), <span class='fu'>cpu</span>(<span class='fl'>1</span>), <span class='fu'>mem</span>(<span class='fl'>1024</span>))
 <span class='fu'>mem</span>(<span class='fl'>2000</span>)
 <span class='fu'>MemRequirement</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2000L</span>)
 <span class='fu'>aws</span>(<span class='st'>"c3.8xlarge"</span>)

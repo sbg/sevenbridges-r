@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.5</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-01</h4>
+            <h4 class="date">2018-10-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -357,12 +357,11 @@ auth_token = token_for_this_user</code></pre>
 <p>For example, you know there is an <code>runif</code> function in the <code>rocker/r-base</code> container, you can just do something like this. Please read another tutorial called “Describe and Execute CWL Tools/Workflows in R”, it introduced a simpler example with random number generator.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base"),</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">            <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'runif(100)'"</span>,</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>))</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb12-3" data-line-number="3">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">            <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'runif(100)'"</span>,</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>))</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>{
   "sbg:id": "runif",
   "id": "#runif",
@@ -381,7 +380,20 @@ auth_token = token_for_this_user</code></pre>
     }
   ],
   "requirements": [],
-  "hints": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "rocker/r-base"
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 2000
+    }
+  ],
   "label": "runif",
   "class": "CommandLineTool",
   "baseCommand": [
@@ -401,12 +413,11 @@ auth_token = token_for_this_user</code></pre>
 <a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">                   runif(100)"</span>)</a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb14-7" data-line-number="7">            <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">            <span class="co"># hints = requirements(docker(pull = "rocker/r-base"),</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">            <span class="co">#                      cpu(1), mem(2000)),</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,  <span class="co"># run script you created.</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb14-13" data-line-number="13">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb14-8" data-line-number="8">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">            <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">            <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,  <span class="co"># run script you created.</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">            <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">            <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>))</a></code></pre></div>
 <p><strong>Note</strong>: in the above example, I made a mistake on purpose, so try to debug on the platform if the task fails : )</p>
 <p>I will introduce “Tool” function, in the later section, don’t worry.</p>
 <ol start="3" style="list-style-type: decimal">
@@ -598,7 +609,7 @@ opts_chunk$set(message = FALSE, error = FALSE,
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"rnaseqGene"</span>,</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2">            <span class="dt">label =</span> <span class="st">"rnaseqgene"</span>,</a>
 <a class="sourceLine" id="cb25-3" data-line-number="3">            <span class="dt">description =</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">            <span class="co"># hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)),</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/rnaseqgene"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
 <a class="sourceLine" id="cb25-5" data-line-number="5">            <span class="dt">baseCommand =</span> <span class="st">"performDE.R"</span>,</a>
 <a class="sourceLine" id="cb25-6" data-line-number="6">            <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
 <a class="sourceLine" id="cb25-7" data-line-number="7">                <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
@@ -772,7 +783,13 @@ outputs:
   outputBinding:
     glob: de.csv
 requirements: []
-hints: []
+hints:
+- class: DockerRequirement
+  dockerPull: tengfei/rnaseqgene
+- class: sbg:CPURequirement
+  value: 1
+- class: sbg:MemRequirement
+  value: 2000
 label: rnaseqgene
 description: A RNA-seq Differiencial Expression Flow and Report
 class: CommandLineTool
@@ -922,7 +939,20 @@ arguments: []</code></pre>
     }
   ],
   "requirements": [],
-  "hints": [],
+  "hints": [
+    {
+      "class": "DockerRequirement",
+      "dockerPull": "tengfei/rnaseqgene"
+    },
+    {
+      "class": "sbg:CPURequirement",
+      "value": 1
+    },
+    {
+      "class": "sbg:MemRequirement",
+      "value": 2000
+    }
+  ],
   "label": "rnaseqgene",
   "description": "A RNA-seq Differiencial Expression Flow and Report",
   "class": "CommandLineTool",
@@ -932,7 +962,7 @@ arguments: []</code></pre>
   "arguments": []
 } </code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
-<pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']];\n                                                  if(x == 'undefined' || x == null){\n                                                   x = 'html';\n                                                    };\n                                                  'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
+<pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']];\n                                                  if(x == 'undefined' || x == null){\n                                                   x = 'html';\n                                                    };\n                                                  'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"tengfei/rnaseqgene"},{"class":"sbg:CPURequirement","value":1},{"class":"sbg:MemRequirement","value":2000}],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># or write to external file</span></a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co"># fl &lt;- "~/Downloads/rnaseqGene.json"</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co"># write(rbx$toJSON(pretty = TRUE), fl)</span></a></code></pre></div>
