@@ -2705,19 +2705,27 @@ requirements <- function(...) {
     }
 
     # process
-    listData <- lapply(listData[!idx.fd], function(x){
+    processListData <- function(x) {
         # check to see if it's a convertable class
         if ("class" %in% names(x)) {
             cls <- x$class
             switch(cls,
                    "DockerRequirement" = {
-                       return(do.call(docker, x))
+                       return(
+                           docker(
+                               pull    = x$dockerPull,
+                               imageId = x$dockerImageId,
+                               load    = x$dockerLoad,
+                               file    = x$dockerFile,
+                               output  = x$dockerOutputDirectory
+                           )
+                       )
                    },
                    "sbg:CPURequirement" = {
-                       return(do.call(cpu, x))
+                       return(cpu(x$value))
                    },
                    "sbg:MemRequirement" = {
-                       return(do.call(mem, x))
+                       return(mem(x$value))
                    },
                    "SubworkflowFeatureRequirement" = {
                        return(do.call("SubworkflowFeatureRequirement", x))
@@ -2747,7 +2755,7 @@ requirements <- function(...) {
                        return(res)
                    },
                    "sbg:AWSInstanceTypeRequirement" = {
-                       return(do.call(aws, x))
+                       return(aws(x$value))
                    },
                    {
                        return(do.call(anyReq, x))
@@ -2764,7 +2772,9 @@ requirements <- function(...) {
         } else {
             return(x)
         }
-    })
+    }
+
+    listData <- lapply(listData[!idx.fd], processListData)
 
     # validation
     idx <- sapply(listData, function(x) {
