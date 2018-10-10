@@ -1,3 +1,9 @@
+# sevenbridges 1.11.5
+
+## Bug Fixes
+
+- Fixed issues related to hints when creating CWL tools ([#65](https://github.com/sbg/sevenbridges-r/issues/65)) in R 3.5.x.
+
 # sevenbridges 1.11.4
 
 ## Bug Fixes
