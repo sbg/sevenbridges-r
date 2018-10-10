@@ -8,7 +8,7 @@ output:
 liftr:
   maintainer: "Tengfei Yin"
   maintainer_email: "yintengfei@gmail.com"
-  from: "rocker/hadleyverse"
+  from: "rocker/tidyverse"
   latex: false
   pandoc: true
 params:

@@ -437,7 +437,7 @@ You command is something like this
 Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50
 ```
 
-And so I describe my tool like this with Docker image `rocker/hadleyverse` this contians knitr and rmarkdown package.
+And so I describe my tool like this with Docker image `rocker/tidyverse` which contians the knitr and rmarkdown packages.
 
 ```{r}
 library("readr")
@@ -446,7 +446,7 @@ fd <- fileDef(name = "runif.R",
 
 rbx <- Tool(id = "runif",
             label = "runif",
-            hints = requirements(docker(pull = "rocker/hadleyverse"), cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/tidyverse"), cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
             stdout = "output.txt",
