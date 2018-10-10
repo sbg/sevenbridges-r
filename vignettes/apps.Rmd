@@ -154,7 +154,7 @@ In this simple example, I know Docker image `rocker/r-base` has a function calle
 library("sevenbridges")
 rbx <- Tool(id = "runif",
             label = "runif",
-            # hints = requirements(docker(pull = "rocker/r-base")),
+            hints = requirements(docker(pull = "rocker/r-base")),
             baseCommand = "Rscript -e 'runif(100)'",
             stdout = "output.txt",
             outputs = output(id = "random", glob = "*.txt"))
@@ -190,7 +190,7 @@ fd <- fileDef(name = "runif.R",
 # add script to your tool
 rbx <- Tool(id = "runif",
             label = "runif",
-            # hints = requirements(docker(pull = "rocker/r-base")),
+            hints = requirements(docker(pull = "rocker/r-base")),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
@@ -211,7 +211,7 @@ fd2 <- fileDef(name = "runif2.R",
 
 rbx <- Tool(id = "runif_twoscript",
             label = "runif_twoscript",
-            # hints = requirements(docker(pull = "rocker/r-base")),
+            hints = requirements(docker(pull = "rocker/r-base")),
             requirements = requirements(fd1, fd2),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
@@ -291,7 +291,7 @@ out.lst <- list(output(id = "random",
 
 rbx <- Tool(id = "runif",
             label = "Random number generator",
-            # hints = requirements(docker(pull = "tengfei/runif")),
+            hints = requirements(docker(pull = "tengfei/runif")),
             baseCommand = "runif.R",
             inputs = in.lst,  # or ins.df
             outputs = out.lst)
@@ -317,8 +317,7 @@ out.df <- data.frame(id = c("random", "report"),
 
 rbx <- Tool(id = "runif",
             label = "Random number generator",
-            # hints = requirements(docker(pull = "tengfei/runif"),
-            #                      cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
             baseCommand = "runif.R",
             inputs = in.df,  # or ins.df
             outputs = out.df)
@@ -359,8 +358,7 @@ fd <- fileDef(name = "runif.R",
 
 rbx <- Tool(id = "runif",
             label = "runif",
-            # hints = requirements(docker(pull = "rocker/r-base"),
-            #                      cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
@@ -401,8 +399,7 @@ fd <- fileDef(name = "runif.R",
 
 rbx <- Tool(id = "runif",
             label = "runif",
-            # hints = requirements(docker(pull = "rocker/r-base"),
-            #                      cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript runif.R",
             stdout = "output.txt",
@@ -449,8 +446,7 @@ fd <- fileDef(name = "runif.R",
 
 rbx <- Tool(id = "runif",
             label = "runif",
-            # hints = requirements(docker(pull = "rocker/hadleyverse"),
-            #                      cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "rocker/hadleyverse"), cpu(1), mem(2000)),
             requirements = requirements(fd),
             baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
             stdout = "output.txt",
@@ -596,7 +592,7 @@ Let's create tools from scratch to perform a simple task
 library("sevenbridges")
 # A tool that generates 100 random numbers
 t1 <- Tool(id = "runif new test 3", label = "random number",
-           # hints = requirements(docker(pull = "rocker/r-base")),
+           hints = requirements(docker(pull = "rocker/r-base")),
            baseCommand = "Rscript -e 'x = runif(100); write.csv(x, file = 'random.txt', row.names = FALSE)'",
            outputs = output(id = "random",
                             type = "file",
@@ -611,7 +607,7 @@ fd <- fileDef(name = "log.R",
                          ")
 
 t2 <- Tool(id = "log new test 3", label = "get log",
-           # hints = requirements(docker(pull = "rocker/r-base")),
+           hints = requirements(docker(pull = "rocker/r-base")),
            requirements = requirements(fd),
            baseCommand = "Rscript log.R",
            inputs = input(id = "number",
@@ -628,7 +624,7 @@ fd <- fileDef(name = "mean.R",
                          write.csv(x, file = 'random_mean.txt', row.names = FALSE)")
 
 t3 <- Tool(id = "mean new test 3", label = "get mean",
-           # hints = requirements(docker(pull = "rocker/r-base")),
+           hints = requirements(docker(pull = "rocker/r-base")),
            requirements = requirements(fd),
            baseCommand = "Rscript mean.R",
            inputs = input(id = "number",
@@ -647,11 +643,11 @@ f = link(t1, t2, "#random", "#number")
 # write_clip(f$toJSON(pretty = TRUE))
 
 t2 <- Tool(id = "log new test 3", label = "get log",
-           # hints = requirements(docker(pull = "rocker/r-base")),
-           # requirements = requirements(fd),
+           hints = requirements(docker(pull = "rocker/r-base")),
+           requirements = requirements(fd),
            baseCommand = "Rscript log.R",
            inputs = input(id = "number",
-                           type = "file",
+                          type = "file",
                           secondaryFiles = sevenbridges:::set_box(".bai")),
            outputs = output(id = "log",
                             type = "file",
@@ -800,8 +796,7 @@ out.df <- data.frame(id = c("random", "report"),
                      glob = c("*.txt", "*.html"))
 rbx <- Tool(id = "runif",
             label = "Random number generator",
-            # hints = requirements(docker(pull = "tengfei/runif"),
-            #                      cpu(1), mem(2000)),
+            hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
             baseCommand = "runif.R",
             inputs = in.df,  # or ins.df
             outputs = out.df)

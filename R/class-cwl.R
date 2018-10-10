@@ -2691,7 +2691,7 @@ docker <- function(pull = NULL, imageId = NULL, load = NULL,
 #' @rdname requirements
 #' @export requirements
 #' @examples
-#' # requirements(docker("rocker/r-base"), cpu(1), mem(1024))
+#' requirements(docker("rocker/r-base"), cpu(1), mem(1024))
 requirements <- function(...) {
     listData <- .dotargsAsList(...)
     idx.fd <- sapply(listData, is, "FileDef")
