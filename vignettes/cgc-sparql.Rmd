@@ -48,8 +48,8 @@ Let's see an example here, you will need the R package `SPARQL`:
 
 ```{r, eval = FALSE}
 library("SPARQL")
-endpoint = "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"
-query = "
+endpoint <- "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"
+query <- "
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix tcga: <https://www.sbgenomics.com/ontologies/2014/11/tcga#>
 
@@ -106,7 +106,7 @@ You can use the CGC API to access the TCGA files found via SPARQL queries. To ge
 ```{r}
 # api(api_url = base, auth_token = auth_token, path = "action/files/get_ids",
 #     method = "POST", query = None, data = filelist)
-df.path <- df[,"path"]
+df.path <- df[, "path"]
 df.path
 ```
 
@@ -118,11 +118,11 @@ controlled access
 
 ```{r}
 library("sevenbridges")
-a = Auth(platform = "cgc", token = "your_cgc_token")
+a <- Auth(platform = "cgc", token = "your_cgc_token")
 # get id (only works for CGC platform)
-ids = a$get_id_from_path(df.path)
+ids <- a$get_id_from_path(df.path)
 # copy file from id to project with controlled access
-(p = a$project(id = "tengfei/control-test"))
+(p <- a$project(id = "tengfei/control-test"))
 a$copyFile(ids, p$id)
 ```
 
@@ -147,8 +147,10 @@ use `Auth$api()` method so there is no need to type base URL or token again.
 ```{r}
 library("sevenbridges")
 # create an Auth object
-a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/",
-         token = "your_cgc_token")
+a <- Auth(
+  url = "https://cgc-datasets-api.sbgenomics.com/",
+  token = "your_cgc_token"
+)
 a$api(path = "datasets")
 ```
 
@@ -158,9 +160,11 @@ You can issue another `GET` request to the href of the tcga object, if you want
 to access TCGA data.
 
 ```{r}
-a = Auth(url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0",
-         token = "your_cgc_token")
-(res = a$api())  # default method is GET
+a <- Auth(
+  url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0",
+  token = "your_cgc_token"
+)
+(res <- a$api()) # default method is GET
 # list all resources/entities
 names(res$"_links")
 ```
@@ -170,7 +174,7 @@ names(res$"_links")
 For example, to see a list of all TCGA files, send the request:
 
 ```{r}
-(res = a$api(path = "files"))
+(res <- a$api(path = "files"))
 ```
 
 For example, to see the __metadata schema__ for files send the request:
@@ -190,13 +194,13 @@ access data to your non-TCGA project, you will get
 ```
 
 ```{r}
-(res = a$api(path = "files"))
-get_id = function(obj){
-   sapply(obj$"_embedded"$files, function(x) x$id)
+(res <- a$api(path = "files"))
+get_id <- function(obj) {
+  sapply(obj$"_embedded"$files, function(x) x$id)
 }
-ids = get_id(res)
+ids <- get_id(res)
 # create CGC auth
-a_cgc = Auth(platform = "cgc", token = a$token)
+a_cgc <- Auth(platform = "cgc", token = a$token)
 a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
 ```
 
@@ -207,9 +211,9 @@ endpoint user can filter collection resources by using a DSL in JSON format that
 #### Find samples connected to a case
 
 ```{r}
-body = list(
-    entity = "samples",
-    hasCase = "0004D251-3F70-4395-B175-C94C2F5B1B81"
+body <- list(
+  entity = "samples",
+  hasCase = "0004D251-3F70-4395-B175-C94C2F5B1B81"
 )
 a$api(path = "query", body = body, method = "POST")
 ```
@@ -226,8 +230,11 @@ Note: `api` function is a light layer of httr package, it's different from `Auth
 
 ```{r}
 httr::content(
-    api(token = a$token,
-        base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"))
+  api(
+    token = a$token,
+    base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"
+  )
+)
 ```
 
 #### Find cases with given age at diagnosis
@@ -237,14 +244,14 @@ Suppose you want to see all cases for which the age at diagnosis is between 10 a
 Note that the value of the metadata field hasAgeAtDiagnosis is a dictionary containing the keyfilter, whose value is a further dictionary with keysgt(greater than) and lt (less than) for the upper and lower bounds to filter by.
 
 ```{r}
-body = list(
-   "entity" = "cases",
-   "hasAgeAtDiagnosis" = list(
-       "filter" = list(
-           "gt" = 10,
-           "lt" = 50
-       )
-   )
+body <- list(
+  "entity" = "cases",
+  "hasAgeAtDiagnosis" = list(
+    "filter" = list(
+      "gt" = 10,
+      "lt" = 50
+    )
+  )
 )
 a$api(path = "query", body = body, method = "POST")
 ```
@@ -254,15 +261,15 @@ a$api(path = "query", body = body, method = "POST")
 Suppose you want to see all cases that, as in the example, ([Find cases with given age at diagnosis])(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease "Kidney Chromophobe". Then, use the following query:
 
 ```{r}
-body = list(
-   "entity" = "cases",
-   "hasAgeAtDiagnosis" = list(
-       "filter" = list(
-           "gt" = 10,
-           "lt" = 50
-       )
-   ),
-   "hasDiseaseType" = "Kidney Chromophobe"
+body <- list(
+  "entity" = "cases",
+  "hasAgeAtDiagnosis" = list(
+    "filter" = list(
+      "gt" = 10,
+      "lt" = 50
+    )
+  ),
+  "hasDiseaseType" = "Kidney Chromophobe"
 )
 a$api(path = "query", body = body, method = "POST")
 ```
@@ -270,22 +277,22 @@ a$api(path = "query", body = body, method = "POST")
 #### Complex example for filtering TCGA data
 
 ```{r}
-body = list(
-    "entity" = "cases",
-    "hasSample" = list(
-        "hasSampleType" = "Primary Tumor",
-        "hasPortion" = list(
-            "hasPortionNumber" = 11
-        )
-        ),
-    "hasNewTumorEvent" = list(
-        "hasNewTumorAnatomicSite" = c("Liver", "Pancreas"),
-        "hasNewTumorEventType" = list(
-            "filter" = list(
-                "contains" = "Recurrence"
-            )
-        )
+body <- list(
+  "entity" = "cases",
+  "hasSample" = list(
+    "hasSampleType" = "Primary Tumor",
+    "hasPortion" = list(
+      "hasPortionNumber" = 11
     )
+  ),
+  "hasNewTumorEvent" = list(
+    "hasNewTumorAnatomicSite" = c("Liver", "Pancreas"),
+    "hasNewTumorEventType" = list(
+      "filter" = list(
+        "contains" = "Recurrence"
+      )
+    )
+  )
 )
 a$api(path = "query", body = body, method = "POST")
 ```
@@ -294,28 +301,34 @@ Issuing a `GET` request to the href path
 
 ```{r}
 httr::content(
-    api(token = a$token,
-        base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"))
+  api(
+    token = a$token,
+    base_url = "https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"
+  )
+)
 ```
 
 #### Query with multiple filters on a case
 
 ```{r}
-get_id = function(obj) sapply(obj$"_embedded"$files, function(x) x$id)
+get_id <- function(obj) sapply(obj$"_embedded"$files, function(x) x$id)
 names(res)
-body = list("entity" = "cases",
-            "hasSample" = list(
-                "hasSampleType" = "Primary Tumor",
-                "hasPortion" = list(
-                    "hasPortionNumber" = 11,
-                    "hasID" = "TCGA-DD-AAVP-01A-11"
-                )
-            ),
-            "hasNewTumorEvent" = list(
-                "hasNewTumorAnatomicSite" = "Liver",
-                "hasNewTumorEventType" = "Intrahepatic Recurrence"
-            )
+
+body <- list(
+  "entity" = "cases",
+  "hasSample" = list(
+    "hasSampleType" = "Primary Tumor",
+    "hasPortion" = list(
+      "hasPortionNumber" = 11,
+      "hasID" = "TCGA-DD-AAVP-01A-11"
+    )
+  ),
+  "hasNewTumorEvent" = list(
+    "hasNewTumorAnatomicSite" = "Liver",
+    "hasNewTumorEventType" = "Intrahepatic Recurrence"
+  )
 )
-(res = a$api(path = "files", body = body))
+
+(res <- a$api(path = "files", body = body))
 get_id(res)
 ```

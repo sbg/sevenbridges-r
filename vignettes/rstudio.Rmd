@@ -32,7 +32,7 @@ The `Dockerfile` is included with the package in `inst/docker` folder.
 
 Here is the current content of `Dockerfile`:
 ```{r comment = ''}
-fl = system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges")
+fl <- system.file("docker/sevenbridges/", "Dockerfile", package = "sevenbridges")
 cat(readLines(fl), sep = "\n")
 ```
 

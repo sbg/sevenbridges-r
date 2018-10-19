@@ -124,13 +124,7 @@ I will add one more parameter to set seed, here is the R script file called `run
 At the beginning of the command line script, I use the docopt standard to write my tool help.
 
 ```{r}
-'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
-
-options:
- --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].
- --min=<float>   lower limits of the distribution. Must be finite [default: 0].
- --max=<float>   upper limits of the distribution. Must be finite [default: 1].
- --seed=<float>  seed for set.seed() function [default: 1]' -> doc
+"usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]\n\noptions:\n --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].\n --min=<float>   lower limits of the distribution. Must be finite [default: 0].\n --max=<float>   upper limits of the distribution. Must be finite [default: 1].\n --seed=<float>  seed for set.seed() function [default: 1]" -> doc
 
 library("docopt")
 ```
@@ -138,7 +132,7 @@ library("docopt")
 Let's first do some testing in your R session before you make it a full functional command line tool.
 
 ```{r}
-docopt(doc) #with no argumetns provided
+docopt(doc) # with no argumetns provided
 docopt(doc, "--n 10 --min=3 --max=5")
 ```
 
@@ -147,29 +141,27 @@ Looks like it works, now let's add main function script for this command line to
 ```{r}
 opts <- docopt(doc)
 set.seed(opts$seed)
-runif(n = as.integer(opts$n),
-      min = as.numeric(opts$min),
-      max = as.numeric(opts$max))
+runif(
+  n = as.integer(opts$n),
+  min = as.numeric(opts$min),
+  max = as.numeric(opts$max)
+)
 ```
 
 Add Shebang at the top of the file, this is a complete example for `runif.R` command line will be like this
 
 ```{r, eval=FALSE}
 #!/usr/bin/Rscript
-'usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]
-
-options:
- --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].
- --min=<float>   lower limits of the distribution. Must be finite [default: 0].
- --max=<float>   upper limits of the distribution. Must be finite [default: 1].
- --seed=<float>  seed for set.seed() function [default: 1]' -> doc
+"usage: runif.R [--n=<int> --min=<float> --max=<float> --seed=<float>]\n\noptions:\n --n=<int>        number of observations. If length(n) > 1, the length is taken to be the number required [default: 1].\n --min=<float>   lower limits of the distribution. Must be finite [default: 0].\n --max=<float>   upper limits of the distribution. Must be finite [default: 1].\n --seed=<float>  seed for set.seed() function [default: 1]" -> doc
 
 library("docopt")
 opts <- docopt(doc)
 set.seed(opts$seed)
-runif(n = as.integer(opts$n),
-      min = as.numeric(opts$min),
-      max = as.numeric(opts$max))
+runif(
+  n = as.integer(opts$n),
+  min = as.numeric(opts$min),
+  max = as.numeric(opts$max)
+)
 ```
 
 Let's test this command line.
@@ -210,7 +202,7 @@ Suppose I already have a R script like this using position mapping the arguments
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif2spin.R", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 Ignore the comment part, I will introduce spin/stich later. My base command will be something like
@@ -224,25 +216,37 @@ I just describe my tool in this way
 ```{r}
 library("sevenbridges")
 library("readr")
-fd <- fileDef(name = "runif.R",
-              content = read_file(fl))
+fd <- fileDef(
+  name = "runif.R",
+  content = read_file(fl)
+)
 
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
-            requirements = requirements(fd),
-            baseCommand = "Rscript runif.R",
-            stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
-                                position = 1),
-                          input(id = "min",
-                                type = "float",
-                                position = 2),
-                          input(id = "max",
-                                type = "float",
-                                position = 3)),
-            outputs = output(id = "random", glob = "output.txt"))
+rbx <- Tool(
+  id = "runif",
+  label = "runif",
+  hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
+  requirements = requirements(fd),
+  baseCommand = "Rscript runif.R",
+  stdout = "output.txt",
+  inputs = list(
+    input(
+      id = "number",
+      type = "integer",
+      position = 1
+    ),
+    input(
+      id = "min",
+      type = "float",
+      position = 2
+    ),
+    input(
+      id = "max",
+      type = "float",
+      position = 3
+    )
+  ),
+  outputs = output(id = "random", glob = "output.txt")
+)
 ```
 
 Now copy-paste the JSON into your project app and run it in the cloud to test it
@@ -251,7 +255,7 @@ How about named arguments? I will still recommend use "docopt" package, but for 
 
 ```{r, eval = TRUE, comment=''}
 fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 ```
@@ -262,28 +266,40 @@ as a hack.
 
 ```{r}
 library("readr")
-fd <- fileDef(name = "runif.R",
-              content = read_file(fl))
+fd <- fileDef(
+  name = "runif.R",
+  content = read_file(fl)
+)
 
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
-            requirements = requirements(fd),
-            baseCommand = "Rscript runif.R",
-            stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
-                                separate = FALSE,
-                                prefix = "--n="),
-                          input(id = "min",
-                                type = "float",
-                                separate = FALSE,
-                                prefix = "--min="),
-                          input(id = "max",
-                                type = "float",
-                                 separate = FALSE,
-                                prefix = "--max=")),
-            outputs = output(id = "random", glob = "output.txt"))
+rbx <- Tool(
+  id = "runif",
+  label = "runif",
+  hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
+  requirements = requirements(fd),
+  baseCommand = "Rscript runif.R",
+  stdout = "output.txt",
+  inputs = list(
+    input(
+      id = "number",
+      type = "integer",
+      separate = FALSE,
+      prefix = "--n="
+    ),
+    input(
+      id = "min",
+      type = "float",
+      separate = FALSE,
+      prefix = "--min="
+    ),
+    input(
+      id = "max",
+      type = "float",
+      separate = FALSE,
+      prefix = "--max="
+    )
+  ),
+  outputs = output(id = "random", glob = "output.txt")
+)
 ```
 
 ## Quick Report: Spin and Stich
@@ -293,7 +309,7 @@ from an R script with special format. For example, let's use the above example
 
 ```{r, eval = TRUE, comment = ""}
 fl <- system.file("docker/sevenbridges/src", "runif_args.R", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 You command is something like this
@@ -306,30 +322,44 @@ And so I describe my tool like this with Docker image `rocker/hadleyverse` this 
 
 ```{r}
 library("readr")
-fd <- fileDef(name = "runif.R",
-              content = read_file(fl))
+fd <- fileDef(
+  name = "runif.R",
+  content = read_file(fl)
+)
 
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/hadleyverse"), cpu(1), mem(2000)),
-            requirements = requirements(fd),
-            baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
-            stdout = "output.txt",
-            inputs = list(input(id = "number",
-                                type = "integer",
-                                 separate = FALSE,
-                                prefix = "--n="),
-                          input(id = "min",
-                                type = "float",
-                                 separate = FALSE,
-                                prefix = "--min="),
-                          input(id = "max",
-                                type = "float",
-                                separate = FALSE,
-                                prefix = "--max=")),
-            outputs = list(output(id = "stdout", type = "file", glob = "output.txt"),
-                           output(id = "random", type = "file", glob = "*.csv"),
-                           output(id = "report", type = "file", glob = "*.html")))
+rbx <- Tool(
+  id = "runif",
+  label = "runif",
+  hints = requirements(docker(pull = "rocker/hadleyverse"), cpu(1), mem(2000)),
+  requirements = requirements(fd),
+  baseCommand = "Rscript -e \"rmarkdown::render(knitr::spin('runif.R', FALSE))\" --args",
+  stdout = "output.txt",
+  inputs = list(
+    input(
+      id = "number",
+      type = "integer",
+      separate = FALSE,
+      prefix = "--n="
+    ),
+    input(
+      id = "min",
+      type = "float",
+      separate = FALSE,
+      prefix = "--min="
+    ),
+    input(
+      id = "max",
+      type = "float",
+      separate = FALSE,
+      prefix = "--max="
+    )
+  ),
+  outputs = list(
+    output(id = "stdout", type = "file", glob = "output.txt"),
+    output(id = "random", type = "file", glob = "*.csv"),
+    output(id = "report", type = "file", glob = "*.html")
+  )
+)
 ```
 
 
@@ -357,14 +387,14 @@ fl <- system.file("docker/sevenbridges/src/", "runif.R", package = "sevenbridges
 
 Here is the current content of command line interface
 ```{r, comment='', eval = TRUE, echo = FALSE}
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 And here is the report template
 
 ```{r, comment='', eval = TRUE, echo = FALSE}
 fl <- system.file("docker/sevenbridges/report/", "report.Rmd", package = "sevenbridges")
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 # Setup Docker Hub Automated Build

@@ -36,8 +36,7 @@ There are two ways of constructing API calls. For instance, you can use low-leve
 
 ```{r}
 library("sevenbridges")
-a <- Auth(token = "8c3329a4de664c35bb657499bb2f335c",
-          platform = "aws-us")
+a <- Auth(token = "your_token", platform = "aws-us")
 a$api(path = "projects", method = "GET")
 ```
 
@@ -329,7 +328,7 @@ bid <- a$billing()$id
 id : tengfei/api-testing
 name : api testing
 description : Just a test
-billing_group_id : <fake_bid>
+billing_group_id : <your_bid>
 type : v2
 -- Permission --
 ```
@@ -376,8 +375,10 @@ Now, from your `Auth` object, you copy an App `id` into your `project` id with a
 
 ```{r}
 # copy
-a$copy_app(id = "admin/sbg-public-data/rna-seq-alignment-star/5",
-           project = "tengfei/api-testing", name = "new copy of star")
+a$copy_app(
+  id = "admin/sbg-public-data/rna-seq-alignment-star/5",
+  project = "tengfei/api-testing", name = "new copy of star"
+)
 # check if it is copied
 p <- a$project(id = "tengfei/api-testing")
 # list apps your got in your project
@@ -398,8 +399,10 @@ Alternatively, you can copy it from the `app` object.
 
 ```{r}
 app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
-app$copy_to(project = "tengfei/api-testing",
-            name = "copy of star")
+app$copy_to(
+  project = "tengfei/api-testing",
+  name = "copy of star"
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -433,7 +436,8 @@ Alternatively, you can describe tools in R directly, as shown below:
 
 ```{r comment = "", eval = TRUE}
 fl <- system.file("docker", "sevenbridges/rabix/generator.R",
-                  package = "sevenbridges")
+  package = "sevenbridges"
+)
 cat(readLines(fl), sep = "\n")
 ```
 
@@ -489,8 +493,8 @@ app$input_matrix(c("id", "label", "type"), required = TRUE)
 Note `input_matrix` and `output_matrix` are useful accessor for `Tool`, `Flow`, `App` object as shown below in App example, you can directly call these two function on a JSON file as well. 
 
 ```{r}
-tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+tool.in <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 input_matrix(tool.in)
 input_matrix(tool.in, required = TRUE)
 input_matrix(flow.in)
@@ -523,15 +527,18 @@ You can find a list of possible input types below:
 fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq")
 
 # get all 2 exact files
-fastq_in <- p$file(name= fastqs, exact = TRUE)
+fastq_in <- p$file(name = fastqs, exact = TRUE)
 
 # get a single file
-fasta_in <- p$file(name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa",
-                   exact = TRUE)
+fasta_in <- p$file(
+  name = "Homo_sapiens.GRCh38.dna.primary_assembly.fa",
+  exact = TRUE
+)
 # get all single file
-gtf_in <- p$file(name = "Homo_sapiens.GRCh38.84.gtf",
-                 exact = TRUE)
-
+gtf_in <- p$file(
+  name = "Homo_sapiens.GRCh38.84.gtf",
+  exact = TRUE
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -540,14 +547,18 @@ gtf_in <- p$file(name = "Homo_sapiens.GRCh38.84.gtf",
 
 ```{r}
 # add new tasks
-taskName <- paste0("tengfei_star-alignment ",date())
+taskName <- paste0("tengfei_star-alignment ", date())
 
-tsk <- p$task_add(name = taskName,
-                  description = "star test",
-                  app = "tengfei/api-testing-2/newcopyofstar/0",
-                  inputs = list(sjdbGTFfile = gtf_in,
-                                fastq = fastq_in,
-                                genomeFastaFiles = fasta_in))
+tsk <- p$task_add(
+  name = taskName,
+  description = "star test",
+  app = "tengfei/api-testing-2/newcopyofstar/0",
+  inputs = list(
+    sjdbGTFfile = gtf_in,
+    fastq = fastq_in,
+    genomeFastaFiles = fasta_in
+  )
+)
 ```
 
 Remember the `fastq` input expects a list of files. You can also do something as follows:
@@ -569,23 +580,31 @@ Using `complete = TRUE` when items is over 100.
 Now let's do a batch with 8 files in 4 groups, which is batched by metadata `sample_id` and `library_id`. We will assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.
 
 ```{r}
-fastqs <- c("SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq",
-            "SRR1039509_2.fastq", "SRR1039512_1.fastq", "SRR1039512_2.fastq",
-            "SRR1039513_1.fastq", "SRR1039513_2.fastq")
+fastqs <- c(
+  "SRR1039508_1.fastq", "SRR1039508_2.fastq", "SRR1039509_1.fastq",
+  "SRR1039509_2.fastq", "SRR1039512_1.fastq", "SRR1039512_2.fastq",
+  "SRR1039513_1.fastq", "SRR1039513_2.fastq"
+)
 
 # get all 8 files
-fastq_in <- p$file(name= fastqs, exact = TRUE)
+fastq_in <- p$file(name = fastqs, exact = TRUE)
 # can also try to returned all SRR*.fastq files
 # fastq_in <- p$file(name= "SRR*.fastq", complete = TRUE)
 
-tsk <- p$task_add(name = taskName,
-                  description = "Batch Star Test",
-                  app = "tengfei/api-testing-2/newcopyofstar/0",
-                  batch = batch(input = "fastq",
-                                criteria = c("metadata.sample_id","metadata.noexist_id")),
-                  inputs = list(sjdbGTFfile = gtf_in,
-                                fastq = fastqs_in,
-                                genomeFastaFiles = fasta_in))
+tsk <- p$task_add(
+  name = taskName,
+  description = "Batch Star Test",
+  app = "tengfei/api-testing-2/newcopyofstar/0",
+  batch = batch(
+    input = "fastq",
+    criteria = c("metadata.sample_id", "metadata.noexist_id")
+  ),
+  inputs = list(
+    sjdbGTFfile = gtf_in,
+    fastq = fastqs_in,
+    genomeFastaFiles = fasta_in
+  )
+)
 ```
 
 Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings. 
@@ -593,7 +612,7 @@ Now you have a draft batch task, please check it out in the visual interface. Yo
 Note: you can also directly pass file id or file names as characters to inputs list,
 the package will first guess if the passed strings are file id (24 bit hexdecimal)
 or names, then convert it to Files or FilesList object. However, as a good practice,
-we recommend you construct your files object(e.g. `p$file(id = , name = )`) first,
+we recommend you construct your files object(e.g. `p$file(id = ..., name = ...)`) first,
 check the value, then pass it to `task_add` inputs, this is a more safe approach.
 
 <div align="right"><a href="#top">top</a></div>
@@ -647,7 +666,8 @@ we can set `use_interruptible = TRUE` (it is `FALSE` by default):
 ```{r}
 p <- a$project_new(
   name = "spot-enabled-project", bid, description = "spot enabled project",
-  use_interruptible = TRUE)
+  use_interruptible = TRUE
+)
 ```
 
 Then all the new tasks created under this project will use spot instances to run
@@ -703,9 +723,9 @@ If you want to customize the monitor function, you can adjust the following requ
 Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to local folder.
 
 ```{r}
-setTaskHook("completed", function(){
-    tsk$download("~/Downloads")
-    return(TRUE)
+setTaskHook("completed", function() {
+  tsk$download("~/Downloads")
+  return(TRUE)
 })
 tsk$monitor()
 ```
@@ -741,21 +761,25 @@ To use direct authentication, users need to specify one of `platform` or `url`,
 with the corresponding `token`. Examples of direct authentication:
 
 ```{r}
-a = Auth(token = "1c0e6e202b544030870ccc147092c250",
-         platform = "aws-us")
+a <- Auth(
+  token = "your_token",
+  platform = "aws-us"
+)
 ```
 
 The above will use the Seven Bridges Platform on AWS (US).
 
 ```{r}
-a = Auth(token = "1c0e6e202b544030870ccc147092c257",
-         url = "https://gcp-api.sbgenomics.com/v2")
+a <- Auth(
+  token = "your_token",
+  url = "https://gcp-api.sbgenomics.com/v2"
+)
 ```
 
 The above will use the specified `url` as base URL for the API calls. In this example, the `url` points to the Seven Bridges Platform on Google Cloud Platform (GCP).
 
 ```{r}
-a = Auth(token = "2c0e6e202b544030870ccc147092c257")
+a <- Auth(token = "your_token")
 ```
 
 The above will use the Cancer Genomics Cloud environment, since no `platform` nor `url` were explicitly specified (not recommended).
@@ -773,8 +797,10 @@ To set the two environment variables in your system, you could use
 the function `sbg_set_env()`. For example:
 
 ```{r}
-sbg_set_env(url = "https://cgc-api.sbgenomics.com/v2",
-            token = "your_token")
+sbg_set_env(
+  url = "https://cgc-api.sbgenomics.com/v2",
+  token = "your_token"
+)
 ```
 
 See if the environment variables are correctly set:
@@ -845,8 +871,10 @@ To use a user configuration file from other locations (not recommended),
 please specify the file path using the argument `config_file`. For example:
 
 ```{r}
-a <- Auth(from = "file", config_file = "~/sevenbridges.cfg",
-          profile_name = "aws-us-tengfei")
+a <- Auth(
+  from = "file", config_file = "~/sevenbridges.cfg",
+  profile_name = "aws-us-tengfei"
+)
 ```
 
 ***Note:*** If you edited the `credentials` file, please use `Auth()` to re-authenticate.
@@ -895,14 +923,14 @@ For example, to list all public apps, use `visibility` argument, but make sure y
 
 ```{r}
 # first, search by id is fast
-x = a$app(visibility = "public", id = "admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1")
+x <- a$app(visibility = "public", id = "admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1")
 
 # show 100 items from public
-x =  a$app(visibility = "public")
-length(x)  # 100
+x <- a$app(visibility = "public")
+length(x) # 100
 
-x = a$app(visibility = "public", complete = TRUE)
-length(x)  # 272 by Nov 2016
+x <- a$app(visibility = "public", complete = TRUE)
+length(x) # 272 by Nov 2016
 # this return nothing, because it is not in the first 100 returned names
 a$app(visibility = "public", name = "bed converter")
 # this return an app, because it pulls *all* app names and did search
@@ -929,11 +957,13 @@ getOption("sevenbridges")$advance_access
 For example, the "folders" API is in Advance Access as of August, 2017. If we try to use the folders API to create a folder with the `advance_access` option disabled, it will return an error message:
 
 ```{r}
-req = api(
-    token = "your_token", path = "files",
-    method = "POST", body = list(
-        "name" = "new-folder", "type" = "folder",
-        "project" = "owner/project"))
+req <- api(
+  token = "your_token", path = "files",
+  method = "POST", body = list(
+    "name" = "new-folder", "type" = "folder",
+    "project" = "owner/project"
+  )
+)
 
 httr::content(req)$"message"
 ```
@@ -945,8 +975,8 @@ httr::content(req)$"message"
 To enable the Advance Access features, one can use
 
 ```{r}
-opt = getOption("sevenbridges")
-opt$advance_access = TRUE
+opt <- getOption("sevenbridges")
+opt$advance_access <- TRUE
 options(sevenbridges = opt)
 ```
 
@@ -963,11 +993,13 @@ getOption("sevenbridges")$advance_access
 Send the API call again:
 
 ```{r}
-req = api(
-    token = "your_token", path = "files",
-    method = "POST", body = list(
-        "name" = "new-folder", "type" = "folder",
-        "project" = "owner/project"))
+req <- api(
+  token = "your_token", path = "files",
+  method = "POST", body = list(
+    "name" = "new-folder", "type" = "folder",
+    "project" = "owner/project"
+  )
+)
 ```
 
 The information of the newly created folder will be returned:
@@ -1101,7 +1133,7 @@ If no Billing Group `id` provided, This call returns a list of invoices, with in
 
 ```{r}
 a$invoice()
-a$invoice(id = "fake_id")
+a$invoice(id = "your_id")
 ```
 
 ***Note:*** Currently, invoice is not an object. Instead, it just returns a list.
@@ -1160,7 +1192,8 @@ To create a new project, users need to specify the following:
 
 ```{r}
 a$project_new("api_testing_tcga", b$id,
-              description = "Test for API")
+  description = "Test for API"
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1171,7 +1204,8 @@ Follow the directions above, but pass `tcga` as a value for `tags`.
 
 ```{r}
 a$project_new("controlled_project", b$id,
-              description = "Test for API", tags = list("tcga"))
+  description = "Test for API", tags = list("tcga")
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1200,8 +1234,10 @@ You can update the following information about an existing project:
 
 ```{r}
 a$project(id = "tengfei/helloworld")
-a$project(id = "tengfei/helloworld")$update(name = "Hello World Update",
-                                            description = "Update description")
+a$project(id = "tengfei/helloworld")$update(
+  name = "Hello World Update",
+  description = "Update description"
+)
 ```
 
 ### Project member
@@ -1231,7 +1267,7 @@ Note: `read` is implicit and set by default. You can not be a project member wit
 
 ```{r}
 m <- a$project(id = "tengfei/demo-project")$
-       member_add(username = "yintengfei")
+  member_add(username = "yintengfei")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1242,7 +1278,7 @@ This call edits a user's permissions in the specified project. It can only be ma
 
 ```{r}
 m <- a$project(id = "tengfei/demo-project")$
-       member(username = "yintengfei")
+  member(username = "yintengfei")
 m$update(copy = TRUE)
 ```
 
@@ -1317,11 +1353,15 @@ You can easily search by partial name, exact name, or id for many items like pro
 So for a quick example, this examples gives me all files in project "tengfei/demo" that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
 
 ```{r}
-p = a$project(id = "tengfei/demo")
-p$file(metadata = list(sample_id = "Sample1",
-                       sample_id = "Sample2",
-                       library_id = "EXAMPLE"),
-       tag = c("hello", "world"))
+p <- a$project(id = "tengfei/demo")
+p$file(
+  metadata = list(
+    sample_id = "Sample1",
+    sample_id = "Sample2",
+    library_id = "EXAMPLE"
+  ),
+  tag = c("hello", "world")
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1350,8 +1390,10 @@ To get more than one object, the arguments `id` and `name` both accept vectors, 
 # get two files
 p$file(name = c("test1.fastq", "test2.fastq"), exact = TRUE)
 # get two files from public files using shorthand
-a$public_file(name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"),
-              exact = TRUE)
+a$public_file(
+  name = c("ucsc.hg19.fasta.fai", "ucsc.hg19.fasta"),
+  exact = TRUE
+)
 ```
 
 If you did not use `exact = TRUE`, the API will assume it is pattern grep and use partial matching.
@@ -1374,10 +1416,12 @@ When you specify different metadata fields, the values use an __AND__ operation,
 To list all files in project "tengfei/demo", that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request
 
 ```{r}
-p = a$project(id = "tengfei/demo")
-p$file(metadata = list(sample_id  = "Sample1",
-                       sample_id  = "Sample2",
-                       library_id = "EXAMPLE"))
+p <- a$project(id = "tengfei/demo")
+p$file(metadata = list(
+  sample_id = "Sample1",
+  sample_id = "Sample2",
+  library_id = "EXAMPLE"
+))
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1429,9 +1473,9 @@ You must provide
 
 ```{r}
 # 1000G_omni2.5.b37.vcf
-fid  <- "561e1b33e4b0aa6ec48167d7"
+fid <- "561e1b33e4b0aa6ec48167d7"
 fid2 <- "561e1b33e4b0aa6ec48167d3"
-pid  <- a$project("demo")$id
+pid <- a$project("demo")$id
 a$copyFile(c(fid, fid2), project = pid)
 a$project(id = pid)$file()
 ```
@@ -1512,7 +1556,7 @@ Use the API client uploader by calling the `project$upload` function to upload a
 #### Upload single file
 
 ```{r}
-a  <- Auth(username = "tengfei", platform = "cgc")
+a <- Auth(username = "tengfei", platform = "cgc")
 fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
 
 (p <- a$project(id = "tengfei/quickstart"))
@@ -1522,8 +1566,10 @@ p$upload(fl, overwrite = TRUE)
 # pass metadata
 p$upload(fl, overwrite = TRUE, metadata = list(library_id = "testid2", platform = "Illumina x11"))
 # rename
-p$upload(fl, overwrite = TRUE, name = "sample_new_name.fastq",
-         metadata = list(library_id = "new_id"))
+p$upload(fl,
+  overwrite = TRUE, name = "sample_new_name.fastq",
+  metadata = list(library_id = "new_id")
+)
 ```
 
 #### Upload a folder
@@ -1590,12 +1636,13 @@ get_uploader("cgc", "~/Downloads/")
 To list the available projects accessible from your account via the uploader, use `cli_list_projects()`, with your authentication token for that platform and the directory containing the uploader:
 
 ```{r}
-cgc_token = "your_cgc_token"
-cgc_uploader = "~/Downloads/cgc-uploader/"
+cgc_token <- "your_cgc_token"
+cgc_uploader <- "~/Downloads/cgc-uploader/"
 
 cli_list_projects(
-    token = cgc_token,
-    uploader = cgc_uploader)
+  token = cgc_token,
+  uploader = cgc_uploader
+)
 ```
 
 The function will return a character vector containing the available projects which you could upload files to, in the form of `username/project-name`.
@@ -1604,19 +1651,20 @@ Similarly, to list all the file tags in a project via the uploader, use `cli_lis
 
 ```{r}
 cli_list_tags(
-    token = cgc_token,
-    uploader = cgc_uploader,
-    project = "username/project-name")
+  token = cgc_token,
+  uploader = cgc_uploader,
+  project = "username/project-name"
+)
 ```
 
 Eventually, use `cli_upload()` to upload local files to a project:
 
 ```{r}
 cli_upload(
-    token = cgc_token,
-    uploader = cgc_uploader,
-    file = "~/example.fastq",
-    project = "username/project-name"
+  token = cgc_token,
+  uploader = cgc_uploader,
+  file = "~/example.fastq",
+  project = "username/project-name"
 )
 ```
 
@@ -1652,10 +1700,14 @@ fl$meta()
 **Update meta**
 
 ```{r}
-fl$update(name = "sample.fastq",
-          metadata = list(new_item1 = "item1",
-                          new_item2 = "item2",
-                          file_extension = "fastq"))
+fl$update(
+  name = "sample.fastq",
+  metadata = list(
+    new_item1 = "item1",
+    new_item2 = "item2",
+    file_extension = "fastq"
+  )
+)
 # check it out
 fl$meta()
 ```
@@ -1710,10 +1762,12 @@ quality_scale()
 As you can see, some metadata fields have suggested values. To construct the metadata, use `Metadata()` directly to pass the metadata fields and their values directly into the call. The call will perform the validation.
 
 ```{r}
-Metadata(platform      = "Affymetrix SNP Array 6.0",
-         paired_end    = 1,
-         quality_scale = "sanger",
-         new_item      = "new test")
+Metadata(
+  platform = "Affymetrix SNP Array 6.0",
+  paired_end = 1,
+  quality_scale = "sanger",
+  new_item = "new test"
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1733,7 +1787,7 @@ To completely overwrite the tags for a file, use the `obj$set_tag()` method, whi
 Let's use a file called `sample.bam` and play with its tags.
 
 ```{r}
-p  <- a$project(id = "tengfei/s3tutorial")
+p <- a$project(id = "tengfei/s3tutorial")
 fl <- p$file("sample.bam", exact = TRUE)
 # show tags for single file
 fl$tag()
@@ -1858,8 +1912,10 @@ You can also copy directly from the app object, as shown below.
 
 ```{r}
 app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
-app$copy_to(project = "tengfei/api-testing",
-            name = "copy of star")
+app$copy_to(
+  project = "tengfei/api-testing",
+  name = "copy of star"
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1914,28 +1970,38 @@ your commandline simulatd terminal. To do this via R when you push your Tool obj
 to your project, you need to provide "sbg:job" information like the example shown below
 
 ```{r}
-rbx <- Tool(id = "runif",
-            label = "Random number generator",
-            hints = requirements(docker(pull = "tengfei/runif"),
-                                 cpu(1), mem(2000)),
-            baseCommand = "runif.R",
-            inputs = in.lst,
-            outputs = out.lst,
-            'sbg:job' = list(allocatedResources = list(mem = 9000, cpu = 1),
-                             inputs = list(min = 1, max = 150)))
+rbx <- Tool(
+  id = "runif",
+  label = "Random number generator",
+  hints = requirements(
+    docker(pull = "tengfei/runif"),
+    cpu(1), mem(2000)
+  ),
+  baseCommand = "runif.R",
+  inputs = in.lst,
+  outputs = out.lst,
+  "sbg:job" = list(
+    allocatedResources = list(mem = 9000, cpu = 1),
+    inputs = list(min = 1, max = 150)
+  )
+)
 p$app_add("random", rbx)
 ```
 
 Or if you have created a test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide a arguments called `keep_test` to allow you keep the previous revision's test information.
 
 ```{r}
-rbx <- Tool(id = "runif",
-            label = "Random number generator",
-            hints = requirements(docker(pull = "tengfei/runif"),
-                                 cpu(1), mem(2000)),
-            baseCommand = "runif.R",
-            inputs = in.lst,
-            outputs = out.lst)
+rbx <- Tool(
+  id = "runif",
+  label = "Random number generator",
+  hints = requirements(
+    docker(pull = "tengfei/runif"),
+    cpu(1), mem(2000)
+  ),
+  baseCommand = "runif.R",
+  inputs = in.lst,
+  outputs = out.lst
+)
 p$app_add("random", rbx, keep_test = TRUE)
 ```
 
@@ -2000,10 +2066,12 @@ fl.runif <- system.file("extdata", "runif.json", package = "sevenbridges")
 a$project("demo")$app_add("runif_draft", fl.runif)
 runif_id <- "tengfei/demo-project/runif_draft"
 # create a draft task
-a$project("demo")$task_add(name = "Draft runif 3",
-                           description = "Description for runif 3",
-                           app = runif_id,
-                           inputs = list(min = 1, max = 10))
+a$project("demo")$task_add(
+  name = "Draft runif 3",
+  description = "Description for runif 3",
+  app = runif_id,
+  inputs = list(min = 1, max = 10)
+)
 # confirm
 a$project("demo")$task(status = "draft")
 ```
@@ -2022,9 +2090,11 @@ Call the `update` function from a Task object to update the following:
 # get the single task you want to update
 tsk <- a$project("demo")$task("Draft runif 3")
 tsk
-tsk$update(name = "Draft runif update",
-           description = "draft 2",
-           inputs = list(max = 100))
+tsk$update(
+  name = "Draft runif update",
+  description = "draft 2",
+  inputs = list(max = 100)
+)
 # alternative way to check all inputs
 tsk$getInputs()
 ```
@@ -2062,7 +2132,10 @@ Note: Hook function has to return `TRUE` (break monitoring) or `FALSE` (continui
 ```{r}
 getTaskHook("completed")
 getTaskHook("draft")
-setTaskHook("draft", function(){message("never happens"); return(TRUE)})
+setTaskHook("draft", function() {
+  message("never happens")
+  return(TRUE)
+})
 getTaskHook("draft")
 ```
 
@@ -2111,23 +2184,33 @@ To run task in batch mode, (check `?batch`) for more details. The code below is 
 
 ```{r}
 # batch by items
-(tsk <- p$task_add(name = "RNA DE report new batch 2",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "bamfiles"),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+  name = "RNA DE report new batch 2",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(input = "bamfiles"),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 
 # batch by metadata, input files has to have metadata fields specified
-(tsk <- p$task_add(name = "RNA DE report new batch 3",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "fastq",
-                                 c("metadata.sample_id", "metadata.library_id")),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+  name = "RNA DE report new batch 3",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(
+    input = "fastq",
+    c("metadata.sample_id", "metadata.library_id")
+  ),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -2146,14 +2229,16 @@ Learn more about volumes on the [Seven Bridges Platform](https://docs.sevenbridg
 
 ```{r}
 a <- Auth(user = "tengfei", platform = "aws-us")
-a$add_volume(name   = "tutorial_volume",
-             type   = "s3",
-             bucket = "tengfei-demo",
-             prefix = "",
-             access_key_id     = "AKIAJQENSIA4DJQNZO3A",
-             secret_access_key = "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",
-             sse_algorithm     = "AES256",
-             access_mode       = "RW")
+a$add_volume(
+  name = "tutorial_volume",
+  type = "s3",
+  bucket = "tengfei-demo",
+  prefix = "",
+  access_key_id = "AKIAJQENSIA4DJQNZO3A",
+  secret_access_key = "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",
+  sse_algorithm = "AES256",
+  access_mode = "RW"
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -2198,10 +2283,12 @@ This call imports a file from volume to your project.
 
 ```{r}
 v <- a$volume(id = "tengfei/tutorial_volume")
-res <- v$import(location =  "A-RNA-File.bam.bai",
-                project = "tengfei/s3tutorial",
-                name = "new.bam.bai",
-                overwrite = TRUE)
+res <- v$import(
+  location = "A-RNA-File.bam.bai",
+  project = "tengfei/s3tutorial",
+  name = "new.bam.bai",
+  overwrite = TRUE
+)
 
 # get job status update
 # state will be "COMPLETED" when it's finished, otherwise "PENDING"
@@ -2219,10 +2306,12 @@ __Important__ :
 When testing please update your file in a project.
 
 ```{r}
-res <- v$export(file = "579fb1c9e4b08370afe7903a",
-                volume = "tengfei/tutorial_volume",
-                location = "",  # when "" use old name
-                sse_algorithm = "AES256")
+res <- v$export(
+  file = "579fb1c9e4b08370afe7903a",
+  volume = "tengfei/tutorial_volume",
+  location = "", # when "" use old name
+  sse_algorithm = "AES256"
+)
 # get job status update
 # state will be "COMPLETED" when it's finished other wise "PENDING"
 v$get_export_job(res$id)
@@ -2292,90 +2381,113 @@ In this package, we implement `delete` and `download` for some objects like task
 
 # Cheatsheet
 
-Quick cheat sheet (in progress)
+Quick cheat sheet (in progress):
 
 ```{r}
-## Authentication
+# 01 - Authentication ----------------------------------------------------------
+
 getToken()
+
+# authentication methods
 a <- Auth(token = token)
 a <- Auth(token = token, platform = "cgc")
 a <- Auth(from = "env")
-a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+a <- Auth(from = "file", profile_name = "aws-us-user")
 
-## list API
+# list API
 a$api()
 
-## Rate limits
+# API rate limit
 a$rate_limit()
 
-## Users
+# 02 - User -------------------------------------------------------------------
+
 a$user()
 a$user("tengfei")
 
-## billing
-a$billing()
-a$billing(id = , breakdown = TRUE)
-a$invoice()
-a$invoice(id = "fake_id")
+# 03 - Billing -----------------------------------------------------------------
 
-## Project
-### create new project
-a$project_new(name = , billing_group_id = , description = )
-### list all project owned by you
+a$billing()
+a$billing(id = ..., breakdown = TRUE)
+a$invoice()
+a$invoice(id = "your_id")
+
+# 04 - Project -----------------------------------------------------------------
+
+# create new project
+a$project_new(name = ..., billing_group_id = ..., description = ...)
+
+# list all project owned by you
 a$project()
 a$project(owner = "yintengfei")
-### partial match
-p <- a$project(name = , id = , exact = TRUE)
-### delete
-p$delete()
-### update
-p$update(name = , description = )
-### members
-p$member()
-p$member_add(username = )
-p$member(username = )$update(write = , copy = , execute = )
-p$memeber(usrname = )$delete()
 
-## file
-### list all files in this project
+# partial match
+p <- a$project(name = ..., id = ..., exact = TRUE)
+
+# delete
+p$delete()
+
+# update
+p$update(name = ..., description = ...)
+
+# members
+p$member()
+p$member_add(username = ...)
+p$member(username = ...)$update(write = ..., copy = ..., execute = ...)
+p$memeber(usrname = ...)$delete()
+
+# 05 - File --------------------------------------------------------------------
+
+# list all files in this project
 p$file()
-### list all public files
+
+# list all public files
 a$file(visibility = "public")
-### copy
+
+# copy
 a$copyFile(c(fid, fid2), project = pid)
-### delete
+
+# delete
 p$file(id = fid)$delete()
-### download
+
+# download
 p$file()[[1]]$download_url()
 p$file(id = fid3)$download("~/Downloads/")
-### download all
+
+# download all
 download(p$file())
-### update a file
-fl$update(name = , metadata = list(a = , b = , ...))
-### meta
+
+# update a file
+fl$update(name = ..., metadata = list(a = ..., b = ..., ...))
+
+# metadata
 fl$meta()
 fl$setMeta()
 fl$setMeta(..., overwrite = TRUE)
 
-## App
-a$app()
-### apps in a project
-p$app()
-p$app(name, id, revision = )
-a$copy_app(aid, project = pid, name = )
-### add
-p$app_add(short_name = , filename =)
+# 06 - App ---------------------------------------------------------------------
 
-## Task
+a$app()
+
+# apps in a project
+p$app()
+p$app(name, id, revision = ...)
+a$copy_app(aid, project = pid, name = ...)
+
+# add new app
+p$app_add(short_name = ..., filename = ...)
+
+# 07 - Task --------------------------------------------------------------------
+
 a$task()
-a$task(name = , id = )
-a$task(status = )
+a$task(name = ..., id = ...)
+a$task(status = ...)
 
 p$task()
-p$task(name = , id = )
-p$task(status = )
+p$task(name = ..., id = ...)
+p$task(status = ...)
 
-tsk <- p$task(name = , id = )
+tsk <- p$task(name = ..., id = ...)
 tsk$update()
 tsk$abort()
 tsk$run()
@@ -2385,7 +2497,8 @@ tsk$getInputs()
 tsk$monitor()
 
 getTaskHook()
-setTaskHook(status = , fun = )
+setTaskHook(status = ..., fun = ...)
 ```
 
 <div align="right"><a href="#top">top</a></div>
+

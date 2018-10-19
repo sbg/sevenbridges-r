@@ -229,8 +229,9 @@ Now let's create a new project called "hackathon", save it to an object named
 
 ```{r}
 (p <- a$project_new("hackathon",
-                    billing_group_id = b$id,
-                    description = "This project is for CGC hackathon"))
+  billing_group_id = b$id,
+  description = "This project is for CGC hackathon"
+))
 ```
 
 Now check it on CGC, you will see a fresh new project is created.
@@ -314,12 +315,14 @@ tutorial called "Describe and Execute CWL Tools/Workflows in R",
 it introduced a simpler example with random number generator.
 
 ```{r, comment = "", eval = TRUE}
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
-            baseCommand = "Rscript -e 'runif(100)'",
-            stdout = "output.txt",
-            outputs = output(id = "random", glob = "*.txt"))
+rbx <- Tool(
+  id = "runif",
+  label = "runif",
+  hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
+  baseCommand = "Rscript -e 'runif(100)'",
+  stdout = "output.txt",
+  outputs = output(id = "random", glob = "*.txt")
+)
 rbx$toJSON(pretty = TRUE)
 ```
 
@@ -337,16 +340,19 @@ You can do things as quick as this, by provide a script in the
 ```{r, eval = TRUE}
 # provide scripts
 # make a new script file
-fd <- fileDef(name = "runif.R",
-              content = "sed.seed(1)
-                   runif(100)")
-rbx <- Tool(id = "runif",
-            label = "runif",
-            hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
-            requirements = requirements(fd),
-            baseCommand = "Rscript runif.R",  # run script you created.
-            stdout = "output.txt",
-            outputs = output(id = "random", glob = "*.txt"))
+fd <- fileDef(
+  name = "runif.R",
+  content = "set.seed(1); runif(100)"
+)
+rbx <- Tool(
+  id = "runif",
+  label = "runif",
+  hints = requirements(docker(pull = "rocker/r-base"), cpu(1), mem(2000)),
+  requirements = requirements(fd),
+  baseCommand = "Rscript runif.R", # run script you created.
+  stdout = "output.txt",
+  outputs = output(id = "random", glob = "*.txt")
+)
 ```
 
 __Note__: in the above example, I made a mistake on purpose,
@@ -363,12 +369,13 @@ Here is Dockerfile I used to generate the workflow I need
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/rnaseqGene", "Dockerfile",
-                  package = "sevenbridges")
+  package = "sevenbridges"
+)
 ```
 
 Here is the current content of the `Dockerfile`:
 ```{r comment='', eval = TRUE}
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 It does a couple of things:
@@ -391,12 +398,13 @@ Here is the command line I am using it's called "performDE.R"
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/rnaseqGene/src", "performDE.R",
-                  package = "sevenbridges")
+  package = "sevenbridges"
+)
 ```
 
 Here is the current content of the `Dockerfile`:
 ```{r comment='', eval = TRUE}
-cat(readLines(fl), sep = '\n')
+cat(readLines(fl), sep = "\n")
 ```
 
 I am using `docopt` package instead of `commandArgs` because it allows you
@@ -430,12 +438,13 @@ Bioconductor's RNA-Seq workflow [website](https://www.bioconductor.org/help/work
 
 ```{r, eval = TRUE}
 fl <- system.file("docker/rnaseqGene/report", "rnaseqGene.Rmd",
-                  package = "sevenbridges")
+  package = "sevenbridges"
+)
 ```
 
 Here is the current content (first 50 lines of the whole report) of the template:
 ```{r comment = "", eval = TRUE}
-cat(readLines(fl, n = 50), sep = '\n')
+cat(readLines(fl, n = 50), sep = "\n")
 ```
 
 See the header, you will see 'params' which is passed from `rmarkdown::render`,
@@ -493,54 +502,62 @@ the expression)
 - Enum: call 'enum'.
 
 ```{r, eval = TRUE}
-rbx <- Tool(id = "rnaseqGene",
-            label = "rnaseqgene",
-            description = "A RNA-seq Differiencial Expression Flow and Report",
-            hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)),
-            baseCommand = "performDE.R",
-            inputs = list(
-                input(
-                    id = "bamfiles", label = "bam files",
-                    description = "a list of bam files",
-                    type = "File...",  ## or type = ItemArray("File")
-                    prefix = "--bamfiles",
-                    itemSeparator = ","
-                ),
-                input(
-                    id = "design", label = "design matrix",
-                    type = "File",
-                    prefix = "--design"
-                ),
-                input(
-                    id = "gtffile", label =  "gene feature files",
-                    type = "File",
-                    prefix = "--gtffile"
-                ),
-                input(
-                    id = "format", label =  "report foramt html or pdf",
-                    type = enum("format", c("pdf", "html")),
-                    prefix = "--format"
-                )
-            ),
-            outputs = list(
-                output(id = "report", label = "report",
-                       description = "A reproducible report created by Rmarkdown",
-                       glob = Expression(engine = "#cwl-js-engine",
-                                         script = "x = $job[['inputs']][['format']];
-                                                  if(x == 'undefined' || x == null){
-                                                   x = 'html';
-                                                    };
-                                                  'rnaseqGene.' +  x")),
-                output(id = "heatmap", label = "heatmap",
-                       description = "A heatmap plot to show the Euclidean distance between samples",
-                       glob = "heatmap.pdf"),
-                output(id = "count", label = "count",
-                       description = "Reads counts matrix",
-                       glob = "count.csv"),
-                output(id = "de", label = "Differential expression table",
-                       description = "Differential expression table",
-                       glob = "de.csv")
-                ))
+rbx <- Tool(
+  id = "rnaseqGene",
+  label = "rnaseqgene",
+  description = "A RNA-seq Differiencial Expression Flow and Report",
+  hints = requirements(docker(pull = "tengfei/rnaseqgene"), cpu(1), mem(2000)),
+  baseCommand = "performDE.R",
+  inputs = list(
+    input(
+      id = "bamfiles", label = "bam files",
+      description = "a list of bam files",
+      type = "File...", ## or type = ItemArray("File")
+      prefix = "--bamfiles",
+      itemSeparator = ","
+    ),
+    input(
+      id = "design", label = "design matrix",
+      type = "File",
+      prefix = "--design"
+    ),
+    input(
+      id = "gtffile", label = "gene feature files",
+      type = "File",
+      prefix = "--gtffile"
+    ),
+    input(
+      id = "format", label = "report foramt html or pdf",
+      type = enum("format", c("pdf", "html")),
+      prefix = "--format"
+    )
+  ),
+  outputs = list(
+    output(
+      id = "report", label = "report",
+      description = "A reproducible report created by Rmarkdown",
+      glob = Expression(
+        engine = "#cwl-js-engine",
+        script = "x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x"
+      )
+    ),
+    output(
+      id = "heatmap", label = "heatmap",
+      description = "A heatmap plot to show the Euclidean distance between samples",
+      glob = "heatmap.pdf"
+    ),
+    output(
+      id = "count", label = "count",
+      description = "Reads counts matrix",
+      glob = "count.csv"
+    ),
+    output(
+      id = "de", label = "Differential expression table",
+      description = "Differential expression table",
+      glob = "de.csv"
+    )
+  )
+)
 ```
 
 By default it output YAML, but you can print it into JSON as well.
@@ -549,7 +566,7 @@ By default it output YAML, but you can print it into JSON as well.
 rbx
 rbx$toJSON(pretty = TRUE)
 rbx$toJSON()
-# or write to external file
+# # or write to an external file
 # fl <- "~/Downloads/rnaseqGene.json"
 # write(rbx$toJSON(pretty = TRUE), fl)
 ```
@@ -588,8 +605,10 @@ p$upload(fl, overwrite = TRUE)
 # pass metadata
 p$upload(fl, overwrite = TRUE, metadata = list(library_id = "testid2", platform = "Illumina x11"))
 # rename
-p$upload(fl, overwrite = TRUE, name = "sample_new_name.fastq",
-         metadata = list(library_id = "new_id"))
+p$upload(fl,
+  overwrite = TRUE, name = "sample_new_name.fastq",
+  metadata = list(library_id = "new_id")
+)
 
 # upload folder
 dir.ext <- system.file("extdata", package = "sevenbridges")
@@ -604,7 +623,7 @@ For now try using our graphic user interface to import all files listed here:
 
 ```{r, comment = "", eval = TRUE}
 download.fl <- system.file("extdata/download.txt", package = "sevenbridges")
-cat(readLines(download.fl), sep = '\n')
+cat(readLines(download.fl), sep = "\n")
 ```
 
 To use the API to uplaod, let's download it to a folder and upload via API.
@@ -612,8 +631,8 @@ To use the API to uplaod, let's download it to a folder and upload via API.
 ```{r}
 td <- tempfile()
 dir.create(td)
-for(f in readLines(download.fl)){
-    download.file(f, file.path(td, basename(f)))
+for (f in readLines(download.fl)) {
+  download.file(f, file.path(td, basename(f)))
 }
 # double check
 list.files(td)
@@ -647,12 +666,16 @@ Now create a new draft task in your project, don't forget to pass input.
 
 ```{r}
 # add a new Task
-(tsk <- p$task_add(name = "RNA DE report new",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+  name = "RNA DE report new",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 
 # don't forget to run a draft task
 tsk$run()
@@ -672,7 +695,7 @@ Now try to send your self a text message : )
 
 ```{r}
 setTaskHook("completed", function() {
-    tsk$download("~/Downloads")
+  tsk$download("~/Downloads")
 })
 tsk$monitor()
 ```
@@ -688,23 +711,33 @@ Here is an mock running:
 
 ```{r}
 # batch by items
-(tsk <- p$task_add(name = "RNA DE report new batch 2",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "bamfiles"),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+  name = "RNA DE report new batch 2",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(input = "bamfiles"),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 
 # batch by metadata, input files has to have metadata fields specified
-(tsk <- p$task_add(name = "RNA DE report new batch 3",
-                   description = "RNA DE analysis report",
-                   app = rna.app$id,
-                   batch = batch(input = "fastq",
-                                 c("metadata.sample_id", "metadata.library_id")),
-                   inputs = list(bamfiles = bamfiles.in,
-                                 design = design.in,
-                                 gtffile = gtf.in)))
+(tsk <- p$task_add(
+  name = "RNA DE report new batch 3",
+  description = "RNA DE analysis report",
+  app = rna.app$id,
+  batch = batch(
+    input = "fastq",
+    c("metadata.sample_id", "metadata.library_id")
+  ),
+  inputs = list(
+    bamfiles = bamfiles.in,
+    design = design.in,
+    gtffile = gtf.in
+  )
+))
 ```
 
 For more details, check R API tutorial.
@@ -756,8 +789,9 @@ Just to try add an app in a different way.
 
 ```{r comment = "", eval = TRUE}
 fl <- system.file("docker/reporttool/rabix/reporttool.json",
-                  package = "sevenbridges")
-cat(readLines(fl), sep= "\n")
+  package = "sevenbridges"
+)
+cat(readLines(fl), sep = "\n")
 ```
 
 Or just use API to add the raw JSON file
@@ -772,24 +806,27 @@ Checkout the Dockerfile
 
 ```{r comment = "", eval = TRUE}
 fl <- system.file("docker/reporttool/Dockerfile",
-                  package = "sevenbridges")
-cat(readLines(fl), sep= "\n")
+  package = "sevenbridges"
+)
+cat(readLines(fl), sep = "\n")
 ```
 
 Checkout the command line
 
 ```{r comment = "", eval = FALSE}
 fl <- system.file("docker/reporttool/src/report.R",
-                  package = "sevenbriges")
-cat(readLines(fl), sep= "\n")
+  package = "sevenbriges"
+)
+cat(readLines(fl), sep = "\n")
 ```
 
 Checkout the tool generator
 
 ```{r comment = "", eval = FALSE}
 fl <- system.file("docker/reporttool/rabix/generator.R",
-                  package = "sevenbriges")
-cat(readLines(fl), sep= "\n")
+  package = "sevenbriges"
+)
+cat(readLines(fl), sep = "\n")
 ```
 
 ## Compose a full workflow
@@ -822,4 +859,4 @@ After you installed the package
 browseVignettes("sevenbridges")
 ```
 
-or on the [vignettes page](https://sbg.github.io/sevenbridges-r/articles/index.html).
+or on the [vignettes page](https://sbg.github.io/sevenbridges-r/articles/).
