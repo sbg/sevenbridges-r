@@ -10,10 +10,11 @@
 #'
 #' @name sevenbridges-package
 #' @docType package
-#' @author Nan Xiao <\email{nan.xiao@@sevenbridges.com}>
-#'         Dusan Randjelovic <\email{dusan.randjelovic@@sevenbridges.com}>
-#'         Emile Young <\email{emile.young@@sevenbridges.com}>
-#'         Tengfei Yin <\email{tengfei.yin@@sevenbridges.com}>
+#' @author
+#' Nan Xiao <\email{nan.xiao@@sevenbridges.com}>
+#' Tengfei Yin <\email{tengfei.yin@@sevenbridges.com}>
+#' Dusan Randjelovic
+#' Emile Young
 #'
 #' @import httr methods
 #' @importFrom dplyr bind_rows

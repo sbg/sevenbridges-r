@@ -12,18 +12,18 @@
 #'
 #' @export upload_info
 #' @examples
-#' token = "your_token"
-#' \dontrun{req = upload_info(token, upload_id = "your_upload_id")}
-upload_info = function (token = NULL, upload_id = NULL, ...) {
+#' token <- "your_token"
+#' \dontrun{req <- upload_info(token, upload_id = "your_upload_id")}
+upload_info <- function(token = NULL, upload_id = NULL, ...) {
+  if (is.null(upload_id)) stop("upload_id must be provided")
 
-    if (is.null(upload_id)) stop('upload_id must be provided')
+  req <- api(
+    token = token,
+    path = paste0("upload/multipart/", upload_id),
+    method = "GET", ...
+  )
 
-    req = api(token = token,
-              path = paste0('upload/multipart/', upload_id),
-              method = 'GET', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Returns AWS S3 signed URL for a part of the file upload
@@ -41,21 +41,22 @@ upload_info = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export upload_info_part
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
-upload_info_part = function (token = NULL,
+#' req <- upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
+upload_info_part <- function(token = NULL,
                              upload_id = NULL, part_number = NULL, ...) {
+  if (is.null(upload_id) || is.null(part_number)) {
+    stop("upload_id and part_number must be both provided")
+  }
 
-    if (is.null(upload_id) || is.null(part_number))
-        stop('upload_id and part_number must be both provided')
+  req <- api(
+    token = token,
+    path = paste0("upload/multipart/", upload_id, "/", part_number),
+    method = "GET", ...
+  )
 
-    req = api(token = token,
-              path = paste0('upload/multipart/', upload_id, '/', part_number),
-              method = 'GET', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Initializes the upload of the specified file
@@ -86,28 +87,30 @@ upload_info_part = function (token = NULL,
 #'
 #' @export upload_init
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = upload_init(
+#' req <- upload_init(
 #'   token,
 #'   project_id = "your_project_id",
-#'   name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
-upload_init = function (token = NULL, project_id = NULL,
+#'   name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880
+#' )}
+upload_init <- function(token = NULL, project_id = NULL,
                         name = NULL, size = NULL, part_size = NULL, ...) {
+  if (is.null(project_id) || is.null(name)) {
+    stop("project_id and name must be both provided")
+  }
 
-    if (is.null(project_id) || is.null(name))
-        stop('project_id and name must be both provided')
+  body <- list("project_id" = project_id, "name" = name)
 
-    body = list('project_id' = project_id, 'name' = name)
+  if (!is.null(size)) body$"size" <- size
+  if (!is.null(part_size)) body$"part_size" <- part_size
 
-    if (!is.null(size)) body$'size' = size
-    if (!is.null(part_size)) body$'part_size' = part_size
+  req <- api(
+    token = token,
+    path = "upload/multipart", body = body, method = "POST", ...
+  )
 
-    req = api(token = token,
-              path = 'upload/multipart', body = body, method = 'POST', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Reports the completion of the part upload
@@ -127,26 +130,30 @@ upload_init = function (token = NULL, project_id = NULL,
 #'
 #' @export upload_complete_part
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = upload_complete_part(
+#' req <- upload_complete_part(
 #'   token, upload_id = "your_upload_id",
-#'   part_number = "1", e_tag = "your_e_tag")}
-upload_complete_part = function (token = NULL, upload_id = NULL,
+#'   part_number = "1", e_tag = "your_e_tag"
+#' )}
+upload_complete_part <- function(token = NULL, upload_id = NULL,
                                  part_number = NULL, e_tag = NULL, ...) {
+  if (is.null(upload_id) || is.null(part_number) || is.null(e_tag)) {
+    stop("upload_id, part_number and e_tag must be provided")
+  }
 
-    if (is.null(upload_id) || is.null(part_number) || is.null(e_tag))
-        stop('upload_id, part_number and e_tag must be provided')
+  body <- list(
+    "part_number" = as.character(part_number),
+    "e_tag" = as.character(e_tag)
+  )
 
-    body = list('part_number' = as.character(part_number),
-                'e_tag' = as.character(e_tag))
+  req <- api(
+    token = token,
+    path = paste0("upload/multipart/", upload_id),
+    body = body, method = "POST", ...
+  )
 
-    req = api(token = token,
-              path = paste0('upload/multipart/', upload_id),
-              body = body, method = 'POST', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Reports the complete file upload
@@ -162,19 +169,19 @@ upload_complete_part = function (token = NULL, upload_id = NULL,
 #'
 #' @export upload_complete_all
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = upload_complete_all(token, upload_id = "your_upload_id")}
-upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
+#' req <- upload_complete_all(token, upload_id = "your_upload_id")}
+upload_complete_all <- function(token = NULL, upload_id = NULL, ...) {
+  if (is.null(upload_id)) stop("upload_id must be provided")
 
-    if (is.null(upload_id)) stop('upload_id must be provided')
+  req <- api(
+    token = token,
+    path = paste0("upload/multipart/", upload_id, "/complete"),
+    method = "POST", ...
+  )
 
-    req = api(token = token,
-              path = paste0('upload/multipart/', upload_id, '/complete'),
-              method = 'POST', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Abort the upload
@@ -189,18 +196,18 @@ upload_complete_all = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export upload_delete
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = upload_delete(token, upload_id = "your_upload_id")}
-upload_delete = function (token = NULL, upload_id = NULL, ...) {
+#' req <- upload_delete(token, upload_id = "your_upload_id")}
+upload_delete <- function(token = NULL, upload_id = NULL, ...) {
+  if (is.null(upload_id)) stop("upload_id must be provided")
 
-    if (is.null(upload_id)) stop('upload_id must be provided')
+  req <- api(
+    token = token,
+    path = paste0("upload/multipart/", upload_id), method = "DELETE"
+  )
 
-    req = api(token = token,
-              path = paste0('upload/multipart/', upload_id), method = 'DELETE')
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 # 2. Projects
@@ -217,18 +224,18 @@ upload_delete = function (token = NULL, upload_id = NULL, ...) {
 #'
 #' @export project_details
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = project_details(token, project_id = "your_project_id")}
-project_details = function (token = NULL, project_id = NULL, ...) {
+#' req <- project_details(token, project_id = "your_project_id")}
+project_details <- function(token = NULL, project_id = NULL, ...) {
+  if (is.null(project_id)) stop("project_id must be provided")
 
-    if (is.null(project_id)) stop('project_id must be provided')
+  req <- api(
+    token = token,
+    path = paste0("project/", project_id), method = "GET", ...
+  )
 
-    req = api(token = token,
-              path = paste0('project/', project_id), method = 'GET', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 #' Returns a list of all users invited to the project and their privileges
@@ -245,19 +252,19 @@ project_details = function (token = NULL, project_id = NULL, ...) {
 #'
 #' @export project_members
 #' @examples
-#' token = "your_token"
+#' token <- "your_token"
 #' \dontrun{
-#' req = project_members(token, project_id = "your_project_id")}
-project_members = function (token = NULL, project_id = NULL, ...) {
+#' req <- project_members(token, project_id = "your_project_id")}
+project_members <- function(token = NULL, project_id = NULL, ...) {
+  if (is.null(project_id)) stop("project_id must be provided")
 
-    if (is.null(project_id)) stop('project_id must be provided')
+  req <- api(
+    token = token,
+    path = paste0("project/", project_id, "/members"),
+    method = "GET", ...
+  )
 
-    req = api(token = token,
-              path = paste0('project/', project_id, '/members'),
-              method = 'GET', ...)
-
-    return(status_check(req))
-
+  return(status_check(req))
 }
 
 # 3. Misc
@@ -275,37 +282,35 @@ project_members = function (token = NULL, project_id = NULL, ...) {
 #' @export get_token
 #' @importFrom utils browseURL
 #' @examples
-#' token = NULL
+#' token <- NULL
 #' # Will be prompted to enter the auth token
 #' \dontrun{token = get_token(platform = "cgc")}
-get_token = function(platform = c("cgc", "aws-us", "aws-eu", "gcp", "cavatica")) {
+get_token <- function(platform = c("cgc", "aws-us", "aws-eu", "gcp", "cavatica")) {
+  platform <- match.arg(platform)
 
-    platform = match.arg(platform)
+  token_url <- c(
+    "cgc" = "https://cgc.sbgenomics.com/developer#token",
+    "aws-us" = "https://igor.sbgenomics.com/developer#token",
+    "aws-eu" = "https://igor.sbgenomics.com/developer#token",
+    "gcp" = "https://igor.sbgenomics.com/developer#token",
+    "cavatica" = "https://cavatica.sbgenomics.com/developer#token"
+  )
 
-    token_url = c(
-        "cgc"      = "https://cgc.sbgenomics.com/developer#token",
-        "aws-us"   = "https://igor.sbgenomics.com/developer#token",
-        "aws-eu"   = "https://igor.sbgenomics.com/developer#token",
-        "gcp"      = "https://igor.sbgenomics.com/developer#token",
-        "cavatica" = "https://cavatica.sbgenomics.com/developer#token"
-    )
+  browseURL(token_url[platform])
+  cat("\nPlease enter the generated authentication token:")
+  token <- scan(what = character(), nlines = 1L, quiet = TRUE)
 
-    browseURL(token_url[platform])
-    cat("\nPlease enter the generated authentication token:")
-    token = scan(what = character(), nlines = 1L, quiet = TRUE)
-
-    return(token)
-
+  return(token)
 }
 
 #' @rdname get_token
 #' @export misc_get_token
-misc_get_token = function() {
-    .Deprecated('get_token')
+misc_get_token <- function() {
+  .Deprecated("get_token")
 }
 
 #' @rdname Metadata
 #' @export misc_make_metadata
-misc_make_metadata = function() {
-    .Deprecated('Metadata')
+misc_make_metadata <- function() {
+  .Deprecated("Metadata")
 }

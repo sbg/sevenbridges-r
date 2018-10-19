@@ -9,11 +9,12 @@
 #' @field auth_token propagate the auth_token from parent.
 #' @field href API href
 Item <- setRefClass(
-    "Item",
-    fields = list(
-        response = "ANY",
-        href     = "characterORNULL",
-        auth     = "AuthORNULL")
+  "Item",
+  fields = list(
+    response = "ANY",
+    href = "characterORNULL",
+    auth = "AuthORNULL"
+  )
 )
 
 #' Get raw response from an Item object
@@ -30,51 +31,50 @@ Item <- setRefClass(
 #' @rdname response-methods
 #' @examples
 #' \dontrun{
-#' response(x)
-#' }
+#' response(x)}
 setGeneric("response", function(x) standardGeneric("response"))
 
 #' @export
 #' @docType methods
 #' @rdname response-methods
 setGeneric("response<-", function(x, value)
-    standardGeneric("response<-"))
+  standardGeneric("response<-"))
 
 #' @rdname response-methods
 #' @aliases response,ANY-method
 setMethod("response", "ANY", function(x) {
-    attr(x, "response")
+  attr(x, "response")
 })
 
 #' @rdname response-methods
 #' @aliases response<-,ANY-method
 setReplaceMethod("response", "ANY", function(x, value) {
-    attr(x, "response") <- value
-    x
+  attr(x, "response") <- value
+  x
 })
 
 #' @rdname response-methods
 #' @aliases response,Item-method
 setMethod("response", "Item", function(x) {
-    x$response
+  x$response
 })
 
 #' @rdname response-methods
 #' @aliases response<-,Item-method
 setReplaceMethod("response", "Item", function(x, value) {
-    x$response <- value
-    x
+  x$response <- value
+  x
 })
 
 #' @rdname response-methods
 #' @aliases response,SimpleList-method
 setMethod("response", "SimpleList", function(x) {
-    x@response
+  x@response
 })
 
 #' @rdname response-methods
 #' @aliases response<-,SimpleList-method
 setReplaceMethod("response", "SimpleList", function(x, value) {
-    x@response <- value
-    x
+  x@response <- value
+  x
 })

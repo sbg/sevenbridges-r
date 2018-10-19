@@ -10,12 +10,12 @@
 # #' @return a string used for docopt
 # #' @examples
 # #' \dontrun{
-# #' fl = system.file("examples/runif.Rmd", package = "liftr")
-# #' opts = lift_docopt(fl)
+# #' fl <- system.file("examples/runif.Rmd", package = "liftr")
+# #' opts <- lift_docopt(fl)
 # #' require(docopt)
 # #' docopt(opts)
-# #' docopt(lift_docopt("mean.default"))
-# #' }
+# #' docopt(lift_docopt("mean.default"))}
+
 # lift_docopt = function(input) {
 #
 #     if (file.exists(input)) {
@@ -129,13 +129,14 @@
 #     tmp
 # }
 
-con_fun = function(type) {
-    res = switch(deType(type),
-                 int     = "as.integer",
-                 float   = "as.numeric",
-                 boolean = "as.logical",
-                 NULL)
-    res
+con_fun <- function(type) {
+  res <- switch(deType(type),
+    int = "as.integer",
+    float = "as.numeric",
+    boolean = "as.logical",
+    NULL
+  )
+  res
 }
 
 # # TODO
@@ -157,57 +158,54 @@ con_fun = function(type) {
 #
 # }
 
-guess_type = function(nm, fun) {
-    dl = formals(fun)
-    if (!is.null(dl[[nm]])) {
-        .c <- class(dl[[nm]])
-        if (.c == "name") {
-            return("string")
-        } else {
-            return(deType(.c))
-        }
+guess_type <- function(nm, fun) {
+  dl <- formals(fun)
+  if (!is.null(dl[[nm]])) {
+    .c <- class(dl[[nm]])
+    if (.c == "name") {
+      return("string")
     } else {
-        return("string")
+      return(deType(.c))
     }
+  } else {
+    return("string")
+  }
 }
 
-guess_default = function(nm, fun) {
-    dl = formals(fun)
-    if (!is.null(dl[[nm]])) {
-        .c <- class(dl[[nm]])
-        if (.c == "name") {
-            return(NULL)
-        } else {
-            return(dl[[nm]])
-        }
+guess_default <- function(nm, fun) {
+  dl <- formals(fun)
+  if (!is.null(dl[[nm]])) {
+    .c <- class(dl[[nm]])
+    if (.c == "name") {
+      return(NULL)
     } else {
-        return(NULL)
+      return(dl[[nm]])
     }
+  } else {
+    return(NULL)
+  }
 }
 
-parse_rmd = function(input) {
+parse_rmd <- function(input) {
 
-    # locate YAML metadata block
-    doc_content = readLines(normalizePath(input))
-    header_pos = which(doc_content == '---')
+  # locate YAML metadata block
+  doc_content <- readLines(normalizePath(input))
+  header_pos <- which(doc_content == "---")
 
-    # handling YAML blocks ending with three dots
-    if (length(header_pos) == 1L) {
-        header_dot_pos = which(doc_content == '...')
-        if (length(header_dot_pos) == 0L) {
-            stop('Cannot correctly locate YAML metadata block.
-                 Please use three hyphens (---) as start line & end line,
-                 or three hyphens (---) as start line with three dots (...)
-                 as end line.')
-        } else {
-            header_pos[2L] = header_dot_pos[1L]
-        }
+  # handling YAML blocks ending with three dots
+  if (length(header_pos) == 1L) {
+    header_dot_pos <- which(doc_content == "...")
+    if (length(header_dot_pos) == 0L) {
+      stop("Cannot correctly locate YAML metadata block. Please use three hyphens (---) as start line & end line, or three hyphens (---) as start line with three dots (...) as end line.")
+    } else {
+      header_pos[2L] <- header_dot_pos[1L]
     }
+  }
 
-    doc_yaml = paste(doc_content[(header_pos[1L] + 1L):
-                                     (header_pos[2L] - 1L)],
-                     collapse = '\n')
+  doc_yaml <- paste(doc_content[(header_pos[1L] + 1L):
+  (header_pos[2L] - 1L)],
+  collapse = "\n"
+  )
 
-    yaml.load(doc_yaml)
-
-    }
+  yaml.load(doc_yaml)
+}

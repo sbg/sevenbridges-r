@@ -1,6 +1,7 @@
-.response_folders = c(
-    "id", "name", "project", "parent",
-    "type", "created_on", "modified_on")
+.response_folders <- c(
+  "id", "name", "project", "parent",
+  "type", "created_on", "modified_on"
+)
 
 #' Class Folders
 #'
@@ -30,108 +31,113 @@
 #' Folders(id = "test_id", name = "test.bam")
 Folders <- setRefClass(
 
-    "Folders",
+  "Folders",
+  contains = c("Item"),
 
-    contains = c("Item"),
+  fields = list(
+    id = "characterORNULL",
+    name = "characterORNULL",
+    project = "characterORNULL",
+    parent = "characterORNULL",
+    type = "characterORNULL",
+    created_on = "characterORNULL",
+    modified_on = "characterORNULL"
+  ),
 
-    fields = list(
-        id          = "characterORNULL",
-        name        = "characterORNULL",
-        project     = "characterORNULL",
-        parent      = "characterORNULL",
-        type        = "characterORNULL",
-        created_on  = "characterORNULL",
-        modified_on = "characterORNULL"),
+  methods = list(
+    initialize = function(id = NULL,
+                              name = NULL,
+                              project = NULL,
+                              parent = NULL,
+                              type = NULL,
+                              created_on = NULL,
+                              modified_on = NULL, ...) {
+      id <<- id
+      name <<- name
+      project <<- project
+      parent <<- parent
+      type <<- type
+      created_on <<- created_on
+      modified_on <<- modified_on
 
-    methods = list(
+      callSuper(...)
+    },
 
-        initialize = function(
-            id          = NULL,
-            name        = NULL,
-            project     = NULL,
-            parent      = NULL,
-            type        = NULL,
-            created_on  = NULL,
-            modified_on = NULL, ...) {
+    create_folder = function(name = NULL, ...) {
+      "create a new folder"
 
-            id          <<- id
-            name        <<- name
-            project     <<- project
-            parent      <<- parent
-            type        <<- type
-            created_on  <<- created_on
-            modified_on <<- modified_on
+      if (is.null(name)) {
+        stop("folder `name` must be specified")
+      }
 
-            callSuper(...)
+      if (identical(substr(name, 1L, 2L), "__")) {
+        stop("folder name should not start with `__`")
+      }
 
-        },
+      body <- list(
+        "name" = name,
+        "parent" = id,
+        "type" = "FOLDER"
+      )
 
-        create_folder = function(name = NULL, ...) {
-            'create a new folder'
+      auth$api(
+        path = "files", method = "POST",
+        body = body, ...
+      )
+    },
 
-            if (is.null(name))
-                stop('folder `name` must be specified')
+    list_contents = function(...) {
+      "list folder contents"
 
-            if (identical(substr(name, 1L, 2L), '__'))
-                stop('folder name should not start with `__`')
+      auth$api(
+        path = paste0("files/", id, "/list"),
+        method = "GET", ...
+      )
+    },
 
-            body = list('name'   = name,
-                        'parent' = id,
-                        'type'   = 'FOLDER')
+    copy_file_to_folder = function(...) {
+      "copy a file between folders"
+      NULL
+    },
 
-            auth$api(path = "files", method = "POST",
-                     body = body, ...)
+    move_file_to_folder = function(...) {
+      "move a file between folders"
+      NULL
+    },
 
-        },
+    delete = function(...) {
+      "delete the folder"
 
-        list_contents = function(...) {
-            'list folder contents'
+      auth$api(
+        path = paste0("files/", id),
+        method = "DELETE", ...
+      )
+    },
 
-            auth$api(path = paste0("files/", id, '/list'),
-                     method = "GET", ...)
-        },
-
-        copy_file_to_folder = function(...) {
-            'copy a file between folders'
-            NULL
-        },
-
-        move_file_to_folder = function(...) {
-            'move a file between folders'
-            NULL
-        },
-
-        delete = function(...) {
-            'delete the folder'
-
-            auth$api(path = paste0("files/", id),
-                     method = "DELETE", ...)
-        },
-
-        show = function() {
-            .showFields(.self, "== Folders ==", .response_folders)
-        }
-
-    ))
+    show = function() {
+      .showFields(.self, "== Folders ==", .response_folders)
+    }
+  )
+)
 
 .asFolders <- function(x) {
-    Folders(
-        id          = x$id,
-        name        = x$name,
-        project     = x$project,
-        parent      = x$parent,
-        type        = x$type,
-        created_on  = x$created_on,
-        modified_on = x$modified_on,
-        response    = response(x)
-    )
+  Folders(
+    id = x$id,
+    name = x$name,
+    project = x$project,
+    parent = x$parent,
+    type = x$type,
+    created_on = x$created_on,
+    modified_on = x$modified_on,
+    response = response(x)
+  )
 }
 
 FoldersList <- setListClass("Folders", contains = "Item0")
 
 .asFoldersList <- function(x) {
-    obj = FoldersList(lapply(x$items, .asFolders))
-    obj@href = x$href
-    obj@response = response(x)
-    obj
+  obj <- FoldersList(lapply(x$items, .asFolders))
+  obj@href <- x$href
+  obj@response <- response(x)
+  obj
 }

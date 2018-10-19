@@ -13,49 +13,49 @@
 #' yaml file, for example, push it to SevenBridges platform as an app.
 #'
 #' @return a Handler object
-Handler = setRefClass(
-    "Handler",
-    fields = list(
-        dockerfileHandler = "functionORNULL",
-        dockerHandler     = "functionORNULL",
-        cwlHandler        = "functionORNULL"))
+Handler <- setRefClass(
+  "Handler",
+  fields = list(
+    dockerfileHandler = "functionORNULL",
+    dockerHandler = "functionORNULL",
+    cwlHandler = "functionORNULL"
+  )
+)
 
-gitHandler = function(token = NULL) {
-
-}
-
-dockerhubHandler = function(token = NULL) {
-    # first login as DockerHub
-    # then push Docker from Dockerfile
-}
-
-sevendockerHandler = function(token = NULL) {
+gitHandler <- function(token = NULL) {
 
 }
 
-SevenHandler = function(input      = NULL,
-                        token      = NULL,
-                        platform   = NULL,
-                        dockerReg  = NULL,
-                        dockerfile = NULL) {
+dockerhubHandler <- function(token = NULL) {
+  # first login as DockerHub
+  # then push Docker from Dockerfile
+}
 
-    # CGC handler
-    dockerfileHandler = function() {
-        message("don't push dockerfile by default")
-    }
+sevendockerHandler <- function(token = NULL) {
 
-    dockerHandler = function() {
-        message("do nothing")
-    }
+}
 
-    cwlHandler = function() {
-        message("do nothing")
-    }
+SevenHandler <- function(input = NULL, token = NULL, platform = NULL,
+                         dockerReg = NULL, dockerfile = NULL) {
 
-    Handler(dockerfileHandler = dockerfileHandler,
-            dockerHandler     = dockerHandler,
-            cwlHandler        = cwlHandler)
+  # CGC handler
+  dockerfileHandler <- function() {
+    message("don't push dockerfile by default")
+  }
 
+  dockerHandler <- function() {
+    message("do nothing")
+  }
+
+  cwlHandler <- function() {
+    message("do nothing")
+  }
+
+  Handler(
+    dockerfileHandler = dockerfileHandler,
+    dockerHandler = dockerHandler,
+    cwlHandler = cwlHandler
+  )
 }
 
 # Create CGC handler
