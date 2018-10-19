@@ -57,16 +57,18 @@ link two nodes to form a new Workflow
 Flexible enought to allow users to connect two objects by ids
 }
 \examples{
-t1 = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-t2 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
-t1 = convert_app(t1)
-t2 = convert_app(t2)
+t1 <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+t2 <- system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+t1 <- convert_app(t1)
+t2 <- convert_app(t2)
 # check possible link
 link_what(t1, t2)
 # link
-f1 = link(t1, t2, "output_fastq_files", "reads")
+f1 <- link(t1, t2, "output_fastq_files", "reads")
 # link
-f2 = link(t1, t2, "output_fastq_files", "reads",
-         flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
-         flow_output = "#STAR.log_files")
+f2 <- link(
+  t1, t2, "output_fastq_files", "reads",
+  flow_input = "#SBG_Unpack_FASTQs.input_archive_file",
+  flow_output = "#STAR.log_files"
+)
 }

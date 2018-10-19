@@ -25,7 +25,7 @@ Note that URLs are valid for 60 seconds only and that you should initiate
 upload to the signed URL in this time frame.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
+req <- upload_info_part(token, upload_id = "your_upload_id", part_number = 1)}
 }

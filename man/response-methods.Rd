@@ -41,6 +41,5 @@ Get raw response from an Item object
 }
 \examples{
 \dontrun{
-response(x)
-}
+response(x)}
 }

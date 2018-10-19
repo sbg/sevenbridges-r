@@ -16,7 +16,7 @@ License: \tab Apache License 2.0}
 }
 \author{
 Nan Xiao <\email{nan.xiao@sevenbridges.com}>
-        Dusan Randjelovic <\email{dusan.randjelovic@sevenbridges.com}>
-        Emile Young <\email{emile.young@sevenbridges.com}>
-        Tengfei Yin <\email{tengfei.yin@sevenbridges.com}>
+Tengfei Yin <\email{tengfei.yin@sevenbridges.com}>
+Dusan Randjelovic
+Emile Young
 }

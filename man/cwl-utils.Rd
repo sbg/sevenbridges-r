@@ -18,8 +18,8 @@ character for cwl class "Workflow" or "CommandLineTool"
 Get class from CWL JSON file
 }
 \examples{
-tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+tool.in <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 get_cwl_class(tool.in)
 is_commandlinetool(tool.in)
 is_workflow(tool.in)

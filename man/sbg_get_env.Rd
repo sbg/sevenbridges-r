@@ -17,7 +17,7 @@ Set authentication environment variables for Seven Bridges API
 }
 \examples{
 # set and get two environment variables for CGC
-token = "your_token"
+token <- "your_token"
 \dontrun{
 sbg_set_env("https://cgc-api.sbgenomics.com/v2", token)
 sbg_get_env("SB_API_ENDPOINT")

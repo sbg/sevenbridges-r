@@ -24,11 +24,12 @@ List projects available as upload targets using Seven Bridges
 command line uploader.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
 cli_list_projects(
   token = token,
-  uploader = "~/Downloads/sbg-uploader/")}
+  uploader = "~/Downloads/sbg-uploader/"
+)}
 }
 \references{
 \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}

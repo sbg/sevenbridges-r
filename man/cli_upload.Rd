@@ -61,12 +61,13 @@ To use the command line uploader, Java 1.7 or newer
 should be installed. See the reference link below for details.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
 cli_upload(
   token = token,
   uploader = "~/Downloads/cgc-uploader/",
-  file = "~/example.fastq", project = "username/project-name")}
+  file = "~/example.fastq", project = "username/project-name"
+)}
 }
 \references{
 Seven Bridges Command Line Uploader:

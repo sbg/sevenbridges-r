@@ -215,12 +215,10 @@ that will be called from CWL expressions.}
 
 \examples{
 dkr <- DockerRequirement(dockerImageId = "testid")
-cfr <- CreateFileRequirement(fileDef =
-                                 FileDefList(FileDef(filename = "hello.txt")))
+cfr <- CreateFileRequirement(fileDef = FileDefList(FileDef(filename = "hello.txt")))
 sfr <- SubworkflowFeatureRequirement()
 evr <- EnvVarRequirement(envDef = EnvironmentDefList(
-    EnvironmentDef(envName = "path",
-                   envValue = "testpath")
+  EnvironmentDef(envName = "path", envValue = "testpath")
 ))
 safr <- ScatterFeatureRequirement()
 eer <- ExpressionEngineRequirement(id = "hello")

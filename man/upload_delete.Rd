@@ -20,7 +20,7 @@ parsed list of the returned json
 Abort the upload; all upload records and the file are deleted.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = upload_delete(token, upload_id = "your_upload_id")}
+req <- upload_delete(token, upload_id = "your_upload_id")}
 }

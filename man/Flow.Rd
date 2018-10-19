@@ -111,16 +111,9 @@ Build workflow
 \item{\code{input_id()}}{show input id}
 
 \item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{This return a matrix of input parameters,
-by default, following the order id, label,
-type, required, prefix, fileTypes.
-new.order accept names of column you want to
-print, but it has to be a field of inputs.
-When its set to NULL, it prints all fields.
-When required = TRUE, only print required field.}
+  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
 
-\item{\code{input_type()}}{show a vector of flow input type,
-names of them are input id}
+\item{\code{input_type()}}{Show a vector of flow input type, names of them are input id.}
 
 \item{\code{link_map()}}{show a table of all linked nodes}
 
@@ -132,54 +125,30 @@ names of them are input id}
 
 \item{\code{output_id()}}{show output id}
 
-\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters,
-by default, following the order id, label,
-type, fileTypes. new.order accept names of
-column you want to print, but it has to be
-a field of outputs.
-When its set to NULL, it prints all fields.
-When required = TRUE, only print required field.}
+\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
 
-\item{\code{output_type()}}{show a vector of flow output type,
-names of them are output id}
+\item{\code{output_type()}}{Show a vector of flow output type, names of them are output id.}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally.
-engine supported: bunny, rabix, cwlrun.
-inputs accept list or JSON.}
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.}
 
-\item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{Set a flow input node into a batch mode,
-this is now required before you execute
-a batch task on a batch-not-enabled flow.}
+\item{\code{set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))}}{Set a flow input node into a batch mode, this is now required before you execute a batch task on a batch-not-enabled flow.}
 
-\item{\code{set_flow_input(iid = NULL, add = TRUE)}}{expose tool input node as flow input, default
-is additative, if \code{add = FALSE} this
-will overwrite and only made provided id
-inputs of flow}
+\item{\code{set_flow_input(iid = NULL, add = TRUE)}}{Expose tool input node as flow input, default is additative, if add = FALSE, this will overwrite and only made provided id inputs of flow.}
 
-\item{\code{set_flow_output(oid = NULL, add = TRUE)}}{expose tool output node as flow output,
-default is additative, if \code{add = FALSE}
-this will overwrite and only made provided
-id outputs of flow}
+\item{\code{set_flow_output(oid = NULL, add = TRUE)}}{Expose tool output node as flow output, default is additative, if add = FALSE, this will overwrite and only made provided id outputs of flow.}
 
 \item{\code{set_input_port(ids, include = TRUE)}}{set included port for provided input id(s)}
 
-\item{\code{set_required(ids, required = TRUE)}}{Set a input node required (\code{TRUE}) or
-not required (\code{FALSE}) this require
-full input id (with tool id prefix) such as
-#STAR.alignIntronMax}
+\item{\code{set_required(ids, required = TRUE)}}{Set a input node required (TRUE) or not required (FALSE) this require full input id (with tool id prefix) such as #STAR.alignIntronMax}
 
-\item{\code{step_input_id(full = FALSE)}}{Show step input id, default names of them is
-tool id. When \code{full = TRUE}, show full
-name then names of vector is type.}
+\item{\code{step_input_id(full = FALSE)}}{Show step input id, default names of them is tool id. When full = TRUE, show full name then names of vector is type.}
 
-\item{\code{step_output_id(full = FALSE)}}{Show step output id, default names of them is
-tool id. when \code{full = TRUE}, show full
-name then names of vector is type.}
+\item{\code{step_output_id(full = FALSE)}}{Show step output id, default names of them is tool id. when full = TRUE, show full name then names of vector is type.}
 }}
 
 \examples{
-f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
-f1 = convert_app(f1)
+f1 <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 <- convert_app(f1)
 # input matrix
 f1$input_matrix()
 # by name

@@ -29,15 +29,15 @@ An efficient way to access JSON file, no need to convert a JSON into a
 list parsed from JSON file. Compare to \code{convert_app}, it is much faster.
 }
 \examples{
-tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+tool.in <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 input_matrix(tool.in)
 input_matrix(tool.in, required = TRUE)
 input_matrix(flow.in)
 input_matrix(flow.in, c("id", "type"))
 input_matrix(flow.in, required = TRUE)
-tool.in = system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+tool.in <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
+flow.in <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 output_matrix(tool.in)
 output_matrix(flow.in)
 }

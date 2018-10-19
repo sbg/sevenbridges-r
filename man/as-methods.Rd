@@ -36,20 +36,20 @@ Doesn't like \code{as.list}, only fields and slots are converted,
 prepare a object to be conveted to YAML/JSON.
 }
 \examples{
-## define a S4 object
+# define a S4 object
 A <- setClass("A", slots = list(a = "character", b = "numeric"))
-## define a reference object which extends 'CWL' class
+# define a reference object which extends 'CWL' class
 B <- setRefClass("B", fields = list(x = "character", y = "A"), contains = "CWL")
-## new instances
+# new instances
 a <- A(a = "hello", b = 123)
 b <- B(x = "world", y = a)
 
-## show
+# show
 b
 b$show("JSON")
 b$show("YAML")
 
-## You can convert slots/fields into a list
+# You can convert slots/fields into a list
 asList(a)
 asList(b)
 b$toList()

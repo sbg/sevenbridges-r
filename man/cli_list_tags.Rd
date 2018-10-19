@@ -28,12 +28,13 @@ List all the tags in a destination project using Seven Bridges
 command line uploader.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
 cli_list_tags(
   token = token,
   uploader = "~/Downloads/sbg-uploader/",
-  project = "username/project-name")}
+  project = "username/project-name"
+)}
 }
 \references{
 \url{https://docs.sevenbridges.com/docs/upload-via-the-command-line}

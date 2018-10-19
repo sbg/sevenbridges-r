@@ -18,7 +18,11 @@ parameters of the ExpressionTool.}
 
 
 \examples{
-ExpressionTool(expression =
-                  Expression(engine = "cwl:JsonPointer",
-                             script = "$job.inputs['threads']"))
+ExpressionTool(
+  expression =
+    Expression(
+      engine = "cwl:JsonPointer",
+      script = "$job.inputs['threads']"
+    )
+)
 }

@@ -28,14 +28,13 @@ Class App
 
 \examples{
 \dontrun{
-a = Auth(url = "https://api.sbgenomics.com/v2/",
-         token = "fake_token")
-# get a flow
-app = a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
+a <- Auth(url = "https://api.sbgenomics.com/v2/", token = "your_token")
+# get a public app
+app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$input_matrix()
 app$output_matrix()
-# get a flow
-app = a$public_app(id = "admin/sbg-public-data/star")
+# get a public app
+app <- a$public_app(id = "admin/sbg-public-data/star")
 app$input_matrix()
 app$output_matrix()}
 }

@@ -11,18 +11,22 @@ An input parameter for a CommandLineTool.
 
 \examples{
 ipl <- InputParameterList(
-    CommandInputParameter(id = "BAM", type = "File",
-                          label = "input bam",
-                          description = "input bam",
-                          inputBinding = CommandLineBinding(
-                              position = 1L
-                          )),
-    CommandInputParameter(id = "level", type = "Integer",
-                          label = "Compression level",
-                          description = "Compression level",
-                          inputBinding = CommandLineBinding(
-                              position = 2L,
-                              prefix = "-l"
-                          ))
+  CommandInputParameter(
+    id = "BAM", type = "File",
+    label = "input bam",
+    description = "input bam",
+    inputBinding = CommandLineBinding(
+      position = 1L
+    )
+  ),
+  CommandInputParameter(
+    id = "level", type = "Integer",
+    label = "Compression level",
+    description = "Compression level",
+    inputBinding = CommandLineBinding(
+      position = 2L,
+      prefix = "-l"
+    )
+  )
 )
 }

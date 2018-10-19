@@ -20,7 +20,7 @@ parsed list of the returned json
 Returns the details of the project.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = project_details(token, project_id = "your_project_id")}
+req <- project_details(token, project_id = "your_project_id")}
 }

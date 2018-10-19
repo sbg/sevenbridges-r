@@ -59,24 +59,30 @@ as command line parameters.}
 
 
 \examples{
-Parameter(type = "integer", label = "thread",
-         description = "Specify the thread #",
-         default = 0)
+Parameter(
+  type = "integer", label = "thread",
+  description = "Specify the thread #",
+  default = 0
+)
 
 ipl <- InputParameterList(
-    InputParameter(id = "BAM", type = "File",
-                   label = "input bam",
-                   description = "input bam",
-                   inputBinding = CommandLineBinding(
-                       position = 1L
-                   )),
-    InputParameter(id = "level", type = "Integer",
-                   label = "Compression level",
-                   description = "Compression level",
-                   inputBinding = CommandLineBinding(
-                       position = 2L,
-                       prefix = "-l"
-                   ))
+  InputParameter(
+    id = "BAM", type = "File",
+    label = "input bam",
+    description = "input bam",
+    inputBinding = CommandLineBinding(
+      position = 1L
+    )
+  ),
+  InputParameter(
+    id = "level", type = "Integer",
+    label = "Compression level",
+    description = "Compression level",
+    inputBinding = CommandLineBinding(
+      position = 2L,
+      prefix = "-l"
+    )
+  )
 )
 ipl
 }

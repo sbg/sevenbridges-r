@@ -11,8 +11,7 @@ Define CWL class and generic methods, no fields defeind.
 \section{Methods}{
 
 \describe{
-\item{\code{getFields(values)}}{return fields as a list, used for following conversion,
-does not assume the value is primitive type.}
+\item{\code{getFields(values)}}{Return fields as a list, used for following conversion, does not assume the value is a primitive type.}
 
 \item{\code{toJSON(...)}}{Covert object to JSON}
 
@@ -22,6 +21,6 @@ does not assume the value is primitive type.}
 }}
 
 \examples{
-## no fields, only to provide methods to be extended
+# no fields, only to provide methods to be extended
 x <- CWL()
 }

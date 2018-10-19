@@ -41,10 +41,11 @@ Limits: \itemize{
 \item Default part size is 5MB}
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = upload_init(
+req <- upload_init(
   token,
   project_id = "your_project_id",
-  name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880)}
+  name = "Sample1_RNASeq_chr20.pe_1.fastq", size = 5242880
+)}
 }

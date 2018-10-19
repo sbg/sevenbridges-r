@@ -63,18 +63,15 @@ it usually return the project id and stored with the object.}
 
 \item{\code{meta()}}{get metadata from a file}
 
-\item{\code{setMeta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite
-is set to TRUE, it overwrites the metadata}
+\item{\code{setMeta(..., overwrite = FALSE)}}{Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.}
 
-\item{\code{set_meta(..., overwrite = FALSE)}}{set metadata with provided list, when overwrite
-is set to TRUE, it overwrites the metadata}
+\item{\code{set_meta(..., overwrite = FALSE)}}{Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.}
 
 \item{\code{set_tag(x = NULL, overwrite = TRUE, ...)}}{set a tag for a file, your tag need to be a list or vector}
 
 \item{\code{tag()}}{get tag from a file}
 
-\item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata,
-and tags for a specified file.}
+\item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata, and tags for a specified file.}
 }}
 
 \note{

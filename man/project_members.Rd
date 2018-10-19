@@ -22,7 +22,7 @@ Project ID is specified as path parameter. Call returns ID and username
 of the user with privileges.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = project_members(token, project_id = "your_project_id")}
+req <- project_members(token, project_id = "your_project_id")}
 }

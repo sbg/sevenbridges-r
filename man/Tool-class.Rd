@@ -39,49 +39,30 @@ with more seven bridges flabored fields the \code{SBG} class.
 
 \item{\code{get_required()}}{return required input fields types, names of them are input id}
 
-\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{Get input id from a Tool, when full = TRUE,
-connect tool id with input id. e.g. If
-requiredOnly = TRUE, return required field only.}
+\item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{Get input id from a Tool, when full = TRUE, connect tool id with input id. e.g. If requiredOnly = TRUE, return required field only.}
 
 \item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default,
-following the order id, label, type, required, prefix,
-fileTypes. new.order accept names of column you want to
-print, but it has to be a field of inputs. When its set
-to NULL, it prints all fields. When required = TRUE,
-only print required field.}
+  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
 
 \item{\code{input_type()}}{this return a vector of types, names of them are input id}
 
-\item{\code{output_id(full = FALSE)}}{Get output id from a Tool, when full = TRUE,
-connect tool id with input id.}
+\item{\code{output_id(full = FALSE)}}{Get output id from a Tool, when full = TRUE, connect tool id with input id.}
 
-\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters, by default,
-following the order id, label, type, fileTypes.
-new.order accept names of column you want to print,
-but it has to be a field of outputs. When its set to
-NULL, it prints all fields. when required = TRUE,
-only print required field.}
+\item{\code{output_matrix(new.order = c("id", "label", "type", "fileTypes"))}}{This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when required = TRUE, only print required field.}
 
 \item{\code{output_type()}}{this return a vector of types, names of them are output id}
 
-\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally.
-engine supported: bunny, rabix, cwlrun.
-Inputs accept list or JSON}
+\item{\code{run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))}}{Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.}
 
-\item{\code{set_input_port(ids, include = TRUE)}}{Set inputs ports field \code{sbg:includeInPorts}
-to the value of include, default is \code{TRUE}.}
+\item{\code{set_input_port(ids, include = TRUE)}}{Set inputs ports field sbg:includeInPorts to the value of include, default is TRUE.}
 
-\item{\code{set_required(ids, required = TRUE)}}{Set an input node required or not required. The first
-parameter takes single input id or more than one ids.
-the second parameters \code{required} is the value you
-want to set to inputs. \code{TRUE} means set to required.}
+\item{\code{set_required(ids, required = TRUE)}}{Set an input node required or not required. The first parameter takes single input id or more than one ids. The second parameters required is the value you want to set to inputs. TRUE means set to required.}
 }}
 
 \examples{
-t1 = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+t1 <- system.file("extdata/app", "tool_star.json", package = "sevenbridges")
 # convert json file into a Tool object
-t1 = convert_app(t1)
+t1 <- convert_app(t1)
 # get input type information
 t1$input_type()
 # get output type information
@@ -120,11 +101,11 @@ t1$get_input(id = "#winFlankNbins")
 t1$get_output(name = "gene")
 t1$get_output(id = "#aligned_reads")
 # get a tool from a flow
-f1 = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+f1 <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 # convert json file into a Tool object
-f1 = convert_app(f1)
-t2 = f1$get_tool("STAR$")
-oid = t2$get_input_port()
+f1 <- convert_app(f1)
+t2 <- f1$get_tool("STAR$")
+oid <- t2$get_input_port()
 oid
 # set new ports
 t2$input_id()
@@ -134,9 +115,9 @@ t2$set_input_port("#chimScoreSeparation", FALSE)
 t2$get_input_port()
 # run the tool locally with example data
 \dontrun{
-t3 = system.file("extdata/app/dna2protein", "translate.cwl.json", package = "sevenbridges")
-t3 = convert_app(t3)
-fl = system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
+t3 <- system.file("extdata/app/dna2protein", "translate.cwl.json", package = "sevenbridges")
+t3 <- convert_app(t3)
+fl <- system.file("extdata/app/dna2protein/data", "input.txt", package = "sevenbridges")
 set_test_env("dind", "tengfei/testenv", "~/mounts")
 t3$input_type()
 t3$run(list(input_file = Files(fl)))  # Not File}

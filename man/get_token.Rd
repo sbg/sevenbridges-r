@@ -21,7 +21,7 @@ the authentication token string to the R console.
 The function will return the token string.
 }
 \examples{
-token = NULL
+token <- NULL
 # Will be prompted to enter the auth token
 \dontrun{token = get_token(platform = "cgc")}
 }

@@ -70,7 +70,7 @@ in this package, please refer to the easy api vignette and
 additional vignettes pages for more convenient usage.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 # list projects
 \dontrun{
 api(token = token, path = "projects", method = "GET")}

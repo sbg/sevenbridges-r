@@ -20,6 +20,6 @@ parsed list of the returned json
 Returns the upload information for the ongoing upload.
 }
 \examples{
-token = "your_token"
-\dontrun{req = upload_info(token, upload_id = "your_upload_id")}
+token <- "your_token"
+\dontrun{req <- upload_info(token, upload_id = "your_upload_id")}
 }

@@ -39,11 +39,11 @@ Add new file tags and keep the old tags
 }
 \examples{
 \dontrun{
-fl = a$project("demo")$file("omni")
+fl <- a$project("demo")$file("omni")
 set_tag(fl, "new tag")
 set_tag(fl, list("new tag", "new tag 2"))}
 \dontrun{
-fl = a$project("demo")$file("omni")
+fl <- a$project("demo")$file("omni")
 add_tag(fl, "new tag")
 add_tag(fl, list("new tag", "new tag 2"))}
 }

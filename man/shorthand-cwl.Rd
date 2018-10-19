@@ -124,21 +124,27 @@ remainder of the string to the end of the file path.}
 
 \examples{
 ipl <- IPList(
-    input(id = "bam",
-          type = "File",
-          label = "Bam file",
-          description = "Input bam file",
-          position = 1L,
-          separate = TRUE),
-    input(id = "level",
-          type = "Integer",
-          label = "Compression Level",
-          description = "Set compression level, from 0 (uncompressed) to 9 (best)",
-          position = 2L),
-    input(id = "prefix",
-          type = "String",
-          label = "Prefix",
-          description = "Write temporary files to PREFIX.nnnn.bam",
-          position = 3L)
+  input(
+    id = "bam",
+    type = "File",
+    label = "Bam file",
+    description = "Input bam file",
+    position = 1L,
+    separate = TRUE
+  ),
+  input(
+    id = "level",
+    type = "Integer",
+    label = "Compression Level",
+    description = "Set compression level, from 0 (uncompressed) to 9 (best)",
+    position = 2L
+  ),
+  input(
+    id = "prefix",
+    type = "String",
+    label = "Prefix",
+    description = "Write temporary files to PREFIX.nnnn.bam",
+    position = 3L
+  )
 )
 }

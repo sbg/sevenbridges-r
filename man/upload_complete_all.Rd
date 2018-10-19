@@ -21,7 +21,7 @@ If the whole parts are uploaded, and the provided ETags are correct,
 then the file is assembled and made available on the SBG platform.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = upload_complete_all(token, upload_id = "your_upload_id")}
+req <- upload_complete_all(token, upload_id = "your_upload_id")}
 }

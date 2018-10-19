@@ -28,9 +28,10 @@ whole upload. Value for the ETag is provided by AWS S3 service when
 uploading the file in the ETag header.
 }
 \examples{
-token = "your_token"
+token <- "your_token"
 \dontrun{
-req = upload_complete_part(
+req <- upload_complete_part(
   token, upload_id = "your_upload_id",
-  part_number = "1", e_tag = "your_e_tag")}
+  part_number = "1", e_tag = "your_e_tag"
+)}
 }

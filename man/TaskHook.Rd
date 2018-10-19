@@ -29,7 +29,7 @@ set task function hook according to
 \examples{
 getTaskHook("completed")
 setTaskHook("completed", function() {
-    message("completed")
-    return(TRUE)
+  message("completed")
+  return(TRUE)
 })
 }

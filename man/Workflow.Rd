@@ -76,12 +76,16 @@ available as standard extensions to core workflow semantics.
 }
 
 \examples{
-## need better examples here
-ws <- WorkflowStepList(WorkflowStep(id = "step1", label = "align-and-sort",
-             description = "align and sort",
-             inputs = WorkflowStepInputList(
-                 WorkflowStepInput(id = "id1"),
-                 WorkflowStepInput(id = "id2")
-             )))
+# need better examples here
+ws <- WorkflowStepList(
+    WorkflowStep(
+        id = "step1", label = "align-and-sort",
+        description = "align and sort",
+        inputs = WorkflowStepInputList(
+            WorkflowStepInput(id = "id1"),
+            WorkflowStepInput(id = "id2")
+        )
+    )
+)
 Workflow(steps = ws)
 }

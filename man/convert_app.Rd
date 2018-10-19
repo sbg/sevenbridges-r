@@ -31,8 +31,8 @@ or Worklfow to relevant object in R, Tool object or Flow object.
 }
 
 \examples{
-tool.in = system.file("extdata/app", "tool_star.json", package = "sevenbridges")
-flow.in = system.file("extdata/app", "flow_star.json", package = "sevenbridges")
+tool.in <- system.file("extdata/app", "tool_star.json", package = "sevenbridges")
+flow.in <- system.file("extdata/app", "flow_star.json", package = "sevenbridges")
 # convert to Tool object
 convert_app(tool.in)
 # convert to Flow object
