@@ -9,6 +9,6 @@ context("Auth Class")
 # }
 
 # test_that("Test Auth constructor",{
-#     expect_is(Auth("fake_token"), "Auth")
+#     expect_is(Auth("your_token"), "Auth")
 #     expect_error(Auth(token))
 # })
