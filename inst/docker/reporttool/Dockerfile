@@ -7,7 +7,7 @@ RUN rm -f /var/lib/dpkg/available \
     && apt-get update \
     && apt-get install -y libssl-dev
 
-RUN R -e "install.packages(c('packrat', 'devtools', 'rsconnect', 'shiny', 'rmarkdown'), repos = 'https://cran.rstudio.com/')"
+RUN R -e "install.packages(c('packrat', 'devtools', 'rsconnect', 'shiny', 'rmarkdown'), repos = 'https://cloud.r-project.org/')"
 
 RUN R -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
 

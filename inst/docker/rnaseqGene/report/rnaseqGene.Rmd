@@ -1,6 +1,6 @@
 ---
 title: "Uniform random number generator example"
-date: September 9, 2015
+date: "`r Sys.Date()`"
 output:
   pdf_document:
     toc: true
@@ -18,10 +18,10 @@ This RNA-seq test report is generated based on Biocondcutor workflow,
 for experimental purpose, I tweaked the contents. Instead of a test
 data, I am createing command line interface based on this document
 that take new data and generate this report. It's experiments about
-docker, cwl and rabix.
+Docker, CWL, and Rabix.
 
 <script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 __original documentaion comes from__

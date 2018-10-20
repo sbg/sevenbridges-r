@@ -10,12 +10,13 @@ options:
 library("docopt")
 opts <- docopt(doc)
 
-## create param list
-lst <- list(n = as.integer(opts$n),
-            min = as.numeric(opts$min),
-            max = as.numeric(opts$max),
-            seed = as.numeric(opts$seed))
+# create param list
+lst <- list(
+  n = as.integer(opts$n),
+  min = as.numeric(opts$min),
+  max = as.numeric(opts$max),
+  seed = as.numeric(opts$seed)
+)
 
-## execute your Rmarkdown with these parameters
-rmarkdown::render("/report/report.Rmd", rmarkdown::html_document(toc = TRUE),
-                  output_dir = ".", params = lst)
+# execute your Rmarkdown with these parameters
+rmarkdown::render("/report/report.Rmd", rmarkdown::html_document(toc = TRUE), output_dir = ".", params = lst)

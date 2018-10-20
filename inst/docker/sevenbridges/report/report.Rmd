@@ -15,9 +15,11 @@ params:
 ## Summary
 ```{r}
 set.seed(params$seed)
-r = runif(n   = as.integer(params$n),
-          min = as.numeric(params$min),
-          max = as.numeric(params$max))
+r <- runif(
+  n = as.integer(params$n),
+  min = as.numeric(params$min),
+  max = as.numeric(params$max)
+)
 summary(r)
 hist(r)
 ```
