@@ -253,61 +253,30 @@ used for flow visualization on Seven Bridges platforms.</p></td>
     <dt><code>get_tool(name = NULL, id = NULL)</code></dt><dd><p>get a tool object by name or id, name support pattern match</p></dd>
     <dt><code>input_id()</code></dt><dd><p>show input id</p></dd>
     <dt><code><a href='input_output_matrix.html'>input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)</a></code></dt><dd><p>This return a matrix of input parameters,
-by default, following the order id, label,
-type, required, prefix, fileTypes.
-new.order accept names of column you want to
-print, but it has to be a field of inputs.
-When its set to NULL, it prints all fields.
-When required = TRUE, only print required field.</p></dd>
-    <dt><code>input_type()</code></dt><dd><p>show a vector of flow input type,
-names of them are input id</p></dd>
+  "fileTypes"), required = NULL)</a></code></dt><dd><p>This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
+    <dt><code>input_type()</code></dt><dd><p>Show a vector of flow input type, names of them are input id.</p></dd>
     <dt><code>link_map()</code></dt><dd><p>show a table of all linked nodes</p></dd>
     <dt><code>linked_input_id()</code></dt><dd><p>input id that linked to an output</p></dd>
     <dt><code>linked_output_id()</code></dt><dd><p>output id that linked to an input</p></dd>
     <dt><code>list_tool()</code></dt><dd><p>list all tools included in this flow</p></dd>
     <dt><code>output_id()</code></dt><dd><p>show output id</p></dd>
-    <dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters,
-by default, following the order id, label,
-type, fileTypes. new.order accept names of
-column you want to print, but it has to be
-a field of outputs.
-When its set to NULL, it prints all fields.
-When required = TRUE, only print required field.</p></dd>
-    <dt><code>output_type()</code></dt><dd><p>show a vector of flow output type,
-names of them are output id</p></dd>
-    <dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally.
-engine supported: bunny, rabix, cwlrun.
-inputs accept list or JSON.</p></dd>
-    <dt><code>set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))</code></dt><dd><p>Set a flow input node into a batch mode,
-this is now required before you execute
-a batch task on a batch-not-enabled flow.</p></dd>
-    <dt><code>set_flow_input(iid = NULL, add = TRUE)</code></dt><dd><p>expose tool input node as flow input, default
-is additative, if <code>add = FALSE</code> this
-will overwrite and only made provided id
-inputs of flow</p></dd>
-    <dt><code>set_flow_output(oid = NULL, add = TRUE)</code></dt><dd><p>expose tool output node as flow output,
-default is additative, if <code>add = FALSE</code>
-this will overwrite and only made provided
-id outputs of flow</p></dd>
+    <dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
+    <dt><code>output_type()</code></dt><dd><p>Show a vector of flow output type, names of them are output id.</p></dd>
+    <dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.</p></dd>
+    <dt><code>set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))</code></dt><dd><p>Set a flow input node into a batch mode, this is now required before you execute a batch task on a batch-not-enabled flow.</p></dd>
+    <dt><code>set_flow_input(iid = NULL, add = TRUE)</code></dt><dd><p>Expose tool input node as flow input, default is additative, if add = FALSE, this will overwrite and only made provided id inputs of flow.</p></dd>
+    <dt><code>set_flow_output(oid = NULL, add = TRUE)</code></dt><dd><p>Expose tool output node as flow output, default is additative, if add = FALSE, this will overwrite and only made provided id outputs of flow.</p></dd>
     <dt><code>set_input_port(ids, include = TRUE)</code></dt><dd><p>set included port for provided input id(s)</p></dd>
-    <dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set a input node required (<code>TRUE</code>) or
-not required (<code>FALSE</code>) this require
-full input id (with tool id prefix) such as
-#STAR.alignIntronMax</p></dd>
-    <dt><code>step_input_id(full = FALSE)</code></dt><dd><p>Show step input id, default names of them is
-tool id. When <code>full = TRUE</code>, show full
-name then names of vector is type.</p></dd>
-    <dt><code>step_output_id(full = FALSE)</code></dt><dd><p>Show step output id, default names of them is
-tool id. when <code>full = TRUE</code>, show full
-name then names of vector is type.</p></dd>
+    <dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set a input node required (TRUE) or not required (FALSE) this require full input id (with tool id prefix) such as #STAR.alignIntronMax</p></dd>
+    <dt><code>step_input_id(full = FALSE)</code></dt><dd><p>Show step input id, default names of them is tool id. When full = TRUE, show full name then names of vector is type.</p></dd>
+    <dt><code>step_output_id(full = FALSE)</code></dt><dd><p>Show step output id, default names of them is tool id. when full = TRUE, show full name then names of vector is type.</p></dd>
 </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>f1</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>f1</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
 <span class='co'># input matrix</span>
 <span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>()
 <span class='co'># by name</span>

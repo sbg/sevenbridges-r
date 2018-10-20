@@ -104,7 +104,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-10</h4>
+            <h4 class="date">2018-10-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -128,9 +128,8 @@
 <p>The <code>sevenbridges</code> package only supports v2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.</p>
 <p>There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like <code>path</code>, <code>query</code>, and <code>body</code>. These are documented in the API reference libraries for the <a href="https://docs.sevenbridges.com/reference#list-all-api-paths">Seven Bridges Platform</a> and the <a href="http://docs.cancergenomicscloud.org/docs/new-1">CGC</a>. An example of a low-level request to “list all projects” is shown below. In this request, you can also pass <code>query</code> and <code>body</code> as a list.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"8c3329a4de664c35bb657499bb2f335c"</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">          <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"projects"</span>, <span class="dt">method =</span> <span class="st">"GET"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"projects"</span>, <span class="dt">method =</span> <span class="st">"GET"</span>)</a></code></pre></div>
 <p><strong><em>(Advanced user option)</em></strong> The second way of constructing an API request is to directly use the <code>httr</code> package to make your API calls, as shown below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>()</a></code></pre></div>
 <div align="right">
@@ -188,7 +187,7 @@ Limit defines the quantity of items you want to get.
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
@@ -231,13 +230,13 @@ token : &lt;your_token&gt;</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
 <p><a name="method3"></a><strong><em>Method 3: User configuration file</em></strong></p>
 <p>Assume we have already created the configuration file named <code>credentials</code> under the directory <code>$HOME/.sevenbridges/</code>:</p>
-<pre><code>[aws-us-tengfei]
+<pre><code>[aws-us-rfranklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
 # This is a comment:
 # another user on the same platform
-[aws-us-yintengfei]
+[aws-us-rosalind-franklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
@@ -248,8 +247,8 @@ auth_token = token_for_this_user
 [gcp]
 api_endpoint = https://gcp-api.sbgenomics.com/v2
 auth_token = token_for_this_user</code></pre>
-<p>To load the user profile <code>aws-us-tengfei</code> from this configuration file, simply use:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-tengfei"</span>)</a></code></pre></div>
+<p>To load the user profile <code>aws-us-rfranklin</code> from this configuration file, simply use:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-rfranklin"</span>)</a></code></pre></div>
 <p>If <code>profile_name</code> is not specified, we will try to load the profile named <code>[default]</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>)</a></code></pre></div>
 <p><strong><em>Note:</em></strong> API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are as follows:</p>
@@ -305,11 +304,11 @@ auth_token = token_for_this_user</code></pre>
 <p>This call returns information about your account.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">a<span class="op">$</span><span class="kw">user</span>()</a></code></pre></div>
 <pre><code>== User ==
-href : https://cgc-api.sbgenomics.com/v2/users/tengfei
-username : tengfei
-email : tengfei.yin@sevenbridges.com
-first_name : Tengfei
-last_name : Yin
+href : https://cgc-api.sbgenomics.com/v2/users/RFranklin
+username : RFranklin
+email : rosalind.franklin@sbgenomics.com
+first_name : Rosalind
+last_name : Franklin
 affiliation : Seven Bridges Genomics
 country : United States</code></pre>
 <div align="right">
@@ -317,7 +316,7 @@ country : United States</code></pre>
 </div>
 <p><strong>Get information about a user</strong></p>
 <p>This call returns information about the specified user. Note that currently you can view only your own user information, so this call is equivalent to the <a href="#youruser">call to get information about your account</a>.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">a<span class="op">$</span><span class="kw">user</span>(<span class="dt">username =</span> <span class="st">"tengfei"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">a<span class="op">$</span><span class="kw">user</span>(<span class="dt">username =</span> <span class="st">"RFranklin"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -359,10 +358,10 @@ reset : 1457980957</code></pre>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co"># create new project</span></a>
 <a class="sourceLine" id="cb23-4" data-line-number="4">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> <span class="st">"api testing"</span>, bid, <span class="dt">description =</span> <span class="st">"Just a test"</span>))</a></code></pre></div>
 <pre><code>== Project ==
-id : tengfei/api-testing
+id : RFranklin/api-testing
 name : api testing
 description : Just a test
-billing_group_id : &lt;fake_bid&gt;
+billing_group_id : &lt;your_bid&gt;
 type : v2
 -- Permission --</code></pre>
 <div align="right">
@@ -379,7 +378,7 @@ type : v2
 <a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co"># return all named match "demo"</span></a>
 <a class="sourceLine" id="cb25-6" data-line-number="6">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> <span class="st">"demo"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co"># get the project you want by id</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/api-tutorial"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb25-8" data-line-number="8">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-tutorial"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -404,22 +403,26 @@ type : v2
 <a class="sourceLine" id="cb26-9" data-line-number="9">a<span class="op">$</span><span class="kw">public_app</span>()</a></code></pre></div>
 <p>Now, from your <code>Auth</code> object, you copy an App <code>id</code> into your <code>project</code> id with a new <code>name</code>, following this logic.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># copy</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">a<span class="op">$</span><span class="kw">copy_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star/5"</span>,</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">           <span class="dt">project =</span> <span class="st">"tengfei/api-testing"</span>, <span class="dt">name =</span> <span class="st">"new copy of star"</span>)</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co"># check if it is copied</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/api-testing"</span>)</a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co"># list apps your got in your project</span></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7">p<span class="op">$</span><span class="kw">app</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb27-2" data-line-number="2">a<span class="op">$</span><span class="kw">copy_app</span>(</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">  <span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star/5"</span>,</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">  <span class="dt">project =</span> <span class="st">"RFranklin/api-testing"</span>, <span class="dt">name =</span> <span class="st">"new copy of star"</span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co"># check if it is copied</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-testing"</span>)</a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co"># list apps your got in your project</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9">p<span class="op">$</span><span class="kw">app</span>()</a></code></pre></div>
 <p>The short name is changed to <code>newcopyofstar</code>.</p>
 <pre><code>== App ==
-id : tengfei/api-testing/newcopyofstar/0
+id : RFranklin/api-testing/newcopyofstar/0
 name : RNA-seq Alignment - STAR
-project : tengfei/api-testing-2
+project : RFranklin/api-testing-2
 revision : 0</code></pre>
 <p>Alternatively, you can copy it from the <code>app</code> object.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star"</span>)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">app<span class="op">$</span><span class="kw">copy_to</span>(<span class="dt">project =</span> <span class="st">"tengfei/api-testing"</span>,</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">            <span class="dt">name =</span> <span class="st">"copy of star"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb29-2" data-line-number="2">app<span class="op">$</span><span class="kw">copy_to</span>(</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">  <span class="dt">project =</span> <span class="st">"RFranklin/api-testing"</span>,</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">  <span class="dt">name =</span> <span class="st">"copy of star"</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -434,11 +437,11 @@ revision : 0</code></pre>
 <a class="sourceLine" id="cb30-3" data-line-number="3">app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"starlocal"</span>, fl.runif)</a>
 <a class="sourceLine" id="cb30-4" data-line-number="4">(aid &lt;-<span class="st"> </span>app<span class="op">$</span>id)</a></code></pre></div>
 <p>You will get an app <code>id</code>, like the one below:</p>
-<pre><code>"tengfei/api-testing/starlocal/0"</code></pre>
+<pre><code>"RFranklin/api-testing/starlocal/0"</code></pre>
 <p>It’s composed of the following elements:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>project id</strong> : <code>tengfei/api</code>
+<strong>project id</strong> : <code>RFranklin/api</code>
 </li>
 <li>
 <strong>app short name</strong> : <code>runif</code>
@@ -449,57 +452,73 @@ revision : 0</code></pre>
 </ol>
 <p>Alternatively, you can describe tools in R directly, as shown below:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker"</span>, <span class="st">"sevenbridges/rabix/generator.R"</span>,</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2">                  <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb32-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">)</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>library("sevenbridges")
 
 in.lst &lt;- list(
-    input(id = "number",
-          description = "number of observations",
-          type = "integer",
-          label = "number",
-          prefix = "--n",
-          default = 1,
-          required = TRUE,
-          cmdInclude = TRUE),
-    input(id = "min",
-          description = "lower limits of the distribution",
-          type = "float",
-          label = "min",
-          prefix = "--min",
-          default = 0),
-    input(id = "max",
-          description = "upper limits of the distribution",
-          type = "float",
-          label = "max",
-          prefix = "--max",
-          default = 1),
-    input(id = "seed",
-          description = "seed with set.seed",
-          type = "float",
-          label = "seed",
-          prefix = "--seed",
-          default = 1))
+  input(
+    id = "number",
+    description = "number of observations",
+    type = "integer",
+    label = "number",
+    prefix = "--n",
+    default = 1,
+    required = TRUE,
+    cmdInclude = TRUE
+  ),
+  input(
+    id = "min",
+    description = "lower limits of the distribution",
+    type = "float",
+    label = "min",
+    prefix = "--min",
+    default = 0
+  ),
+  input(
+    id = "max",
+    description = "upper limits of the distribution",
+    type = "float",
+    label = "max",
+    prefix = "--max",
+    default = 1
+  ),
+  input(
+    id = "seed",
+    description = "seed with set.seed",
+    type = "float",
+    label = "seed",
+    prefix = "--seed",
+    default = 1
+  )
+)
 
 # the same method for outputs
 out.lst &lt;- list(
-    output(id = "random",
-           type = "file",
-           label = "output",
-           description = "random number file",
-           glob = "*.txt"),
-    output(id = "report",
-           type = "file",
-           label = "report",
-           glob = "*.html"))
+  output(
+    id = "random",
+    type = "file",
+    label = "output",
+    description = "random number file",
+    glob = "*.txt"
+  ),
+  output(
+    id = "report",
+    type = "file",
+    label = "report",
+    glob = "*.html"
+  )
+)
 
 rbx &lt;- Tool(
-    id = "runif",
-    label = "Random number generator",
-    hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
-    baseCommand = "runif.R",
-    inputs = in.lst,  # or ins.df
-    outputs = out.lst)
+  id = "runif",
+  label = "Random number generator",
+  hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
+  baseCommand = "runif.R",
+  inputs = in.lst, # or ins.df
+  outputs = out.lst
+)
 
 fl &lt;- "inst/docker/sevenbridges/rabix/runif.json"
 write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
@@ -527,7 +546,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <li>The inputs for your workflow. In this case, the CWL app accepts four parameters: number, min, max, and seed.</li>
 </ul>
 <p>You can always check the App details on the visual interface for task input requirements. To find the required inputs with R, you need to get an <code>App</code> object first.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> <span class="st">"tengfei/api-testing-2/newcopyofstar"</span>)</a>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar"</span>)</a>
 <a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co"># get input matrix</span></a>
 <a class="sourceLine" id="cb35-3" data-line-number="3">app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>()</a>
 <a class="sourceLine" id="cb35-4" data-line-number="4">app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw">c</span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>))</a>
@@ -568,8 +587,8 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ## 2            #fastq            fastq File...
 ## 3 #genomeFastaFiles genomeFastaFiles    File</code></pre>
 <p>Note <code>input_matrix</code> and <code>output_matrix</code> are useful accessor for <code>Tool</code>, <code>Flow</code>, <code>App</code> object as shown below in App example, you can directly call these two function on a JSON file as well.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">tool.in =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">flow.in =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">tool.in &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">flow.in &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb42-3" data-line-number="3"><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(tool.in)</a>
 <a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(tool.in, <span class="dt">required =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(flow.in)</a>
@@ -608,14 +627,18 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fastqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>)</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co"># get all 2 exact files</span></a>
-<a class="sourceLine" id="cb43-4" data-line-number="4">fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name=</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb43-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb43-6" data-line-number="6"><span class="co"># get a single file</span></a>
-<a class="sourceLine" id="cb43-7" data-line-number="7">fasta_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.dna.primary_assembly.fa"</span>,</a>
-<a class="sourceLine" id="cb43-8" data-line-number="8">                   <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="co"># get all single file</span></a>
-<a class="sourceLine" id="cb43-10" data-line-number="10">gtf_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.84.gtf"</span>,</a>
-<a class="sourceLine" id="cb43-11" data-line-number="11">                 <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb43-7" data-line-number="7">fasta_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(</a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">  <span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.dna.primary_assembly.fa"</span>,</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9">  <span class="dt">exact =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb43-10" data-line-number="10">)</a>
+<a class="sourceLine" id="cb43-11" data-line-number="11"><span class="co"># get all single file</span></a>
+<a class="sourceLine" id="cb43-12" data-line-number="12">gtf_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(</a>
+<a class="sourceLine" id="cb43-13" data-line-number="13">  <span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.84.gtf"</span>,</a>
+<a class="sourceLine" id="cb43-14" data-line-number="14">  <span class="dt">exact =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb43-15" data-line-number="15">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -624,14 +647,18 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <h3 class="hasAnchor">
 <a href="#create-a-new-draft-task" class="anchor"></a>Create a new draft task</h3>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># add new tasks</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">taskName &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"tengfei_star-alignment "</span>,<span class="kw">date</span>())</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">taskName &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">"RFranklin-star-alignment "</span>, <span class="kw">date</span>())</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb44-4" data-line-number="4">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(<span class="dt">name =</span> taskName,</a>
-<a class="sourceLine" id="cb44-5" data-line-number="5">                  <span class="dt">description =</span> <span class="st">"star test"</span>,</a>
-<a class="sourceLine" id="cb44-6" data-line-number="6">                  <span class="dt">app =</span> <span class="st">"tengfei/api-testing-2/newcopyofstar/0"</span>,</a>
-<a class="sourceLine" id="cb44-7" data-line-number="7">                  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">sjdbGTFfile =</span> gtf_in,</a>
-<a class="sourceLine" id="cb44-8" data-line-number="8">                                <span class="dt">fastq =</span> fastq_in,</a>
-<a class="sourceLine" id="cb44-9" data-line-number="9">                                <span class="dt">genomeFastaFiles =</span> fasta_in))</a></code></pre></div>
+<a class="sourceLine" id="cb44-4" data-line-number="4">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">  <span class="dt">name =</span> taskName,</a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">  <span class="dt">description =</span> <span class="st">"star test"</span>,</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">  <span class="dt">app =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar/0"</span>,</a>
+<a class="sourceLine" id="cb44-8" data-line-number="8">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb44-9" data-line-number="9">    <span class="dt">sjdbGTFfile =</span> gtf_in,</a>
+<a class="sourceLine" id="cb44-10" data-line-number="10">    <span class="dt">fastq =</span> fastq_in,</a>
+<a class="sourceLine" id="cb44-11" data-line-number="11">    <span class="dt">genomeFastaFiles =</span> fasta_in</a>
+<a class="sourceLine" id="cb44-12" data-line-number="12">  )</a>
+<a class="sourceLine" id="cb44-13" data-line-number="13">)</a></code></pre></div>
 <p>Remember the <code>fastq</code> input expects a list of files. You can also do something as follows:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">f1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"SRR1039508_1.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb45-2" data-line-number="2">f2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"SRR1039508_2.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
@@ -646,25 +673,33 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <h3 class="hasAnchor">
 <a href="#draft-a-batch-task" class="anchor"></a>Draft a batch task</h3>
 <p>Now let’s do a batch with 8 files in 4 groups, which is batched by metadata <code>sample_id</code> and <code>library_id</code>. We will assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">fastqs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>, <span class="st">"SRR1039509_1.fastq"</span>,</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2">            <span class="st">"SRR1039509_2.fastq"</span>, <span class="st">"SRR1039512_1.fastq"</span>, <span class="st">"SRR1039512_2.fastq"</span>,</a>
-<a class="sourceLine" id="cb46-3" data-line-number="3">            <span class="st">"SRR1039513_1.fastq"</span>, <span class="st">"SRR1039513_2.fastq"</span>)</a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co"># get all 8 files</span></a>
-<a class="sourceLine" id="cb46-6" data-line-number="6">fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name=</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co"># can also try to returned all SRR*.fastq files</span></a>
-<a class="sourceLine" id="cb46-8" data-line-number="8"><span class="co"># fastq_in &lt;- p$file(name= "SRR*.fastq", complete = TRUE)</span></a>
-<a class="sourceLine" id="cb46-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb46-10" data-line-number="10">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(<span class="dt">name =</span> taskName,</a>
-<a class="sourceLine" id="cb46-11" data-line-number="11">                  <span class="dt">description =</span> <span class="st">"Batch Star Test"</span>,</a>
-<a class="sourceLine" id="cb46-12" data-line-number="12">                  <span class="dt">app =</span> <span class="st">"tengfei/api-testing-2/newcopyofstar/0"</span>,</a>
-<a class="sourceLine" id="cb46-13" data-line-number="13">                  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
-<a class="sourceLine" id="cb46-14" data-line-number="14">                                <span class="dt">criteria =</span> <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>,<span class="st">"metadata.noexist_id"</span>)),</a>
-<a class="sourceLine" id="cb46-15" data-line-number="15">                  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">sjdbGTFfile =</span> gtf_in,</a>
-<a class="sourceLine" id="cb46-16" data-line-number="16">                                <span class="dt">fastq =</span> fastqs_in,</a>
-<a class="sourceLine" id="cb46-17" data-line-number="17">                                <span class="dt">genomeFastaFiles =</span> fasta_in))</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">fastqs &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">  <span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>, <span class="st">"SRR1039509_1.fastq"</span>,</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">  <span class="st">"SRR1039509_2.fastq"</span>, <span class="st">"SRR1039512_1.fastq"</span>, <span class="st">"SRR1039512_2.fastq"</span>,</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">  <span class="st">"SRR1039513_1.fastq"</span>, <span class="st">"SRR1039513_2.fastq"</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co"># get all 8 files</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb46-9" data-line-number="9"><span class="co"># can also try to returned all SRR*.fastq files</span></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="co"># fastq_in &lt;- p$file(name= "SRR*.fastq", complete = TRUE)</span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb46-12" data-line-number="12">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb46-13" data-line-number="13">  <span class="dt">name =</span> taskName,</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">  <span class="dt">description =</span> <span class="st">"Batch Star Test"</span>,</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15">  <span class="dt">app =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar/0"</span>,</a>
+<a class="sourceLine" id="cb46-16" data-line-number="16">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
+<a class="sourceLine" id="cb46-17" data-line-number="17">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
+<a class="sourceLine" id="cb46-18" data-line-number="18">    <span class="dt">criteria =</span> <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.noexist_id"</span>)</a>
+<a class="sourceLine" id="cb46-19" data-line-number="19">  ),</a>
+<a class="sourceLine" id="cb46-20" data-line-number="20">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb46-21" data-line-number="21">    <span class="dt">sjdbGTFfile =</span> gtf_in,</a>
+<a class="sourceLine" id="cb46-22" data-line-number="22">    <span class="dt">fastq =</span> fastqs_in,</a>
+<a class="sourceLine" id="cb46-23" data-line-number="23">    <span class="dt">genomeFastaFiles =</span> fasta_in</a>
+<a class="sourceLine" id="cb46-24" data-line-number="24">  )</a>
+<a class="sourceLine" id="cb46-25" data-line-number="25">)</a></code></pre></div>
 <p>Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings.</p>
-<p>Note: you can also directly pass file id or file names as characters to inputs list, the package will first guess if the passed strings are file id (24 bit hexdecimal) or names, then convert it to Files or FilesList object. However, as a good practice, we recommend you construct your files object(e.g. <code>p$file(id = , name = )</code>) first, check the value, then pass it to <code>task_add</code> inputs, this is a more safe approach.</p>
+<p>Note: you can also directly pass file id or file names as characters to inputs list, the package will first guess if the passed strings are file id (24 bit hexdecimal) or names, then convert it to Files or FilesList object. However, as a good practice, we recommend you construct your files object(e.g. <code>p$file(id = ..., name = ...)</code>) first, check the value, then pass it to <code>task_add</code> inputs, this is a more safe approach.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -699,7 +734,8 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <p>For example, when we create a project using <code>project_new()</code>, we can set <code>use_interruptible = TRUE</code> (it is <code>FALSE</code> by default):</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(</a>
 <a class="sourceLine" id="cb51-2" data-line-number="2">  <span class="dt">name =</span> <span class="st">"spot-enabled-project"</span>, bid, <span class="dt">description =</span> <span class="st">"spot enabled project"</span>,</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">  <span class="dt">use_interruptible =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb51-3" data-line-number="3">  <span class="dt">use_interruptible =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">)</a></code></pre></div>
 <p>Then all the new tasks created under this project will use spot instances to run <strong>by default</strong>, unless an argument <code>use_interruptible_instances</code> is specifically set to <code>FALSE</code> when drafting the new task using <code>task_add()</code>.</p>
 <p>For example, if <code>p</code> is the above spot enable project, to draft a task that will <strong>not</strong> use spot instances to run:</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
@@ -724,15 +760,15 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a></code></pre></div>
 <pre><code>## function(...) {
-##                     cat("\r", "completed")
-##                     return(TRUE)
-##                 }
-## &lt;environment: 0x7fb8c81ee360&gt;</code></pre>
+##           cat("\r", "completed")
+##           return(TRUE)
+##         }
+## &lt;environment: 0x7f921628d308&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to local folder.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>(){</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2">    tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
-<a class="sourceLine" id="cb58-3" data-line-number="3">    <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">  <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb58-4" data-line-number="4">})</a>
 <a class="sourceLine" id="cb58-5" data-line-number="5">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
 <div align="right">
@@ -767,13 +803,17 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <h3 class="hasAnchor">
 <a href="#direct-authentication" class="anchor"></a>Direct authentication</h3>
 <p>To use direct authentication, users need to specify one of <code>platform</code> or <code>url</code>, with the corresponding <code>token</code>. Examples of direct authentication:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"1c0e6e202b544030870ccc147092c250"</span>,</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2">         <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>,</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">  <span class="dt">platform =</span> <span class="st">"aws-us"</span></a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">)</a></code></pre></div>
 <p>The above will use the Seven Bridges Platform on AWS (US).</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"1c0e6e202b544030870ccc147092c257"</span>,</a>
-<a class="sourceLine" id="cb60-2" data-line-number="2">         <span class="dt">url =</span> <span class="st">"https://gcp-api.sbgenomics.com/v2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>,</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3">  <span class="dt">url =</span> <span class="st">"https://gcp-api.sbgenomics.com/v2"</span></a>
+<a class="sourceLine" id="cb60-4" data-line-number="4">)</a></code></pre></div>
 <p>The above will use the specified <code>url</code> as base URL for the API calls. In this example, the <code>url</code> points to the Seven Bridges Platform on Google Cloud Platform (GCP).</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"2c0e6e202b544030870ccc147092c257"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>)</a></code></pre></div>
 <p>The above will use the Cancer Genomics Cloud environment, since no <code>platform</code> nor <code>url</code> were explicitly specified (not recommended).</p>
 <p><strong><em>Note:</em></strong> <code>platform</code> and <code>url</code> should not be specified in the same time.</p>
 <div align="right">
@@ -785,8 +825,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <a href="#authentication-via-system-environment-variables" class="anchor"></a>Authentication via system environment variables</h3>
 <p>The R API client supports reading authentication information stored in system environment variables.</p>
 <p>To set the two environment variables in your system, you could use the function <code><a href="../reference/sbg_set_env.html">sbg_set_env()</a></code>. For example:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>,</a>
-<a class="sourceLine" id="cb62-2" data-line-number="2">            <span class="dt">token =</span> <span class="st">"your_token"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(</a>
+<a class="sourceLine" id="cb62-2" data-line-number="2">  <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>,</a>
+<a class="sourceLine" id="cb62-3" data-line-number="3">  <span class="dt">token =</span> <span class="st">"your_token"</span></a>
+<a class="sourceLine" id="cb62-4" data-line-number="4">)</a></code></pre></div>
 <p>See if the environment variables are correctly set:</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw"><a href="../reference/sbg_get_env.html">sbg_get_env</a></span>(<span class="st">"SB_API_ENDPOINT"</span>)</a>
 <a class="sourceLine" id="cb63-2" data-line-number="2"><span class="co">## "https://cgc-api.sbgenomics.com/v2"</span></a>
@@ -805,13 +847,13 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <h3 class="hasAnchor">
 <a href="#authentication-via-user-configuration-file" class="anchor"></a>Authentication via user configuration file</h3>
 <p>You can create an ini-like file named <code>credentials</code> under the folder <code>$HOME/.sevenbridges/</code> and maintain your credentials for multiple accounts across various Seven Bridges environments. An example:</p>
-<pre><code>[aws-us-tengfei]
+<pre><code>[aws-us-rfranklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
 # This is a comment:
 # another user on the same platform
-[aws-us-yintengfei]
+[aws-us-rosalind-franklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
@@ -825,11 +867,13 @@ auth_token = token_for_this_user</code></pre>
 <p>Please make sure to have two fields <strong>exactly</strong> named as <code>api_endpoint</code> and <code>auth_token</code> under each profile.</p>
 <p>To load the default profile (named <code>[default]</code>) from the default user configuration file (<code>$HOME/.sevenbridges/credentials</code>), please use:</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>)</a></code></pre></div>
-<p>To load the user profile <code>aws-us-tengfei</code> from this configuration file, change the <code>profile_name</code>:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-tengfei"</span>)</a></code></pre></div>
+<p>To load the user profile <code>aws-us-rfranklin</code> from this configuration file, change the <code>profile_name</code>:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-rfranklin"</span>)</a></code></pre></div>
 <p>To use a user configuration file from other locations (not recommended), please specify the file path using the argument <code>config_file</code>. For example:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">config_file =</span> <span class="st">"~/sevenbridges.cfg"</span>,</a>
-<a class="sourceLine" id="cb69-2" data-line-number="2">          <span class="dt">profile_name =</span> <span class="st">"aws-us-tengfei"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">  <span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">config_file =</span> <span class="st">"~/sevenbridges.cfg"</span>,</a>
+<a class="sourceLine" id="cb69-3" data-line-number="3">  <span class="dt">profile_name =</span> <span class="st">"aws-us-rfranklin"</span></a>
+<a class="sourceLine" id="cb69-4" data-line-number="4">)</a></code></pre></div>
 <p><strong><em>Note:</em></strong> If you edited the <code>credentials</code> file, please use <code><a href="../reference/Auth-class.html">Auth()</a></code> to re-authenticate.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -880,14 +924,14 @@ auth_token = token_for_this_user</code></pre>
 <p>Search by name returns all partial matches unless you specify <code>exact = TRUE</code>. This type of search will only search across current pulled content, so use <code>complete = TRUE</code> if you want to search across everything.</p>
 <p>For example, to list all public apps, use <code>visibility</code> argument, but make sure you pass <code>complete = TRUE</code> to it, to show every single things. This arguments generally works for items like “App”, “Project”, “Task”, “File”, etc.</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co"># first, search by id is fast</span></a>
-<a class="sourceLine" id="cb72-2" data-line-number="2">x =<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">id =</span> <span class="st">"admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1"</span>)</a>
+<a class="sourceLine" id="cb72-2" data-line-number="2">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">id =</span> <span class="st">"admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1"</span>)</a>
 <a class="sourceLine" id="cb72-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb72-4" data-line-number="4"><span class="co"># show 100 items from public</span></a>
-<a class="sourceLine" id="cb72-5" data-line-number="5">x =<span class="st">  </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
-<a class="sourceLine" id="cb72-6" data-line-number="6"><span class="kw">length</span>(x)  <span class="co"># 100</span></a>
+<a class="sourceLine" id="cb72-5" data-line-number="5">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
+<a class="sourceLine" id="cb72-6" data-line-number="6"><span class="kw">length</span>(x) <span class="co"># 100</span></a>
 <a class="sourceLine" id="cb72-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb72-8" data-line-number="8">x =<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb72-9" data-line-number="9"><span class="kw">length</span>(x)  <span class="co"># 272 by Nov 2016</span></a>
+<a class="sourceLine" id="cb72-8" data-line-number="8">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb72-9" data-line-number="9"><span class="kw">length</span>(x) <span class="co"># 272 by Nov 2016</span></a>
 <a class="sourceLine" id="cb72-10" data-line-number="10"><span class="co"># this return nothing, because it is not in the first 100 returned names</span></a>
 <a class="sourceLine" id="cb72-11" data-line-number="11">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">name =</span> <span class="st">"bed converter"</span>)</a>
 <a class="sourceLine" id="cb72-12" data-line-number="12"><span class="co"># this return an app, because it pulls *all* app names and did search</span></a>
@@ -905,27 +949,31 @@ auth_token = token_for_this_user</code></pre>
 <a class="sourceLine" id="cb73-2" data-line-number="2"><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>For example, the “folders” API is in Advance Access as of August, 2017. If we try to use the folders API to create a folder with the <code>advance_access</code> option disabled, it will return an error message:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">req =<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
-<a class="sourceLine" id="cb75-2" data-line-number="2">    <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
-<a class="sourceLine" id="cb75-3" data-line-number="3">    <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb75-4" data-line-number="4">        <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
-<a class="sourceLine" id="cb75-5" data-line-number="5">        <span class="st">"project"</span> =<span class="st"> "owner/project"</span>))</a>
-<a class="sourceLine" id="cb75-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb75-7" data-line-number="7">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
+<a class="sourceLine" id="cb75-2" data-line-number="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
+<a class="sourceLine" id="cb75-3" data-line-number="3">  <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb75-4" data-line-number="4">    <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
+<a class="sourceLine" id="cb75-5" data-line-number="5">    <span class="st">"project"</span> =<span class="st"> "owner/project"</span></a>
+<a class="sourceLine" id="cb75-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb75-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb75-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb75-9" data-line-number="9">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></a></code></pre></div>
 <pre><code>## [1] "Advance access feature needs X-SBG-Advance-Access: advance header."</code></pre>
 <p>To enable the Advance Access features, one can use</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">opt =<span class="st"> </span><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb77-2" data-line-number="2">opt<span class="op">$</span>advance_access =<span class="st"> </span><span class="ot">TRUE</span></a>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">opt &lt;-<span class="st"> </span><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb77-2" data-line-number="2">opt<span class="op">$</span>advance_access &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb77-3" data-line-number="3"><span class="kw">options</span>(<span class="dt">sevenbridges =</span> opt)</a></code></pre></div>
 <p>at the beginning of their scripts. Let’s check if the option has been enabled:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Send the API call again:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">req =<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
-<a class="sourceLine" id="cb80-2" data-line-number="2">    <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3">    <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb80-4" data-line-number="4">        <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
-<a class="sourceLine" id="cb80-5" data-line-number="5">        <span class="st">"project"</span> =<span class="st"> "owner/project"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
+<a class="sourceLine" id="cb80-2" data-line-number="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
+<a class="sourceLine" id="cb80-3" data-line-number="3">  <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb80-4" data-line-number="4">    <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
+<a class="sourceLine" id="cb80-5" data-line-number="5">    <span class="st">"project"</span> =<span class="st"> "owner/project"</span></a>
+<a class="sourceLine" id="cb80-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb80-7" data-line-number="7">)</a></code></pre></div>
 <p>The information of the newly created folder will be returned:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)</a></code></pre></div>
 <pre><code>## $href
@@ -1000,8 +1048,8 @@ auth_token = token_for_this_user</code></pre>
 <p>If you did not provide a username, your user information will be shown.</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># return your information</span></a>
 <a class="sourceLine" id="cb85-2" data-line-number="2">a<span class="op">$</span><span class="kw">user</span>()</a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co"># return user tengfei's information</span></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"tengfei"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co"># return user RFranklin's information</span></a>
+<a class="sourceLine" id="cb85-4" data-line-number="4">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1025,7 +1073,7 @@ auth_token = token_for_this_user</code></pre>
 <a href="#for-invoices" class="anchor"></a>For invoices</h3>
 <p>If no Billing Group <code>id</code> provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice <code>id</code> is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">a<span class="op">$</span><span class="kw">invoice</span>()</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"fake_id"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb87-2" data-line-number="2">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a></code></pre></div>
 <p><strong><em>Note:</em></strong> Currently, invoice is not an object. Instead, it just returns a list.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -1045,8 +1093,8 @@ auth_token = token_for_this_user</code></pre>
 <p>The following call returns a list of all projects of which you are a member. Each project’s <code>project_id</code> and path will be returned.</p>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>()</a></code></pre></div>
 <p>If you want to list the projects owned by and accessible to a particular user, specify the <code>owner</code> argument as follows. Each project’s ID and path will be returned.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"tengfei"</span>)</a>
-<a class="sourceLine" id="cb89-2" data-line-number="2">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"yintengfei"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"RFranklin"</span>)</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a></code></pre></div>
 <p>To get details about project(s), use <code>detail = TRUE</code>, as shown below.</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
@@ -1080,7 +1128,8 @@ auth_token = token_for_this_user</code></pre>
 <code>type</code> (optional): By default, we create a V2, CWL compatible project.</li>
 </ul>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">a<span class="op">$</span><span class="kw">project_new</span>(<span class="st">"api_testing_tcga"</span>, b<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb92-2" data-line-number="2">              <span class="dt">description =</span> <span class="st">"Test for API"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb92-2" data-line-number="2">  <span class="dt">description =</span> <span class="st">"Test for API"</span></a>
+<a class="sourceLine" id="cb92-3" data-line-number="3">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1090,7 +1139,8 @@ auth_token = token_for_this_user</code></pre>
 <a href="#create-a-new-project-with-tcga-controlled-data-on-cgc" class="anchor"></a>Create a new project with TCGA controlled data on CGC</h3>
 <p>Follow the directions above, but pass <code>tcga</code> as a value for <code>tags</code>.</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">a<span class="op">$</span><span class="kw">project_new</span>(<span class="st">"controlled_project"</span>, b<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb93-2" data-line-number="2">              <span class="dt">description =</span> <span class="st">"Test for API"</span>, <span class="dt">tags =</span> <span class="kw">list</span>(<span class="st">"tcga"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb93-2" data-line-number="2">  <span class="dt">description =</span> <span class="st">"Test for API"</span>, <span class="dt">tags =</span> <span class="kw">list</span>(<span class="st">"tcga"</span>)</a>
+<a class="sourceLine" id="cb93-3" data-line-number="3">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1117,9 +1167,11 @@ auth_token = token_for_this_user</code></pre>
 <li><code>description</code></li>
 <li><code>billing_group_id</code></li>
 </ul>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/helloworld"</span>)</a>
-<a class="sourceLine" id="cb95-2" data-line-number="2">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/helloworld"</span>)<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> <span class="st">"Hello World Update"</span>,</a>
-<a class="sourceLine" id="cb95-3" data-line-number="3">                                            <span class="dt">description =</span> <span class="st">"Update description"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/helloworld"</span>)</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/helloworld"</span>)<span class="op">$</span><span class="kw">update</span>(</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"Hello World Update"</span>,</a>
+<a class="sourceLine" id="cb95-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"Update description"</span></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5">)</a></code></pre></div>
 </div>
 <div id="project-member" class="section level3">
 <h3 class="hasAnchor">
@@ -1132,7 +1184,7 @@ auth_token = token_for_this_user</code></pre>
 <li>The member’s username</li>
 <li>The member’s permissions in the specified project</li>
 </ul>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)<span class="op">$</span><span class="kw">member</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw">member</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1144,8 +1196,8 @@ auth_token = token_for_this_user</code></pre>
 <p>Requests to add a project member must include the key <code>permissions</code>. However, if you do not include a value, the member’s permissions will be set to <code>false</code> by default.</p>
 <p>Set permission by passing the following values: <code>copy</code>, <code>write</code>, <code>execute</code>, <code>admin</code>, or <code>read</code>.</p>
 <p>Note: <code>read</code> is implicit and set by default. You can not be a project member without having <code>read</code> permissions.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">m &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)<span class="op">$</span></a>
-<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="st">       </span><span class="kw">member_add</span>(<span class="dt">username =</span> <span class="st">"yintengfei"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">m &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span></a>
+<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="st">  </span><span class="kw">member_add</span>(<span class="dt">username =</span> <span class="st">"Rosalind.Franklin"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1154,11 +1206,11 @@ auth_token = token_for_this_user</code></pre>
 <h4 class="hasAnchor">
 <a href="#update-a-member" class="anchor"></a>Update a member</h4>
 <p>This call edits a user’s permissions in the specified project. It can only be made by a user who has admin permissions in the project.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">m &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)<span class="op">$</span></a>
-<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="st">       </span><span class="kw">member</span>(<span class="dt">username =</span> <span class="st">"yintengfei"</span>)</a>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">m &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span></a>
+<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="st">  </span><span class="kw">member</span>(<span class="dt">username =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
 <a class="sourceLine" id="cb98-3" data-line-number="3">m<span class="op">$</span><span class="kw">update</span>(<span class="dt">copy =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>== Member ==
-username : yintengfei
+username : Rosalind.Franklin
 -- Permission --
 read : TRUE
 write : FALSE
@@ -1175,7 +1227,7 @@ admin : FALSE</code></pre>
 <p>To delete an existing member, just call the <code><a href="../reference/delete-methods.html">delete()</a></code> action on the <code>Member</code> object.</p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">m<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
 <a class="sourceLine" id="cb100-2" data-line-number="2"><span class="co"># confirm</span></a>
-<a class="sourceLine" id="cb100-3" data-line-number="3">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)<span class="op">$</span><span class="kw">member</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb100-3" data-line-number="3">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw">member</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1185,7 +1237,7 @@ admin : FALSE</code></pre>
 <h3 class="hasAnchor">
 <a href="#list-all-files" class="anchor"></a>List all files</h3>
 <p>To list all files belonging to a project, use the following request:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)</a>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)</a>
 <a class="sourceLine" id="cb101-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1221,12 +1273,16 @@ admin : FALSE</code></pre>
 <li><p><strong>First rule: understand the scope</strong>: We know we have default <code>limit = 100</code> and <code>offset = 0</code> for first 100 items, unless you are using arguments <code>complete = TRUE</code>. Things are different when it comes to files. When you search with exact name (search by name with <code>exact = TRUE</code> on), metadata, or tags, it searches through ALL files. You do not have to specify <code>complete = TRUE</code>. Simply provide the project id or make the call from a project object as shown below.</p></li>
 <li><p><strong>Second rule: understand the operation</strong>: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. <strong>Note</strong> different metadata fields are treated as different fields as well, so it will be <strong>AND</strong> operation for different metadata field.</p></li>
 </ol>
-<p>So for a quick example, this examples gives me all files in project “tengfei/demo” that with metadata sample_id “Sample1” <strong>OR</strong> “Sample2”, <strong>AND</strong> the library id has to be “EXAMPLE”, <strong>AND</strong> tags has either “hello” <strong>OR</strong> “world”.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1">p =<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo"</span>)</a>
-<a class="sourceLine" id="cb104-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</a>
-<a class="sourceLine" id="cb104-3" data-line-number="3">                       <span class="dt">sample_id =</span> <span class="st">"Sample2"</span>,</a>
-<a class="sourceLine" id="cb104-4" data-line-number="4">                       <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span>),</a>
-<a class="sourceLine" id="cb104-5" data-line-number="5">       <span class="dt">tag =</span> <span class="kw">c</span>(<span class="st">"hello"</span>, <span class="st">"world"</span>))</a></code></pre></div>
+<p>So for a quick example, this examples gives me all files in project <code>RFranklin/demo</code> that with metadata sample_id “Sample1” <strong>OR</strong> “Sample2”, <strong>AND</strong> the library id has to be “EXAMPLE”, <strong>AND</strong> tags has either “hello” <strong>OR</strong> “world”.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
+<a class="sourceLine" id="cb104-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3">  <span class="dt">metadata =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb104-4" data-line-number="4">    <span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</a>
+<a class="sourceLine" id="cb104-5" data-line-number="5">    <span class="dt">sample_id =</span> <span class="st">"Sample2"</span>,</a>
+<a class="sourceLine" id="cb104-6" data-line-number="6">    <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span></a>
+<a class="sourceLine" id="cb104-7" data-line-number="7">  ),</a>
+<a class="sourceLine" id="cb104-8" data-line-number="8">  <span class="dt">tag =</span> <span class="kw">c</span>(<span class="st">"hello"</span>, <span class="st">"world"</span>)</a>
+<a class="sourceLine" id="cb104-9" data-line-number="9">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1248,8 +1304,10 @@ admin : FALSE</code></pre>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="co"># get two files</span></a>
 <a class="sourceLine" id="cb106-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">"test1.fastq"</span>, <span class="st">"test2.fastq"</span>), <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb106-3" data-line-number="3"><span class="co"># get two files from public files using shorthand</span></a>
-<a class="sourceLine" id="cb106-4" data-line-number="4">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="st">"ucsc.hg19.fasta"</span>),</a>
-<a class="sourceLine" id="cb106-5" data-line-number="5">              <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb106-4" data-line-number="4">a<span class="op">$</span><span class="kw">public_file</span>(</a>
+<a class="sourceLine" id="cb106-5" data-line-number="5">  <span class="dt">name =</span> <span class="kw">c</span>(<span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="st">"ucsc.hg19.fasta"</span>),</a>
+<a class="sourceLine" id="cb106-6" data-line-number="6">  <span class="dt">exact =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb106-7" data-line-number="7">)</a></code></pre></div>
 <p>If you did not use <code>exact = TRUE</code>, the API will assume it is pattern grep and use partial matching.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1"><span class="co"># get matchd the pattern for searching first 100 files</span></a>
 <a class="sourceLine" id="cb107-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>))</a>
@@ -1265,11 +1323,13 @@ admin : FALSE</code></pre>
 <h4 class="hasAnchor">
 <a href="#search-by-metadata" class="anchor"></a>Search by metadata</h4>
 <p>When you specify different metadata fields, the values use an <strong>AND</strong> operation, and when you specify the same metadata fields, the values use an <strong>OR</strong> operation.</p>
-<p>To list all files in project “tengfei/demo”, that have a <code>sample_id</code> of “Sample1” <strong>OR</strong> “Sample2” <strong>AND</strong> another metadata field library_id set to “EXAMPLE”, make the following request</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">p =<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo"</span>)</a>
-<a class="sourceLine" id="cb108-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">sample_id  =</span> <span class="st">"Sample1"</span>,</a>
-<a class="sourceLine" id="cb108-3" data-line-number="3">                       <span class="dt">sample_id  =</span> <span class="st">"Sample2"</span>,</a>
-<a class="sourceLine" id="cb108-4" data-line-number="4">                       <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span>))</a></code></pre></div>
+<p>To list all files in project <code>RFranklin/demo</code>, that have a <code>sample_id</code> of “Sample1” <strong>OR</strong> “Sample2” <strong>AND</strong> another metadata field library_id set to “EXAMPLE”, make the following request</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
+<a class="sourceLine" id="cb108-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">metadata =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb108-3" data-line-number="3">  <span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</a>
+<a class="sourceLine" id="cb108-4" data-line-number="4">  <span class="dt">sample_id =</span> <span class="st">"Sample2"</span>,</a>
+<a class="sourceLine" id="cb108-5" data-line-number="5">  <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span></a>
+<a class="sourceLine" id="cb108-6" data-line-number="6">))</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1279,7 +1339,7 @@ admin : FALSE</code></pre>
 <a href="#search-by-tags" class="anchor"></a>Search by tags</h4>
 <p>Tags are more flexible than metadata. You can search with multiple tags using an <strong>OR</strong> operation.</p>
 <p>This examples shows how to return all files with the tag “s1” <strong>OR</strong> “s2”.</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo"</span>)</a>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb109-2" data-line-number="2">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">tag =</span> <span class="kw">c</span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>))</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1297,7 +1357,7 @@ admin : FALSE</code></pre>
 <a class="sourceLine" id="cb110-2" data-line-number="2">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)<span class="op">$</span><span class="kw">file</span>()</a>
 <a class="sourceLine" id="cb110-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb110-4" data-line-number="4"><span class="co"># OR</span></a>
-<a class="sourceLine" id="cb110-5" data-line-number="5">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo"</span>)</a>
+<a class="sourceLine" id="cb110-5" data-line-number="5">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb110-6" data-line-number="6">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">origin.task =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1320,9 +1380,9 @@ admin : FALSE</code></pre>
 <code>name</code> (optional):if omitted, use the same name as the original file name</li>
 </ul>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="co"># 1000G_omni2.5.b37.vcf</span></a>
-<a class="sourceLine" id="cb111-2" data-line-number="2">fid  &lt;-<span class="st"> "561e1b33e4b0aa6ec48167d7"</span></a>
+<a class="sourceLine" id="cb111-2" data-line-number="2">fid &lt;-<span class="st"> "561e1b33e4b0aa6ec48167d7"</span></a>
 <a class="sourceLine" id="cb111-3" data-line-number="3">fid2 &lt;-<span class="st"> "561e1b33e4b0aa6ec48167d3"</span></a>
-<a class="sourceLine" id="cb111-4" data-line-number="4">pid  &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb111-4" data-line-number="4">pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
 <a class="sourceLine" id="cb111-5" data-line-number="5">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
 <a class="sourceLine" id="cb111-6" data-line-number="6">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> pid)<span class="op">$</span><span class="kw">file</span>()</a></code></pre></div>
 <p><strong><em>NOTE:</em></strong> To copy a group of files, you need the <code>Auth$copyFile()</code> interface. The <code>id</code> of the files in your project will be different from their <code>id</code> in the Public Files repository.</p>
@@ -1380,18 +1440,20 @@ admin : FALSE</code></pre>
 <div id="upload-single-file" class="section level4">
 <h4 class="hasAnchor">
 <a href="#upload-single-file" class="anchor"></a>Upload single file</h4>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">a  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">username =</span> <span class="st">"tengfei"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">username =</span> <span class="st">"RFranklin"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
 <a class="sourceLine" id="cb119-2" data-line-number="2">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb119-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb119-4" data-line-number="4">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/quickstart"</span>))</a>
+<a class="sourceLine" id="cb119-4" data-line-number="4">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/quickstart"</span>))</a>
 <a class="sourceLine" id="cb119-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb119-6" data-line-number="6"><span class="co"># by default load .meta for the file</span></a>
 <a class="sourceLine" id="cb119-7" data-line-number="7">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb119-8" data-line-number="8"><span class="co"># pass metadata</span></a>
 <a class="sourceLine" id="cb119-9" data-line-number="9">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</a>
 <a class="sourceLine" id="cb119-10" data-line-number="10"><span class="co"># rename</span></a>
-<a class="sourceLine" id="cb119-11" data-line-number="11">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</a>
-<a class="sourceLine" id="cb119-12" data-line-number="12">         <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb119-11" data-line-number="11">p<span class="op">$</span><span class="kw">upload</span>(fl,</a>
+<a class="sourceLine" id="cb119-12" data-line-number="12">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</a>
+<a class="sourceLine" id="cb119-13" data-line-number="13">  <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</a>
+<a class="sourceLine" id="cb119-14" data-line-number="14">)</a></code></pre></div>
 </div>
 <div id="upload-a-folder" class="section level4">
 <h4 class="hasAnchor">
@@ -1448,24 +1510,26 @@ p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
 <p>The first step is to download the command line uploader. With <code><a href="../reference/get_uploader.html">get_uploader()</a></code>, users can easily download the uploader to a local directory for a specified Seven Bridges platform, for example, the Cancer Genomics Cloud:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw"><a href="../reference/get_uploader.html">get_uploader</a></span>(<span class="st">"cgc"</span>, <span class="st">"~/Downloads/"</span>)</a></code></pre></div>
 <p>To list the available projects accessible from your account via the uploader, use <code><a href="../reference/cli_list_projects.html">cli_list_projects()</a></code>, with your authentication token for that platform and the directory containing the uploader:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1">cgc_token =<span class="st"> "your_cgc_token"</span></a>
-<a class="sourceLine" id="cb124-2" data-line-number="2">cgc_uploader =<span class="st"> "~/Downloads/cgc-uploader/"</span></a>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1">cgc_token &lt;-<span class="st"> "your_cgc_token"</span></a>
+<a class="sourceLine" id="cb124-2" data-line-number="2">cgc_uploader &lt;-<span class="st"> "~/Downloads/cgc-uploader/"</span></a>
 <a class="sourceLine" id="cb124-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb124-4" data-line-number="4"><span class="kw"><a href="../reference/cli_list_projects.html">cli_list_projects</a></span>(</a>
-<a class="sourceLine" id="cb124-5" data-line-number="5">    <span class="dt">token =</span> cgc_token,</a>
-<a class="sourceLine" id="cb124-6" data-line-number="6">    <span class="dt">uploader =</span> cgc_uploader)</a></code></pre></div>
+<a class="sourceLine" id="cb124-5" data-line-number="5">  <span class="dt">token =</span> cgc_token,</a>
+<a class="sourceLine" id="cb124-6" data-line-number="6">  <span class="dt">uploader =</span> cgc_uploader</a>
+<a class="sourceLine" id="cb124-7" data-line-number="7">)</a></code></pre></div>
 <p>The function will return a character vector containing the available projects which you could upload files to, in the form of <code>username/project-name</code>.</p>
 <p>Similarly, to list all the file tags in a project via the uploader, use <code><a href="../reference/cli_list_tags.html">cli_list_tags()</a></code>:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw"><a href="../reference/cli_list_tags.html">cli_list_tags</a></span>(</a>
-<a class="sourceLine" id="cb125-2" data-line-number="2">    <span class="dt">token =</span> cgc_token,</a>
-<a class="sourceLine" id="cb125-3" data-line-number="3">    <span class="dt">uploader =</span> cgc_uploader,</a>
-<a class="sourceLine" id="cb125-4" data-line-number="4">    <span class="dt">project =</span> <span class="st">"username/project-name"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb125-2" data-line-number="2">  <span class="dt">token =</span> cgc_token,</a>
+<a class="sourceLine" id="cb125-3" data-line-number="3">  <span class="dt">uploader =</span> cgc_uploader,</a>
+<a class="sourceLine" id="cb125-4" data-line-number="4">  <span class="dt">project =</span> <span class="st">"username/project-name"</span></a>
+<a class="sourceLine" id="cb125-5" data-line-number="5">)</a></code></pre></div>
 <p>Eventually, use <code><a href="../reference/cli_upload.html">cli_upload()</a></code> to upload local files to a project:</p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw"><a href="../reference/cli_upload.html">cli_upload</a></span>(</a>
-<a class="sourceLine" id="cb126-2" data-line-number="2">    <span class="dt">token =</span> cgc_token,</a>
-<a class="sourceLine" id="cb126-3" data-line-number="3">    <span class="dt">uploader =</span> cgc_uploader,</a>
-<a class="sourceLine" id="cb126-4" data-line-number="4">    <span class="dt">file =</span> <span class="st">"~/example.fastq"</span>,</a>
-<a class="sourceLine" id="cb126-5" data-line-number="5">    <span class="dt">project =</span> <span class="st">"username/project-name"</span></a>
+<a class="sourceLine" id="cb126-2" data-line-number="2">  <span class="dt">token =</span> cgc_token,</a>
+<a class="sourceLine" id="cb126-3" data-line-number="3">  <span class="dt">uploader =</span> cgc_uploader,</a>
+<a class="sourceLine" id="cb126-4" data-line-number="4">  <span class="dt">file =</span> <span class="st">"~/example.fastq"</span>,</a>
+<a class="sourceLine" id="cb126-5" data-line-number="5">  <span class="dt">project =</span> <span class="st">"username/project-name"</span></a>
 <a class="sourceLine" id="cb126-6" data-line-number="6">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1480,21 +1544,25 @@ p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
 <li>The file’s <code>metadata</code>. The metadata is in the form of a list. Note that as this call overwrites all the metadata for a given file, please supply a full list of all the metadata for the file. Conversely, you can use the <a href="#set_metadata"><code>set_meta()</code> function</a> to patch but not overwrite the metadata for a file.</li>
 </ul>
 <p>If no parameters were provided, this call will just get the details of that file and update the object itself.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">(fl &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo-project"</span>)<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">(fl &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>))</a></code></pre></div>
 <pre><code>== File ==
 id : 56c7916ae4b03b56a7d7
 name : sample.fastq
-project : tengfei/demo-project</code></pre>
+project : RFranklin/demo-project</code></pre>
 <p><strong>Show metadata</strong></p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="co"># show metadata</span></a>
 <a class="sourceLine" id="cb129-2" data-line-number="2">fl<span class="op">$</span><span class="kw">meta</span>()</a></code></pre></div>
 <p><strong>Update meta</strong></p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>,</a>
-<a class="sourceLine" id="cb130-2" data-line-number="2">          <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">new_item1 =</span> <span class="st">"item1"</span>,</a>
-<a class="sourceLine" id="cb130-3" data-line-number="3">                          <span class="dt">new_item2 =</span> <span class="st">"item2"</span>,</a>
-<a class="sourceLine" id="cb130-4" data-line-number="4">                          <span class="dt">file_extension =</span> <span class="st">"fastq"</span>))</a>
-<a class="sourceLine" id="cb130-5" data-line-number="5"><span class="co"># check it out</span></a>
-<a class="sourceLine" id="cb130-6" data-line-number="6">fl<span class="op">$</span><span class="kw">meta</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">fl<span class="op">$</span><span class="kw">update</span>(</a>
+<a class="sourceLine" id="cb130-2" data-line-number="2">  <span class="dt">name =</span> <span class="st">"sample.fastq"</span>,</a>
+<a class="sourceLine" id="cb130-3" data-line-number="3">  <span class="dt">metadata =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb130-4" data-line-number="4">    <span class="dt">new_item1 =</span> <span class="st">"item1"</span>,</a>
+<a class="sourceLine" id="cb130-5" data-line-number="5">    <span class="dt">new_item2 =</span> <span class="st">"item2"</span>,</a>
+<a class="sourceLine" id="cb130-6" data-line-number="6">    <span class="dt">file_extension =</span> <span class="st">"fastq"</span></a>
+<a class="sourceLine" id="cb130-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb130-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb130-9" data-line-number="9"><span class="co"># check it out</span></a>
+<a class="sourceLine" id="cb130-10" data-line-number="10">fl<span class="op">$</span><span class="kw">meta</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1527,10 +1595,12 @@ project : tengfei/demo-project</code></pre>
 <a class="sourceLine" id="cb133-5" data-line-number="5"><span class="kw"><a href="../reference/Metadata.html">paired_end</a></span>()</a>
 <a class="sourceLine" id="cb133-6" data-line-number="6"><span class="kw"><a href="../reference/Metadata.html">quality_scale</a></span>()</a></code></pre></div>
 <p>As you can see, some metadata fields have suggested values. To construct the metadata, use <code><a href="../reference/Metadata.html">Metadata()</a></code> directly to pass the metadata fields and their values directly into the call. The call will perform the validation.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw"><a href="../reference/Metadata.html">Metadata</a></span>(<span class="dt">platform      =</span> <span class="st">"Affymetrix SNP Array 6.0"</span>,</a>
-<a class="sourceLine" id="cb134-2" data-line-number="2">         <span class="dt">paired_end    =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb134-3" data-line-number="3">         <span class="dt">quality_scale =</span> <span class="st">"sanger"</span>,</a>
-<a class="sourceLine" id="cb134-4" data-line-number="4">         <span class="dt">new_item      =</span> <span class="st">"new test"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw"><a href="../reference/Metadata.html">Metadata</a></span>(</a>
+<a class="sourceLine" id="cb134-2" data-line-number="2">  <span class="dt">platform =</span> <span class="st">"Affymetrix SNP Array 6.0"</span>,</a>
+<a class="sourceLine" id="cb134-3" data-line-number="3">  <span class="dt">paired_end =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb134-4" data-line-number="4">  <span class="dt">quality_scale =</span> <span class="st">"sanger"</span>,</a>
+<a class="sourceLine" id="cb134-5" data-line-number="5">  <span class="dt">new_item =</span> <span class="st">"new test"</span></a>
+<a class="sourceLine" id="cb134-6" data-line-number="6">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1544,7 +1614,7 @@ project : tengfei/demo-project</code></pre>
 <p><strong>Overwrite the tags for a file</strong></p>
 <p>To completely overwrite the tags for a file, use the <code>obj$set_tag()</code> method, which contains the default argument <code>overwrite = TRUE</code>.</p>
 <p>Let’s use a file called <code>sample.bam</code> and play with its tags.</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1">p  &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/s3tutorial"</span>)</a>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/s3tutorial"</span>)</a>
 <a class="sourceLine" id="cb135-2" data-line-number="2">fl &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"sample.bam"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb135-3" data-line-number="3"><span class="co"># show tags for single file</span></a>
 <a class="sourceLine" id="cb135-4" data-line-number="4">fl<span class="op">$</span><span class="kw">tag</span>()</a>
@@ -1616,7 +1686,7 @@ project : tengfei/demo-project</code></pre>
 <a class="sourceLine" id="cb140-3" data-line-number="3"><span class="kw">length</span>(x)</a>
 <a class="sourceLine" id="cb140-4" data-line-number="4">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb140-5" data-line-number="5"><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb140-6" data-line-number="6">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> <span class="st">"tengfei/helloworld"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb140-6" data-line-number="6">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> <span class="st">"RFranklin/helloworld"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb140-7" data-line-number="7"><span class="kw">length</span>(x)</a>
 <a class="sourceLine" id="cb140-8" data-line-number="8">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">limit =</span> <span class="dv">5</span>, <span class="dt">offset =</span> <span class="dv">150</span>)</a></code></pre></div>
 <p><strong>Search through all public apps in all locations</strong></p>
@@ -1643,8 +1713,10 @@ project : tengfei/demo-project</code></pre>
 <a class="sourceLine" id="cb142-4" data-line-number="4">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
 <p>You can also copy directly from the app object, as shown below.</p>
 <div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star"</span>)</a>
-<a class="sourceLine" id="cb143-2" data-line-number="2">app<span class="op">$</span><span class="kw">copy_to</span>(<span class="dt">project =</span> <span class="st">"tengfei/api-testing"</span>,</a>
-<a class="sourceLine" id="cb143-3" data-line-number="3">            <span class="dt">name =</span> <span class="st">"copy of star"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb143-2" data-line-number="2">app<span class="op">$</span><span class="kw">copy_to</span>(</a>
+<a class="sourceLine" id="cb143-3" data-line-number="3">  <span class="dt">project =</span> <span class="st">"RFranklin/api-testing"</span>,</a>
+<a class="sourceLine" id="cb143-4" data-line-number="4">  <span class="dt">name =</span> <span class="st">"copy of star"</span></a>
+<a class="sourceLine" id="cb143-5" data-line-number="5">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1694,25 +1766,35 @@ project : tengfei/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#create-test-or-keep-previous-test-for-tool" class="anchor"></a>Create test or keep previous test for Tool</h3>
 <p>On sevenbridges platform, when you create or update your tools in the GUI, there is a test tab allow users to tweak the parameters and see what it looks like in your commandline simulatd terminal. To do this via R when you push your Tool object to your project, you need to provide “sbg:job” information like the example shown below</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb146-2" data-line-number="2">            <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb146-3" data-line-number="3">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/runif"</span>),</a>
-<a class="sourceLine" id="cb146-4" data-line-number="4">                                 <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb146-5" data-line-number="5">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb146-6" data-line-number="6">            <span class="dt">inputs =</span> in.lst,</a>
-<a class="sourceLine" id="cb146-7" data-line-number="7">            <span class="dt">outputs =</span> out.lst,</a>
-<a class="sourceLine" id="cb146-8" data-line-number="8">            <span class="st">'sbg:job'</span> =<span class="st"> </span><span class="kw">list</span>(<span class="dt">allocatedResources =</span> <span class="kw">list</span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb146-9" data-line-number="9">                             <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)))</a>
-<a class="sourceLine" id="cb146-10" data-line-number="10">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb146-2" data-line-number="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb146-3" data-line-number="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
+<a class="sourceLine" id="cb146-4" data-line-number="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb146-5" data-line-number="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
+<a class="sourceLine" id="cb146-6" data-line-number="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb146-7" data-line-number="7">  ),</a>
+<a class="sourceLine" id="cb146-8" data-line-number="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb146-9" data-line-number="9">  <span class="dt">inputs =</span> in.lst,</a>
+<a class="sourceLine" id="cb146-10" data-line-number="10">  <span class="dt">outputs =</span> out.lst,</a>
+<a class="sourceLine" id="cb146-11" data-line-number="11">  <span class="st">"sbg:job"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb146-12" data-line-number="12">    <span class="dt">allocatedResources =</span> <span class="kw">list</span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb146-13" data-line-number="13">    <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)</a>
+<a class="sourceLine" id="cb146-14" data-line-number="14">  )</a>
+<a class="sourceLine" id="cb146-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb146-16" data-line-number="16">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</a></code></pre></div>
 <p>Or if you have created a test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide a arguments called <code>keep_test</code> to allow you keep the previous revision’s test information.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(<span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb147-2" data-line-number="2">            <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb147-3" data-line-number="3">            <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/runif"</span>),</a>
-<a class="sourceLine" id="cb147-4" data-line-number="4">                                 <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb147-5" data-line-number="5">            <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb147-6" data-line-number="6">            <span class="dt">inputs =</span> in.lst,</a>
-<a class="sourceLine" id="cb147-7" data-line-number="7">            <span class="dt">outputs =</span> out.lst)</a>
-<a class="sourceLine" id="cb147-8" data-line-number="8">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx, <span class="dt">keep_test =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb147-3" data-line-number="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
+<a class="sourceLine" id="cb147-4" data-line-number="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb147-5" data-line-number="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
+<a class="sourceLine" id="cb147-6" data-line-number="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb147-7" data-line-number="7">  ),</a>
+<a class="sourceLine" id="cb147-8" data-line-number="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb147-9" data-line-number="9">  <span class="dt">inputs =</span> in.lst,</a>
+<a class="sourceLine" id="cb147-10" data-line-number="10">  <span class="dt">outputs =</span> out.lst</a>
+<a class="sourceLine" id="cb147-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb147-12" data-line-number="12">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx, <span class="dt">keep_test =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1741,7 +1823,7 @@ project : tengfei/demo-project</code></pre>
 <div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"your task id here"</span>, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb150-2" data-line-number="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>To list a batch task using the <code>parent</code> parameter, pass the batch parent task id.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/demo"</span>)</a>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb151-2" data-line-number="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
 <a class="sourceLine" id="cb151-3" data-line-number="3">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
 <a class="sourceLine" id="cb151-4" data-line-number="4">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>, <span class="dt">status =</span> <span class="st">"completed"</span>)</a>
@@ -1767,14 +1849,16 @@ project : tengfei/demo-project</code></pre>
 <div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="co"># push an app first</span></a>
 <a class="sourceLine" id="cb152-2" data-line-number="2">fl.runif &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"runif.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb152-3" data-line-number="3">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"runif_draft"</span>, fl.runif)</a>
-<a class="sourceLine" id="cb152-4" data-line-number="4">runif_id &lt;-<span class="st"> "tengfei/demo-project/runif_draft"</span></a>
+<a class="sourceLine" id="cb152-4" data-line-number="4">runif_id &lt;-<span class="st"> "RFranklin/demo-project/runif_draft"</span></a>
 <a class="sourceLine" id="cb152-5" data-line-number="5"><span class="co"># create a draft task</span></a>
-<a class="sourceLine" id="cb152-6" data-line-number="6">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task_add</span>(<span class="dt">name =</span> <span class="st">"Draft runif 3"</span>,</a>
-<a class="sourceLine" id="cb152-7" data-line-number="7">                           <span class="dt">description =</span> <span class="st">"Description for runif 3"</span>,</a>
-<a class="sourceLine" id="cb152-8" data-line-number="8">                           <span class="dt">app =</span> runif_id,</a>
-<a class="sourceLine" id="cb152-9" data-line-number="9">                           <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb152-10" data-line-number="10"><span class="co"># confirm</span></a>
-<a class="sourceLine" id="cb152-11" data-line-number="11">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb152-6" data-line-number="6">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb152-7" data-line-number="7">  <span class="dt">name =</span> <span class="st">"Draft runif 3"</span>,</a>
+<a class="sourceLine" id="cb152-8" data-line-number="8">  <span class="dt">description =</span> <span class="st">"Description for runif 3"</span>,</a>
+<a class="sourceLine" id="cb152-9" data-line-number="9">  <span class="dt">app =</span> runif_id,</a>
+<a class="sourceLine" id="cb152-10" data-line-number="10">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb152-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb152-12" data-line-number="12"><span class="co"># confirm</span></a>
+<a class="sourceLine" id="cb152-13" data-line-number="13">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1792,11 +1876,13 @@ project : tengfei/demo-project</code></pre>
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="co"># get the single task you want to update</span></a>
 <a class="sourceLine" id="cb153-2" data-line-number="2">tsk &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="st">"Draft runif 3"</span>)</a>
 <a class="sourceLine" id="cb153-3" data-line-number="3">tsk</a>
-<a class="sourceLine" id="cb153-4" data-line-number="4">tsk<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> <span class="st">"Draft runif update"</span>,</a>
-<a class="sourceLine" id="cb153-5" data-line-number="5">           <span class="dt">description =</span> <span class="st">"draft 2"</span>,</a>
-<a class="sourceLine" id="cb153-6" data-line-number="6">           <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">max =</span> <span class="dv">100</span>))</a>
-<a class="sourceLine" id="cb153-7" data-line-number="7"><span class="co"># alternative way to check all inputs</span></a>
-<a class="sourceLine" id="cb153-8" data-line-number="8">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb153-4" data-line-number="4">tsk<span class="op">$</span><span class="kw">update</span>(</a>
+<a class="sourceLine" id="cb153-5" data-line-number="5">  <span class="dt">name =</span> <span class="st">"Draft runif update"</span>,</a>
+<a class="sourceLine" id="cb153-6" data-line-number="6">  <span class="dt">description =</span> <span class="st">"draft 2"</span>,</a>
+<a class="sourceLine" id="cb153-7" data-line-number="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">max =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb153-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb153-9" data-line-number="9"><span class="co"># alternative way to check all inputs</span></a>
+<a class="sourceLine" id="cb153-10" data-line-number="10">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1822,8 +1908,11 @@ project : tengfei/demo-project</code></pre>
 <p>Note: Hook function has to return <code>TRUE</code> (break monitoring) or <code>FALSE</code> (continuing) in the end.</p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a>
 <a class="sourceLine" id="cb156-2" data-line-number="2"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a>
-<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"draft"</span>, <span class="cf">function</span>(){<span class="kw">message</span>(<span class="st">"never happens"</span>); <span class="kw">return</span>(<span class="ot">TRUE</span>)})</a>
-<a class="sourceLine" id="cb156-4" data-line-number="4"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"draft"</span>, <span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb156-4" data-line-number="4">  <span class="kw">message</span>(<span class="st">"never happens"</span>)</a>
+<a class="sourceLine" id="cb156-5" data-line-number="5">  <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb156-6" data-line-number="6">})</a>
+<a class="sourceLine" id="cb156-7" data-line-number="7"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1868,23 +1957,33 @@ project : tengfei/demo-project</code></pre>
 <a href="#run-task-in-batch-mode" class="anchor"></a>Run task in batch mode</h3>
 <p>To run task in batch mode, (check <code><a href="../reference/batch.html">?batch</a></code>) for more details. The code below is a mock.</p>
 <div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="co"># batch by items</span></a>
-<a class="sourceLine" id="cb160-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(<span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
-<a class="sourceLine" id="cb160-3" data-line-number="3">                   <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb160-4" data-line-number="4">                   <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb160-5" data-line-number="5">                   <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
-<a class="sourceLine" id="cb160-6" data-line-number="6">                   <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb160-7" data-line-number="7">                                 <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb160-8" data-line-number="8">                                 <span class="dt">gtffile =</span> gtf.in)))</a>
-<a class="sourceLine" id="cb160-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb160-10" data-line-number="10"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
-<a class="sourceLine" id="cb160-11" data-line-number="11">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(<span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
-<a class="sourceLine" id="cb160-12" data-line-number="12">                   <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb160-13" data-line-number="13">                   <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb160-14" data-line-number="14">                   <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
-<a class="sourceLine" id="cb160-15" data-line-number="15">                                 <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)),</a>
-<a class="sourceLine" id="cb160-16" data-line-number="16">                   <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb160-17" data-line-number="17">                                 <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb160-18" data-line-number="18">                                 <span class="dt">gtffile =</span> gtf.in)))</a></code></pre></div>
+<a class="sourceLine" id="cb160-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb160-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
+<a class="sourceLine" id="cb160-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb160-5" data-line-number="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb160-6" data-line-number="6">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
+<a class="sourceLine" id="cb160-7" data-line-number="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb160-8" data-line-number="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb160-9" data-line-number="9">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb160-10" data-line-number="10">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb160-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb160-12" data-line-number="12">))</a>
+<a class="sourceLine" id="cb160-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb160-14" data-line-number="14"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
+<a class="sourceLine" id="cb160-15" data-line-number="15">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb160-16" data-line-number="16">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
+<a class="sourceLine" id="cb160-17" data-line-number="17">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb160-18" data-line-number="18">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb160-19" data-line-number="19">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
+<a class="sourceLine" id="cb160-20" data-line-number="20">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
+<a class="sourceLine" id="cb160-21" data-line-number="21">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
+<a class="sourceLine" id="cb160-22" data-line-number="22">  ),</a>
+<a class="sourceLine" id="cb160-23" data-line-number="23">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb160-24" data-line-number="24">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb160-25" data-line-number="25">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb160-26" data-line-number="26">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb160-27" data-line-number="27">  )</a>
+<a class="sourceLine" id="cb160-28" data-line-number="28">))</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1900,15 +1999,18 @@ project : tengfei/demo-project</code></pre>
 <div id="create-a-volume" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-volume" class="anchor"></a>Create a volume</h3>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">user =</span> <span class="st">"tengfei"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
-<a class="sourceLine" id="cb161-2" data-line-number="2">a<span class="op">$</span><span class="kw">add_volume</span>(<span class="dt">name   =</span> <span class="st">"tutorial_volume"</span>,</a>
-<a class="sourceLine" id="cb161-3" data-line-number="3">             <span class="dt">type   =</span> <span class="st">"s3"</span>,</a>
-<a class="sourceLine" id="cb161-4" data-line-number="4">             <span class="dt">bucket =</span> <span class="st">"tengfei-demo"</span>,</a>
-<a class="sourceLine" id="cb161-5" data-line-number="5">             <span class="dt">prefix =</span> <span class="st">""</span>,</a>
-<a class="sourceLine" id="cb161-6" data-line-number="6">             <span class="dt">access_key_id     =</span> <span class="st">"AKIAJQENSIA4DJQNZO3A"</span>,</a>
-<a class="sourceLine" id="cb161-7" data-line-number="7">             <span class="dt">secret_access_key =</span> <span class="st">"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"</span>,</a>
-<a class="sourceLine" id="cb161-8" data-line-number="8">             <span class="dt">sse_algorithm     =</span> <span class="st">"AES256"</span>,</a>
-<a class="sourceLine" id="cb161-9" data-line-number="9">             <span class="dt">access_mode       =</span> <span class="st">"RW"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">user =</span> <span class="st">"RFranklin"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
+<a class="sourceLine" id="cb161-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb161-3" data-line-number="3">a<span class="op">$</span><span class="kw">add_volume</span>(</a>
+<a class="sourceLine" id="cb161-4" data-line-number="4">  <span class="dt">name =</span> <span class="st">"tutorial_volume"</span>,</a>
+<a class="sourceLine" id="cb161-5" data-line-number="5">  <span class="dt">type =</span> <span class="st">"s3"</span>,</a>
+<a class="sourceLine" id="cb161-6" data-line-number="6">  <span class="dt">bucket =</span> <span class="st">"RFranklin-demo"</span>,</a>
+<a class="sourceLine" id="cb161-7" data-line-number="7">  <span class="dt">prefix =</span> <span class="st">""</span>,</a>
+<a class="sourceLine" id="cb161-8" data-line-number="8">  <span class="dt">access_key_id =</span> <span class="st">"your_access_key_id"</span>,</a>
+<a class="sourceLine" id="cb161-9" data-line-number="9">  <span class="dt">secret_access_key =</span> <span class="st">"your_secret_access_key"</span>,</a>
+<a class="sourceLine" id="cb161-10" data-line-number="10">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span>,</a>
+<a class="sourceLine" id="cb161-11" data-line-number="11">  <span class="dt">access_mode =</span> <span class="st">"RW"</span></a>
+<a class="sourceLine" id="cb161-12" data-line-number="12">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1919,7 +2021,7 @@ project : tengfei/demo-project</code></pre>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="co"># list all volume</span></a>
 <a class="sourceLine" id="cb162-2" data-line-number="2">a<span class="op">$</span><span class="kw">volume</span>()</a>
 <a class="sourceLine" id="cb162-3" data-line-number="3"><span class="co"># get unique volume by id</span></a>
-<a class="sourceLine" id="cb162-4" data-line-number="4">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"tengfei/tengfei_demo"</span>)</a>
+<a class="sourceLine" id="cb162-4" data-line-number="4">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)</a>
 <a class="sourceLine" id="cb162-5" data-line-number="5"><span class="co"># partial search by name</span></a>
 <a class="sourceLine" id="cb162-6" data-line-number="6">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">name =</span> <span class="st">"demo"</span>)</a></code></pre></div>
 <div align="right">
@@ -1940,7 +2042,7 @@ project : tengfei/demo-project</code></pre>
 <a href="#delete-volume" class="anchor"></a>Delete volume</h3>
 <p>This call deletes a volume you’ve created to refer to storage on Amazon Web Services or Google Cloud Storage.</p>
 <p>Note that any files you’ve imported from your volume onto a Seven Bridges environment, known as an alias, will no longer be usable. If a new volume is created with the same volume_id as the deleted volume, aliases will point to files on the newly created volume instead (if those exist).</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"tengfei/tengfei_demo"</span>)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1949,16 +2051,18 @@ project : tengfei/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#import-file-from-volume-to-project" class="anchor"></a>Import file from volume to project</h3>
 <p>This call imports a file from volume to your project.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"tengfei/tutorial_volume"</span>)</a>
-<a class="sourceLine" id="cb165-2" data-line-number="2">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">import</span>(<span class="dt">location =</span>  <span class="st">"A-RNA-File.bam.bai"</span>,</a>
-<a class="sourceLine" id="cb165-3" data-line-number="3">                <span class="dt">project =</span> <span class="st">"tengfei/s3tutorial"</span>,</a>
-<a class="sourceLine" id="cb165-4" data-line-number="4">                <span class="dt">name =</span> <span class="st">"new.bam.bai"</span>,</a>
-<a class="sourceLine" id="cb165-5" data-line-number="5">                <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb165-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb165-7" data-line-number="7"><span class="co"># get job status update</span></a>
-<a class="sourceLine" id="cb165-8" data-line-number="8"><span class="co"># state will be "COMPLETED" when it's finished, otherwise "PENDING"</span></a>
-<a class="sourceLine" id="cb165-9" data-line-number="9">v<span class="op">$</span><span class="kw">get_import_job</span>(res<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb165-10" data-line-number="10">v</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/tutorial_volume"</span>)</a>
+<a class="sourceLine" id="cb165-2" data-line-number="2">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">import</span>(</a>
+<a class="sourceLine" id="cb165-3" data-line-number="3">  <span class="dt">location =</span> <span class="st">"A-RNA-File.bam.bai"</span>,</a>
+<a class="sourceLine" id="cb165-4" data-line-number="4">  <span class="dt">project =</span> <span class="st">"RFranklin/s3tutorial"</span>,</a>
+<a class="sourceLine" id="cb165-5" data-line-number="5">  <span class="dt">name =</span> <span class="st">"new.bam.bai"</span>,</a>
+<a class="sourceLine" id="cb165-6" data-line-number="6">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb165-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb165-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb165-9" data-line-number="9"><span class="co"># get job status update</span></a>
+<a class="sourceLine" id="cb165-10" data-line-number="10"><span class="co"># state will be "COMPLETED" when it's finished, otherwise "PENDING"</span></a>
+<a class="sourceLine" id="cb165-11" data-line-number="11">v<span class="op">$</span><span class="kw">get_import_job</span>(res<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb165-12" data-line-number="12">v</a></code></pre></div>
 </div>
 <div id="export-file-from-project-to-volume" class="section level3">
 <h3 class="hasAnchor">
@@ -1969,14 +2073,16 @@ project : tengfei/demo-project</code></pre>
 <li>If this call is successful, the original project file will become an alias to the newly exported object on the volume. The source file will be deleted from the Seven Bridges environment and, if no more copies of this file exist, it will no longer count towards your total storage price on the Seven Bridges environment.</li>
 </ul>
 <p>When testing please update your file in a project.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">export</span>(<span class="dt">file =</span> <span class="st">"579fb1c9e4b08370afe7903a"</span>,</a>
-<a class="sourceLine" id="cb166-2" data-line-number="2">                <span class="dt">volume =</span> <span class="st">"tengfei/tutorial_volume"</span>,</a>
-<a class="sourceLine" id="cb166-3" data-line-number="3">                <span class="dt">location =</span> <span class="st">""</span>,  <span class="co"># when "" use old name</span></a>
-<a class="sourceLine" id="cb166-4" data-line-number="4">                <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span>)</a>
-<a class="sourceLine" id="cb166-5" data-line-number="5"><span class="co"># get job status update</span></a>
-<a class="sourceLine" id="cb166-6" data-line-number="6"><span class="co"># state will be "COMPLETED" when it's finished other wise "PENDING"</span></a>
-<a class="sourceLine" id="cb166-7" data-line-number="7">v<span class="op">$</span><span class="kw">get_export_job</span>(res<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb166-8" data-line-number="8">v</a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">export</span>(</a>
+<a class="sourceLine" id="cb166-2" data-line-number="2">  <span class="dt">file =</span> <span class="st">"579fb1c9e4b08370afe7903a"</span>,</a>
+<a class="sourceLine" id="cb166-3" data-line-number="3">  <span class="dt">volume =</span> <span class="st">"RFranklin/tutorial_volume"</span>,</a>
+<a class="sourceLine" id="cb166-4" data-line-number="4">  <span class="dt">location =</span> <span class="st">""</span>, <span class="co"># when "" use old name</span></a>
+<a class="sourceLine" id="cb166-5" data-line-number="5">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span></a>
+<a class="sourceLine" id="cb166-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb166-7" data-line-number="7"><span class="co"># get job status update</span></a>
+<a class="sourceLine" id="cb166-8" data-line-number="8"><span class="co"># state will be "COMPLETED" when it's finished other wise "PENDING"</span></a>
+<a class="sourceLine" id="cb166-9" data-line-number="9">v<span class="op">$</span><span class="kw">get_export_job</span>(res<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb166-10" data-line-number="10">v</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2047,98 +2153,121 @@ project : tengfei/demo-project</code></pre>
 <div id="cheatsheet" class="section level1">
 <h1 class="hasAnchor">
 <a href="#cheatsheet" class="anchor"></a>Cheatsheet</h1>
-<p>Quick cheat sheet (in progress)</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="co">## Authentication</span></a>
-<a class="sourceLine" id="cb169-2" data-line-number="2"><span class="kw">getToken</span>()</a>
-<a class="sourceLine" id="cb169-3" data-line-number="3">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
-<a class="sourceLine" id="cb169-4" data-line-number="4">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
-<a class="sourceLine" id="cb169-5" data-line-number="5">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
-<a class="sourceLine" id="cb169-6" data-line-number="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-tengfei"</span>)</a>
-<a class="sourceLine" id="cb169-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb169-8" data-line-number="8"><span class="co">## list API</span></a>
-<a class="sourceLine" id="cb169-9" data-line-number="9">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
+<p>Quick cheat sheet (in progress):</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="co"># 01 - Authentication ----------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb169-3" data-line-number="3"><span class="kw">getToken</span>()</a>
+<a class="sourceLine" id="cb169-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb169-5" data-line-number="5"><span class="co"># authentication methods</span></a>
+<a class="sourceLine" id="cb169-6" data-line-number="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
+<a class="sourceLine" id="cb169-7" data-line-number="7">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
+<a class="sourceLine" id="cb169-8" data-line-number="8">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
+<a class="sourceLine" id="cb169-9" data-line-number="9">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-user"</span>)</a>
 <a class="sourceLine" id="cb169-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co">## Rate limits</span></a>
-<a class="sourceLine" id="cb169-12" data-line-number="12">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
+<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co"># list all API calls</span></a>
+<a class="sourceLine" id="cb169-12" data-line-number="12">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
 <a class="sourceLine" id="cb169-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="co">## Users</span></a>
-<a class="sourceLine" id="cb169-15" data-line-number="15">a<span class="op">$</span><span class="kw">user</span>()</a>
-<a class="sourceLine" id="cb169-16" data-line-number="16">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"tengfei"</span>)</a>
-<a class="sourceLine" id="cb169-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb169-18" data-line-number="18"><span class="co">## billing</span></a>
-<a class="sourceLine" id="cb169-19" data-line-number="19">a<span class="op">$</span><span class="kw">billing</span>()</a>
-<a class="sourceLine" id="cb169-20" data-line-number="20">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> , <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb169-21" data-line-number="21">a<span class="op">$</span><span class="kw">invoice</span>()</a>
-<a class="sourceLine" id="cb169-22" data-line-number="22">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"fake_id"</span>)</a>
+<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="co"># API rate limit</span></a>
+<a class="sourceLine" id="cb169-15" data-line-number="15">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
+<a class="sourceLine" id="cb169-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb169-17" data-line-number="17"><span class="co"># 02 - User -------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb169-19" data-line-number="19">a<span class="op">$</span><span class="kw">user</span>()</a>
+<a class="sourceLine" id="cb169-20" data-line-number="20">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a>
+<a class="sourceLine" id="cb169-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb169-22" data-line-number="22"><span class="co"># 03 - Billing -----------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb169-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb169-24" data-line-number="24"><span class="co">## Project</span></a>
-<a class="sourceLine" id="cb169-25" data-line-number="25"><span class="co">### create new project</span></a>
-<a class="sourceLine" id="cb169-26" data-line-number="26">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> , <span class="dt">billing_group_id =</span> , <span class="dt">description =</span> )</a>
-<a class="sourceLine" id="cb169-27" data-line-number="27"><span class="co">### list all project owned by you</span></a>
-<a class="sourceLine" id="cb169-28" data-line-number="28">a<span class="op">$</span><span class="kw">project</span>()</a>
-<a class="sourceLine" id="cb169-29" data-line-number="29">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"yintengfei"</span>)</a>
-<a class="sourceLine" id="cb169-30" data-line-number="30"><span class="co">### partial match</span></a>
-<a class="sourceLine" id="cb169-31" data-line-number="31">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> , <span class="dt">id =</span> , <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb169-32" data-line-number="32"><span class="co">### delete</span></a>
-<a class="sourceLine" id="cb169-33" data-line-number="33">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb169-34" data-line-number="34"><span class="co">### update</span></a>
-<a class="sourceLine" id="cb169-35" data-line-number="35">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> , <span class="dt">description =</span> )</a>
-<a class="sourceLine" id="cb169-36" data-line-number="36"><span class="co">### members</span></a>
-<a class="sourceLine" id="cb169-37" data-line-number="37">p<span class="op">$</span><span class="kw">member</span>()</a>
-<a class="sourceLine" id="cb169-38" data-line-number="38">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> )</a>
-<a class="sourceLine" id="cb169-39" data-line-number="39">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> )<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> , <span class="dt">copy =</span> , <span class="dt">execute =</span> )</a>
-<a class="sourceLine" id="cb169-40" data-line-number="40">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> )<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb169-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb169-42" data-line-number="42"><span class="co">## file</span></a>
-<a class="sourceLine" id="cb169-43" data-line-number="43"><span class="co">### list all files in this project</span></a>
-<a class="sourceLine" id="cb169-44" data-line-number="44">p<span class="op">$</span><span class="kw">file</span>()</a>
-<a class="sourceLine" id="cb169-45" data-line-number="45"><span class="co">### list all public files</span></a>
-<a class="sourceLine" id="cb169-46" data-line-number="46">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
-<a class="sourceLine" id="cb169-47" data-line-number="47"><span class="co">### copy</span></a>
-<a class="sourceLine" id="cb169-48" data-line-number="48">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
-<a class="sourceLine" id="cb169-49" data-line-number="49"><span class="co">### delete</span></a>
-<a class="sourceLine" id="cb169-50" data-line-number="50">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb169-51" data-line-number="51"><span class="co">### download</span></a>
-<a class="sourceLine" id="cb169-52" data-line-number="52">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
-<a class="sourceLine" id="cb169-53" data-line-number="53">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
-<a class="sourceLine" id="cb169-54" data-line-number="54"><span class="co">### download all</span></a>
-<a class="sourceLine" id="cb169-55" data-line-number="55"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
-<a class="sourceLine" id="cb169-56" data-line-number="56"><span class="co">### update a file</span></a>
-<a class="sourceLine" id="cb169-57" data-line-number="57">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> , <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> , <span class="dt">b =</span> , ...))</a>
-<a class="sourceLine" id="cb169-58" data-line-number="58"><span class="co">### meta</span></a>
-<a class="sourceLine" id="cb169-59" data-line-number="59">fl<span class="op">$</span><span class="kw">meta</span>()</a>
-<a class="sourceLine" id="cb169-60" data-line-number="60">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
-<a class="sourceLine" id="cb169-61" data-line-number="61">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb169-62" data-line-number="62"></a>
-<a class="sourceLine" id="cb169-63" data-line-number="63"><span class="co">## App</span></a>
-<a class="sourceLine" id="cb169-64" data-line-number="64">a<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb169-65" data-line-number="65"><span class="co">### apps in a project</span></a>
-<a class="sourceLine" id="cb169-66" data-line-number="66">p<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb169-67" data-line-number="67">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> )</a>
-<a class="sourceLine" id="cb169-68" data-line-number="68">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> )</a>
-<a class="sourceLine" id="cb169-69" data-line-number="69"><span class="co">### add</span></a>
-<a class="sourceLine" id="cb169-70" data-line-number="70">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> , <span class="dt">filename =</span>)</a>
-<a class="sourceLine" id="cb169-71" data-line-number="71"></a>
-<a class="sourceLine" id="cb169-72" data-line-number="72"><span class="co">## Task</span></a>
-<a class="sourceLine" id="cb169-73" data-line-number="73">a<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb169-74" data-line-number="74">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> , <span class="dt">id =</span> )</a>
-<a class="sourceLine" id="cb169-75" data-line-number="75">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> )</a>
+<a class="sourceLine" id="cb169-24" data-line-number="24">a<span class="op">$</span><span class="kw">billing</span>()</a>
+<a class="sourceLine" id="cb169-25" data-line-number="25">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> ..., <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb169-26" data-line-number="26">a<span class="op">$</span><span class="kw">invoice</span>()</a>
+<a class="sourceLine" id="cb169-27" data-line-number="27">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a>
+<a class="sourceLine" id="cb169-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb169-29" data-line-number="29"><span class="co"># 04 - Project -----------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb169-31" data-line-number="31"><span class="co"># create new project</span></a>
+<a class="sourceLine" id="cb169-32" data-line-number="32">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> ..., <span class="dt">billing_group_id =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb169-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb169-34" data-line-number="34"><span class="co"># list all project owned by you</span></a>
+<a class="sourceLine" id="cb169-35" data-line-number="35">a<span class="op">$</span><span class="kw">project</span>()</a>
+<a class="sourceLine" id="cb169-36" data-line-number="36">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
+<a class="sourceLine" id="cb169-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb169-38" data-line-number="38"><span class="co"># partial match</span></a>
+<a class="sourceLine" id="cb169-39" data-line-number="39">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ..., <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb169-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb169-41" data-line-number="41"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb169-42" data-line-number="42">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb169-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb169-44" data-line-number="44"><span class="co"># update</span></a>
+<a class="sourceLine" id="cb169-45" data-line-number="45">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb169-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb169-47" data-line-number="47"><span class="co"># members</span></a>
+<a class="sourceLine" id="cb169-48" data-line-number="48">p<span class="op">$</span><span class="kw">member</span>()</a>
+<a class="sourceLine" id="cb169-49" data-line-number="49">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</a>
+<a class="sourceLine" id="cb169-50" data-line-number="50">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</a>
+<a class="sourceLine" id="cb169-51" data-line-number="51">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb169-52" data-line-number="52"></a>
+<a class="sourceLine" id="cb169-53" data-line-number="53"><span class="co"># 05 - File --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb169-55" data-line-number="55"><span class="co"># list all files in this project</span></a>
+<a class="sourceLine" id="cb169-56" data-line-number="56">p<span class="op">$</span><span class="kw">file</span>()</a>
+<a class="sourceLine" id="cb169-57" data-line-number="57"></a>
+<a class="sourceLine" id="cb169-58" data-line-number="58"><span class="co"># list all public files</span></a>
+<a class="sourceLine" id="cb169-59" data-line-number="59">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
+<a class="sourceLine" id="cb169-60" data-line-number="60"></a>
+<a class="sourceLine" id="cb169-61" data-line-number="61"><span class="co"># copy</span></a>
+<a class="sourceLine" id="cb169-62" data-line-number="62">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
+<a class="sourceLine" id="cb169-63" data-line-number="63"></a>
+<a class="sourceLine" id="cb169-64" data-line-number="64"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb169-65" data-line-number="65">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb169-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb169-67" data-line-number="67"><span class="co"># download</span></a>
+<a class="sourceLine" id="cb169-68" data-line-number="68">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
+<a class="sourceLine" id="cb169-69" data-line-number="69">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
+<a class="sourceLine" id="cb169-70" data-line-number="70"></a>
+<a class="sourceLine" id="cb169-71" data-line-number="71"><span class="co"># download all</span></a>
+<a class="sourceLine" id="cb169-72" data-line-number="72"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
+<a class="sourceLine" id="cb169-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb169-74" data-line-number="74"><span class="co"># update a file</span></a>
+<a class="sourceLine" id="cb169-75" data-line-number="75">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</a>
 <a class="sourceLine" id="cb169-76" data-line-number="76"></a>
-<a class="sourceLine" id="cb169-77" data-line-number="77">p<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb169-78" data-line-number="78">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> , <span class="dt">id =</span> )</a>
-<a class="sourceLine" id="cb169-79" data-line-number="79">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> )</a>
-<a class="sourceLine" id="cb169-80" data-line-number="80"></a>
-<a class="sourceLine" id="cb169-81" data-line-number="81">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> , <span class="dt">id =</span> )</a>
-<a class="sourceLine" id="cb169-82" data-line-number="82">tsk<span class="op">$</span><span class="kw">update</span>()</a>
-<a class="sourceLine" id="cb169-83" data-line-number="83">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
-<a class="sourceLine" id="cb169-84" data-line-number="84">tsk<span class="op">$</span><span class="kw">run</span>()</a>
-<a class="sourceLine" id="cb169-85" data-line-number="85">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
-<a class="sourceLine" id="cb169-86" data-line-number="86">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
-<a class="sourceLine" id="cb169-87" data-line-number="87">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
-<a class="sourceLine" id="cb169-88" data-line-number="88">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
-<a class="sourceLine" id="cb169-89" data-line-number="89"></a>
-<a class="sourceLine" id="cb169-90" data-line-number="90"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
-<a class="sourceLine" id="cb169-91" data-line-number="91"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> , <span class="dt">fun =</span> )</a></code></pre></div>
+<a class="sourceLine" id="cb169-77" data-line-number="77"><span class="co"># metadata</span></a>
+<a class="sourceLine" id="cb169-78" data-line-number="78">fl<span class="op">$</span><span class="kw">meta</span>()</a>
+<a class="sourceLine" id="cb169-79" data-line-number="79">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
+<a class="sourceLine" id="cb169-80" data-line-number="80">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb169-81" data-line-number="81"></a>
+<a class="sourceLine" id="cb169-82" data-line-number="82"><span class="co"># 06 - App ---------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-83" data-line-number="83"></a>
+<a class="sourceLine" id="cb169-84" data-line-number="84">a<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb169-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb169-86" data-line-number="86"><span class="co"># apps in a project</span></a>
+<a class="sourceLine" id="cb169-87" data-line-number="87">p<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb169-88" data-line-number="88">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> ...)</a>
+<a class="sourceLine" id="cb169-89" data-line-number="89">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> ...)</a>
+<a class="sourceLine" id="cb169-90" data-line-number="90"></a>
+<a class="sourceLine" id="cb169-91" data-line-number="91"><span class="co"># add new app</span></a>
+<a class="sourceLine" id="cb169-92" data-line-number="92">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> ..., <span class="dt">filename =</span> ...)</a>
+<a class="sourceLine" id="cb169-93" data-line-number="93"></a>
+<a class="sourceLine" id="cb169-94" data-line-number="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb169-95" data-line-number="95"></a>
+<a class="sourceLine" id="cb169-96" data-line-number="96">a<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb169-97" data-line-number="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-98" data-line-number="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb169-99" data-line-number="99"></a>
+<a class="sourceLine" id="cb169-100" data-line-number="100">p<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb169-101" data-line-number="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-102" data-line-number="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb169-103" data-line-number="103"></a>
+<a class="sourceLine" id="cb169-104" data-line-number="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-105" data-line-number="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
+<a class="sourceLine" id="cb169-106" data-line-number="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
+<a class="sourceLine" id="cb169-107" data-line-number="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
+<a class="sourceLine" id="cb169-108" data-line-number="108">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
+<a class="sourceLine" id="cb169-109" data-line-number="109">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
+<a class="sourceLine" id="cb169-110" data-line-number="110">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
+<a class="sourceLine" id="cb169-111" data-line-number="111">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
+<a class="sourceLine" id="cb169-112" data-line-number="112"></a>
+<a class="sourceLine" id="cb169-113" data-line-number="113"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
+<a class="sourceLine" id="cb169-114" data-line-number="114"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> ..., <span class="dt">fun =</span> ...)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>

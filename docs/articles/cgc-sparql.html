@@ -104,7 +104,7 @@
       <h1>Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-10</h4>
+            <h4 class="date">2018-10-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/cgc-sparql.Rmd"><code>vignettes/cgc-sparql.Rmd</code></a></small>
       <div class="hidden name"><code>cgc-sparql.Rmd</code></div>
@@ -142,8 +142,8 @@
 </ul>
 <p>Let’s see an example here, you will need the R package <code>SPARQL</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"SPARQL"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">endpoint =<span class="st"> "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">query =<span class="st"> "</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">endpoint &lt;-<span class="st"> "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">query &lt;-<span class="st"> "</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="st">prefix tcga: &lt;https://www.sbgenomics.com/ontologies/2014/11/tcga#&gt;</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
@@ -196,7 +196,7 @@
 <p>You can use the CGC API to access the TCGA files found via SPARQL queries. To get files that have download links, you will need to use the SPARQL variable <strong>path</strong> in your query.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># api(api_url = base, auth_token = auth_token, path = "action/files/get_ids",</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#     method = "POST", query = None, data = filelist)</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">df.path &lt;-<span class="st"> </span>df[,<span class="st">"path"</span>]</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">df.path &lt;-<span class="st"> </span>df[, <span class="st">"path"</span>]</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">df.path</a></code></pre></div>
 <p>You can directly copy those files to a project, make sure if the files is controlled access</p>
 <ul>
@@ -204,12 +204,16 @@
 <li>you log in from NIH eRA Commons</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">platform =</span> <span class="st">"cgc"</span>, <span class="dt">token =</span> <span class="st">"your_cgc_token"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># get id (only works for CGC platform)</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">ids =<span class="st"> </span>a<span class="op">$</span><span class="kw">get_id_from_path</span>(df.path)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># copy file from id to project with controlled access</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">(<span class="dt">p =</span> a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/control-test"</span>))</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">a<span class="op">$</span><span class="kw">copyFile</span>(ids, p<span class="op">$</span>id)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">platform =</span> <span class="st">"cgc"</span>, <span class="dt">token =</span> <span class="st">"your_cgc_token"</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># get id (only works for CGC platform)</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">ids &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">get_id_from_path</span>(df.path)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># copy file from id to project with controlled access</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/control-test"</span>))</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">a<span class="op">$</span><span class="kw">copyFile</span>(ids, p<span class="op">$</span>id)</a></code></pre></div>
 <p>Now have fun with more examples in this <a href="http://docs.cancergenomicscloud.org/docs/query-via-sparql">tutorial</a>.</p>
 </div>
 <div id="datasets-api-examples" class="section level2">
@@ -230,25 +234,29 @@
 <p>use <code>Auth$api()</code> method so there is no need to type base URL or token again.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># create an Auth object</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/"</span>,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">         <span class="dt">token =</span> <span class="st">"your_cgc_token"</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"datasets"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb4-3" data-line-number="3">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/"</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">token =</span> <span class="st">"your_cgc_token"</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"datasets"</span>)</a></code></pre></div>
 </div>
 <div id="return-list-of-all-tcga-entities" class="section level4">
 <h4 class="hasAnchor">
 <a href="#return-list-of-all-tcga-entities" class="anchor"></a>Return list of all TCGA entities</h4>
 <p>You can issue another <code>GET</code> request to the href of the tcga object, if you want to access TCGA data.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0"</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">         <span class="dt">token =</span> <span class="st">"your_cgc_token"</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">(<span class="dt">res =</span> a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>())  <span class="co"># default method is GET</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># list all resources/entities</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">names</span>(res<span class="op">$</span><span class="st">"_links"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0"</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">token =</span> <span class="st">"your_cgc_token"</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()) <span class="co"># default method is GET</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co"># list all resources/entities</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">names</span>(res<span class="op">$</span><span class="st">"_links"</span>)</a></code></pre></div>
 </div>
 <div id="interpreting-the-list-of-all-entities" class="section level4">
 <h4 class="hasAnchor">
 <a href="#interpreting-the-list-of-all-entities" class="anchor"></a>Interpreting the list of all entities</h4>
 <p>For example, to see a list of all TCGA files, send the request:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">(<span class="dt">res =</span> a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>))</a></code></pre></div>
 <p>For example, to see the <strong>metadata schema</strong> for files send the request:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files/schema"</span>)</a></code></pre></div>
 </div>
@@ -257,14 +265,14 @@
 <a href="#copy-files-to-you-project" class="anchor"></a>Copy files to you project</h4>
 <p>Get file id from Datasets API, then use public API to copy files. Make sure your project is “TCGA” compatible, otherwise if you are trying to copy controlled access data to your non-TCGA project, you will get</p>
 <pre><code>"HTTP Status 403: Insufficient privileges to access the requested file."</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">(<span class="dt">res =</span> a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">get_id =<span class="st"> </span><span class="cf">function</span>(obj){</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">   <span class="kw">sapply</span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">ids =<span class="st"> </span><span class="kw">get_id</span>(res)</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw">sapply</span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">ids &lt;-<span class="st"> </span><span class="kw">get_id</span>(res)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co"># create CGC auth</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">a_cgc =<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">platform =</span> <span class="st">"cgc"</span>, <span class="dt">token =</span> a<span class="op">$</span>token)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">a_cgc<span class="op">$</span><span class="kw">copyFile</span>(<span class="dt">id =</span> ids, <span class="dt">project =</span> <span class="st">"tengfei/tcga-demo"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb9-7" data-line-number="7">a_cgc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">platform =</span> <span class="st">"cgc"</span>, <span class="dt">token =</span> a<span class="op">$</span>token)</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">a_cgc<span class="op">$</span><span class="kw">copyFile</span>(<span class="dt">id =</span> ids, <span class="dt">project =</span> <span class="st">"RFranklin/tcga-demo"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="post-with-query" class="section level3">
@@ -274,9 +282,9 @@
 <div id="find-samples-connected-to-a-case" class="section level4">
 <h4 class="hasAnchor">
 <a href="#find-samples-connected-to-a-case" class="anchor"></a>Find samples connected to a case</h4>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">body =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="dt">entity =</span> <span class="st">"samples"</span>,</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="dt">hasCase =</span> <span class="st">"0004D251-3F70-4395-B175-C94C2F5B1B81"</span></a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">body &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">entity =</span> <span class="st">"samples"</span>,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">hasCase =</span> <span class="st">"0004D251-3F70-4395-B175-C94C2F5B1B81"</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">)</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</a></code></pre></div>
 <p>Count samples connected to a case</p>
@@ -284,22 +292,25 @@
 <p>Issuing a <code>GET</code> request to the href path will return the following data:</p>
 <p>Note: <code>api</code> function is a light layer of httr package, it’s different from <code>Auth$api</code> call.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">    <span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">token =</span> a<span class="op">$</span>token,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">        <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="kw"><a href="../reference/api.html">api</a></span>(</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="dt">token =</span> a<span class="op">$</span>token,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">)</a></code></pre></div>
 </div>
 <div id="find-cases-with-given-age-at-diagnosis" class="section level4">
 <h4 class="hasAnchor">
 <a href="#find-cases-with-given-age-at-diagnosis" class="anchor"></a>Find cases with given age at diagnosis</h4>
 <p>Suppose you want to see all cases for which the age at diagnosis is between 10 and 50. Then, you use the following query.</p>
 <p>Note that the value of the metadata field hasAgeAtDiagnosis is a dictionary containing the keyfilter, whose value is a further dictionary with keysgt(greater than) and lt (less than) for the upper and lower bounds to filter by.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">body =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">   <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">   <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">       <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">           <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">           <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">       )</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">   )</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">body &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">      <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">      <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">  )</a>
 <a class="sourceLine" id="cb13-9" data-line-number="9">)</a>
 <a class="sourceLine" id="cb13-10" data-line-number="10">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</a></code></pre></div>
 </div>
@@ -307,64 +318,70 @@
 <h4 class="hasAnchor">
 <a href="#find-cases-with-a-given-age-at-diagnosis-and-disease" class="anchor"></a>Find cases with a given age at diagnosis and disease</h4>
 <p>Suppose you want to see all cases that, as in the example, (<a href="#find-cases-with-given-age-at-diagnosis">Find cases with given age at diagnosis</a>)(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease “Kidney Chromophobe”. Then, use the following query:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">body =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">   <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">   <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">       <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">           <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">           <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">       )</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">   ),</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">   <span class="st">"hasDiseaseType"</span> =<span class="st"> "Kidney Chromophobe"</span></a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">body &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">      <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">      <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  ),</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">  <span class="st">"hasDiseaseType"</span> =<span class="st"> "Kidney Chromophobe"</span></a>
 <a class="sourceLine" id="cb14-10" data-line-number="10">)</a>
 <a class="sourceLine" id="cb14-11" data-line-number="11">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</a></code></pre></div>
 </div>
 <div id="complex-example-for-filtering-tcga-data" class="section level4">
 <h4 class="hasAnchor">
 <a href="#complex-example-for-filtering-tcga-data" class="anchor"></a>Complex example for filtering TCGA data</h4>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">body =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">    <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">        <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">        <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">            <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">        )</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">        ),</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">    <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">        <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">"Liver"</span>, <span class="st">"Pancreas"</span>),</a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">        <span class="st">"hasNewTumorEventType"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">            <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb15-13" data-line-number="13">                <span class="st">"contains"</span> =<span class="st"> "Recurrence"</span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14">            )</a>
-<a class="sourceLine" id="cb15-15" data-line-number="15">        )</a>
-<a class="sourceLine" id="cb15-16" data-line-number="16">    )</a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">body &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">      <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">  ),</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">    <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">"Liver"</span>, <span class="st">"Pancreas"</span>),</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11">    <span class="st">"hasNewTumorEventType"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">      <span class="st">"filter"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-13" data-line-number="13">        <span class="st">"contains"</span> =<span class="st"> "Recurrence"</span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14">      )</a>
+<a class="sourceLine" id="cb15-15" data-line-number="15">    )</a>
+<a class="sourceLine" id="cb15-16" data-line-number="16">  )</a>
 <a class="sourceLine" id="cb15-17" data-line-number="17">)</a>
 <a class="sourceLine" id="cb15-18" data-line-number="18">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</a></code></pre></div>
 <p>Issuing a <code>GET</code> request to the href path</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">token =</span> a<span class="op">$</span>token,</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">        <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="kw"><a href="../reference/api.html">api</a></span>(</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">    <span class="dt">token =</span> a<span class="op">$</span>token,</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">    <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">)</a></code></pre></div>
 </div>
 <div id="query-with-multiple-filters-on-a-case" class="section level4">
 <h4 class="hasAnchor">
 <a href="#query-with-multiple-filters-on-a-case" class="anchor"></a>Query with multiple filters on a case</h4>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">get_id =<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw">sapply</span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</a>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw">sapply</span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">names</span>(res)</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">body =<span class="st"> </span><span class="kw">list</span>(<span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">            <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">                <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">                <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">                    <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span>,</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8">                    <span class="st">"hasID"</span> =<span class="st"> "TCGA-DD-AAVP-01A-11"</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9">                )</a>
-<a class="sourceLine" id="cb17-10" data-line-number="10">            ),</a>
-<a class="sourceLine" id="cb17-11" data-line-number="11">            <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb17-12" data-line-number="12">                <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> "Liver"</span>,</a>
-<a class="sourceLine" id="cb17-13" data-line-number="13">                <span class="st">"hasNewTumorEventType"</span> =<span class="st"> "Intrahepatic Recurrence"</span></a>
-<a class="sourceLine" id="cb17-14" data-line-number="14">            )</a>
-<a class="sourceLine" id="cb17-15" data-line-number="15">)</a>
-<a class="sourceLine" id="cb17-16" data-line-number="16">(<span class="dt">res =</span> a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>, <span class="dt">body =</span> body))</a>
-<a class="sourceLine" id="cb17-17" data-line-number="17"><span class="kw">get_id</span>(res)</a></code></pre></div>
+<a class="sourceLine" id="cb17-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">body &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">    <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">      <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span>,</a>
+<a class="sourceLine" id="cb17-10" data-line-number="10">      <span class="st">"hasID"</span> =<span class="st"> "TCGA-DD-AAVP-01A-11"</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11">    )</a>
+<a class="sourceLine" id="cb17-12" data-line-number="12">  ),</a>
+<a class="sourceLine" id="cb17-13" data-line-number="13">  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb17-14" data-line-number="14">    <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> "Liver"</span>,</a>
+<a class="sourceLine" id="cb17-15" data-line-number="15">    <span class="st">"hasNewTumorEventType"</span> =<span class="st"> "Intrahepatic Recurrence"</span></a>
+<a class="sourceLine" id="cb17-16" data-line-number="16">  )</a>
+<a class="sourceLine" id="cb17-17" data-line-number="17">)</a>
+<a class="sourceLine" id="cb17-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb17-19" data-line-number="19">(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>, <span class="dt">body =</span> body))</a>
+<a class="sourceLine" id="cb17-20" data-line-number="20"><span class="kw">get_id</span>(res)</a></code></pre></div>
 </div>
 </div>
 </div>

@@ -104,7 +104,7 @@
       <h1>IDE Container: RStudio Server, Shiny Server, and More</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-10</h4>
+            <h4 class="date">2018-10-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/rstudio.Rmd"><code>vignettes/rstudio.Rmd</code></a></small>
       <div class="hidden name"><code>rstudio.Rmd</code></div>
@@ -137,7 +137,7 @@
 <a href="#build-container-locally" class="anchor"></a>Build container locally</h2>
 <p>The <code>Dockerfile</code> is included with the package in <code>inst/docker</code> folder.</p>
 <p>Here is the current content of <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">fl =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/sevenbridges/"</span>, <span class="st">"Dockerfile"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/sevenbridges/"</span>, <span class="st">"Dockerfile"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
@@ -239,7 +239,7 @@ RUN wget --no-verbose https://s3.amazonaws.com/rstudio-shiny-server-os-build/ubu
     gdebi -n shiny-server-latest.deb &amp;&amp; \
     rm -f version.txt shiny-server-latest.deb
 
-RUN Rscript -e "install.packages(c('shiny', 'rmarkdown', 'rsconnect'), repos = 'https://cran.rstudio.com/')"
+RUN Rscript -e "install.packages(c('shiny', 'rmarkdown', 'rsconnect'), repos = 'https://cloud.r-project.org/')"
 
 RUN cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 

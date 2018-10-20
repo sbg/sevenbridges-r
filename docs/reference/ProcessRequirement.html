@@ -307,12 +307,10 @@ that will be called from CWL expressions.</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>dkr</span> <span class='kw'>&lt;-</span> <span class='fu'>DockerRequirement</span>(<span class='kw'>dockerImageId</span> <span class='kw'>=</span> <span class='st'>"testid"</span>)
-<span class='no'>cfr</span> <span class='kw'>&lt;-</span> <span class='fu'>CreateFileRequirement</span>(<span class='kw'>fileDef</span> <span class='kw'>=</span>
-                                 <span class='fu'>FileDefList</span>(<span class='fu'>FileDef</span>(<span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"hello.txt"</span>)))
+<span class='no'>cfr</span> <span class='kw'>&lt;-</span> <span class='fu'>CreateFileRequirement</span>(<span class='kw'>fileDef</span> <span class='kw'>=</span> <span class='fu'>FileDefList</span>(<span class='fu'>FileDef</span>(<span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"hello.txt"</span>)))
 <span class='no'>sfr</span> <span class='kw'>&lt;-</span> <span class='fu'>SubworkflowFeatureRequirement</span>()
 <span class='no'>evr</span> <span class='kw'>&lt;-</span> <span class='fu'>EnvVarRequirement</span>(<span class='kw'>envDef</span> <span class='kw'>=</span> <span class='fu'>EnvironmentDefList</span>(
-    <span class='fu'>EnvironmentDef</span>(<span class='kw'>envName</span> <span class='kw'>=</span> <span class='st'>"path"</span>,
-                   <span class='kw'>envValue</span> <span class='kw'>=</span> <span class='st'>"testpath"</span>)
+  <span class='fu'>EnvironmentDef</span>(<span class='kw'>envName</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>envValue</span> <span class='kw'>=</span> <span class='st'>"testpath"</span>)
 ))
 <span class='no'>safr</span> <span class='kw'>&lt;-</span> <span class='fu'>ScatterFeatureRequirement</span>()
 <span class='no'>eer</span> <span class='kw'>&lt;-</span> <span class='fu'>ExpressionEngineRequirement</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)

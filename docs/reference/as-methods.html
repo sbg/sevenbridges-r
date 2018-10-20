@@ -187,20 +187,20 @@ For example, class CWL, SimpleList.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## define a S4 object</span>
+<span class='co'># define a S4 object</span>
 <span class='no'>A</span> <span class='kw'>&lt;-</span> <span class='fu'>setClass</span>(<span class='st'>"A"</span>, <span class='kw'>slots</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"character"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>))
-<span class='co'>## define a reference object which extends 'CWL' class</span>
+<span class='co'># define a reference object which extends 'CWL' class</span>
 <span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'>setRefClass</span>(<span class='st'>"B"</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"character"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"A"</span>), <span class='kw'>contains</span> <span class='kw'>=</span> <span class='st'>"CWL"</span>)
-<span class='co'>## new instances</span>
+<span class='co'># new instances</span>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>A</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"hello"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>123</span>)
 <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>B</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"world"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>a</span>)
 
-<span class='co'>## show</span>
+<span class='co'># show</span>
 <span class='no'>b</span>
 <span class='no'>b</span>$<span class='fu'>show</span>(<span class='st'>"JSON"</span>)
 <span class='no'>b</span>$<span class='fu'>show</span>(<span class='st'>"YAML"</span>)
 
-<span class='co'>## You can convert slots/fields into a list</span>
+<span class='co'># You can convert slots/fields into a list</span>
 <span class='fu'>asList</span>(<span class='no'>a</span>)
 <span class='fu'>asList</span>(<span class='no'>b</span>)
 <span class='no'>b</span>$<span class='fu'>toList</span>()

@@ -222,18 +222,20 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>t2</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
-<span class='no'>t2</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t2</span>)
+<span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
+<span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t2</span>)
 <span class='co'># check possible link</span>
 <span class='fu'><a href='link_what.html'>link_what</a></span>(<span class='no'>t1</span>, <span class='no'>t2</span>)
 <span class='co'># link</span>
-<span class='no'>f1</span> <span class='kw'>=</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>)
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>)
 <span class='co'># link</span>
-<span class='no'>f2</span> <span class='kw'>=</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>,
-         <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='st'>"#SBG_Unpack_FASTQs.input_archive_file"</span>,
-         <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='st'>"#STAR.log_files"</span>)
+<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(
+  <span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>,
+  <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='st'>"#SBG_Unpack_FASTQs.input_archive_file"</span>,
+  <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='st'>"#STAR.log_files"</span>
+)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

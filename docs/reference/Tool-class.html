@@ -179,43 +179,24 @@ with more seven bridges flabored fields the <code>SBG</code> class.
     <dt><code>get_input_port()</code></dt><dd><p>the inputs node with <code>sbg:includeInPorts</code> equals <code>TRUE</code></p></dd>
     <dt><code>get_output(name = NULL, id = NULL)</code></dt><dd><p>get output objects by names or id</p></dd>
     <dt><code>get_required()</code></dt><dd><p>return required input fields types, names of them are input id</p></dd>
-    <dt><code>input_id(full = FALSE, requiredOnly = FALSE)</code></dt><dd><p>Get input id from a Tool, when full = TRUE,
-connect tool id with input id. e.g. If
-requiredOnly = TRUE, return required field only.</p></dd>
+    <dt><code>input_id(full = FALSE, requiredOnly = FALSE)</code></dt><dd><p>Get input id from a Tool, when full = TRUE, connect tool id with input id. e.g. If requiredOnly = TRUE, return required field only.</p></dd>
     <dt><code><a href='input_output_matrix.html'>input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)</a></code></dt><dd><p>This return a matrix of input parameters, by default,
-following the order id, label, type, required, prefix,
-fileTypes. new.order accept names of column you want to
-print, but it has to be a field of inputs. When its set
-to NULL, it prints all fields. When required = TRUE,
-only print required field.</p></dd>
+  "fileTypes"), required = NULL)</a></code></dt><dd><p>This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
     <dt><code>input_type()</code></dt><dd><p>this return a vector of types, names of them are input id</p></dd>
-    <dt><code>output_id(full = FALSE)</code></dt><dd><p>Get output id from a Tool, when full = TRUE,
-connect tool id with input id.</p></dd>
-    <dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default,
-following the order id, label, type, fileTypes.
-new.order accept names of column you want to print,
-but it has to be a field of outputs. When its set to
-NULL, it prints all fields. when required = TRUE,
-only print required field.</p></dd>
+    <dt><code>output_id(full = FALSE)</code></dt><dd><p>Get output id from a Tool, when full = TRUE, connect tool id with input id.</p></dd>
+    <dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when required = TRUE, only print required field.</p></dd>
     <dt><code>output_type()</code></dt><dd><p>this return a vector of types, names of them are output id</p></dd>
-    <dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally.
-engine supported: bunny, rabix, cwlrun.
-Inputs accept list or JSON</p></dd>
-    <dt><code>set_input_port(ids, include = TRUE)</code></dt><dd><p>Set inputs ports field <code>sbg:includeInPorts</code>
-to the value of include, default is <code>TRUE</code>.</p></dd>
-    <dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set an input node required or not required. The first
-parameter takes single input id or more than one ids.
-the second parameters <code>required</code> is the value you
-want to set to inputs. <code>TRUE</code> means set to required.</p></dd>
+    <dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.</p></dd>
+    <dt><code>set_input_port(ids, include = TRUE)</code></dt><dd><p>Set inputs ports field sbg:includeInPorts to the value of include, default is TRUE.</p></dd>
+    <dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set an input node required or not required. The first parameter takes single input id or more than one ids. The second parameters required is the value you want to set to inputs. TRUE means set to required.</p></dd>
 </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='co'># convert json file into a Tool object</span>
-<span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
+<span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
 <span class='co'># get input type information</span>
 <span class='no'>t1</span>$<span class='fu'>input_type</span>()
 <span class='co'># get output type information</span>
@@ -254,11 +235,11 @@ want to set to inputs. <code>TRUE</code> means set to required.</p></dd>
 <span class='no'>t1</span>$<span class='fu'>get_output</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"gene"</span>)
 <span class='no'>t1</span>$<span class='fu'>get_output</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"#aligned_reads"</span>)
 <span class='co'># get a tool from a flow</span>
-<span class='no'>f1</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='co'># convert json file into a Tool object</span>
-<span class='no'>f1</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
-<span class='no'>t2</span> <span class='kw'>=</span> <span class='no'>f1</span>$<span class='fu'>get_tool</span>(<span class='st'>"STAR$"</span>)
-<span class='no'>oid</span> <span class='kw'>=</span> <span class='no'>t2</span>$<span class='fu'>get_input_port</span>()
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
+<span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='no'>f1</span>$<span class='fu'>get_tool</span>(<span class='st'>"STAR$"</span>)
+<span class='no'>oid</span> <span class='kw'>&lt;-</span> <span class='no'>t2</span>$<span class='fu'>get_input_port</span>()
 <span class='no'>oid</span>
 <span class='co'># set new ports</span>
 <span class='no'>t2</span>$<span class='fu'>input_id</span>()
@@ -268,9 +249,9 @@ want to set to inputs. <code>TRUE</code> means set to required.</p></dd>
 <span class='no'>t2</span>$<span class='fu'>get_input_port</span>()
 <span class='co'># run the tool locally with example data</span>
 <span class='co'># }</span><span class='co'># NOT RUN {</span>
-<span class='no'>t3</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app/dna2protein"</span>, <span class='st'>"translate.cwl.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>t3</span> <span class='kw'>=</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t3</span>)
-<span class='no'>fl</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app/dna2protein/data"</span>, <span class='st'>"input.txt"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>t3</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app/dna2protein"</span>, <span class='st'>"translate.cwl.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='no'>t3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t3</span>)
+<span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/app/dna2protein/data"</span>, <span class='st'>"input.txt"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='fu'><a href='set_test_env.html'>set_test_env</a></span>(<span class='st'>"dind"</span>, <span class='st'>"tengfei/testenv"</span>, <span class='st'>"~/mounts"</span>)
 <span class='no'>t3</span>$<span class='fu'>input_type</span>()
 <span class='no'>t3</span>$<span class='fu'>run</span>(<span class='fu'>list</span>(<span class='kw'>input_file</span> <span class='kw'>=</span> <span class='fu'><a href='Files-class.html'>Files</a></span>(<span class='no'>fl</span>)))  <span class='co'># Not File</span>

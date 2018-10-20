@@ -189,63 +189,22 @@ The default value is <code>"default"</code>.</p></dd>
     <dl class='dl-horizontal'>
 <dt><code><a href='api.html'>api(..., limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset, fields = NULL,
-  complete = FALSE)</a></code></dt><dd><p>This call returns all API paths, and pass arguments
-to api() function and input token and url automatically</p></dd>
-    <dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of
-paths used to access billing information via the
-API. else, This call lists all your billing groups,
-including groups that are pending or have been disabled.
-if breakdown = TRUE, This call returns a breakdown
-of spending per-project for the billing group
-specified by billing_group. For each project that
-the billing group is associated with, information
-is shown on the tasks run, including their
-initiating user (the runner), start and end times,
-and cost.</p></dd>
+  complete = FALSE)</a></code></dt><dd><p>This call returns all API paths, and pass arguments to api() function with input token and url automatically</p></dd>
+    <dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.</p></dd>
     <dt><code>file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
-  complete = FALSE, search.engine = c("server", "brute"), ...)</code></dt><dd><p>This call returns a list of all files in a specified
-project that you can access. For each file, the call
-returns: 1) Its ID 2) Its filename The project is
-specified as a query parameter in the call.</p></dd>
-    <dt><code>invoice(id = NULL, ...)</code></dt><dd><p>If no id provided, This call returns a list of invoices,
-            with information about each, including whether or not
-            the invoice is pending and the billing period it covers.
-    The call returns information about all your available
-            invoices, unless you use the query parameter bg_id to
-            specify the ID of a particular billing group, in which
-            case it will return the invoice incurred by that billing
-            group only.
-    If id was provided, This call retrieves information about
-            a selected invoice, including the costs for analysis
-            and storage, and the invoice period.</p></dd>
+  complete = FALSE, search.engine = c("server", "brute"), ...)</code></dt><dd><p>This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.</p></dd>
+    <dt><code>invoice(id = NULL, ...)</code></dt><dd><p>If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.</p></dd>
     <dt><code>project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, owner = NULL, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a
-list of all projects you are a member of.
-Each project's project_id and URL on the CGC
-will be returned. If name or id provided,
-we did a match search the list</p></dd>
+  exact = FALSE, owner = NULL, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.</p></dd>
     <dt><code>project_new(name = NULL, billing_group_id = NULL, description = name,
   tags = list(), type = "v2", locked = FALSE,
-  use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name,
-billing_group_id, optional parameteres: tags,
-description, type, and settings.</p></dd>
-    <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user.
-Each project's ID and URL will be returned.</p></dd>
-    <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current
-rate limit. This is the number of API calls you can
-make in one hour.</p></dd>
-    <dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns a list of the resources, such as projects,
-            billing groups, and organizations, that are accessible to you.
-    If you are not an administrator, this call will only return a
-            successful response if username is replaced with your own
-            username. If you are an administrator, you can replace
-            username with the username of any CGC user, to return
-            information on their resources.</p></dd>
+  use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.</p></dd>
+    <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.</p></dd>
+    <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current rate limit. This is the number of API calls you can make in one hour.</p></dd>
+    <dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns a list of the resources, such as projects, billing groups, and organizations, that are accessible to you. If you are not an administrator, this call will only return a successful response if username is replaced with your own username. If you are an administrator, you can replace username with the username of any platform user, to return information on their resources.</p></dd>
     <dt><code>volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list
-of all volumes you are a member of. If name or id
-provided, we did a match search the list</p></dd>
+  exact = FALSE, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.</p></dd>
 </dl>
     
 
@@ -253,7 +212,7 @@ provided, we did a match search the list</p></dd>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Direct authentication (default)</span>
 <span class='co'># replace with your auth token</span>
-<span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"aef7e9e3f6c54fb1b338ac4ecddf1a56"</span>
+<span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>platform</span> <span class='kw'>=</span> <span class='st'>"cgc"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>)
 
 <span class='co'># }</span><span class='co'># NOT RUN {</span>
