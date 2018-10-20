@@ -21,7 +21,7 @@ knitr::opts_chunk$set(comment = "")
 
 This tutorial assume you have basic knowledge about Docker concept.
 
-Note: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL v1.0 soon.
+**Note**: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL v1.0 soon.
 
 # App, Workflow, and Tool
 
@@ -140,18 +140,17 @@ There are some special type: ItemArray and enum. For ItemArray the type could be
 
 We also provide an __enum__ type, when you specify the enum, please pass the required name and symbols like this `type = enum("format", c("pdf", "html"))` then in the UI on the platform you will be poped with drop down when you execute the task.
 
-
-
 Now let's work though from simple case to most flexible case.
 
 ### Using existing Docker images and command
 
 If you already have a Docker image in mind that provide the functionality you need, you can just use it. The `baseCommand` is the command line you want to execute in that container. `stdout` specify the output file you want to capture the standard output and collect it on the platform.
 
-In this simple example, I know Docker image `rocker/r-base` has a function called `runif` I can directly called in command line with `Rscript -e`. Then I want the ouput is collected in `stdout` and ask the file system to capture the files matches "*.txt". Please pay attention to this, you tool may produce many intermediate files in current folder, if you don't tell which output you need, they will all be ignored, so make sure you collect those files via `outputs` parameter.
+In this simple example, we know Docker image `rocker/r-base` has a function called `runif` we can directly call in the command line with `Rscript -e`. Then we want the ouput to be collected in `stdout` and ask the file system to capture the output files that matches the pattern `*.txt`. Please pay attention to this, your tool may produce many intermediate files in the current folder, if you don't tell which output you need, they will all be ignored, so make sure you collect those files via the `outputs` parameter.
 
 ```{r}
 library("sevenbridges")
+
 rbx <- Tool(
   id = "runif",
   label = "runif",
@@ -165,7 +164,7 @@ rbx
 rbx$toJSON()
 ```
 
-By default the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON.
+By default, the tool object shows YAML, but you can simply convert it to JSON and copy it to your seven bridges platform graphic editor by importing JSON.
 
 ```{r}
 rbx$toJSON()
@@ -175,14 +174,13 @@ rbx$toYAML()
 
 ### Add customized script to existing Docker image
 
-Now you make want to run your own R script, but you still don't want to create new command line and a new Docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
+Now you may want to run your own R script, but you still don't want to create new command line and a new Docker image. You just want to run your script with new input files in existing container, it's time to introduce `fileDef`. You can either directly write script as string or just import a R file to `content`. And provided as `requirements`.
 
 ```{r}
 # Make a new file
 fd <- fileDef(
   name = "runif.R",
-  content = "set.seed(1)
-                   runif(100)"
+  content = "set.seed(1); runif(100)"
 )
 
 # read via reader
@@ -217,8 +215,7 @@ fd1 <- fileDef(
 )
 fd2 <- fileDef(
   name = "runif2.R",
-  content = "set.seed(1)
-                   runif(100)"
+  content = "set.seed(1); runif(100)"
 )
 
 rbx <- Tool(
@@ -237,7 +234,7 @@ rbx <- Tool(
 
 All those examples above, many parameters are hard-coded in your script, you don't have flexiblity to control how many numbers to generate. Most often, your tools or command line tools expose some inputs arguments to users. You need a better way to describe a command line with input/output.
 
-Now we bring the example to next level, for example, I prepare a Docker image called "tengfei/runif" on Docker Hub, this container has a exeutable command called "runif.R", you don't have to know what's inside, you only have to know when you run the command line in that container it looks like this
+Now we bring the example to next level. For example, we prepare a Docker image called `RFranklin/runif` on Docker Hub. This container has a exeutable command called `runif.R`, you don't have to know what is inside, you only have to know when you run the command line in that container it looks like this
 
 ```
 runif.R --n=100 --max=100 --min=1 --seed=123
@@ -252,14 +249,14 @@ So the goal here is to describe this command and expose all input parameters and
 
 To define input, you can specify
 
-- __id__ : unique identifier to this input node.
-- __description__: description, also visible on UI.
-- __type__: required to specify input types, files, integer, or character.
-- __label__: human readable label for this input node.
-- __prefix__: the prefix in command line for this input parameter.
-- __default__: default value for this input.
-- __required__: is this input parameter required or not. If required, when you execte the tool you have to provide a value for the parameter.
-- __cmdInclude__: included in command line or not.
+- `id` : unique identifier to this input node.
+- `description`: description, also visible on UI.
+- `type`: required to specify input types, files, integer, or character.
+- `label`: human readable label for this input node.
+- `prefix`: the prefix in command line for this input parameter.
+- `default`: default value for this input.
+- `required`: is this input parameter required or not. If required, when you execte the tool you have to provide a value for the parameter.
+- `cmdInclude`: included in command line or not.
 
 Output is similar, espeicaly when you want to collect file, you can use `glob` for pattern matching.
 
@@ -322,7 +319,7 @@ out.lst <- list(
 rbx <- Tool(
   id = "runif",
   label = "Random number generator",
-  hints = requirements(docker(pull = "tengfei/runif")),
+  hints = requirements(docker(pull = "RFranklin/runif")),
   baseCommand = "runif.R",
   inputs = in.lst, # or ins.df
   outputs = out.lst
@@ -356,7 +353,7 @@ out.df <- data.frame(
 rbx <- Tool(
   id = "runif",
   label = "Random number generator",
-  hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
+  hints = requirements(docker(pull = "RFranklin/runif"), cpu(1), mem(2000)),
   baseCommand = "runif.R",
   inputs = in.df, # or ins.df
   outputs = out.df
@@ -571,7 +568,7 @@ out.lst <- list(
     glob = "*.html",
     inheritMetadataFrom = "bam_file",
     metadata = list(
-      author = "tengfei",
+      author = "RFranklin",
       sample = "random"
     )
   )
@@ -587,7 +584,6 @@ cat(readLines(fl), sep = "\n")
 ```
 
 Note the stageInput example in the above script, you can set it to "copy" or "link".
-
 
 **Input node batch mode**
 
@@ -611,7 +607,7 @@ When you push your app to the platform, you will see the batch available at task
 
 # Describe Wokrflow in R
 
-***Note:*** The [GUI Tool Editor](https://docs.sevenbridges.com/docs/the-tool-editor) on Seven Bridges Platform is more conventient for this purpose.
+**Note**: The [GUI Tool Editor](https://docs.sevenbridges.com/docs/the-tool-editor) on Seven Bridges Platform is more conventient for this purpose.
 
 ## Import from a JSON file
 
@@ -665,7 +661,7 @@ To create a workflow, we provide simple interface to pipe your tool into a singl
 - Simple linear tool connection and chaining
 - Connect flow with one or more tools
 
-__Note__ for complicated workflow construction, I highly recommend just use our graphical interface to do it, there is no better way.
+**Note**: for complicated workflow construction, I highly recommend just use our graphical interface to do it, there is no better way.
 
 ### Connect simple linear tools
 
@@ -770,7 +766,7 @@ t2 <- Tool(
 # write_clip(t2$toJSON(pretty = TRUE))
 ```
 
-__Note__: this workflow contains tools that do not exist on the platform, so if you directly copy and paste the JSON into the GUI, it won't work properly, however, a simple way is to push your app to platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternative if you connect two tools you know they exist on the platform, you don't need to do so.
+**Note**: this workflow contains tools that do not exist on the platform, so if you directly copy and paste the JSON into the GUI, it won't work properly, however, a simple way is to push your app to platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternative if you connect two tools you know they exist on the platform, you don't need to do so.
 
 ```{r, eval = FALSE}
 # auto-check tool info and push new tools
@@ -870,16 +866,16 @@ tsk$run()
 
 **1. From CLI**
 
-While developing tools it is useful to test them locally first. For that we can use rabix -- reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use the Docker image **tengfei/testenv**:
+While developing tools it is useful to test them locally first. For that we can use rabix -- reproducible analyses for bioinformatics, https://github.com/rabix. To test your tool with latest implementation of rabix in Java (called **bunny**) you could use the Docker image `RFranklin/testenv`:
 
 ```bash
-docker pull tengfei/testenv
+docker pull RFranklin/testenv
 ```
 
 Dump your rabix tool as JSON into dir which also contains input data. `write(rbx$toJSON, file="<data_dir>/<tool>.json")`. Make **inputs.json** file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:
 
 ```bash
-docker run --privileged --name bunny -v </path/to/data_dir>:/bunny_data -dit tengfei/testenv
+docker run --privileged --name bunny -v </path/to/data_dir>:/bunny_data -dit RFranklin/testenv
 ```
 
 Execute tool
@@ -890,9 +886,8 @@ docker exec bunny bash -c 'cd /opt/bunny && ./rabix.sh -e /bunny_data /bunny_dat
 
 You'll see running logs from within container, and also output dir inside <data_dir> in home system.
 
-NOTE 1: tengfei/testenv has R, python, Java... so many tools can work without Docker requirement set. If you however set Docker requirement you need to pull image inside container first to run docker container inside running bunny docker.
-
-NOTE 2: inputs.json can also be inputs.yaml if you find it easier to declare inputs in YAML.
+- **Note 1**: `RFranklin/testenv` has R, Python, Java... so many tools can work without Docker requirement set. If you however set Docker requirement you need to pull image inside container first to run Docker container inside running bunny Docker.
+- **Note 2**: inputs.json can also be inputs.yaml if you find it easier to declare inputs in YAML.
 
 **2. From R**
 
@@ -921,13 +916,13 @@ out.df <- data.frame(
 rbx <- Tool(
   id = "runif",
   label = "Random number generator",
-  hints = requirements(docker(pull = "tengfei/runif"), cpu(1), mem(2000)),
+  hints = requirements(docker(pull = "RFranklin/runif"), cpu(1), mem(2000)),
   baseCommand = "runif.R",
   inputs = in.df, # or ins.df
   outputs = out.df
 )
 params <- list(number = 3, max = 5)
 
-set_test_env("tengfei/testenv", "mount_dir")
+set_test_env("RFranklin/testenv", "mount_dir")
 test_tool(rbx, params)
 ```

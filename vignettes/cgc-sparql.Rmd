@@ -14,11 +14,7 @@ vignette: >
 ---
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE, echo = TRUE)
 ```
 
 # Introdution
@@ -118,11 +114,15 @@ controlled access
 
 ```{r}
 library("sevenbridges")
+
 a <- Auth(platform = "cgc", token = "your_cgc_token")
+
 # get id (only works for CGC platform)
 ids <- a$get_id_from_path(df.path)
+
 # copy file from id to project with controlled access
-(p <- a$project(id = "tengfei/control-test"))
+(p <- a$project(id = "RFranklin/control-test"))
+
 a$copyFile(ids, p$id)
 ```
 
@@ -195,13 +195,13 @@ access data to your non-TCGA project, you will get
 
 ```{r}
 (res <- a$api(path = "files"))
-get_id <- function(obj) {
-  sapply(obj$"_embedded"$files, function(x) x$id)
-}
+
+get_id <- function(obj) sapply(obj$"_embedded"$files, function(x) x$id)
 ids <- get_id(res)
+
 # create CGC auth
 a_cgc <- Auth(platform = "cgc", token = a$token)
-a_cgc$copyFile(id = ids, project = "tengfei/tcga-demo")
+a_cgc$copyFile(id = ids, project = "RFranklin/tcga-demo")
 ```
 
 ### Post with query

@@ -96,7 +96,7 @@ Since we are constantly improving our API and client libraries, please also visi
 
 This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/package=devtools).
 
-```r
+```{r}
 install.packages("devtools")
 ```
 
@@ -113,7 +113,7 @@ apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 
 Install the latest version for `sevenbridges` from GitHub with the following:
 
-```r
+```{r}
 install.packages("BiocManager")
 install.packages("readr")
 
@@ -186,13 +186,13 @@ Assume we have already created the configuration file named
 `credentials` under the directory `$HOME/.sevenbridges/`:
 
 ```
-[aws-us-tengfei]
+[aws-us-rfranklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
 # This is a comment:
 # another user on the same platform
-[aws-us-yintengfei]
+[aws-us-rosalind-franklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
@@ -205,11 +205,10 @@ api_endpoint = https://gcp-api.sbgenomics.com/v2
 auth_token = token_for_this_user
 ```
 
-To load the user profile `aws-us-tengfei` from this configuration file,
-simply use:
+To load the user profile `aws-us-rfranklin` from this configuration file, simply use:
 
 ```{r}
-a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+a <- Auth(from = "file", profile_name = "aws-us-rfranklin")
 ```
 
 If `profile_name` is not specified, we will try to load the profile named `[default]`:
@@ -252,11 +251,11 @@ a$user()
 
 ```
 == User ==
-href : https://cgc-api.sbgenomics.com/v2/users/tengfei
-username : tengfei
-email : tengfei.yin@sevenbridges.com
-first_name : Tengfei
-last_name : Yin
+href : https://cgc-api.sbgenomics.com/v2/users/RFranklin
+username : RFranklin
+email : rosalind.franklin@sbgenomics.com
+first_name : Rosalind
+last_name : Franklin
 affiliation : Seven Bridges Genomics
 country : United States
 ```
@@ -268,7 +267,7 @@ country : United States
 This call returns information about the specified user. Note that currently you can view only your own user information, so this call is equivalent to the [call to get information about your account](#youruser).
 
 ```{r}
-a$user(username = "tengfei")
+a$user(username = "RFranklin")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -325,7 +324,7 @@ bid <- a$billing()$id
 
 ```
 == Project ==
-id : tengfei/api-testing
+id : RFranklin/api-testing
 name : api testing
 description : Just a test
 billing_group_id : <your_bid>
@@ -345,7 +344,7 @@ a$project(complete = TRUE)
 # return all named match "demo"
 a$project(name = "demo", complete = TRUE)
 # get the project you want by id
-p <- a$project(id = "tengfei/api-tutorial")
+p <- a$project(id = "RFranklin/api-tutorial")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -377,10 +376,10 @@ Now, from your `Auth` object, you copy an App `id` into your `project` id with a
 # copy
 a$copy_app(
   id = "admin/sbg-public-data/rna-seq-alignment-star/5",
-  project = "tengfei/api-testing", name = "new copy of star"
+  project = "RFranklin/api-testing", name = "new copy of star"
 )
 # check if it is copied
-p <- a$project(id = "tengfei/api-testing")
+p <- a$project(id = "RFranklin/api-testing")
 # list apps your got in your project
 p$app()
 ```
@@ -389,9 +388,9 @@ The short name is changed to `newcopyofstar`.
 
 ```
 == App ==
-id : tengfei/api-testing/newcopyofstar/0
+id : RFranklin/api-testing/newcopyofstar/0
 name : RNA-seq Alignment - STAR
-project : tengfei/api-testing-2
+project : RFranklin/api-testing-2
 revision : 0
 ```
 
@@ -400,7 +399,7 @@ Alternatively, you can copy it from the `app` object.
 ```{r}
 app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$copy_to(
-  project = "tengfei/api-testing",
+  project = "RFranklin/api-testing",
   name = "copy of star"
 )
 ```
@@ -423,12 +422,12 @@ app <- p$app_add("starlocal", fl.runif)
 You will get an app `id`, like the one below:
 
 ```
-"tengfei/api-testing/starlocal/0"
+"RFranklin/api-testing/starlocal/0"
 ```
 
 It's composed of the following elements:
 
-1. __project id__ : `tengfei/api`
+1. __project id__ : `RFranklin/api`
 2. __app short name__ : `runif`
 3. __revision__ : `0`
 
@@ -471,7 +470,7 @@ You can always check the App details on the visual interface for task input requ
 
 
 ```{r}
-app <- a$app(id = "tengfei/api-testing-2/newcopyofstar")
+app <- a$app(id = "RFranklin/api-testing-2/newcopyofstar")
 # get input matrix
 app$input_matrix()
 app$input_matrix(c("id", "label", "type"))
@@ -547,12 +546,12 @@ gtf_in <- p$file(
 
 ```{r}
 # add new tasks
-taskName <- paste0("tengfei_star-alignment ", date())
+taskName <- paste0("RFranklin-star-alignment ", date())
 
 tsk <- p$task_add(
   name = taskName,
   description = "star test",
-  app = "tengfei/api-testing-2/newcopyofstar/0",
+  app = "RFranklin/api-testing-2/newcopyofstar/0",
   inputs = list(
     sjdbGTFfile = gtf_in,
     fastq = fastq_in,
@@ -594,7 +593,7 @@ fastq_in <- p$file(name = fastqs, exact = TRUE)
 tsk <- p$task_add(
   name = taskName,
   description = "Batch Star Test",
-  app = "tengfei/api-testing-2/newcopyofstar/0",
+  app = "RFranklin/api-testing-2/newcopyofstar/0",
   batch = batch(
     input = "fastq",
     criteria = c("metadata.sample_id", "metadata.noexist_id")
@@ -832,13 +831,13 @@ Sys.unsetenv("SB_AUTH_TOKEN")
 You can create an ini-like file named `credentials` under the folder `$HOME/.sevenbridges/` and maintain your credentials for multiple accounts across various Seven Bridges environments. An example:
 
 ```
-[aws-us-tengfei]
+[aws-us-rfranklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
 # This is a comment:
 # another user on the same platform
-[aws-us-yintengfei]
+[aws-us-rosalind-franklin]
 api_endpoint = https://api.sbgenomics.com/v2
 auth_token = token_for_this_user
 
@@ -860,11 +859,11 @@ configuration file (`$HOME/.sevenbridges/credentials`), please use:
 a <- Auth(from = "file")
 ```
 
-To load the user profile `aws-us-tengfei` from this configuration file,
+To load the user profile `aws-us-rfranklin` from this configuration file,
 change the `profile_name`:
 
 ```{r}
-a <- Auth(from = "file", profile_name = "aws-us-tengfei")
+a <- Auth(from = "file", profile_name = "aws-us-rfranklin")
 ```
 
 To use a user configuration file from other locations (not recommended),
@@ -873,7 +872,7 @@ please specify the file path using the argument `config_file`. For example:
 ```{r}
 a <- Auth(
   from = "file", config_file = "~/sevenbridges.cfg",
-  profile_name = "aws-us-tengfei"
+  profile_name = "aws-us-rfranklin"
 )
 ```
 
@@ -1107,8 +1106,8 @@ If you did not provide a username, your user information will be shown.
 ```{r}
 # return your information
 a$user()
-# return user tengfei's information
-a$user("tengfei")
+# return user RFranklin's information
+a$user("RFranklin")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1157,8 +1156,8 @@ a$project()
 If you want to list the projects owned by and accessible to a particular user, specify the `owner` argument as follows. Each project's ID and path will be returned.
 
 ```{r}
-a$project(owner = "tengfei")
-a$project(owner = "yintengfei")
+a$project(owner = "RFranklin")
+a$project(owner = "Rosalind.Franklin")
 ```
 
 To get details about project(s), use `detail = TRUE`, as shown below.
@@ -1233,8 +1232,8 @@ You can update the following information about an existing project:
 - `billing_group_id`
 
 ```{r}
-a$project(id = "tengfei/helloworld")
-a$project(id = "tengfei/helloworld")$update(
+a$project(id = "RFranklin/helloworld")
+a$project(id = "RFranklin/helloworld")$update(
   name = "Hello World Update",
   description = "Update description"
 )
@@ -1250,7 +1249,7 @@ This call returns a list of the members of the specified project. For each membe
 - The member's permissions in the specified project
 
 ```{r}
-a$project(id = "tengfei/demo-project")$member()
+a$project(id = "RFranklin/demo-project")$member()
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1266,8 +1265,8 @@ Set permission by passing the following values: `copy`, `write`, `execute`, `adm
 Note: `read` is implicit and set by default. You can not be a project member without having `read` permissions.
 
 ```{r}
-m <- a$project(id = "tengfei/demo-project")$
-  member_add(username = "yintengfei")
+m <- a$project(id = "RFranklin/demo-project")$
+  member_add(username = "Rosalind.Franklin")
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1277,14 +1276,14 @@ m <- a$project(id = "tengfei/demo-project")$
 This call edits a user's permissions in the specified project. It can only be made by a user who has admin permissions in the project.
 
 ```{r}
-m <- a$project(id = "tengfei/demo-project")$
-  member(username = "yintengfei")
+m <- a$project(id = "RFranklin/demo-project")$
+  member(username = "Rosalind.Franklin")
 m$update(copy = TRUE)
 ```
 
 ```
 == Member ==
-username : yintengfei
+username : Rosalind.Franklin
 -- Permission --
 read : TRUE
 write : FALSE
@@ -1302,7 +1301,7 @@ To delete an existing member, just call the `delete()` action on the `Member` ob
 ```{r}
 m$delete()
 # confirm
-a$project(id = "tengfei/demo-project")$member()
+a$project(id = "RFranklin/demo-project")$member()
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1312,7 +1311,7 @@ a$project(id = "tengfei/demo-project")$member()
 To list all files belonging to a project, use the following request:
 
 ```{r}
-p <- a$project(id = "tengfei/demo-project")
+p <- a$project(id = "RFranklin/demo-project")
 p$file()
 ```
 
@@ -1350,10 +1349,10 @@ You can easily search by partial name, exact name, or id for many items like pro
 
 2. __Second rule: understand the operation__: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. __Note__ different metadata fields are treated as different fields as well, so it will be __AND__ operation for different metadata field.
 
-So for a quick example, this examples gives me all files in project "tengfei/demo" that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
+So for a quick example, this examples gives me all files in project `RFranklin/demo` that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
 
 ```{r}
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "RFranklin/demo")
 p$file(
   metadata = list(
     sample_id = "Sample1",
@@ -1413,10 +1412,10 @@ a$public_file(name = "ucsc.hg19", complete = TRUE)
 
 When you specify different metadata fields, the values use an __AND__ operation, and when you specify the same metadata fields, the values use an __OR__ operation.
 
-To list all files in project "tengfei/demo", that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request
+To list all files in project `RFranklin/demo`, that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request
 
 ```{r}
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "RFranklin/demo")
 p$file(metadata = list(
   sample_id = "Sample1",
   sample_id = "Sample2",
@@ -1433,7 +1432,7 @@ Tags are more flexible than metadata. You can search with multiple tags using an
 This examples shows how to return all files with the tag "s1" __OR__ "s2".
 
 ```{r}
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "RFranklin/demo")
 p$file(tag = c("s1", "s2"))
 ```
 
@@ -1451,7 +1450,7 @@ You can also get all files from a task. There are two ways to do it:
 a$task(id = "53020538-6936-422f-80de-02fa65ae4b39")$file()
 
 # OR
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "RFranklin/demo")
 p$file(origin.task = "53020538-6936-422f-80de-02fa65ae4b39")
 ```
 
@@ -1556,10 +1555,10 @@ Use the API client uploader by calling the `project$upload` function to upload a
 #### Upload single file
 
 ```{r}
-a <- Auth(username = "tengfei", platform = "cgc")
+a <- Auth(username = "RFranklin", platform = "cgc")
 fl <- system.file("extdata", "sample1.fastq", package = "sevenbridges")
 
-(p <- a$project(id = "tengfei/quickstart"))
+(p <- a$project(id = "RFranklin/quickstart"))
 
 # by default load .meta for the file
 p$upload(fl, overwrite = TRUE)
@@ -1680,14 +1679,14 @@ You can call the `update()` function from the Files object. Using this call, the
 If no parameters were provided, this call will just get the details of that file and update the object itself.
 
 ```{r}
-(fl <- a$project(id = "tengfei/demo-project")$file(name = "sample.fastq"))
+(fl <- a$project(id = "RFranklin/demo-project")$file(name = "sample.fastq"))
 ```
 
 ```
 == File ==
 id : 56c7916ae4b03b56a7d7
 name : sample.fastq
-project : tengfei/demo-project
+project : RFranklin/demo-project
 ```
 
 **Show metadata**
@@ -1787,7 +1786,7 @@ To completely overwrite the tags for a file, use the `obj$set_tag()` method, whi
 Let's use a file called `sample.bam` and play with its tags.
 
 ```{r}
-p <- a$project(id = "tengfei/s3tutorial")
+p <- a$project(id = "RFranklin/s3tutorial")
 fl <- p$file("sample.bam", exact = TRUE)
 # show tags for single file
 fl$tag()
@@ -1877,7 +1876,7 @@ x <- a$app(visibility = "public")
 length(x)
 x <- a$app(visibility = "public", complete = TRUE)
 length(x)
-x <- a$app(project = "tengfei/helloworld", complete = TRUE)
+x <- a$app(project = "RFranklin/helloworld", complete = TRUE)
 length(x)
 a$app(visibility = "public", limit = 5, offset = 150)
 ```
@@ -1913,7 +1912,7 @@ You can also copy directly from the app object, as shown below.
 ```{r}
 app <- a$public_app(id = "admin/sbg-public-data/rna-seq-alignment-star")
 app$copy_to(
-  project = "tengfei/api-testing",
+  project = "RFranklin/api-testing",
   name = "copy of star"
 )
 ```
@@ -1974,7 +1973,7 @@ rbx <- Tool(
   id = "runif",
   label = "Random number generator",
   hints = requirements(
-    docker(pull = "tengfei/runif"),
+    docker(pull = "RFranklin/runif"),
     cpu(1), mem(2000)
   ),
   baseCommand = "runif.R",
@@ -1995,7 +1994,7 @@ rbx <- Tool(
   id = "runif",
   label = "Random number generator",
   hints = requirements(
-    docker(pull = "tengfei/runif"),
+    docker(pull = "RFranklin/runif"),
     cpu(1), mem(2000)
   ),
   baseCommand = "runif.R",
@@ -2042,7 +2041,7 @@ p$task(detail = TRUE)
 To list a batch task using the `parent` parameter, pass the batch parent task id.
 
 ```{r}
-p <- a$project(id = "tengfei/demo")
+p <- a$project(id = "RFranklin/demo")
 p$task(id = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
 p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb")
 p$task(parent = "2e1ebed1-c53e-4373-870d-4732acacbbbb", status = "completed")
@@ -2064,7 +2063,7 @@ To create a draft task, you need to call the `task_add` function from the Projec
 # push an app first
 fl.runif <- system.file("extdata", "runif.json", package = "sevenbridges")
 a$project("demo")$app_add("runif_draft", fl.runif)
-runif_id <- "tengfei/demo-project/runif_draft"
+runif_id <- "RFranklin/demo-project/runif_draft"
 # create a draft task
 a$project("demo")$task_add(
   name = "Draft runif 3",
@@ -2228,14 +2227,15 @@ Learn more about volumes on the [Seven Bridges Platform](https://docs.sevenbridg
 ### Create a volume
 
 ```{r}
-a <- Auth(user = "tengfei", platform = "aws-us")
+a <- Auth(user = "RFranklin", platform = "aws-us")
+
 a$add_volume(
   name = "tutorial_volume",
   type = "s3",
-  bucket = "tengfei-demo",
+  bucket = "RFranklin-demo",
   prefix = "",
-  access_key_id = "AKIAJQENSIA4DJQNZO3A",
-  secret_access_key = "sW6ICz39scp4M72T4xaqryKJ9S3GWuYlwYvQrkMu",
+  access_key_id = "your_access_key_id",
+  secret_access_key = "your_secret_access_key",
   sse_algorithm = "AES256",
   access_mode = "RW"
 )
@@ -2249,7 +2249,7 @@ a$add_volume(
 # list all volume
 a$volume()
 # get unique volume by id
-a$volume(id = "tengfei/tengfei_demo")
+a$volume(id = "RFranklin/RFranklin_demo")
 # partial search by name
 a$volume(name = "demo")
 ```
@@ -2272,7 +2272,7 @@ This call deletes a volume you've created to refer to storage on Amazon Web Serv
 Note that any files you've imported from your volume onto a Seven Bridges environment, known as an alias, will no longer be usable. If a new volume is created with the same volume_id as the deleted volume, aliases will point to files on the newly created volume instead (if those exist).
 
 ```{r}
-a$volume(id = "tengfei/tengfei_demo")$delete()
+a$volume(id = "RFranklin/RFranklin_demo")$delete()
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -2282,10 +2282,10 @@ a$volume(id = "tengfei/tengfei_demo")$delete()
 This call imports a file from volume to your project.
 
 ```{r}
-v <- a$volume(id = "tengfei/tutorial_volume")
+v <- a$volume(id = "RFranklin/tutorial_volume")
 res <- v$import(
   location = "A-RNA-File.bam.bai",
-  project = "tengfei/s3tutorial",
+  project = "RFranklin/s3tutorial",
   name = "new.bam.bai",
   overwrite = TRUE
 )
@@ -2308,7 +2308,7 @@ When testing please update your file in a project.
 ```{r}
 res <- v$export(
   file = "579fb1c9e4b08370afe7903a",
-  volume = "tengfei/tutorial_volume",
+  volume = "RFranklin/tutorial_volume",
   location = "", # when "" use old name
   sse_algorithm = "AES256"
 )
@@ -2394,7 +2394,7 @@ a <- Auth(token = token, platform = "cgc")
 a <- Auth(from = "env")
 a <- Auth(from = "file", profile_name = "aws-us-user")
 
-# list API
+# list all API calls
 a$api()
 
 # API rate limit
@@ -2403,7 +2403,7 @@ a$rate_limit()
 # 02 - User -------------------------------------------------------------------
 
 a$user()
-a$user("tengfei")
+a$user("RFranklin")
 
 # 03 - Billing -----------------------------------------------------------------
 
@@ -2419,7 +2419,7 @@ a$project_new(name = ..., billing_group_id = ..., description = ...)
 
 # list all project owned by you
 a$project()
-a$project(owner = "yintengfei")
+a$project(owner = "Rosalind.Franklin")
 
 # partial match
 p <- a$project(name = ..., id = ..., exact = TRUE)
@@ -2501,4 +2501,3 @@ setTaskHook(status = ..., fun = ...)
 ```
 
 <div align="right"><a href="#top">top</a></div>
-
