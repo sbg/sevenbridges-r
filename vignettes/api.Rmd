@@ -2480,14 +2480,14 @@ p$app_add(short_name = ..., filename = ...)
 # 07 - Task --------------------------------------------------------------------
 
 a$task()
-a$task(name = ..., id = ...)
+a$task(id = ...)
 a$task(status = ...)
 
 p$task()
-p$task(name = ..., id = ...)
+p$task(id = ...)
 p$task(status = ...)
 
-tsk <- p$task(name = ..., id = ...)
+tsk <- p$task(id = ...)
 tsk$update()
 tsk$abort()
 tsk$run()

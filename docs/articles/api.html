@@ -104,7 +104,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-19</h4>
+            <h4 class="date">2018-10-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -763,7 +763,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##           cat("\r", "completed")
 ##           return(TRUE)
 ##         }
-## &lt;environment: 0x7f921628d308&gt;</code></pre>
+## &lt;environment: 0x7fd8f725af58&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to local folder.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
@@ -2250,14 +2250,14 @@ project : RFranklin/demo-project</code></pre>
 <a class="sourceLine" id="cb169-94" data-line-number="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb169-95" data-line-number="95"></a>
 <a class="sourceLine" id="cb169-96" data-line-number="96">a<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb169-97" data-line-number="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-97" data-line-number="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
 <a class="sourceLine" id="cb169-98" data-line-number="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
 <a class="sourceLine" id="cb169-99" data-line-number="99"></a>
 <a class="sourceLine" id="cb169-100" data-line-number="100">p<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb169-101" data-line-number="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-101" data-line-number="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
 <a class="sourceLine" id="cb169-102" data-line-number="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
 <a class="sourceLine" id="cb169-103" data-line-number="103"></a>
-<a class="sourceLine" id="cb169-104" data-line-number="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb169-104" data-line-number="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
 <a class="sourceLine" id="cb169-105" data-line-number="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
 <a class="sourceLine" id="cb169-106" data-line-number="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
 <a class="sourceLine" id="cb169-107" data-line-number="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
