@@ -1,7 +1,8 @@
 .response_files <- c(
   "id", "name", "size", "project",
   "created_on", "modified_on", "storage",
-  "origin", "tags", "metadata", "url"
+  "origin", "tags", "metadata", "url",
+  "parent", "type"
 )
 
 #' Class Files
@@ -25,6 +26,8 @@
 #' @field tags list as tags
 #' @field metadata a list for metadata associated with the file
 #' @field url file download url
+#' @field parent parent folder ID
+#' @field type "FILE" or "FOLDER"
 #'
 #' @note In sevenbridges package version <= 1.5.4, the \code{Files} class
 #' inherits from the \code{File} class defined in CWL. To avoid confusion,
@@ -51,7 +54,9 @@ Files <- setRefClass(
     origin = "listORNULL",
     tags = "listORNULL",
     metadata = "listORNULL",
-    url = "characterORNULL"
+    url = "characterORNULL",
+    parent = "characterORNULL",
+    type = "characterORNULL"
   ),
 
   methods = list(
@@ -65,7 +70,9 @@ Files <- setRefClass(
                               origin = list(),
                               tags = list(),
                               metadata = list(),
-                              url = NULL, ...) {
+                              url = NULL,
+                              parent = NULL,
+                              type = NULL, ...) {
       id <<- id
       name <<- name
       size <<- size
@@ -77,6 +84,8 @@ Files <- setRefClass(
       tags <<- tags
       metadata <<- metadata
       url <<- url
+      parent <<- parent
+      type <<- type
 
       callSuper(...)
     },
@@ -273,6 +282,8 @@ Files <- setRefClass(
     tags = x$tags,
     metadata = x$metadata,
     url = x$url,
+    parent = x$parent,
+    type = x$type,
     response = response(x)
   )
 }

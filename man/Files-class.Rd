@@ -50,6 +50,10 @@ it usually return the project id and stored with the object.}
 \item{\code{metadata}}{a list for metadata associated with the file}
 
 \item{\code{url}}{file download url}
+
+\item{\code{parent}}{parent folder ID}
+
+\item{\code{type}}{"FILE" or "FOLDER"}
 }}
 
 \section{Methods}{
