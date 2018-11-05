@@ -132,7 +132,7 @@ App <- setRefClass(
     },
 
     input_check = function(input, batch = NULL, proj = NULL) {
-      message("check id match")
+      message("Checking if ID matched...")
       in_type <- input_type()
       in_id <- names(in_type)
       cus_id <- names(input)
@@ -140,8 +140,8 @@ App <- setRefClass(
 
       if (sum(!idx)) {
         stop(
-          "id not matched: ", paste(cus_id[!idx], collapse = " "),
-          ".", "\n Inputs id should be \n", paste(in_id, collapse = " ")
+          "ID not matched: ", paste(cus_id[!idx], collapse = " "),
+          ".", "\n Inputs ID should be \n", paste(in_id, collapse = " ")
         )
       }
 
@@ -242,7 +242,7 @@ App <- setRefClass(
         # solve edge case
         for (i in id.fls) {
           if (is(input[[i]], "Files")) {
-            message("Coverting your single File to a FileList")
+            message("Coverting single File to a FileList...")
             input[[i]] <- list(input[[i]])
           }
         }

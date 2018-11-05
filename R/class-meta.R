@@ -924,7 +924,7 @@ formalizeMetaDataFrame <- function(x) {
     for (i in .i) {
       cls <- getRefClass(i)$fields()["type"]
       if (cls == "characterORNULL") {
-        message("converting column ", i, " to character")
+        message("Converting column ", i, " to character")
         x[, i] <- as.character(x[, i])
       }
     }
