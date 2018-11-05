@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-10-24</h4>
+            <h4 class="date">2018-11-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -141,17 +141,17 @@
 <p>First download the <a href="https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd">R Markdown source</a> of this page, so you can load it to your RStudio or your favorite IDE to run through all examples and tweak setup.</p>
 <p>This package <code>sevenbridges</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/release/bioc/html/sevenbridges.html">release branch</a>, <a href="https://bioconductor.org/packages/devel/bioc/html/sevenbridges.html">development branch</a>). The latest development version is on <a href="https://github.com/sbg/sevenbridges-r">GitHub</a>.</p>
 <p>To install the latest development version from GitHub, run the following commands in R:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
+<a class="sourceLine" id="cb1-6" title="6">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb1-9" title="9">)</a></code></pre></div>
 <p>After the installation you can always browse the vignettes</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">browseVignettes</span>(<span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">browseVignettes</span>(<span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a></code></pre></div>
 </div>
 <div id="register-on-cancer-genomics-cloud" class="section level2">
 <h2 class="hasAnchor">
@@ -207,7 +207,7 @@
 <p>Now let’s do some simple steps, first thing to do is to create an <em>Auth</em> object, almost everything started from this object. Our API client follow a style like this <code>Auth$properties$action</code>. On the platform, <code>Auth</code> is your account, and it contains projects, billing groups, users, project contains tasks, apps, files etc, so it’s easy to imagine your API call.</p>
 <p>To create an <code>Auth</code> object, simply pass the token and platform name (or alternatively, API base URL) to the <code>Auth</code> function. The default platform is set to CGC. Good news you can use the <code>sevenbridges</code> package to access any Seven Bridges platform with API (v2).</p>
 <p>This is the main way to create an Auth object, just replace <code>your_token</code> with your own authentication token from the CGC:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a></code></pre></div>
 <p>Alternatively, you can save your authentication cross different platforms in a user configuration file named <code>credentials</code> under the directory <code>$HOME/.sevenbridges/</code>. This allows you to manage multiple user profiles registered on multiple Seven Bridges environments. An example user configuration file looks like this:</p>
 <pre><code>[aws-us-tengfei]
 api_endpoint = https://api.sbgenomics.com/v2
@@ -227,25 +227,25 @@ auth_token = token_for_this_user
 api_endpoint = https://gcp-api.sbgenomics.com/v2
 auth_token = token_for_this_user</code></pre>
 <p>When you have this user configuration file ready at this default location, all you need to do is setting <code>from = "file"</code> and choose the <code>profile_name</code> to use. For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"cgc"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># # remove old project</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># a$project(id = "tengfei/hackathon")$delete()</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"cgc"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co"># # remove old project</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co"># a$project(id = "tengfei/hackathon")$delete()</span></a></code></pre></div>
 <p>The third way to save authentication information is by setting system environment variables. To set the two environment variables (<code>SB_API_ENDPOINT</code> and <code>SB_AUTH_TOKEN</code>) in your system, you could use the function <code><a href="../reference/sbg_set_env.html">sbg_set_env()</a></code>. For example:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="st">"https://cgc-api.sbgenomics.com/v2"</span>, <span class="st">"your_token"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="st">"https://cgc-api.sbgenomics.com/v2"</span>, <span class="st">"your_token"</span>)</a></code></pre></div>
 <p>To create an <code>Auth</code> object using credentials in the environment variables:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
 <p>To create a new project, you need to know your billing group id, cost related to this project will be charged from this billing group, now play with your free credit.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">(b &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">billing</span>())</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># a single billing group is showing</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">(b &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">billing</span>())</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co"># a single billing group is showing</span></a></code></pre></div>
 <p>Now let’s create a new project called “hackathon”, save it to an object named <code>p</code> for convenient usage for any call related to this project.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(<span class="st">"hackathon"</span>,</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">billing_group_id =</span> b<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">description =</span> <span class="st">"This project is for CGC hackathon"</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(<span class="st">"hackathon"</span>,</a>
+<a class="sourceLine" id="cb10-2" title="2">  <span class="dt">billing_group_id =</span> b<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb10-3" title="3">  <span class="dt">description =</span> <span class="st">"This project is for CGC hackathon"</span></a>
+<a class="sourceLine" id="cb10-4" title="4">))</a></code></pre></div>
 <p>Now check it on CGC, you will see a fresh new project is created.</p>
 <p><img src="https://i.imgur.com/oI0dXyu.png" width="100%" class="img-responsive" alt="cgc-projects"></p>
 <p>To delete it, just call, but I will suggest you keep it for following tutorial : )</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># p$delete()</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># p$delete()</span></a></code></pre></div>
 </div>
 <div id="build-a-rna-seq-tool-from-bam-to-report" class="section level2">
 <h2 class="hasAnchor">
@@ -356,15 +356,15 @@ auth_token = token_for_this_user</code></pre>
 </tbody>
 </table>
 <p>For example, you know there is an <code>runif</code> function in the <code>rocker/r-base</code> container, you can just do something like this. Please read another tutorial called “Describe and Execute CWL Tools/Workflows in R”, it introduced a simpler example with random number generator.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'runif(100)'"</span>,</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>)</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e 'runif(100)'"</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>)</a>
+<a class="sourceLine" id="cb12-8" title="8">)</a>
+<a class="sourceLine" id="cb12-9" title="9">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>{
   "sbg:id": "runif",
   "id": "#runif",
@@ -409,32 +409,32 @@ auth_token = token_for_this_user</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>If you don’t want to make a new container with command line interface and you can simply insert script temporarily for existing container. You can do things as quick as this, by provide a script in the ‘content’ of ‘fileDef’.</li>
 </ol>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># provide scripts</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co"># make a new script file</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">content =</span> <span class="st">"set.seed(1); runif(100)"</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>, <span class="co"># run script you created.</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>)</a>
-<a class="sourceLine" id="cb14-15" data-line-number="15">)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># provide scripts</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co"># make a new script file</span></a>
+<a class="sourceLine" id="cb14-3" title="3">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">content =</span> <span class="st">"set.seed(1); runif(100)"</span></a>
+<a class="sourceLine" id="cb14-6" title="6">)</a>
+<a class="sourceLine" id="cb14-7" title="7">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb14-8" title="8">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb14-9" title="9">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb14-10" title="10">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb14-11" title="11">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb14-12" title="12">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>, <span class="co"># run script you created.</span></a>
+<a class="sourceLine" id="cb14-13" title="13">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb14-14" title="14">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"*.txt"</span>)</a>
+<a class="sourceLine" id="cb14-15" title="15">)</a></code></pre></div>
 <p><strong>Note</strong>: in the above example, I made a mistake on purpose, so try to debug on the platform if the task fails : )</p>
 <p>I will introduce “Tool” function, in the later section, don’t worry.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>For advanced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level.</li>
 </ol>
 <p>Here is Dockerfile I used to generate the workflow I need</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,</a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb15-3" title="3">)</a></code></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
@@ -466,11 +466,11 @@ RUN chmod a+x /usr/local/bin/performDE.R \
 <li>Test function inside container</li>
 </ol>
 <p>Here is the command line I am using it’s called “performDE.R”</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,</a>
+<a class="sourceLine" id="cb18-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb18-3" title="3">)</a></code></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>#!/usr/bin/Rscript
 "usage: performDE.R [options]
 
@@ -544,11 +544,11 @@ options:
 <h3 class="hasAnchor">
 <a href="#step-4-add-default-report-template-to-your-app" class="anchor"></a>Step 4: Add default report template to your app</h3>
 <p>As a developer, if you always have a fixed report template provided for you tool, you can hard-code your template into your Docker container, like you noticed in the Dockerfile I created, I insert a report R Markdown template. And in the command line interface, in the end, I pass it to <code><a href="http://www.rdocumentation.org/packages/rmarkdown/topics/render">rmarkdown::render</a></code> function as parameters ‘param’. In this way, you define your input in the header of R Markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor’s RNA-Seq workflow <a href="https://www.bioconductor.org/help/workflows/rnaseqGene/">website</a>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,</a>
+<a class="sourceLine" id="cb22-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb22-3" title="3">)</a></code></pre></div>
 <p>Here is the current content (first 50 lines of the whole report) of the template:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl, <span class="dt">n =</span> <span class="dv">50</span>), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl, <span class="dt">n =</span> <span class="dv">50</span>), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>---
 title: "Uniform random number generator example"
 date: "`r Sys.Date()`"
@@ -624,64 +624,64 @@ opts_chunk$set(message = FALSE, error = FALSE,
 <li>Expression to specify the javascript expression (note:it’s convenient to do it with graphic user interface, because you can directly see the result of the expression)</li>
 <li>Enum: call ‘enum’.</li>
 </ul>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">  <span class="dt">id =</span> <span class="st">"rnaseqGene"</span>,</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">  <span class="dt">label =</span> <span class="st">"rnaseqgene"</span>,</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/rnaseqgene"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">  <span class="dt">baseCommand =</span> <span class="st">"performDE.R"</span>,</a>
-<a class="sourceLine" id="cb25-7" data-line-number="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb25-8" data-line-number="8">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb25-9" data-line-number="9">      <span class="dt">id =</span> <span class="st">"bamfiles"</span>, <span class="dt">label =</span> <span class="st">"bam files"</span>,</a>
-<a class="sourceLine" id="cb25-10" data-line-number="10">      <span class="dt">description =</span> <span class="st">"a list of bam files"</span>,</a>
-<a class="sourceLine" id="cb25-11" data-line-number="11">      <span class="dt">type =</span> <span class="st">"File..."</span>, <span class="co">## or type = ItemArray("File")</span></a>
-<a class="sourceLine" id="cb25-12" data-line-number="12">      <span class="dt">prefix =</span> <span class="st">"--bamfiles"</span>,</a>
-<a class="sourceLine" id="cb25-13" data-line-number="13">      <span class="dt">itemSeparator =</span> <span class="st">","</span></a>
-<a class="sourceLine" id="cb25-14" data-line-number="14">    ),</a>
-<a class="sourceLine" id="cb25-15" data-line-number="15">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb25-16" data-line-number="16">      <span class="dt">id =</span> <span class="st">"design"</span>, <span class="dt">label =</span> <span class="st">"design matrix"</span>,</a>
-<a class="sourceLine" id="cb25-17" data-line-number="17">      <span class="dt">type =</span> <span class="st">"File"</span>,</a>
-<a class="sourceLine" id="cb25-18" data-line-number="18">      <span class="dt">prefix =</span> <span class="st">"--design"</span></a>
-<a class="sourceLine" id="cb25-19" data-line-number="19">    ),</a>
-<a class="sourceLine" id="cb25-20" data-line-number="20">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb25-21" data-line-number="21">      <span class="dt">id =</span> <span class="st">"gtffile"</span>, <span class="dt">label =</span> <span class="st">"gene feature files"</span>,</a>
-<a class="sourceLine" id="cb25-22" data-line-number="22">      <span class="dt">type =</span> <span class="st">"File"</span>,</a>
-<a class="sourceLine" id="cb25-23" data-line-number="23">      <span class="dt">prefix =</span> <span class="st">"--gtffile"</span></a>
-<a class="sourceLine" id="cb25-24" data-line-number="24">    ),</a>
-<a class="sourceLine" id="cb25-25" data-line-number="25">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb25-26" data-line-number="26">      <span class="dt">id =</span> <span class="st">"format"</span>, <span class="dt">label =</span> <span class="st">"report foramt html or pdf"</span>,</a>
-<a class="sourceLine" id="cb25-27" data-line-number="27">      <span class="dt">type =</span> <span class="kw"><a href="../reference/Enum.html">enum</a></span>(<span class="st">"format"</span>, <span class="kw">c</span>(<span class="st">"pdf"</span>, <span class="st">"html"</span>)),</a>
-<a class="sourceLine" id="cb25-28" data-line-number="28">      <span class="dt">prefix =</span> <span class="st">"--format"</span></a>
-<a class="sourceLine" id="cb25-29" data-line-number="29">    )</a>
-<a class="sourceLine" id="cb25-30" data-line-number="30">  ),</a>
-<a class="sourceLine" id="cb25-31" data-line-number="31">  <span class="dt">outputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb25-32" data-line-number="32">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
-<a class="sourceLine" id="cb25-33" data-line-number="33">      <span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">label =</span> <span class="st">"report"</span>,</a>
-<a class="sourceLine" id="cb25-34" data-line-number="34">      <span class="dt">description =</span> <span class="st">"A reproducible report created by Rmarkdown"</span>,</a>
-<a class="sourceLine" id="cb25-35" data-line-number="35">      <span class="dt">glob =</span> <span class="kw"><a href="../reference/Expression-class.html">Expression</a></span>(</a>
-<a class="sourceLine" id="cb25-36" data-line-number="36">        <span class="dt">engine =</span> <span class="st">"#cwl-js-engine"</span>,</a>
-<a class="sourceLine" id="cb25-37" data-line-number="37">        <span class="dt">script =</span> <span class="st">"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x"</span></a>
-<a class="sourceLine" id="cb25-38" data-line-number="38">      )</a>
-<a class="sourceLine" id="cb25-39" data-line-number="39">    ),</a>
-<a class="sourceLine" id="cb25-40" data-line-number="40">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
-<a class="sourceLine" id="cb25-41" data-line-number="41">      <span class="dt">id =</span> <span class="st">"heatmap"</span>, <span class="dt">label =</span> <span class="st">"heatmap"</span>,</a>
-<a class="sourceLine" id="cb25-42" data-line-number="42">      <span class="dt">description =</span> <span class="st">"A heatmap plot to show the Euclidean distance between samples"</span>,</a>
-<a class="sourceLine" id="cb25-43" data-line-number="43">      <span class="dt">glob =</span> <span class="st">"heatmap.pdf"</span></a>
-<a class="sourceLine" id="cb25-44" data-line-number="44">    ),</a>
-<a class="sourceLine" id="cb25-45" data-line-number="45">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
-<a class="sourceLine" id="cb25-46" data-line-number="46">      <span class="dt">id =</span> <span class="st">"count"</span>, <span class="dt">label =</span> <span class="st">"count"</span>,</a>
-<a class="sourceLine" id="cb25-47" data-line-number="47">      <span class="dt">description =</span> <span class="st">"Reads counts matrix"</span>,</a>
-<a class="sourceLine" id="cb25-48" data-line-number="48">      <span class="dt">glob =</span> <span class="st">"count.csv"</span></a>
-<a class="sourceLine" id="cb25-49" data-line-number="49">    ),</a>
-<a class="sourceLine" id="cb25-50" data-line-number="50">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
-<a class="sourceLine" id="cb25-51" data-line-number="51">      <span class="dt">id =</span> <span class="st">"de"</span>, <span class="dt">label =</span> <span class="st">"Differential expression table"</span>,</a>
-<a class="sourceLine" id="cb25-52" data-line-number="52">      <span class="dt">description =</span> <span class="st">"Differential expression table"</span>,</a>
-<a class="sourceLine" id="cb25-53" data-line-number="53">      <span class="dt">glob =</span> <span class="st">"de.csv"</span></a>
-<a class="sourceLine" id="cb25-54" data-line-number="54">    )</a>
-<a class="sourceLine" id="cb25-55" data-line-number="55">  )</a>
-<a class="sourceLine" id="cb25-56" data-line-number="56">)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb25-2" title="2">  <span class="dt">id =</span> <span class="st">"rnaseqGene"</span>,</a>
+<a class="sourceLine" id="cb25-3" title="3">  <span class="dt">label =</span> <span class="st">"rnaseqgene"</span>,</a>
+<a class="sourceLine" id="cb25-4" title="4">  <span class="dt">description =</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,</a>
+<a class="sourceLine" id="cb25-5" title="5">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/rnaseqgene"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
+<a class="sourceLine" id="cb25-6" title="6">  <span class="dt">baseCommand =</span> <span class="st">"performDE.R"</span>,</a>
+<a class="sourceLine" id="cb25-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb25-8" title="8">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
+<a class="sourceLine" id="cb25-9" title="9">      <span class="dt">id =</span> <span class="st">"bamfiles"</span>, <span class="dt">label =</span> <span class="st">"bam files"</span>,</a>
+<a class="sourceLine" id="cb25-10" title="10">      <span class="dt">description =</span> <span class="st">"a list of bam files"</span>,</a>
+<a class="sourceLine" id="cb25-11" title="11">      <span class="dt">type =</span> <span class="st">"File..."</span>, <span class="co">## or type = ItemArray("File")</span></a>
+<a class="sourceLine" id="cb25-12" title="12">      <span class="dt">prefix =</span> <span class="st">"--bamfiles"</span>,</a>
+<a class="sourceLine" id="cb25-13" title="13">      <span class="dt">itemSeparator =</span> <span class="st">","</span></a>
+<a class="sourceLine" id="cb25-14" title="14">    ),</a>
+<a class="sourceLine" id="cb25-15" title="15">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
+<a class="sourceLine" id="cb25-16" title="16">      <span class="dt">id =</span> <span class="st">"design"</span>, <span class="dt">label =</span> <span class="st">"design matrix"</span>,</a>
+<a class="sourceLine" id="cb25-17" title="17">      <span class="dt">type =</span> <span class="st">"File"</span>,</a>
+<a class="sourceLine" id="cb25-18" title="18">      <span class="dt">prefix =</span> <span class="st">"--design"</span></a>
+<a class="sourceLine" id="cb25-19" title="19">    ),</a>
+<a class="sourceLine" id="cb25-20" title="20">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
+<a class="sourceLine" id="cb25-21" title="21">      <span class="dt">id =</span> <span class="st">"gtffile"</span>, <span class="dt">label =</span> <span class="st">"gene feature files"</span>,</a>
+<a class="sourceLine" id="cb25-22" title="22">      <span class="dt">type =</span> <span class="st">"File"</span>,</a>
+<a class="sourceLine" id="cb25-23" title="23">      <span class="dt">prefix =</span> <span class="st">"--gtffile"</span></a>
+<a class="sourceLine" id="cb25-24" title="24">    ),</a>
+<a class="sourceLine" id="cb25-25" title="25">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
+<a class="sourceLine" id="cb25-26" title="26">      <span class="dt">id =</span> <span class="st">"format"</span>, <span class="dt">label =</span> <span class="st">"report foramt html or pdf"</span>,</a>
+<a class="sourceLine" id="cb25-27" title="27">      <span class="dt">type =</span> <span class="kw"><a href="../reference/Enum.html">enum</a></span>(<span class="st">"format"</span>, <span class="kw">c</span>(<span class="st">"pdf"</span>, <span class="st">"html"</span>)),</a>
+<a class="sourceLine" id="cb25-28" title="28">      <span class="dt">prefix =</span> <span class="st">"--format"</span></a>
+<a class="sourceLine" id="cb25-29" title="29">    )</a>
+<a class="sourceLine" id="cb25-30" title="30">  ),</a>
+<a class="sourceLine" id="cb25-31" title="31">  <span class="dt">outputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb25-32" title="32">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
+<a class="sourceLine" id="cb25-33" title="33">      <span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">label =</span> <span class="st">"report"</span>,</a>
+<a class="sourceLine" id="cb25-34" title="34">      <span class="dt">description =</span> <span class="st">"A reproducible report created by Rmarkdown"</span>,</a>
+<a class="sourceLine" id="cb25-35" title="35">      <span class="dt">glob =</span> <span class="kw"><a href="../reference/Expression-class.html">Expression</a></span>(</a>
+<a class="sourceLine" id="cb25-36" title="36">        <span class="dt">engine =</span> <span class="st">"#cwl-js-engine"</span>,</a>
+<a class="sourceLine" id="cb25-37" title="37">        <span class="dt">script =</span> <span class="st">"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x"</span></a>
+<a class="sourceLine" id="cb25-38" title="38">      )</a>
+<a class="sourceLine" id="cb25-39" title="39">    ),</a>
+<a class="sourceLine" id="cb25-40" title="40">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
+<a class="sourceLine" id="cb25-41" title="41">      <span class="dt">id =</span> <span class="st">"heatmap"</span>, <span class="dt">label =</span> <span class="st">"heatmap"</span>,</a>
+<a class="sourceLine" id="cb25-42" title="42">      <span class="dt">description =</span> <span class="st">"A heatmap plot to show the Euclidean distance between samples"</span>,</a>
+<a class="sourceLine" id="cb25-43" title="43">      <span class="dt">glob =</span> <span class="st">"heatmap.pdf"</span></a>
+<a class="sourceLine" id="cb25-44" title="44">    ),</a>
+<a class="sourceLine" id="cb25-45" title="45">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
+<a class="sourceLine" id="cb25-46" title="46">      <span class="dt">id =</span> <span class="st">"count"</span>, <span class="dt">label =</span> <span class="st">"count"</span>,</a>
+<a class="sourceLine" id="cb25-47" title="47">      <span class="dt">description =</span> <span class="st">"Reads counts matrix"</span>,</a>
+<a class="sourceLine" id="cb25-48" title="48">      <span class="dt">glob =</span> <span class="st">"count.csv"</span></a>
+<a class="sourceLine" id="cb25-49" title="49">    ),</a>
+<a class="sourceLine" id="cb25-50" title="50">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
+<a class="sourceLine" id="cb25-51" title="51">      <span class="dt">id =</span> <span class="st">"de"</span>, <span class="dt">label =</span> <span class="st">"Differential expression table"</span>,</a>
+<a class="sourceLine" id="cb25-52" title="52">      <span class="dt">description =</span> <span class="st">"Differential expression table"</span>,</a>
+<a class="sourceLine" id="cb25-53" title="53">      <span class="dt">glob =</span> <span class="st">"de.csv"</span></a>
+<a class="sourceLine" id="cb25-54" title="54">    )</a>
+<a class="sourceLine" id="cb25-55" title="55">  )</a>
+<a class="sourceLine" id="cb25-56" title="56">)</a></code></pre></div>
 <p>By default it output YAML, but you can print it into JSON as well.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">rbx</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">rbx</a></code></pre></div>
 <pre><code>sbg:id: rnaseqGene
 id: '#rnaseqGene'
 inputs:
@@ -818,7 +818,7 @@ class: CommandLineTool
 baseCommand:
 - performDE.R
 arguments: []</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>{
   "sbg:id": "rnaseqGene",
   "id": "#rnaseqGene",
@@ -983,14 +983,14 @@ arguments: []</code></pre>
   ],
   "arguments": []
 } </code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">rbx<span class="op">$</span><span class="kw">toJSON</span>()</a></code></pre></div>
 <pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"tengfei/rnaseqgene"},{"class":"sbg:CPURequirement","value":1},{"class":"sbg:MemRequirement","value":2000}],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># # or write to an external file</span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co"># fl &lt;- "~/Downloads/rnaseqGene.json"</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co"># write(rbx$toJSON(pretty = TRUE), fl)</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="co"># # or write to an external file</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="co"># fl &lt;- "~/Downloads/rnaseqGene.json"</span></a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="co"># write(rbx$toJSON(pretty = TRUE), fl)</span></a></code></pre></div>
 <p>Now you want to add app to your project <code>p</code>, by calling <code>app_add</code> method, the first argument is name, the second is either a CWL JSON file, <code>Tool</code> object, or <code>Workflow</code> object.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># add App you just created</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">(rna.app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"rnaseqgene"</span>, rbx))</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># add App you just created</span></a>
+<a class="sourceLine" id="cb33-2" title="2">(rna.app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"rnaseqgene"</span>, rbx))</a></code></pre></div>
 <p>Please go check your app in your project, check input output and how it maps to the UI.</p>
 </div>
 <div id="step-6-execute-your-tool-with-a-new-task-via-r-api" class="section level3">
@@ -1008,28 +1008,28 @@ arguments: []</code></pre>
 <code>metadata</code>: a list of meta otherwise search for the same file name ended with “.meta”</li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/quickstart"</span>))</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="co"># by default load .meta for the file</span></a>
-<a class="sourceLine" id="cb34-4" data-line-number="4">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="co"># pass metadata</span></a>
-<a class="sourceLine" id="cb34-6" data-line-number="6">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="co"># rename</span></a>
-<a class="sourceLine" id="cb34-8" data-line-number="8">p<span class="op">$</span><span class="kw">upload</span>(fl,</a>
-<a class="sourceLine" id="cb34-9" data-line-number="9">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</a>
-<a class="sourceLine" id="cb34-10" data-line-number="10">  <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</a>
-<a class="sourceLine" id="cb34-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb34-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb34-13" data-line-number="13"><span class="co"># upload folder</span></a>
-<a class="sourceLine" id="cb34-14" data-line-number="14">dir.ext &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb34-15" data-line-number="15">p<span class="op">$</span><span class="kw">upload</span>(dir.ext, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb34-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb34-17" data-line-number="17"><span class="co"># upload file list</span></a>
-<a class="sourceLine" id="cb34-18" data-line-number="18">fls &lt;-<span class="st"> </span><span class="kw">list.files</span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb34-19" data-line-number="19">p<span class="op">$</span><span class="kw">upload</span>(fls, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb34-2" title="2">(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/quickstart"</span>))</a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co"># by default load .meta for the file</span></a>
+<a class="sourceLine" id="cb34-4" title="4">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="co"># pass metadata</span></a>
+<a class="sourceLine" id="cb34-6" title="6">p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</a>
+<a class="sourceLine" id="cb34-7" title="7"><span class="co"># rename</span></a>
+<a class="sourceLine" id="cb34-8" title="8">p<span class="op">$</span><span class="kw">upload</span>(fl,</a>
+<a class="sourceLine" id="cb34-9" title="9">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</a>
+<a class="sourceLine" id="cb34-10" title="10">  <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</a>
+<a class="sourceLine" id="cb34-11" title="11">)</a>
+<a class="sourceLine" id="cb34-12" title="12"></a>
+<a class="sourceLine" id="cb34-13" title="13"><span class="co"># upload folder</span></a>
+<a class="sourceLine" id="cb34-14" title="14">dir.ext &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb34-15" title="15">p<span class="op">$</span><span class="kw">upload</span>(dir.ext, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb34-16" title="16"></a>
+<a class="sourceLine" id="cb34-17" title="17"><span class="co"># upload file list</span></a>
+<a class="sourceLine" id="cb34-18" title="18">fls &lt;-<span class="st"> </span><span class="kw">list.files</span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb34-19" title="19">p<span class="op">$</span><span class="kw">upload</span>(fls, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>For now try using our graphic user interface to import all files listed here:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">download.fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/download.txt"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw">cat</span>(<span class="kw">readLines</span>(download.fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">download.fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/download.txt"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">cat</span>(<span class="kw">readLines</span>(download.fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>Warning in readLines(download.fl): incomplete final line found on '/usr/
 local/lib/R/3.5/site-library/sevenbridges/extdata/download.txt'</code></pre>
 <pre><code>https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/example_report.Rmd
@@ -1047,79 +1047,79 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039520_subset.bam
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039521_subset.bam</code></pre>
 <p>To use the API to uplaod, let’s download it to a folder and upload via API.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">td &lt;-<span class="st"> </span><span class="kw">tempfile</span>()</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">dir.create</span>(td)</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="cf">for</span> (f <span class="cf">in</span> <span class="kw">readLines</span>(download.fl)) {</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4">  <span class="kw">download.file</span>(f, <span class="kw">file.path</span>(td, <span class="kw">basename</span>(f)))</a>
-<a class="sourceLine" id="cb38-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># double check</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="kw">list.files</span>(td)</a>
-<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="co"># upload to the project you created</span></a>
-<a class="sourceLine" id="cb38-9" data-line-number="9">p<span class="op">$</span><span class="kw">upload</span>(td)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">td &lt;-<span class="st"> </span><span class="kw">tempfile</span>()</a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="kw">dir.create</span>(td)</a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="cf">for</span> (f <span class="cf">in</span> <span class="kw">readLines</span>(download.fl)) {</a>
+<a class="sourceLine" id="cb38-4" title="4">  <span class="kw">download.file</span>(f, <span class="kw">file.path</span>(td, <span class="kw">basename</span>(f)))</a>
+<a class="sourceLine" id="cb38-5" title="5">}</a>
+<a class="sourceLine" id="cb38-6" title="6"><span class="co"># double check</span></a>
+<a class="sourceLine" id="cb38-7" title="7"><span class="kw">list.files</span>(td)</a>
+<a class="sourceLine" id="cb38-8" title="8"><span class="co"># upload to the project you created</span></a>
+<a class="sourceLine" id="cb38-9" title="9">p<span class="op">$</span><span class="kw">upload</span>(td)</a></code></pre></div>
 <p>Copy this list, and then in your project, click “add files”, and choose “import from ftp” (<a href="http://docs.cancergenomicscloud.org/docs/copy-files-to-a-project">tutorial</a>).</p>
 <p>When it’s finished, refresh your file page, you will be able to see all of them. The cool thing is that you can search file by ‘name’ not by id, it support fuzzy pattern match.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># get file id you need as inout</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">(bamfiles.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">".bam"</span>))</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3">(design.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"sample_table.csv"</span>))</a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">(gtf.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="co"># get file id you need as inout</span></a>
+<a class="sourceLine" id="cb39-2" title="2">(bamfiles.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">".bam"</span>))</a>
+<a class="sourceLine" id="cb39-3" title="3">(design.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"sample_table.csv"</span>))</a>
+<a class="sourceLine" id="cb39-4" title="4">(gtf.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span>))</a></code></pre></div>
 <p>Note: you can also passed a list of files like this, to give exact file names</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">bam1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"SRR1039516_subset.bam"</span>)</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">bam2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"SRR1039512_subset.bam"</span>)</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3">bamfiles.in2 &lt;-<span class="st"> </span><span class="kw">list</span>(bam1, bam2)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">bam1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"SRR1039516_subset.bam"</span>)</a>
+<a class="sourceLine" id="cb40-2" title="2">bam2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="st">"SRR1039512_subset.bam"</span>)</a>
+<a class="sourceLine" id="cb40-3" title="3">bamfiles.in2 &lt;-<span class="st"> </span><span class="kw">list</span>(bam1, bam2)</a></code></pre></div>
 <p>Now create a new draft task in your project, don’t forget to pass input.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># add a new Task</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new"</span>,</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb41-6" data-line-number="6">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb41-7" data-line-number="7">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb41-8" data-line-number="8">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb41-9" data-line-number="9">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb41-10" data-line-number="10">  )</a>
-<a class="sourceLine" id="cb41-11" data-line-number="11">))</a>
-<a class="sourceLine" id="cb41-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb41-13" data-line-number="13"><span class="co"># don't forget to run a draft task</span></a>
-<a class="sourceLine" id="cb41-14" data-line-number="14">tsk<span class="op">$</span><span class="kw">run</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="co"># add a new Task</span></a>
+<a class="sourceLine" id="cb41-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb41-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new"</span>,</a>
+<a class="sourceLine" id="cb41-4" title="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb41-5" title="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb41-6" title="6">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb41-7" title="7">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb41-8" title="8">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb41-9" title="9">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb41-10" title="10">  )</a>
+<a class="sourceLine" id="cb41-11" title="11">))</a>
+<a class="sourceLine" id="cb41-12" title="12"></a>
+<a class="sourceLine" id="cb41-13" title="13"><span class="co"># don't forget to run a draft task</span></a>
+<a class="sourceLine" id="cb41-14" title="14">tsk<span class="op">$</span><span class="kw">run</span>()</a></code></pre></div>
 <p>To monitor the task, run following command, it will tell you when it’s finished, but this is not running in the background now.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># # monitor the task</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="co"># tsk$monitor()</span></a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="co"># # monitor the task</span></a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="co"># tsk$monitor()</span></a></code></pre></div>
 <p>A better way is to use the Task hook function, it’s flexible, you can hook any function to a task status. For example, when it’s complete download the files. Now try to send your self a text message : )</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">})</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb43-2" title="2">  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
+<a class="sourceLine" id="cb43-3" title="3">})</a>
+<a class="sourceLine" id="cb43-4" title="4">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
 <p>To download all files from a completed tasks</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
 <p>To run task in batch mode, check <code><a href="../reference/batch.html">?batch</a></code> for more details. Here is an mock running:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># batch by items</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb45-6" data-line-number="6">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb45-10" data-line-number="10">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb45-11" data-line-number="11">  )</a>
-<a class="sourceLine" id="cb45-12" data-line-number="12">))</a>
-<a class="sourceLine" id="cb45-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb45-14" data-line-number="14"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
-<a class="sourceLine" id="cb45-15" data-line-number="15">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb45-16" data-line-number="16">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
-<a class="sourceLine" id="cb45-17" data-line-number="17">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb45-18" data-line-number="18">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb45-19" data-line-number="19">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
-<a class="sourceLine" id="cb45-20" data-line-number="20">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
-<a class="sourceLine" id="cb45-21" data-line-number="21">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
-<a class="sourceLine" id="cb45-22" data-line-number="22">  ),</a>
-<a class="sourceLine" id="cb45-23" data-line-number="23">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb45-24" data-line-number="24">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb45-25" data-line-number="25">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb45-26" data-line-number="26">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb45-27" data-line-number="27">  )</a>
-<a class="sourceLine" id="cb45-28" data-line-number="28">))</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="co"># batch by items</span></a>
+<a class="sourceLine" id="cb45-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb45-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
+<a class="sourceLine" id="cb45-4" title="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb45-5" title="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb45-6" title="6">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
+<a class="sourceLine" id="cb45-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb45-8" title="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb45-9" title="9">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb45-10" title="10">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb45-11" title="11">  )</a>
+<a class="sourceLine" id="cb45-12" title="12">))</a>
+<a class="sourceLine" id="cb45-13" title="13"></a>
+<a class="sourceLine" id="cb45-14" title="14"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
+<a class="sourceLine" id="cb45-15" title="15">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb45-16" title="16">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
+<a class="sourceLine" id="cb45-17" title="17">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb45-18" title="18">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb45-19" title="19">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
+<a class="sourceLine" id="cb45-20" title="20">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
+<a class="sourceLine" id="cb45-21" title="21">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
+<a class="sourceLine" id="cb45-22" title="22">  ),</a>
+<a class="sourceLine" id="cb45-23" title="23">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb45-24" title="24">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb45-25" title="25">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb45-26" title="26">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb45-27" title="27">  )</a>
+<a class="sourceLine" id="cb45-28" title="28">))</a></code></pre></div>
 <p>For more details, check R API tutorial.</p>
 </div>
 </div>
@@ -1158,10 +1158,10 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 </ol>
 <p>If you are interested, you can still read my <code>Dockerfile</code>, command line, tool generator and JSON.</p>
 <p><em>I will suggest you directly copy the json into your project.</em> Just to try add an app in a different way.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/rabix/reporttool.json"</span>,</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
-<a class="sourceLine" id="cb46-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/rabix/reporttool.json"</span>,</a>
+<a class="sourceLine" id="cb46-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb46-3" title="3">)</a>
+<a class="sourceLine" id="cb46-4" title="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>{
   "sbg:id": "reporttool",
   "id": "#reporttool",
@@ -1485,14 +1485,14 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
   "context": ""
 }</code></pre>
 <p>Or just use API to add the raw JSON file</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># directly add json file</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/hackathon"</span>)</a>
-<a class="sourceLine" id="cb48-3" data-line-number="3">(report.app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"report-tool"</span>, fl))</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="co"># directly add json file</span></a>
+<a class="sourceLine" id="cb48-2" title="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/hackathon"</span>)</a>
+<a class="sourceLine" id="cb48-3" title="3">(report.app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"report-tool"</span>, fl))</a></code></pre></div>
 <p>Checkout the Dockerfile</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/Dockerfile"</span>,</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/Dockerfile"</span>,</a>
+<a class="sourceLine" id="cb49-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></a>
+<a class="sourceLine" id="cb49-3" title="3">)</a>
+<a class="sourceLine" id="cb49-4" title="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
@@ -1510,15 +1510,15 @@ ADD src/report.R /usr/local/bin/
 
 RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <p>Checkout the command line</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/src/report.R"</span>,</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/src/report.R"</span>,</a>
+<a class="sourceLine" id="cb51-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></a>
+<a class="sourceLine" id="cb51-3" title="3">)</a>
+<a class="sourceLine" id="cb51-4" title="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <p>Checkout the tool generator</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/rabix/generator.R"</span>,</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2">  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/reporttool/rabix/generator.R"</span>,</a>
+<a class="sourceLine" id="cb52-2" title="2">  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></a>
+<a class="sourceLine" id="cb52-3" title="3">)</a>
+<a class="sourceLine" id="cb52-4" title="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="compose-a-full-workflow" class="section level2">
@@ -1540,7 +1540,7 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <h1 class="hasAnchor">
 <a href="#more-tutorials" class="anchor"></a>More tutorials</h1>
 <p>After you installed the package</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">browseVignettes</span>(<span class="st">"sevenbridges"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">browseVignettes</span>(<span class="st">"sevenbridges"</span>)</a></code></pre></div>
 <p>or on the <a href="https://sbg.github.io/sevenbridges-r/articles/">vignettes page</a>.</p>
 </div>
   </div>

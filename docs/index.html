@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.11.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
       </span>
     </div>
 
@@ -158,7 +158,7 @@
 <h3 class="hasAnchor">
 <a href="#check-r-version" class="anchor"></a>Check R version</h3>
 <p>First, check the version of R you are using with the following command (in R):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">R.version.string</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">R.version.string</a></code></pre></div>
 <p>If you are not running the latest release version of R, install or upgrade with <a href="https://www.bioconductor.org/install/#install-R">these instructions</a>. If you are using RStudio, restart RStudio after installing R. RStudio will detect the new installation.</p>
 </div>
 <div id="bioconductor---release-branch" class="section level3">
@@ -166,35 +166,35 @@
 <a href="#bioconductor---release-branch" class="anchor"></a>Bioconductor - Release Branch</h3>
 <p>This is recommended for most users as it is the most stable version.</p>
 <p>You can install the package from the <code>release</code> branch on Bioconductor using <code>BiocManager</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>)</a></code></pre></div>
 </div>
 <div id="bioconductor---development-branch" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bioconductor---development-branch" class="anchor"></a>Bioconductor - Development Branch</h3>
 <p>If you are developing tools under the <code>devel</code> branch or use the development version of R and Bioconductor, install the package from the Bioconductor <code>devel</code> branch. You probably also want to install R-devel first by following the directions in <a href="https://bioconductor.org/developers/how-to/useDevel/">“Using the ‘Devel’ Version of Bioconductor”</a>.</p>
 <p>To install the <code>sevenbridges</code> package from the <code>devel</code> branch, use</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
 </div>
 <div id="latest-development-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#latest-development-version" class="anchor"></a>Latest Development Version</h3>
 <p>To try the latest features, please install the package directly from GitHub. We push to the Bioconductor branch (<code>release</code> and <code>devel</code>) regularly.</p>
 <p>Installing the <code>sevenbridges</code> package from GitHub requires you have the <code>devtools</code> package. If you do not have <code>devtools</code>, install it from CRAN first.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a></code></pre></div>
 <p>You may get an error for missing system dependecies such as curl and ssl. You probably need to do the following first in order to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code> under Ubuntu.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ex">apt-get</span> update</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="ex">apt-get</span> update</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</a></code></pre></div>
 <p>After <code>devtools</code> is installed, install the latest version of <code>sevenbridges</code> from GitHub:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
+<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb6-8" title="8">)</a></code></pre></div>
 <p>If you have trouble with <code>pandoc</code> and do not want to install it, set <code>build_vignettes = FALSE</code> to avoid building the vignettes.</p>
 </div>
 </div>
@@ -209,80 +209,80 @@
 <ul>
 <li>Direct authentication:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Direct authentication</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># or use base url</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Direct authentication</span></a>
+<a class="sourceLine" id="cb7-2" title="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co"># or use base url</span></a>
+<a class="sourceLine" id="cb7-5" title="5">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a></code></pre></div>
 <ul>
 <li>Authentication via system environment variables:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">url =</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
 <ul>
 <li>Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-username"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-username"</span>)</a></code></pre></div>
 <p>Please check <code><a href="articles/api.html">vignette("api", package = "sevenbridges")</a></code> for technical details about all available authentication methods.</p>
 </div>
 <div id="complete-api-r-client" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complete-api-r-client" class="anchor"></a>Complete API R Client</h3>
 <p>A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Get a project by pattern-matching its name</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># Get a project by its id</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"username/demo"</span>)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># Delete files from a project</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">p<span class="op">$</span><span class="kw">file</span>(<span class="st">"sample.tz"</span>)<span class="op">$</span><span class="kw"><a href="reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co"># Upload fies from a folder to a project and include file metadata</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"folder_path"</span>, <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">platform =</span> <span class="st">"Illumina"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># Get a project by pattern-matching its name</span></a>
+<a class="sourceLine" id="cb10-2" title="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3"></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co"># Get a project by its id</span></a>
+<a class="sourceLine" id="cb10-5" title="5">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"username/demo"</span>)</a>
+<a class="sourceLine" id="cb10-6" title="6"></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co"># Delete files from a project</span></a>
+<a class="sourceLine" id="cb10-8" title="8">p<span class="op">$</span><span class="kw">file</span>(<span class="st">"sample.tz"</span>)<span class="op">$</span><span class="kw"><a href="reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb10-9" title="9"></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co"># Upload fies from a folder to a project and include file metadata</span></a>
+<a class="sourceLine" id="cb10-11" title="11">p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"folder_path"</span>, <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">platform =</span> <span class="st">"Illumina"</span>))</a></code></pre></div>
 </div>
 <div id="task-monitoring" class="section level3">
 <h3 class="hasAnchor">
 <a href="#task-monitoring" class="anchor"></a>Task Monitoring</h3>
 <p>A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  tsk<span class="op">$</span><span class="kw"><a href="reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">})</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb11-2" title="2">  tsk<span class="op">$</span><span class="kw"><a href="reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
+<a class="sourceLine" id="cb11-3" title="3">})</a>
+<a class="sourceLine" id="cb11-4" title="4">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
 </div>
 <div id="batch-tasks-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#batch-tasks-support" class="anchor"></a>Batch Tasks Support</h3>
 <p>Batch tasks by metadata and by item.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Batch by item</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">  )</a>
-<a class="sourceLine" id="cb12-12" data-line-number="12">))</a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co"># Batch by metadata. Note that input files must</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co"># have relevant metadata fields specified.</span></a>
-<a class="sourceLine" id="cb12-16" data-line-number="16">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb12-17" data-line-number="17">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
-<a class="sourceLine" id="cb12-18" data-line-number="18">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb12-19" data-line-number="19">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb12-20" data-line-number="20">  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(</a>
-<a class="sourceLine" id="cb12-21" data-line-number="21">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
-<a class="sourceLine" id="cb12-22" data-line-number="22">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
-<a class="sourceLine" id="cb12-23" data-line-number="23">  ),</a>
-<a class="sourceLine" id="cb12-24" data-line-number="24">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb12-25" data-line-number="25">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb12-26" data-line-number="26">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb12-27" data-line-number="27">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb12-28" data-line-number="28">  )</a>
-<a class="sourceLine" id="cb12-29" data-line-number="29">))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Batch by item</span></a>
+<a class="sourceLine" id="cb12-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb12-8" title="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb12-9" title="9">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb12-10" title="10">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb12-11" title="11">  )</a>
+<a class="sourceLine" id="cb12-12" title="12">))</a>
+<a class="sourceLine" id="cb12-13" title="13"></a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="co"># Batch by metadata. Note that input files must</span></a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="co"># have relevant metadata fields specified.</span></a>
+<a class="sourceLine" id="cb12-16" title="16">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb12-17" title="17">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
+<a class="sourceLine" id="cb12-18" title="18">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb12-19" title="19">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb12-20" title="20">  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(</a>
+<a class="sourceLine" id="cb12-21" title="21">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
+<a class="sourceLine" id="cb12-22" title="22">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
+<a class="sourceLine" id="cb12-23" title="23">  ),</a>
+<a class="sourceLine" id="cb12-24" title="24">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb12-25" title="25">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb12-26" title="26">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb12-27" title="27">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb12-28" title="28">  )</a>
+<a class="sourceLine" id="cb12-29" title="29">))</a></code></pre></div>
 </div>
 <div id="cross-environment-support" class="section level3">
 <h3 class="hasAnchor">
@@ -293,47 +293,47 @@
 <h3 class="hasAnchor">
 <a href="#common-workflow-language-tool-interface" class="anchor"></a>Common Workflow Language Tool Interface</h3>
 <p>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl))</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">rbx &lt;-<span class="st"> </span><span class="kw"><a href="reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">  <span class="dt">hints =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">    <span class="kw"><a href="reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>),</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">    <span class="kw"><a href="reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
-<a class="sourceLine" id="cb13-10" data-line-number="10">  ),</a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">  <span class="dt">requirements =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb13-14" data-line-number="14">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb13-15" data-line-number="15">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>, <span class="dt">type =</span> <span class="st">"integer"</span>, <span class="dt">position =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb13-16" data-line-number="16">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"min"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb13-17" data-line-number="17">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"max"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb13-18" data-line-number="18">  ),</a>
-<a class="sourceLine" id="cb13-19" data-line-number="19">  <span class="dt">outputs =</span> <span class="kw"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
-<a class="sourceLine" id="cb13-20" data-line-number="20">)</a>
-<a class="sourceLine" id="cb13-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co"># Print CWL JSON</span></a>
-<a class="sourceLine" id="cb13-23" data-line-number="23">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb13-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb13-25" data-line-number="25"><span class="co"># Print CWL YAML</span></a>
-<a class="sourceLine" id="cb13-26" data-line-number="26">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl))</a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4">rbx &lt;-<span class="st"> </span><span class="kw"><a href="reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb13-5" title="5">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb13-6" title="6">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb13-7" title="7">  <span class="dt">hints =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb13-8" title="8">    <span class="kw"><a href="reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>),</a>
+<a class="sourceLine" id="cb13-9" title="9">    <span class="kw"><a href="reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb13-10" title="10">  ),</a>
+<a class="sourceLine" id="cb13-11" title="11">  <span class="dt">requirements =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb13-12" title="12">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
+<a class="sourceLine" id="cb13-13" title="13">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb13-14" title="14">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb13-15" title="15">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>, <span class="dt">type =</span> <span class="st">"integer"</span>, <span class="dt">position =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb13-16" title="16">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"min"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb13-17" title="17">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"max"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb13-18" title="18">  ),</a>
+<a class="sourceLine" id="cb13-19" title="19">  <span class="dt">outputs =</span> <span class="kw"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
+<a class="sourceLine" id="cb13-20" title="20">)</a>
+<a class="sourceLine" id="cb13-21" title="21"></a>
+<a class="sourceLine" id="cb13-22" title="22"><span class="co"># Print CWL JSON</span></a>
+<a class="sourceLine" id="cb13-23" title="23">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-24" title="24"></a>
+<a class="sourceLine" id="cb13-25" title="25"><span class="co"># Print CWL YAML</span></a>
+<a class="sourceLine" id="cb13-26" title="26">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
 </div>
 <div id="utilities-for-tool-and-flow" class="section level3">
 <h3 class="hasAnchor">
 <a href="#utilities-for-tool-and-flow" class="anchor"></a>Utilities for Tool and Flow</h3>
 <p>Utilities for <code>Tool</code> and <code>Flow</code>, for example</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co"># convert a SBG CWL JSON file</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">t1 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co"># convert json file into a Tool object</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">t1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/convert_app.html">convert_app</a></span>(t1)</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co"># shows all input matrix</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">t1<span class="op">$</span><span class="kw"><a href="reference/input_output_matrix.html">input_matrix</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co"># convert a SBG CWL JSON file</span></a>
+<a class="sourceLine" id="cb14-4" title="4">t1 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb14-5" title="5"></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co"># convert json file into a Tool object</span></a>
+<a class="sourceLine" id="cb14-7" title="7">t1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/convert_app.html">convert_app</a></span>(t1)</a>
+<a class="sourceLine" id="cb14-8" title="8"></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co"># shows all input matrix</span></a>
+<a class="sourceLine" id="cb14-10" title="10">t1<span class="op">$</span><span class="kw"><a href="reference/input_output_matrix.html">input_matrix</a></span>()</a></code></pre></div>
 </div>
 </div>
 <div id="tutorials" class="section level2">
@@ -394,16 +394,16 @@
 <p>To mount a file system, you need to use <code>--privileged</code> with fuse.</p>
 <pre class="shell"><code>docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</code></pre>
 <p>Check out the IP from Docker Machine if you are on a Mac OS.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">docker-machine</span> ip default</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="ex">docker-machine</span> ip default</a></code></pre></div>
 <p>In your browser, you can see where the RStudio server is located from the path <code>http://&lt;url&gt;:8787/</code>. For example, if 192.168.99.100 is returned, visit <code>http://192.168.99.100:8787/</code> for Rstudio.</p>
 <p>For the Shiny server, each app__ is hosted at <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code> for the Shiny server. For example, an app called <code>01_hello</code> owned by user <code>rstudio</code> (a default user) has the path <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny apps as an Rstudio user, you can login your RStudio server and create a folder in your home folder called <code>~/ShinyApps</code>. There, you can develop shiny apps in that folder. For example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Log into your RStudio at <code>http://&lt;url&gt;:8787</code>. Then, try to copy an app to your home folder, as follows:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">dir.create</span>(<span class="st">"~/ShinyApps"</span>)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">file.copy</span>(</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">  <span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="st">"~/ShinyApps/"</span>,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">  <span class="dt">recursive =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">dir.create</span>(<span class="st">"~/ShinyApps"</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">file.copy</span>(</a>
+<a class="sourceLine" id="cb18-3" title="3">  <span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,</a>
+<a class="sourceLine" id="cb18-4" title="4">  <span class="st">"~/ShinyApps/"</span>,</a>
+<a class="sourceLine" id="cb18-5" title="5">  <span class="dt">recursive =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb18-6" title="6">)</a></code></pre></div>
 <p>If you are logged in as user <code>rstudio</code>, visit <code>http://192.168.99.100:3838/rstudio/01_hello</code>. You should be able to see the “hello” example.</p>
 <p><em>Note</em>: Generic Shiny apps can also be hosted at <code>http://&lt;url&gt;:3838/</code> or, for a particular app, at <code>http://&lt;url&gt;:3838/&lt;app_dir&gt;</code>. Inside the Docker container, it’s hosted under <code>/srv/shiny-server/</code>.</p>
 </div>
