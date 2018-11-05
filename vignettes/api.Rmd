@@ -690,6 +690,24 @@ Conversely, you can have a spot instance option disabled project,
 but draft and run specific tasks using the spot instances,
 by setting `use_interruptible_instances = TRUE` in `task_add()` explicitly.
 
+## Execution hints per task run
+
+During workflow development and benchmarking, sometimes we need to view and make adjustments to the computational resources needed for a task to run more efficiently. Also, if a task fails due to resource deficiency, we often want to define a larger instance for the task re-run without editing the app itself. This is particularly important in cases where there is not enough disk space.
+
+The Seven Bridges API allows setting specific task execution parameters by using `execution_settings`. It includes the instance type (`instance_type`) and the maximum number of parallel instances (`max_parallel_instances`):
+
+```{r}
+tsk <- p$task_add(
+  ...,
+  execution_settings = list(
+    instance_type = "c4.2xlarge;ebs-gp2;2000",
+    max_parallel_instances = 2
+  )
+)
+```
+
+For details about `execution_settings`, please check [create a new draft task](https://docs.sevenbridges.com/v1.0/reference#create-a-new-task).
+
 ## Task Monitoring
 
 To monitor your task as it runs, you can always request a task `update` to ask your task to report its status. Or, you can monitor a running task with a hook function, which triggers the function when that status is "completed". Please check the details in [section](#hooktask) below.
