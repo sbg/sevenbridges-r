@@ -1,3 +1,9 @@
+# sevenbridges 1.13.1
+
+## New Features
+
+- Add support for setting [execution hints per task run](https://sbg.github.io/sevenbridges-r/articles/api.html#execution-hints-per-task-run) when drafting new tasks.
+
 # sevenbridges 1.11.5
 
 ## Bug Fixes
