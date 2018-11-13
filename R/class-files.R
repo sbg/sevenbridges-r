@@ -60,19 +60,11 @@ Files <- setRefClass(
   ),
 
   methods = list(
-    initialize = function(id = NULL,
-                              name = NULL,
-                              size = NULL,
-                              project = NULL,
-                              created_on = NULL,
-                              modified_on = NULL,
-                              storage = list(),
-                              origin = list(),
-                              tags = list(),
-                              metadata = list(),
-                              url = NULL,
-                              parent = NULL,
-                              type = NULL, ...) {
+    initialize = function(id = NULL, name = NULL, size = NULL, project = NULL,
+                              created_on = NULL, modified_on = NULL,
+                              storage = list(), origin = list(), tags = list(),
+                              metadata = list(), url = NULL,
+                              parent = NULL, type = NULL, ...) {
       id <<- id
       name <<- name
       size <<- size
