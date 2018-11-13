@@ -1,5 +1,4 @@
 # Files class ------------------------------------------------------------------
-
 .response_files <- c(
   "id", "name", "size", "project",
   "created_on", "modified_on", "storage",
@@ -62,6 +61,7 @@ Files <- setRefClass(
   ),
 
   methods = list(
+
     # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, size = NULL, project = NULL,
                               created_on = NULL, modified_on = NULL,
@@ -261,10 +261,50 @@ Files <- setRefClass(
       res
     },
 
+    # folders ------------------------------------------------------------------
+    # get object type (file or folder)
+    get_type = function() {
+      NULL
+    },
+
+    # get the parent folder ID of the current file/folder
+    get_parent_folder_id = function() {
+      NULL
+    },
+
+    # get the parent folder object of the current file/folder
+    get_parent_folder = function() {
+      NULL
+    },
+
+    # create a new folder under the parent folder
+    create_folder = function() {
+      NULL
+    },
+
+    # list folder contents (file, folder, or both)
+    list_folder_contents = function(type = c("file", "folder")) {
+      NULL
+    },
+
+    # move a file to a folder
+    move_to_folder = function() {
+      NULL
+    },
+
+    # copy a file to a folder
+    copy_to_folder = function() {
+      NULL
+    },
+
+    # remove this and implement directly in the `delete`
+    # function above: delete file or folder according to type
+    delete_folder = function() {
+      NULL
+    },
+
     # show ---------------------------------------------------------------------
-    show = function() {
-      .showFields(.self, "== Files ==", .response_files)
-    }
+    show = function() .showFields(.self, "== Files ==", .response_files)
   )
 )
 
@@ -289,7 +329,6 @@ Files <- setRefClass(
 }
 
 # FilesList class --------------------------------------------------------------
-
 #' @rdname Files-class
 #' @export FilesList
 #' @aliases FilesList-class

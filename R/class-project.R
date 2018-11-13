@@ -16,6 +16,7 @@ Project <- setRefClass(
   ),
 
   methods = list(
+
     # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, billing_group_id = NULL,
                               description = "", type = "", owner = NULL,
@@ -253,8 +254,6 @@ Project <- setRefClass(
         return(invisible())
       }
 
-
-
       # if filename is a list
       if (length(filename) > 1) {
         if (is.null(verbal)) verbal <- FALSE
@@ -371,7 +370,6 @@ Project <- setRefClass(
           # filename$steps = slst
         }
 
-        ##
         ## works for Tool now
         if (is(filename, "Tool") && keep_test) {
           ## keep old revision job test info
@@ -502,6 +500,33 @@ Project <- setRefClass(
       req
     },
 
+    # folders ------------------------------------------------------------------
+    # get the project root folder ID
+    get_root_folder_id = function() {
+      NULL
+    },
+
+    # get the project root folder object
+    get_root_folder = function() {
+      NULL
+    },
+
+    # create a new folder under the project root folder
+    create_folder = function() {
+      NULL
+    },
+
+    # list project root folder contents (file, folder, or both)
+    list_folder_contents = function(type = c("file", "folder")) {
+      NULL
+    },
+
+    # delete folder under the project's root folder
+    delete_folder = function() {
+      NULL
+    },
+
+    # show ---------------------------------------------------------------------
     show = function() {
       .showFields(
         .self, "== Project ==",
@@ -511,11 +536,6 @@ Project <- setRefClass(
           "owner", "tags"
         )
       )
-    },
-
-    # folders ------------------------------------------------------------------
-    get_root_folder = function() {
-      NULL
     }
   )
 )
