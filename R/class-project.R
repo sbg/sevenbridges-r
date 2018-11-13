@@ -1,3 +1,4 @@
+# Project class ----------------------------------------------------------------
 Project <- setRefClass(
   "Project",
   contains = "Item",
@@ -15,6 +16,7 @@ Project <- setRefClass(
   ),
 
   methods = list(
+    # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, billing_group_id = NULL,
                               description = "", type = "", owner = NULL,
                               tags = list(), settings = list(),
@@ -41,7 +43,7 @@ Project <- setRefClass(
       callSuper(...)
     },
 
-    # project ------------------------------------------------------------------
+    # update -------------------------------------------------------------------
     update = function(name = NULL, description = NULL, billing_group_id = NULL, ...) {
       "update name/description/billing group for a project"
 
@@ -518,6 +520,7 @@ Project <- setRefClass(
   )
 )
 
+# .asProject -------------------------------------------------------------------
 .asProject <- function(x) {
   Project(
     id = x$id,
@@ -534,8 +537,10 @@ Project <- setRefClass(
   )
 }
 
+# ProjectList class ------------------------------------------------------------
 ProjectList <- setListClass("Project", contains = "Item0")
 
+# .asProjectList ---------------------------------------------------------------
 .asProjectList <- function(x) {
   obj <- ProjectList(lapply(x$items, .asProject))
   obj@href <- x$href

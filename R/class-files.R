@@ -1,3 +1,5 @@
+# Files class ------------------------------------------------------------------
+
 .response_files <- c(
   "id", "name", "size", "project",
   "created_on", "modified_on", "storage",
@@ -60,6 +62,7 @@ Files <- setRefClass(
   ),
 
   methods = list(
+    # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, size = NULL, project = NULL,
                               created_on = NULL, modified_on = NULL,
                               storage = list(), origin = list(), tags = list(),
@@ -82,6 +85,7 @@ Files <- setRefClass(
       callSuper(...)
     },
 
+    # delete -------------------------------------------------------------------
     delete = function() {
       auth$api(
         path = paste0("files/", id),
@@ -89,6 +93,7 @@ Files <- setRefClass(
       )
     },
 
+    # download -----------------------------------------------------------------
     download_url = function() {
       auth$api(
         path = paste0(
@@ -125,6 +130,7 @@ Files <- setRefClass(
       download.file(url, destfile, ..., method = method)
     },
 
+    # copy ---------------------------------------------------------------------
     copyTo = function(project = NULL, name = NULL) {
       auth$copyFile(id, project = project, name = name)
     },
@@ -135,6 +141,7 @@ Files <- setRefClass(
       copyTo(project = project, name = name)
     },
 
+    # name, metadata, and tags -------------------------------------------------
     meta = function() {
       "get metadata from a file"
 
@@ -228,8 +235,7 @@ Files <- setRefClass(
       set_tag(x, overwrite = FALSE, ...)
     },
 
-    update = function(name = NULL, metadata = NULL,
-                          tags = NULL) {
+    update = function(name = NULL, metadata = NULL, tags = NULL) {
       "This call updates the name, the full set metadata, and tags for a specified file."
 
       body <- list(name = name, metadata = metadata, tags = tags)
@@ -255,12 +261,14 @@ Files <- setRefClass(
       res
     },
 
+    # show ---------------------------------------------------------------------
     show = function() {
       .showFields(.self, "== Files ==", .response_files)
     }
   )
 )
 
+# .asFiles ---------------------------------------------------------------------
 .asFiles <- function(x) {
   Files(
     id = x$id,
@@ -280,6 +288,8 @@ Files <- setRefClass(
   )
 }
 
+# FilesList class --------------------------------------------------------------
+
 #' @rdname Files-class
 #' @export FilesList
 #' @aliases FilesList-class
@@ -287,6 +297,7 @@ Files <- setRefClass(
 #' @exportClass FilesList
 FilesList <- setListClass("Files", contains = "Item0")
 
+# .asFilesList -----------------------------------------------------------------
 .asFilesList <- function(x) {
   obj <- FilesList(lapply(x$items, .asFiles))
   obj@href <- x$href
