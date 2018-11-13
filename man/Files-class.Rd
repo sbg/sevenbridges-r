@@ -53,7 +53,7 @@ it usually return the project id and stored with the object.}
 
 \item{\code{parent}}{parent folder ID}
 
-\item{\code{type}}{"FILE" or "FOLDER"}
+\item{\code{type}}{\code{"FILE"} or \code{"FOLDER"}}
 }}
 
 \section{Methods}{
@@ -79,8 +79,8 @@ it usually return the project id and stored with the object.}
 }}
 
 \note{
-In sevenbridges package version <= 1.5.4, the \code{Files} class
-inherits from the \code{File} class defined in CWL. To avoid confusion,
+In the sevenbridges package version <= 1.5.4, the \code{Files} class
+inherited from the \code{File} class defined in CWL. To avoid confusion,
 in the current implementation, they are defined separately and not
 coupled anymore.
 }

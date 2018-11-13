@@ -27,10 +27,10 @@
 #' @field metadata a list for metadata associated with the file
 #' @field url file download url
 #' @field parent parent folder ID
-#' @field type "FILE" or "FOLDER"
+#' @field type \code{"FILE"} or \code{"FOLDER"}
 #'
-#' @note In sevenbridges package version <= 1.5.4, the \code{Files} class
-#' inherits from the \code{File} class defined in CWL. To avoid confusion,
+#' @note In the sevenbridges package version <= 1.5.4, the \code{Files} class
+#' inherited from the \code{File} class defined in CWL. To avoid confusion,
 #' in the current implementation, they are defined separately and not
 #' coupled anymore.
 #'
