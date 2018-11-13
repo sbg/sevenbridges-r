@@ -1,121 +1,3 @@
-Permission <- setRefClass(
-  "Permission",
-  contains = "Item",
-
-  fields = list(
-    write = "logicalORNULL",
-    copy_permission = "logicalORNULL", # cannot use copy
-    execute = "logicalORNULL",
-    admin = "logicalORNULL",
-    read = "logicalORNULL"
-  ),
-
-  methods = list(
-    initialize = function(write = NULL, copy_permission = NULL, execute = NULL, admin = NULL, read = NULL, ...) {
-      write <<- write
-      copy_permission <<- copy_permission
-      execute <<- execute
-      admin <<- admin
-      read <<- read
-
-      callSuper(...)
-    },
-
-    show = function() {
-      .showFields(
-        .self, "-- Permission --",
-        c("read", "write", "copy_permission", "execute", "admin")
-      )
-    }
-  )
-)
-
-Member <- setRefClass(
-  "Member",
-  contains = "Item",
-
-  fields = list(
-    pid = "characterORNULL",
-    id = "characterORNULL",
-    username = "characterORNULL",
-    invitation_pending = "logicalORNULL",
-    permissions = "Permission"
-  ),
-
-  methods = list(
-    update = function(write = NULL, copy = NULL, execute = NULL, admin = NULL, read = NULL, ...) {
-      if (is.null(pid)) stop("cannot find project id")
-
-      body <- list("write" = write, "copy" = copy, "execute" = execute, "read" = read, "admin" = admin)
-      body <- body[!sapply(body, is.null)]
-
-      if (length(body) == 0) stop("please provide updated information")
-
-      req <- api(
-        token = auth$token,
-        base_url = auth$url,
-        path = paste0(
-          "projects/", pid,
-          "/members/", username,
-          "/permissions"
-        ),
-        body = body, method = "PATCH", ...
-      )
-
-      res <- status_check(req)
-
-      # check new updated info
-
-      # update self
-      lst <- res
-      names(lst)[names(lst) == "copy"] <- "copy_permission"
-      nms <- names(lst)
-
-      # update object
-      for (nm in nms) {
-        .self$permissions$field(nm, lst[[nm]])
-      }
-
-      .self
-    },
-
-    delete = function(...) {
-      stopifnot(!is.null(auth$version))
-
-      req <- api(
-        token = auth$token,
-        base_url = auth$url,
-        path = paste0(
-          "projects/", pid,
-          "/members/", username
-        ),
-        method = "DELETE", ...
-      )
-      res <- status_check(req)
-    },
-
-    show = function() {
-      .showFields(.self, "== Member ==",
-        values = c(
-          "id", "username",
-          "invitation_pending"
-        )
-      )
-      .self$permissions$show()
-    }
-  )
-)
-
-MemberList <- setListClass("Member", contains = "Item0")
-
-.asMemberList <- function(x, pid = NULL) {
-  obj <- MemberList(lapply(x$items, .asMember, pid = pid))
-  obj@href <- x$href
-  obj@response <- response(x)
-  obj
-}
-
-# The Project class should support both API v1.1 and API v2
 Project <- setRefClass(
   "Project",
   contains = "Item",
@@ -126,7 +8,6 @@ Project <- setRefClass(
     billing_group_id = "characterORNULL",
     description = "characterORNULL",
     type = "characterORNULL",
-    # my_permission  = "Permission",
     owner = "characterORNULL",
     tags = "listORNULL",
     settings = "listORNULL",
@@ -134,19 +15,13 @@ Project <- setRefClass(
   ),
 
   methods = list(
-    initialize = function(id = NULL,
-                              name = NULL,
-                              billing_group_id = NULL,
-                              description = "",
-                              type = "",
-                              # my_permission  = Permission(),
-                              owner = NULL,
-                              tags = list(),
-                              settings = list(),
+    initialize = function(id = NULL, name = NULL, billing_group_id = NULL,
+                              description = "", type = "", owner = NULL,
+                              tags = list(), settings = list(),
                               root_folder = "", ...) {
       if (is.null(id)) stop("id is required")
 
-      # Fixme in the future
+      # FIXME in the future
       if (length(tags)) {
         if (tags != "tcga") {
           stop("tags has to be empty list() (default) or 'tcga' for now")
@@ -158,7 +33,6 @@ Project <- setRefClass(
       billing_group_id <<- billing_group_id
       description <<- description
       type <<- type
-      # my_permission  <<- my_permission
       owner <<- owner
       tags <<- tags
       settings <<- settings
@@ -167,6 +41,7 @@ Project <- setRefClass(
       callSuper(...)
     },
 
+    # project ------------------------------------------------------------------
     update = function(name = NULL, description = NULL, billing_group_id = NULL, ...) {
       "update name/description/billing group for a project"
 
@@ -200,27 +75,20 @@ Project <- setRefClass(
       res
     },
 
-    member = function(username = NULL, name = username, ignore.case = TRUE, exact = FALSE, ...) {
+    # member -------------------------------------------------------------------
+    member = function(username = NULL, name = username,
+                          ignore.case = TRUE, exact = FALSE, ...) {
       if (is.null(id)) stop("id must be provided")
 
-      # depends on owner information to decide which version we use
-      if (ptype(id) == "1.1") {
-        # use V1.1
-        res <- project_members(auth$token, id)
-        ms <- .asMemberList(res[[1]])
-      }
-      if (ptype(id) == "v2") {
-        # use v2
-        req <- api(
-          token = auth$token,
-          base_url = auth$url,
-          path = paste0("projects/", id, "/members"),
-          method = "GET", ...
-        )
-        res <- status_check(req)
-        ms <- .asMemberList(res, pid = id)
-        ms <- setAuth(ms, .self$auth, "Member")
-      }
+      req <- api(
+        token = auth$token,
+        base_url = auth$url,
+        path = paste0("projects/", id, "/members"),
+        method = "GET", ...
+      )
+      res <- status_check(req)
+      ms <- .asMemberList(res, pid = id)
+      ms <- setAuth(ms, .self$auth, "Member")
 
       if (is.null(name)) {
         return(ms)
@@ -234,13 +102,9 @@ Project <- setRefClass(
       }
     },
 
-    member_add = function(username = NULL,
-                              name = username,
-                              copy = FALSE,
-                              write = FALSE,
-                              execute = FALSE,
-                              admin = FALSE,
-                              read = FALSE, ...) {
+    member_add = function(username = NULL, name = username,
+                              copy = FALSE, write = FALSE, execute = FALSE,
+                              admin = FALSE, read = FALSE, ...) {
       body <- list(
         "username" = name,
         "permissions" = list(
@@ -263,6 +127,7 @@ Project <- setRefClass(
       .asMember(res)
     },
 
+    # file ---------------------------------------------------------------------
     file = function(name = NULL,
                         id = NULL,
                         exact = FALSE,
@@ -277,15 +142,10 @@ Project <- setRefClass(
       res
     },
 
-    upload = function(filename = NULL,
-                          name = NULL,
-                          metadata = list(),
-                          overwrite = FALSE,
-                          manifest_file = NULL,
-                          manifest_metadata = TRUE,
-                          subset, select,
-                          verbal = NULL,
-                          ...) {
+    upload = function(filename = NULL, name = NULL, metadata = list(),
+                          overwrite = FALSE, manifest_file = NULL,
+                          manifest_metadata = TRUE, subset, select,
+                          verbal = NULL, ...) {
 
       # upload via a manifest
       if (!is.null(manifest_file)) {
@@ -462,7 +322,7 @@ Project <- setRefClass(
       )
     },
 
-    # app
+    # apps ---------------------------------------------------------------------
     app = function(...) {
       auth$app(project = id, ...)
     },
@@ -571,20 +431,16 @@ Project <- setRefClass(
       res
     },
 
-    # task
+    # tasks --------------------------------------------------------------------
     task = function(...) {
       auth$task(project = id, ...)
     },
 
-    task_add = function(name = NULL,
-                            description = NULL,
-                            batch = NULL,
-                            app = NULL,
-                            inputs = NULL,
+    task_add = function(name = NULL, description = NULL, batch = NULL,
+                            app = NULL, inputs = NULL,
                             input_check = getOption("sevenbridges")$input_check,
                             use_interruptible_instances = NULL,
-                            execution_settings = NULL,
-                            ...) {
+                            execution_settings = NULL, ...) {
 
       # spot instance logic:
       # if it's NULL, then follow the project settings (if project set it to TRUE, then use TRUE, and vice versa)
@@ -653,14 +509,16 @@ Project <- setRefClass(
           "owner", "tags"
         )
       )
+    },
+
+    # folders ------------------------------------------------------------------
+    get_root_folder = function() {
+      NULL
     }
   )
 )
 
 .asProject <- function(x) {
-
-  # if (is.null(x$my_permission)) {
-
   Project(
     id = x$id,
     href = x$href,
@@ -668,29 +526,12 @@ Project <- setRefClass(
     type = x$type,
     owner = x$owner,
     tags = x$tags,
-    description = x$description, # v1 only entry
+    description = x$description,
     billing_group_id = x$billing_group,
     settings = x$settings,
     root_folder = x$root_folder,
     response = response(x)
   )
-
-  # } else {
-  #   Project(
-  #     id = x$id,
-  #     href = x$href,
-  #     name = x$name,
-  #     type = x$type,
-  #     owner = x$owner,
-  #     tags = x$tags,
-  #     description = x$description, # v1 only entry
-  #     billing_group_id = x$billing_group,
-  #     my_permission = do.call(Permission, x$my_permission), # v1 only entry
-  #     settings = x$settings,
-  #     root_folder = x$root_folder,
-  #     response = response(x)
-  #   )
-  # }
 }
 
 ProjectList <- setListClass("Project", contains = "Item0")
@@ -700,15 +541,4 @@ ProjectList <- setListClass("Project", contains = "Item0")
   obj@href <- x$href
   obj@response <- response(x)
   obj
-}
-
-.asMember <- function(x, pid = NULL) {
-  Member(
-    id = x$id,
-    pid = pid,
-    username = x$username,
-    invitation_pending = x$invitation_pending,
-    permissions = do.call(Permission, x$permissions),
-    response = response(x)
-  )
 }

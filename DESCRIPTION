@@ -61,6 +61,7 @@ Collate:
     class-ratelimit.R
     class-user.R
     class-billing.R
+    class-member.R
     class-project.R
     class-files.R
     class-upload.R
