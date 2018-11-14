@@ -1,7 +1,7 @@
 FROM rocker/tidyverse
 MAINTAINER "Tengfei Yin" yintengfei@gmail.com
 
-## Install Docker (Docker in Docker)
+## Install common dependencies
 RUN apt-get update && apt-get install -y  \
     sudo \
     gdebi-core \
@@ -28,15 +28,13 @@ RUN apt-get update && apt-get install -y  \
 #    rm -f libltdl7_2.4.6-2_amd64.deb
 
 ## Install Docker
-RUN apt-get install -y apt-transport-https ca-certificates \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    && echo "deb https://apt.dockerproject.org/repo debian-$(lsb_release -cs) main" > /etc/apt/sources.list.d/docker.list \
-    && echo "//APT::Default-Release \"testing\";" > /etc/apt/apt.conf.d/default   \
-    && apt-cache policy docker-engine
 
-RUN apt-get update -y \
-    && apt-get upgrade -y \
-    && apt-get install -y docker-engine
+RUN sudo apt-get install -y apt-transport-https ca-certificates software-properties-common \
+    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - \
+    && apt-key fingerprint 0EBFCD88 \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+    && apt-get update -y \
+    && apt-get install -y docker-ce
 
 #################
 # RStudio addin #
@@ -58,9 +56,9 @@ RUN Rscript -e "install.packages('BiocManager');\
 #####################
 
 ## Install SBG Rabix
-RUN wget https://github.com/rabix/bunny/releases/download/v1.0.3/rabix-1.0.3.tar.gz \
-    && tar -zvxf rabix-1.0.3.tar.gz \
-    && ln -s  /rabix-cli-1.0.3/rabix /usr/local/bin/rabix
+RUN wget https://github.com/rabix/bunny/releases/download/v1.0.5-1/rabix-1.0.5.tar.gz \
+    && tar -zvxf rabix-1.0.5.tar.gz \
+    && ln -s  /rabix-cli-1.0.5/rabix /usr/local/bin/rabix
 
 ## Install SBG Command line uploader
 # RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
