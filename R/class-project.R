@@ -503,27 +503,12 @@ Project <- setRefClass(
     # folders ------------------------------------------------------------------
     # get the project root folder ID
     get_root_folder_id = function() {
-      NULL
+      root_folder
     },
 
     # get the project root folder object
     get_root_folder = function() {
-      NULL
-    },
-
-    # create a new folder under the project root folder
-    create_folder = function() {
-      NULL
-    },
-
-    # list project root folder contents (file, folder, or both)
-    list_folder_contents = function(type = c("file", "folder")) {
-      NULL
-    },
-
-    # delete folder under the project's root folder
-    delete_folder = function() {
-      NULL
+      .self$file(id = root_folder)
     },
 
     # show ---------------------------------------------------------------------

@@ -262,45 +262,121 @@ Files <- setRefClass(
     },
 
     # folders ------------------------------------------------------------------
-    # get object type (file or folder)
-    get_type = function() {
-      NULL
+    # create a new folder under the parent folder
+    create_folder = function(name, ...) {
+      if (is.null(name)) {
+        stop("Please provide the new folder name")
+      }
+
+      if (substr(name, 1, 2) == "__") {
+        stop("The folder name cannot start with \"__\"")
+      }
+
+      if (.self$type != "folder") {
+        stop("Object must have type \"folder\", not \"file\" or others")
+      }
+
+      req <- auth$api(
+        path = "files", method = "POST",
+        body = list("name" = name, "parent" = .self$id, "type" = "FOLDER"), ...
+      )
+
+      res <- .asFiles(req)
+      res$auth <- .self$auth
+
+      res
+    },
+
+    # get object type ("file" or "folder")
+    typeof = function() {
+      .self$type
+    },
+
+    # list folder contents (return files, folders, or both)
+    list_folder_contents = function(type = c("file", "folder"), ...) {
+      if (.self$type != "folder") {
+        stop("Object must have type \"folder\", not \"file\" or others")
+      }
+
+      req <- auth$api(
+        path = paste0("files/", .self$id, "/list"), method = "GET", ...
+      )
+
+      if (length(req$items) == 0L) return(NULL)
+
+      res <- .asFilesList(req)
+      for (i in 1L:length(res)) res[[i]]$auth <- .self$auth
+
+      # keep only files or folders
+      if (length(type) == 1L) {
+        types <- sapply(res, function(x) x$typeof())
+        if (type == "file") {
+          idx <- which(types == "file")
+        }
+        if (type == "folder") {
+          idx <- which(types == "folder")
+        }
+        res <- res[idx]
+      }
+
+      res
     },
 
     # get the parent folder ID of the current file/folder
     get_parent_folder_id = function() {
-      NULL
+      .self$parent
     },
 
     # get the parent folder object of the current file/folder
     get_parent_folder = function() {
-      NULL
-    },
-
-    # create a new folder under the parent folder
-    create_folder = function() {
-      NULL
-    },
-
-    # list folder contents (file, folder, or both)
-    list_folder_contents = function(type = c("file", "folder")) {
-      NULL
-    },
-
-    # move a file to a folder
-    move_to_folder = function() {
-      NULL
+      req <- auth$file(id = .self$parent)
+      res <- .asFiles(req)
+      res$auth <- .self$auth
+      res
     },
 
     # copy a file to a folder
-    copy_to_folder = function() {
-      NULL
+    copy_to_folder = function(folder_id, name_new = NULL, ...) {
+      if (!is.character(folder_id)) stop("Folder ID must be character")
+
+      if (is.null(name_new)) {
+        req <- auth$api(
+          path = paste0("files/", .self$id, "/actions/copy"), method = "POST",
+          body = list("parent" = folder_id), ...
+        )
+      } else {
+        req <- auth$api(
+          path = paste0("files/", .self$id, "/actions/copy"), method = "POST",
+          body = list("parent" = folder_id, "name" = name_new), ...
+        )
+      }
+
+      res <- .asFiles(req)
+      res$auth <- .self$auth
+
+      res
     },
 
-    # remove this and implement directly in the `delete`
-    # function above: delete file or folder according to type
-    delete_folder = function() {
-      NULL
+    # move a file to a folder
+    move_to_folder = function(folder_id, name_new = NULL, ...) {
+      if (!is.character(folder_id)) stop("Folder ID must be character")
+
+      if (is.null(name_new)) {
+        req <- auth$api(
+          path = paste0("files/", .self$id, "/actions/move"), method = "POST",
+          body = list("parent" = folder_id), ...
+        )
+      } else {
+        req <- auth$api(
+          path = paste0("files/", .self$id, "/actions/move"), method = "POST",
+          body = list("parent" = folder_id, "name" = name_new), ...
+        )
+      }
+
+      res <- .asFiles(req)
+      res$auth <- .self$auth
+
+      res
     },
 
     # show ---------------------------------------------------------------------
@@ -344,9 +420,9 @@ FilesList <- setListClass("Files", contains = "Item0")
   obj
 }
 
-#' Delete files
+#' Delete files or folders
 #'
-#' Delete files
+#' Delete files or folders
 #'
 #' @param obj single File or FileList
 #'
