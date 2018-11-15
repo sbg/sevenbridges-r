@@ -1,8 +1,22 @@
+# sevenbridges 1.13.2
+
+## New Features
+
+- Added support for Folder API. See the [Folders API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#folders) for details.
+
+## Improvements
+
+- Added floating TOC and changed the vignette theme for the HTML vignettes available on Bioconductor, to improve the browsing experience for long vignettes.
+
+## Bug Fixes
+
+- Fixed Docker image build issue and updated Bunny version.
+
 # sevenbridges 1.13.1
 
 ## New Features
 
-- Add support for setting [execution hints per task run](https://sbg.github.io/sevenbridges-r/articles/api.html#execution-hints-per-task-run) when drafting new tasks.
+- Added support for setting [execution hints per task run](https://sbg.github.io/sevenbridges-r/articles/api.html#execution-hints-per-task-run) when drafting new tasks.
 
 # sevenbridges 1.11.5
 
