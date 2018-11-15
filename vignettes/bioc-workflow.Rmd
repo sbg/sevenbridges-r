@@ -3,12 +3,14 @@ title: "Master Tutorial: Use R for Cancer Genomics Cloud"
 author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
     toc_depth: 4
     number_sections: true
-    css: sevenbridges.css
-    fig_caption: false
+    theme: "flatly"
+    highlight: "textmate"
+    css: "sevenbridges.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Master Tutorial: Use R for Cancer Genomics Cloud}

@@ -3,11 +3,14 @@ title: "Describe and Execute CWL Tools/Workflows in R"
 author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
     toc_depth: 4
     number_sections: true
-    css: sevenbridges.css
+    theme: "flatly"
+    highlight: "textmate"
+    css: "sevenbridges.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Describe and Execute CWL Tools/Workflows in R}
@@ -23,7 +26,7 @@ This tutorial assume you have basic knowledge about Docker concept.
 
 **Note**: Right now we are supporting CWL draft 2 with SBG extension, but we will support CWL v1.0 soon.
 
-# App, Workflow, and Tool
+# Apps, Workflows, and Tools
 
 In our terminology, a __workflow__ is composed of one or more __tool__, both of them are just __app__ to users. You can imagine some raw input data go through a pipeline with many nodes that each step perform a function on the data in the flow, and in the end, you got want you want: a fully processed data or result (plot, report, action).
 

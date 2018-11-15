@@ -3,11 +3,14 @@ title: "IDE Container: RStudio Server, Shiny Server, and More"
 author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
     toc_depth: 4
     number_sections: true
-    css: sevenbridges.css
+    theme: "flatly"
+    highlight: "textmate"
+    css: "sevenbridges.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{IDE Container: RStudio Server, Shiny Server, and More}
@@ -106,8 +109,10 @@ Let's try this, please log into your RStudio at `http://<url>:8787` now, then tr
 
 ```r
 dir.create("~/ShinyApps")
-file.copy("/usr/local/lib/R/site-library/shiny/examples/01_hello/",
-          "~/ShinyApps/", recursive = TRUE)
+file.copy(
+  "/usr/local/lib/R/site-library/shiny/examples/01_hello/",
+  "~/ShinyApps/", recursive = TRUE
+)
 ```
 
 If you logged in with the username `rstudio`, then visit `http://192.168.99.100:3838/rstudio/01_hello` you should be able to see the hello example.
