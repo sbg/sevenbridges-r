@@ -1833,7 +1833,7 @@ p$file(tag = list("s2", "s1"))
 
 ## Folders
 
-The Seven Bridges Folders API allows you to organize your files using folders
+The Folders API allows you to organize your files using folders
 in projects. From a filesystem perspective, folders are simply
 a special type of file. Therefore, within this package, the folder
 objects are still represented using the same class like the file
