@@ -28,9 +28,9 @@ reference:
     contents:
       - project_details
       - project_members
-  - title: "Files"
+  - title: "Files/Folders"
     desc: >
-      Files I/O.
+      File and folder operations.
     contents:
       - FileList
       - FilesList
@@ -56,11 +56,6 @@ reference:
       File systems class.
     contents:
       - FS-class
-  - title: "Folders"
-    desc: >
-      Folders class.
-    contents:
-      - Folders-class
   - title: "CLI Uploader"
     desc: >
       Upload files with command line uploader.
