@@ -29,10 +29,11 @@ RUN apt-get update && apt-get install -y  \
 
 ## Install Docker
 
-RUN apt-get install -y apt-transport-https ca-certificates software-properties-common \
-    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+RUN apt-get update \
+    && apt-get install -y apt-transport-https ca-certificates gnupg2 software-properties-common \
+    && curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - \
     && apt-key fingerprint 0EBFCD88 \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
     && apt-get update -y \
     && apt-get install -y docker-ce
 
@@ -75,9 +76,8 @@ ADD src/runif.R /usr/local/bin/
 RUN mkdir /report/
 ADD report/report.Rmd /report/
 
-## Install liftr
-RUN Rscript -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
-RUN Rscript -e "devtools::install_github('rstudio/packrat')"
+## Install liftr and packrat
+RUN Rscript -e "install.packages(c('liftr', 'packrat'), repos = 'https://cloud.r-project.org/')"
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
 RUN rm -rf /var/lib/apt/lists/ \
