@@ -1,5 +1,5 @@
 FROM rocker/tidyverse
-MAINTAINER "Tengfei Yin" yintengfei@gmail.com
+MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
 
 ## Install common dependencies
 RUN apt-get update && apt-get install -y  \

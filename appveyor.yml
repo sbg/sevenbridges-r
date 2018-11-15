@@ -48,7 +48,7 @@ artifacts:
 notifications:
   - provider: Email
     to:
-      - yintengfei@gmail.com
+      - tengfei.yin@sevenbridges.com
       - nan.xiao@sevenbridges.com
     on_build_success: false
     on_build_failure: true

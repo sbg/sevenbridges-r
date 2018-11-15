@@ -1,6 +1,6 @@
 FROM rocker/tidyverse
 
-MAINTAINER "Tengfei Yin" yintengfei@gmail.com
+MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
 
 RUN rm -f /var/lib/dpkg/available \
     && rm -rf  /var/cache/apt/* \

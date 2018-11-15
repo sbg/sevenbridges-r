@@ -7,7 +7,7 @@ output:
     css: style.css
 liftr:
   maintainer: "Tengfei Yin"
-  maintainer_email: "yintengfei@gmail.com"
+  maintainer_email: "tengfei.yin@sevenbridges.com"
   from: "rocker/tidyverse"
   latex: false
   pandoc: true
