@@ -1,16 +1,19 @@
 ---
-title: "Find Data on CGC via Data Exploerer, SPARQL, and Datasets API"
+title: "Find Data on CGC via Data Browser and Datasets API"
 author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
     toc_depth: 4
     number_sections: true
-    css: sevenbridges.css
+    theme: "flatly"
+    highlight: "textmate"
+    css: "sevenbridges.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Find Data on CGC via Data Exploerer, SPARQL, and Datasets API}
+  %\VignetteIndexEntry{Find Data on CGC via Data Browser and Datasets API}
 ---
 
 ```{r include=FALSE}
@@ -25,118 +28,19 @@ There are currently three ways to find the data you need on CGC:
 - Most advanced: for advanced user, please SPARQL query directly [tutorial](http://docs.cancergenomicscloud.org/docs/query-via-sparql).
 - Most sweet: use CGC Datasets API, by creating a query list in R (comming soon).
 
-# Quick Start
-
-## Graphical data explorer
+# Graphical Data Browser
 
 Please read the tutorial [here](http://docs.cancergenomicscloud.org/docs/about-the-data-browser).
 
-## SPARQL examples
+# Datasets API
 
-Seven Bridges' SPARQL console, available at [https://opensparql.sbgenomics.com](https://opensparql.sbgenomics.com).
+Please read the [tutorials](http://docs.cancergenomicscloud.org/docs/datasets-api-overview) first.
 
-Please read following tutorials first
-
-- [Query TCGA metadata programmatically](http://docs.cancergenomicscloud.org/docs/query-via-sparql)
-- [Example TCGA metadata queries in SPARQL](http://docs.cancergenomicscloud.org/docs/example-sparql-queries)
-
-Let's see an example here, you will need the R package `SPARQL`:
-
-```{r, eval = FALSE}
-library("SPARQL")
-endpoint <- "https://opensparql.sbgenomics.com/blazegraph/namespace/tcga_metadata_kb/sparql"
-query <- "
-prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-prefix tcga: <https://www.sbgenomics.com/ontologies/2014/11/tcga#>
-
-select distinct ?case ?sample ?file_name ?path ?xs_label ?subtype_label
-where
-{
- ?case a tcga:Case .
- ?case tcga:hasDiseaseType ?disease_type .
- ?disease_type rdfs:label 'Lung Adenocarcinoma' .
-
- ?case tcga:hasHistologicalDiagnosis ?hd .
- ?hd rdfs:label 'Lung Adenocarcinoma Mixed Subtype' .
-
- ?case tcga:hasFollowUp ?follow_up .
- ?follow_up tcga:hasDaysToLastFollowUp ?days_to_last_follow_up .
- filter(?days_to_last_follow_up>550)
-
- ?follow_up tcga:hasVitalStatus ?vital_status .
- ?vital_status rdfs:label ?vital_status_label .
- filter(?vital_status_label='Alive')
-
- ?case tcga:hasDrugTherapy ?drug_therapy .
- ?drug_therapy tcga:hasPharmaceuticalTherapyType ?pt_type .
- ?pt_type rdfs:label ?pt_type_label .
- filter(?pt_type_label='Chemotherapy')
-
- ?case tcga:hasSample ?sample .
- ?sample tcga:hasSampleType ?st .
- ?st rdfs:label ?st_label
- filter(?st_label='Primary Tumor')
-
- ?sample tcga:hasFile ?file .
- ?file rdfs:label ?file_name .
-
- ?file tcga:hasStoragePath ?path.
-
- ?file tcga:hasExperimentalStrategy ?xs.
- ?xs rdfs:label ?xs_label .
- filter(?xs_label='WXS')
-
- ?file tcga:hasDataSubtype ?subtype .
- ?subtype rdfs:label ?subtype_label
-
-}
-
-"
-qd <- SPARQL(endpoint, query)
-df <- qd$results
-head(df)
-```
-
-You can use the CGC API to access the TCGA files found via SPARQL queries. To get files that have download links, you will need to use the SPARQL variable __path__ in your query.
-
-```{r}
-# api(api_url = base, auth_token = auth_token, path = "action/files/get_ids",
-#     method = "POST", query = None, data = filelist)
-df.path <- df[, "path"]
-df.path
-```
-
-You can directly copy those files to a project, make sure if the files is
-controlled access
-
-- project support TCGA controlled access
-- you log in from NIH eRA Commons
-
-```{r}
-library("sevenbridges")
-
-a <- Auth(platform = "cgc", token = "your_cgc_token")
-
-# get id (only works for CGC platform)
-ids <- a$get_id_from_path(df.path)
-
-# copy file from id to project with controlled access
-(p <- a$project(id = "RFranklin/control-test"))
-
-a$copyFile(ids, p$id)
-```
-
-Now have fun with more examples in this [tutorial](http://docs.cancergenomicscloud.org/docs/query-via-sparql).
-
-## Datasets API examples
-
-Please read the [tutorials](http://docs.cancergenomicscloud.org/docs/datasets-api-overview).
-
-### Browse TCGA via the Datasets API
+## Browse TCGA via the Datasets API
 
 Doing a HTTP `GET` on this endpoint one will get a resource with links to all entities in the dataset. Following these links (doing an HTTP `GET` on them) one will go to a list of entities (for example `/files`) from TCGA dataset identified with their proper URL. Further following one of these links you'll get a particular resource (if we went to `/files`, we'll get a description of a particular file) with all specific properties like id, label, etc. and links to other entities that are connected to a specific resource (for example `/cases`) that you can explore further. From there on, the process repeats as long as you follow the links.
 
-#### Return datasets accessible trough the CGC
+### Return datasets accessible trough the CGC
 
 Create an Auth object with your token, make sure you are using the correct URL.
 
@@ -154,7 +58,7 @@ a <- Auth(
 a$api(path = "datasets")
 ```
 
-#### Return list of all TCGA entities
+### Return list of all TCGA entities
 
 You can issue another `GET` request to the href of the tcga object, if you want
 to access TCGA data.
@@ -169,7 +73,7 @@ a <- Auth(
 names(res$"_links")
 ```
 
-#### Interpreting the list of all entities
+### Interpreting the list of all entities
 
 For example, to see a list of all TCGA files, send the request:
 
@@ -183,7 +87,7 @@ For example, to see the __metadata schema__ for files send the request:
 a$api(path = "files/schema")
 ```
 
-#### Copy files to you project
+### Copy files to you project
 
 Get file id from Datasets API, then use public API to copy files. Make sure your
 project is "TCGA" compatible, otherwise if you are trying to copy controlled
@@ -204,11 +108,11 @@ a_cgc <- Auth(platform = "cgc", token = a$token)
 a_cgc$copyFile(id = ids, project = "RFranklin/tcga-demo")
 ```
 
-### Post with query
+## Post with query
 
 endpoint user can filter collection resources by using a DSL in JSON format that translates as a subset of SPARQL. Main advantage here is that an end user gets the subset SPARQL expressiveness without the need to learn SPARQL specification.
 
-#### Find samples connected to a case
+### Find samples connected to a case
 
 ```{r}
 body <- list(
@@ -237,7 +141,7 @@ httr::content(
 )
 ```
 
-#### Find cases with given age at diagnosis
+### Find cases with given age at diagnosis
 
 Suppose you want to see all cases for which the age at diagnosis is between 10 and 50. Then, you use the following query.
 
@@ -256,7 +160,7 @@ body <- list(
 a$api(path = "query", body = body, method = "POST")
 ```
 
-#### Find cases with a given age at diagnosis and disease
+### Find cases with a given age at diagnosis and disease
 
 Suppose you want to see all cases that, as in the example, ([Find cases with given age at diagnosis])(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease "Kidney Chromophobe". Then, use the following query:
 
@@ -274,7 +178,7 @@ body <- list(
 a$api(path = "query", body = body, method = "POST")
 ```
 
-#### Complex example for filtering TCGA data
+### Complex example for filtering TCGA data
 
 ```{r}
 body <- list(
@@ -308,7 +212,7 @@ httr::content(
 )
 ```
 
-#### Query with multiple filters on a case
+### Query with multiple filters on a case
 
 ```{r}
 get_id <- function(obj) sapply(obj$"_embedded"$files, function(x) x$id)
