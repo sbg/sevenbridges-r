@@ -4,11 +4,14 @@ author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>> <br>
          Nan Xiao <<nan.xiao@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
     toc_depth: 4
     number_sections: true
-    css: sevenbridges.css
+    theme: "flatly"
+    highlight: "textmate"
+    css: "sevenbridges.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Complete Guide for Seven Bridges API R Client}
@@ -25,8 +28,6 @@ knitr::opts_chunk$set(eval = FALSE)
 `sevenbridges` is an R/Bioconductor package that provides an interface for Seven Bridges public API. The supported platforms includes the [Seven Bridges Platform](https://igor.sbgenomics.com/), [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org), and [Cavatica](https://cavatica.sbgenomics.com).
 
 Learn more from our documentation on the [Seven Bridges Platform](https://docs.sevenbridges.com/page/api) and the [Cancer Genomics Cloud (CGC)](http://docs.cancergenomicscloud.org/v1.0/page/the-cgc-api).
-
-<div align="right"><a href="#top">top</a></div>
 
 ## R Client for Seven Bridges API
 
@@ -46,17 +47,17 @@ a$api(path = "projects", method = "GET")
 a$project()
 ```
 
-<div align="right"><a href="#top">top</a></div>
-
 ## API General Information
 
 Before we start, keep in mind the following:
 
 __`offset` and `limit`__
 
-Every API call accept arguments called `offset` and `limit`.
-<ul><li>Offset defines where the retrieved items started.</li>
-<li>Limit defines the quantity of items you want to get.</li></ul>
+Every API call accepts two arguments named `offset` and `limit`.
+
+- Offset defines where the retrieved items started.
+- Limit defines the quantity of items you want to get.
+
 By default, `offset` is set to `0` and `limit` is set to `100`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
 
 __Search by ID__
@@ -66,9 +67,6 @@ When searching by ID, your request will return your exact resource as it is uniq
 __Search by name__
 
 Search by name returns all partial matches unless you specify `exact = TRUE`.
-&nbsp;
-
-<div align="right"><a href="#top">top</a></div>
 
 ## Installation
 
@@ -90,11 +88,9 @@ BiocManager::install("sevenbridges", version = "devel")
 
 Since we are constantly improving our API and client libraries, please also visit our [GitHub repository](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version of the package.
 
-<div align="right"><a href="#top">top</a></div>
-
 **If you do not have `devtools`**
 
-This installation requires that you have the `devtools` package. If you do not have this package, you can install it from [CRAN](https://cran.r-project.org/package=devtools).
+This installation requires that you have the `devtools` package. If you do not have this package, you can install it from CRAN.
 
 ```{r}
 install.packages("devtools")
@@ -106,8 +102,6 @@ You may get an error for missing system dependecies such as curl and ssl. For ex
 apt-get update
 apt-get install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc
 ```
-
-<div align="right"><a href="#top">top</a></div>
 
 **If `devtools` is already installed**
 
@@ -737,7 +731,7 @@ getTaskHook("completed")
 
 If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it is "running", you want to keep tracking.
 
-Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to local folder.
+Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to the local folder.
 
 ```{r}
 setTaskHook("completed", function() {
@@ -971,15 +965,12 @@ getOption("sevenbridges")$advance_access
 ## [1] FALSE
 ```
 
-For example, the "folders" API is in Advance Access as of August, 2017. If we try to use the folders API to create a folder with the `advance_access` option disabled, it will return an error message:
+For example, the Markers API is in Advance Access as of November, 2018. If we try to use the Markers API to list markers available on a BAM file with the `advance_access` option disabled, it will return an error message:
 
 ```{r}
 req <- api(
-  token = "your_token", path = "files",
-  method = "POST", body = list(
-    "name" = "new-folder", "type" = "folder",
-    "project" = "owner/project"
-  )
+  token = "your_token", path = "genome/markers?file={bam_file_id}",
+  method = "GET"
 )
 
 httr::content(req)$"message"
@@ -1011,44 +1002,44 @@ Send the API call again:
 
 ```{r}
 req <- api(
-  token = "your_token", path = "files",
-  method = "POST", body = list(
-    "name" = "new-folder", "type" = "folder",
-    "project" = "owner/project"
-  )
+  token = "your_token", path = "genome/markers?file={bam_file_id}",
+  method = "GET"
 )
 ```
 
-The information of the newly created folder will be returned:
+The information of the markers available on that BAM file will be returned:
 
 ```{r}
 httr::content(req)
 ```
 
 ```
-## $href
-## [1] "https://api.sbgenomics.com/v2/files/{folder_id}"
-##
-## $id
-## [1] "folder_id"
-##
-## $name
-## [1] "new-folder"
-##
-## $project
-## [1] "owner/project"
-##
-## $parent
-## [1] "parent_folder_id"
-##
-## $type
-## [1] "folder"
-##
-## $created_on
-## [1] "2017-08-22T12:49:21Z"
-##
-## $modified_on
-## [1] "2017-08-22T12:49:21Z"
+$href
+[1] "https://api.sbgenomics.com/v2/genome/markers?file={bam_file_id}&offset=0&limit=2"
+
+$items
+$items[[1]]
+$items[[1]]$href
+[1] "https://api.sbgenomics.com/v2/genome/markers/{bam_file_id}"
+
+$items[[1]]$id
+[1] "{bam_file_id}"
+
+$items[[1]]$name
+[1] "Marker Title"
+
+$items[[2]]
+$items[[2]]$href
+[1] "https://api.sbgenomics.com/v2/genome/markers/{bam_file_id}"
+
+$items[[2]]$id
+[1] "{bam_file_id}"
+
+$items[[2]]$name
+[1] "Marker Title"
+
+$links
+list()
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1840,7 +1831,208 @@ p$file(tag = list("s2", "s1"))
 
 <div align="right"><a href="#top">top</a></div>
 
-## App
+## Folders
+
+The Seven Bridges Folders API allows you to organize your files using folders
+in projects. From a filesystem perspective, folders are simply
+a special type of file. Therefore, within this package, the folder
+objects are still represented using the same class like the file
+objects above, only with specific methods for operating on them.
+
+<div align="right"><a href="#top">top</a></div>
+
+### Get project root folder
+
+To create new folders and manage files using folders in a project, we first need
+to get the information about the root folder of the project. For example
+
+```{r}
+p <- a$project(id = "RFranklin/folders-api-testing")
+```
+
+We can get the project root folder ID:
+
+```{r}
+p$get_root_folder_id()
+```
+
+```
+[1] "5bd7c53ee4b04b8fb1a9f63c"
+```
+
+Or, return the project root folder as an object:
+
+```{r}
+(root_folder <- p$get_root_folder())
+```
+
+```
+== Files ==
+id : 5bd7c53ee4b04b8fb1a9f63c
+name : 8c02ceda-e46b-49c0-362f-4318fa8f3e4k
+project : RFranklin/folders-api-testing
+created_on : 2018-10-29T18:45:50Z
+modified_on : 2018-10-29T18:45:50Z
+type : folder
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Create a folder
+
+To create a new_folder under the project root folder, use
+
+```{r}
+folder1 <- root_folder$create_folder("folder1")
+```
+
+To create new folder under `folder1`, use
+
+```{r}
+folder2 <- folder1$create_folder("folder2")
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Copy files between folders
+
+Let's copy a public reference file into the project root folder:
+
+```{r}
+file_public <- a$public_file(name = "Homo_sapiens_assembly38.fasta", exact = TRUE)
+file1 <- file_public$copy_to_folder(root_folder$id)
+```
+
+We can also rename the file when copying it into a folder:
+
+```{r}
+file2 <- file_public$copy_to_folder(root_folder$id, "ref_grch38.fasta")
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Move files between folders
+
+To move files to another folder (for example, `folder1` we just created), use
+
+```{r}
+file1 <- file1$move_to_folder(folder1$id)
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### List folder contents
+
+To list all files and folders in a folder (for example, the root folder), use
+
+```{r}
+(contents_root <- root_folder$list_folder_contents(complete = TRUE))
+```
+
+```
+[[1]]
+== Files ==
+id : 5bede476e4b03b8ff38c28ba
+name : folder1
+project : RFranklin/folders-api-testing
+parent : 5bd7c53ee4b04b8fb1a9f63c
+type : folder
+
+[[2]]
+== Files ==
+id : 5bedc431e4b09b8ff3966e9c
+name : ref_grch38.fasta
+project : RFranklin/folders-api-testing
+parent : 5bd7c53ee4b04b8fb1a9f63c
+type : file
+```
+
+If `complete = FALSE` (default), it will only return the (first) page
+from the API based on `offset` and `limit`.
+
+To list only files or only folders, set `type = "file"` or `type = "folder"`:
+
+```{r}
+root_folder$list_folder_contents(type = "file", complete = TRUE)
+root_folder$list_folder_contents(type = "folder", complete = TRUE)
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Get file and folder details
+
+Get the type of a single file/folder object:
+
+```{r}
+contents_root[[1]]$typeof()
+```
+
+```
+[1] "folder"
+```
+
+Or, get the type(s) for all objects in the folder:
+
+```{r}
+sapply(contents_root, function(x) x$typeof())
+```
+
+```
+[1] "folder" "file"
+```
+
+Sometimes, it's convenient to get the parent folder ID for a file or folder:
+
+```{r}
+contents_root[[1]]$get_parent_folder_id()
+```
+
+```
+[1] "5bd7c53ee4b04b8fb1a9f63c"
+```
+
+This is essentially the root folder ID. Alternatively, to get the parent folder as an object, use
+
+```{r}
+contents_root[[1]]$get_parent_folder()
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Delete files in a folder
+
+We can delete a file in a folder:
+
+```{r}
+file1$delete()
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+### Delete a folder
+
+If a folder still has files in it, it cannot be deleted:
+
+```{r}
+file2 <- file2$move_to_folder(folder2$id)
+folder2$delete()
+```
+
+```
+Error: HTTP Status 400: Deleting non-empty folders is not supported.
+```
+
+We need to delete all files (and subfolders) within a folder before deleting the folder itself:
+
+```{r}
+file2$delete()
+folder2$delete()
+folder1$delete()
+```
+
+<div align="right"><a href="#top">top</a></div>
+
+## Apps
 
 All Seven Bridges environments support the [Common Workflow Language (CWL)](http://www.commonwl.org/) natively to allow for reproducible and portable workflows and tools. In this section, we will work with apps, including tools and workflows, via the API using the `sevenbridges` R package.
 
@@ -2024,7 +2216,7 @@ p$app_add("random", rbx, keep_test = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
-## Task
+## Tasks
 
 ### List tasks
 
@@ -2397,9 +2589,9 @@ In this package, we implement `delete` and `download` for some objects like task
 
 <div align="right"><a href="#top">top</a></div>
 
-# Cheatsheet
+# API Cheatsheet
 
-Quick cheat sheet (in progress):
+Quick API cheat sheet (work in progress):
 
 ```{r}
 # 01 - Authentication ----------------------------------------------------------
