@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
       <a href="../articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="../articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="../articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="../articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -104,7 +104,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -119,9 +119,6 @@
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p><code>sevenbridges</code> is an R/Bioconductor package that provides an interface for Seven Bridges public API. The supported platforms includes the <a href="https://igor.sbgenomics.com/">Seven Bridges Platform</a>, <a href="https://www.cancergenomicscloud.org">Cancer Genomics Cloud (CGC)</a>, and <a href="https://cavatica.sbgenomics.com">Cavatica</a>.</p>
 <p>Learn more from our documentation on the <a href="https://docs.sevenbridges.com/page/api">Seven Bridges Platform</a> and the <a href="http://docs.cancergenomicscloud.org/v1.0/page/the-cgc-api">Cancer Genomics Cloud (CGC)</a>.</p>
-<div align="right">
-<a href="#top">top</a>
-</div>
 <div id="r-client-for-seven-bridges-api" class="section level2">
 <h2 class="hasAnchor">
 <a href="#r-client-for-seven-bridges-api" class="anchor"></a>R Client for Seven Bridges API</h2>
@@ -132,32 +129,22 @@
 <a class="sourceLine" id="cb1-3" title="3">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"projects"</span>, <span class="dt">method =</span> <span class="st">"GET"</span>)</a></code></pre></div>
 <p><strong><em>(Advanced user option)</em></strong> The second way of constructing an API request is to directly use the <code>httr</code> package to make your API calls, as shown below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">a<span class="op">$</span><span class="kw">project</span>()</a></code></pre></div>
-<div align="right">
-<a href="#top">top</a>
-</div>
 </div>
 <div id="api-general-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#api-general-information" class="anchor"></a>API General Information</h2>
 <p>Before we start, keep in mind the following:</p>
 <p><strong><code>offset</code> and <code>limit</code></strong></p>
-Every API call accept arguments called <code>offset</code> and <code>limit</code>.
+<p>Every API call accepts two arguments named <code>offset</code> and <code>limit</code>.</p>
 <ul>
-<li>
-Offset defines where the retrieved items started.
-</li>
-<li>
-Limit defines the quantity of items you want to get.
-</li>
+<li>Offset defines where the retrieved items started.</li>
+<li>Limit defines the quantity of items you want to get.</li>
 </ul>
 <p>By default, <code>offset</code> is set to <code>0</code> and <code>limit</code> is set to <code>100</code>. As such, your API request returns the <strong>first 100 items</strong> when you list items or search for items by name. To search and list all items, use <code>complete = TRUE</code> in your API request.</p>
 <p><strong>Search by ID</strong></p>
 <p>When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set <code>offset</code> and <code>limit</code>. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource’s ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource’s details.</p>
 <p><strong>Search by name</strong></p>
-<p>Search by name returns all partial matches unless you specify <code>exact = TRUE</code>.  </p>
-<div align="right">
-<a href="#top">top</a>
-</div>
+<p>Search by name returns all partial matches unless you specify <code>exact = TRUE</code>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -170,18 +157,12 @@ Limit defines the quantity of items you want to get.
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
 <a class="sourceLine" id="cb4-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
 <p>Since we are constantly improving our API and client libraries, please also visit our <a href="https://github.com/sbg/sevenbridges-r">GitHub repository</a> for most recent news and for latest version of the package.</p>
-<div align="right">
-<a href="#top">top</a>
-</div>
 <p><strong>If you do not have <code>devtools</code></strong></p>
-<p>This installation requires that you have the <code>devtools</code> package. If you do not have this package, you can install it from <a href="https://cran.r-project.org/package=devtools">CRAN</a>.</p>
+<p>This installation requires that you have the <code>devtools</code> package. If you do not have this package, you can install it from CRAN.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a></code></pre></div>
 <p>You may get an error for missing system dependecies such as curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install <code>devtools</code> and in order to build vignettes since you need <code>pandoc</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="ex">apt-get</span> update</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</a></code></pre></div>
-<div align="right">
-<a href="#top">top</a>
-</div>
 <p><strong>If <code>devtools</code> is already installed</strong></p>
 <p>Install the latest version for <code>sevenbridges</code> from GitHub with the following:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
@@ -777,9 +758,9 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##           cat("\r", "completed")
 ##           return(TRUE)
 ##         }
-## &lt;environment: 0x7fc8166bb210&gt;</code></pre>
+## &lt;environment: 0x7fa495cb2d70&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
-<p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to local folder.</p>
+<p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
 <a class="sourceLine" id="cb59-2" title="2">  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
 <a class="sourceLine" id="cb59-3" title="3">  <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
@@ -962,16 +943,13 @@ auth_token = token_for_this_user</code></pre>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw">library</span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb74-2" title="2"><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<p>For example, the “folders” API is in Advance Access as of August, 2017. If we try to use the folders API to create a folder with the <code>advance_access</code> option disabled, it will return an error message:</p>
+<p>For example, the Markers API is in Advance Access as of November, 2018. If we try to use the Markers API to list markers available on a BAM file with the <code>advance_access</code> option disabled, it will return an error message:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
-<a class="sourceLine" id="cb76-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
-<a class="sourceLine" id="cb76-3" title="3">  <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb76-4" title="4">    <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
-<a class="sourceLine" id="cb76-5" title="5">    <span class="st">"project"</span> =<span class="st"> "owner/project"</span></a>
-<a class="sourceLine" id="cb76-6" title="6">  )</a>
-<a class="sourceLine" id="cb76-7" title="7">)</a>
-<a class="sourceLine" id="cb76-8" title="8"></a>
-<a class="sourceLine" id="cb76-9" title="9">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></a></code></pre></div>
+<a class="sourceLine" id="cb76-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"genome/markers?file={bam_file_id}"</span>,</a>
+<a class="sourceLine" id="cb76-3" title="3">  <span class="dt">method =</span> <span class="st">"GET"</span></a>
+<a class="sourceLine" id="cb76-4" title="4">)</a>
+<a class="sourceLine" id="cb76-5" title="5"></a>
+<a class="sourceLine" id="cb76-6" title="6">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></a></code></pre></div>
 <pre><code>## [1] "Advance access feature needs X-SBG-Advance-Access: advance header."</code></pre>
 <p>To enable the Advance Access features, one can use</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1">opt &lt;-<span class="st"> </span><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)</a>
@@ -982,37 +960,37 @@ auth_token = token_for_this_user</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <p>Send the API call again:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1">req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
-<a class="sourceLine" id="cb81-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"files"</span>,</a>
-<a class="sourceLine" id="cb81-3" title="3">  <span class="dt">method =</span> <span class="st">"POST"</span>, <span class="dt">body =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb81-4" title="4">    <span class="st">"name"</span> =<span class="st"> "new-folder"</span>, <span class="st">"type"</span> =<span class="st"> "folder"</span>,</a>
-<a class="sourceLine" id="cb81-5" title="5">    <span class="st">"project"</span> =<span class="st"> "owner/project"</span></a>
-<a class="sourceLine" id="cb81-6" title="6">  )</a>
-<a class="sourceLine" id="cb81-7" title="7">)</a></code></pre></div>
-<p>The information of the newly created folder will be returned:</p>
+<a class="sourceLine" id="cb81-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"genome/markers?file={bam_file_id}"</span>,</a>
+<a class="sourceLine" id="cb81-3" title="3">  <span class="dt">method =</span> <span class="st">"GET"</span></a>
+<a class="sourceLine" id="cb81-4" title="4">)</a></code></pre></div>
+<p>The information of the markers available on that BAM file will be returned:</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1">httr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)</a></code></pre></div>
-<pre><code>## $href
-## [1] "https://api.sbgenomics.com/v2/files/{folder_id}"
-##
-## $id
-## [1] "folder_id"
-##
-## $name
-## [1] "new-folder"
-##
-## $project
-## [1] "owner/project"
-##
-## $parent
-## [1] "parent_folder_id"
-##
-## $type
-## [1] "folder"
-##
-## $created_on
-## [1] "2017-08-22T12:49:21Z"
-##
-## $modified_on
-## [1] "2017-08-22T12:49:21Z"</code></pre>
+<pre><code>$href
+[1] "https://api.sbgenomics.com/v2/genome/markers?file={bam_file_id}&amp;offset=0&amp;limit=2"
+
+$items
+$items[[1]]
+$items[[1]]$href
+[1] "https://api.sbgenomics.com/v2/genome/markers/{bam_file_id}"
+
+$items[[1]]$id
+[1] "{bam_file_id}"
+
+$items[[1]]$name
+[1] "Marker Title"
+
+$items[[2]]
+$items[[2]]$href
+[1] "https://api.sbgenomics.com/v2/genome/markers/{bam_file_id}"
+
+$items[[2]]$id
+[1] "{bam_file_id}"
+
+$items[[2]]$name
+[1] "Marker Title"
+
+$links
+list()</code></pre>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1661,9 +1639,140 @@ project : RFranklin/demo-project</code></pre>
 </div>
 </div>
 </div>
-<div id="app" class="section level2">
+<div id="folders" class="section level2">
 <h2 class="hasAnchor">
-<a href="#app" class="anchor"></a>App</h2>
+<a href="#folders" class="anchor"></a>Folders</h2>
+<p>The Folders API allows you to organize your files using folders in projects. From a filesystem perspective, folders are simply a special type of file. Therefore, within this package, the folder objects are still represented using the same class like the file objects above, only with specific methods for operating on them.</p>
+<div align="right">
+<a href="#top">top</a>
+</div>
+<div id="get-project-root-folder" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-project-root-folder" class="anchor"></a>Get project root folder</h3>
+<p>To create new folders and manage files using folders in a project, we first need to get the information about the root folder of the project. For example</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/folders-api-testing"</span>)</a></code></pre></div>
+<p>We can get the project root folder ID:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1">p<span class="op">$</span><span class="kw">get_root_folder_id</span>()</a></code></pre></div>
+<pre><code>[1] "5bd7c53ee4b04b8fb1a9f63c"</code></pre>
+<p>Or, return the project root folder as an object:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1">(root_folder &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">get_root_folder</span>())</a></code></pre></div>
+<pre><code>== Files ==
+id : 5bd7c53ee4b04b8fb1a9f63c
+name : 8c02ceda-e46b-49c0-362f-4318fa8f3e4k
+project : RFranklin/folders-api-testing
+created_on : 2018-10-29T18:45:50Z
+modified_on : 2018-10-29T18:45:50Z
+type : folder</code></pre>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="create-a-folder" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-a-folder" class="anchor"></a>Create a folder</h3>
+<p>To create a new_folder under the project root folder, use</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1">folder1 &lt;-<span class="st"> </span>root_folder<span class="op">$</span><span class="kw">create_folder</span>(<span class="st">"folder1"</span>)</a></code></pre></div>
+<p>To create new folder under <code>folder1</code>, use</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">folder2 &lt;-<span class="st"> </span>folder1<span class="op">$</span><span class="kw">create_folder</span>(<span class="st">"folder2"</span>)</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="copy-files-between-folders" class="section level3">
+<h3 class="hasAnchor">
+<a href="#copy-files-between-folders" class="anchor"></a>Copy files between folders</h3>
+<p>Let’s copy a public reference file into the project root folder:</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1">file_public &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"Homo_sapiens_assembly38.fasta"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb145-2" title="2">file1 &lt;-<span class="st"> </span>file_public<span class="op">$</span><span class="kw">copy_to_folder</span>(root_folder<span class="op">$</span>id)</a></code></pre></div>
+<p>We can also rename the file when copying it into a folder:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">file2 &lt;-<span class="st"> </span>file_public<span class="op">$</span><span class="kw">copy_to_folder</span>(root_folder<span class="op">$</span>id, <span class="st">"ref_grch38.fasta"</span>)</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="move-files-between-folders" class="section level3">
+<h3 class="hasAnchor">
+<a href="#move-files-between-folders" class="anchor"></a>Move files between folders</h3>
+<p>To move files to another folder (for example, <code>folder1</code> we just created), use</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1">file1 &lt;-<span class="st"> </span>file1<span class="op">$</span><span class="kw">move_to_folder</span>(folder1<span class="op">$</span>id)</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="list-folder-contents" class="section level3">
+<h3 class="hasAnchor">
+<a href="#list-folder-contents" class="anchor"></a>List folder contents</h3>
+<p>To list all files and folders in a folder (for example, the root folder), use</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1">(contents_root &lt;-<span class="st"> </span>root_folder<span class="op">$</span><span class="kw">list_folder_contents</span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>[[1]]
+== Files ==
+id : 5bede476e4b03b8ff38c28ba
+name : folder1
+project : RFranklin/folders-api-testing
+parent : 5bd7c53ee4b04b8fb1a9f63c
+type : folder
+
+[[2]]
+== Files ==
+id : 5bedc431e4b09b8ff3966e9c
+name : ref_grch38.fasta
+project : RFranklin/folders-api-testing
+parent : 5bd7c53ee4b04b8fb1a9f63c
+type : file</code></pre>
+<p>If <code>complete = FALSE</code> (default), it will only return the (first) page from the API based on <code>offset</code> and <code>limit</code>.</p>
+<p>To list only files or only folders, set <code>type = "file"</code> or <code>type = "folder"</code>:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1">root_folder<span class="op">$</span><span class="kw">list_folder_contents</span>(<span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb150-2" title="2">root_folder<span class="op">$</span><span class="kw">list_folder_contents</span>(<span class="dt">type =</span> <span class="st">"folder"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="get-file-and-folder-details" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-file-and-folder-details" class="anchor"></a>Get file and folder details</h3>
+<p>Get the type of a single file/folder object:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1">contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">typeof</span>()</a></code></pre></div>
+<pre><code>[1] "folder"</code></pre>
+<p>Or, get the type(s) for all objects in the folder:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">sapply</span>(contents_root, <span class="cf">function</span>(x) x<span class="op">$</span><span class="kw">typeof</span>())</a></code></pre></div>
+<pre><code>[1] "folder" "file"</code></pre>
+<p>Sometimes, it’s convenient to get the parent folder ID for a file or folder:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1">contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">get_parent_folder_id</span>()</a></code></pre></div>
+<pre><code>[1] "5bd7c53ee4b04b8fb1a9f63c"</code></pre>
+<p>This is essentially the root folder ID. Alternatively, to get the parent folder as an object, use</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1">contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">get_parent_folder</span>()</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="delete-files-in-a-folder" class="section level3">
+<h3 class="hasAnchor">
+<a href="#delete-files-in-a-folder" class="anchor"></a>Delete files in a folder</h3>
+<p>We can delete a file in a folder:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1">file1<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+<div id="delete-a-folder" class="section level3">
+<h3 class="hasAnchor">
+<a href="#delete-a-folder" class="anchor"></a>Delete a folder</h3>
+<p>If a folder still has files in it, it cannot be deleted:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1">file2 &lt;-<span class="st"> </span>file2<span class="op">$</span><span class="kw">move_to_folder</span>(folder2<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb159-2" title="2">folder2<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+<pre><code>Error: HTTP Status 400: Deleting non-empty folders is not supported.</code></pre>
+<p>We need to delete all files (and subfolders) within a folder before deleting the folder itself:</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1">file2<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb161-2" title="2">folder2<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb161-3" title="3">folder1<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+<div align="right">
+<a href="#top">top</a>
+</div>
+</div>
+</div>
+<div id="apps" class="section level2">
+<h2 class="hasAnchor">
+<a href="#apps" class="anchor"></a>Apps</h2>
 <p>All Seven Bridges environments support the <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> natively to allow for reproducible and portable workflows and tools. In this section, we will work with apps, including tools and workflows, via the API using the <code>sevenbridges</code> R package.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -1672,40 +1781,40 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#list-all-apps" class="anchor"></a>List all apps</h3>
 <p>This call lists all the apps available to you.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">a<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb138-2" title="2"><span class="co"># or show details</span></a>
-<a class="sourceLine" id="cb138-3" title="3">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1">a<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb162-2" title="2"><span class="co"># or show details</span></a>
+<a class="sourceLine" id="cb162-3" title="3">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><strong>Search for an app by name</strong></p>
 <p>To search for a specific app by its name, pass a pattern for the <code>name</code> argument or provide a unique <code>id</code> as shown below.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1"><span class="co"># pattern match</span></a>
-<a class="sourceLine" id="cb139-2" title="2">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">name =</span> <span class="st">"STAR"</span>)</a>
-<a class="sourceLine" id="cb139-3" title="3"><span class="co"># unique id</span></a>
-<a class="sourceLine" id="cb139-4" title="4">aid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</a>
-<a class="sourceLine" id="cb139-5" title="5">aid</a>
-<a class="sourceLine" id="cb139-6" title="6">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> aid)</a>
-<a class="sourceLine" id="cb139-7" title="7"><span class="co"># get a specific revision from an app</span></a>
-<a class="sourceLine" id="cb139-8" title="8">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> aid, <span class="dt">revision =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="co"># pattern match</span></a>
+<a class="sourceLine" id="cb163-2" title="2">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">name =</span> <span class="st">"STAR"</span>)</a>
+<a class="sourceLine" id="cb163-3" title="3"><span class="co"># unique id</span></a>
+<a class="sourceLine" id="cb163-4" title="4">aid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb163-5" title="5">aid</a>
+<a class="sourceLine" id="cb163-6" title="6">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> aid)</a>
+<a class="sourceLine" id="cb163-7" title="7"><span class="co"># get a specific revision from an app</span></a>
+<a class="sourceLine" id="cb163-8" title="8">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> aid, <span class="dt">revision =</span> <span class="dv">0</span>)</a></code></pre></div>
 <p><strong>List all apps in a project</strong></p>
 <p>To list all apps belonging to a specific project, use the <code>project</code> argument.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="co"># my favorite, always</span></a>
-<a class="sourceLine" id="cb140-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb140-3" title="3"></a>
-<a class="sourceLine" id="cb140-4" title="4"><span class="co"># or alternatviely</span></a>
-<a class="sourceLine" id="cb140-5" title="5">pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
-<a class="sourceLine" id="cb140-6" title="6">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1"><span class="co"># my favorite, always</span></a>
+<a class="sourceLine" id="cb164-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb164-3" title="3"></a>
+<a class="sourceLine" id="cb164-4" title="4"><span class="co"># or alternatviely</span></a>
+<a class="sourceLine" id="cb164-5" title="5">pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb164-6" title="6">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
 <p><strong>List all public apps</strong></p>
 <p>To list all public apps, use the <code>visibility</code> argument.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="co"># show 100 items from public</span></a>
-<a class="sourceLine" id="cb141-2" title="2">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
-<a class="sourceLine" id="cb141-3" title="3"><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb141-4" title="4">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb141-5" title="5"><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb141-6" title="6">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> <span class="st">"RFranklin/helloworld"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb141-7" title="7"><span class="kw">length</span>(x)</a>
-<a class="sourceLine" id="cb141-8" title="8">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">limit =</span> <span class="dv">5</span>, <span class="dt">offset =</span> <span class="dv">150</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1"><span class="co"># show 100 items from public</span></a>
+<a class="sourceLine" id="cb165-2" title="2">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
+<a class="sourceLine" id="cb165-3" title="3"><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb165-4" title="4">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb165-5" title="5"><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb165-6" title="6">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> <span class="st">"RFranklin/helloworld"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb165-7" title="7"><span class="kw">length</span>(x)</a>
+<a class="sourceLine" id="cb165-8" title="8">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">limit =</span> <span class="dv">5</span>, <span class="dt">offset =</span> <span class="dv">150</span>)</a></code></pre></div>
 <p><strong>Search through all public apps in all locations</strong></p>
 <p>To search for a public app cross all locations, make the following call. Note that this may take a bit of time.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">a<span class="op">$</span><span class="kw">app</span>(<span class="st">"STAR"</span>, <span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1">a<span class="op">$</span><span class="kw">app</span>(<span class="st">"STAR"</span>, <span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1721,16 +1830,16 @@ project : RFranklin/demo-project</code></pre>
 <li>
 <code>name</code> (optional): use this field to optionally re-name your app</li>
 </ul>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1">aid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</a>
-<a class="sourceLine" id="cb143-2" title="2">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> <span class="st">"copy-rename-test"</span>)</a>
-<a class="sourceLine" id="cb143-3" title="3"><span class="co"># check if it is copied</span></a>
-<a class="sourceLine" id="cb143-4" title="4">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1">aid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb167-2" title="2">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> <span class="st">"copy-rename-test"</span>)</a>
+<a class="sourceLine" id="cb167-3" title="3"><span class="co"># check if it is copied</span></a>
+<a class="sourceLine" id="cb167-4" title="4">a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
 <p>You can also copy directly from the app object, as shown below.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star"</span>)</a>
-<a class="sourceLine" id="cb144-2" title="2">app<span class="op">$</span><span class="kw">copy_to</span>(</a>
-<a class="sourceLine" id="cb144-3" title="3">  <span class="dt">project =</span> <span class="st">"RFranklin/api-testing"</span>,</a>
-<a class="sourceLine" id="cb144-4" title="4">  <span class="dt">name =</span> <span class="st">"copy of star"</span></a>
-<a class="sourceLine" id="cb144-5" title="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1">app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/rna-seq-alignment-star"</span>)</a>
+<a class="sourceLine" id="cb168-2" title="2">app<span class="op">$</span><span class="kw">copy_to</span>(</a>
+<a class="sourceLine" id="cb168-3" title="3">  <span class="dt">project =</span> <span class="st">"RFranklin/api-testing"</span>,</a>
+<a class="sourceLine" id="cb168-4" title="4">  <span class="dt">name =</span> <span class="st">"copy of star"</span></a>
+<a class="sourceLine" id="cb168-5" title="5">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1741,10 +1850,10 @@ project : RFranklin/demo-project</code></pre>
 <p>This call returns the raw CWL of a specific app, including its raw CWL. The call differs from the call to GET details of an app in that it returns a JSON object that is the CWL.</p>
 <p>The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.</p>
 <p>To get a specific revision, pass the <code>revision</code> argument.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1">ap &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb145-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>(<span class="st">"index"</span>)</a>
-<a class="sourceLine" id="cb145-3" title="3"><span class="co"># get a specific revision</span></a>
-<a class="sourceLine" id="cb145-4" title="4">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>(<span class="st">"index"</span>, <span class="dt">revision =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1">ap &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb169-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>(<span class="st">"index"</span>)</a>
+<a class="sourceLine" id="cb169-3" title="3"><span class="co"># get a specific revision</span></a>
+<a class="sourceLine" id="cb169-4" title="4">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>(<span class="st">"index"</span>, <span class="dt">revision =</span> <span class="dv">0</span>)</a></code></pre></div>
 <p>Coming soon: converting apps to CWL objects</p>
 <div align="right">
 <a href="#top">top</a>
@@ -1760,9 +1869,9 @@ project : RFranklin/demo-project</code></pre>
 <li>
 <code>filename</code>: The name of the JSON file containing the CWL.</li>
 </ul>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1">cwl.fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"bam_index.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb146-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">filename =</span> cwl.fl)</a>
-<a class="sourceLine" id="cb146-3" title="3">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">revision =</span> <span class="dv">2</span>, <span class="dt">filename =</span> cwl.fl)</a></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">cwl.fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"bam_index.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb170-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">filename =</span> cwl.fl)</a>
+<a class="sourceLine" id="cb170-3" title="3">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">revision =</span> <span class="dv">2</span>, <span class="dt">filename =</span> cwl.fl)</a></code></pre></div>
 <p>Note: If you provide the same <code>short_name</code>, this will add a new revision.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -1780,68 +1889,68 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#create-test-or-keep-previous-test-for-tool" class="anchor"></a>Create test or keep previous test for Tool</h3>
 <p>On sevenbridges platform, when you create or update your tools in the GUI, there is a test tab allow users to tweak the parameters and see what it looks like in your commandline simulatd terminal. To do this via R when you push your Tool object to your project, you need to provide “sbg:job” information like the example shown below</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb147-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb147-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb147-4" title="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
-<a class="sourceLine" id="cb147-5" title="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
-<a class="sourceLine" id="cb147-6" title="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
-<a class="sourceLine" id="cb147-7" title="7">  ),</a>
-<a class="sourceLine" id="cb147-8" title="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb147-9" title="9">  <span class="dt">inputs =</span> in.lst,</a>
-<a class="sourceLine" id="cb147-10" title="10">  <span class="dt">outputs =</span> out.lst,</a>
-<a class="sourceLine" id="cb147-11" title="11">  <span class="st">"sbg:job"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb147-12" title="12">    <span class="dt">allocatedResources =</span> <span class="kw">list</span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb147-13" title="13">    <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)</a>
-<a class="sourceLine" id="cb147-14" title="14">  )</a>
-<a class="sourceLine" id="cb147-15" title="15">)</a>
-<a class="sourceLine" id="cb147-16" title="16">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb171-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb171-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
+<a class="sourceLine" id="cb171-4" title="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb171-5" title="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
+<a class="sourceLine" id="cb171-6" title="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb171-7" title="7">  ),</a>
+<a class="sourceLine" id="cb171-8" title="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb171-9" title="9">  <span class="dt">inputs =</span> in.lst,</a>
+<a class="sourceLine" id="cb171-10" title="10">  <span class="dt">outputs =</span> out.lst,</a>
+<a class="sourceLine" id="cb171-11" title="11">  <span class="st">"sbg:job"</span> =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb171-12" title="12">    <span class="dt">allocatedResources =</span> <span class="kw">list</span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb171-13" title="13">    <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)</a>
+<a class="sourceLine" id="cb171-14" title="14">  )</a>
+<a class="sourceLine" id="cb171-15" title="15">)</a>
+<a class="sourceLine" id="cb171-16" title="16">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</a></code></pre></div>
 <p>Or if you have created a test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide a arguments called <code>keep_test</code> to allow you keep the previous revision’s test information.</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb148-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb148-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
-<a class="sourceLine" id="cb148-4" title="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
-<a class="sourceLine" id="cb148-5" title="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
-<a class="sourceLine" id="cb148-6" title="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
-<a class="sourceLine" id="cb148-7" title="7">  ),</a>
-<a class="sourceLine" id="cb148-8" title="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb148-9" title="9">  <span class="dt">inputs =</span> in.lst,</a>
-<a class="sourceLine" id="cb148-10" title="10">  <span class="dt">outputs =</span> out.lst</a>
-<a class="sourceLine" id="cb148-11" title="11">)</a>
-<a class="sourceLine" id="cb148-12" title="12">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx, <span class="dt">keep_test =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb172-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb172-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
+<a class="sourceLine" id="cb172-4" title="4">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb172-5" title="5">    <span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"RFranklin/runif"</span>),</a>
+<a class="sourceLine" id="cb172-6" title="6">    <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb172-7" title="7">  ),</a>
+<a class="sourceLine" id="cb172-8" title="8">  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</a>
+<a class="sourceLine" id="cb172-9" title="9">  <span class="dt">inputs =</span> in.lst,</a>
+<a class="sourceLine" id="cb172-10" title="10">  <span class="dt">outputs =</span> out.lst</a>
+<a class="sourceLine" id="cb172-11" title="11">)</a>
+<a class="sourceLine" id="cb172-12" title="12">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx, <span class="dt">keep_test =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
 </div>
 </div>
-<div id="task" class="section level2">
+<div id="tasks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#task" class="anchor"></a>Task</h2>
+<a href="#tasks" class="anchor"></a>Tasks</h2>
 <div id="list-tasks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-tasks" class="anchor"></a>List tasks</h3>
 <p>This call returns a list of tasks that you can access. You are able to filter tasks by status.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1"><span class="co"># all tasks</span></a>
-<a class="sourceLine" id="cb149-2" title="2">a<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb149-3" title="3"><span class="co"># filter</span></a>
-<a class="sourceLine" id="cb149-4" title="4">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"completed"</span>)</a>
-<a class="sourceLine" id="cb149-5" title="5">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"running"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" title="1"><span class="co"># all tasks</span></a>
+<a class="sourceLine" id="cb173-2" title="2">a<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb173-3" title="3"><span class="co"># filter</span></a>
+<a class="sourceLine" id="cb173-4" title="4">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"completed"</span>)</a>
+<a class="sourceLine" id="cb173-5" title="5">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"running"</span>)</a></code></pre></div>
 <p>To list all tasks in a project, use the following.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1"><span class="co"># a better way</span></a>
-<a class="sourceLine" id="cb150-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb150-3" title="3"></a>
-<a class="sourceLine" id="cb150-4" title="4"><span class="co"># alternatively</span></a>
-<a class="sourceLine" id="cb150-5" title="5">pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
-<a class="sourceLine" id="cb150-6" title="6">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1"><span class="co"># a better way</span></a>
+<a class="sourceLine" id="cb174-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb174-3" title="3"></a>
+<a class="sourceLine" id="cb174-4" title="4"><span class="co"># alternatively</span></a>
+<a class="sourceLine" id="cb174-5" title="5">pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb174-6" title="6">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">project =</span> pid)</a></code></pre></div>
 <p>To list all tasks with details, pass <code>detail = TRUE</code>.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"your task id here"</span>, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb151-2" title="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"your task id here"</span>, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb175-2" title="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>To list a batch task using the <code>parent</code> parameter, pass the batch parent task id.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
-<a class="sourceLine" id="cb152-2" title="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
-<a class="sourceLine" id="cb152-3" title="3">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
-<a class="sourceLine" id="cb152-4" title="4">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>, <span class="dt">status =</span> <span class="st">"completed"</span>)</a>
-<a class="sourceLine" id="cb152-5" title="5">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>, <span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
+<a class="sourceLine" id="cb176-2" title="2">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
+<a class="sourceLine" id="cb176-3" title="3">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>)</a>
+<a class="sourceLine" id="cb176-4" title="4">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>, <span class="dt">status =</span> <span class="st">"completed"</span>)</a>
+<a class="sourceLine" id="cb176-5" title="5">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">parent =</span> <span class="st">"2e1ebed1-c53e-4373-870d-4732acacbbbb"</span>, <span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1860,19 +1969,19 @@ project : RFranklin/demo-project</code></pre>
 <li>
 <code>inputs</code>: A list of inputs for this task</li>
 </ul>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="co"># push an app first</span></a>
-<a class="sourceLine" id="cb153-2" title="2">fl.runif &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"runif.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb153-3" title="3">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"runif_draft"</span>, fl.runif)</a>
-<a class="sourceLine" id="cb153-4" title="4">runif_id &lt;-<span class="st"> "RFranklin/demo-project/runif_draft"</span></a>
-<a class="sourceLine" id="cb153-5" title="5"><span class="co"># create a draft task</span></a>
-<a class="sourceLine" id="cb153-6" title="6">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb153-7" title="7">  <span class="dt">name =</span> <span class="st">"Draft runif 3"</span>,</a>
-<a class="sourceLine" id="cb153-8" title="8">  <span class="dt">description =</span> <span class="st">"Description for runif 3"</span>,</a>
-<a class="sourceLine" id="cb153-9" title="9">  <span class="dt">app =</span> runif_id,</a>
-<a class="sourceLine" id="cb153-10" title="10">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb153-11" title="11">)</a>
-<a class="sourceLine" id="cb153-12" title="12"><span class="co"># confirm</span></a>
-<a class="sourceLine" id="cb153-13" title="13">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" title="1"><span class="co"># push an app first</span></a>
+<a class="sourceLine" id="cb177-2" title="2">fl.runif &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"runif.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb177-3" title="3">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"runif_draft"</span>, fl.runif)</a>
+<a class="sourceLine" id="cb177-4" title="4">runif_id &lt;-<span class="st"> "RFranklin/demo-project/runif_draft"</span></a>
+<a class="sourceLine" id="cb177-5" title="5"><span class="co"># create a draft task</span></a>
+<a class="sourceLine" id="cb177-6" title="6">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb177-7" title="7">  <span class="dt">name =</span> <span class="st">"Draft runif 3"</span>,</a>
+<a class="sourceLine" id="cb177-8" title="8">  <span class="dt">description =</span> <span class="st">"Description for runif 3"</span>,</a>
+<a class="sourceLine" id="cb177-9" title="9">  <span class="dt">app =</span> runif_id,</a>
+<a class="sourceLine" id="cb177-10" title="10">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb177-11" title="11">)</a>
+<a class="sourceLine" id="cb177-12" title="12"><span class="co"># confirm</span></a>
+<a class="sourceLine" id="cb177-13" title="13">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1887,16 +1996,16 @@ project : RFranklin/demo-project</code></pre>
 <li>
 <code>inputs</code> list. Note that you can only update the items you provided.</li>
 </ul>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1"><span class="co"># get the single task you want to update</span></a>
-<a class="sourceLine" id="cb154-2" title="2">tsk &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="st">"Draft runif 3"</span>)</a>
-<a class="sourceLine" id="cb154-3" title="3">tsk</a>
-<a class="sourceLine" id="cb154-4" title="4">tsk<span class="op">$</span><span class="kw">update</span>(</a>
-<a class="sourceLine" id="cb154-5" title="5">  <span class="dt">name =</span> <span class="st">"Draft runif update"</span>,</a>
-<a class="sourceLine" id="cb154-6" title="6">  <span class="dt">description =</span> <span class="st">"draft 2"</span>,</a>
-<a class="sourceLine" id="cb154-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">max =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb154-8" title="8">)</a>
-<a class="sourceLine" id="cb154-9" title="9"><span class="co"># alternative way to check all inputs</span></a>
-<a class="sourceLine" id="cb154-10" title="10">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" title="1"><span class="co"># get the single task you want to update</span></a>
+<a class="sourceLine" id="cb178-2" title="2">tsk &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="st">"Draft runif 3"</span>)</a>
+<a class="sourceLine" id="cb178-3" title="3">tsk</a>
+<a class="sourceLine" id="cb178-4" title="4">tsk<span class="op">$</span><span class="kw">update</span>(</a>
+<a class="sourceLine" id="cb178-5" title="5">  <span class="dt">name =</span> <span class="st">"Draft runif update"</span>,</a>
+<a class="sourceLine" id="cb178-6" title="6">  <span class="dt">description =</span> <span class="st">"draft 2"</span>,</a>
+<a class="sourceLine" id="cb178-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(<span class="dt">max =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb178-8" title="8">)</a>
+<a class="sourceLine" id="cb178-9" title="9"><span class="co"># alternative way to check all inputs</span></a>
+<a class="sourceLine" id="cb178-10" title="10">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1905,9 +2014,9 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#run-a-task-1" class="anchor"></a>Run a task</h3>
 <p>This call runs (“executes”) the specified task. Only tasks with a “DRAFT” status may be run.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1">tsk<span class="op">$</span><span class="kw">run</span>()</a>
-<a class="sourceLine" id="cb155-2" title="2"><span class="co"># run update without information just return latest information</span></a>
-<a class="sourceLine" id="cb155-3" title="3">tsk<span class="op">$</span><span class="kw">update</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" title="1">tsk<span class="op">$</span><span class="kw">run</span>()</a>
+<a class="sourceLine" id="cb179-2" title="2"><span class="co"># run update without information just return latest information</span></a>
+<a class="sourceLine" id="cb179-3" title="3">tsk<span class="op">$</span><span class="kw">update</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1917,16 +2026,16 @@ project : RFranklin/demo-project</code></pre>
 <li>First argument, set the interval time to check the status</li>
 <li>Rest arguments might be used for hook function</li>
 </ul>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" title="1">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" title="1">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
 <p>Get and set default a hook function for task status. Currently, failed tasks will break the monitoring.</p>
 <p>Note: Hook function has to return <code>TRUE</code> (break monitoring) or <code>FALSE</code> (continuing) in the end.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a>
-<a class="sourceLine" id="cb157-2" title="2"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a>
-<a class="sourceLine" id="cb157-3" title="3"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"draft"</span>, <span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb157-4" title="4">  <span class="kw">message</span>(<span class="st">"never happens"</span>)</a>
-<a class="sourceLine" id="cb157-5" title="5">  <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb157-6" title="6">})</a>
-<a class="sourceLine" id="cb157-7" title="7"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a>
+<a class="sourceLine" id="cb181-2" title="2"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a>
+<a class="sourceLine" id="cb181-3" title="3"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"draft"</span>, <span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb181-4" title="4">  <span class="kw">message</span>(<span class="st">"never happens"</span>)</a>
+<a class="sourceLine" id="cb181-5" title="5">  <span class="kw">return</span>(<span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb181-6" title="6">})</a>
+<a class="sourceLine" id="cb181-7" title="7"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1935,10 +2044,10 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#abort-a-running-task" class="anchor"></a>Abort a running task</h3>
 <p>This call aborts the specified task. Only tasks whose status is “RUNNING” may be aborted.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1"><span class="co"># abort</span></a>
-<a class="sourceLine" id="cb158-2" title="2">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
-<a class="sourceLine" id="cb158-3" title="3"><span class="co"># check</span></a>
-<a class="sourceLine" id="cb158-4" title="4">tsk<span class="op">$</span><span class="kw">update</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" title="1"><span class="co"># abort</span></a>
+<a class="sourceLine" id="cb182-2" title="2">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
+<a class="sourceLine" id="cb182-3" title="3"><span class="co"># check</span></a>
+<a class="sourceLine" id="cb182-4" title="4">tsk<span class="op">$</span><span class="kw">update</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1947,13 +2056,13 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#delete-a-task" class="anchor"></a>Delete a task</h3>
 <p>Note that you can only delete DRAFT tasks, not running tasks.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1">tsklst &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a>
-<a class="sourceLine" id="cb159-2" title="2"><span class="co"># delete a single task</span></a>
-<a class="sourceLine" id="cb159-3" title="3">tsklst[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb159-4" title="4"><span class="co"># confirm</span></a>
-<a class="sourceLine" id="cb159-5" title="5">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a>
-<a class="sourceLine" id="cb159-6" title="6"><span class="co"># delete a list of tasks</span></a>
-<a class="sourceLine" id="cb159-7" title="7"><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>(tsklst)</a></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" title="1">tsklst &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a>
+<a class="sourceLine" id="cb183-2" title="2"><span class="co"># delete a single task</span></a>
+<a class="sourceLine" id="cb183-3" title="3">tsklst[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb183-4" title="4"><span class="co"># confirm</span></a>
+<a class="sourceLine" id="cb183-5" title="5">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</a>
+<a class="sourceLine" id="cb183-6" title="6"><span class="co"># delete a list of tasks</span></a>
+<a class="sourceLine" id="cb183-7" title="7"><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>(tsklst)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1961,7 +2070,7 @@ project : RFranklin/demo-project</code></pre>
 <div id="download-all-files-from-a-completed-task" class="section level3">
 <h3 class="hasAnchor">
 <a href="#download-all-files-from-a-completed-task" class="anchor"></a>Download all files from a completed task</h3>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1970,34 +2079,34 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#run-task-in-batch-mode" class="anchor"></a>Run task in batch mode</h3>
 <p>To run task in batch mode, (check <code><a href="../reference/batch.html">?batch</a></code>) for more details. The code below is a mock.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1"><span class="co"># batch by items</span></a>
-<a class="sourceLine" id="cb161-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb161-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
-<a class="sourceLine" id="cb161-4" title="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb161-5" title="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb161-6" title="6">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
-<a class="sourceLine" id="cb161-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb161-8" title="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb161-9" title="9">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb161-10" title="10">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb161-11" title="11">  )</a>
-<a class="sourceLine" id="cb161-12" title="12">))</a>
-<a class="sourceLine" id="cb161-13" title="13"></a>
-<a class="sourceLine" id="cb161-14" title="14"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
-<a class="sourceLine" id="cb161-15" title="15">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb161-16" title="16">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
-<a class="sourceLine" id="cb161-17" title="17">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
-<a class="sourceLine" id="cb161-18" title="18">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
-<a class="sourceLine" id="cb161-19" title="19">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
-<a class="sourceLine" id="cb161-20" title="20">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
-<a class="sourceLine" id="cb161-21" title="21">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
-<a class="sourceLine" id="cb161-22" title="22">  ),</a>
-<a class="sourceLine" id="cb161-23" title="23">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb161-24" title="24">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
-<a class="sourceLine" id="cb161-25" title="25">    <span class="dt">design =</span> design.in,</a>
-<a class="sourceLine" id="cb161-26" title="26">    <span class="dt">gtffile =</span> gtf.in</a>
-<a class="sourceLine" id="cb161-27" title="27">  )</a>
-<a class="sourceLine" id="cb161-28" title="28">))</a></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1"><span class="co"># batch by items</span></a>
+<a class="sourceLine" id="cb185-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb185-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
+<a class="sourceLine" id="cb185-4" title="4">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb185-5" title="5">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb185-6" title="6">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</a>
+<a class="sourceLine" id="cb185-7" title="7">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb185-8" title="8">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb185-9" title="9">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb185-10" title="10">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb185-11" title="11">  )</a>
+<a class="sourceLine" id="cb185-12" title="12">))</a>
+<a class="sourceLine" id="cb185-13" title="13"></a>
+<a class="sourceLine" id="cb185-14" title="14"><span class="co"># batch by metadata, input files has to have metadata fields specified</span></a>
+<a class="sourceLine" id="cb185-15" title="15">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
+<a class="sourceLine" id="cb185-16" title="16">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 3"</span>,</a>
+<a class="sourceLine" id="cb185-17" title="17">  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</a>
+<a class="sourceLine" id="cb185-18" title="18">  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb185-19" title="19">  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</a>
+<a class="sourceLine" id="cb185-20" title="20">    <span class="dt">input =</span> <span class="st">"fastq"</span>,</a>
+<a class="sourceLine" id="cb185-21" title="21">    <span class="kw">c</span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</a>
+<a class="sourceLine" id="cb185-22" title="22">  ),</a>
+<a class="sourceLine" id="cb185-23" title="23">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb185-24" title="24">    <span class="dt">bamfiles =</span> bamfiles.in,</a>
+<a class="sourceLine" id="cb185-25" title="25">    <span class="dt">design =</span> design.in,</a>
+<a class="sourceLine" id="cb185-26" title="26">    <span class="dt">gtffile =</span> gtf.in</a>
+<a class="sourceLine" id="cb185-27" title="27">  )</a>
+<a class="sourceLine" id="cb185-28" title="28">))</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2013,18 +2122,18 @@ project : RFranklin/demo-project</code></pre>
 <div id="create-a-volume" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-volume" class="anchor"></a>Create a volume</h3>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">user =</span> <span class="st">"RFranklin"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
-<a class="sourceLine" id="cb162-2" title="2"></a>
-<a class="sourceLine" id="cb162-3" title="3">a<span class="op">$</span><span class="kw">add_volume</span>(</a>
-<a class="sourceLine" id="cb162-4" title="4">  <span class="dt">name =</span> <span class="st">"tutorial_volume"</span>,</a>
-<a class="sourceLine" id="cb162-5" title="5">  <span class="dt">type =</span> <span class="st">"s3"</span>,</a>
-<a class="sourceLine" id="cb162-6" title="6">  <span class="dt">bucket =</span> <span class="st">"RFranklin-demo"</span>,</a>
-<a class="sourceLine" id="cb162-7" title="7">  <span class="dt">prefix =</span> <span class="st">""</span>,</a>
-<a class="sourceLine" id="cb162-8" title="8">  <span class="dt">access_key_id =</span> <span class="st">"your_access_key_id"</span>,</a>
-<a class="sourceLine" id="cb162-9" title="9">  <span class="dt">secret_access_key =</span> <span class="st">"your_secret_access_key"</span>,</a>
-<a class="sourceLine" id="cb162-10" title="10">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span>,</a>
-<a class="sourceLine" id="cb162-11" title="11">  <span class="dt">access_mode =</span> <span class="st">"RW"</span></a>
-<a class="sourceLine" id="cb162-12" title="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">user =</span> <span class="st">"RFranklin"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</a>
+<a class="sourceLine" id="cb186-2" title="2"></a>
+<a class="sourceLine" id="cb186-3" title="3">a<span class="op">$</span><span class="kw">add_volume</span>(</a>
+<a class="sourceLine" id="cb186-4" title="4">  <span class="dt">name =</span> <span class="st">"tutorial_volume"</span>,</a>
+<a class="sourceLine" id="cb186-5" title="5">  <span class="dt">type =</span> <span class="st">"s3"</span>,</a>
+<a class="sourceLine" id="cb186-6" title="6">  <span class="dt">bucket =</span> <span class="st">"RFranklin-demo"</span>,</a>
+<a class="sourceLine" id="cb186-7" title="7">  <span class="dt">prefix =</span> <span class="st">""</span>,</a>
+<a class="sourceLine" id="cb186-8" title="8">  <span class="dt">access_key_id =</span> <span class="st">"your_access_key_id"</span>,</a>
+<a class="sourceLine" id="cb186-9" title="9">  <span class="dt">secret_access_key =</span> <span class="st">"your_secret_access_key"</span>,</a>
+<a class="sourceLine" id="cb186-10" title="10">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span>,</a>
+<a class="sourceLine" id="cb186-11" title="11">  <span class="dt">access_mode =</span> <span class="st">"RW"</span></a>
+<a class="sourceLine" id="cb186-12" title="12">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2032,12 +2141,12 @@ project : RFranklin/demo-project</code></pre>
 <div id="list-and-search-all-volumes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-and-search-all-volumes" class="anchor"></a>List and search all volumes</h3>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="co"># list all volume</span></a>
-<a class="sourceLine" id="cb163-2" title="2">a<span class="op">$</span><span class="kw">volume</span>()</a>
-<a class="sourceLine" id="cb163-3" title="3"><span class="co"># get unique volume by id</span></a>
-<a class="sourceLine" id="cb163-4" title="4">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)</a>
-<a class="sourceLine" id="cb163-5" title="5"><span class="co"># partial search by name</span></a>
-<a class="sourceLine" id="cb163-6" title="6">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">name =</span> <span class="st">"demo"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" title="1"><span class="co"># list all volume</span></a>
+<a class="sourceLine" id="cb187-2" title="2">a<span class="op">$</span><span class="kw">volume</span>()</a>
+<a class="sourceLine" id="cb187-3" title="3"><span class="co"># get unique volume by id</span></a>
+<a class="sourceLine" id="cb187-4" title="4">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)</a>
+<a class="sourceLine" id="cb187-5" title="5"><span class="co"># partial search by name</span></a>
+<a class="sourceLine" id="cb187-6" title="6">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">name =</span> <span class="st">"demo"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2045,8 +2154,8 @@ project : RFranklin/demo-project</code></pre>
 <div id="get-a-volumes-detail" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-a-volumes-detail" class="anchor"></a>Get a volume’s detail</h3>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>()</a>
-<a class="sourceLine" id="cb164-2" title="2">v[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">detail</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" title="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>()</a>
+<a class="sourceLine" id="cb188-2" title="2">v[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">detail</span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2056,7 +2165,7 @@ project : RFranklin/demo-project</code></pre>
 <a href="#delete-volume" class="anchor"></a>Delete volume</h3>
 <p>This call deletes a volume you’ve created to refer to storage on Amazon Web Services or Google Cloud Storage.</p>
 <p>Note that any files you’ve imported from your volume onto a Seven Bridges environment, known as an alias, will no longer be usable. If a new volume is created with the same volume_id as the deleted volume, aliases will point to files on the newly created volume instead (if those exist).</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" title="1">a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/RFranklin_demo"</span>)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2065,18 +2174,18 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#import-file-from-volume-to-project" class="anchor"></a>Import file from volume to project</h3>
 <p>This call imports a file from volume to your project.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/tutorial_volume"</span>)</a>
-<a class="sourceLine" id="cb166-2" title="2">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">import</span>(</a>
-<a class="sourceLine" id="cb166-3" title="3">  <span class="dt">location =</span> <span class="st">"A-RNA-File.bam.bai"</span>,</a>
-<a class="sourceLine" id="cb166-4" title="4">  <span class="dt">project =</span> <span class="st">"RFranklin/s3tutorial"</span>,</a>
-<a class="sourceLine" id="cb166-5" title="5">  <span class="dt">name =</span> <span class="st">"new.bam.bai"</span>,</a>
-<a class="sourceLine" id="cb166-6" title="6">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb166-7" title="7">)</a>
-<a class="sourceLine" id="cb166-8" title="8"></a>
-<a class="sourceLine" id="cb166-9" title="9"><span class="co"># get job status update</span></a>
-<a class="sourceLine" id="cb166-10" title="10"><span class="co"># state will be "COMPLETED" when it's finished, otherwise "PENDING"</span></a>
-<a class="sourceLine" id="cb166-11" title="11">v<span class="op">$</span><span class="kw">get_import_job</span>(res<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb166-12" title="12">v</a></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" title="1">v &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">volume</span>(<span class="dt">id =</span> <span class="st">"RFranklin/tutorial_volume"</span>)</a>
+<a class="sourceLine" id="cb190-2" title="2">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">import</span>(</a>
+<a class="sourceLine" id="cb190-3" title="3">  <span class="dt">location =</span> <span class="st">"A-RNA-File.bam.bai"</span>,</a>
+<a class="sourceLine" id="cb190-4" title="4">  <span class="dt">project =</span> <span class="st">"RFranklin/s3tutorial"</span>,</a>
+<a class="sourceLine" id="cb190-5" title="5">  <span class="dt">name =</span> <span class="st">"new.bam.bai"</span>,</a>
+<a class="sourceLine" id="cb190-6" title="6">  <span class="dt">overwrite =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb190-7" title="7">)</a>
+<a class="sourceLine" id="cb190-8" title="8"></a>
+<a class="sourceLine" id="cb190-9" title="9"><span class="co"># get job status update</span></a>
+<a class="sourceLine" id="cb190-10" title="10"><span class="co"># state will be "COMPLETED" when it's finished, otherwise "PENDING"</span></a>
+<a class="sourceLine" id="cb190-11" title="11">v<span class="op">$</span><span class="kw">get_import_job</span>(res<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb190-12" title="12">v</a></code></pre></div>
 </div>
 <div id="export-file-from-project-to-volume" class="section level3">
 <h3 class="hasAnchor">
@@ -2087,16 +2196,16 @@ project : RFranklin/demo-project</code></pre>
 <li>If this call is successful, the original project file will become an alias to the newly exported object on the volume. The source file will be deleted from the Seven Bridges environment and, if no more copies of this file exist, it will no longer count towards your total storage price on the Seven Bridges environment.</li>
 </ul>
 <p>When testing please update your file in a project.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">export</span>(</a>
-<a class="sourceLine" id="cb167-2" title="2">  <span class="dt">file =</span> <span class="st">"579fb1c9e4b08370afe7903a"</span>,</a>
-<a class="sourceLine" id="cb167-3" title="3">  <span class="dt">volume =</span> <span class="st">"RFranklin/tutorial_volume"</span>,</a>
-<a class="sourceLine" id="cb167-4" title="4">  <span class="dt">location =</span> <span class="st">""</span>, <span class="co"># when "" use old name</span></a>
-<a class="sourceLine" id="cb167-5" title="5">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span></a>
-<a class="sourceLine" id="cb167-6" title="6">)</a>
-<a class="sourceLine" id="cb167-7" title="7"><span class="co"># get job status update</span></a>
-<a class="sourceLine" id="cb167-8" title="8"><span class="co"># state will be "COMPLETED" when it's finished other wise "PENDING"</span></a>
-<a class="sourceLine" id="cb167-9" title="9">v<span class="op">$</span><span class="kw">get_export_job</span>(res<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb167-10" title="10">v</a></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" title="1">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">export</span>(</a>
+<a class="sourceLine" id="cb191-2" title="2">  <span class="dt">file =</span> <span class="st">"579fb1c9e4b08370afe7903a"</span>,</a>
+<a class="sourceLine" id="cb191-3" title="3">  <span class="dt">volume =</span> <span class="st">"RFranklin/tutorial_volume"</span>,</a>
+<a class="sourceLine" id="cb191-4" title="4">  <span class="dt">location =</span> <span class="st">""</span>, <span class="co"># when "" use old name</span></a>
+<a class="sourceLine" id="cb191-5" title="5">  <span class="dt">sse_algorithm =</span> <span class="st">"AES256"</span></a>
+<a class="sourceLine" id="cb191-6" title="6">)</a>
+<a class="sourceLine" id="cb191-7" title="7"><span class="co"># get job status update</span></a>
+<a class="sourceLine" id="cb191-8" title="8"><span class="co"># state will be "COMPLETED" when it's finished other wise "PENDING"</span></a>
+<a class="sourceLine" id="cb191-9" title="9">v<span class="op">$</span><span class="kw">get_export_job</span>(res<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb191-10" title="10">v</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2109,19 +2218,19 @@ project : RFranklin/demo-project</code></pre>
 <div id="public-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#public-files" class="anchor"></a>Public files</h3>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1"><span class="co"># list the first 100 files</span></a>
-<a class="sourceLine" id="cb168-2" title="2">a<span class="op">$</span><span class="kw">public_file</span>()</a>
-<a class="sourceLine" id="cb168-3" title="3"><span class="co"># list by offset and limit</span></a>
-<a class="sourceLine" id="cb168-4" title="4">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">offset =</span> <span class="dv">100</span>, <span class="dt">limit =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb168-5" title="5"><span class="co"># simply list everything!</span></a>
-<a class="sourceLine" id="cb168-6" title="6">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb168-7" title="7"><span class="co"># get exact file by id</span></a>
-<a class="sourceLine" id="cb168-8" title="8">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">id =</span> <span class="st">"5772b6f0507c175267448700"</span>)</a>
-<a class="sourceLine" id="cb168-9" title="9"><span class="co"># get exact file by name with exact = TRUE</span></a>
-<a class="sourceLine" id="cb168-10" title="10">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"G20479.HCC1143.2.converted.pe_1_1Mreads.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb168-11" title="11"><span class="co"># with exact = FALSE by default search by name pattern</span></a>
-<a class="sourceLine" id="cb168-12" title="12">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"fastq"</span>)</a>
-<a class="sourceLine" id="cb168-13" title="13">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"G20479.HCC1143.2.converted.pe_1_1Mreads.fastq"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" title="1"><span class="co"># list the first 100 files</span></a>
+<a class="sourceLine" id="cb192-2" title="2">a<span class="op">$</span><span class="kw">public_file</span>()</a>
+<a class="sourceLine" id="cb192-3" title="3"><span class="co"># list by offset and limit</span></a>
+<a class="sourceLine" id="cb192-4" title="4">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">offset =</span> <span class="dv">100</span>, <span class="dt">limit =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb192-5" title="5"><span class="co"># simply list everything!</span></a>
+<a class="sourceLine" id="cb192-6" title="6">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb192-7" title="7"><span class="co"># get exact file by id</span></a>
+<a class="sourceLine" id="cb192-8" title="8">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">id =</span> <span class="st">"5772b6f0507c175267448700"</span>)</a>
+<a class="sourceLine" id="cb192-9" title="9"><span class="co"># get exact file by name with exact = TRUE</span></a>
+<a class="sourceLine" id="cb192-10" title="10">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"G20479.HCC1143.2.converted.pe_1_1Mreads.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb192-11" title="11"><span class="co"># with exact = FALSE by default search by name pattern</span></a>
+<a class="sourceLine" id="cb192-12" title="12">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"fastq"</span>)</a>
+<a class="sourceLine" id="cb192-13" title="13">a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"G20479.HCC1143.2.converted.pe_1_1Mreads.fastq"</span>)</a></code></pre></div>
 <p>Public files are hosted in the project called <code>admin/sbg-public-data</code>, and you can alternatively use the <code>file</code> request to get files you need.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -2131,16 +2240,16 @@ project : RFranklin/demo-project</code></pre>
 <h3 class="hasAnchor">
 <a href="#public-apps" class="anchor"></a>Public apps</h3>
 <p>For public apps, there are similar API calls.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="co"># list for 100 apps</span></a>
-<a class="sourceLine" id="cb169-2" title="2">a<span class="op">$</span><span class="kw">public_app</span>()</a>
-<a class="sourceLine" id="cb169-3" title="3"><span class="co"># list by offset and limit</span></a>
-<a class="sourceLine" id="cb169-4" title="4">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">offset =</span> <span class="dv">100</span>, <span class="dt">limit =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb169-5" title="5"><span class="co"># search by id</span></a>
-<a class="sourceLine" id="cb169-6" title="6">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/control-freec-8-1/12"</span>)</a>
-<a class="sourceLine" id="cb169-7" title="7"><span class="co"># search by name in ALL apps</span></a>
-<a class="sourceLine" id="cb169-8" title="8">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">name =</span> <span class="st">"STAR"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb169-9" title="9"><span class="co"># search by name with exact match</span></a>
-<a class="sourceLine" id="cb169-10" title="10">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">name =</span> <span class="st">"Control-FREEC"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" title="1"><span class="co"># list for 100 apps</span></a>
+<a class="sourceLine" id="cb193-2" title="2">a<span class="op">$</span><span class="kw">public_app</span>()</a>
+<a class="sourceLine" id="cb193-3" title="3"><span class="co"># list by offset and limit</span></a>
+<a class="sourceLine" id="cb193-4" title="4">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">offset =</span> <span class="dv">100</span>, <span class="dt">limit =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb193-5" title="5"><span class="co"># search by id</span></a>
+<a class="sourceLine" id="cb193-6" title="6">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">id =</span> <span class="st">"admin/sbg-public-data/control-freec-8-1/12"</span>)</a>
+<a class="sourceLine" id="cb193-7" title="7"><span class="co"># search by name in ALL apps</span></a>
+<a class="sourceLine" id="cb193-8" title="8">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">name =</span> <span class="st">"STAR"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb193-9" title="9"><span class="co"># search by name with exact match</span></a>
+<a class="sourceLine" id="cb193-10" title="10">a<span class="op">$</span><span class="kw">public_app</span>(<span class="dt">name =</span> <span class="st">"Control-FREEC"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2164,124 +2273,124 @@ project : RFranklin/demo-project</code></pre>
 </div>
 </div>
 </div>
-<div id="cheatsheet" class="section level1">
+<div id="api-cheatsheet" class="section level1">
 <h1 class="hasAnchor">
-<a href="#cheatsheet" class="anchor"></a>Cheatsheet</h1>
-<p>Quick cheat sheet (in progress):</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1"><span class="co"># 01 - Authentication ----------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-2" title="2"></a>
-<a class="sourceLine" id="cb170-3" title="3"><span class="kw">getToken</span>()</a>
-<a class="sourceLine" id="cb170-4" title="4"></a>
-<a class="sourceLine" id="cb170-5" title="5"><span class="co"># authentication methods</span></a>
-<a class="sourceLine" id="cb170-6" title="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
-<a class="sourceLine" id="cb170-7" title="7">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
-<a class="sourceLine" id="cb170-8" title="8">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
-<a class="sourceLine" id="cb170-9" title="9">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-user"</span>)</a>
-<a class="sourceLine" id="cb170-10" title="10"></a>
-<a class="sourceLine" id="cb170-11" title="11"><span class="co"># list all API calls</span></a>
-<a class="sourceLine" id="cb170-12" title="12">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
-<a class="sourceLine" id="cb170-13" title="13"></a>
-<a class="sourceLine" id="cb170-14" title="14"><span class="co"># API rate limit</span></a>
-<a class="sourceLine" id="cb170-15" title="15">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
-<a class="sourceLine" id="cb170-16" title="16"></a>
-<a class="sourceLine" id="cb170-17" title="17"><span class="co"># 02 - User -------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-18" title="18"></a>
-<a class="sourceLine" id="cb170-19" title="19">a<span class="op">$</span><span class="kw">user</span>()</a>
-<a class="sourceLine" id="cb170-20" title="20">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a>
-<a class="sourceLine" id="cb170-21" title="21"></a>
-<a class="sourceLine" id="cb170-22" title="22"><span class="co"># 03 - Billing -----------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-23" title="23"></a>
-<a class="sourceLine" id="cb170-24" title="24">a<span class="op">$</span><span class="kw">billing</span>()</a>
-<a class="sourceLine" id="cb170-25" title="25">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> ..., <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb170-26" title="26">a<span class="op">$</span><span class="kw">invoice</span>()</a>
-<a class="sourceLine" id="cb170-27" title="27">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a>
-<a class="sourceLine" id="cb170-28" title="28"></a>
-<a class="sourceLine" id="cb170-29" title="29"><span class="co"># 04 - Project -----------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-30" title="30"></a>
-<a class="sourceLine" id="cb170-31" title="31"><span class="co"># create new project</span></a>
-<a class="sourceLine" id="cb170-32" title="32">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> ..., <span class="dt">billing_group_id =</span> ..., <span class="dt">description =</span> ...)</a>
-<a class="sourceLine" id="cb170-33" title="33"></a>
-<a class="sourceLine" id="cb170-34" title="34"><span class="co"># list all project owned by you</span></a>
-<a class="sourceLine" id="cb170-35" title="35">a<span class="op">$</span><span class="kw">project</span>()</a>
-<a class="sourceLine" id="cb170-36" title="36">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
-<a class="sourceLine" id="cb170-37" title="37"></a>
-<a class="sourceLine" id="cb170-38" title="38"><span class="co"># partial match</span></a>
-<a class="sourceLine" id="cb170-39" title="39">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ..., <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb170-40" title="40"></a>
-<a class="sourceLine" id="cb170-41" title="41"><span class="co"># delete</span></a>
-<a class="sourceLine" id="cb170-42" title="42">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb170-43" title="43"></a>
-<a class="sourceLine" id="cb170-44" title="44"><span class="co"># update</span></a>
-<a class="sourceLine" id="cb170-45" title="45">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</a>
-<a class="sourceLine" id="cb170-46" title="46"></a>
-<a class="sourceLine" id="cb170-47" title="47"><span class="co"># members</span></a>
-<a class="sourceLine" id="cb170-48" title="48">p<span class="op">$</span><span class="kw">member</span>()</a>
-<a class="sourceLine" id="cb170-49" title="49">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</a>
-<a class="sourceLine" id="cb170-50" title="50">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</a>
-<a class="sourceLine" id="cb170-51" title="51">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb170-52" title="52"></a>
-<a class="sourceLine" id="cb170-53" title="53"><span class="co"># 05 - File --------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-54" title="54"></a>
-<a class="sourceLine" id="cb170-55" title="55"><span class="co"># list all files in this project</span></a>
-<a class="sourceLine" id="cb170-56" title="56">p<span class="op">$</span><span class="kw">file</span>()</a>
-<a class="sourceLine" id="cb170-57" title="57"></a>
-<a class="sourceLine" id="cb170-58" title="58"><span class="co"># list all public files</span></a>
-<a class="sourceLine" id="cb170-59" title="59">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
-<a class="sourceLine" id="cb170-60" title="60"></a>
-<a class="sourceLine" id="cb170-61" title="61"><span class="co"># copy</span></a>
-<a class="sourceLine" id="cb170-62" title="62">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
-<a class="sourceLine" id="cb170-63" title="63"></a>
-<a class="sourceLine" id="cb170-64" title="64"><span class="co"># delete</span></a>
-<a class="sourceLine" id="cb170-65" title="65">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb170-66" title="66"></a>
-<a class="sourceLine" id="cb170-67" title="67"><span class="co"># download</span></a>
-<a class="sourceLine" id="cb170-68" title="68">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
-<a class="sourceLine" id="cb170-69" title="69">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
-<a class="sourceLine" id="cb170-70" title="70"></a>
-<a class="sourceLine" id="cb170-71" title="71"><span class="co"># download all</span></a>
-<a class="sourceLine" id="cb170-72" title="72"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
-<a class="sourceLine" id="cb170-73" title="73"></a>
-<a class="sourceLine" id="cb170-74" title="74"><span class="co"># update a file</span></a>
-<a class="sourceLine" id="cb170-75" title="75">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</a>
-<a class="sourceLine" id="cb170-76" title="76"></a>
-<a class="sourceLine" id="cb170-77" title="77"><span class="co"># metadata</span></a>
-<a class="sourceLine" id="cb170-78" title="78">fl<span class="op">$</span><span class="kw">meta</span>()</a>
-<a class="sourceLine" id="cb170-79" title="79">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
-<a class="sourceLine" id="cb170-80" title="80">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb170-81" title="81"></a>
-<a class="sourceLine" id="cb170-82" title="82"><span class="co"># 06 - App ---------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-83" title="83"></a>
-<a class="sourceLine" id="cb170-84" title="84">a<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb170-85" title="85"></a>
-<a class="sourceLine" id="cb170-86" title="86"><span class="co"># apps in a project</span></a>
-<a class="sourceLine" id="cb170-87" title="87">p<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb170-88" title="88">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> ...)</a>
-<a class="sourceLine" id="cb170-89" title="89">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> ...)</a>
-<a class="sourceLine" id="cb170-90" title="90"></a>
-<a class="sourceLine" id="cb170-91" title="91"><span class="co"># add new app</span></a>
-<a class="sourceLine" id="cb170-92" title="92">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> ..., <span class="dt">filename =</span> ...)</a>
-<a class="sourceLine" id="cb170-93" title="93"></a>
-<a class="sourceLine" id="cb170-94" title="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb170-95" title="95"></a>
-<a class="sourceLine" id="cb170-96" title="96">a<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb170-97" title="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb170-98" title="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
-<a class="sourceLine" id="cb170-99" title="99"></a>
-<a class="sourceLine" id="cb170-100" title="100">p<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb170-101" title="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb170-102" title="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
-<a class="sourceLine" id="cb170-103" title="103"></a>
-<a class="sourceLine" id="cb170-104" title="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb170-105" title="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
-<a class="sourceLine" id="cb170-106" title="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
-<a class="sourceLine" id="cb170-107" title="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
-<a class="sourceLine" id="cb170-108" title="108">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
-<a class="sourceLine" id="cb170-109" title="109">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
-<a class="sourceLine" id="cb170-110" title="110">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
-<a class="sourceLine" id="cb170-111" title="111">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
-<a class="sourceLine" id="cb170-112" title="112"></a>
-<a class="sourceLine" id="cb170-113" title="113"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
-<a class="sourceLine" id="cb170-114" title="114"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> ..., <span class="dt">fun =</span> ...)</a></code></pre></div>
+<a href="#api-cheatsheet" class="anchor"></a>API Cheatsheet</h1>
+<p>Quick API cheat sheet (work in progress):</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" title="1"><span class="co"># 01 - Authentication ----------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-2" title="2"></a>
+<a class="sourceLine" id="cb194-3" title="3"><span class="kw">getToken</span>()</a>
+<a class="sourceLine" id="cb194-4" title="4"></a>
+<a class="sourceLine" id="cb194-5" title="5"><span class="co"># authentication methods</span></a>
+<a class="sourceLine" id="cb194-6" title="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
+<a class="sourceLine" id="cb194-7" title="7">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
+<a class="sourceLine" id="cb194-8" title="8">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
+<a class="sourceLine" id="cb194-9" title="9">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-user"</span>)</a>
+<a class="sourceLine" id="cb194-10" title="10"></a>
+<a class="sourceLine" id="cb194-11" title="11"><span class="co"># list all API calls</span></a>
+<a class="sourceLine" id="cb194-12" title="12">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
+<a class="sourceLine" id="cb194-13" title="13"></a>
+<a class="sourceLine" id="cb194-14" title="14"><span class="co"># API rate limit</span></a>
+<a class="sourceLine" id="cb194-15" title="15">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
+<a class="sourceLine" id="cb194-16" title="16"></a>
+<a class="sourceLine" id="cb194-17" title="17"><span class="co"># 02 - User -------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-18" title="18"></a>
+<a class="sourceLine" id="cb194-19" title="19">a<span class="op">$</span><span class="kw">user</span>()</a>
+<a class="sourceLine" id="cb194-20" title="20">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a>
+<a class="sourceLine" id="cb194-21" title="21"></a>
+<a class="sourceLine" id="cb194-22" title="22"><span class="co"># 03 - Billing -----------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-23" title="23"></a>
+<a class="sourceLine" id="cb194-24" title="24">a<span class="op">$</span><span class="kw">billing</span>()</a>
+<a class="sourceLine" id="cb194-25" title="25">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> ..., <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb194-26" title="26">a<span class="op">$</span><span class="kw">invoice</span>()</a>
+<a class="sourceLine" id="cb194-27" title="27">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a>
+<a class="sourceLine" id="cb194-28" title="28"></a>
+<a class="sourceLine" id="cb194-29" title="29"><span class="co"># 04 - Project -----------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-30" title="30"></a>
+<a class="sourceLine" id="cb194-31" title="31"><span class="co"># create new project</span></a>
+<a class="sourceLine" id="cb194-32" title="32">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> ..., <span class="dt">billing_group_id =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb194-33" title="33"></a>
+<a class="sourceLine" id="cb194-34" title="34"><span class="co"># list all project owned by you</span></a>
+<a class="sourceLine" id="cb194-35" title="35">a<span class="op">$</span><span class="kw">project</span>()</a>
+<a class="sourceLine" id="cb194-36" title="36">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
+<a class="sourceLine" id="cb194-37" title="37"></a>
+<a class="sourceLine" id="cb194-38" title="38"><span class="co"># partial match</span></a>
+<a class="sourceLine" id="cb194-39" title="39">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ..., <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb194-40" title="40"></a>
+<a class="sourceLine" id="cb194-41" title="41"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb194-42" title="42">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb194-43" title="43"></a>
+<a class="sourceLine" id="cb194-44" title="44"><span class="co"># update</span></a>
+<a class="sourceLine" id="cb194-45" title="45">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb194-46" title="46"></a>
+<a class="sourceLine" id="cb194-47" title="47"><span class="co"># members</span></a>
+<a class="sourceLine" id="cb194-48" title="48">p<span class="op">$</span><span class="kw">member</span>()</a>
+<a class="sourceLine" id="cb194-49" title="49">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</a>
+<a class="sourceLine" id="cb194-50" title="50">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</a>
+<a class="sourceLine" id="cb194-51" title="51">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb194-52" title="52"></a>
+<a class="sourceLine" id="cb194-53" title="53"><span class="co"># 05 - File --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-54" title="54"></a>
+<a class="sourceLine" id="cb194-55" title="55"><span class="co"># list all files in this project</span></a>
+<a class="sourceLine" id="cb194-56" title="56">p<span class="op">$</span><span class="kw">file</span>()</a>
+<a class="sourceLine" id="cb194-57" title="57"></a>
+<a class="sourceLine" id="cb194-58" title="58"><span class="co"># list all public files</span></a>
+<a class="sourceLine" id="cb194-59" title="59">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
+<a class="sourceLine" id="cb194-60" title="60"></a>
+<a class="sourceLine" id="cb194-61" title="61"><span class="co"># copy</span></a>
+<a class="sourceLine" id="cb194-62" title="62">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
+<a class="sourceLine" id="cb194-63" title="63"></a>
+<a class="sourceLine" id="cb194-64" title="64"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb194-65" title="65">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb194-66" title="66"></a>
+<a class="sourceLine" id="cb194-67" title="67"><span class="co"># download</span></a>
+<a class="sourceLine" id="cb194-68" title="68">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
+<a class="sourceLine" id="cb194-69" title="69">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
+<a class="sourceLine" id="cb194-70" title="70"></a>
+<a class="sourceLine" id="cb194-71" title="71"><span class="co"># download all</span></a>
+<a class="sourceLine" id="cb194-72" title="72"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
+<a class="sourceLine" id="cb194-73" title="73"></a>
+<a class="sourceLine" id="cb194-74" title="74"><span class="co"># update a file</span></a>
+<a class="sourceLine" id="cb194-75" title="75">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</a>
+<a class="sourceLine" id="cb194-76" title="76"></a>
+<a class="sourceLine" id="cb194-77" title="77"><span class="co"># metadata</span></a>
+<a class="sourceLine" id="cb194-78" title="78">fl<span class="op">$</span><span class="kw">meta</span>()</a>
+<a class="sourceLine" id="cb194-79" title="79">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
+<a class="sourceLine" id="cb194-80" title="80">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb194-81" title="81"></a>
+<a class="sourceLine" id="cb194-82" title="82"><span class="co"># 06 - App ---------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-83" title="83"></a>
+<a class="sourceLine" id="cb194-84" title="84">a<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb194-85" title="85"></a>
+<a class="sourceLine" id="cb194-86" title="86"><span class="co"># apps in a project</span></a>
+<a class="sourceLine" id="cb194-87" title="87">p<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb194-88" title="88">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> ...)</a>
+<a class="sourceLine" id="cb194-89" title="89">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> ...)</a>
+<a class="sourceLine" id="cb194-90" title="90"></a>
+<a class="sourceLine" id="cb194-91" title="91"><span class="co"># add new app</span></a>
+<a class="sourceLine" id="cb194-92" title="92">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> ..., <span class="dt">filename =</span> ...)</a>
+<a class="sourceLine" id="cb194-93" title="93"></a>
+<a class="sourceLine" id="cb194-94" title="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb194-95" title="95"></a>
+<a class="sourceLine" id="cb194-96" title="96">a<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb194-97" title="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb194-98" title="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb194-99" title="99"></a>
+<a class="sourceLine" id="cb194-100" title="100">p<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb194-101" title="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb194-102" title="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb194-103" title="103"></a>
+<a class="sourceLine" id="cb194-104" title="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb194-105" title="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
+<a class="sourceLine" id="cb194-106" title="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
+<a class="sourceLine" id="cb194-107" title="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
+<a class="sourceLine" id="cb194-108" title="108">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
+<a class="sourceLine" id="cb194-109" title="109">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
+<a class="sourceLine" id="cb194-110" title="110">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
+<a class="sourceLine" id="cb194-111" title="111">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
+<a class="sourceLine" id="cb194-112" title="112"></a>
+<a class="sourceLine" id="cb194-113" title="113"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
+<a class="sourceLine" id="cb194-114" title="114"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> ..., <span class="dt">fun =</span> ...)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2328,15 +2437,16 @@ project : RFranklin/demo-project</code></pre>
       <li><a href="#billing-group-and-invoices">Billing Group and Invoices</a></li>
       <li><a href="#project">Project</a></li>
       <li><a href="#files-metadata-and-tags">Files, Metadata, and Tags</a></li>
-      <li><a href="#app">App</a></li>
-      <li><a href="#task">Task</a></li>
+      <li><a href="#folders">Folders</a></li>
+      <li><a href="#apps">Apps</a></li>
+      <li><a href="#tasks">Tasks</a></li>
       <li><a href="#volumes">Volumes</a></li>
       <li><a href="#public-files-and-apps">Public Files and Apps</a></li>
       <li><a href="#get-raw-response-from-httr">Get Raw Response from httr</a></li>
       <li><a href="#batch-operation-on-projectfilestasks">Batch Operation on Project/Files/Tasks</a></li>
       </ul>
 </li>
-      <li><a href="#cheatsheet">Cheatsheet</a></li>
+      <li><a href="#api-cheatsheet">API Cheatsheet</a></li>
       </ul>
 </div>
       </div>

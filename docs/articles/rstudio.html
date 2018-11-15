@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
       <a href="../articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="../articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="../articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="../articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -104,7 +104,7 @@
       <h1>IDE Container: RStudio Server, Shiny Server, and More</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/rstudio.Rmd"><code>vignettes/rstudio.Rmd</code></a></small>
       <div class="hidden name"><code>rstudio.Rmd</code></div>
@@ -140,9 +140,9 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">fl &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"docker/sevenbridges/"</span>, <span class="st">"Dockerfile"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
-MAINTAINER "Tengfei Yin" yintengfei@gmail.com
+MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
 
-## Install Docker (Docker in Docker)
+## Install common dependencies
 RUN apt-get update &amp;&amp; apt-get install -y  \
     sudo \
     gdebi-core \
@@ -169,15 +169,14 @@ RUN apt-get update &amp;&amp; apt-get install -y  \
 #    rm -f libltdl7_2.4.6-2_amd64.deb
 
 ## Install Docker
-RUN apt-get install -y apt-transport-https ca-certificates \
-    &amp;&amp; apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    &amp;&amp; echo "deb https://apt.dockerproject.org/repo debian-$(lsb_release -cs) main" &gt; /etc/apt/sources.list.d/docker.list \
-    &amp;&amp; echo "//APT::Default-Release \"testing\";" &gt; /etc/apt/apt.conf.d/default   \
-    &amp;&amp; apt-cache policy docker-engine
 
-RUN apt-get update -y \
-    &amp;&amp; apt-get upgrade -y \
-    &amp;&amp; apt-get install -y docker-engine
+RUN apt-get update \
+    &amp;&amp; apt-get install -y apt-transport-https ca-certificates gnupg2 software-properties-common \
+    &amp;&amp; curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - \
+    &amp;&amp; apt-key fingerprint 0EBFCD88 \
+    &amp;&amp; add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
+    &amp;&amp; apt-get update -y \
+    &amp;&amp; apt-get install -y docker-ce
 
 #################
 # RStudio addin #
@@ -199,9 +198,9 @@ RUN Rscript -e "install.packages('BiocManager');\
 #####################
 
 ## Install SBG Rabix
-RUN wget https://github.com/rabix/bunny/releases/download/v1.0.3/rabix-1.0.3.tar.gz \
-    &amp;&amp; tar -zvxf rabix-1.0.3.tar.gz \
-    &amp;&amp; ln -s  /rabix-cli-1.0.3/rabix /usr/local/bin/rabix
+RUN wget https://github.com/rabix/bunny/releases/download/v1.0.5-1/rabix-1.0.5.tar.gz \
+    &amp;&amp; tar -zvxf rabix-1.0.5.tar.gz \
+    &amp;&amp; ln -s  /rabix-cli-1.0.5/rabix /usr/local/bin/rabix
 
 ## Install SBG Command line uploader
 # RUN wget https://igor.sbgenomics.com/sbg-uploader/sbg-uploader.tgz \
@@ -218,9 +217,8 @@ ADD src/runif.R /usr/local/bin/
 RUN mkdir /report/
 ADD report/report.Rmd /report/
 
-## Install liftr
-RUN Rscript -e "devtools::install_github('road2stat/liftr', ref = 'devel')"
-RUN Rscript -e "devtools::install_github('rstudio/packrat')"
+## Install liftr and packrat
+RUN Rscript -e "install.packages(c('liftr', 'packrat'), repos = 'https://cloud.r-project.org/')"
 
 ## (because --deps TRUE can fail when packages are added/removed from CRAN)
 RUN rm -rf /var/lib/apt/lists/ \
@@ -300,8 +298,10 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 <p>For Shiny Server, <strong>per user app</strong> is hosted <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code>, for example, for user <code>rstudio</code> (a default user) and an app called <code>01_hello</code>, it will be <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny app from RStudio Server, you can log into your RStudio Server with your username, and create a fold at home folder called <code>~/ShinyApps</code> and develop Shiny apps under that folder, for example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Let’s try this, please log into your RStudio at <code>http://&lt;url&gt;:8787</code> now, then try to copy some example over to your home folder under <code>~/ShinyApps/</code></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">dir.create</span>(<span class="st">"~/ShinyApps"</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">file.copy</span>(<span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,</a>
-<a class="sourceLine" id="cb10-3" title="3">          <span class="st">"~/ShinyApps/"</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">file.copy</span>(</a>
+<a class="sourceLine" id="cb10-3" title="3">  <span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,</a>
+<a class="sourceLine" id="cb10-4" title="4">  <span class="st">"~/ShinyApps/"</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb10-5" title="5">)</a></code></pre></div>
 <p>If you logged in with the username <code>rstudio</code>, then visit <code>http://192.168.99.100:3838/rstudio/01_hello</code> you should be able to see the hello example.</p>
 <p>Note: Generic Shiny apps can also be hosted <code>http://&lt;url&gt;:3838/</code> or for particular app, <code>http://&lt;url&gt;:3838/&lt;app_dir&gt;</code> and inside the Docker container, it is hosted under <code>/srv/shiny-server/</code>.</p>
 </div>

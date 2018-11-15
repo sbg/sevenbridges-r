@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
       <a href="../articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="../articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="../articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="../articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -138,23 +138,48 @@
       <small>Source: <a href='https://github.com/sbg/sevenbridges-r/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="sevenbridges-1-13-1" class="section level1">
+    <div id="sevenbridges-1-13-2" class="section level1">
 <h1 class="page-header">
-<a href="#sevenbridges-1-13-1" class="anchor"></a>sevenbridges 1.13.1</h1>
+<a href="#sevenbridges-1-13-2" class="anchor"></a>sevenbridges 1.13.2</h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
-<li>Add support for setting <a href="https://sbg.github.io/sevenbridges-r/articles/api.html#execution-hints-per-task-run">execution hints per task run</a> when drafting new tasks.</li>
+<li>Added support for Folder API. See the <a href="https://sbg.github.io/sevenbridges-r/articles/api.html#folders">Folders API section in the vignette</a> for details.</li>
+</ul>
+</div>
+<div id="improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvements" class="anchor"></a>Improvements</h2>
+<ul>
+<li>Added floating TOC and changed the vignette theme for the HTML vignettes available on Bioconductor, to improve the browsing experience for long vignettes.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>Fixed Docker image build issue and updated Bunny version.</li>
+</ul>
+</div>
+</div>
+    <div id="sevenbridges-1-13-1" class="section level1">
+<h1 class="page-header">
+<a href="#sevenbridges-1-13-1" class="anchor"></a>sevenbridges 1.13.1</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<ul>
+<li>Added support for setting <a href="https://sbg.github.io/sevenbridges-r/articles/api.html#execution-hints-per-task-run">execution hints per task run</a> when drafting new tasks.</li>
 </ul>
 </div>
 </div>
     <div id="sevenbridges-1-11-5" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-11-5" class="anchor"></a>sevenbridges 1.11.5</h1>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed issues related to hints when creating CWL tools (<a href="https://github.com/sbg/sevenbridges-r/issues/65"><a href='https://github.com/sbg/sevenbridges-r/issues/65'>#65</a></a>) in R 3.5.x.</li>
 </ul>
@@ -163,9 +188,9 @@
     <div id="sevenbridges-1-11-4" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-11-4" class="anchor"></a>sevenbridges 1.11.4</h1>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed several compatibility issues for CWL app conversion caused by newly introduced fields.</li>
 </ul>
@@ -174,9 +199,9 @@
     <div id="sevenbridges-1-11-3" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-11-3" class="anchor"></a>sevenbridges 1.11.3</h1>
-<div id="improvements" class="section level2">
+<div id="improvements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements" class="anchor"></a>Improvements</h2>
+<a href="#improvements-1" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Added better support for the spot instance feature, by introducing the new argument <code>use_interruptible</code> for <code>project_new()</code> and <code>use_interruptible_instances</code> for <code>task_add()</code>. This will allow users to enable/disable the spot instance feature on both the project level and individual task level. See the new section <a href="https://sbg.github.io/sevenbridges-r/articles/api.html#run-tasks-using-spot-instances">“Run tasks using spot instances”</a> in the API vignette for details.</li>
 </ul>
@@ -185,9 +210,9 @@
     <div id="sevenbridges-1-11-2" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-11-2" class="anchor"></a>sevenbridges 1.11.2</h1>
-<div id="improvements-1" class="section level2">
+<div id="improvements-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-1" class="anchor"></a>Improvements</h2>
+<a href="#improvements-2" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Further remove all words related to the previous installation method per Bioconductor’s request.</li>
 </ul>
@@ -196,9 +221,9 @@
     <div id="sevenbridges-1-11-1" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-11-1" class="anchor"></a>sevenbridges 1.11.1</h1>
-<div id="improvements-2" class="section level2">
+<div id="improvements-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-2" class="anchor"></a>Improvements</h2>
+<a href="#improvements-3" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Use the new Bioconductor package manager <code>BiocManager</code> for installation instructions.</li>
 </ul>
@@ -207,9 +232,9 @@
     <div id="sevenbridges-1-9-1" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-9-1" class="anchor"></a>sevenbridges 1.9.1</h1>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Removed functions that prevents Shiny apps to load when the package is loaded (<a href="https://github.com/sbg/sevenbridges-r/issues/63"><a href='https://github.com/sbg/sevenbridges-r/issues/63'>#63</a></a>).</li>
 </ul>
@@ -218,9 +243,9 @@
     <div id="sevenbridges-1-7-5" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-7-5" class="anchor"></a>sevenbridges 1.7.5</h1>
-<div id="improvements-3" class="section level2">
+<div id="improvements-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-3" class="anchor"></a>Improvements</h2>
+<a href="#improvements-4" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Update <code>rabix-cli</code> (Bunny) to 1.0.2 for the Docker container.</li>
 </ul>
@@ -229,9 +254,9 @@
     <div id="sevenbridges-1-7-4" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-7-4" class="anchor"></a>sevenbridges 1.7.4</h1>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed the <code>baseCommand</code> conversion issue (<a href="https://github.com/sbg/sevenbridges-r/issues/59"><a href='https://github.com/sbg/sevenbridges-r/issues/59'>#59</a></a>).</li>
 </ul>
@@ -240,9 +265,9 @@
     <div id="sevenbridges-1-7-3" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-7-3" class="anchor"></a>sevenbridges 1.7.3</h1>
-<div id="improvements-4" class="section level2">
+<div id="improvements-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-4" class="anchor"></a>Improvements</h2>
+<a href="#improvements-5" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Use system font stack instead of Google Fonts in vignettes to avoid pandoc SSL issue.</li>
 </ul>
@@ -251,9 +276,9 @@
     <div id="sevenbridges-1-7-2" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-7-2" class="anchor"></a>sevenbridges 1.7.2</h1>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed task creation issues by introducting the new field <code>use_interruptible_instances</code> which supports the latest <a href="https://www.sevenbridges.com/spot-instances-cost-reduction/">spot instance feature</a> (<a href="https://github.com/sbg/sevenbridges-r/commit/ea14d5c6333b999e754ebb760fc93f89ecdf6019">ea14d5c</a>).</li>
 </ul>
@@ -262,9 +287,9 @@
     <div id="sevenbridges-1-7-1" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-7-1" class="anchor"></a>sevenbridges 1.7.1</h1>
-<div id="new-features-1" class="section level2">
+<div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<a href="#new-features-2" class="anchor"></a>New Features</h2>
 <ul>
 <li>Added a new argument (global option) <code>advance_access</code> for enabling the access to Advance Access features.</li>
 </ul>
@@ -273,9 +298,9 @@
     <div id="sevenbridges-1-5-9" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-9" class="anchor"></a>sevenbridges 1.5.9</h1>
-<div id="new-features-2" class="section level2">
+<div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New Features</h2>
+<a href="#new-features-3" class="anchor"></a>New Features</h2>
 <div id="seven-bridges-command-line-uploader-interface" class="section level3">
 <h3 class="hasAnchor">
 <a href="#seven-bridges-command-line-uploader-interface" class="anchor"></a>Seven Bridges Command Line Uploader Interface</h3>
@@ -287,17 +312,17 @@
 <p>For detailed usage of these functions, please check <a href="https://sbg.github.io/sevenbridges-r/articles/api.html#upload-files-via-command-line-uploader">this section</a> in the vignette.</p>
 </div>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed task output files download issue (<a href="https://github.com/sbg/sevenbridges-r/issues/52"><a href='https://github.com/sbg/sevenbridges-r/issues/52'>#52</a></a>).</li>
 <li>Fixed IDE Docker image build issues; removed the libssl-dev dependency; updated Dockerfile (<a href="https://github.com/sbg/sevenbridges-r/issues/50"><a href='https://github.com/sbg/sevenbridges-r/issues/50'>#50</a></a>).</li>
 </ul>
 </div>
-<div id="improvements-5" class="section level2">
+<div id="improvements-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-5" class="anchor"></a>Improvements</h2>
+<a href="#improvements-6" class="anchor"></a>Improvements</h2>
 <ul>
 <li>New function <code><a href="../reference/get_token.html">get_token()</a></code> for getting the authentication token for different Seven Bridges platforms. The old function <code><a href="../reference/get_token.html">misc_get_token()</a></code> is deprecated.</li>
 <li>
@@ -310,9 +335,9 @@
     <div id="sevenbridges-1-5-8" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-8" class="anchor"></a>sevenbridges 1.5.8</h1>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li><p>Fixed task creation issues introduced by the recently added field <code>created_time</code> in the API (<a href="https://github.com/sbg/sevenbridges-r/issues/51"><a href='https://github.com/sbg/sevenbridges-r/issues/51'>#51</a></a>).</p></li>
 <li><p>Fixed the user configuration file path (from <code>~/.sevenbridges/credential</code> to <code>~/.sevenbridges/credentials</code>), following the authentication specification. Thanks: Fabian Zimmer</p></li>
@@ -322,9 +347,9 @@
     <div id="sevenbridges-1-5-6" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-6" class="anchor"></a>sevenbridges 1.5.6</h1>
-<div id="improvements-6" class="section level2">
+<div id="improvements-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-6" class="anchor"></a>Improvements</h2>
+<a href="#improvements-7" class="anchor"></a>Improvements</h2>
 <div id="api-client" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-client" class="anchor"></a>API Client</h3>
@@ -341,9 +366,9 @@
 </ul>
 </div>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h2>
 <div id="cwl-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cwl-1" class="anchor"></a>CWL</h3>
@@ -356,9 +381,9 @@
     <div id="sevenbridges-1-5-5" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-5" class="anchor"></a>sevenbridges 1.5.5</h1>
-<div id="improvements-7" class="section level2">
+<div id="improvements-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-7" class="anchor"></a>Improvements</h2>
+<a href="#improvements-8" class="anchor"></a>Improvements</h2>
 <div id="api-client-authentication" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-client-authentication" class="anchor"></a>API Client (Authentication)</h3>
@@ -404,17 +429,17 @@
     <div id="sevenbridges-1-5-4" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-4" class="anchor"></a>sevenbridges 1.5.4</h1>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Big fix for batch mode: (<a href="https://github.com/sbg/sevenbridges-r/commit/b6a91f2fbbb59cbe6dc40b63f6b7057064e25c19">b6a91f2</a>)</li>
 <li>Bug fix in IDE Dockerfile (<a href="https://github.com/sbg/sevenbridges-r/commit/838856bd1dfb4ea8bc143f246a152deda3c76d92">838856b</a>)</li>
 </ul>
 </div>
-<div id="improvements-8" class="section level2">
+<div id="improvements-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-8" class="anchor"></a>Improvements</h2>
+<a href="#improvements-9" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Decoupled Files class and (CWL) File class; updated Files class to support the latest API</li>
 <li>Updated error status code to the latest version</li>
@@ -424,9 +449,9 @@
     <div id="sevenbridges-1-5-3" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-5-3" class="anchor"></a>sevenbridges 1.5.3</h1>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed build error under Windows caused by unexpected UTF-8 characters (<a href="https://github.com/sbg/sevenbridges-r/commit/b03ed45d5c9495196df311b58a2e275b3f2ea44a">b03ed45</a>)</li>
 <li>Removed BiocStyle to avoid naming scheme conflicts</li>
@@ -434,9 +459,9 @@
 <li>Fixed batch mode input checking. Thanks: Fabian Zimmer</li>
 </ul>
 </div>
-<div id="improvements-9" class="section level2">
+<div id="improvements-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-9" class="anchor"></a>Improvements</h2>
+<a href="#improvements-10" class="anchor"></a>Improvements</h2>
 <ul>
 <li>New website for function references and vignettes: <a href="https://sbg.github.io/sevenbridges-r/" class="uri">https://sbg.github.io/sevenbridges-r/</a>
 </li>
@@ -450,9 +475,9 @@
     <div id="sevenbridges-1-1-16" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-1-16" class="anchor"></a>sevenbridges 1.1.16</h1>
-<div id="new-features-3" class="section level2">
+<div id="new-features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New Features</h2>
+<a href="#new-features-4" class="anchor"></a>New Features</h2>
 <ul>
 <li>Full support for API V2, user-friendly call from R</li>
 <li>CWL Draft 2+ generator in R, create JSON/YAML tool directly</li>
@@ -467,9 +492,9 @@
     <div id="sevenbridges-1-0-0" class="section level1">
 <h1 class="page-header">
 <a href="#sevenbridges-1-0-0" class="anchor"></a>sevenbridges 1.0.0</h1>
-<div id="new-features-4" class="section level2">
+<div id="new-features-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-4" class="anchor"></a>New Features</h2>
+<a href="#new-features-5" class="anchor"></a>New Features</h2>
 <ul>
 <li>Initial version</li>
 <li>All the APIs of the SBG platform are supported</li>
@@ -483,6 +508,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#sevenbridges-1-13-2">1.13.2</a></li>
         <li><a href="#sevenbridges-1-13-1">1.13.1</a></li>
         <li><a href="#sevenbridges-1-11-5">1.11.5</a></li>
         <li><a href="#sevenbridges-1-11-4">1.11.4</a></li>

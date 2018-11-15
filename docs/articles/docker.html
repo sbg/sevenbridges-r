@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
       <a href="../articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="../articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="../articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="../articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -104,7 +104,7 @@
       <h1>Creating Your Docker Container and Command Line Interface (with docopt)</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/docker.Rmd"><code>vignettes/docker.Rmd</code></a></small>
       <div class="hidden name"><code>docker.Rmd</code></div>
@@ -384,7 +384,7 @@ hist(r)</code></pre>
 <a class="sourceLine" id="cb18-2" title="2"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb18-3" title="3">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
 <a class="sourceLine" id="cb18-4" title="4">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb18-5" title="5">  <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl)</a>
+<a class="sourceLine" id="cb18-5" title="5">  <span class="dt">content =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
 <a class="sourceLine" id="cb18-6" title="6">)</a>
 <a class="sourceLine" id="cb18-7" title="7"></a>
 <a class="sourceLine" id="cb18-8" title="8">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
@@ -457,7 +457,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb22-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
 <a class="sourceLine" id="cb22-3" title="3">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb22-4" title="4">  <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl)</a>
+<a class="sourceLine" id="cb22-4" title="4">  <span class="dt">content =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
 <a class="sourceLine" id="cb22-5" title="5">)</a>
 <a class="sourceLine" id="cb22-6" title="6"></a>
 <a class="sourceLine" id="cb22-7" title="7">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
@@ -537,7 +537,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
 <a class="sourceLine" id="cb26-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
 <a class="sourceLine" id="cb26-3" title="3">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb26-4" title="4">  <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl)</a>
+<a class="sourceLine" id="cb26-4" title="4">  <span class="dt">content =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
 <a class="sourceLine" id="cb26-5" title="5">)</a>
 <a class="sourceLine" id="cb26-6" title="6"></a>
 <a class="sourceLine" id="cb26-7" title="7">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>

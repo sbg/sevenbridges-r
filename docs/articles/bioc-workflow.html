@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
       <a href="../articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="../articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="../articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="../articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -104,7 +104,7 @@
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -437,7 +437,7 @@ auth_token = token_for_this_user</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-MAINTAINER "Tengfei Yin" yintengfei@gmail.com
+MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
 
 RUN Rscript -e 'source("http://bioconductor.org/workflows.R"); workflowInstall("rnaseqGene")'
 
@@ -1495,7 +1495,7 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 <a class="sourceLine" id="cb49-4" title="4"><span class="kw">cat</span>(<span class="kw">readLines</span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-MAINTAINER "Tengfei Yin" yintengfei@gmail.com
+MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
 
 RUN rm -f /var/lib/dpkg/available \
     &amp;&amp; rm -rf  /var/cache/apt/* \

@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sevenbridges</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.13.2</span>
       </span>
     </div>
 
@@ -71,7 +71,7 @@
       <a href="articles/bioc-workflow.html">Master Tutorial: Use R for Cancer Genomics Cloud</a>
     </li>
     <li>
-      <a href="articles/cgc-sparql.html">Find Data on CGC via Data Exploerer, SPARQL, and Datasets API</a>
+      <a href="articles/cgc-datasets.html">Find Data on CGC via Data Browser and Datasets API</a>
     </li>
     <li>
       <a href="articles/docker.html">Creating Your Docker Container and Command Line Interface (with docopt)</a>
@@ -294,7 +294,7 @@
 <a href="#common-workflow-language-tool-interface" class="anchor"></a>Common Workflow Language Tool Interface</h3>
 <p>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb13-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_file">read_file</a></span>(fl))</a>
+<a class="sourceLine" id="cb13-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl))</a>
 <a class="sourceLine" id="cb13-3" title="3"></a>
 <a class="sourceLine" id="cb13-4" title="4">rbx &lt;-<span class="st"> </span><span class="kw"><a href="reference/Tool-class.html">Tool</a></span>(</a>
 <a class="sourceLine" id="cb13-5" title="5">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
