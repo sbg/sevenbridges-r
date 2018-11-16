@@ -1,0 +1,41 @@
+/* custom css style for the docs site */
+
+a {
+    color: #0c5099;
+}
+
+a:hover {
+    color: #051f3a;
+}
+
+pre {
+    background-color: #F8F8F8;
+}
+
+.navbar-default {
+    background-color: #14304d;
+    border-color: #051e32;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #ffffff;
+    background-color: #2c455f;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #2c455f;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    background-color: #2c455f;
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>.active>a, .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
+    color: #ffffff;
+    background-color: #2c455f;
+}
+
+.navbar-default .navbar-link:hover {
+    color: #ffffff;
+}

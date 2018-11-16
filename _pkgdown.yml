@@ -1,11 +1,10 @@
 template:
   params:
-    bootswatch: cosmo
+    bootswatch: flatly
     ganalytics: UA-87185344-1
 
 navbar:
   title: "sevenbridges-r"
-  type: inverse
 
 reference:
   - title: "API Client"
