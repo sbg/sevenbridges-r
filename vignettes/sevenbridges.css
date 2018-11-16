@@ -2,7 +2,7 @@ a {
     color: #0c5099;
 }
 
-a:hover {
+a:hover, a:focus {
     color: #051f3a;
 }
 
