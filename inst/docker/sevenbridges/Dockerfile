@@ -37,13 +37,6 @@ RUN apt-get update \
     && apt-get update -y \
     && apt-get install -y docker-ce
 
-#################
-# RStudio addin #
-#################
-
-RUN Rscript -e "install.packages(c('rstudioapi', 'miniUI'), type = 'source');\
-    devtools::install_github('rstudio/addinexamples')"
-
 ##################
 # sevenbridges-r #
 ##################
