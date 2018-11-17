@@ -38,8 +38,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    readr,
-    clipr
+    readr
 NeedsCompilation: no
 Encoding: UTF-8
 RoxygenNote: 6.1.1

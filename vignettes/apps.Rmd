@@ -744,9 +744,7 @@ f <- link(t1, t2, "#random", "#number")
 
 # # you cannot directly copy-paste it
 # # please push it using API, we will register each tool for you
-
-# library("clipr")
-# write_clip(f$toJSON(pretty = TRUE))
+# clipr::write_clip(jsonlite::toJSON(f, pretty = TRUE))
 
 t2 <- Tool(
   id = "log new test 3", label = "get log",
@@ -765,11 +763,10 @@ t2 <- Tool(
   )
 )
 
-# library("clipr")
-# write_clip(t2$toJSON(pretty = TRUE))
+# clipr::write_clip(jsonlite::toJSON(t2, pretty = TRUE))
 ```
 
-**Note**: this workflow contains tools that do not exist on the platform, so if you directly copy and paste the JSON into the GUI, it won't work properly, however, a simple way is to push your app to platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternative if you connect two tools you know they exist on the platform, you don't need to do so.
+**Note**: this workflow contains tools that do not exist on the platform, so if you copy and paste the JSON directly into the GUI, it won't work properly. However, a simple way is to push your app to the platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternatively, if you connect two tools you know that exist on the platform, you don't need to do so.
 
 ```{r, eval = FALSE}
 # auto-check tool info and push new tools
@@ -808,8 +805,7 @@ f2 <- link(t1, t2, "output_fastq_files", "reads",
   flow_output = "#STAR.log_files"
 )
 
-# library("clipr")
-# write_clip(f2$toJSON())
+# clipr::write_clip(jsonlite::toJSON(f2))
 ```
 
 ### Connecting tool with workflow by input and output id
@@ -833,8 +829,7 @@ f4 <- link(f2, t1, c("#Picard_SortSam.sorted_bam", "#SBG_FASTQ_Quality_Detector.
 # # all outputs
 # # flow + flow
 # # print message when name wrong
-# library("clipr")
-# write_clip(f4$toJSON())
+# clipr::write_clip(jsonlite::toJSON(f4))
 ```
 
 ### Using pipe to construct complicated workflow
