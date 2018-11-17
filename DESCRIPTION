@@ -33,10 +33,7 @@ Imports:
     docopt,
     curl,
     uuid,
-    dplyr,
-    shiny (>= 0.13),
-    miniUI (>= 0.1.1),
-    rstudioapi (>= 0.5)
+    dplyr
 Suggests:
     knitr,
     rmarkdown,
@@ -73,5 +70,4 @@ Collate:
     misc-uploader.R
     misc-handler.R
     misc-lift.R
-    misc-addins.R
     zzz.R

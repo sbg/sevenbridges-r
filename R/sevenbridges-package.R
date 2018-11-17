@@ -19,7 +19,6 @@
 #' @import httr methods
 #' @importFrom dplyr bind_rows
 #' @importFrom utils modifyList
-#' @importFrom rstudioapi getActiveDocumentContext
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
 #' @importFrom yaml yaml.load_file as.yaml yaml.load
@@ -29,6 +28,4 @@
 #' @importFrom S4Vectors elementType endoapply
 #' @importClassesFrom objectProperties SingleEnum Enum
 #' @importFrom objectProperties setSingleEnum
-#' @importFrom miniUI miniPage gadgetTitleBar miniContentPanel
-#' @importFrom shiny textInput uiOutput fluidRow div
 NULL
