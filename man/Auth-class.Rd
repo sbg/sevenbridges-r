@@ -75,7 +75,7 @@ The default value is \code{"default"}.}
 
 \item{\code{rate_limit(...)}}{This call returns information about your current rate limit. This is the number of API calls you can make in one hour.}
 
-\item{\code{user(username = NULL, ...)}}{This call returns a list of the resources, such as projects, billing groups, and organizations, that are accessible to you. If you are not an administrator, this call will only return a successful response if {username} is replaced with your own username. If you are an administrator, you can replace {username} with the username of any platform user, to return information on their resources.}
+\item{\code{user(username = NULL, ...)}}{This call returns information about the authenticated user.}
 
 \item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.}

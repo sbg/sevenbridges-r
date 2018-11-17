@@ -65,222 +65,220 @@ Auth <- setRefClass(
   ),
 
   methods = list(
-    initialize = function(from = c("direct", "env", "file"),
-                              platform = NULL,
-                              url = NULL,
-                              token = NULL,
-                              sysenv_url = NULL,
-                              sysenv_token = NULL,
-                              config_file = NULL,
-                              profile_name = NULL,
-                              fs = NULL, ...) {
 
-      # Authentication Logic
-      #
-      # 0x01. If `from == "direct"` (default)
-      #       then use on-the-fly configuration.
-      #
-      # Four cases:
-      #
-      # 1. `platform` and `url` are both provided:
-      #    throw error: platform and URL cannot coexist
-      # 2. `platform` and `url` are both not provided:
-      #    use `.sbg_default_platform` and throw a warning
-      # 3. `platform` != NULL, `url`  = NULL:
-      #    use platform + token, throw message
-      # 4. `platform`  = NULL, `url` != NULL:
-      #    use URL + token, throw message
-      #
-      # 0x02. If `from == "env"`
-      #       then read from environment variables.
-      #
-      # One step:
-      #
-      # 1. Read environment variables `sysenv_url`
-      #    and `sysenv_token`
-      #    throw message indicating environment
-      #    variable names
-      #    use url + token
-      #
-      # 0x03. If `from == "file"`
-      #       then use configuration file.
-      #
-      # Two steps:
-      #
-      # 1. Load ini format file at location `config_file`
-      #    throw message indicating file location
-      # 2. In loaded config list, look for `profile_name`
-      #    throw message indicating profile name
-      #    get url + token from this profile
+    # initialize ---------------------------------------------------------------
+    initialize =
+      function(from = c("direct", "env", "file"), platform = NULL, url = NULL,
+                     token = NULL, sysenv_url = NULL, sysenv_token = NULL,
+                     config_file = NULL, profile_name = NULL, fs = NULL, ...) {
 
-      # For backward compatibility only:
-      # remove this block when enough time has passed
-      auth_call <- as.list(match.call())
-      if (!is.null(auth_call[["username"]])) {
-        stop("This authentication parameter is deprecated, please refer to: https://sbg.github.io/sevenbridges-r/articles/api.html#create-auth-object for the new authentication methods")
-      }
+        # Authentication Logic
+        #
+        # 0x01. If `from == "direct"` (default)
+        #       then use on-the-fly configuration.
+        #
+        # Four cases:
+        #
+        # 1. `platform` and `url` are both provided:
+        #    throw error: platform and URL cannot coexist
+        # 2. `platform` and `url` are both not provided:
+        #    use `.sbg_default_platform` and throw a warning
+        # 3. `platform` != NULL, `url`  = NULL:
+        #    use platform + token, throw message
+        # 4. `platform`  = NULL, `url` != NULL:
+        #    use URL + token, throw message
+        #
+        # 0x02. If `from == "env"`
+        #       then read from environment variables.
+        #
+        # One step:
+        #
+        # 1. Read environment variables `sysenv_url`
+        #    and `sysenv_token`
+        #    throw message indicating environment
+        #    variable names
+        #    use url + token
+        #
+        # 0x03. If `from == "file"`
+        #       then use configuration file.
+        #
+        # Two steps:
+        #
+        # 1. Load ini format file at location `config_file`
+        #    throw message indicating file location
+        # 2. In loaded config list, look for `profile_name`
+        #    throw message indicating profile name
+        #    get url + token from this profile
 
-      fs <<- fs
-
-      .from <- match.arg(from)
-      from <<- .from
-
-      if (.from == "direct") {
-
-        # In this case, `sysenv_url`, `sysenv_token`,
-        # `config_file`, and `profile_name`
-        # should all be `NULL` even if they
-        # are assigned values
-        .sysenv_url <- NULL
-        .sysenv_token <- NULL
-        .config_file <- NULL
-        .profile_name <- NULL
-        sysenv_url <<- .sysenv_url
-        sysenv_token <<- .sysenv_token
-        config_file <<- .config_file
-        profile_name <<- .profile_name
-
-        # Four cases depending on `platform` and `url`
-
-        # Case 1: platform and url are both provided
-        if (!is.null(platform) & !is.null(url)) {
-          stop("`platform` and `url` cannot be set simultaneously", call. = FALSE)
+        # For backward compatibility only:
+        # remove this block when enough time has passed
+        auth_call <- as.list(match.call())
+        if (!is.null(auth_call[["username"]])) {
+          stop("This authentication parameter is deprecated, please refer to: https://sbg.github.io/sevenbridges-r/articles/api.html#create-auth-object for the new authentication methods")
         }
 
-        # Case 2: platform and url are both *not* provided
-        if (is.null(platform) & is.null(url)) {
-          warning("`platform` and `url` are not set, will use the default platform: ",
-            .sbg_default_platform,
-            call. = FALSE
-          )
-          .platform <- .sbg_default_platform
-          .url <- .sbg_baseurl[[.sbg_default_platform]]
+        fs <<- fs
 
-          platform <<- .platform
-          url <<- .url
-        }
+        .from <- match.arg(from)
+        from <<- .from
 
-        # Case 3: platform is provided, url is not provided
-        if (!is.null(platform) & is.null(url)) {
+        if (.from == "direct") {
 
-          # platform name sanity check
-          .platform <- platform
-          if (.platform %in% names(.sbg_baseurl)) {
-            .url <- .sbg_baseurl[[.platform]]
-          } else {
-            stop("Platform does not exist, please check its spelling (case-sensitive)", call. = FALSE)
+          # In this case, `sysenv_url`, `sysenv_token`,
+          # `config_file`, and `profile_name`
+          # should all be `NULL` even if they
+          # are assigned values
+          .sysenv_url <- NULL
+          .sysenv_token <- NULL
+          .config_file <- NULL
+          .profile_name <- NULL
+          sysenv_url <<- .sysenv_url
+          sysenv_token <<- .sysenv_token
+          config_file <<- .config_file
+          profile_name <<- .profile_name
+
+          # Four cases depending on `platform` and `url`
+
+          # Case 1: platform and url are both provided
+          if (!is.null(platform) & !is.null(url)) {
+            stop("`platform` and `url` cannot be set simultaneously", call. = FALSE)
           }
-          message("Using platform: ", .platform)
 
-          platform <<- .platform
-          url <<- .url
+          # Case 2: platform and url are both *not* provided
+          if (is.null(platform) & is.null(url)) {
+            warning("`platform` and `url` are not set, will use the default platform: ",
+              .sbg_default_platform,
+              call. = FALSE
+            )
+            .platform <- .sbg_default_platform
+            .url <- .sbg_baseurl[[.sbg_default_platform]]
+
+            platform <<- .platform
+            url <<- .url
+          }
+
+          # Case 3: platform is provided, url is not provided
+          if (!is.null(platform) & is.null(url)) {
+
+            # platform name sanity check
+            .platform <- platform
+            if (.platform %in% names(.sbg_baseurl)) {
+              .url <- .sbg_baseurl[[.platform]]
+            } else {
+              stop("Platform does not exist, please check its spelling (case-sensitive)", call. = FALSE)
+            }
+            message("Using platform: ", .platform)
+
+            platform <<- .platform
+            url <<- .url
+          }
+
+          # Case 4: platform is not provided, url is provided
+          if (is.null(platform) & !is.null(url)) {
+            .url <- normalize_url(url)
+            # lookup an accurate platform name
+            .platform <- sbg_platform_lookup(.url)
+
+            platform <<- .platform
+            url <<- .url
+          }
+
+          if (is.null(token)) {
+            stop('`token` must be set when `from = "direct"`', call. = FALSE)
+          }
+          token <<- token
         }
 
-        # Case 4: platform is not provided, url is provided
-        if (is.null(platform) & !is.null(url)) {
-          .url <- normalize_url(url)
-          # lookup an accurate platform name
-          .platform <- sbg_platform_lookup(.url)
+        if (.from == "env") {
 
-          platform <<- .platform
-          url <<- .url
-        }
+          # In this case, `config_file` and `profile_name`
+          # should be `NULL` even if they
+          # are assigned values
+          .config_file <- NULL
+          .profile_name <- NULL
+          config_file <<- .config_file
+          profile_name <<- .profile_name
 
-        if (is.null(token)) {
-          stop('`token` must be set when `from = "direct"`', call. = FALSE)
-        }
-        token <<- token
-      }
-
-      if (.from == "env") {
-
-        # In this case, `config_file` and `profile_name`
-        # should be `NULL` even if they
-        # are assigned values
-        .config_file <- NULL
-        .profile_name <- NULL
-        config_file <<- .config_file
-        profile_name <<- .profile_name
-
-        # get system environment variables
-        if (is.null(sysenv_url)) {
-          .sysenv_url <- .sbg_default_sysenv_url
-        } else {
-          .sysenv_url <- sysenv_url
-        }
-        if (is.null(sysenv_token)) {
-          .sysenv_token <- .sbg_default_sysenv_token
-        } else {
-          .sysenv_token <- sysenv_token
-        }
-        message(
-          "Authenticating with system environment variables: ",
-          .sysenv_url, " and ", .sysenv_token
-        )
-
-        sysenv_url <<- .sysenv_url
-        sysenv_token <<- .sysenv_token
-
-        # extract url + token from environment variables
-        .url <- normalize_url(sbg_get_env(.sysenv_url))
-        .token <- sbg_get_env(.sysenv_token)
-
-        url <<- .url
-        token <<- .token
-
-        # lookup an accurate platform name instead of simply `NULL`
-        .platform <- sbg_platform_lookup(.url)
-        platform <<- .platform
-      }
-
-      if (.from == "file") {
-
-        # In this case, `sysenv_url`, `sysenv_token`,
-        # should be `NULL` even if they
-        # are assigned values
-        .sysenv_url <- NULL
-        .sysenv_token <- NULL
-        sysenv_url <<- .sysenv_url
-        sysenv_token <<- .sysenv_token
-
-        # parse user config file
-        if (is.null(config_file)) {
-          .config_file <- .sbg_default_config_file
-        } else {
-          .config_file <- config_file
-        }
-        config_list <- sbg_parse_config(.config_file)
-        message("Authenticating with user configuration file: ", .config_file)
-
-        config_file <<- .config_file
-
-        # locate user profile with url + token
-        if (is.null(profile_name)) {
-          .profile_name <- .sbg_default_profile_name
-        } else {
-          .profile_name <- profile_name
-        }
-        # extract url + token from profile
-        .url <- normalize_url(config_list[[.profile_name]][["api_endpoint"]])
-        .token <- config_list[[.profile_name]][["auth_token"]]
-        if (is.null(.url) | is.null(.token)) {
-          stop("`The field api_endpoint` or `auth_token` is missing in profile:",
-            .profile_name,
-            call. = FALSE
+          # get system environment variables
+          if (is.null(sysenv_url)) {
+            .sysenv_url <- .sbg_default_sysenv_url
+          } else {
+            .sysenv_url <- sysenv_url
+          }
+          if (is.null(sysenv_token)) {
+            .sysenv_token <- .sbg_default_sysenv_token
+          } else {
+            .sysenv_token <- sysenv_token
+          }
+          message(
+            "Authenticating with system environment variables: ",
+            .sysenv_url, " and ", .sysenv_token
           )
+
+          sysenv_url <<- .sysenv_url
+          sysenv_token <<- .sysenv_token
+
+          # extract url + token from environment variables
+          .url <- normalize_url(sbg_get_env(.sysenv_url))
+          .token <- sbg_get_env(.sysenv_token)
+
+          url <<- .url
+          token <<- .token
+
+          # lookup an accurate platform name instead of simply `NULL`
+          .platform <- sbg_platform_lookup(.url)
+          platform <<- .platform
         }
-        message("Authenticating with user profile: ", .profile_name)
 
-        profile_name <<- .profile_name
-        url <<- .url
-        token <<- .token
+        if (.from == "file") {
 
-        # lookup an accurate platform name instead of simply `NULL`
-        .platform <- sbg_platform_lookup(.url)
-        platform <<- .platform
-      }
-    },
+          # In this case, `sysenv_url`, `sysenv_token`,
+          # should be `NULL` even if they
+          # are assigned values
+          .sysenv_url <- NULL
+          .sysenv_token <- NULL
+          sysenv_url <<- .sysenv_url
+          sysenv_token <<- .sysenv_token
 
+          # parse user config file
+          if (is.null(config_file)) {
+            .config_file <- .sbg_default_config_file
+          } else {
+            .config_file <- config_file
+          }
+          config_list <- sbg_parse_config(.config_file)
+          message("Authenticating with user configuration file: ", .config_file)
+
+          config_file <<- .config_file
+
+          # locate user profile with url + token
+          if (is.null(profile_name)) {
+            .profile_name <- .sbg_default_profile_name
+          } else {
+            .profile_name <- profile_name
+          }
+          # extract url + token from profile
+          .url <- normalize_url(config_list[[.profile_name]][["api_endpoint"]])
+          .token <- config_list[[.profile_name]][["auth_token"]]
+          if (is.null(.url) | is.null(.token)) {
+            stop("`The field api_endpoint` or `auth_token` is missing in profile:",
+              .profile_name,
+              call. = FALSE
+            )
+          }
+          message("Authenticating with user profile: ", .profile_name)
+
+          profile_name <<- .profile_name
+          url <<- .url
+          token <<- .token
+
+          # lookup an accurate platform name instead of simply `NULL`
+          .platform <- sbg_platform_lookup(.url)
+          platform <<- .platform
+        }
+      },
+
+    # project ------------------------------------------------------------------
     project_owner = function(owner = NULL, ...) {
       "List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned."
 
@@ -307,12 +305,9 @@ Auth <- setRefClass(
       obj <- setAuth(obj, .self, "Project")
     },
 
-    project_new = function(name = NULL,
-                               billing_group_id = NULL,
-                               description = name,
-                               tags = list(),
-                               type = "v2",
-                               locked = FALSE,
+    project_new = function(name = NULL, billing_group_id = NULL,
+                               description = name, tags = list(),
+                               type = "v2", locked = FALSE,
                                use_interruptible_instances = FALSE, ...) {
       "Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings."
 
@@ -342,13 +337,9 @@ Auth <- setRefClass(
     },
 
     # Project call
-    project = function(name = NULL,
-                           id = NULL,
-                           index = NULL,
-                           ignore.case = TRUE,
-                           exact = FALSE,
-                           owner = NULL,
-                           detail = FALSE, ...) {
+    project = function(name = NULL, id = NULL, index = NULL,
+                           ignore.case = TRUE, exact = FALSE,
+                           owner = NULL, detail = FALSE, ...) {
       "If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list."
 
       if (!is.null(id)) {
@@ -412,6 +403,7 @@ Auth <- setRefClass(
       res
     },
 
+    # billing group ------------------------------------------------------------
     billing = function(id = NULL, breakdown = FALSE, ...) {
       "If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost."
 
@@ -451,65 +443,9 @@ Auth <- setRefClass(
       req
     },
 
-    api = function(...,
-                       limit = getOption("sevenbridges")$"limit",
-                       offset = getOption("sevenbridges")$"offset",
-                       fields = NULL, complete = FALSE) {
-      "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
-
-      req <- sevenbridges::api(token,
-        base_url = url, limit = limit,
-        offset = offset, fields = fields, ...
-      )
-      req <- status_check(req)
-
-      if (complete) {
-        N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
-        if (length(N)) .item <- length(req$items)
-        if (.item < N) {
-          pb <- txtProgressBar(min = 1, max = N %/% 100 + 1, style = 3)
-          res <- NULL
-
-          for (i in 1:(N %/% 100 + 1)) {
-            .limit <- 100
-            .offset <- (i - 1) * 100
-            req <- sevenbridges::api(token,
-              base_url = url,
-              limit = .limit, offset = .offset,
-              fields = fields, ...
-            )
-            req <- status_check(req)
-            res$items <- c(res$items, req$items)
-            setTxtProgressBar(pb, i)
-          }
-          cat("\n")
-          res$href <- NULL
-        } else {
-          return(req)
-        }
-        return(res)
-      } else {
-        return(req)
-      }
-    },
-
-    show = function() {
-      .showFields(.self, "== Auth ==",
-        values = c("url", "token")
-      )
-    },
-
-    # v2 only feature
-    rate_limit = function(...) {
-      "This call returns information about your current rate limit. This is the number of API calls you can make in one hour."
-
-      req <- api(path = "rate_limit", method = "GET", ...)
-
-      .asRate(req)
-    },
-
+    # user ---------------------------------------------------------------------
     user = function(username = NULL, ...) {
-      "This call returns a list of the resources, such as projects, billing groups, and organizations, that are accessible to you. If you are not an administrator, this call will only return a successful response if {username} is replaced with your own username. If you are an administrator, you can replace {username} with the username of any platform user, to return information on their resources."
+      "This call returns information about the authenticated user."
 
       if (is.null(username)) {
         req <- api(
@@ -517,7 +453,7 @@ Auth <- setRefClass(
           path = "user/",
           method = "GET", ...
         )
-        message("username is not provided, show run user information instead")
+        message("username not provided, showing the currently authenticated user information")
       } else {
         req <- api(
           token = token,
@@ -529,16 +465,10 @@ Auth <- setRefClass(
       .asUser(req)
     },
 
-    # File API
-    file = function(name = NULL,
-                        id = NULL,
-                        project = NULL,
-                        exact = FALSE,
-                        detail = FALSE,
-                        metadata = list(),
-                        origin.task = NULL,
-                        tag = NULL,
-                        complete = FALSE,
+    # file ---------------------------------------------------------------------
+    file = function(name = NULL, id = NULL, project = NULL, exact = FALSE,
+                        detail = FALSE, metadata = list(), origin.task = NULL,
+                        tag = NULL, complete = FALSE,
                         search.engine = c("server", "brute"), ...) {
       "This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call."
 
@@ -560,7 +490,6 @@ Auth <- setRefClass(
       }
 
       # build query
-
       .query <- list(project = project)
 
       if (length(metadata)) {
@@ -579,8 +508,6 @@ Auth <- setRefClass(
       if (detail) {
         .query <- c(.query, list(fields = "_all"))
       }
-
-
 
       .split_item <- function(x, list_name = NULL) {
         if (length(x) > 1) {
@@ -700,17 +627,11 @@ Auth <- setRefClass(
       copyFile(id = id, project = project, name = name)
     },
 
-    # App API
-    app = function(name = NULL,
-                       id = NULL,
-                       exact = FALSE,
-                       ignore.case = TRUE,
-                       detail = FALSE,
-                       project = NULL,
-                       query = NULL,
+    # app ----------------------------------------------------------------------
+    app = function(name = NULL, id = NULL, exact = FALSE, ignore.case = TRUE,
+                       detail = FALSE, project = NULL, query = NULL,
                        visibility = c("project", "public"),
-                       revision = NULL,
-                       complete = FALSE, ...) {
+                       revision = NULL, complete = FALSE, ...) {
       visibility <- match.arg(visibility)
 
       if (visibility == "public") {
@@ -842,12 +763,10 @@ Auth <- setRefClass(
       copyApp(id = id, project = project, name = name)
     },
 
-    task = function(name = NULL,
-                        id = NULL, project = NULL,
-                        parent = NULL,
+    # task ---------------------------------------------------------------------
+    task = function(name = NULL, id = NULL, project = NULL, parent = NULL,
                         exact = FALSE, detail = FALSE,
-                        status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"),
-                        ...) {
+                        status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"), ...) {
       status <- match.arg(status)
 
       if (!is.null(id)) {
@@ -929,10 +848,9 @@ Auth <- setRefClass(
       res
     },
 
-    mount = function(mountPoint = NULL,
-                         projectId = NULL,
-                         ignore.stdout = TRUE,
-                         sudo = TRUE, ...) {
+    # volume -------------------------------------------------------------------
+    mount = function(mountPoint = NULL, projectId = NULL,
+                         ignore.stdout = TRUE, sudo = TRUE, ...) {
       fs <<- FS(authToken = token, ...)
       fs$mount(
         mountPoint = mountPoint,
@@ -964,18 +882,11 @@ Auth <- setRefClass(
       id.valid
     },
 
-    add_volume = function(name = NULL,
-                              type = c("s3", "gcs"),
-                              root_url = NULL,
-                              bucket = NULL,
-                              prefix = "",
-                              access_key_id = NULL,
-                              secret_access_key = NULL,
-                              client_email = NULL,
-                              private_key = NULL,
-                              sse_algorithm = "AES256",
-                              aws_canned_acl = NULL,
-                              access_mode = c("RW", "RO")) {
+    add_volume = function(name = NULL, type = c("s3", "gcs"), root_url = NULL,
+                              bucket = NULL, prefix = "", access_key_id = NULL,
+                              secret_access_key = NULL, client_email = NULL,
+                              private_key = NULL, sse_algorithm = "AES256",
+                              aws_canned_acl = NULL, access_mode = c("RW", "RO")) {
       if (is.null(name)) {
         stop("Please provide name, the name of the volume. It must be unique from all other volumes for this user.")
       }
@@ -1023,12 +934,8 @@ Auth <- setRefClass(
       res
     },
 
-    volume = function(name = NULL,
-                          id = NULL,
-                          index = NULL,
-                          ignore.case = TRUE,
-                          exact = FALSE,
-                          detail = FALSE, ...) {
+    volume = function(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
+                          exact = FALSE, detail = FALSE, ...) {
       "If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list."
 
       if (!is.null(id)) {
@@ -1075,6 +982,64 @@ Auth <- setRefClass(
       }
       res <- setAuth(res, .self, "Volume")
       res
+    },
+
+    # rate limit ---------------------------------------------------------------
+    rate_limit = function(...) {
+      "This call returns information about your current rate limit. This is the number of API calls you can make in one hour."
+
+      req <- api(path = "rate_limit", method = "GET", ...)
+
+      .asRate(req)
+    },
+
+    # api paths ----------------------------------------------------------------
+    api = function(...,
+                       limit = getOption("sevenbridges")$"limit",
+                       offset = getOption("sevenbridges")$"offset",
+                       fields = NULL, complete = FALSE) {
+      "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
+
+      req <- sevenbridges::api(token,
+        base_url = url, limit = limit,
+        offset = offset, fields = fields, ...
+      )
+      req <- status_check(req)
+
+      if (complete) {
+        N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
+        if (length(N)) .item <- length(req$items)
+        if (.item < N) {
+          pb <- txtProgressBar(min = 1, max = N %/% 100 + 1, style = 3)
+          res <- NULL
+
+          for (i in 1:(N %/% 100 + 1)) {
+            .limit <- 100
+            .offset <- (i - 1) * 100
+            req <- sevenbridges::api(
+              token,
+              base_url = url,
+              limit = .limit, offset = .offset,
+              fields = fields, ...
+            )
+            req <- status_check(req)
+            res$items <- c(res$items, req$items)
+            setTxtProgressBar(pb, i)
+          }
+          cat("\n")
+          res$href <- NULL
+        } else {
+          return(req)
+        }
+        return(res)
+      } else {
+        return(req)
+      }
+    },
+
+    # show ---------------------------------------------------------------------
+    show = function() {
+      .showFields(.self, "== Auth ==", values = c("url", "token"))
     }
   )
 )
