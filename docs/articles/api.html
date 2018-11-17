@@ -105,7 +105,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-16</h4>
+            <h4 class="date">2018-11-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -759,7 +759,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##           cat("\r", "completed")
 ##           return(TRUE)
 ##         }
-## &lt;environment: 0x7f8427631cf0&gt;</code></pre>
+## &lt;environment: 0x7f893feb21c0&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>

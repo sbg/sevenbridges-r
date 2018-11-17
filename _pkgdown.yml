@@ -73,7 +73,6 @@ reference:
       - input_matrix
       - output_matrix
       - Tool-class
-      - ToolUI
       - test_tool_rabix
       - test_tool_cwlrun
       - test_tool_bunny
