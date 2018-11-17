@@ -1,3 +1,9 @@
+# sevenbridges 1.13.3
+
+## Improvements
+
+- Remove unnecessary package dependencies to minimize the time needed for package installation and loading.
+
 # sevenbridges 1.13.2
 
 ## New Features
