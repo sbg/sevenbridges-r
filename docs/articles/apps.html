@@ -1398,30 +1398,27 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 <pre><code>flow_output: #get_log.log</code></pre>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="co"># # you cannot directly copy-paste it</span></a>
 <a class="sourceLine" id="cb104-2" title="2"><span class="co"># # please push it using API, we will register each tool for you</span></a>
-<a class="sourceLine" id="cb104-3" title="3"></a>
-<a class="sourceLine" id="cb104-4" title="4"><span class="co"># library("clipr")</span></a>
-<a class="sourceLine" id="cb104-5" title="5"><span class="co"># write_clip(f$toJSON(pretty = TRUE))</span></a>
-<a class="sourceLine" id="cb104-6" title="6"></a>
-<a class="sourceLine" id="cb104-7" title="7">t2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb104-8" title="8">  <span class="dt">id =</span> <span class="st">"log new test 3"</span>, <span class="dt">label =</span> <span class="st">"get log"</span>,</a>
-<a class="sourceLine" id="cb104-9" title="9">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
-<a class="sourceLine" id="cb104-10" title="10">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb104-11" title="11">  <span class="dt">baseCommand =</span> <span class="st">"Rscript log.R"</span>,</a>
-<a class="sourceLine" id="cb104-12" title="12">  <span class="dt">inputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb104-13" title="13">    <span class="dt">id =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb104-14" title="14">    <span class="dt">type =</span> <span class="st">"file"</span>,</a>
-<a class="sourceLine" id="cb104-15" title="15">    <span class="dt">secondaryFiles =</span> sevenbridges<span class="op">:::</span><span class="kw">set_box</span>(<span class="st">".bai"</span>)</a>
-<a class="sourceLine" id="cb104-16" title="16">  ),</a>
-<a class="sourceLine" id="cb104-17" title="17">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
-<a class="sourceLine" id="cb104-18" title="18">    <span class="dt">id =</span> <span class="st">"log"</span>,</a>
-<a class="sourceLine" id="cb104-19" title="19">    <span class="dt">type =</span> <span class="st">"file"</span>,</a>
-<a class="sourceLine" id="cb104-20" title="20">    <span class="dt">glob =</span> <span class="st">"*.txt"</span></a>
-<a class="sourceLine" id="cb104-21" title="21">  )</a>
-<a class="sourceLine" id="cb104-22" title="22">)</a>
-<a class="sourceLine" id="cb104-23" title="23"></a>
-<a class="sourceLine" id="cb104-24" title="24"><span class="co"># library("clipr")</span></a>
-<a class="sourceLine" id="cb104-25" title="25"><span class="co"># write_clip(t2$toJSON(pretty = TRUE))</span></a></code></pre></div>
-<p><strong>Note</strong>: this workflow contains tools that do not exist on the platform, so if you directly copy and paste the JSON into the GUI, it won’t work properly, however, a simple way is to push your app to platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternative if you connect two tools you know they exist on the platform, you don’t need to do so.</p>
+<a class="sourceLine" id="cb104-3" title="3"><span class="co"># clipr::write_clip(jsonlite::toJSON(f, pretty = TRUE))</span></a>
+<a class="sourceLine" id="cb104-4" title="4"></a>
+<a class="sourceLine" id="cb104-5" title="5">t2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb104-6" title="6">  <span class="dt">id =</span> <span class="st">"log new test 3"</span>, <span class="dt">label =</span> <span class="st">"get log"</span>,</a>
+<a class="sourceLine" id="cb104-7" title="7">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>)),</a>
+<a class="sourceLine" id="cb104-8" title="8">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb104-9" title="9">  <span class="dt">baseCommand =</span> <span class="st">"Rscript log.R"</span>,</a>
+<a class="sourceLine" id="cb104-10" title="10">  <span class="dt">inputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
+<a class="sourceLine" id="cb104-11" title="11">    <span class="dt">id =</span> <span class="st">"number"</span>,</a>
+<a class="sourceLine" id="cb104-12" title="12">    <span class="dt">type =</span> <span class="st">"file"</span>,</a>
+<a class="sourceLine" id="cb104-13" title="13">    <span class="dt">secondaryFiles =</span> sevenbridges<span class="op">:::</span><span class="kw">set_box</span>(<span class="st">".bai"</span>)</a>
+<a class="sourceLine" id="cb104-14" title="14">  ),</a>
+<a class="sourceLine" id="cb104-15" title="15">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</a>
+<a class="sourceLine" id="cb104-16" title="16">    <span class="dt">id =</span> <span class="st">"log"</span>,</a>
+<a class="sourceLine" id="cb104-17" title="17">    <span class="dt">type =</span> <span class="st">"file"</span>,</a>
+<a class="sourceLine" id="cb104-18" title="18">    <span class="dt">glob =</span> <span class="st">"*.txt"</span></a>
+<a class="sourceLine" id="cb104-19" title="19">  )</a>
+<a class="sourceLine" id="cb104-20" title="20">)</a>
+<a class="sourceLine" id="cb104-21" title="21"></a>
+<a class="sourceLine" id="cb104-22" title="22"><span class="co"># clipr::write_clip(jsonlite::toJSON(t2, pretty = TRUE))</span></a></code></pre></div>
+<p><strong>Note</strong>: this workflow contains tools that do not exist on the platform, so if you copy and paste the JSON directly into the GUI, it won’t work properly. However, a simple way is to push your app to the platform via API. This will add new tools one by one to your project before add your workflow app on the platform. Alternatively, if you connect two tools you know that exist on the platform, you don’t need to do so.</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="co"># auto-check tool info and push new tools</span></a>
 <a class="sourceLine" id="cb105-2" title="2">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"new_flow_log"</span>, f)</a></code></pre></div>
 </div>
@@ -1684,8 +1681,7 @@ $File...$to
 <a class="sourceLine" id="cb115-4" title="4">)</a></code></pre></div>
 <pre><code>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.genome</code></pre>
 <pre><code>flow_output: #STAR.log_files</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1"><span class="co"># library("clipr")</span></a>
-<a class="sourceLine" id="cb118-2" title="2"><span class="co"># write_clip(f2$toJSON())</span></a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" title="1"><span class="co"># clipr::write_clip(jsonlite::toJSON(f2))</span></a></code></pre></div>
 </div>
 <div id="connecting-tool-with-workflow-by-input-and-output-id" class="section level3">
 <h3 class="hasAnchor">
@@ -1779,8 +1775,7 @@ $File$to
 <a class="sourceLine" id="cb126-2" title="2"><span class="co"># # all outputs</span></a>
 <a class="sourceLine" id="cb126-3" title="3"><span class="co"># # flow + flow</span></a>
 <a class="sourceLine" id="cb126-4" title="4"><span class="co"># # print message when name wrong</span></a>
-<a class="sourceLine" id="cb126-5" title="5"><span class="co"># library("clipr")</span></a>
-<a class="sourceLine" id="cb126-6" title="6"><span class="co"># write_clip(f4$toJSON())</span></a></code></pre></div>
+<a class="sourceLine" id="cb126-5" title="5"><span class="co"># clipr::write_clip(jsonlite::toJSON(f4))</span></a></code></pre></div>
 </div>
 <div id="using-pipe-to-construct-complicated-workflow" class="section level3">
 <h3 class="hasAnchor">

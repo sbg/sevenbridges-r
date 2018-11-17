@@ -759,7 +759,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##           cat("\r", "completed")
 ##           return(TRUE)
 ##         }
-## &lt;environment: 0x7f893feb21c0&gt;</code></pre>
+## &lt;environment: 0x7f8ae1c0c3d0&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
