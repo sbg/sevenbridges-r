@@ -218,10 +218,10 @@ I just describe my tool in this way
 
 ```{r}
 library("sevenbridges")
-library("readr")
+
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(
@@ -268,10 +268,9 @@ I just describe my tool in this way, note, I use `separate=FALSE` and add `=` to
 as a hack.
 
 ```{r}
-library("readr")
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(
@@ -324,10 +323,9 @@ Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=10
 And so I describe my tool like this with Docker image `rocker/hadleyverse` this contains knitr and rmarkdown package.
 
 ```{r}
-library("readr")
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(

@@ -96,7 +96,6 @@ After `devtools` is installed, install the latest version of `sevenbridges` from
 
 ```r
 install.packages("BiocManager")
-install.packages("readr")
 
 devtools::install_github(
   "sbg/sevenbridges-r",
@@ -214,8 +213,7 @@ Cross-platform support for Seven Bridges environments, such as [Cancer Genomics 
 A [Common Workflow Language (CWL)](http://www.commonwl.org/) Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:
 
 ```r
-library("readr")
-fd <- fileDef(name = "runif.R", content = read_file(fl))
+fd <- fileDef(name = "runif.R", content = readr::read_file(fl))
 
 rbx <- Tool(
   id = "runif",

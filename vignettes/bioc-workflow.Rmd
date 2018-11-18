@@ -56,7 +56,6 @@ To install the latest development version from GitHub, run the following command
 ```{r}
 if (!require("devtools", quietly = TRUE)) install.packages("devtools")
 install.packages("BiocManager")
-install.packages("readr")
 
 devtools::install_github(
   "sbg/sevenbridges-r",

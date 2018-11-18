@@ -188,10 +188,10 @@ fd <- fileDef(
 
 # read via reader
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
-library("readr")
+
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(.srcfile)
+  content = readr::read_file(.srcfile)
 )
 
 # add script to your tool
@@ -211,10 +211,10 @@ How about multiple script?
 ```{r}
 # or simply readLines
 .srcfile <- system.file("docker/sevenbridges/src/runif.R", package = "sevenbridges")
-library("readr")
+
 fd1 <- fileDef(
   name = "runif.R",
-  content = read_file(.srcfile)
+  content = readr::read_file(.srcfile)
 )
 fd2 <- fileDef(
   name = "runif2.R",
@@ -393,10 +393,9 @@ Ignore the comment part, I will introduce spin/stich later.
 Then just describe my tool in this way, add your script as you learned in previous sections.
 
 ```{r}
-library("readr")
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(
@@ -446,10 +445,9 @@ cat(readLines(fl), sep = "\n")
 Then just describe my tool in this way, note, I use `separate=FALSE` and add `=` to my prefix as a hack.
 
 ```{r}
-library("readr")
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(
@@ -505,10 +503,9 @@ Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=10
 And so I describe my tool like this with Docker image `rocker/tidyverse` which contians the knitr and rmarkdown packages.
 
 ```{r}
-library("readr")
 fd <- fileDef(
   name = "runif.R",
-  content = read_file(fl)
+  content = readr::read_file(fl)
 )
 
 rbx <- Tool(
