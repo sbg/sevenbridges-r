@@ -189,13 +189,12 @@
 <a class="sourceLine" id="cb5-2" title="2"><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</a></code></pre></div>
 <p>After <code>devtools</code> is installed, install the latest version of <code>sevenbridges</code> from GitHub:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw">install.packages</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
-<a class="sourceLine" id="cb6-5" title="5">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
-<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
-<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb6-8" title="8">)</a></code></pre></div>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="st">"sbg/sevenbridges-r"</span>,</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</a>
+<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb6-7" title="7">)</a></code></pre></div>
 <p>If you have trouble with <code>pandoc</code> and do not want to install it, set <code>build_vignettes = FALSE</code> to avoid building the vignettes.</p>
 </div>
 </div>
@@ -294,32 +293,31 @@
 <h3 class="hasAnchor">
 <a href="#common-workflow-language-tool-interface" class="anchor"></a>Common Workflow Language Tool Interface</h3>
 <p>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">library</span>(<span class="st">"readr"</span>)</a>
-<a class="sourceLine" id="cb13-2" title="2">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> <span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl))</a>
-<a class="sourceLine" id="cb13-3" title="3"></a>
-<a class="sourceLine" id="cb13-4" title="4">rbx &lt;-<span class="st"> </span><span class="kw"><a href="reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb13-5" title="5">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb13-6" title="6">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb13-7" title="7">  <span class="dt">hints =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(</a>
-<a class="sourceLine" id="cb13-8" title="8">    <span class="kw"><a href="reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>),</a>
-<a class="sourceLine" id="cb13-9" title="9">    <span class="kw"><a href="reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
-<a class="sourceLine" id="cb13-10" title="10">  ),</a>
-<a class="sourceLine" id="cb13-11" title="11">  <span class="dt">requirements =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb13-12" title="12">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb13-13" title="13">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb13-14" title="14">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb13-15" title="15">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>, <span class="dt">type =</span> <span class="st">"integer"</span>, <span class="dt">position =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb13-16" title="16">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"min"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb13-17" title="17">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"max"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb13-18" title="18">  ),</a>
-<a class="sourceLine" id="cb13-19" title="19">  <span class="dt">outputs =</span> <span class="kw"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
-<a class="sourceLine" id="cb13-20" title="20">)</a>
-<a class="sourceLine" id="cb13-21" title="21"></a>
-<a class="sourceLine" id="cb13-22" title="22"><span class="co"># Print CWL JSON</span></a>
-<a class="sourceLine" id="cb13-23" title="23">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb13-24" title="24"></a>
-<a class="sourceLine" id="cb13-25" title="25"><span class="co"># Print CWL YAML</span></a>
-<a class="sourceLine" id="cb13-26" title="26">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">fd &lt;-<span class="st"> </span><span class="kw"><a href="reference/requirements.html">fileDef</a></span>(<span class="dt">name =</span> <span class="st">"runif.R"</span>, <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl))</a>
+<a class="sourceLine" id="cb13-2" title="2"></a>
+<a class="sourceLine" id="cb13-3" title="3">rbx &lt;-<span class="st"> </span><span class="kw"><a href="reference/Tool-class.html">Tool</a></span>(</a>
+<a class="sourceLine" id="cb13-4" title="4">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb13-5" title="5">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
+<a class="sourceLine" id="cb13-6" title="6">  <span class="dt">hints =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(</a>
+<a class="sourceLine" id="cb13-7" title="7">    <span class="kw"><a href="reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>),</a>
+<a class="sourceLine" id="cb13-8" title="8">    <span class="kw"><a href="reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb13-9" title="9">  ),</a>
+<a class="sourceLine" id="cb13-10" title="10">  <span class="dt">requirements =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(fd),</a>
+<a class="sourceLine" id="cb13-11" title="11">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
+<a class="sourceLine" id="cb13-12" title="12">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
+<a class="sourceLine" id="cb13-13" title="13">  <span class="dt">inputs =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb13-14" title="14">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>, <span class="dt">type =</span> <span class="st">"integer"</span>, <span class="dt">position =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb13-15" title="15">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"min"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb13-16" title="16">    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"max"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb13-17" title="17">  ),</a>
+<a class="sourceLine" id="cb13-18" title="18">  <span class="dt">outputs =</span> <span class="kw"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
+<a class="sourceLine" id="cb13-19" title="19">)</a>
+<a class="sourceLine" id="cb13-20" title="20"></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co"># Print CWL JSON</span></a>
+<a class="sourceLine" id="cb13-22" title="22">rbx<span class="op">$</span><span class="kw">toJSON</span>(<span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-23" title="23"></a>
+<a class="sourceLine" id="cb13-24" title="24"><span class="co"># Print CWL YAML</span></a>
+<a class="sourceLine" id="cb13-25" title="25">rbx<span class="op">$</span><span class="kw">toYAML</span>()</a></code></pre></div>
 </div>
 <div id="utilities-for-tool-and-flow" class="section level3">
 <h3 class="hasAnchor">
