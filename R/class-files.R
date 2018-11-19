@@ -262,8 +262,8 @@ Files <- setRefClass(
     },
 
     # folders ------------------------------------------------------------------
-    # create a new folder under the parent folder
     create_folder = function(name, ...) {
+      "Create a new folder under the parent folder."
       if (is.null(name)) {
         stop("Please provide the new folder name")
       }
@@ -287,13 +287,13 @@ Files <- setRefClass(
       res
     },
 
-    # get object type ("file" or "folder")
     typeof = function() {
+      "Get object type (\"file\" or \"folder\")."
       .self$type
     },
 
-    # list folder contents (return files, folders, or both)
     list_folder_contents = function(type = c("file", "folder"), ...) {
+      "List folder contents (return files, folders, or both)."
       if (.self$type != "folder") {
         stop("Object must have type \"folder\", not \"file\" or others")
       }
@@ -322,21 +322,21 @@ Files <- setRefClass(
       res
     },
 
-    # get the parent folder ID of the current file/folder
     get_parent_folder_id = function() {
+      "Get the parent folder ID of the current file/folder."
       .self$parent
     },
 
-    # get the parent folder object of the current file/folder
     get_parent_folder = function() {
+      "Get the parent folder object of the current file/folder."
       req <- auth$file(id = .self$parent)
       res <- .asFiles(req)
       res$auth <- .self$auth
       res
     },
 
-    # copy a file to a folder
     copy_to_folder = function(folder_id, name_new = NULL, ...) {
+      "Copy a file to a folder."
       if (!is.character(folder_id)) stop("Folder ID must be character")
 
       if (is.null(name_new)) {
@@ -357,8 +357,8 @@ Files <- setRefClass(
       res
     },
 
-    # move a file to a folder
     move_to_folder = function(folder_id, name_new = NULL, ...) {
+      "Move a file to a folder."
       if (!is.character(folder_id)) stop("Folder ID must be character")
 
       if (is.null(name_new)) {
@@ -377,6 +377,17 @@ Files <- setRefClass(
       res$auth <- .self$auth
 
       res
+    },
+
+    # markers ------------------------------------------------------------------
+    marker = function() {
+      "List markers available on a file or get details for a marker."
+      NULL
+    },
+
+    create_marker = function() {
+      "Create a marker."
+      NULL
     },
 
     # show ---------------------------------------------------------------------

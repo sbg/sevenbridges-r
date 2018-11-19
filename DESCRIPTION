@@ -69,6 +69,7 @@ Collate:
     class-division.R
     class-team.R
     class-teammember.R
+    class-marker.R
     misc-uploader.R
     misc-handler.R
     misc-lift.R
