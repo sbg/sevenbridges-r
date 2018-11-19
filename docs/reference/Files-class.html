@@ -197,12 +197,21 @@ it usually return the project id and stored with the object.</p></dd>
     <dl class='dl-horizontal'>
 <dt><code><a href='tag-methods.html'>add_tag(x, ...)</a></code></dt><dd><p>add new tags while keeping old tags</p></dd>
     <dt><code>copy_to(project = NULL, name = NULL)</code></dt><dd><p>copy a file to a project (id) with new name</p></dd>
+    <dt><code>copy_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Copy a file to a folder.</p></dd>
+    <dt><code>create_folder(name, ...)</code></dt><dd><p>Create a new folder under the parent folder.</p></dd>
+    <dt><code>create_marker()</code></dt><dd><p>Create a marker.</p></dd>
     <dt><code><a href='download-methods.html'>download(destfile, ..., method = "curl")</a></code></dt><dd><p>see `help(download.file)` for more options</p></dd>
+    <dt><code>get_parent_folder()</code></dt><dd><p>Get the parent folder object of the current file/folder.</p></dd>
+    <dt><code>get_parent_folder_id()</code></dt><dd><p>Get the parent folder ID of the current file/folder.</p></dd>
+    <dt><code>list_folder_contents(type = c("file", "folder"), ...)</code></dt><dd><p>List folder contents (return files, folders, or both).</p></dd>
+    <dt><code>marker()</code></dt><dd><p>List markers available on a file or get details for a marker.</p></dd>
     <dt><code>meta()</code></dt><dd><p>get metadata from a file</p></dd>
+    <dt><code>move_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Move a file to a folder.</p></dd>
     <dt><code>setMeta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
     <dt><code>set_meta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
     <dt><code><a href='tag-methods.html'>set_tag(x = NULL, overwrite = TRUE, ...)</a></code></dt><dd><p>set a tag for a file, your tag need to be a list or vector</p></dd>
     <dt><code>tag()</code></dt><dd><p>get tag from a file</p></dd>
+    <dt><code>typeof()</code></dt><dd><p>Get object type ("file" or "folder").</p></dd>
     <dt><code>update(name = NULL, metadata = NULL, tags = NULL)</code></dt><dd><p>This call updates the name, the full set metadata, and tags for a specified file.</p></dd>
 </dl>
     
