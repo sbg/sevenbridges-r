@@ -74,7 +74,7 @@ Division <- setRefClass(
 
 # .asDivision ------------------------------------------------------------------
 .asDivision <- function(x) {
-  Division(id = x$id, name = x$name, href = x$href)
+  Division(id = x$id, name = x$name, href = x$href, response = response(x))
 }
 
 # DivisionList class -----------------------------------------------------------

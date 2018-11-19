@@ -24,7 +24,7 @@ TeamMember <- setRefClass(
 
 # .asTeamMember ----------------------------------------------------------------
 .asTeamMember <- function(x) {
-  TeamMember(username = x$username, role = x$role, href = x$href)
+  TeamMember(username = x$username, role = x$role, href = x$href, response = response(x))
 }
 
 # TeamMemberList class ---------------------------------------------------------

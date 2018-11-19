@@ -105,7 +105,7 @@ Team <- setRefClass(
 
 # .asTeam ----------------------------------------------------------------------
 .asTeam <- function(x) {
-  Team(id = x$id, name = x$name, role = x$role, href = x$href)
+  Team(id = x$id, name = x$name, role = x$role, href = x$href, response = response(x))
 }
 
 # TeamList class ---------------------------------------------------------------
