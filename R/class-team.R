@@ -18,6 +18,7 @@ Team <- setRefClass(
 
     # add a team member --------------------------------------------------------
     add_member = function(username = NULL, ...) {
+      "Add a team member."
       if (is.null(username)) {
         stop("Please provide the username to add to the team")
       }
@@ -39,6 +40,7 @@ Team <- setRefClass(
 
     # list team members --------------------------------------------------------
     member = function(...) {
+      "List team members."
       req <- auth$api(
         path = paste0("teams/", .self$id, "/members"),
         method = "GET", ...
@@ -60,6 +62,7 @@ Team <- setRefClass(
 
     # remove a team member -----------------------------------------------------
     remove_member = function(username = NULL, ...) {
+      "Remove a team member."
       if (is.null(username)) {
         stop("Please provide the username to delete from the team")
       }
@@ -72,6 +75,7 @@ Team <- setRefClass(
 
     # rename a team ------------------------------------------------------------
     rename = function(name, ...) {
+      "Rename a team."
       if (is.null(name)) {
         stop("Please provide the new name for the team")
       }
@@ -90,6 +94,7 @@ Team <- setRefClass(
 
     # delete a team ------------------------------------------------------------
     delete = function(...) {
+      "Delete a team."
       auth$api(
         path = paste0("teams/", .self$id),
         method = "DELETE", ...

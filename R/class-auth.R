@@ -1054,7 +1054,7 @@ Auth <- setRefClass(
 
     # enterprise ---------------------------------------------------------------
     division = function(id = NULL, ...) {
-      "List all divisions or get details of a division"
+      "List all divisions or get details of a division."
       if (is.null(id)) {
         req <- api(path = "divisions/", method = "GET", ...)
       } else {

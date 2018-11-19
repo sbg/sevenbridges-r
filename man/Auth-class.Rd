@@ -60,7 +60,7 @@ The default value is \code{"default"}.}
 
 \item{\code{bulk_copy_files(file_ids, project, ...)}}{Copy files between projects in a batch.}
 
-\item{\code{division(id = NULL, ...)}}{List all divisions or get details of a division}
+\item{\code{division(id = NULL, ...)}}{List all divisions or get details of a division.}
 
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,

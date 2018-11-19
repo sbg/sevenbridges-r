@@ -63,9 +63,25 @@ it usually return the project id and stored with the object.}
 
 \item{\code{copy_to(project = NULL, name = NULL)}}{copy a file to a project (id) with new name}
 
+\item{\code{copy_to_folder(folder_id, name_new = NULL, ...)}}{Copy a file to a folder.}
+
+\item{\code{create_folder(name, ...)}}{Create a new folder under the parent folder.}
+
+\item{\code{create_marker()}}{Create a marker.}
+
 \item{\code{download(destfile, ..., method = "curl")}}{see `help(download.file)` for more options}
 
+\item{\code{get_parent_folder()}}{Get the parent folder object of the current file/folder.}
+
+\item{\code{get_parent_folder_id()}}{Get the parent folder ID of the current file/folder.}
+
+\item{\code{list_folder_contents(type = c("file", "folder"), ...)}}{List folder contents (return files, folders, or both).}
+
+\item{\code{marker()}}{List markers available on a file or get details for a marker.}
+
 \item{\code{meta()}}{get metadata from a file}
+
+\item{\code{move_to_folder(folder_id, name_new = NULL, ...)}}{Move a file to a folder.}
 
 \item{\code{setMeta(..., overwrite = FALSE)}}{Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.}
 
@@ -74,6 +90,8 @@ it usually return the project id and stored with the object.}
 \item{\code{set_tag(x = NULL, overwrite = TRUE, ...)}}{set a tag for a file, your tag need to be a list or vector}
 
 \item{\code{tag()}}{get tag from a file}
+
+\item{\code{typeof()}}{Get object type ("file" or "folder").}
 
 \item{\code{update(name = NULL, metadata = NULL, tags = NULL)}}{This call updates the name, the full set metadata, and tags for a specified file.}
 }}

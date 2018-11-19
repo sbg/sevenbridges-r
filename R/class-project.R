@@ -501,13 +501,13 @@ Project <- setRefClass(
     },
 
     # folders ------------------------------------------------------------------
-    # get the project root folder ID
     get_root_folder_id = function() {
+      "Get the project root folder ID"
       root_folder
     },
 
-    # get the project root folder object
     get_root_folder = function() {
+      "Get the project root folder object."
       .self$file(id = root_folder)
     },
 

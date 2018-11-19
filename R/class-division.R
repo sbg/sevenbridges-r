@@ -17,6 +17,7 @@ Division <- setRefClass(
 
     # list all teams or get details of a team ----------------------------------
     team = function(id = NULL, ...) {
+      "List all teams or get details of a team."
       if (is.null(id)) {
         req <- auth$api(
           path = paste0("divisions/", .self$id, "/teams"),
@@ -48,8 +49,9 @@ Division <- setRefClass(
       res
     },
 
-    # create team --------------------------------------------------------------
+    # create a team ------------------------------------------------------------
     create_team = function(name = NULL, ...) {
+      "Create a team."
       if (is.null(name)) {
         stop("Please provide the team name")
       }
