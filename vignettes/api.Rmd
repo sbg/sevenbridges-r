@@ -1488,13 +1488,15 @@ a$copyFile(c(fid, fid2), project = pid)
 a$project(id = pid)$file()
 ```
 
-***NOTE:*** To copy a group of files, you need the `Auth$copyFile()` interface. The `id` of the files in your project will be different from their `id` in the Public Files repository.
+**NOTE:** To copy a group of files, you need the `Auth$copyFile()` interface. The `id` of the files in your project will be different from their `id` in the Public Files repository.
 
 Alternatively, you copy a __single file__ as shown below.
 
 ```{r}
 a$project("hello")$file(id = fid)$copyTo(pid)
 ```
+
+Notably, if you have a number of files to copy between projects, we would always recommend using the `Auth$bulk_copy_files()` method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -2575,6 +2577,83 @@ a$public_app(name = "Control-FREEC", exact = TRUE, complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
+## Actions
+
+The Actions API allows you to copy files between projects in batch or send feedback to Seven Bridges.
+
+### Copy files between projects
+
+This call allows you to copy files between projects. Unlike `a$copyFile()` or `file(...)$copyTo(...)` which only copy one file with each API call, this call lets you batch the copy operation and copy a list of files at a time.
+
+```{r}
+p <- a$project(id = "RFranklin/source-project")
+f <- p$file(complete = TRUE)
+# get all file IDs
+file_ids <- sapply(f, "[[", "id")
+# bulk copy files to the target project
+req <- a$bulk_copy_files(file_ids, "RFranklin/target-project")
+# print the response list
+(req <- unname(req))
+```
+
+```
+[[1]]
+[[1]]$status
+[1] "OK"
+
+[[1]]$new_file_id
+[1] "5bf31316e4b09b8ff39f9df7"
+
+[[1]]$new_file_name
+[1] "merged-tumor.converted.pe_1.fastq"
+
+...
+```
+
+We can use `sapply` to get the copy operation status, new file IDs, and (new) file names for the copied files:
+
+```{r}
+sapply(req, "[[", "status")
+```
+
+```
+[1] "OK" "OK" "OK" "OK"
+```
+
+```{r}
+sapply(req, "[[", "new_file_id")
+```
+
+```
+[1] "5bf31316e4b09b8ff39f9df7" "5bf31316e4b09b8ff39f9dfa" "5bf31316e4b09b8ff39f9df4" "5bf31316e4b09b8ff39f9df1"
+```
+
+```{r}
+sapply(req, "[[", "new_file_name")
+```
+
+```
+[1] "merged-tumor.converted.pe_1.fastq"  "merged-tumor.converted.pe_2.fastq"  "merged-normal.converted.pe_2.fastq"
+[4] "merged-normal.converted.pe_1.fastq"
+```
+
+Note that a file's ID is dependent on the project it is contained in. So, when you copy files from one project to another, their IDs will be different in the target project. The file names, however, do not change by copying, except where copying would yield non-unique file names in the target project.
+
+<div align="right"><a href="#top">top</a></div>
+
+### Send a feedback item
+
+Use this call to send feedbacks to Seven Bridges via the API. There are three feedback types available: `"idea"`, `"thought"`, or `"problem"`. You can send one feedback item per minute.
+
+```{r}
+a$send_feedback(
+  "This is a test for sending feedback via API. Please ignore this message.",
+  type = "thought"
+)
+```
+
+<div align="right"><a href="#top">top</a></div>
+
 ## Enterprise
 
 The Enterprise API allows you to manage your Enterprise on the Seven Bridges Platform via dedicated API calls.
@@ -2588,6 +2667,8 @@ Error: HTTP Status 400: Insufficient privileges to access this resource. Not a d
 ```
 
 If you see this error, first switch to the correct division context (use the dropdown menu in the upper left corner), then click the "Developer" tab, click "Auth token", generate the token, and use this token for API authentication.
+
+<div align="right"><a href="#top">top</a></div>
 
 ### List all divisions
 
@@ -2610,6 +2691,8 @@ name : The Division
 name : Another Division
 ```
 
+<div align="right"><a href="#top">top</a></div>
+
 ### Get details of a division
 
 To get the details (ID and name) of a division, for example, the first division listed above, use
@@ -2624,6 +2707,8 @@ To get the details (ID and name) of a division, for example, the first division 
 name : The Division
 ```
 
+<div align="right"><a href="#top">top</a></div>
+
 ### Create a team
 
 Let's create two new teams under this division:
@@ -2632,6 +2717,8 @@ Let's create two new teams under this division:
 team1 <- d$create_team(name = "New Team 1")
 team2 <- d$create_team(name = "New Team 2")
 ```
+
+<div align="right"><a href="#top">top</a></div>
 
 ### Get details of a team
 
@@ -2647,6 +2734,8 @@ id : 39f6cb44-9e3c-40e7-8639-3c0f3c1e4892
 name : New Team 1
 ```
 
+<div align="right"><a href="#top">top</a></div>
+
 ### Add a team member
 
 We can add division members to the teams we created. For example, let's add yourself (with the division username `the-division/your_username`) and another division member (with the division username `the-division/another_username`) to the first team. Also, let's add yourself to the second team:
@@ -2657,6 +2746,8 @@ team1$add_member("the-division/another_username")
 
 team2$add_member("the-division/your_username")
 ```
+
+<div align="right"><a href="#top">top</a></div>
 
 ### List team members
 
@@ -2685,6 +2776,8 @@ username : the-division/your_username
 role : ADMIN
 ```
 
+<div align="right"><a href="#top">top</a></div>
+
 ### Remove a team member
 
 Let's remove a user from the first team:
@@ -2692,6 +2785,8 @@ Let's remove a user from the first team:
 ```{r}
 team1$remove_member(m1[[1]]$username)
 ```
+
+<div align="right"><a href="#top">top</a></div>
 
 ### Rename a team
 
@@ -2709,6 +2804,8 @@ name : Another Team Name
 
 After renaming, the team will still have the same ID, just with a different name.
 
+<div align="right"><a href="#top">top</a></div>
+
 ### List your teams in the division
 
 To list the teams that you are a member of in a division, use
@@ -2719,6 +2816,8 @@ d$team()
 
 Note that there could be a one-minute delay in the backend here if you just added yourself to the teams seconds ago.
 
+<div align="right"><a href="#top">top</a></div>
+
 ### Delete a team
 
 To delete the teams we created, use
@@ -2727,6 +2826,8 @@ To delete the teams we created, use
 team1$delete()
 team2$delete()
 ```
+
+<div align="right"><a href="#top">top</a></div>
 
 ## Get Raw Response from httr
 

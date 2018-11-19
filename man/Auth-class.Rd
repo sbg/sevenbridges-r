@@ -58,6 +58,10 @@ The default value is \code{"default"}.}
 
 \item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
 
+\item{\code{bulk_copy_files(file_ids, project, ...)}}{Copy files between projects in a batch.}
+
+\item{\code{division(id = NULL, ...)}}{List all divisions or get details of a division}
+
 \item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
   complete = FALSE, search.engine = c("server", "brute"), ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
@@ -74,6 +78,9 @@ The default value is \code{"default"}.}
 \item{\code{project_owner(owner = NULL, ...)}}{List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.}
 
 \item{\code{rate_limit(...)}}{This call returns information about your current rate limit. This is the number of API calls you can make in one hour.}
+
+\item{\code{send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
+  ...)}}{Send feedback to Seven Bridges.}
 
 \item{\code{user(username = NULL, ...)}}{This call returns information about the authenticated user.}
 

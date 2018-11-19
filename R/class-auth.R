@@ -278,7 +278,112 @@ Auth <- setRefClass(
         }
       },
 
-    # project ------------------------------------------------------------------
+    # api paths ----------------------------------------------------------------
+    api = function(..., limit = getOption("sevenbridges")$"limit",
+                       offset = getOption("sevenbridges")$"offset",
+                       fields = NULL, complete = FALSE) {
+      "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
+
+      req <- sevenbridges::api(token,
+        base_url = url, limit = limit,
+        offset = offset, fields = fields, ...
+      )
+      req <- status_check(req)
+
+      if (complete) {
+        N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
+        if (length(N)) .item <- length(req$items)
+        if (.item < N) {
+          pb <- txtProgressBar(min = 1, max = N %/% 100 + 1, style = 3)
+          res <- NULL
+
+          for (i in 1:(N %/% 100 + 1)) {
+            .limit <- 100
+            .offset <- (i - 1) * 100
+            req <- sevenbridges::api(
+              token,
+              base_url = url,
+              limit = .limit, offset = .offset,
+              fields = fields, ...
+            )
+            req <- status_check(req)
+            res$items <- c(res$items, req$items)
+            setTxtProgressBar(pb, i)
+          }
+          cat("\n")
+          res$href <- NULL
+        } else {
+          return(req)
+        }
+        return(res)
+      } else {
+        return(req)
+      }
+    },
+
+    # user ---------------------------------------------------------------------
+    user = function(username = NULL, ...) {
+      "This call returns information about the authenticated user."
+
+      if (is.null(username)) {
+        req <- api(
+          token = token,
+          path = "user/",
+          method = "GET", ...
+        )
+        message("username not provided, showing the currently authenticated user information")
+      } else {
+        req <- api(
+          token = token,
+          path = paste0("users/", username),
+          method = "GET", ...
+        )
+      }
+
+      .asUser(req)
+    },
+
+    # billing ------------------------------------------------------------------
+    billing = function(id = NULL, breakdown = FALSE, ...) {
+      "If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost."
+
+      if (is.null(id)) {
+        # show api
+        req <- api(path = "billing/groups", method = "GET", ...)
+        req <- .asBillingList(req)
+        if (length(req) == 1 && is(req, "SimpleList")) {
+          req <- req[[1]]
+        }
+
+        return(req)
+      } else {
+        if (breakdown) {
+          req <- api(
+            path = paste0("billing/groups/", id, "/breakdown"),
+            method = "GET", ...
+          )
+        } else {
+          req <- api(path = paste0("billing/groups/", id), method = "GET", ...)
+        }
+        req <- .asBilling(req)
+
+        return(req)
+      }
+    },
+
+    invoice = function(id = NULL, ...) {
+      "If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period."
+
+      if (is.null(id)) {
+        req <- api(path = "billing/invoices", method = "GET", ...)
+      } else {
+        req <- api(path = paste0("billing/invoices/", id), method = "GET", ...)
+      }
+
+      req
+    },
+
+    # projects -----------------------------------------------------------------
     project_owner = function(owner = NULL, ...) {
       "List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned."
 
@@ -403,69 +508,7 @@ Auth <- setRefClass(
       res
     },
 
-    # billing group ------------------------------------------------------------
-    billing = function(id = NULL, breakdown = FALSE, ...) {
-      "If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost."
-
-      if (is.null(id)) {
-        # show api
-        req <- api(path = "billing/groups", method = "GET", ...)
-        req <- .asBillingList(req)
-        if (length(req) == 1 && is(req, "SimpleList")) {
-          req <- req[[1]]
-        }
-
-        return(req)
-      } else {
-        if (breakdown) {
-          req <- api(
-            path = paste0("billing/groups/", id, "/breakdown"),
-            method = "GET", ...
-          )
-        } else {
-          req <- api(path = paste0("billing/groups/", id), method = "GET", ...)
-        }
-        req <- .asBilling(req)
-
-        return(req)
-      }
-    },
-
-    invoice = function(id = NULL, ...) {
-      "If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period."
-
-      if (is.null(id)) {
-        req <- api(path = "billing/invoices", method = "GET", ...)
-      } else {
-        req <- api(path = paste0("billing/invoices/", id), method = "GET", ...)
-      }
-
-      req
-    },
-
-    # user ---------------------------------------------------------------------
-    user = function(username = NULL, ...) {
-      "This call returns information about the authenticated user."
-
-      if (is.null(username)) {
-        req <- api(
-          token = token,
-          path = "user/",
-          method = "GET", ...
-        )
-        message("username not provided, showing the currently authenticated user information")
-      } else {
-        req <- api(
-          token = token,
-          path = paste0("users/", username),
-          method = "GET", ...
-        )
-      }
-
-      .asUser(req)
-    },
-
-    # file ---------------------------------------------------------------------
+    # files --------------------------------------------------------------------
     file = function(name = NULL, id = NULL, project = NULL, exact = FALSE,
                         detail = FALSE, metadata = list(), origin.task = NULL,
                         tag = NULL, complete = FALSE,
@@ -627,7 +670,7 @@ Auth <- setRefClass(
       copyFile(id = id, project = project, name = name)
     },
 
-    # app ----------------------------------------------------------------------
+    # apps ---------------------------------------------------------------------
     app = function(name = NULL, id = NULL, exact = FALSE, ignore.case = TRUE,
                        detail = FALSE, project = NULL, query = NULL,
                        visibility = c("project", "public"),
@@ -763,7 +806,7 @@ Auth <- setRefClass(
       copyApp(id = id, project = project, name = name)
     },
 
-    # task ---------------------------------------------------------------------
+    # tasks --------------------------------------------------------------------
     task = function(name = NULL, id = NULL, project = NULL, parent = NULL,
                         exact = FALSE, detail = FALSE,
                         status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"), ...) {
@@ -848,7 +891,7 @@ Auth <- setRefClass(
       res
     },
 
-    # volume -------------------------------------------------------------------
+    # volumes ------------------------------------------------------------------
     mount = function(mountPoint = NULL, projectId = NULL,
                          ignore.stdout = TRUE, sudo = TRUE, ...) {
       fs <<- FS(authToken = token, ...)
@@ -984,20 +1027,38 @@ Auth <- setRefClass(
       res
     },
 
-    # division -----------------------------------------------------------------
+    # actions ------------------------------------------------------------------
+    bulk_copy_files = function(file_ids, project, ...) {
+      "Copy files between projects in a batch."
+      api(
+        path = "action/files/copy",
+        body = list("project" = project, "file_ids" = file_ids),
+        method = "POST", ...
+      )
+    },
+
+    send_feedback = function(text, type = c("idea", "thought", "problem"), referrer = NULL, ...) {
+      "Send feedback to Seven Bridges."
+      text <- paste0(as.character(text), collapse = " ")
+      type <- match.arg(type)
+      if (is.null(referrer)) {
+        username <- suppressMessages(user()$"username")
+        referrer <- paste(username, "sent from sevenbridges-r")
+      }
+      api(
+        path = "action/notifications/feedback",
+        body = list("text" = text, "type" = type, "referrer" = referrer),
+        method = "POST", ...
+      )
+    },
+
+    # enterprise ---------------------------------------------------------------
     division = function(id = NULL, ...) {
+      "List all divisions or get details of a division"
       if (is.null(id)) {
-        req <- api(
-          token = token,
-          path = "divisions/",
-          method = "GET", ...
-        )
+        req <- api(path = "divisions/", method = "GET", ...)
       } else {
-        req <- api(
-          token = token,
-          path = paste0("divisions/", id),
-          method = "GET", ...
-        )
+        req <- api(path = paste0("divisions/", id), method = "GET", ...)
       }
 
       # only one division
@@ -1022,50 +1083,6 @@ Auth <- setRefClass(
       req <- api(path = "rate_limit", method = "GET", ...)
 
       .asRate(req)
-    },
-
-    # api paths ----------------------------------------------------------------
-    api = function(...,
-                       limit = getOption("sevenbridges")$"limit",
-                       offset = getOption("sevenbridges")$"offset",
-                       fields = NULL, complete = FALSE) {
-      "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
-
-      req <- sevenbridges::api(token,
-        base_url = url, limit = limit,
-        offset = offset, fields = fields, ...
-      )
-      req <- status_check(req)
-
-      if (complete) {
-        N <- as.numeric(headers(response(req))[["x-total-matching-query"]])
-        if (length(N)) .item <- length(req$items)
-        if (.item < N) {
-          pb <- txtProgressBar(min = 1, max = N %/% 100 + 1, style = 3)
-          res <- NULL
-
-          for (i in 1:(N %/% 100 + 1)) {
-            .limit <- 100
-            .offset <- (i - 1) * 100
-            req <- sevenbridges::api(
-              token,
-              base_url = url,
-              limit = .limit, offset = .offset,
-              fields = fields, ...
-            )
-            req <- status_check(req)
-            res$items <- c(res$items, req$items)
-            setTxtProgressBar(pb, i)
-          }
-          cat("\n")
-          res$href <- NULL
-        } else {
-          return(req)
-        }
-        return(res)
-      } else {
-        return(req)
-      }
     },
 
     # show ---------------------------------------------------------------------
