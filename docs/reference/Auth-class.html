@@ -193,6 +193,8 @@ The default value is <code>"default"</code>.</p></dd>
   offset = getOption("sevenbridges")$offset, fields = NULL,
   complete = FALSE)</a></code></dt><dd><p>This call returns all API paths, and pass arguments to api() function with input token and url automatically</p></dd>
     <dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.</p></dd>
+    <dt><code>bulk_copy_files(file_ids, project, ...)</code></dt><dd><p>Copy files between projects in a batch.</p></dd>
+    <dt><code>division(id = NULL, ...)</code></dt><dd><p>List all divisions or get details of a division</p></dd>
     <dt><code>file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
   complete = FALSE, search.engine = c("server", "brute"), ...)</code></dt><dd><p>This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.</p></dd>
@@ -204,6 +206,8 @@ The default value is <code>"default"</code>.</p></dd>
   use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.</p></dd>
     <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.</p></dd>
     <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current rate limit. This is the number of API calls you can make in one hour.</p></dd>
+    <dt><code>send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
+  ...)</code></dt><dd><p>Send feedback to Seven Bridges.</p></dd>
     <dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns information about the authenticated user.</p></dd>
     <dt><code>volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.</p></dd>
