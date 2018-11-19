@@ -1,8 +1,13 @@
 # sevenbridges 1.13.3
 
+## New Features
+
+- Added support for Enterprise API. See the [Enterprise API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#enterprise) for details.
+
 ## Improvements
 
-- Remove unnecessary package dependencies to minimize the time needed for package installation and loading.
+- Removed unnecessary package dependencies to optimize the time needed for package installation and loading.
+- New look for the [documentation website](https://sbg.github.io/sevenbridges-r/) with improved text readability.
 
 # sevenbridges 1.13.2
 
