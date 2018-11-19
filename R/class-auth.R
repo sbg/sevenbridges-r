@@ -984,6 +984,37 @@ Auth <- setRefClass(
       res
     },
 
+    # division -----------------------------------------------------------------
+    division = function(id = NULL, ...) {
+      if (is.null(id)) {
+        req <- api(
+          token = token,
+          path = "divisions/",
+          method = "GET", ...
+        )
+      } else {
+        req <- api(
+          token = token,
+          path = paste0("divisions/", id),
+          method = "GET", ...
+        )
+      }
+
+      # only one division
+      if (is.null(req$items) & !is.null(req$id)) {
+        res <- .asDivision(req)
+        res <- setAuth(res, .self, "Division")
+      }
+
+      # multiple divisions
+      if (!is.null(req$items)) {
+        res <- .asDivisionList(req)
+        for (i in 1L:length(res)) res[[i]] <- setAuth(res[[i]], .self, "Division")
+      }
+
+      res
+    },
+
     # rate limit ---------------------------------------------------------------
     rate_limit = function(...) {
       "This call returns information about your current rate limit. This is the number of API calls you can make in one hour."

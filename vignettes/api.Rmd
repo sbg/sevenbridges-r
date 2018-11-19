@@ -2575,6 +2575,159 @@ a$public_app(name = "Control-FREEC", exact = TRUE, complete = TRUE)
 
 <div align="right"><a href="#top">top</a></div>
 
+## Enterprise
+
+The Enterprise API allows you to manage your Enterprise on the Seven Bridges Platform via dedicated API calls.
+
+### API token for the division context
+
+Note that the authentication token for the Enterprise API is a separate token generated under the context of you division, which is different from your non-division (personal) auth token. You may see the following error when using the non-division token to call the Enterprise API:
+
+```
+Error: HTTP Status 400: Insufficient privileges to access this resource. Not a division user.
+```
+
+If you see this error, first switch to the correct division context (use the dropdown menu in the upper left corner), then click the "Developer" tab, click "Auth token", generate the token, and use this token for API authentication.
+
+### List all divisions
+
+To list all divisions you have access to, use
+
+```{r}
+a <- Auth(...)
+
+a$division()
+```
+
+```
+[[1]]
+== Division ==
+  id : the-division
+name : The Division
+[[2]]
+== Division ==
+  id : another-division
+name : Another Division
+```
+
+### Get details of a division
+
+To get the details (ID and name) of a division, for example, the first division listed above, use
+
+```{r}
+(d <- a$division("the-division"))
+```
+
+```
+== Division ==
+  id : the-division
+name : The Division
+```
+
+### Create a team
+
+Let's create two new teams under this division:
+
+```{r}
+team1 <- d$create_team(name = "New Team 1")
+team2 <- d$create_team(name = "New Team 2")
+```
+
+### Get details of a team
+
+To check the details (ID and name) of the first team we just created, use
+
+```{r}
+d$team(team1$id)
+```
+
+```
+== Team ==
+id : 39f6cb44-9e3c-40e7-8639-3c0f3c1e4892
+name : New Team 1
+```
+
+### Add a team member
+
+We can add division members to the teams we created. For example, let's add yourself (with the division username `the-division/your_username`) and another division member (with the division username `the-division/another_username`) to the first team. Also, let's add yourself to the second team:
+
+```{r}
+team1$add_member("the-division/your_username")
+team1$add_member("the-division/another_username")
+
+team2$add_member("the-division/your_username")
+```
+
+### List team members
+
+List all team members and their roles:
+
+```{r}
+(m1 <- team1$member())
+(m2 <- team2$member())
+```
+
+```
+[[1]]
+== Team Member ==
+username : the-division/another_username
+role : ADMIN
+[[2]]
+== Team Member ==
+username : the-division/your_username
+role : ADMIN
+```
+
+```
+[[1]]
+== Team Member ==
+username : the-division/your_username
+role : ADMIN
+```
+
+### Remove a team member
+
+Let's remove a user from the first team:
+
+```{r}
+team1$remove_member(m1[[1]]$username)
+```
+
+### Rename a team
+
+To rename a team, use:
+
+```{r}
+team1$rename("Another Team Name")
+```
+
+```
+== Team ==
+id : 39f6cb44-9e3c-40e7-8639-3c0f3c1e4892
+name : Another Team Name
+```
+
+After renaming, the team will still have the same ID, just with a different name.
+
+### List your teams in the division
+
+To list the teams that you are a member of in a division, use
+
+```{r}
+d$team()
+```
+
+Note that there could be a one-minute delay in the backend here if you just added yourself to the teams seconds ago.
+
+### Delete a team
+
+To delete the teams we created, use
+
+```{r}
+team1$delete()
+team2$delete()
+```
+
 ## Get Raw Response from httr
 
 In the easy API, we return an object which contains the raw response from `httr` as a field. You can either call `response()` on that object or just use the field as is.

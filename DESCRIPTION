@@ -66,6 +66,9 @@ Collate:
     class-flow.R
     class-task.R
     class-volume.R
+    class-division.R
+    class-team.R
+    class-teammember.R
     misc-uploader.R
     misc-handler.R
     misc-lift.R
