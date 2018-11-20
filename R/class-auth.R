@@ -1064,13 +1064,13 @@ Auth <- setRefClass(
       # only one division
       if (is.null(req$items) & !is.null(req$id)) {
         res <- .asDivision(req)
-        res <- setAuth(res, .self, "Division")
+        res$auth <- .self
       }
 
       # multiple divisions
       if (!is.null(req$items)) {
         res <- .asDivisionList(req)
-        for (i in 1L:length(res)) res[[i]] <- setAuth(res[[i]], .self, "Division")
+        setAuth(res, .self, "Division")
       }
 
       res

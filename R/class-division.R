@@ -44,6 +44,7 @@ Division <- setRefClass(
       # multiple teams
       if (length(req$items) != 0L & is.null(req$id)) {
         res <- .asTeamList(req)
+        setAuth(res, .self$auth, "Team")
       }
 
       res
