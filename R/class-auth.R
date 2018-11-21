@@ -1028,7 +1028,7 @@ Auth <- setRefClass(
     },
 
     # actions ------------------------------------------------------------------
-    bulk_copy_files = function(file_ids, project, ...) {
+    bulk_file_copy = function(file_ids, project, ...) {
       "Copy files between projects in a batch."
       api(
         path = "action/files/copy",
@@ -1083,6 +1083,52 @@ Auth <- setRefClass(
       req <- api(path = "rate_limit", method = "GET", ...)
 
       .asRate(req)
+    },
+
+    # bulk actions -------------------------------------------------------------
+    bulk_file_get = function(...) {
+      "Get details of multiple files."
+      NULL
+    },
+
+    bulk_file_update = function(...) {
+      "Update details of multiple files."
+      NULL
+    },
+
+    bulk_file_edit = function(...) {
+      "Edit details of multiple files."
+      NULL
+    },
+
+    bulk_file_delete = function(...) {
+      "Delete multiple files."
+      NULL
+    },
+
+    bulk_task_get = function(...) {
+      "Get details of multiple tasks."
+      NULL
+    },
+
+    bulk_volume_import = function(...) {
+      "Bulk import from volumes."
+      NULL
+    },
+
+    bulk_volume_export = function(...) {
+      "Bulk export to volumes."
+      NULL
+    },
+
+    bulk_volume_get_import = function(...) {
+      "Get details of a bulk import job."
+      NULL
+    },
+
+    bulk_volume_get_export = function(...) {
+      "Get details of a bulk export job."
+      NULL
     },
 
     # show ---------------------------------------------------------------------

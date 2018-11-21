@@ -1496,7 +1496,7 @@ Alternatively, you copy a __single file__ as shown below.
 a$project("hello")$file(id = fid)$copyTo(pid)
 ```
 
-Notably, if you have a number of files to copy between projects, we would always recommend using the `Auth$bulk_copy_files()` method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.
+Notably, if you have a number of files to copy between projects, we would always recommend using the `Auth$bulk_file_copy()` method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -2591,7 +2591,7 @@ f <- p$file(complete = TRUE)
 # get all file IDs
 file_ids <- sapply(f, "[[", "id")
 # bulk copy files to the target project
-req <- a$bulk_copy_files(file_ids, "RFranklin/target-project")
+req <- a$bulk_file_copy(file_ids, "RFranklin/target-project")
 # print the response list
 (req <- unname(req))
 ```

@@ -58,7 +58,25 @@ The default value is \code{"default"}.}
 
 \item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
 
-\item{\code{bulk_copy_files(file_ids, project, ...)}}{Copy files between projects in a batch.}
+\item{\code{bulk_file_copy(file_ids, project, ...)}}{Copy files between projects in a batch.}
+
+\item{\code{bulk_file_delete(...)}}{Delete multiple files.}
+
+\item{\code{bulk_file_edit(...)}}{Edit details of multiple files.}
+
+\item{\code{bulk_file_get(...)}}{Get details of multiple files.}
+
+\item{\code{bulk_file_update(...)}}{Update details of multiple files.}
+
+\item{\code{bulk_task_get(...)}}{Get details of multiple tasks.}
+
+\item{\code{bulk_volume_export(...)}}{Bulk export to volumes.}
+
+\item{\code{bulk_volume_get_export(...)}}{Get details of a bulk export job.}
+
+\item{\code{bulk_volume_get_import(...)}}{Get details of a bulk import job.}
+
+\item{\code{bulk_volume_import(...)}}{Bulk import from volumes.}
 
 \item{\code{division(id = NULL, ...)}}{List all divisions or get details of a division.}
 
