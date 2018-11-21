@@ -105,7 +105,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2018-11-19</h4>
+            <h4 class="date">2018-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -759,7 +759,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</code></pre>
 ##           cat("\r", "completed")
 ##           return(TRUE)
 ##         }
-## &lt;environment: 0x7fe75dc708e0&gt;</code></pre>
+## &lt;environment: 0x7fa261ea46e0&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
@@ -2454,6 +2454,93 @@ name : Another Team Name</code></pre>
 </div>
 </div>
 </div>
+<div id="markers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#markers" class="anchor"></a>Markers</h2>
+<p>The Markers API allows you to add, get, modify, and delete genetic markers on BAM files. These genetic markers can be then examined in the <a href="https://docs.sevenbridges.com/v1.0/docs/seven-bridges-genome-browser">Seven Bridges Genome Browser</a>.</p>
+<p>As of November 2018, the Markers API is still an Advance Access feature. To use this API, set the <code>advance_access</code> option to <code>TRUE</code>:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1">opt &lt;-<span class="st"> </span><span class="kw">getOption</span>(<span class="st">"sevenbridges"</span>)</a>
+<a class="sourceLine" id="cb220-2" title="2">opt<span class="op">$</span>advance_access &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb220-3" title="3"><span class="kw">options</span>(<span class="dt">sevenbridges =</span> opt)</a></code></pre></div>
+<div id="create-a-marker" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-a-marker" class="anchor"></a>Create a marker</h3>
+<p>Let’s create a new marker on a BAM file first:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1"><span class="co"># locate the project</span></a>
+<a class="sourceLine" id="cb221-2" title="2">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-markers"</span>)</a>
+<a class="sourceLine" id="cb221-3" title="3"><span class="co"># search for files with `.bam` in their names</span></a>
+<a class="sourceLine" id="cb221-4" title="4">f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">name =</span> <span class="st">".bam"</span>)</a>
+<a class="sourceLine" id="cb221-5" title="5"><span class="co"># use the first BAM file</span></a>
+<a class="sourceLine" id="cb221-6" title="6">f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> f[[<span class="dv">1</span>]]<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb221-7" title="7"></a>
+<a class="sourceLine" id="cb221-8" title="8"><span class="co"># create two markers</span></a>
+<a class="sourceLine" id="cb221-9" title="9">m1 &lt;-<span class="st"> </span>f<span class="op">$</span><span class="kw">create_marker</span>(<span class="st">"The First Marker"</span>, <span class="dt">start =</span> <span class="dv">21631232</span>, <span class="dt">end =</span> <span class="dv">21631232</span>)</a>
+<a class="sourceLine" id="cb221-10" title="10">m2 &lt;-<span class="st"> </span>f<span class="op">$</span><span class="kw">create_marker</span>(<span class="st">"The Second Marker"</span>, <span class="dt">start =</span> <span class="dv">21631156</span>, <span class="dt">end =</span> <span class="dv">21631158</span>, <span class="dt">chromosome =</span> <span class="st">"chr7"</span>, <span class="dt">private =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>The possible parameters for creating the marker include</p>
+<ul>
+<li>The marker’s name (<code>name</code>)</li>
+<li>The marker’s position (<code>start</code> and <code>end</code>)</li>
+<li>Chromosome number (<code>chromosome</code>)</li>
+<li>Whether the marker is private or public (<code>private</code>).</li>
+</ul>
+<p>The marker’s name and its position are mandatory parameters, the others are optional.</p>
+</div>
+<div id="list-markers-available-on-a-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#list-markers-available-on-a-file" class="anchor"></a>List markers available on a file</h3>
+<p>To list all markers on a file, use:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1">f<span class="op">$</span><span class="kw">marker</span>()</a></code></pre></div>
+<pre><code>[[1]]
+== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : The First Marker
+[[2]]
+== Marker ==
+id : 5bf478e6d38f185f0c23bc45
+name : The Second Marker</code></pre>
+</div>
+<div id="get-details-for-a-marker" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-details-for-a-marker" class="anchor"></a>Get details for a marker</h3>
+<p>We can also check the details for a specific marker:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" title="1">marker_id &lt;-<span class="st"> </span>m1<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb224-2" title="2">f<span class="op">$</span><span class="kw">marker</span>(<span class="dt">id =</span> marker_id)</a></code></pre></div>
+<pre><code>== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : The First Marker
+file : 5bf46c1be4b39b8f5232282e
+position:
+  start : 21631232
+  end : 21631232
+created_time : 2018-11-20T21:13:00Z
+created_by : RFranklin
+private : TRUE</code></pre>
+</div>
+<div id="modify-a-marker" class="section level3">
+<h3 class="hasAnchor">
+<a href="#modify-a-marker" class="anchor"></a>Modify a marker</h3>
+<p>We can also modify the information of existing markers:</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" title="1">(m1 &lt;-<span class="st"> </span>m1<span class="op">$</span><span class="kw">modify</span>(<span class="dt">name =</span> <span class="st">"New Marker Name"</span>, <span class="dt">end =</span> <span class="dv">21631233</span>, <span class="dt">private =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<pre><code>== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : New Marker Name
+file : 5bf46c1be4b39b8f5232282e
+position:
+  start : 21631232
+  end : 21631233
+created_time : 2018-11-20T21:13:00Z
+created_by : RFranklin
+private : FALSE</code></pre>
+<p>All of the five marker parameters mentioned above can be modified.</p>
+</div>
+<div id="delete-a-marker" class="section level3">
+<h3 class="hasAnchor">
+<a href="#delete-a-marker" class="anchor"></a>Delete a marker</h3>
+<p>To delete the markers we just added, use</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" title="1">m1<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb228-2" title="2">m2<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a></code></pre></div>
+</div>
+</div>
 <div id="get-raw-response-from-httr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-raw-response-from-httr" class="anchor"></a>Get Raw Response from httr</h2>
@@ -2476,120 +2563,120 @@ name : Another Team Name</code></pre>
 <h1 class="hasAnchor">
 <a href="#api-cheatsheet" class="anchor"></a>API Cheatsheet</h1>
 <p>Quick API cheat sheet (work in progress):</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1"><span class="co"># 01 - Authentication ----------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-2" title="2"></a>
-<a class="sourceLine" id="cb220-3" title="3"><span class="kw">getToken</span>()</a>
-<a class="sourceLine" id="cb220-4" title="4"></a>
-<a class="sourceLine" id="cb220-5" title="5"><span class="co"># authentication methods</span></a>
-<a class="sourceLine" id="cb220-6" title="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
-<a class="sourceLine" id="cb220-7" title="7">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
-<a class="sourceLine" id="cb220-8" title="8">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
-<a class="sourceLine" id="cb220-9" title="9">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-user"</span>)</a>
-<a class="sourceLine" id="cb220-10" title="10"></a>
-<a class="sourceLine" id="cb220-11" title="11"><span class="co"># list all API calls</span></a>
-<a class="sourceLine" id="cb220-12" title="12">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
-<a class="sourceLine" id="cb220-13" title="13"></a>
-<a class="sourceLine" id="cb220-14" title="14"><span class="co"># API rate limit</span></a>
-<a class="sourceLine" id="cb220-15" title="15">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
-<a class="sourceLine" id="cb220-16" title="16"></a>
-<a class="sourceLine" id="cb220-17" title="17"><span class="co"># 02 - User -------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-18" title="18"></a>
-<a class="sourceLine" id="cb220-19" title="19">a<span class="op">$</span><span class="kw">user</span>()</a>
-<a class="sourceLine" id="cb220-20" title="20">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a>
-<a class="sourceLine" id="cb220-21" title="21"></a>
-<a class="sourceLine" id="cb220-22" title="22"><span class="co"># 03 - Billing -----------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-23" title="23"></a>
-<a class="sourceLine" id="cb220-24" title="24">a<span class="op">$</span><span class="kw">billing</span>()</a>
-<a class="sourceLine" id="cb220-25" title="25">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> ..., <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb220-26" title="26">a<span class="op">$</span><span class="kw">invoice</span>()</a>
-<a class="sourceLine" id="cb220-27" title="27">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a>
-<a class="sourceLine" id="cb220-28" title="28"></a>
-<a class="sourceLine" id="cb220-29" title="29"><span class="co"># 04 - Project -----------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-30" title="30"></a>
-<a class="sourceLine" id="cb220-31" title="31"><span class="co"># create new project</span></a>
-<a class="sourceLine" id="cb220-32" title="32">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> ..., <span class="dt">billing_group_id =</span> ..., <span class="dt">description =</span> ...)</a>
-<a class="sourceLine" id="cb220-33" title="33"></a>
-<a class="sourceLine" id="cb220-34" title="34"><span class="co"># list all project owned by you</span></a>
-<a class="sourceLine" id="cb220-35" title="35">a<span class="op">$</span><span class="kw">project</span>()</a>
-<a class="sourceLine" id="cb220-36" title="36">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
-<a class="sourceLine" id="cb220-37" title="37"></a>
-<a class="sourceLine" id="cb220-38" title="38"><span class="co"># partial match</span></a>
-<a class="sourceLine" id="cb220-39" title="39">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ..., <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb220-40" title="40"></a>
-<a class="sourceLine" id="cb220-41" title="41"><span class="co"># delete</span></a>
-<a class="sourceLine" id="cb220-42" title="42">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb220-43" title="43"></a>
-<a class="sourceLine" id="cb220-44" title="44"><span class="co"># update</span></a>
-<a class="sourceLine" id="cb220-45" title="45">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</a>
-<a class="sourceLine" id="cb220-46" title="46"></a>
-<a class="sourceLine" id="cb220-47" title="47"><span class="co"># members</span></a>
-<a class="sourceLine" id="cb220-48" title="48">p<span class="op">$</span><span class="kw">member</span>()</a>
-<a class="sourceLine" id="cb220-49" title="49">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</a>
-<a class="sourceLine" id="cb220-50" title="50">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</a>
-<a class="sourceLine" id="cb220-51" title="51">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb220-52" title="52"></a>
-<a class="sourceLine" id="cb220-53" title="53"><span class="co"># 05 - File --------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-54" title="54"></a>
-<a class="sourceLine" id="cb220-55" title="55"><span class="co"># list all files in this project</span></a>
-<a class="sourceLine" id="cb220-56" title="56">p<span class="op">$</span><span class="kw">file</span>()</a>
-<a class="sourceLine" id="cb220-57" title="57"></a>
-<a class="sourceLine" id="cb220-58" title="58"><span class="co"># list all public files</span></a>
-<a class="sourceLine" id="cb220-59" title="59">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
-<a class="sourceLine" id="cb220-60" title="60"></a>
-<a class="sourceLine" id="cb220-61" title="61"><span class="co"># copy</span></a>
-<a class="sourceLine" id="cb220-62" title="62">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
-<a class="sourceLine" id="cb220-63" title="63"></a>
-<a class="sourceLine" id="cb220-64" title="64"><span class="co"># delete</span></a>
-<a class="sourceLine" id="cb220-65" title="65">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
-<a class="sourceLine" id="cb220-66" title="66"></a>
-<a class="sourceLine" id="cb220-67" title="67"><span class="co"># download</span></a>
-<a class="sourceLine" id="cb220-68" title="68">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
-<a class="sourceLine" id="cb220-69" title="69">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
-<a class="sourceLine" id="cb220-70" title="70"></a>
-<a class="sourceLine" id="cb220-71" title="71"><span class="co"># download all</span></a>
-<a class="sourceLine" id="cb220-72" title="72"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
-<a class="sourceLine" id="cb220-73" title="73"></a>
-<a class="sourceLine" id="cb220-74" title="74"><span class="co"># update a file</span></a>
-<a class="sourceLine" id="cb220-75" title="75">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</a>
-<a class="sourceLine" id="cb220-76" title="76"></a>
-<a class="sourceLine" id="cb220-77" title="77"><span class="co"># metadata</span></a>
-<a class="sourceLine" id="cb220-78" title="78">fl<span class="op">$</span><span class="kw">meta</span>()</a>
-<a class="sourceLine" id="cb220-79" title="79">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
-<a class="sourceLine" id="cb220-80" title="80">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb220-81" title="81"></a>
-<a class="sourceLine" id="cb220-82" title="82"><span class="co"># 06 - App ---------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-83" title="83"></a>
-<a class="sourceLine" id="cb220-84" title="84">a<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb220-85" title="85"></a>
-<a class="sourceLine" id="cb220-86" title="86"><span class="co"># apps in a project</span></a>
-<a class="sourceLine" id="cb220-87" title="87">p<span class="op">$</span><span class="kw">app</span>()</a>
-<a class="sourceLine" id="cb220-88" title="88">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> ...)</a>
-<a class="sourceLine" id="cb220-89" title="89">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> ...)</a>
-<a class="sourceLine" id="cb220-90" title="90"></a>
-<a class="sourceLine" id="cb220-91" title="91"><span class="co"># add new app</span></a>
-<a class="sourceLine" id="cb220-92" title="92">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> ..., <span class="dt">filename =</span> ...)</a>
-<a class="sourceLine" id="cb220-93" title="93"></a>
-<a class="sourceLine" id="cb220-94" title="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb220-95" title="95"></a>
-<a class="sourceLine" id="cb220-96" title="96">a<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb220-97" title="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb220-98" title="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
-<a class="sourceLine" id="cb220-99" title="99"></a>
-<a class="sourceLine" id="cb220-100" title="100">p<span class="op">$</span><span class="kw">task</span>()</a>
-<a class="sourceLine" id="cb220-101" title="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb220-102" title="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
-<a class="sourceLine" id="cb220-103" title="103"></a>
-<a class="sourceLine" id="cb220-104" title="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
-<a class="sourceLine" id="cb220-105" title="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
-<a class="sourceLine" id="cb220-106" title="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
-<a class="sourceLine" id="cb220-107" title="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
-<a class="sourceLine" id="cb220-108" title="108">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
-<a class="sourceLine" id="cb220-109" title="109">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
-<a class="sourceLine" id="cb220-110" title="110">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
-<a class="sourceLine" id="cb220-111" title="111">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
-<a class="sourceLine" id="cb220-112" title="112"></a>
-<a class="sourceLine" id="cb220-113" title="113"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
-<a class="sourceLine" id="cb220-114" title="114"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> ..., <span class="dt">fun =</span> ...)</a></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" title="1"><span class="co"># 01 - Authentication ----------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-2" title="2"></a>
+<a class="sourceLine" id="cb229-3" title="3"><span class="kw">getToken</span>()</a>
+<a class="sourceLine" id="cb229-4" title="4"></a>
+<a class="sourceLine" id="cb229-5" title="5"><span class="co"># authentication methods</span></a>
+<a class="sourceLine" id="cb229-6" title="6">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token)</a>
+<a class="sourceLine" id="cb229-7" title="7">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> token, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</a>
+<a class="sourceLine" id="cb229-8" title="8">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a>
+<a class="sourceLine" id="cb229-9" title="9">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-user"</span>)</a>
+<a class="sourceLine" id="cb229-10" title="10"></a>
+<a class="sourceLine" id="cb229-11" title="11"><span class="co"># list all API calls</span></a>
+<a class="sourceLine" id="cb229-12" title="12">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a>
+<a class="sourceLine" id="cb229-13" title="13"></a>
+<a class="sourceLine" id="cb229-14" title="14"><span class="co"># API rate limit</span></a>
+<a class="sourceLine" id="cb229-15" title="15">a<span class="op">$</span><span class="kw">rate_limit</span>()</a>
+<a class="sourceLine" id="cb229-16" title="16"></a>
+<a class="sourceLine" id="cb229-17" title="17"><span class="co"># 02 - User -------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-18" title="18"></a>
+<a class="sourceLine" id="cb229-19" title="19">a<span class="op">$</span><span class="kw">user</span>()</a>
+<a class="sourceLine" id="cb229-20" title="20">a<span class="op">$</span><span class="kw">user</span>(<span class="st">"RFranklin"</span>)</a>
+<a class="sourceLine" id="cb229-21" title="21"></a>
+<a class="sourceLine" id="cb229-22" title="22"><span class="co"># 03 - Billing -----------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-23" title="23"></a>
+<a class="sourceLine" id="cb229-24" title="24">a<span class="op">$</span><span class="kw">billing</span>()</a>
+<a class="sourceLine" id="cb229-25" title="25">a<span class="op">$</span><span class="kw">billing</span>(<span class="dt">id =</span> ..., <span class="dt">breakdown =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb229-26" title="26">a<span class="op">$</span><span class="kw">invoice</span>()</a>
+<a class="sourceLine" id="cb229-27" title="27">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a>
+<a class="sourceLine" id="cb229-28" title="28"></a>
+<a class="sourceLine" id="cb229-29" title="29"><span class="co"># 04 - Project -----------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-30" title="30"></a>
+<a class="sourceLine" id="cb229-31" title="31"><span class="co"># create new project</span></a>
+<a class="sourceLine" id="cb229-32" title="32">a<span class="op">$</span><span class="kw">project_new</span>(<span class="dt">name =</span> ..., <span class="dt">billing_group_id =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb229-33" title="33"></a>
+<a class="sourceLine" id="cb229-34" title="34"><span class="co"># list all project owned by you</span></a>
+<a class="sourceLine" id="cb229-35" title="35">a<span class="op">$</span><span class="kw">project</span>()</a>
+<a class="sourceLine" id="cb229-36" title="36">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a>
+<a class="sourceLine" id="cb229-37" title="37"></a>
+<a class="sourceLine" id="cb229-38" title="38"><span class="co"># partial match</span></a>
+<a class="sourceLine" id="cb229-39" title="39">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">name =</span> ..., <span class="dt">id =</span> ..., <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb229-40" title="40"></a>
+<a class="sourceLine" id="cb229-41" title="41"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb229-42" title="42">p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb229-43" title="43"></a>
+<a class="sourceLine" id="cb229-44" title="44"><span class="co"># update</span></a>
+<a class="sourceLine" id="cb229-45" title="45">p<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</a>
+<a class="sourceLine" id="cb229-46" title="46"></a>
+<a class="sourceLine" id="cb229-47" title="47"><span class="co"># members</span></a>
+<a class="sourceLine" id="cb229-48" title="48">p<span class="op">$</span><span class="kw">member</span>()</a>
+<a class="sourceLine" id="cb229-49" title="49">p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</a>
+<a class="sourceLine" id="cb229-50" title="50">p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw">update</span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</a>
+<a class="sourceLine" id="cb229-51" title="51">p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb229-52" title="52"></a>
+<a class="sourceLine" id="cb229-53" title="53"><span class="co"># 05 - File --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-54" title="54"></a>
+<a class="sourceLine" id="cb229-55" title="55"><span class="co"># list all files in this project</span></a>
+<a class="sourceLine" id="cb229-56" title="56">p<span class="op">$</span><span class="kw">file</span>()</a>
+<a class="sourceLine" id="cb229-57" title="57"></a>
+<a class="sourceLine" id="cb229-58" title="58"><span class="co"># list all public files</span></a>
+<a class="sourceLine" id="cb229-59" title="59">a<span class="op">$</span><span class="kw">file</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</a>
+<a class="sourceLine" id="cb229-60" title="60"></a>
+<a class="sourceLine" id="cb229-61" title="61"><span class="co"># copy</span></a>
+<a class="sourceLine" id="cb229-62" title="62">a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw">c</span>(fid, fid2), <span class="dt">project =</span> pid)</a>
+<a class="sourceLine" id="cb229-63" title="63"></a>
+<a class="sourceLine" id="cb229-64" title="64"><span class="co"># delete</span></a>
+<a class="sourceLine" id="cb229-65" title="65">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
+<a class="sourceLine" id="cb229-66" title="66"></a>
+<a class="sourceLine" id="cb229-67" title="67"><span class="co"># download</span></a>
+<a class="sourceLine" id="cb229-68" title="68">p<span class="op">$</span><span class="kw">file</span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</a>
+<a class="sourceLine" id="cb229-69" title="69">p<span class="op">$</span><span class="kw">file</span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</a>
+<a class="sourceLine" id="cb229-70" title="70"></a>
+<a class="sourceLine" id="cb229-71" title="71"><span class="co"># download all</span></a>
+<a class="sourceLine" id="cb229-72" title="72"><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw">file</span>())</a>
+<a class="sourceLine" id="cb229-73" title="73"></a>
+<a class="sourceLine" id="cb229-74" title="74"><span class="co"># update a file</span></a>
+<a class="sourceLine" id="cb229-75" title="75">fl<span class="op">$</span><span class="kw">update</span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw">list</span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</a>
+<a class="sourceLine" id="cb229-76" title="76"></a>
+<a class="sourceLine" id="cb229-77" title="77"><span class="co"># metadata</span></a>
+<a class="sourceLine" id="cb229-78" title="78">fl<span class="op">$</span><span class="kw">meta</span>()</a>
+<a class="sourceLine" id="cb229-79" title="79">fl<span class="op">$</span><span class="kw">setMeta</span>()</a>
+<a class="sourceLine" id="cb229-80" title="80">fl<span class="op">$</span><span class="kw">setMeta</span>(..., <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb229-81" title="81"></a>
+<a class="sourceLine" id="cb229-82" title="82"><span class="co"># 06 - App ---------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-83" title="83"></a>
+<a class="sourceLine" id="cb229-84" title="84">a<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb229-85" title="85"></a>
+<a class="sourceLine" id="cb229-86" title="86"><span class="co"># apps in a project</span></a>
+<a class="sourceLine" id="cb229-87" title="87">p<span class="op">$</span><span class="kw">app</span>()</a>
+<a class="sourceLine" id="cb229-88" title="88">p<span class="op">$</span><span class="kw">app</span>(name, id, <span class="dt">revision =</span> ...)</a>
+<a class="sourceLine" id="cb229-89" title="89">a<span class="op">$</span><span class="kw">copy_app</span>(aid, <span class="dt">project =</span> pid, <span class="dt">name =</span> ...)</a>
+<a class="sourceLine" id="cb229-90" title="90"></a>
+<a class="sourceLine" id="cb229-91" title="91"><span class="co"># add new app</span></a>
+<a class="sourceLine" id="cb229-92" title="92">p<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> ..., <span class="dt">filename =</span> ...)</a>
+<a class="sourceLine" id="cb229-93" title="93"></a>
+<a class="sourceLine" id="cb229-94" title="94"><span class="co"># 07 - Task --------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb229-95" title="95"></a>
+<a class="sourceLine" id="cb229-96" title="96">a<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb229-97" title="97">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb229-98" title="98">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb229-99" title="99"></a>
+<a class="sourceLine" id="cb229-100" title="100">p<span class="op">$</span><span class="kw">task</span>()</a>
+<a class="sourceLine" id="cb229-101" title="101">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb229-102" title="102">p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</a>
+<a class="sourceLine" id="cb229-103" title="103"></a>
+<a class="sourceLine" id="cb229-104" title="104">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</a>
+<a class="sourceLine" id="cb229-105" title="105">tsk<span class="op">$</span><span class="kw">update</span>()</a>
+<a class="sourceLine" id="cb229-106" title="106">tsk<span class="op">$</span><span class="kw">abort</span>()</a>
+<a class="sourceLine" id="cb229-107" title="107">tsk<span class="op">$</span><span class="kw">run</span>()</a>
+<a class="sourceLine" id="cb229-108" title="108">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</a>
+<a class="sourceLine" id="cb229-109" title="109">tsk<span class="op">$</span><span class="kw">detele</span>()</a>
+<a class="sourceLine" id="cb229-110" title="110">tsk<span class="op">$</span><span class="kw">getInputs</span>()</a>
+<a class="sourceLine" id="cb229-111" title="111">tsk<span class="op">$</span><span class="kw">monitor</span>()</a>
+<a class="sourceLine" id="cb229-112" title="112"></a>
+<a class="sourceLine" id="cb229-113" title="113"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>()</a>
+<a class="sourceLine" id="cb229-114" title="114"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="dt">status =</span> ..., <span class="dt">fun =</span> ...)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2643,6 +2730,7 @@ name : Another Team Name</code></pre>
       <li><a href="#public-files-and-apps">Public Files and Apps</a></li>
       <li><a href="#actions">Actions</a></li>
       <li><a href="#enterprise">Enterprise</a></li>
+      <li><a href="#markers">Markers</a></li>
       <li><a href="#get-raw-response-from-httr">Get Raw Response from httr</a></li>
       <li><a href="#batch-operation-on-projectfilestasks">Batch Operation on Project/Files/Tasks</a></li>
       </ul>
