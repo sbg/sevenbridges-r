@@ -1,3 +1,4 @@
+# Volume class -----------------------------------------------------------------
 Volume <- setRefClass(
   "Volume",
   contains = "Item",
@@ -15,6 +16,8 @@ Volume <- setRefClass(
   ), # add on
 
   methods = list(
+
+    # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, description = NULL,
                               created_on = NULL, modified_on = NULL,
                               active = NULL, service = NULL, ...) {
@@ -29,6 +32,7 @@ Volume <- setRefClass(
       callSuper(...)
     },
 
+    # update a volume ----------------------------------------------------------
     update = function(description = NULL, service = NULL, ...) {
       body <- list(description = description, service = service)
       res <- auth$api(
@@ -46,11 +50,13 @@ Volume <- setRefClass(
       .asVolume(res)
     },
 
+    # get details of a volume --------------------------------------------------
     detail = function(...) {
       res <- auth$api(path = paste0("storage/volumes/", id), ...)
       .asVolume(res)
     },
 
+    # delete a volume ----------------------------------------------------------
     delete = function() {
       auth$api(
         path = paste0("storage/volumes/", id),
@@ -58,7 +64,9 @@ Volume <- setRefClass(
       )
     },
 
-    import = function(location = NULL, project = NULL, name = NULL, overwrite = FALSE, ...) {
+    # start an import job ------------------------------------------------------
+    import = function(location = NULL, project = NULL, name = NULL,
+                      overwrite = FALSE, ...) {
       body <- list(
         "source" = list(
           "volume" = id,
@@ -82,7 +90,9 @@ Volume <- setRefClass(
       res
     },
 
-    export = function(file = NULL, volume = NULL, location = NULL, sse_algorithm = "AES256", ...) {
+    # start an export job ------------------------------------------------------
+    export = function(file = NULL, volume = NULL, location = NULL,
+                      sse_algorithm = "AES256", ...) {
       body <- list(
         "source" = list(
           "file" = file
@@ -105,6 +115,7 @@ Volume <- setRefClass(
       res
     },
 
+    # list import jobs or get details of an import job -------------------------
     get_import_job = function(job_id = NULL) {
       if (is.null(job_id)) {
         message("no job_id provided, show existing ones")
@@ -133,6 +144,7 @@ Volume <- setRefClass(
       res
     },
 
+    # list export jobs or get details of an export job -------------------------
     get_export_job = function(job_id = NULL) {
       if (is.null(job_id)) {
         message("no job_id provided, show existing ones")
@@ -160,6 +172,7 @@ Volume <- setRefClass(
       res
     },
 
+    # show ---------------------------------------------------------------------
     show = function() {
       .showFields(
         .self, "== Volume ==",
@@ -174,15 +187,7 @@ Volume <- setRefClass(
   )
 )
 
-VolumeList <- setListClass("Volume", contains = "Item0")
-
-.asVolumeList <- function(x) {
-  obj <- VolumeList(lapply(x$items, .asVolume))
-  obj@href <- x$href
-  obj@response <- response(x)
-  obj
-}
-
+# .asVolume --------------------------------------------------------------------
 .asVolume <- function(x) {
   Volume(
     id = x$id,
@@ -193,4 +198,15 @@ VolumeList <- setListClass("Volume", contains = "Item0")
     active = x$active,
     service = x$service
   )
+}
+
+# VolumeList class -------------------------------------------------------------
+VolumeList <- setListClass("Volume", contains = "Item0")
+
+# .asVolumeList ----------------------------------------------------------------
+.asVolumeList <- function(x) {
+  obj <- VolumeList(lapply(x$items, .asVolume))
+  obj@href <- x$href
+  obj@response <- response(x)
+  obj
 }
