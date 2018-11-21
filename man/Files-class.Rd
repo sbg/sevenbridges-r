@@ -67,7 +67,8 @@ it usually return the project id and stored with the object.}
 
 \item{\code{create_folder(name, ...)}}{Create a new folder under the parent folder.}
 
-\item{\code{create_marker()}}{Create a marker.}
+\item{\code{create_marker(name = NULL, start = NULL, end = NULL, chromosome = NULL,
+  private = TRUE, ...)}}{Create a marker.}
 
 \item{\code{download(destfile, ..., method = "curl")}}{see `help(download.file)` for more options}
 
@@ -77,7 +78,7 @@ it usually return the project id and stored with the object.}
 
 \item{\code{list_folder_contents(type = c("file", "folder"), ...)}}{List folder contents (return files, folders, or both).}
 
-\item{\code{marker()}}{List markers available on a file or get details for a marker.}
+\item{\code{marker(id = NULL, ...)}}{List markers available on a file or get details for a marker.}
 
 \item{\code{meta()}}{get metadata from a file}
 

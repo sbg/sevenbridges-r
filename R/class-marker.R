@@ -34,15 +34,39 @@ Marker <- setRefClass(
     },
 
     # modify a marker ----------------------------------------------------------
-    modify = function() {
+    modify = function(name = NULL, start = NULL, end = NULL,
+                          chromosome = NULL, private = NULL, ...) {
       "Modify a marker."
-      NULL
+      name_new <- if (is.null(name)) .self$name else name
+      start_new <- if (is.null(start)) .self$position$start else start
+      end_new <- if (is.null(end)) .self$position$end else end
+      chromosome_new <- if (is.null(chromosome)) .self$chromosome else chromosome
+      private_new <- if (is.null(private)) .self$private else private
+
+      req <- auth$api(
+        path = paste0("genome/markers/", .self$id),
+        body = list(
+          "name" = name_new,
+          "position" = list("start" = start_new, "end" = end_new),
+          "chromosome" = chromosome_new,
+          "private" = private_new
+        ),
+        method = "PATCH", ...
+      )
+
+      res <- .asMarker(req)
+      res$auth <- .self$auth
+
+      res
     },
 
     # delete a marker ----------------------------------------------------------
-    delete = function() {
+    delete = function(...) {
       "Delete a marker."
-      NULL
+      auth$api(
+        path = paste0("genome/markers/", .self$id),
+        method = "DELETE", ...
+      )
     },
 
     # show ---------------------------------------------------------------------

@@ -2829,6 +2829,117 @@ team2$delete()
 
 <div align="right"><a href="#top">top</a></div>
 
+## Markers
+
+The Markers API allows you to add, get, modify, and delete genetic markers on BAM files. These genetic markers can be then examined in the [Seven Bridges Genome Browser](https://docs.sevenbridges.com/v1.0/docs/seven-bridges-genome-browser).
+
+As of November 2018, the Markers API is still an Advance Access feature. To use this API, set the `advance_access` option to `TRUE`:
+
+```{r}
+opt <- getOption("sevenbridges")
+opt$advance_access <- TRUE
+options(sevenbridges = opt)
+```
+
+### Create a marker
+
+Let's create a new marker on a BAM file first:
+
+```{r}
+# locate the project
+p <- a$project(id = "RFranklin/api-markers")
+# search for files with `.bam` in their names
+f <- p$file(name = ".bam")
+# use the first BAM file
+f <- p$file(id = f[[1]]$id)
+
+# create two markers
+m1 <- f$create_marker("The First Marker", start = 21631232, end = 21631232)
+m2 <- f$create_marker("The Second Marker", start = 21631156, end = 21631158, chromosome = "chr7", private = FALSE)
+```
+
+The possible parameters for creating the marker include
+
+- The marker's name (`name`)
+- The marker's position (`start` and `end`)
+- Chromosome number (`chromosome`)
+- Whether the marker is private or public (`private`).
+
+The marker's name and its position are mandatory parameters, the others are optional.
+
+### List markers available on a file
+
+To list all markers on a file, use:
+
+```{r}
+f$marker()
+```
+
+```
+[[1]]
+== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : The First Marker
+[[2]]
+== Marker ==
+id : 5bf478e6d38f185f0c23bc45
+name : The Second Marker
+```
+
+### Get details for a marker
+
+We can also check the details for a specific marker:
+
+```{r}
+marker_id <- m1$id
+f$marker(id = marker_id)
+```
+
+```
+== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : The First Marker
+file : 5bf46c1be4b39b8f5232282e
+position:
+  start : 21631232
+  end : 21631232
+created_time : 2018-11-20T21:13:00Z
+created_by : RFranklin
+private : TRUE
+```
+
+### Modify a marker
+
+We can also modify the information of existing markers:
+
+```{r}
+(m1 <- m1$modify(name = "New Marker Name", end = 21631233, private = FALSE))
+```
+
+```
+== Marker ==
+id : 5bf478e5d38f185f0c23bc44
+name : New Marker Name
+file : 5bf46c1be4b39b8f5232282e
+position:
+  start : 21631232
+  end : 21631233
+created_time : 2018-11-20T21:13:00Z
+created_by : RFranklin
+private : FALSE
+```
+
+All of the five marker parameters mentioned above can be modified.
+
+### Delete a marker
+
+To delete the markers we just added, use
+
+```{r}
+m1$delete()
+m2$delete()
+```
+
 ## Get Raw Response from httr
 
 In the easy API, we return an object which contains the raw response from `httr` as a field. You can either call `response()` on that object or just use the field as is.

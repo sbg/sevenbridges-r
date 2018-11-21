@@ -380,14 +380,62 @@ Files <- setRefClass(
     },
 
     # markers ------------------------------------------------------------------
-    marker = function() {
+    marker = function(id = NULL, ...) {
       "List markers available on a file or get details for a marker."
-      NULL
+      if (is.null(id)) {
+        req <- auth$api(
+          path = paste0("genome/markers?file=", .self$id),
+          method = "GET", ...
+        )
+      } else {
+        req <- auth$api(
+          path = paste0("genome/markers/", id),
+          method = "GET", ...
+        )
+      }
+
+      # no markers
+      if ((length(req$items) == 0L) & is.null(req$id)) {
+        return(NULL)
+      }
+
+      # one marker
+      if (length(req$items) != 0L | !is.null(req$id)) {
+        res <- .asMarker(req)
+        res$auth <- .self$auth
+      }
+
+      # multiple markers
+      if (length(req$items) != 0L & is.null(req$id)) {
+        res <- .asMarkerList(req)
+        setAuth(res, .self$auth, "Marker")
+      }
+
+      res
     },
 
-    create_marker = function() {
+    create_marker = function(name = NULL, start = NULL, end = NULL,
+                                 chromosome = NULL, private = TRUE, ...) {
       "Create a marker."
-      NULL
+      if (is.null(name) | is.null(start) | is.null(end)) {
+        stop("Please provide the marker name and position (start and end)")
+      }
+
+      req <- auth$api(
+        path = "genome/markers", method = "POST",
+        body = list(
+          "file" = .self$id,
+          "name" = name,
+          "position" = list("start" = start, "end" = end),
+          "chromosome" = chromosome,
+          "private" = private
+        ), ...
+      )
+
+      res <- .asMarker(req)
+      res$auth <- .self$auth
+
+      res
     },
 
     # show ---------------------------------------------------------------------
