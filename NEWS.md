@@ -2,6 +2,7 @@
 
 ## New Features
 
+- Added support for Markers API (Advance Access feature). See the [Markers API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#markers) for details.
 - Added support for Actions API. See the [Actions API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#actions) for details.
 
 # sevenbridges 1.13.3
