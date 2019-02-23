@@ -1,4 +1,15 @@
-/* custom css style for the docs site */
+/* custom css style for Seven Bridges maintained R packages docs site */
+
+/* resets */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #2c3e50;
+}
+
+/* links */
 
 a {
     color: #0c5099;
@@ -8,13 +19,15 @@ a:hover, a:focus {
     color: #051f3a;
 }
 
-pre {
-    background-color: #F8F8F8;
-}
+/* navbar */
 
 .navbar-default {
-    background-color: #14304d;
-    border-color: #051e32;
+    background-color: #083050;
+    border-color: #083050;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #ffffff;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
@@ -28,7 +41,7 @@ pre {
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
     background-color: #2c455f;
-    color: #ffffff;
+    color: #cdd7df;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu>.active>a, .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
@@ -36,6 +49,50 @@ pre {
     background-color: #2c455f;
 }
 
-.navbar-default .navbar-link:hover {
+.navbar-default .navbar-link {
     color: #ffffff;
+}
+
+.navbar-default .navbar-link:hover {
+    color: #cdd7df;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+
+.dropdown-menu>li>a {
+    color: #7b8a8b;
+}
+
+/* version label */
+
+.label-default {
+    background-color: #95a5a6;
+}
+
+/* pills */
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    background-color: #0c5099;
+}
+
+/* code */
+
+pre {
+    background-color: #f8f8f8;
+}
+
+/* buttons */
+
+.btn-primary {
+    color: #ffffff;
+    background-color: #0c5099;
+    border-color: #0c5099;
+}
+
+.btn-primary:hover {
+    color: #ffffff;
+    background-color: #051f3a;
+    border-color: #051f3a;
 }
