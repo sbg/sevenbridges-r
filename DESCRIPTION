@@ -7,7 +7,7 @@ Authors@R: c(
     person("Nan", "Xiao", email = "nan.xiao@sevenbridges.com", role = c("aut", "cre")),
     person("Tengfei", "Yin", email = "tengfei.yin@sevenbridges.com", role = c("aut")),
     person("Emile", "Young", role = c("ctb")),
-    person("Dusan", "Randjelovic", role = "aut"),
+    person("Dusan", "Randjelovic", role = "ctb"),
     person("Seven Bridges Genomics", role = c("cph", "fnd"))
     )
 Maintainer: Nan Xiao <nan.xiao@sevenbridges.com>
