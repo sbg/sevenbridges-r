@@ -651,38 +651,40 @@ Running tasks with [spot instances](https://docs.sevenbridges.com/docs/about-spo
 could potentially [reduce a considerable amount of computational cost](https://www.sevenbridges.com/spot-instances-cost-reduction/).
 This option can be controlled on the project level or the task level on Seven Bridges platforms.
 Our package follows the same [logic](https://docs.sevenbridges.com/docs/use-spot-instances)
-as our platform's web interface.
+as our platform's web interface (the current default setting for spot instances is **on**).
 
 For example, when we create a project using `project_new()`,
-we can set `use_interruptible = TRUE` (it is `FALSE` by default):
+we can set `use_interruptible = FALSE` to use on-demand instances
+(non-interruptible but more expensive) instead of the spot instances
+(interruptible but cheaper):
 
 ```{r}
 p <- a$project_new(
-  name = "spot-enabled-project", bid, description = "spot enabled project",
-  use_interruptible = TRUE
+  name = "spot-disabled-project", bid, description = "spot disabled project",
+  use_interruptible = FALSE
 )
 ```
 
-Then all the new tasks created under this project will use spot instances to run
-**by default**, unless an argument `use_interruptible_instances` is specifically
-set to `FALSE` when drafting the new task using `task_add()`.
+Then all the new tasks created under this project will use on-demand instances
+to run **by default**, unless an argument `use_interruptible_instances`
+is specifically set to `TRUE` when drafting the new task using `task_add()`.
 
-For example, if `p` is the above spot enable project, to draft
-a task that will **not** use spot instances to run:
+For example, if `p` is the above spot disabled project, to draft
+a task that will use spot instances to run:
 
 ```{r}
 tsk <- p$task_add(
-  name = paste0("spot disabled task in a spot enabled project"),
-  description = "spot disabled task",
+  name = paste0("spot enabled task in a spot disabled project"),
+  description = "spot enabled task",
   app = ...,
   inputs = list(...),
-  use_interruptible_instances = FALSE
+  use_interruptible_instances = TRUE
 )
 ```
 
-Conversely, you can have a spot instance option disabled project,
-but draft and run specific tasks using the spot instances,
-by setting `use_interruptible_instances = TRUE` in `task_add()` explicitly.
+Conversely, you can have a spot instance option enabled project,
+but draft and run specific tasks using on-demand instances,
+by setting `use_interruptible_instances = FALSE` in `task_add()` explicitly.
 
 ## Execution hints per task run
 
