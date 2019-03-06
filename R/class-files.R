@@ -3,7 +3,7 @@
   "id", "name", "size", "project",
   "created_on", "modified_on", "storage",
   "origin", "tags", "metadata", "url",
-  "parent", "type"
+  "parent", "type", "description"
 )
 
 #' Class Files
@@ -29,6 +29,7 @@
 #' @field url file download url
 #' @field parent parent folder ID
 #' @field type \code{"FILE"} or \code{"FOLDER"}
+#' @field description file description
 #'
 #' @note In the sevenbridges package version <= 1.5.4, the \code{Files} class
 #' inherited from the \code{File} class defined in CWL. To avoid confusion,
@@ -57,7 +58,8 @@ Files <- setRefClass(
     metadata = "listORNULL",
     url = "characterORNULL",
     parent = "characterORNULL",
-    type = "characterORNULL"
+    type = "characterORNULL",
+    description = "characterORNULL"
   ),
 
   methods = list(
@@ -67,7 +69,8 @@ Files <- setRefClass(
                               created_on = NULL, modified_on = NULL,
                               storage = list(), origin = list(), tags = list(),
                               metadata = list(), url = NULL,
-                              parent = NULL, type = NULL, ...) {
+                              parent = NULL, type = NULL,
+                              description = NULL, ...) {
       id <<- id
       name <<- name
       size <<- size
@@ -81,6 +84,7 @@ Files <- setRefClass(
       url <<- url
       parent <<- parent
       type <<- type
+      description <<- description
 
       callSuper(...)
     },
@@ -459,6 +463,7 @@ Files <- setRefClass(
     url = x$url,
     parent = x$parent,
     type = x$type,
+    description = x$description,
     response = response(x)
   )
 }
