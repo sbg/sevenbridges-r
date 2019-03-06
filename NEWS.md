@@ -5,6 +5,11 @@
 - Added support for Markers API (Advance Access feature). See the [Markers API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#markers) for details.
 - Added support for Actions API. See the [Actions API section in the vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#actions) for details.
 
+## Improvements
+
+- Added a new field `description` to the `Files` class following the recent API improvements.
+- Updated the API [vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#run-tasks-using-spot-instances) to reflect the platform default setting update for spot instances (spot is now enabled by default).
+
 # sevenbridges 1.13.3
 
 ## New Features
