@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.13.4</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2019-02-22</h4>
+            <h4 class="date">2019-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -713,22 +713,22 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div id="run-tasks-using-spot-instances" class="section level2">
 <h2 class="hasAnchor">
 <a href="#run-tasks-using-spot-instances" class="anchor"></a>Run tasks using spot instances</h2>
-<p>Running tasks with <a href="https://docs.sevenbridges.com/docs/about-spot-instances">spot instances</a> could potentially <a href="https://www.sevenbridges.com/spot-instances-cost-reduction/">reduce a considerable amount of computational cost</a>. This option can be controlled on the project level or the task level on Seven Bridges platforms. Our package follows the same <a href="https://docs.sevenbridges.com/docs/use-spot-instances">logic</a> as our platform’s web interface.</p>
-<p>For example, when we create a project using <code>project_new()</code>, we can set <code>use_interruptible = TRUE</code> (it is <code>FALSE</code> by default):</p>
+<p>Running tasks with <a href="https://docs.sevenbridges.com/docs/about-spot-instances">spot instances</a> could potentially <a href="https://www.sevenbridges.com/spot-instances-cost-reduction/">reduce a considerable amount of computational cost</a>. This option can be controlled on the project level or the task level on Seven Bridges platforms. Our package follows the same <a href="https://docs.sevenbridges.com/docs/use-spot-instances">logic</a> as our platform’s web interface (the current default setting for spot instances is <strong>on</strong>).</p>
+<p>For example, when we create a project using <code>project_new()</code>, we can set <code>use_interruptible = FALSE</code> to use on-demand instances (non-interruptible but more expensive) instead of the spot instances (interruptible but cheaper):</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project_new</span>(</a>
-<a class="sourceLine" id="cb51-2" title="2">  <span class="dt">name =</span> <span class="st">"spot-enabled-project"</span>, bid, <span class="dt">description =</span> <span class="st">"spot enabled project"</span>,</a>
-<a class="sourceLine" id="cb51-3" title="3">  <span class="dt">use_interruptible =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb51-2" title="2">  <span class="dt">name =</span> <span class="st">"spot-disabled-project"</span>, bid, <span class="dt">description =</span> <span class="st">"spot disabled project"</span>,</a>
+<a class="sourceLine" id="cb51-3" title="3">  <span class="dt">use_interruptible =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb51-4" title="4">)</a></code></pre></div>
-<p>Then all the new tasks created under this project will use spot instances to run <strong>by default</strong>, unless an argument <code>use_interruptible_instances</code> is specifically set to <code>FALSE</code> when drafting the new task using <code>task_add()</code>.</p>
-<p>For example, if <code>p</code> is the above spot enable project, to draft a task that will <strong>not</strong> use spot instances to run:</p>
+<p>Then all the new tasks created under this project will use on-demand instances to run <strong>by default</strong>, unless an argument <code>use_interruptible_instances</code> is specifically set to <code>TRUE</code> when drafting the new task using <code>task_add()</code>.</p>
+<p>For example, if <code>p</code> is the above spot disabled project, to draft a task that will use spot instances to run:</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
-<a class="sourceLine" id="cb52-2" title="2">  <span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"spot disabled task in a spot enabled project"</span>),</a>
-<a class="sourceLine" id="cb52-3" title="3">  <span class="dt">description =</span> <span class="st">"spot disabled task"</span>,</a>
+<a class="sourceLine" id="cb52-2" title="2">  <span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"spot enabled task in a spot disabled project"</span>),</a>
+<a class="sourceLine" id="cb52-3" title="3">  <span class="dt">description =</span> <span class="st">"spot enabled task"</span>,</a>
 <a class="sourceLine" id="cb52-4" title="4">  <span class="dt">app =</span> ...,</a>
 <a class="sourceLine" id="cb52-5" title="5">  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(...),</a>
-<a class="sourceLine" id="cb52-6" title="6">  <span class="dt">use_interruptible_instances =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb52-6" title="6">  <span class="dt">use_interruptible_instances =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb52-7" title="7">)</a></code></pre></div>
-<p>Conversely, you can have a spot instance option disabled project, but draft and run specific tasks using the spot instances, by setting <code>use_interruptible_instances = TRUE</code> in <code>task_add()</code> explicitly.</p>
+<p>Conversely, you can have a spot instance option enabled project, but draft and run specific tasks using on-demand instances, by setting <code>use_interruptible_instances = FALSE</code> in <code>task_add()</code> explicitly.</p>
 </div>
 <div id="execution-hints-per-task-run" class="section level2">
 <h2 class="hasAnchor">
@@ -756,12 +756,11 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a></code></pre></div>
-<pre><code>## function (...) 
-## {
-##     cat("\r", "completed")
-##     return(TRUE)
-## }
-## &lt;environment: 0x7fce20af1bc8&gt;</code></pre>
+<pre><code>## function(...) {
+##           cat("\r", "completed")
+##           return(TRUE)
+##         }
+## &lt;environment: 0x7fc0c11b43f0&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
