@@ -106,7 +106,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2019-03-06</h4>
+            <h4 class="date">2019-03-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -756,11 +756,12 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a></code></pre></div>
-<pre><code>## function(...) {
-##           cat("\r", "completed")
-##           return(TRUE)
-##         }
-## &lt;environment: 0x7fc0c11b43f0&gt;</code></pre>
+<pre><code>## function (...) 
+## {
+##     cat("\r", "completed")
+##     return(TRUE)
+## }
+## &lt;environment: 0x7ff6723f8638&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>

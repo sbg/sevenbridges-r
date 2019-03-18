@@ -1,7 +1,7 @@
 # sevenbridges-r  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/sevenbridges-r)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/nanxstats/sevenbridges-r)
 [![BioC](https://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg)](https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since)
 [![Downloads](https://www.bioconductor.org/shields/downloads/sevenbridges.svg)](https://bioconductor.org/packages/stats/bioc/sevenbridges/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sevenbridges/sevenbridges-r.svg)](https://hub.docker.com/r/sevenbridges/sevenbridges-r/)
@@ -314,7 +314,7 @@ _Note_: Generic Shiny apps can also be hosted at `http://<url>:3838/` or, for a 
 The best place to ask questions about the `sevenbridges` package is the [mailing list](https://groups.google.com/forum/#!forum/sevenbridges-r).
 
 - __Q__: Does this package support Seven Bridges' API v1 which was not CWL compatible?<br />
-  __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/road2stat/sbgr) package. Note that API v1 and associated legacy project types will be deprecated eventually.
+  __A__: No. This package only supports API v2 +. For API v1, please check out the [sbgr](https://github.com/nanxstats/sbgr) package. Note that API v1 and associated legacy project types will be deprecated eventually.
 
 - __Q__: Which version of the Common Workflow Language (CWL) is supported?<br />
   __A__: We support draft 2 and are making progress on supporting draft 3.
