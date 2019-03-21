@@ -10,7 +10,7 @@
 
 ## Overview
 
-sevenbridges-r is an [R](https://www.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sevenbridges.com/), the [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/), and [Cavatica](http://www.cavatica.org/) public APIs.
+sevenbridges-r is an [R](https://www.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sevenbridges.com/) (US, EU, China), [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/), [Cavatica](http://www.cavatica.org/), and [FAIR4CURES](https://f4c.sbgenomics.com) public APIs.
 
 The [Seven Bridges Platform](https://www.sevenbridges.com/) is a cloud-based environment for conducting bioinformatics analysis. It is a central hub for teams to store, analyze, and jointly interpret their bioinformatic data. The Platform co-locates analysis pipelines alongside the largest genomic datasets to optimize processing, allocating storage, and compute resources on demand.
 
