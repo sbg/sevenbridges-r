@@ -1,3 +1,9 @@
+# sevenbridges 1.13.5
+
+## Improvements
+
+- Added new platform options for the recently introduced environments. Now we can choose from `"aws-us"`, `"aws-eu"`, `"ali-cn"`, `"cgc"`, `"cavatica"`, and `"f4c"` in `Auth()` calls.
+
 # sevenbridges 1.13.4
 
 ## New Features
