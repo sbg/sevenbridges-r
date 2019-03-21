@@ -170,11 +170,15 @@ could start from this object using cascading style. Please check
 <code>"env"</code> (read from pre-set system environment variables),
 or <code>"file"</code> (read configurations from a credentials file).
 Default is <code>"direct"</code>.</p></dd>
-    <dt><code>platform</code></dt><dd><p>[character] Which platform you want to use,
-if platform and url are both not specified, the default is
-<code>"cgc"</code> (Cancer Genomics Cloud). Possible values include
-<code>"cgc"</code>, <code>"aws-us"</code>, <code>"aws-eu"</code>, <code>"gcp"</code>,
-and <code>"cavatica"</code>.</p></dd>
+    <dt><code>platform</code></dt><dd><p>[character] The platform to use.
+If <code>platform</code> and <code>url</code> are both not specified,
+the default is <code>"cgc"</code> (Cancer Genomics Cloud).
+Other possible values include
+<code>"aws-us"</code> (Seven Bridges Platform - US),
+<code>"aws-eu"</code> (Seven Bridges Platform - EU),
+<code>"ali-cn"</code> (Seven Bridges Platform - China),
+<code>"cavatica"</code> (Cavatica), and
+<code>"f4c"</code> (FAIR4CURES).</p></dd>
     <dt><code>url</code></dt><dd><p>[character] Base URL for API. Please only use this when you
 want to specify a platform that is not in the <code>platform</code> list
 above, and also leaving <code>platform</code> unspecified.</p></dd>

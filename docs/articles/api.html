@@ -106,7 +106,7 @@
       <h1>Complete Guide for Seven Bridges API R Client</h1>
                         <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt; <br> Nan Xiao &lt;<a href="mailto:nan.xiao@sevenbridges.com" class="email">nan.xiao@sevenbridges.com</a>&gt;</h4>
             
-            <h4 class="date">2019-03-17</h4>
+            <h4 class="date">2019-03-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -140,11 +140,11 @@
 <p>Every API call accepts two arguments named <code>offset</code> and <code>limit</code>.</p>
 <ul>
 <li>Offset defines where the retrieved items started.</li>
-<li>Limit defines the quantity of items you want to get.</li>
+<li>Limit defines the number of items you want to get.</li>
 </ul>
 <p>By default, <code>offset</code> is set to <code>0</code> and <code>limit</code> is set to <code>100</code>. As such, your API request returns the <strong>first 100 items</strong> when you list items or search for items by name. To search and list all items, use <code>complete = TRUE</code> in your API request.</p>
 <p><strong>Search by ID</strong></p>
-<p>When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set <code>offset</code> and <code>limit</code>. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource’s ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource’s details.</p>
+<p>When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to set <code>offset</code> and <code>limit</code> manually. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource’s ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource’s details.</p>
 <p><strong>Search by name</strong></p>
 <p>Search by name returns all partial matches unless you specify <code>exact = TRUE</code>.</p>
 </div>
@@ -158,11 +158,11 @@
 <p>To install it from the <code>devel</code> branch, use:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</a>
 <a class="sourceLine" id="cb4-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
-<p>Since we are constantly improving our API and client libraries, please also visit our <a href="https://github.com/sbg/sevenbridges-r">GitHub repository</a> for most recent news and for latest version of the package.</p>
+<p>Since we are constantly improving our API and client libraries, please also visit our <a href="https://github.com/sbg/sevenbridges-r">GitHub repository</a> for the most recent news and the latest version of the package.</p>
 <p><strong>If you do not have <code>devtools</code></strong></p>
 <p>This installation requires that you have the <code>devtools</code> package. If you do not have this package, you can install it from CRAN.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a></code></pre></div>
-<p>You may get an error for missing system dependecies such as curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install <code>devtools</code> and in order to build vignettes since you need <code>pandoc</code>.</p>
+<p>You may get an error for missing system dependencies such as <code>curl</code> and <code>openssl</code>. For example, in Ubuntu, you probably need to do the following first to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="ex">apt-get</span> update</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</a></code></pre></div>
 <p><strong>If <code>devtools</code> is already installed</strong></p>
@@ -181,21 +181,21 @@
 <div id="quickstart" class="section level1">
 <h1 class="hasAnchor">
 <a href="#quickstart" class="anchor"></a>Quickstart</h1>
-<p>For more details about how to use the API client in R, please consult the <a href="#reference">Seven Bridges API Reference</a> section below for a complete guide. This section is a Quickstart which walks through the basics of using the R cliet libary to help you get started.</p>
+<p>For more details about how to use the API client in R, please consult the <a href="#reference">Seven Bridges API Reference</a> section below for a complete guide.</p>
 <div id="create-auth-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-auth-object" class="anchor"></a>Create <code>Auth</code> Object</h2>
-<p>Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an <a href="https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token">“authentication token”</a> from the <strong>Developer Tab</strong> under <strong>Account Settings</strong> on the visual interface. Once you’ve obtained this, create an <code>Auth</code> object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.</p>
+<p>Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an <a href="https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token">“authentication token”</a> from the <strong>Developer Tab</strong> under <strong>Account Settings</strong> on the visual interface. Once you’ve obtained this, create an <code>Auth</code> object, so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.</p>
 <p>Let’s load the package first:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</a></code></pre></div>
 <p>You have three different ways to provide your token. Choose from one method below:</p>
 <ol style="list-style-type: decimal">
 <li>
-<a href="#method1">Direct authentication.</a> This explicitly and temporarily sets up your token and platform type (or alternatively, API base url) in the function call arguments to <code><a href="../reference/Auth-class.html">Auth()</a></code>.</li>
+<a href="#method1">Direct authentication.</a> This explicitly and temporarily sets up your token and platform type (or alternatively, API base URL) in the function call arguments to <code><a href="../reference/Auth-class.html">Auth()</a></code>.</li>
 <li>
 <a href="#method2">Authentication via system environment variables.</a> This will read the credential information from two system environment variables: <code>SB_API_ENDPOINT</code> and <code>SB_AUTH_TOKEN</code>.</li>
 <li>
-<a href="#method3">Authentication via user configuration file.</a> This file, by default <code>$HOME/.sevenbridges/credentials</code>, provides an organized way to collect and manage all your API authentication information for Seven Bridges platforms.</li>
+<a href="#method3">Authentication via the user configuration file.</a> This file, by default <code>$HOME/.sevenbridges/credentials</code>, provides an organized way to collect and manage all your API authentication information for Seven Bridges platforms.</li>
 </ol>
 <div style="margin-left:3em">
 <p><a name="method1"></a><strong>Method 1: Direct authentication</strong></p>
@@ -208,7 +208,7 @@ token : &lt;your_token&gt;</code></pre>
 <p><a name="method2"></a><strong>Method 2: Environment variables</strong></p>
 <p>To set the two environment variables in your system, you could use the function <code><a href="../reference/sbg_set_env.html">sbg_set_env()</a></code>. For example:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="st">"https://cgc-api.sbgenomics.com/v2"</span>, <span class="st">"your_token"</span>)</a></code></pre></div>
-<p>Note that this change might be just temporary, please feel free to use the standard method to set persistent environment variables according to your operation system.</p>
+<p>Note that this change might be just temporary, please feel free to use the standard method to set persistent environment variables according to your operating system.</p>
 <p>Create an <code>Auth</code> object:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</a></code></pre></div>
 <p><a name="method3"></a><strong><em>Method 3: User configuration file</em></strong></p>
@@ -234,43 +234,48 @@ auth_token = token_for_this_user</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>, <span class="dt">profile_name =</span> <span class="st">"aws-us-rfranklin"</span>)</a></code></pre></div>
 <p>If <code>profile_name</code> is not specified, we will try to load the profile named <code>[default]</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"file"</span>)</a></code></pre></div>
-<p><strong><em>Note:</em></strong> API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are as follows:</p>
+<p><strong><em>Note:</em></strong> API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are:</p>
 <table class="table">
 <colgroup>
-<col width="48%">
-<col width="37%">
-<col width="13%">
+<col width="35%">
+<col width="46%">
+<col width="17%">
 </colgroup>
 <thead><tr class="header">
-<th>Platform</th>
-<th>API Base URL</th>
 <th>Platform Name</th>
+<th>API Base URL</th>
+<th>Short Name</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Cancer Genomics Cloud (CGC)</td>
-<td><code>https://cgc-api.sbgenomics.com/v2</code></td>
-<td><code>"cgc"</code></td>
-</tr>
-<tr class="even">
-<td>Seven Bridges Platform on Amazon Web Services (US)</td>
+<td>Seven Bridges Platform (US)</td>
 <td><code>https://api.sbgenomics.com/v2</code></td>
 <td><code>"aws-us"</code></td>
 </tr>
-<tr class="odd">
-<td>Seven Bridges Platform on Amazon Web Services (EU)</td>
+<tr class="even">
+<td>Seven Bridges Platform (EU)</td>
 <td><code>https://eu-api.sbgenomics.com/v2</code></td>
 <td><code>"aws-eu"</code></td>
 </tr>
+<tr class="odd">
+<td>Seven Bridges Platform (China)</td>
+<td><code>https://api.sevenbridges.cn/v2</code></td>
+<td><code>"ali-cn"</code></td>
+</tr>
 <tr class="even">
-<td>Seven Bridges Platform on Google Cloud Platform (GCP)</td>
-<td><code>https://gcp-api.sbgenomics.com/v2</code></td>
-<td><code>"gcp"</code></td>
+<td>Cancer Genomics Cloud (CGC)</td>
+<td><code>https://cgc-api.sbgenomics.com/v2</code></td>
+<td><code>"cgc"</code></td>
 </tr>
 <tr class="odd">
 <td>Cavatica</td>
 <td><code>https://cavatica-api.sbgenomics.com/v2</code></td>
 <td><code>"cavatica"</code></td>
+</tr>
+<tr class="even">
+<td>FAIR4CURES</td>
+<td><code>https://f4c-api.sbgenomics.com/v2</code></td>
+<td><code>"f4c"</code></td>
 </tr>
 </tbody>
 </table>
@@ -334,7 +339,7 @@ reset : 1457980957</code></pre>
 <div id="create-project" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-project" class="anchor"></a>Create Project</h2>
-<p>Projects are the core building blocks of the platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.</p>
+<p>Projects are the core building blocks of the platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and collaborators.</p>
 <p>Create a new project called “api testing” with the billing group <code>id</code> obtained above.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># get billing group id</span></a>
 <a class="sourceLine" id="cb23-2" title="2">bid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">billing</span>()<span class="op">$</span>id</a>
@@ -569,7 +574,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <pre><code>##                  id            label    type
 ## 2            #fastq            fastq File...
 ## 3 #genomeFastaFiles genomeFastaFiles    File</code></pre>
-<p>Note <code>input_matrix</code> and <code>output_matrix</code> are useful accessor for <code>Tool</code>, <code>Flow</code>, <code>App</code> object as shown below in App example, you can directly call these two function on a JSON file as well.</p>
+<p>Note that <code>input_matrix</code> and <code>output_matrix</code> are useful accessors for <code>Tool</code>, <code>Flow</code>, you can call these two function on a JSON file directly as well.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">tool.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb42-2" title="2">flow.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb42-3" title="3"><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(tool.in)</a>
@@ -598,7 +603,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <li>
 <strong>enum type:</strong> Pass this value to the input parameter.</li>
 <li>
-<strong>file:</strong> This input is a file. However, while some inputs accept only single file (<code>File</code>), other inputs takes more than one file (<code>File</code> arrays, <code>FilesList</code>, or ‘<code>File...</code>’ ). This input require you to pass a <code>Files</code> object (for a single file input) or <code>FilesList</code> object (for inputs which accept more than one file) or simply a list in a “Files” object. You can search for your file by <code>id</code> or by <code>name</code> with an exact match (<code>exact = TRUE</code>), as shown in the example below.</li>
+<strong>file:</strong> This input is a file. However, while some inputs accept only single file (<code>File</code>), other inputs take more than one file (<code>File</code> arrays, <code>FilesList</code>, or ‘<code>File...</code>’ ). This input requires you to pass a <code>Files</code> object (for a single file input) or <code>FilesList</code> object (for inputs which accept more than one file) or simply a list in a “Files” object. You can search for your file by <code>id</code> or by <code>name</code> with an exact match (<code>exact = TRUE</code>), as shown in the example below.</li>
 </ul>
 <div align="right">
 <a href="#top">top</a>
@@ -650,7 +655,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <a class="sourceLine" id="cb45-5" title="5"></a>
 <a class="sourceLine" id="cb45-6" title="6"><span class="co"># or if you know you only have 2 files whose names match SRR924146*.fastq</span></a>
 <a class="sourceLine" id="cb45-7" title="7">fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508*.fastq"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p>Using <code>complete = TRUE</code> when items is over 100.</p>
+<p>Use <code>complete = TRUE</code> when the number of items is over 100.</p>
 </div>
 <div id="draft-a-batch-task" class="section level3">
 <h3 class="hasAnchor">
@@ -681,8 +686,8 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <a class="sourceLine" id="cb46-23" title="23">    <span class="dt">genomeFastaFiles =</span> fasta_in</a>
 <a class="sourceLine" id="cb46-24" title="24">  )</a>
 <a class="sourceLine" id="cb46-25" title="25">)</a></code></pre></div>
-<p>Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings.</p>
-<p>Note: you can also directly pass file id or file names as characters to inputs list, the package will first guess if the passed strings are file id (24 bit hexdecimal) or names, then convert it to Files or FilesList object. However, as a good practice, we recommend you construct your files object(e.g. <code>p$file(id = ..., name = ...)</code>) first, check the value, then pass it to <code>task_add</code> inputs, this is a more safe approach.</p>
+<p>Now you have a draft batch task. Please check it out in the visual interface. Your response body should inform you of any errors or warnings.</p>
+<p>Note: you can also directly pass file id or file names as characters to inputs list, the package will first guess if the passed strings are file id (24-bit hexadecimal) or names, then convert it to Files or FilesList object. However, as a good practice, we recommend you construct your files object(e.g. <code>p$file(id = ..., name = ...)</code>) first, check the value, then pass it to <code>task_add</code> inputs. This is a safer approach.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -694,10 +699,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>Now, we are ready to run our task.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="co"># run your task</span></a>
 <a class="sourceLine" id="cb47-2" title="2">tsk<span class="op">$</span><span class="kw">run</span>()</a></code></pre></div>
-<p>Before you run your task, you can adjust your draft task if you have any final modifications. Or, you can delete the draft task if you no longer wish to run it.</p>
+<p>Before you run your task, you can adjust your draft task if you have any final modifications. Alternatively, you can delete the draft task if you no longer wish to run it.</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="co"># # not run</span></a>
 <a class="sourceLine" id="cb48-2" title="2"><span class="co"># tsk$delete()</span></a></code></pre></div>
-<p>After you run a task, you can abort it</p>
+<p>After you run a task, you can abort it.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="co"># abort your task</span></a>
 <a class="sourceLine" id="cb49-2" title="2">tsk<span class="op">$</span><span class="kw">abort</span>()</a></code></pre></div>
 <p>If you want to update your task and then re-run it, follow the example below.</p>
@@ -728,7 +733,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <a class="sourceLine" id="cb52-5" title="5">  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(...),</a>
 <a class="sourceLine" id="cb52-6" title="6">  <span class="dt">use_interruptible_instances =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb52-7" title="7">)</a></code></pre></div>
-<p>Conversely, you can have a spot instance option enabled project, but draft and run specific tasks using on-demand instances, by setting <code>use_interruptible_instances = FALSE</code> in <code>task_add()</code> explicitly.</p>
+<p>Conversely, you can have a spot instance enabled project, but draft and run specific tasks using on-demand instances, by setting <code>use_interruptible_instances = FALSE</code> in <code>task_add()</code> explicitly.</p>
 </div>
 <div id="execution-hints-per-task-run" class="section level2">
 <h2 class="hasAnchor">
@@ -756,13 +761,12 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a></code></pre></div>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</a></code></pre></div>
-<pre><code>## function (...) 
-## {
-##     cat("\r", "completed")
-##     return(TRUE)
-## }
-## &lt;environment: 0x7ff6723f8638&gt;</code></pre>
-<p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code> it means the monitoring will continue for the next iteration of checking, e.g. when it is “running”, you want to keep tracking.</p>
+<pre><code>## function(...) {
+##           cat("\r", "completed")
+##           return(TRUE)
+##         }
+## &lt;environment: 0x7f7f56812960&gt;</code></pre>
+<p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code>, it means the monitoring will continue for the next iteration of checking, e.g., when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</a>
 <a class="sourceLine" id="cb59-2" title="2">  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</a>
@@ -778,7 +782,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div id="seven-bridges-api-reference" class="section level1">
 <h1 class="hasAnchor">
 <a href="#seven-bridges-api-reference" class="anchor"></a>Seven Bridges API Reference</h1>
-<p>The <code>sevenbridges</code> package provides a user-friendly interface so you do not have to combine several <code><a href="../reference/api.html">api()</a></code> calls and constantly reference the API documentation to issue API requests.</p>
+<p>The <code>sevenbridges</code> package provides a user-friendly interface, so you do not have to combine several <code><a href="../reference/api.html">api()</a></code> calls and constantly reference the API documentation to issue API requests.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -790,7 +794,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <ul>
 <li>Your authentication token. This is used to authenticate your credentials with the API. Learn more about obtaining your authentication token on the <a href="https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token">Seven Bridges Platform</a> and the <a href="http://docs.cancergenomicscloud.org/v1.0/docs/get-your-authentication-token">Cancer Genomics Cloud</a>. The approach for obtaining the authentication token also applies to the other Seven Bridges platforms.</li>
 <li>The path for the API (base URL).</li>
-<li>The platform name you are using (e.g. Seven Bridges Platform on AWS US, Seven Bridges Platform on AWS EU, Seven Bridges Platform on GCP, Cancer Genomics Cloud, or Cavatica). This is an optional field, as the base URL of the API ultimately decides where the API calls will be sent to. This field will only be blank when the URL was directly provided and the platform name could not be inferred from that URL.</li>
+<li>The platform name you are using. This is an optional field, as the base URL of the API ultimately decides where the API calls will be sent to. This field will only be blank when the URL was directly provided, and the platform name could not be inferred from that URL.</li>
 </ul>
 <p>The general authentication logic for <code><a href="../reference/Auth-class.html">Auth()</a></code> is as follows:</p>
 <ol style="list-style-type: decimal">
@@ -810,10 +814,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <a class="sourceLine" id="cb61-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>,</a>
 <a class="sourceLine" id="cb61-3" title="3">  <span class="dt">url =</span> <span class="st">"https://gcp-api.sbgenomics.com/v2"</span></a>
 <a class="sourceLine" id="cb61-4" title="4">)</a></code></pre></div>
-<p>The above will use the specified <code>url</code> as base URL for the API calls. In this example, the <code>url</code> points to the Seven Bridges Platform on Google Cloud Platform (GCP).</p>
+<p>The above will use the specified <code>url</code> as the base URL for the API calls. In this example, the <code>url</code> points to the Seven Bridges Platform on Google Cloud Platform (GCP).</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1">a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>)</a></code></pre></div>
-<p>The above will use the Cancer Genomics Cloud environment, since no <code>platform</code> nor <code>url</code> were explicitly specified (not recommended).</p>
-<p><strong><em>Note:</em></strong> <code>platform</code> and <code>url</code> should not be specified in the same time.</p>
+<p>The above will use the Cancer Genomics Cloud environment since no <code>platform</code> nor <code>url</code> were explicitly specified (not recommended).</p>
+<p><strong><em>Note:</em></strong> <code>platform</code> and <code>url</code> should not be specified at the same time.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -881,7 +885,7 @@ auth_token = token_for_this_user</code></pre>
 <div id="list-all-api-calls" class="section level2">
 <h2 class="hasAnchor">
 <a href="#list-all-api-calls" class="anchor"></a>List All API Calls</h2>
-<p>If you did not pass any parameters to <code><a href="../reference/api.html">api()</a></code> from <code>Auth</code>, it will list all API calls. Any parameters you provide will be passed to the <code><a href="../reference/api.html">api()</a></code> function, but you do not have to pass your input token and path once more ince the <code>Auth</code> object already has this information. The following call fromt he <code>Auth</code> object will check the response as well.</p>
+<p>If you did not pass any parameters to <code><a href="../reference/api.html">api()</a></code> from <code>Auth</code>, it would list all API calls. Any parameters you provide will be passed to the <code><a href="../reference/api.html">api()</a></code> function, but you do not have to pass your input token and path once more since the <code>Auth</code> object already has this information. The following call from the <code>Auth</code> object will check the response as well.</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -899,7 +903,7 @@ auth_token = token_for_this_user</code></pre>
 <li>
 <code>offset</code> defines where the retrieved items started.</li>
 <li>
-<code>limit</code> defines the quantity of items you want to get.</li>
+<code>limit</code> defines the number of items you want to get.</li>
 </ul>
 <p>By default, <code>offset</code> is set to <code>0</code> and <code>limit</code> is set to <code>50</code>. As such, your API request returns the <strong>first 100 items</strong> when you list items or search for items by name. To search and list all items, use <code>complete = TRUE</code> in your API request.</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>offset</a>
@@ -911,7 +915,7 @@ auth_token = token_for_this_user</code></pre>
 <div id="search-by-id" class="section level3">
 <h3 class="hasAnchor">
 <a href="#search-by-id" class="anchor"></a>Search by ID</h3>
-<p>When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set <code>offset</code> and <code>limit</code>. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource’s ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource’s details.</p>
+<p>When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to set <code>offset</code> and <code>limit</code> manually. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource’s ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource’s details.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -920,7 +924,7 @@ auth_token = token_for_this_user</code></pre>
 <h3 class="hasAnchor">
 <a href="#search-by-name" class="anchor"></a>Search by name</h3>
 <p>Search by name returns all partial matches unless you specify <code>exact = TRUE</code>. This type of search will only search across current pulled content, so use <code>complete = TRUE</code> if you want to search across everything.</p>
-<p>For example, to list all public apps, use <code>visibility</code> argument, but make sure you pass <code>complete = TRUE</code> to it, to show every single things. This arguments generally works for items like “App”, “Project”, “Task”, “File”, etc.</p>
+<p>For example, to list all public apps, use <code>visibility</code> argument, but make sure you pass <code>complete = TRUE</code> to it, to show everything. This arguments generally works for items like “App”, “Project”, “Task”, “File”, etc.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="co"># first, search by id is fast</span></a>
 <a class="sourceLine" id="cb73-2" title="2">x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">id =</span> <span class="st">"admin/sbg-public-data/sbg-ucsc-b37-bed-converter/1"</span>)</a>
 <a class="sourceLine" id="cb73-3" title="3"></a>
@@ -942,11 +946,11 @@ auth_token = token_for_this_user</code></pre>
 <h3 class="hasAnchor">
 <a href="#experiment-with-advance-access-features" class="anchor"></a>Experiment with Advance Access features</h3>
 <p>Similar to <code>offset</code> and <code>limit</code>, every API call accepts an argument named <code>advance_access</code>. This argument was first introduced in August 2017 and controls if a special field in the HTTP request header will be sent, which can enable the access to the “Advance Access” features in the Seven Bridges API. Note that the Advance Access features in the API are <strong>not officially released yet</strong>, therefore the API usages are subject to change, so please use with discretion.</p>
-<p>In addition to modifying each API call that uses Advance Access features, the option can be also set globally at the beginning of your API script. This offers a one-button switch for users who wants to experiment with the Advance Access features. The option is disabled by default:</p>
+<p>In addition to modifying each API call that uses Advance Access features, the option can also be set globally at the beginning of your API script. This offers a one-button switch for users who want to experiment with the Advance Access features. The option is disabled by default:</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</a>
 <a class="sourceLine" id="cb74-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<p>For example, the Markers API is in Advance Access as of November, 2018. If we try to use the Markers API to list markers available on a BAM file with the <code>advance_access</code> option disabled, it will return an error message:</p>
+<p>For example, the Markers API is in Advance Access as of November 2018. If we try to use the Markers API to list markers available on a BAM file with the <code>advance_access</code> option disabled, it will return an error message:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</a>
 <a class="sourceLine" id="cb76-2" title="2">  <span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">path =</span> <span class="st">"genome/markers?file={bam_file_id}"</span>,</a>
 <a class="sourceLine" id="cb76-3" title="3">  <span class="dt">method =</span> <span class="st">"GET"</span></a>
@@ -1004,7 +1008,7 @@ list()</code></pre>
 <a href="#query-parameter-fields" class="anchor"></a>Query Parameter <code>'fields'</code>
 </h2>
 <p>Please read the documentation <a href="https://docs.sevenbridges.com/reference#section-general-api-information">detail</a>.</p>
-<p>All API calls take the optional query parameter fields. This parameter enables you to specify the fields you want to be returned when listing resources (e.g. all your projects) or getting details of a specific resource (e.g. a given project).</p>
+<p>All API calls take the optional query parameter fields. This parameter enables you to specify the fields you want to be returned when listing resources (e.g., all your projects) or getting details of a specific resource (e.g., a given project).</p>
 <p>The fields parameter can be used in the following ways:</p>
 <ol style="list-style-type: decimal">
 <li><p>No <code>fields</code> parameter specified: calls return default fields. For calls that return complete details of a single resource, this is all their properties; for calls that list resources of a certain type, this is some default properties.</p></li>
@@ -1014,7 +1018,7 @@ list()</code></pre>
 <li><p>To see all fields for a resource, specify <code>fields="_all"</code>. This returns all fields for each resource returned. Note that if you are getting the details of a specific resource, the use of <code>fields="_all"</code> won’t return any more properties than would have been shown without this parameter — the use case is instead for when you are listing details of many resources. Please use with care if your resource has particularly large fields; for example, the raw field for an app resource contains the complete CWL specification of the app which can result in bulky response if listing many apps.</p></li>
 <li><p>Negations and nesting can be combined freely, so, for example, you can issue <code>p$file(fields="id,name,status,!metadata.library,!origin")</code> or <code>p$task(fields="!inputs,!outputs")</code>.</p></li>
 </ol>
-<p>Please try following examples</p>
+<p>Please try the following examples.</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1"><span class="co">## default fields id, name, project</span></a>
 <a class="sourceLine" id="cb84-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</a>
 <a class="sourceLine" id="cb84-3" title="3"><span class="co">## return file(s) with id, name, siae information</span></a>
@@ -1040,7 +1044,7 @@ list()</code></pre>
 <h2 class="hasAnchor">
 <a href="#users" class="anchor"></a>Users</h2>
 <p>This call returns a list of the resources, such as projects, billing groups, and organizations, that are accessible to you. Currently, this call will only return a successful response if {username} is replaced with your own username. Be sure to capitalize your username in the same way as when you registered for an account.</p>
-<p>If you did not provide a username, your user information will be shown.</p>
+<p>If you did not provide a username, it will show your user information.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1"><span class="co"># return your information</span></a>
 <a class="sourceLine" id="cb86-2" title="2">a<span class="op">$</span><span class="kw">user</span>()</a>
 <a class="sourceLine" id="cb86-3" title="3"><span class="co"># return user RFranklin's information</span></a>
@@ -1066,10 +1070,10 @@ list()</code></pre>
 <div id="for-invoices" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-invoices" class="anchor"></a>For invoices</h3>
-<p>If no Billing Group <code>id</code> provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice <code>id</code> is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.</p>
+<p>If no Billing Group <code>id</code> provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice <code>id</code> is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.</p>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1">a<span class="op">$</span><span class="kw">invoice</span>()</a>
 <a class="sourceLine" id="cb88-2" title="2">a<span class="op">$</span><span class="kw">invoice</span>(<span class="dt">id =</span> <span class="st">"your_id"</span>)</a></code></pre></div>
-<p><strong><em>Note:</em></strong> Currently, invoice is not an object. Instead, it just returns a list.</p>
+<p><strong><em>Note:</em></strong> Currently, invoice is not an object. Instead, it just returns a regular R list.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1085,12 +1089,12 @@ list()</code></pre>
 <div id="list-all-projects" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-all-projects" class="anchor"></a>List all projects</h3>
-<p>The following call returns a list of all projects of which you are a member. Each project’s <code>project_id</code> and path will be returned.</p>
+<p>The following call returns a list of all projects of which you are a member. Each project’s <code>project_id</code> and the path will be returned.</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">a<span class="op">$</span><span class="kw">project</span>()</a></code></pre></div>
 <p>If you want to list the projects owned by and accessible to a particular user, specify the <code>owner</code> argument as follows. Each project’s ID and path will be returned.</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" title="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"RFranklin"</span>)</a>
 <a class="sourceLine" id="cb90-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">owner =</span> <span class="st">"Rosalind.Franklin"</span>)</a></code></pre></div>
-<p>To get details about project(s), use <code>detail = TRUE</code>, as shown below.</p>
+<p>To get details about the project(s), use <code>detail = TRUE</code>, as shown below.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1219,7 +1223,7 @@ admin : FALSE</code></pre>
 <div id="delete-a-member" class="section level4">
 <h4 class="hasAnchor">
 <a href="#delete-a-member" class="anchor"></a>Delete a member</h4>
-<p>To delete an existing member, just call the <code><a href="../reference/delete-methods.html">delete()</a></code> action on the <code>Member</code> object.</p>
+<p>To delete an existing member, call the <code><a href="../reference/delete-methods.html">delete()</a></code> action on the <code>Member</code> object.</p>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1">m<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</a>
 <a class="sourceLine" id="cb101-2" title="2"><span class="co"># confirm</span></a>
 <a class="sourceLine" id="cb101-3" title="3">a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw">member</span>()</a></code></pre></div>
@@ -1250,7 +1254,7 @@ admin : FALSE</code></pre>
 <a class="sourceLine" id="cb103-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</a>
 <a class="sourceLine" id="cb103-3" title="3"><span class="co"># list all files</span></a>
 <a class="sourceLine" id="cb103-4" title="4">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p>Alternatively you can get files from the <code>Auth</code> object.</p>
+<p>Alternatively, you can get files from the <code>Auth</code> object.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1">a<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">project =</span> p<span class="op">$</span>id)</a>
 <a class="sourceLine" id="cb104-2" title="2">a<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"omni"</span>, <span class="dt">project =</span> p<span class="op">$</span>id, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div align="right">
@@ -1263,12 +1267,12 @@ admin : FALSE</code></pre>
 <div id="rule-of-thumb" class="section level4">
 <h4 class="hasAnchor">
 <a href="#rule-of-thumb" class="anchor"></a>Rule of thumb</h4>
-<p>You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. User could serach by metadata, tags, and original task id.</p>
+<p>You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. The user could search by metadata, tags, and the original task ID.</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>First rule: understand the scope</strong>: We know we have default <code>limit = 100</code> and <code>offset = 0</code> for first 100 items, unless you are using arguments <code>complete = TRUE</code>. Things are different when it comes to files. When you search with exact name (search by name with <code>exact = TRUE</code> on), metadata, or tags, it searches through ALL files. You do not have to specify <code>complete = TRUE</code>. Simply provide the project id or make the call from a project object as shown below.</p></li>
-<li><p><strong>Second rule: understand the operation</strong>: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. <strong>Note</strong> different metadata fields are treated as different fields as well, so it will be <strong>AND</strong> operation for different metadata field.</p></li>
+<li><p><strong>Second rule: understand the operation</strong>: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. <strong>Note</strong> different metadata fields are treated as different fields as well, so it will be an <strong>AND</strong> operation for different metadata fields.</p></li>
 </ol>
-<p>So for a quick example, this examples gives me all files in project <code>RFranklin/demo</code> that with metadata sample_id “Sample1” <strong>OR</strong> “Sample2”, <strong>AND</strong> the library id has to be “EXAMPLE”, <strong>AND</strong> tags has either “hello” <strong>OR</strong> “world”.</p>
+<p>As a quick example, the following code gives us all files in the project <code>RFranklin/demo</code> that with metadata sample_id “Sample1” <strong>OR</strong> “Sample2”, <strong>AND</strong> the library id has to be “EXAMPLE”, <strong>AND</strong> tags has either “hello” <strong>OR</strong> “world”.</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb105-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(</a>
 <a class="sourceLine" id="cb105-3" title="3">  <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
@@ -1286,8 +1290,8 @@ admin : FALSE</code></pre>
 <h4 class="hasAnchor">
 <a href="#search-by-name-and-id" class="anchor"></a>Search by name and id</h4>
 <p>There are two ways to return the exact file you want. One is by <code>id</code>, the other one is by exact <code>name</code>.</p>
-<p><strong><em>For advanced users:</em></strong> When searching by name with <code>exact = TRUE</code>, it directly uses our public API call to match exact name and return the object with a single query. When you turn off <code>exact</code>, it will <code>grep</code> all files or files defined with <code>limit</code> and <code>offset</code> first, then match by name, which could be slow.</p>
-<p>To get the file id, you can check the url on the visual interface from the file details page.</p>
+<p><strong><em>For advanced users:</em></strong> When searching by name with <code>exact = TRUE</code>, it directly uses our public API call to match the exact name and return the object with a single query. When you turn off <code>exact</code>, it will <code>grep</code> all files or files defined with <code>limit</code> and <code>offset</code> first, then match by name, which could be slow.</p>
+<p>To get the file id, you can check the URL on the web interface from the file details page.</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="co"># return single object id is "some_file_id"</span></a>
 <a class="sourceLine" id="cb106-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> <span class="st">"some_file_id"</span>)</a>
 <a class="sourceLine" id="cb106-3" title="3"><span class="co"># return a single object named a.fastq</span></a>
@@ -1303,7 +1307,7 @@ admin : FALSE</code></pre>
 <a class="sourceLine" id="cb107-5" title="5">  <span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="st">"ucsc.hg19.fasta"</span>),</a>
 <a class="sourceLine" id="cb107-6" title="6">  <span class="dt">exact =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb107-7" title="7">)</a></code></pre></div>
-<p>If you did not use <code>exact = TRUE</code>, the API will assume it is pattern grep and use partial matching.</p>
+<p>If you did not use <code>exact = TRUE</code>, the API would assume it is pattern grep and use partial matching.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="co"># get matchd the pattern for searching first 100 files</span></a>
 <a class="sourceLine" id="cb108-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>))</a>
 <a class="sourceLine" id="cb108-3" title="3"><span class="co"># get all matched files from the project</span></a>
@@ -1318,7 +1322,7 @@ admin : FALSE</code></pre>
 <h4 class="hasAnchor">
 <a href="#search-by-metadata" class="anchor"></a>Search by metadata</h4>
 <p>When you specify different metadata fields, the values use an <strong>AND</strong> operation, and when you specify the same metadata fields, the values use an <strong>OR</strong> operation.</p>
-<p>To list all files in project <code>RFranklin/demo</code>, that have a <code>sample_id</code> of “Sample1” <strong>OR</strong> “Sample2” <strong>AND</strong> another metadata field library_id set to “EXAMPLE”, make the following request</p>
+<p>To list all files in project <code>RFranklin/demo</code>, that have a <code>sample_id</code> of “Sample1” <strong>OR</strong> “Sample2” <strong>AND</strong> another metadata field library_id set to “EXAMPLE”, make the following request.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb109-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
 <a class="sourceLine" id="cb109-3" title="3">  <span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</a>
@@ -1333,7 +1337,7 @@ admin : FALSE</code></pre>
 <h4 class="hasAnchor">
 <a href="#search-by-tags" class="anchor"></a>Search by tags</h4>
 <p>Tags are more flexible than metadata. You can search with multiple tags using an <strong>OR</strong> operation.</p>
-<p>This examples shows how to return all files with the tag “s1” <strong>OR</strong> “s2”.</p>
+<p>This example shows how to return all files with the tag “s1” <strong>OR</strong> “s2”.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1">p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</a>
 <a class="sourceLine" id="cb110-2" title="2">p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>))</a></code></pre></div>
 <div align="right">
@@ -1383,7 +1387,7 @@ admin : FALSE</code></pre>
 <p><strong>NOTE:</strong> To copy a group of files, you need the <code>Auth$copyFile()</code> interface. The <code>id</code> of the files in your project will be different from their <code>id</code> in the Public Files repository.</p>
 <p>Alternatively, you copy a <strong>single file</strong> as shown below.</p>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"hello"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw">copyTo</span>(pid)</a></code></pre></div>
-<p>Notably, if you have a number of files to copy between projects, we would always recommend using the <code>Auth$bulk_file_copy()</code> method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.</p>
+<p>Notably, if you have many files to copy between projects, we would always recommend using the <code>Auth$bulk_file_copy()</code> method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1430,7 +1434,7 @@ admin : FALSE</code></pre>
 <li>Import from FTP or HTTP with the web interface</li>
 <li>The GUI uploader</li>
 <li>The file upload API that you can directly call with the <code>sevenbridges</code> package</li>
-<li>The command line uploader which can be involked with the <code>sevenbridges</code> package</li>
+<li>The command line uploader which can be invoked with the <code>sevenbridges</code> package</li>
 </ul>
 <p>Use the API client uploader by calling the <code>project$upload</code> function to upload a file, a file list, or a folder recursively or via a manifest file.</p>
 <div id="upload-single-file" class="section level4">
@@ -1467,33 +1471,39 @@ admin : FALSE</code></pre>
 <a class="sourceLine" id="cb122-4" title="4">p<span class="op">$</span><span class="kw">upload</span>(fls, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb122-5" title="5">p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf"</span>)</a></code></pre></div>
 </div>
-<div id="upload-files-via-defined-manifest-file" class="section level4">
+<div id="upload-files-via-a-defined-manifest-file" class="section level4">
 <h4 class="hasAnchor">
-<a href="#upload-files-via-defined-manifest-file" class="anchor"></a>Upload files via defined manifest file</h4>
-<p>A manifest file is a file used to define metadata values for a set of files. It can be used when uploading files to the Platform to set their metadata.The supported file format for the manifest file is CSV, i.e. comma separated values. A CSV file contains a number of rows with columns which are separated with a comma. Format of manifest file is defined in the <a href="https://docs.sevenbridges.com/docs/format-of-a-manifest-file">documentaion online</a></p>
+<a href="#upload-files-via-a-defined-manifest-file" class="anchor"></a>Upload files via a defined manifest file</h4>
+<p>A manifest file is a file used to define metadata values for a set of files. It can be used when uploading files to the platform to set their metadata. The supported file format for the manifest file is CSV. A CSV file contains a number of rows with columns which are separated with a comma. The format of a manifest file is defined in the <a href="https://docs.sevenbridges.com/docs/format-of-a-manifest-file">documentaion</a>.</p>
 <p>Some requirements:</p>
 <ul>
-<li>The first row has to contain column names which are parsed as metadata fields (e.g. “sample”“,”library"“). When it’s not customized fields, we do converstion for meta fields like”sample_id" which need to be string.</li>
-<li>The first column has to contain the names of the files which will be uploaded. In case the files are not in the same directory as the manifest file, you should also include a path to the files (e.g. ../filename.fastq).</li>
+<li>The first row has to contain column names which are parsed as metadata fields (e.g. <code>sample</code>, <code>library</code>). When it is not customized fields, we do the conversion for meta fields like <code>sample_id</code> which need to be a string.</li>
+<li>The first column has to contain the names of the files which will be uploaded. In case the files are not in the same directory as the manifest file, you should also include a path to the files (e.g. <code>../filename.fastq</code>).</li>
 </ul>
 <p>We allow users to</p>
 <ul>
-<li>choose to upload metadata or not.</li>
-<li>choose to use <code>subset</code> style to upload only part of metadata</li>
-<li>choose to use <code>subset</code> style to upload only part of files with filter</li>
+<li>choose to upload metadata or not</li>
+<li>choose to use <code>subset</code> to upload only part of the metadata</li>
+<li>choose to use <code>subset</code> to upload only part of files with filter</li>
 </ul>
-<p>Please check couple examples below</p>
-<pre><code>## upload all fiels and all metadatas
-p$upload(manifest_file = "~/manifest.csv")
-## verbal = TRUE, print single file level progress
-p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, verbal = TRUE)
-## manifest_metadata = FALSE doens't attach any meta
-p$upload(manifest_file = "~/manifest.csv", manifest_metadata = FALSE, overwrite = TRUE)
-## filter fils first, upload only files that score &lt; 0.5
-p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, subset = score &lt; 0.5)
-## attach all meta except "bad_field" and "sample_id"
-p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
-         subset = score &lt; 0.5, select = -c(bad_field, sample_id))</code></pre>
+<p>Please check the examples below.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="co"># upload all fiels and all metadata</span></a>
+<a class="sourceLine" id="cb123-2" title="2">p<span class="op">$</span><span class="kw">upload</span>(<span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>)</a>
+<a class="sourceLine" id="cb123-3" title="3"></a>
+<a class="sourceLine" id="cb123-4" title="4"><span class="co"># verbal = TRUE, print single file level progress</span></a>
+<a class="sourceLine" id="cb123-5" title="5">p<span class="op">$</span><span class="kw">upload</span>(<span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">verbal =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb123-6" title="6"></a>
+<a class="sourceLine" id="cb123-7" title="7"><span class="co"># manifest_metadata = FALSE doens't attach any metadata</span></a>
+<a class="sourceLine" id="cb123-8" title="8">p<span class="op">$</span><span class="kw">upload</span>(<span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>, <span class="dt">manifest_metadata =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb123-9" title="9"></a>
+<a class="sourceLine" id="cb123-10" title="10"><span class="co"># filter files first, upload only files with score &lt; 0.5</span></a>
+<a class="sourceLine" id="cb123-11" title="11">p<span class="op">$</span><span class="kw">upload</span>(<span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">subset =</span> score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb123-12" title="12"></a>
+<a class="sourceLine" id="cb123-13" title="13"><span class="co"># attach all meta except "bad_field" and "sample_id"</span></a>
+<a class="sourceLine" id="cb123-14" title="14">p<span class="op">$</span><span class="kw">upload</span>(</a>
+<a class="sourceLine" id="cb123-15" title="15">  <span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb123-16" title="16">  <span class="dt">subset =</span> score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dt">select =</span> <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(bad_field, sample_id)</a>
+<a class="sourceLine" id="cb123-17" title="17">)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1534,12 +1544,12 @@ p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
 <div id="update-a-file" class="section level3">
 <h3 class="hasAnchor">
 <a href="#update-a-file" class="anchor"></a>Update a file</h3>
-<p>You can call the <code><a href="https://www.rdocumentation.org/packages/stats/topics/update">update()</a></code> function from the Files object. Using this call, the following can be updated:</p>
+<p>You can call the <code><a href="https://www.rdocumentation.org/packages/stats/topics/update">update()</a></code> function from the Files object. With this call, the following can be updated:</p>
 <ul>
 <li>The file’s <code>name</code>.</li>
 <li>The file’s <code>metadata</code>. The metadata is in the form of a list. Note that as this call overwrites all the metadata for a given file, please supply a full list of all the metadata for the file. Conversely, you can use the <a href="#set_metadata"><code>set_meta()</code> function</a> to patch but not overwrite the metadata for a file.</li>
 </ul>
-<p>If no parameters were provided, this call will just get the details of that file and update the object itself.</p>
+<p>If no parameters were provided, this call will get the details of that file and update the object itself.</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" title="1">(fl &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>))</a></code></pre></div>
 <pre><code>== File ==
 id : 56c7916ae4b03b56a7d7
@@ -1572,7 +1582,7 @@ project : RFranklin/demo-project</code></pre>
 <p>To get the metadata for a file, call the <code>meta()</code> function, as shown below.</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" title="1"><span class="co"># meta is pulling the latest information via API</span></a>
 <a class="sourceLine" id="cb132-2" title="2">fl<span class="op">$</span><span class="kw">meta</span>()</a>
-<a class="sourceLine" id="cb132-3" title="3"><span class="co"># field meta data saved the previous saved one</span></a>
+<a class="sourceLine" id="cb132-3" title="3"><span class="co"># field metadata saved the previously saved one</span></a>
 <a class="sourceLine" id="cb132-4" title="4">fl<span class="op">$</span>metadata</a></code></pre></div>
 <p><a name="set_metadata"></a> <strong>Set metadata</strong></p>
 <p>Files from curated datasets on Seven Bridges environments have a defined set of metadata which is visible on the visual interface of each environment. However, you can also pass additional metadata for each file which is stored with your copy of the file in your project.</p>
@@ -1583,7 +1593,7 @@ project : RFranklin/demo-project</code></pre>
 <a class="sourceLine" id="cb133-4" title="4">fl<span class="op">$</span><span class="kw">set_meta</span>(<span class="dt">new_item4 =</span> <span class="st">"item4"</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb133-5" title="5">fl</a></code></pre></div>
 <p><strong>Check details of each metadata field</strong></p>
-<p>You can use the <code><a href="../reference/Metadata.html">Metadata()</a></code> constructor to check the details of each metadata field. Simply call the function (name of the metadata) to display descriptions and enumerated itemts. Please pay attention to the <code>suggested_values</code> field.</p>
+<p>You can use the <code><a href="../reference/Metadata.html">Metadata()</a></code> constructor to check the details of each metadata field. Simply call the function (name of the metadata) to display descriptions and enumerated items. Please pay attention to the <code>suggested_values</code> field.</p>
 <div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1"><span class="co"># check which schema we have</span></a>
 <a class="sourceLine" id="cb134-2" title="2"><span class="kw"><a href="../reference/Metadata.html">Metadata</a></span>()<span class="op">$</span><span class="kw">show</span>(<span class="dt">full =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb134-3" title="3"><span class="co"># check details for each, play with it</span></a>
@@ -1604,7 +1614,7 @@ project : RFranklin/demo-project</code></pre>
 <div id="tag-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tag-files" class="anchor"></a>Tag file(s)</h3>
-<p>You can tag your files with keywords or strings to make it easier to identify and organize files. Tags are different from metadata, and are more convenient and visible from the files list on the visual interface.</p>
+<p>You can tag your files with keywords or strings to make it easier to identify and organize files. Tags are different from metadata and are more convenient and visible from the files list on the visual interface.</p>
 <p><strong>Add a new tag</strong></p>
 <p>To add a new tag, call the <code>obj$add_tag()</code> method for the File object with a single tag string or a list or vector of tags.</p>
 <p><strong>Overwrite the tags for a file</strong></p>
@@ -1646,7 +1656,7 @@ project : RFranklin/demo-project</code></pre>
 <div id="folders" class="section level2">
 <h2 class="hasAnchor">
 <a href="#folders" class="anchor"></a>Folders</h2>
-<p>The Folders API allows you to organize your files using folders in projects. From a filesystem perspective, folders are simply a special type of file. Therefore, within this package, the folder objects are still represented using the same class like the file objects above, only with specific methods for operating on them.</p>
+<p>The Folders API allows you to organize your files using folders in projects. From a filesystem perspective, folders are simply a special type of file. Therefore, within this package, the folder objects are still represented using the same class as the file objects above, only with specific methods for operating on them.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1676,7 +1686,7 @@ type : folder</code></pre>
 <a href="#create-a-folder" class="anchor"></a>Create a folder</h3>
 <p>To create a new_folder under the project root folder, use</p>
 <div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1">folder1 &lt;-<span class="st"> </span>root_folder<span class="op">$</span><span class="kw">create_folder</span>(<span class="st">"folder1"</span>)</a></code></pre></div>
-<p>To create new folder under <code>folder1</code>, use</p>
+<p>To create a new folder under <code>folder1</code>, use</p>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">folder2 &lt;-<span class="st"> </span>folder1<span class="op">$</span><span class="kw">create_folder</span>(<span class="st">"folder2"</span>)</a></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1826,7 +1836,7 @@ type : file</code></pre>
 <div id="copy-an-app" class="section level3">
 <h3 class="hasAnchor">
 <a href="#copy-an-app" class="anchor"></a>Copy an app</h3>
-<p>This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.</p>
+<p>This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly available app which has been copied to the project.</p>
 <p>This call requires the following two arguments:</p>
 <ul>
 <li>
@@ -1852,7 +1862,7 @@ type : file</code></pre>
 <h3 class="hasAnchor">
 <a href="#get-an-apps-cwl-description" class="anchor"></a>Get an app’s CWL description</h3>
 <p>This call returns the raw CWL of a specific app, including its raw CWL. The call differs from the call to GET details of an app in that it returns a JSON object that is the CWL.</p>
-<p>The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.</p>
+<p>The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly available app which has been copied to the project.</p>
 <p>To get a specific revision, pass the <code>revision</code> argument.</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1">ap &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)[[<span class="dv">1</span>]]</a>
 <a class="sourceLine" id="cb169-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app</span>(<span class="st">"index"</span>)</a>
@@ -1889,10 +1899,10 @@ type : file</code></pre>
 <a href="#top">top</a>
 </div>
 </div>
-<div id="create-test-or-keep-previous-test-for-tool" class="section level3">
+<div id="create-test-or-keep-the-previous-test-for-tool" class="section level3">
 <h3 class="hasAnchor">
-<a href="#create-test-or-keep-previous-test-for-tool" class="anchor"></a>Create test or keep previous test for Tool</h3>
-<p>On sevenbridges platform, when you create or update your tools in the GUI, there is a test tab allow users to tweak the parameters and see what it looks like in your commandline simulatd terminal. To do this via R when you push your Tool object to your project, you need to provide “sbg:job” information like the example shown below</p>
+<a href="#create-test-or-keep-the-previous-test-for-tool" class="anchor"></a>Create test or keep the previous test for Tool</h3>
+<p>On Seven Bridges platforms, when you create or update your tools in the GUI, there is a test tab allow users to tweak the parameters and see what it looks like in your command line simulated terminal. To do this via R when you push your Tool object to your project, you need to provide <code>"sbg:job"</code> information like the example shown below</p>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
 <a class="sourceLine" id="cb171-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb171-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
@@ -1909,7 +1919,7 @@ type : file</code></pre>
 <a class="sourceLine" id="cb171-14" title="14">  )</a>
 <a class="sourceLine" id="cb171-15" title="15">)</a>
 <a class="sourceLine" id="cb171-16" title="16">p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</a></code></pre></div>
-<p>Or if you have created a test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide a arguments called <code>keep_test</code> to allow you keep the previous revision’s test information.</p>
+<p>Or if you have created test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide an argument named <code>keep_test</code> to allow you to keep the previous revision’s test information.</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
 <a class="sourceLine" id="cb172-2" title="2">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
 <a class="sourceLine" id="cb172-3" title="3">  <span class="dt">label =</span> <span class="st">"Random number generator"</span>,</a>
@@ -1933,13 +1943,13 @@ type : file</code></pre>
 <div id="list-tasks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-tasks" class="anchor"></a>List tasks</h3>
-<p>This call returns a list of tasks that you can access. You are able to filter tasks by status.</p>
+<p>This call returns a list of tasks that you can access. You can filter tasks by status.</p>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" title="1"><span class="co"># all tasks</span></a>
 <a class="sourceLine" id="cb173-2" title="2">a<span class="op">$</span><span class="kw">task</span>()</a>
 <a class="sourceLine" id="cb173-3" title="3"><span class="co"># filter</span></a>
 <a class="sourceLine" id="cb173-4" title="4">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"completed"</span>)</a>
 <a class="sourceLine" id="cb173-5" title="5">a<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"running"</span>)</a></code></pre></div>
-<p>To list all tasks in a project, use the following.</p>
+<p>To list all the tasks in a project, use the following.</p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1"><span class="co"># a better way</span></a>
 <a class="sourceLine" id="cb174-2" title="2">a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>()</a>
 <a class="sourceLine" id="cb174-3" title="3"></a>
@@ -2027,8 +2037,8 @@ type : file</code></pre>
 <p><a name="hook"></a> ### Monitor a running task and set the hook function</p>
 <p>To monitor a running task, call <code>monitor</code> from a Task object.</p>
 <ul>
-<li>First argument, set the interval time to check the status</li>
-<li>Rest arguments might be used for hook function</li>
+<li>The first argument sets the interval time to check the status</li>
+<li>Rest of the arguments might be used for the hook function</li>
 </ul>
 <div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" title="1">tsk<span class="op">$</span><span class="kw">monitor</span>()</a></code></pre></div>
 <p>Get and set default a hook function for task status. Currently, failed tasks will break the monitoring.</p>
@@ -2079,10 +2089,10 @@ type : file</code></pre>
 <a href="#top">top</a>
 </div>
 </div>
-<div id="run-task-in-batch-mode" class="section level3">
+<div id="run-tasks-in-batch-mode" class="section level3">
 <h3 class="hasAnchor">
-<a href="#run-task-in-batch-mode" class="anchor"></a>Run task in batch mode</h3>
-<p>To run task in batch mode, (check <code><a href="../reference/batch.html">?batch</a></code>) for more details. The code below is a mock.</p>
+<a href="#run-tasks-in-batch-mode" class="anchor"></a>Run tasks in batch mode</h3>
+<p>To run tasks in batch mode, (check <code><a href="../reference/batch.html">?batch</a></code>) for more details. The code below is a mockup example.</p>
 <div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1"><span class="co"># batch by items</span></a>
 <a class="sourceLine" id="cb185-2" title="2">(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</a>
 <a class="sourceLine" id="cb185-3" title="3">  <span class="dt">name =</span> <span class="st">"RNA DE report new batch 2"</span>,</a>
@@ -2119,7 +2129,7 @@ type : file</code></pre>
 <div id="volumes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#volumes" class="anchor"></a>Volumes</h2>
-<p>Cloud storage providers come with their own interfaces, features and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.</p>
+<p>Cloud storage providers come with their own interfaces, features, and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.</p>
 <p>Seven Bridges environments mediate access to these repositories using volumes. A volume is associated with a particular cloud storage repository that you have enabled Seven Bridges to read from (and, optionally, to write to). Currently, volumes may be created using two types of cloud storage repository: Amazon Web Services’ (AWS) S3 buckets and Google Cloud Storage (GCS) buckets.</p>
 <p>A volume enables you to treat the cloud repository associated with it as external storage. You can ‘import’ files from the volume to your Seven Bridges environment to use them as inputs for computation. Similarly, you can write files from the Seven Bridges environment to your cloud storage by ‘exporting’ them to your volume.</p>
 <p>Learn more about volumes on the <a href="https://docs.sevenbridges.com/docs/connecting-cloud-storage-overview">Seven Bridges Platform</a> and the <a href="http://docs.cancergenomicscloud.org/docs/connect-cloud-storage-overview">CGC</a>.</p>
@@ -2199,7 +2209,7 @@ type : file</code></pre>
 <li>The file selected for export must not be a public file or an alias. Aliases are objects stored in your cloud storage bucket which have been made available on a Seven Bridges environment. The volume you are exporting to must be configured for read-write access. To do this, set the access_mode parameter to RW when creating or modifying a volume.</li>
 <li>If this call is successful, the original project file will become an alias to the newly exported object on the volume. The source file will be deleted from the Seven Bridges environment and, if no more copies of this file exist, it will no longer count towards your total storage price on the Seven Bridges environment.</li>
 </ul>
-<p>When testing please update your file in a project.</p>
+<p>When testing, please update your file in a project.</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" title="1">res &lt;-<span class="st"> </span>v<span class="op">$</span><span class="kw">export</span>(</a>
 <a class="sourceLine" id="cb191-2" title="2">  <span class="dt">file =</span> <span class="st">"579fb1c9e4b08370afe7903a"</span>,</a>
 <a class="sourceLine" id="cb191-3" title="3">  <span class="dt">volume =</span> <span class="st">"RFranklin/tutorial_volume"</span>,</a>
@@ -2319,7 +2329,7 @@ type : file</code></pre>
 <div id="api-token-for-the-division-context" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-token-for-the-division-context" class="anchor"></a>API token for the division context</h3>
-<p>Note that the authentication token for the Enterprise API is a separate token generated under the context of you division, which is different from your non-division (personal) auth token. You may see the following error when using the non-division token to call the Enterprise API:</p>
+<p>Note that the authentication token for the Enterprise API is a separate token generated under the context of your division, which is different from your non-division (personal) auth token. You may see the following error when using the non-division token to call the Enterprise API:</p>
 <pre><code>Error: HTTP Status 400: Insufficient privileges to access this resource. Not a division user.</code></pre>
 <p>If you see this error, first switch to the correct division context (use the dropdown menu in the upper left corner), then click the “Developer” tab, click “Auth token”, generate the token, and use this token for API authentication.</p>
 <div align="right">
@@ -2485,7 +2495,7 @@ name : Another Team Name</code></pre>
 <li>Chromosome number (<code>chromosome</code>)</li>
 <li>Whether the marker is private or public (<code>private</code>).</li>
 </ul>
-<p>The marker’s name and its position are mandatory parameters, the others are optional.</p>
+<p>The marker’s name and its position are mandatory parameters, and the others are optional.</p>
 </div>
 <div id="list-markers-available-on-a-file" class="section level3">
 <h3 class="hasAnchor">
@@ -2546,7 +2556,7 @@ private : FALSE</code></pre>
 <div id="get-raw-response-from-httr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-raw-response-from-httr" class="anchor"></a>Get Raw Response from httr</h2>
-<p>In the easy API, we return an object which contains the raw response from <code>httr</code> as a field. You can either call <code><a href="../reference/response-methods.html">response()</a></code> on that object or just use the field as is.</p>
+<p>In the easy API, we return an object which contains the raw response from <code>httr</code> as a field. You can either call <code><a href="../reference/response-methods.html">response()</a></code> on that object or use the field as is.</p>
 <div align="right">
 <a href="#top">top</a>
 </div>
