@@ -56,13 +56,13 @@ __`offset` and `limit`__
 Every API call accepts two arguments named `offset` and `limit`.
 
 - Offset defines where the retrieved items started.
-- Limit defines the quantity of items you want to get.
+- Limit defines the number of items you want to get.
 
 By default, `offset` is set to `0` and `limit` is set to `100`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
 
 __Search by ID__
 
-When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set `offset` and `limit`. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
+When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to set `offset` and `limit` manually. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
 
 __Search by name__
 
@@ -86,7 +86,7 @@ install.packages("BiocManager")
 BiocManager::install("sevenbridges", version = "devel")
 ```
 
-Since we are constantly improving our API and client libraries, please also visit our [GitHub repository](https://github.com/sbg/sevenbridges-r) for most recent news and for latest version of the package.
+Since we are constantly improving our API and client libraries, please also visit our [GitHub repository](https://github.com/sbg/sevenbridges-r) for the most recent news and the latest version of the package.
 
 **If you do not have `devtools`**
 
@@ -96,7 +96,7 @@ This installation requires that you have the `devtools` package. If you do not h
 install.packages("devtools")
 ```
 
-You may get an error for missing system dependecies such as curl and ssl. For example, in Ubuntu you probably need to do the following first in order to install `devtools` and in order to build vignettes since you need `pandoc`.
+You may get an error for missing system dependencies such as `curl` and `openssl`. For example, in Ubuntu, you probably need to do the following first to install `devtools` and to build vignettes since you need `pandoc`.
 
 ```bash
 apt-get update
@@ -122,11 +122,11 @@ If you have trouble with `pandoc` and do not want to install it,  set `build_vig
 
 # Quickstart
 
-For more details about how to use the API client in R, please consult the [Seven Bridges API Reference](#reference) section below for a complete guide. This section is a Quickstart which walks through the basics of using the R cliet libary to help you get started.
+For more details about how to use the API client in R, please consult the [Seven Bridges API Reference](#reference) section below for a complete guide.
 
 ## Create `Auth` Object
 
-Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an ["authentication token"](https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, create an `Auth` object so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
+Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an ["authentication token"](https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) from the **Developer Tab** under **Account Settings** on the visual interface. Once you've obtained this, create an `Auth` object, so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.
 
 Let's load the package first:
 
@@ -136,9 +136,9 @@ library("sevenbridges")
 
 You have three different ways to provide your token. Choose from one method below:
 
-1. [Direct authentication.](#method1) This explicitly and temporarily sets up your token and platform type (or alternatively, API base url) in the function call arguments to `Auth()`.
+1. [Direct authentication.](#method1) This explicitly and temporarily sets up your token and platform type (or alternatively, API base URL) in the function call arguments to `Auth()`.
 2. [Authentication via system environment variables.](#method2) This will read the credential information from two system environment variables: `SB_API_ENDPOINT` and `SB_AUTH_TOKEN`.
-3. [Authentication via user configuration file.](#method3) This file, by default `$HOME/.sevenbridges/credentials`, provides an organized way to collect and manage all your API authentication information for Seven Bridges platforms.
+3. [Authentication via the user configuration file.](#method3) This file, by default `$HOME/.sevenbridges/credentials`, provides an organized way to collect and manage all your API authentication information for Seven Bridges platforms.
 
 <div style="margin-left:3em"><a name="method1"/>**Method 1: Direct authentication**
 
@@ -166,7 +166,7 @@ sbg_set_env("https://cgc-api.sbgenomics.com/v2", "your_token")
 
 Note that this change might be just temporary, please feel free to
 use the standard method to set persistent environment variables
-according to your operation system.
+according to your operating system.
 
 Create an `Auth` object:
 
@@ -211,21 +211,23 @@ If `profile_name` is not specified, we will try to load the profile named `[defa
 a <- Auth(from = "file")
 ```
 
-***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are as follows:
+***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are:
 
-+-------------------------------------------------------+------------------------------------------+---------------+
-| Platform                                              | API Base URL                             | Platform Name |
-+=======================================================+==========================================+===============+
-| Cancer Genomics Cloud (CGC)                           | `https://cgc-api.sbgenomics.com/v2`      | `"cgc"`       |
-+-------------------------------------------------------+------------------------------------------+---------------+
-| Seven Bridges Platform on Amazon Web Services (US)    | `https://api.sbgenomics.com/v2`          | `"aws-us"`    |
-+-------------------------------------------------------+------------------------------------------+---------------+
-| Seven Bridges Platform on Amazon Web Services (EU)    | `https://eu-api.sbgenomics.com/v2`       | `"aws-eu"`    |
-+-------------------------------------------------------+------------------------------------------+---------------+
-| Seven Bridges Platform on Google Cloud Platform (GCP) | `https://gcp-api.sbgenomics.com/v2`      | `"gcp"`       |
-+-------------------------------------------------------+------------------------------------------+---------------+
-| Cavatica                                              | `https://cavatica-api.sbgenomics.com/v2` | `"cavatica"`  |
-+-------------------------------------------------------+------------------------------------------+---------------+
++--------------------------------+------------------------------------------+---------------+
+| Platform Name                  | API Base URL                             | Short Name    |
++================================+==========================================+===============+
+| Seven Bridges Platform (US)    | `https://api.sbgenomics.com/v2`          | `"aws-us"`    |
++--------------------------------+------------------------------------------+---------------+
+| Seven Bridges Platform (EU)    | `https://eu-api.sbgenomics.com/v2`       | `"aws-eu"`    |
++--------------------------------+------------------------------------------+---------------+
+| Seven Bridges Platform (China) | `https://api.sevenbridges.cn/v2`         | `"ali-cn"`    |
++--------------------------------+------------------------------------------+---------------+
+| Cancer Genomics Cloud (CGC)    | `https://cgc-api.sbgenomics.com/v2`      | `"cgc"`       |
++--------------------------------+------------------------------------------+---------------+
+| Cavatica                       | `https://cavatica-api.sbgenomics.com/v2` | `"cavatica"`  |
++--------------------------------+------------------------------------------+---------------+
+| FAIR4CURES                     | `https://f4c-api.sbgenomics.com/v2`      | `"f4c"`       |
++--------------------------------+------------------------------------------+---------------+
 
 Please refer to the [API reference section](#auth-reference) for more usage and technical details about the three authentication methods.
 
@@ -305,7 +307,7 @@ a$billing(id = "your_billing_id", breakdown = TRUE)
 
 ## Create Project
 
-Projects are the core building blocks of the platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and team of collaborators.
+Projects are the core building blocks of the platform. Each project corresponds to a distinct scientific investigation, serving as a container for its data, analysis tools, results, and collaborators.
 
 Create a new project called "api testing" with the billing group `id` obtained above.
 
@@ -483,7 +485,7 @@ app$input_matrix(c("id", "label", "type"))
 app$input_matrix(c("id", "label", "type"), required = TRUE)
 ```
 
-Note `input_matrix` and `output_matrix` are useful accessor for `Tool`, `Flow`, `App` object as shown below in App example, you can directly call these two function on a JSON file as well. 
+Note that `input_matrix` and `output_matrix` are useful accessors for `Tool`, `Flow`, you can call these two function on a JSON file directly as well.
 
 ```{r}
 tool.in <- system.file("extdata/app", "tool_unpack_fastq.json", package = "sevenbridges")
@@ -510,7 +512,7 @@ You can find a list of possible input types below:
 
 - **number, character or integer:** you can directly pass these to the input parameter as it is.
 - **enum type:** Pass this value to the input parameter.
-- **file:** This input is a file. However, while some inputs accept only single file (`File`), other inputs takes more than one file (`File` arrays, `FilesList`, or '`File...`' ). This input require you to pass a `Files` object (for a single file input) or `FilesList` object (for inputs which accept more than one file) or simply a list in a "Files" object. You can search for your file by `id` or by `name` with an exact match (`exact = TRUE`), as shown in the example below.
+- **file:** This input is a file. However, while some inputs accept only single file (`File`), other inputs take more than one file (`File` arrays, `FilesList`, or '`File...`' ). This input requires you to pass a `Files` object (for a single file input) or `FilesList` object (for inputs which accept more than one file) or simply a list in a "Files" object. You can search for your file by `id` or by `name` with an exact match (`exact = TRUE`), as shown in the example below.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -566,7 +568,7 @@ fastq_in <- list(f1, f2)
 fastq_in <- p$file(name = "SRR1039508*.fastq", complete = TRUE)
 ```
 
-Using `complete = TRUE` when items is over 100.
+Use `complete = TRUE` when the number of items is over 100.
 
 ### Draft a batch task
 
@@ -600,13 +602,13 @@ tsk <- p$task_add(
 )
 ```
 
-Now you have a draft batch task, please check it out in the visual interface. Your response body should inform you of any errors or warnings. 
+Now you have a draft batch task. Please check it out in the visual interface. Your response body should inform you of any errors or warnings.
 
 Note: you can also directly pass file id or file names as characters to inputs list,
-the package will first guess if the passed strings are file id (24 bit hexdecimal)
+the package will first guess if the passed strings are file id (24-bit hexadecimal)
 or names, then convert it to Files or FilesList object. However, as a good practice,
 we recommend you construct your files object(e.g. `p$file(id = ..., name = ...)`) first,
-check the value, then pass it to `task_add` inputs, this is a more safe approach.
+check the value, then pass it to `task_add` inputs. This is a safer approach.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -619,14 +621,14 @@ Now, we are ready to run our task.
 tsk$run()
 ```
 
-Before you run your task, you can adjust your draft task if you have any final modifications. Or, you can delete the draft task if you no longer wish to run it.
+Before you run your task, you can adjust your draft task if you have any final modifications. Alternatively, you can delete the draft task if you no longer wish to run it.
 
 ```{r}
 # # not run
 # tsk$delete()
 ```
 
-After you run a task, you can abort it
+After you run a task, you can abort it.
 
 ```{r}
 # abort your task
@@ -682,7 +684,7 @@ tsk <- p$task_add(
 )
 ```
 
-Conversely, you can have a spot instance option enabled project,
+Conversely, you can have a spot instance enabled project,
 but draft and run specific tasks using on-demand instances,
 by setting `use_interruptible_instances = FALSE` in `task_add()` explicitly.
 
@@ -731,7 +733,7 @@ tsk$download("~/Downloads")
 getTaskHook("completed")
 ```
 
-If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE` it means the monitoring will continue for the next iteration of checking, e.g. when it is "running", you want to keep tracking.
+If you want to customize the monitor function, you can adjust the following requirement. Your function must return `TRUE` or `FALSE` in the end. When it is `TRUE` (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is `FALSE`, it means the monitoring will continue for the next iteration of checking, e.g., when it is "running", you want to keep tracking.
 
 Follow the example below to set a new function to monitor the status "completed". Then, when the task is completed, it will download all task output files to the local folder.
 
@@ -749,7 +751,7 @@ tsk$monitor()
 
 # Seven Bridges API Reference
 
-The `sevenbridges` package provides a user-friendly interface so you do not have to combine several `api()` calls and constantly reference the API documentation to issue API requests.
+The `sevenbridges` package provides a user-friendly interface, so you do not have to combine several `api()` calls and constantly reference the API documentation to issue API requests.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -761,7 +763,7 @@ Before you can interact with the API, you need to construct an `Auth` object whi
 
 - Your authentication token. This is used to authenticate your credentials with the API. Learn more about obtaining your authentication token on the [Seven Bridges Platform](https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token) and the [Cancer Genomics Cloud](http://docs.cancergenomicscloud.org/v1.0/docs/get-your-authentication-token). The approach for obtaining the authentication token also applies to the other Seven Bridges platforms.
 - The path for the API (base URL).
-- The platform name you are using (e.g. Seven Bridges Platform on AWS US, Seven Bridges Platform on AWS EU, Seven Bridges Platform on GCP, Cancer Genomics Cloud, or Cavatica). This is an optional field, as the base URL of the API ultimately decides where the API calls will be sent to. This field will only be blank when the URL was directly provided and the platform name could not be inferred from that URL.
+- The platform name you are using. This is an optional field, as the base URL of the API ultimately decides where the API calls will be sent to. This field will only be blank when the URL was directly provided, and the platform name could not be inferred from that URL.
 
 The general authentication logic for `Auth()` is as follows:
 
@@ -789,15 +791,15 @@ a <- Auth(
 )
 ```
 
-The above will use the specified `url` as base URL for the API calls. In this example, the `url` points to the Seven Bridges Platform on Google Cloud Platform (GCP).
+The above will use the specified `url` as the base URL for the API calls. In this example, the `url` points to the Seven Bridges Platform on Google Cloud Platform (GCP).
 
 ```{r}
 a <- Auth(token = "your_token")
 ```
 
-The above will use the Cancer Genomics Cloud environment, since no `platform` nor `url` were explicitly specified (not recommended).
+The above will use the Cancer Genomics Cloud environment since no `platform` nor `url` were explicitly specified (not recommended).
 
-***Note:*** `platform` and `url` should not be specified in the same time.
+***Note:*** `platform` and `url` should not be specified at the same time.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -896,7 +898,7 @@ a <- Auth(
 
 ## List All API Calls
 
-If you did not pass any parameters to `api()` from `Auth`, it will list all API calls. Any parameters you provide will be passed to the `api()` function, but you do not have to pass your input token and path once more ince the `Auth` object already has this information. The following call fromt he `Auth` object will check the response as well.
+If you did not pass any parameters to `api()` from `Auth`, it would list all API calls. Any parameters you provide will be passed to the `api()` function, but you do not have to pass your input token and path once more since the `Auth` object already has this information. The following call from the `Auth` object will check the response as well.
 
 ```{r}
 a$api()
@@ -911,7 +913,7 @@ a$api()
 Every API call accepts two arguments named `offset` and `limit`.
 
 - `offset` defines where the retrieved items started.
-- `limit` defines the quantity of items you want to get.
+- `limit` defines the number of items you want to get.
 
 By default, `offset` is set to `0` and `limit` is set to `50`. As such, your API request returns the __first 100 items__ when you list items or search for items by name. To search and list all items, use `complete = TRUE` in your API request.
 
@@ -924,7 +926,7 @@ getOption("sevenbridges")$limit
 
 ### Search by ID
 
-When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to manually set `offset` and `limit`. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
+When searching by ID, your request will return your exact resource as it is unique. As such, you do not have to set `offset` and `limit` manually. It is a good practice to find your resources by their ID and pass this ID as an input to your task. You can find a resource's ID in the final part of the URL on the visual interface or via the API requests to list resources or get a resource's details.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -932,7 +934,7 @@ When searching by ID, your request will return your exact resource as it is uniq
 
 Search by name returns all partial matches unless you specify `exact = TRUE`. This type of search will only search across current pulled content, so use `complete = TRUE` if you want to search across everything.
 
-For example, to list all public apps, use `visibility` argument, but make sure you pass `complete = TRUE` to it, to show every single things. This arguments generally works for items like "App", "Project", "Task", "File", etc.
+For example, to list all public apps, use `visibility` argument, but make sure you pass `complete = TRUE` to it, to show everything. This arguments generally works for items like "App", "Project", "Task", "File", etc.
 
 ```{r}
 # first, search by id is fast
@@ -956,7 +958,7 @@ a$app(visibility = "public", name = "bed converter", complete = TRUE)
 
 Similar to `offset` and `limit`, every API call accepts an argument named `advance_access`. This argument was first introduced in August 2017 and controls if a special field in the HTTP request header will be sent, which can enable the access to the "Advance Access" features in the Seven Bridges API. Note that the Advance Access features in the API are **not officially released yet**, therefore the API usages are subject to change, so please use with discretion.
 
-In addition to modifying each API call that uses Advance Access features, the option can be also set globally at the beginning of your API script. This offers a one-button switch for users who wants to experiment with the Advance Access features. The option is disabled by default:
+In addition to modifying each API call that uses Advance Access features, the option can also be set globally at the beginning of your API script. This offers a one-button switch for users who want to experiment with the Advance Access features. The option is disabled by default:
 
 ```{r}
 library("sevenbridges")
@@ -967,7 +969,7 @@ getOption("sevenbridges")$advance_access
 ## [1] FALSE
 ```
 
-For example, the Markers API is in Advance Access as of November, 2018. If we try to use the Markers API to list markers available on a BAM file with the `advance_access` option disabled, it will return an error message:
+For example, the Markers API is in Advance Access as of November 2018. If we try to use the Markers API to list markers available on a BAM file with the `advance_access` option disabled, it will return an error message:
 
 ```{r}
 req <- api(
@@ -1052,7 +1054,7 @@ Please read the documentation [detail](https://docs.sevenbridges.com/reference#s
 
 All API calls take the optional query parameter fields. This parameter enables you
 to specify the fields you want to be returned when listing resources
-(e.g. all your projects) or getting details of a specific resource (e.g. a given project).
+(e.g., all your projects) or getting details of a specific resource (e.g., a given project).
 
 The fields parameter can be used in the following ways:
 
@@ -1082,7 +1084,7 @@ of the app which can result in bulky response if listing many apps.
 
 6. Negations and nesting can be combined freely, so, for example, you can issue `p$file(fields="id,name,status,!metadata.library,!origin")` or `p$task(fields="!inputs,!outputs")`.
 
-Please try following examples
+Please try the following examples.
 
 ```{r}
 ## default fields id, name, project
@@ -1112,7 +1114,7 @@ a$rate_limit()
 
 This call returns a list of the resources, such as projects, billing groups, and organizations, that are accessible to you. Currently, this call will only return a successful response if {username} is replaced with your own username. Be sure to capitalize your username in the same way as when you registered for an account.
 
-If you did not provide a username, your user information will be shown.
+If you did not provide a username, it will show your user information.
 
 ```{r}
 # return your information
@@ -1139,14 +1141,14 @@ a$billing(id = b$id, breakdown = TRUE)
 
 ### For invoices
 
-If no Billing Group `id` provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice `id` is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.
+If no Billing Group `id` provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. This call returns information about all your available invoices unless you use the query parameter bg_id to specify the ID of a particular Billing Group, in which case it will return the invoice incurred by that Billing Group only. If an invoice `id` is provided, this call retrieves information about the specified invoice, including the costs for analysis and storage and the invoice period.
 
 ```{r}
 a$invoice()
 a$invoice(id = "your_id")
 ```
 
-***Note:*** Currently, invoice is not an object. Instead, it just returns a list.
+***Note:*** Currently, invoice is not an object. Instead, it just returns a regular R list.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -1158,7 +1160,7 @@ Projects are the basic units to organize different entities: files, tasks, apps,
 
 ### List all projects
 
-The following call returns a list of all projects of which you are a member. Each project's `project_id` and path will be returned.
+The following call returns a list of all projects of which you are a member. Each project's `project_id` and the path will be returned.
 
 ```{r}
 a$project()
@@ -1171,7 +1173,7 @@ a$project(owner = "RFranklin")
 a$project(owner = "Rosalind.Franklin")
 ```
 
-To get details about project(s), use `detail = TRUE`, as shown below.
+To get details about the project(s), use `detail = TRUE`, as shown below.
 
 ```{r}
 a$project(detail = TRUE)
@@ -1307,7 +1309,7 @@ admin : FALSE
 
 #### Delete a member
 
-To delete an existing member, just call the `delete()` action on the `Member` object.
+To delete an existing member, call the `delete()` action on the `Member` object.
 
 ```{r}
 m$delete()
@@ -1341,7 +1343,7 @@ p$file()
 p$file(complete = TRUE)
 ```
 
-Alternatively you can get files from the `Auth` object.
+Alternatively, you can get files from the `Auth` object.
 
 ```{r}
 a$file(project = p$id)
@@ -1354,13 +1356,13 @@ a$file(name = "omni", project = p$id, detail = TRUE)
 
 #### Rule of thumb
 
-You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. User could serach by metadata, tags, and original task id.
+You can easily search by partial name, exact name, or id for many items like project, apps, files. Fortunately, we have more powerful filters for files. The user could search by metadata, tags, and the original task ID.
 
 1. __First rule: understand the scope__: We know we have default `limit = 100` and `offset = 0` for first 100 items, unless you are using arguments `complete = TRUE`. Things are different when it comes to files. When you search with exact name (search by name with `exact = TRUE` on), metadata, or tags, it searches through ALL files. You do not have to specify `complete = TRUE`. Simply provide the project id or make the call from a project object as shown below.
 
-2. __Second rule: understand the operation__: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. __Note__ different metadata fields are treated as different fields as well, so it will be __AND__ operation for different metadata field.
+2. __Second rule: understand the operation__: When filtering on any resource, including the same field several times with different filtering criteria results in an implicit OR operation for that field and the different criteria.When filtering by different specified fields, an implicit AND is performed between those criteria." so which are different fields, metadata, origin.task, tags, those are different fields. __Note__ different metadata fields are treated as different fields as well, so it will be an __AND__ operation for different metadata fields.
 
-So for a quick example, this examples gives me all files in project `RFranklin/demo` that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
+As a quick example, the following code gives us all files in the project `RFranklin/demo` that with metadata sample_id "Sample1" __OR__ "Sample2", __AND__ the library id has to be "EXAMPLE", __AND__ tags has either "hello" __OR__ "world".
 
 ```{r}
 p <- a$project(id = "RFranklin/demo")
@@ -1380,9 +1382,9 @@ p$file(
 
 There are two ways to return the exact file you want. One is by `id`, the other one is by exact `name`.
 
-***For advanced users:*** When searching by name with `exact = TRUE`, it directly uses our public API call to match exact name and return the object with a single query. When you turn off `exact`, it will `grep` all files or files defined with `limit` and `offset` first, then match by name, which could be slow.
+***For advanced users:*** When searching by name with `exact = TRUE`, it directly uses our public API call to match the exact name and return the object with a single query. When you turn off `exact`, it will `grep` all files or files defined with `limit` and `offset` first, then match by name, which could be slow.
 
-To get the file id, you can check the url on the visual interface from the file details page.
+To get the file id, you can check the URL on the web interface from the file details page.
 
 ```{r}
 # return single object id is "some_file_id"
@@ -1406,7 +1408,7 @@ a$public_file(
 )
 ```
 
-If you did not use `exact = TRUE`, the API will assume it is pattern grep and use partial matching.
+If you did not use `exact = TRUE`, the API would assume it is pattern grep and use partial matching.
 
 ```{r}
 # get matchd the pattern for searching first 100 files
@@ -1423,7 +1425,7 @@ a$public_file(name = "ucsc.hg19", complete = TRUE)
 
 When you specify different metadata fields, the values use an __AND__ operation, and when you specify the same metadata fields, the values use an __OR__ operation.
 
-To list all files in project `RFranklin/demo`, that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request
+To list all files in project `RFranklin/demo`, that have a `sample_id` of "Sample1" __OR__ "Sample2" __AND__  another metadata field library_id set to "EXAMPLE", make the following request.
 
 ```{r}
 p <- a$project(id = "RFranklin/demo")
@@ -1440,7 +1442,7 @@ p$file(metadata = list(
 
 Tags are more flexible than metadata. You can search with multiple tags using an __OR__ operation.
 
-This examples shows how to return all files with the tag "s1" __OR__ "s2".
+This example shows how to return all files with the tag "s1" __OR__ "s2".
 
 ```{r}
 p <- a$project(id = "RFranklin/demo")
@@ -1498,7 +1500,7 @@ Alternatively, you copy a __single file__ as shown below.
 a$project("hello")$file(id = fid)$copyTo(pid)
 ```
 
-Notably, if you have a number of files to copy between projects, we would always recommend using the `Auth$bulk_file_copy()` method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.
+Notably, if you have many files to copy between projects, we would always recommend using the `Auth$bulk_file_copy()` method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.
 
 <div align="right"><a href="#top">top</a></div>
 
@@ -1561,7 +1563,7 @@ Seven Bridges platforms provide a few different methods for data import:
 - Import from FTP or HTTP with the web interface
 - The GUI uploader
 - The file upload API that you can directly call with the `sevenbridges` package
-- The command line uploader which can be involked with the `sevenbridges` package
+- The command line uploader which can be invoked with the `sevenbridges` package
 
 Use the API client uploader by calling the `project$upload` function to upload a file, a file list, or a folder recursively or via a manifest file.
 
@@ -1602,35 +1604,41 @@ p$upload(fls, overwrite = TRUE)
 p$upload("~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf")
 ```
 
-#### Upload files via defined manifest file
+#### Upload files via a defined manifest file
 
-A manifest file is a file used to define metadata values for a set of files. It can be used when uploading files to the Platform to set their metadata.The supported file format for the manifest file is CSV, i.e. comma separated values. A CSV file contains a number of rows with columns which are separated with a comma. Format of manifest file is defined in the [documentaion online](https://docs.sevenbridges.com/docs/format-of-a-manifest-file)
+A manifest file is a file used to define metadata values for a set of files. It can be used when uploading files to the platform to set their metadata. The supported file format for the manifest file is CSV. A CSV file contains a number of rows with columns which are separated with a comma. The format of a manifest file is defined in the [documentaion](https://docs.sevenbridges.com/docs/format-of-a-manifest-file).
 
 Some requirements:
 
-- The first row has to contain column names which are parsed as metadata fields (e.g. "sample"", "library""). When it's not customized fields, we do converstion for meta fields like "sample_id" which need to be string.
-- The first column has to contain the names of the files which will be uploaded. In case the files are not in the same directory as the manifest file, you should also include a path to the files (e.g. ../filename.fastq).
+- The first row has to contain column names which are parsed as metadata fields (e.g. `sample`, `library`). When it is not customized fields, we do the conversion for meta fields like `sample_id` which need to be a string.
+- The first column has to contain the names of the files which will be uploaded. In case the files are not in the same directory as the manifest file, you should also include a path to the files (e.g. `../filename.fastq`).
 
 We allow users to
 
-- choose to upload metadata or not.
-- choose to use `subset` style to upload only part of metadata
-- choose to use `subset` style to upload only part of files with filter
+- choose to upload metadata or not
+- choose to use `subset` to upload only part of the metadata
+- choose to use `subset` to upload only part of files with filter
 
-Please check couple examples below
+Please check the examples below.
 
-```
-## upload all fiels and all metadatas
+```{r}
+# upload all fiels and all metadata
 p$upload(manifest_file = "~/manifest.csv")
-## verbal = TRUE, print single file level progress
+
+# verbal = TRUE, print single file level progress
 p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, verbal = TRUE)
-## manifest_metadata = FALSE doens't attach any meta
+
+# manifest_metadata = FALSE doens't attach any metadata
 p$upload(manifest_file = "~/manifest.csv", manifest_metadata = FALSE, overwrite = TRUE)
-## filter fils first, upload only files that score < 0.5
+
+# filter files first, upload only files with score < 0.5
 p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE, subset = score < 0.5)
-## attach all meta except "bad_field" and "sample_id"
-p$upload(manifest_file = "~/manifest.csv", overwrite = TRUE,
-         subset = score < 0.5, select = -c(bad_field, sample_id))
+
+# attach all meta except "bad_field" and "sample_id"
+p$upload(
+  manifest_file = "~/manifest.csv", overwrite = TRUE,
+  subset = score < 0.5, select = -c(bad_field, sample_id)
+)
 ```
 
 <div align="right"><a href="#top">top</a></div>
@@ -1684,12 +1692,12 @@ cli_upload(
 
 ### Update a file
 
-You can call the `update()` function from the Files object. Using this call, the following can be updated:
+You can call the `update()` function from the Files object. With this call, the following can be updated:
 
 - The file's `name`.
 - The file's `metadata`. The metadata is in the form of a list. Note that as this call overwrites all the metadata for a given file, please supply a full list of all the metadata for the file. Conversely, you can use the [`set_meta()` function](#set_metadata) to patch but not overwrite the metadata for a file.
 
-If no parameters were provided, this call will just get the details of that file and update the object itself.
+If no parameters were provided, this call will get the details of that file and update the object itself.
 
 ```{r}
 (fl <- a$project(id = "RFranklin/demo-project")$file(name = "sample.fastq"))
@@ -1739,7 +1747,7 @@ To get the metadata for a file, call the `meta()` function, as shown below.
 ```{r}
 # meta is pulling the latest information via API
 fl$meta()
-# field meta data saved the previous saved one
+# field metadata saved the previously saved one
 fl$metadata
 ```
 
@@ -1760,7 +1768,7 @@ fl
 
 **Check details of each metadata field**
 
-You can use the `Metadata()` constructor to check the details of each metadata field. Simply call the function (name of the metadata) to display descriptions and enumerated itemts. Please pay attention to the `suggested_values` field.
+You can use the `Metadata()` constructor to check the details of each metadata field. Simply call the function (name of the metadata) to display descriptions and enumerated items. Please pay attention to the `suggested_values` field.
 
 ```{r}
 # check which schema we have
@@ -1786,7 +1794,7 @@ Metadata(
 
 ### Tag file(s)
 
-You can tag your files with keywords or strings to make it easier to identify and organize files. Tags are different from metadata, and are more convenient and visible from the files list on the visual interface.
+You can tag your files with keywords or strings to make it easier to identify and organize files. Tags are different from metadata and are more convenient and visible from the files list on the visual interface.
 
 **Add a new tag**
 
@@ -1840,7 +1848,7 @@ p$file(tag = list("s2", "s1"))
 The Folders API allows you to organize your files using folders
 in projects. From a filesystem perspective, folders are simply
 a special type of file. Therefore, within this package, the folder
-objects are still represented using the same class like the file
+objects are still represented using the same class as the file
 objects above, only with specific methods for operating on them.
 
 <div align="right"><a href="#top">top</a></div>
@@ -1890,7 +1898,7 @@ To create a new_folder under the project root folder, use
 folder1 <- root_folder$create_folder("folder1")
 ```
 
-To create new folder under `folder1`, use
+To create a new folder under `folder1`, use
 
 ```{r}
 folder2 <- folder1$create_folder("folder2")
@@ -2107,7 +2115,7 @@ a$app("STAR", visibility = "public", complete = TRUE)
 
 ### Copy an app
 
-This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.
+This call copies the specified app to a specified project. The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly available app which has been copied to the project.
 
 This call requires the following two arguments:
 
@@ -2137,7 +2145,7 @@ app$copy_to(
 
 This call returns the raw CWL of a specific app, including its raw CWL. The call differs from the call to GET details of an app in that it returns a JSON object that is the CWL.
 
-The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly availble app which has been copied to the project.
+The app should be one in a project that you can access, either an app which has been uploaded by a project member or a publicly available app which has been copied to the project.
 
 To get a specific revision, pass the `revision` argument.
 
@@ -2175,12 +2183,12 @@ This is introduced in another vignette (`vignette("apps", "sevenbridges")`).
 
 <div align="right"><a href="#top">top</a></div>
 
-### Create test or keep previous test for Tool
+### Create test or keep the previous test for Tool
 
-On sevenbridges platform, when you create or update your tools in the GUI, there
+On Seven Bridges platforms, when you create or update your tools in the GUI, there
 is a test tab allow users to tweak the parameters and see what it looks like in
-your commandline simulatd terminal. To do this via R when you push your Tool object
-to your project, you need to provide "sbg:job" information like the example shown below
+your command line simulated terminal. To do this via R when you push your Tool object
+to your project, you need to provide `"sbg:job"` information like the example shown below
 
 ```{r}
 rbx <- Tool(
@@ -2201,7 +2209,7 @@ rbx <- Tool(
 p$app_add("random", rbx)
 ```
 
-Or if you have created a test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide a arguments called `keep_test` to allow you keep the previous revision's test information.
+Or if you have created test info on the platform or previously pushed one, and you want to keep the previous test setup. We provide an argument named `keep_test` to allow you to keep the previous revision's test information.
 
 ```{r}
 rbx <- Tool(
@@ -2224,7 +2232,7 @@ p$app_add("random", rbx, keep_test = TRUE)
 
 ### List tasks
 
-This call returns a list of tasks that you can access. You are able to filter tasks by status.
+This call returns a list of tasks that you can access. You can filter tasks by status.
 
 ```{r}
 # all tasks
@@ -2234,7 +2242,7 @@ a$task(status = "completed")
 a$task(status = "running")
 ```
 
-To list all tasks in a project, use the following.
+To list all the tasks in a project, use the following.
 
 ```{r}
 # a better way
@@ -2331,8 +2339,8 @@ tsk$update()
 
 To monitor a running task, call `monitor` from a Task object.
 
-- First argument, set the interval time to check the status
-- Rest arguments might be used for hook function
+- The first argument sets the interval time to check the status
+- Rest of the arguments might be used for the hook function
 
 ```{r}
 tsk$monitor()
@@ -2391,9 +2399,9 @@ tsk$download("~/Downloads")
 
 <div align="right"><a href="#top">top</a></div>
 
-### Run task in batch mode
+### Run tasks in batch mode
 
-To run task in batch mode, (check `?batch`) for more details. The code below is a mock.
+To run tasks in batch mode, (check `?batch`) for more details. The code below is a mockup example.
 
 ```{r}
 # batch by items
@@ -2430,7 +2438,7 @@ To run task in batch mode, (check `?batch`) for more details. The code below is 
 
 ## Volumes
 
-Cloud storage providers come with their own interfaces, features and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.
+Cloud storage providers come with their own interfaces, features, and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.
 
 Seven Bridges environments mediate access to these repositories using volumes. A volume is associated with a particular cloud storage repository that you have enabled Seven Bridges to read from (and, optionally, to write to). Currently, volumes may be created using two types of cloud storage repository: Amazon Web Services' (AWS) S3 buckets and Google Cloud Storage (GCS) buckets.
 
@@ -2517,7 +2525,7 @@ __Important__ :
 - The file selected for export must not be a public file or an alias. Aliases are objects stored in your cloud storage bucket which have been made available on a Seven Bridges environment. The volume you are exporting to must be configured for read-write access. To do this, set the access_mode parameter to RW when creating or modifying a volume.
 - If this call is successful, the original project file will become an alias to the newly exported object on the volume. The source file will be deleted from the Seven Bridges environment and, if no more copies of this file exist, it will no longer count towards your total storage price on the Seven Bridges environment.
 
-When testing please update your file in a project.
+When testing, please update your file in a project.
 
 ```{r}
 res <- v$export(
@@ -2662,7 +2670,7 @@ The Enterprise API allows you to manage your Enterprise on the Seven Bridges Pla
 
 ### API token for the division context
 
-Note that the authentication token for the Enterprise API is a separate token generated under the context of you division, which is different from your non-division (personal) auth token. You may see the following error when using the non-division token to call the Enterprise API:
+Note that the authentication token for the Enterprise API is a separate token generated under the context of your division, which is different from your non-division (personal) auth token. You may see the following error when using the non-division token to call the Enterprise API:
 
 ```
 Error: HTTP Status 400: Insufficient privileges to access this resource. Not a division user.
@@ -2867,7 +2875,7 @@ The possible parameters for creating the marker include
 - Chromosome number (`chromosome`)
 - Whether the marker is private or public (`private`).
 
-The marker's name and its position are mandatory parameters, the others are optional.
+The marker's name and its position are mandatory parameters, and the others are optional.
 
 ### List markers available on a file
 
@@ -2944,7 +2952,7 @@ m2$delete()
 
 ## Get Raw Response from httr
 
-In the easy API, we return an object which contains the raw response from `httr` as a field. You can either call `response()` on that object or just use the field as is.
+In the easy API, we return an object which contains the raw response from `httr` as a field. You can either call `response()` on that object or use the field as is.
 
 <div align="right"><a href="#top">top</a></div>
 

@@ -3,8 +3,9 @@
   "cgc" = "https://cgc-api.sbgenomics.com/v2/",
   "aws-us" = "https://api.sbgenomics.com/v2/",
   "aws-eu" = "https://eu-api.sbgenomics.com/v2/",
-  "gcp" = "https://gcp-api.sbgenomics.com/v2/",
-  "cavatica" = "https://cavatica-api.sbgenomics.com/v2/"
+  "ali-cn" = "https://api.sevenbridges.cn/v2/",
+  "cavatica" = "https://cavatica-api.sbgenomics.com/v2/",
+  "f4c" = "https://f4c-api.sbgenomics.com/v2/"
 )
 
 # default platform

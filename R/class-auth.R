@@ -11,11 +11,15 @@
 #' \code{"env"} (read from pre-set system environment variables),
 #' or \code{"file"} (read configurations from a credentials file).
 #' Default is \code{"direct"}.
-#' @field platform [character] Which platform you want to use,
-#' if platform and url are both not specified, the default is
-#' \code{"cgc"} (Cancer Genomics Cloud). Possible values include
-#' \code{"cgc"}, \code{"aws-us"}, \code{"aws-eu"}, \code{"gcp"},
-#' and \code{"cavatica"}.
+#' @field platform [character] The platform to use.
+#' If \code{platform} and \code{url} are both not specified,
+#' the default is \code{"cgc"} (Cancer Genomics Cloud).
+#' Other possible values include
+#' \code{"aws-us"} (Seven Bridges Platform - US),
+#' \code{"aws-eu"} (Seven Bridges Platform - EU),
+#' \code{"ali-cn"} (Seven Bridges Platform - China),
+#' \code{"cavatica"} (Cavatica), and
+#' \code{"f4c"} (FAIR4CURES).
 #' @field url [character] Base URL for API. Please only use this when you
 #' want to specify a platform that is not in the \code{platform} list
 #' above, and also leaving \code{platform} unspecified.
@@ -39,7 +43,6 @@
 #' # replace with your auth token
 #' token <- "your_token"
 #' a <- Auth(platform = "cgc", token = token)
-#'
 #' \dontrun{
 #' # Authentication with environment variables
 #' # This will read system environments variables
@@ -49,7 +52,8 @@
 #' # Authentication with user configuration file
 #' # This will load profile `default` from config
 #' # file `~/.sevenbridges/credentials` by default
-#' a <- Auth(from = "file")}
+#' a <- Auth(from = "file")
+#' }
 Auth <- setRefClass(
   "Auth",
   fields = list(
@@ -1085,30 +1089,114 @@ Auth <- setRefClass(
       .asRate(req)
     },
 
-    # bulk actions -------------------------------------------------------------
-    bulk_file_get = function(...) {
+    # bulk ---------------------------------------------------------------------
+    bulk_file_get = function(file_ids, ...) {
       "Get details of multiple files."
+      if (length(file_ids) <= 100L) {
+        req <- api(
+          path = "bulk/files/get",
+          body = list("file_ids" = file_ids),
+          method = "POST", ...
+        )
+        req_noname <- sapply(req$items, unname)
+      } else {
+        # if more than 100 files, split into 100-sized chunks
+        file_ids_lst <- split(file_ids, ceiling(seq_along(file_ids) / 100L))
+        # loop over
+        req <- vector("list", length(file_ids_lst))
+        for (i in 1L:length(file_ids_lst)) {
+          req[[i]] <- api(
+            path = "bulk/files/get",
+            body = list("file_ids" = file_ids_lst[[i]]),
+            method = "POST", ...
+          )
+        }
+        # merge all
+        req_noname <- sapply(unname(unlist(unlist(req, recursive = FALSE), recursive = FALSE)), unname)
+      }
+
+      req <- list("items" = req_noname)
+
+      res <- .asFilesList(req)
+      setAuth(res, .self, "Files")
+
+      res
+    },
+
+    bulk_file_edit = function(...) {
+      "Edit details of multiple files (preserving the omitted fields)."
       NULL
     },
 
     bulk_file_update = function(...) {
-      "Update details of multiple files."
+      "Update details of multiple files (removing the omitted fields)."
       NULL
     },
 
-    bulk_file_edit = function(...) {
-      "Edit details of multiple files."
-      NULL
-    },
-
-    bulk_file_delete = function(...) {
+    bulk_file_delete = function(file_ids, ...) {
       "Delete multiple files."
-      NULL
+      if (length(file_ids) <= 100L) {
+        req <- api(
+          path = "bulk/files/delete",
+          body = list("file_ids" = file_ids),
+          method = "POST", ...
+        )
+        req_noname <- sapply(req$items, unname)
+      } else {
+        # if more than 100 files, split into 100-sized chunks
+        file_ids_lst <- split(file_ids, ceiling(seq_along(file_ids) / 100L))
+        # loop over
+        req <- vector("list", length(file_ids_lst))
+        for (i in 1L:length(file_ids_lst)) {
+          req[[i]] <- api(
+            path = "bulk/files/delete",
+            body = list("file_ids" = file_ids_lst[[i]]),
+            method = "POST", ...
+          )
+        }
+        # merge all
+        req_noname <- sapply(unname(unlist(unlist(req, recursive = FALSE), recursive = FALSE)), unname)
+      }
+
+      req <- list("items" = req_noname)
+
+      res <- .asFilesList(req)
+      setAuth(res, .self, "Files")
+
+      res
     },
 
-    bulk_task_get = function(...) {
+    bulk_task_get = function(task_ids, ...) {
       "Get details of multiple tasks."
-      NULL
+      if (length(task_ids) <= 100L) {
+        req <- api(
+          path = "bulk/tasks/get",
+          body = list("task_ids" = task_ids),
+          method = "POST", ...
+        )
+        req_noname <- sapply(req$items, unname)
+      } else {
+        # if more than 100 tasks, split into 100-sized chunks
+        task_ids_lst <- split(task_ids, ceiling(seq_along(task_ids) / 100L))
+        # loop over
+        req <- vector("list", length(task_ids_lst))
+        for (i in 1L:length(task_ids_lst)) {
+          req[[i]] <- api(
+            path = "bulk/tasks/get",
+            body = list("task_ids" = task_ids_lst[[i]]),
+            method = "POST", ...
+          )
+        }
+        # merge all
+        req_noname <- sapply(unname(unlist(unlist(req, recursive = FALSE), recursive = FALSE)), unname)
+      }
+
+      req <- list("items" = req_noname)
+
+      res <- .asTaskList(req)
+      setAuth(res, .self, "Task")
+
+      res
     },
 
     bulk_volume_import = function(...) {

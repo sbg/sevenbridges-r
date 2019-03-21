@@ -22,11 +22,15 @@ could start from this object using cascading style. Please check
 or \code{"file"} (read configurations from a credentials file).
 Default is \code{"direct"}.}
 
-\item{\code{platform}}{[character] Which platform you want to use,
-if platform and url are both not specified, the default is
-\code{"cgc"} (Cancer Genomics Cloud). Possible values include
-\code{"cgc"}, \code{"aws-us"}, \code{"aws-eu"}, \code{"gcp"},
-and \code{"cavatica"}.}
+\item{\code{platform}}{[character] The platform to use.
+If \code{platform} and \code{url} are both not specified,
+the default is \code{"cgc"} (Cancer Genomics Cloud).
+Other possible values include
+\code{"aws-us"} (Seven Bridges Platform - US),
+\code{"aws-eu"} (Seven Bridges Platform - EU),
+\code{"ali-cn"} (Seven Bridges Platform - China),
+\code{"cavatica"} (Cavatica), and
+\code{"f4c"} (FAIR4CURES).}
 
 \item{\code{url}}{[character] Base URL for API. Please only use this when you
 want to specify a platform that is not in the \code{platform} list
@@ -60,15 +64,15 @@ The default value is \code{"default"}.}
 
 \item{\code{bulk_file_copy(file_ids, project, ...)}}{Copy files between projects in a batch.}
 
-\item{\code{bulk_file_delete(...)}}{Delete multiple files.}
+\item{\code{bulk_file_delete(file_ids, ...)}}{Delete multiple files.}
 
-\item{\code{bulk_file_edit(...)}}{Edit details of multiple files.}
+\item{\code{bulk_file_edit(...)}}{Edit details of multiple files (preserving the omitted fields).}
 
-\item{\code{bulk_file_get(...)}}{Get details of multiple files.}
+\item{\code{bulk_file_get(file_ids, ...)}}{Get details of multiple files.}
 
-\item{\code{bulk_file_update(...)}}{Update details of multiple files.}
+\item{\code{bulk_file_update(...)}}{Update details of multiple files (removing the omitted fields).}
 
-\item{\code{bulk_task_get(...)}}{Get details of multiple tasks.}
+\item{\code{bulk_task_get(task_ids, ...)}}{Get details of multiple tasks.}
 
 \item{\code{bulk_volume_export(...)}}{Bulk export to volumes.}
 
@@ -111,7 +115,6 @@ The default value is \code{"default"}.}
 # replace with your auth token
 token <- "your_token"
 a <- Auth(platform = "cgc", token = token)
-
 \dontrun{
 # Authentication with environment variables
 # This will read system environments variables
@@ -121,5 +124,6 @@ a <- Auth(from = "env")
 # Authentication with user configuration file
 # This will load profile `default` from config
 # file `~/.sevenbridges/credentials` by default
-a <- Auth(from = "file")}
+a <- Auth(from = "file")
+}
 }
