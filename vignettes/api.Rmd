@@ -1192,6 +1192,29 @@ a$project("hello")
 
 <div align="right"><a href="#top">top</a></div>
 
+### Filter by project creation date, modification date, and creator
+
+Project creation date, modification date, and creator information is useful for quickly locating the project you need, especially when you want to follow the life cycle of a large number of projects and distinguish recent projects from old ones. To facilitate such needs, the fields `created_by`, `created_on`, and `modified_on` are returned in the project query calls:
+
+```{r}
+# return all projects matching the name "wgs"
+p <- a$project("wgs", complete = TRUE)
+
+# filter by project creators
+creators <- sapply(p, "[[", "created_by")
+which(creator == "RFranklin")
+
+# filter by project creation date
+create_date <- as.Date(sapply(p, "[[", "created_on"))
+which(as.Date(create_date) < as.Date("2019-01-01"))
+
+# filter by project modification date
+modify_date <- as.Date(sapply(p, "[[", "modified_on"))
+which(as.Date(modify_date) < as.Date("2019-01-01"))
+```
+
+<div align="right"><a href="#top">top</a></div>
+
 ### Create a new project
 
 To create a new project, users need to specify the following:
