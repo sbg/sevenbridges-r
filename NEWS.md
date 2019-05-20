@@ -1,3 +1,9 @@
+# sevenbridges 1.15.1
+
+## Improvements
+
+- Added new fields `created_by`, `created_on`, and `modified_on` to the `Project` class following the recent API improvements. This enables better project filtering when querying projects. See the [vignette](https://sbg.github.io/sevenbridges-r/articles/api.html#filter-by-project-creation-date-modification-date-and-creator) for details.
+
 # sevenbridges 1.13.5
 
 ## Improvements
