@@ -12,16 +12,20 @@ Project <- setRefClass(
     owner = "characterORNULL",
     tags = "listORNULL",
     settings = "listORNULL",
-    root_folder = "characterORNULL"
+    root_folder = "characterORNULL",
+    created_by = "characterORNULL",
+    created_on = "characterORNULL",
+    modified_on = "characterORNULL"
   ),
 
   methods = list(
 
     # initialize ---------------------------------------------------------------
     initialize = function(id = NULL, name = NULL, billing_group_id = NULL,
-                              description = "", type = "", owner = NULL,
-                              tags = list(), settings = list(),
-                              root_folder = "", ...) {
+                          description = "", type = "", owner = NULL,
+                          tags = list(), settings = list(),
+                          root_folder = "", created_by = "",
+                          created_on = "", modified_on = "", ...) {
       if (is.null(id)) stop("id is required")
 
       # FIXME in the future
@@ -40,6 +44,9 @@ Project <- setRefClass(
       tags <<- tags
       settings <<- settings
       root_folder <<- root_folder
+      created_by <<- created_by
+      created_on <<- created_on
+      modified_on <<- modified_on
 
       callSuper(...)
     },
@@ -80,7 +87,7 @@ Project <- setRefClass(
 
     # member -------------------------------------------------------------------
     member = function(username = NULL, name = username,
-                          ignore.case = TRUE, exact = FALSE, ...) {
+                      ignore.case = TRUE, exact = FALSE, ...) {
       if (is.null(id)) stop("id must be provided")
 
       req <- api(
@@ -97,17 +104,17 @@ Project <- setRefClass(
         return(ms)
       } else {
         m <- m.match(ms,
-          name = name,
-          .name = "username",
-          exact = exact
+                     name = name,
+                     .name = "username",
+                     exact = exact
         )
         return(m)
       }
     },
 
     member_add = function(username = NULL, name = username,
-                              copy = FALSE, write = FALSE, execute = FALSE,
-                              admin = FALSE, read = FALSE, ...) {
+                          copy = FALSE, write = FALSE, execute = FALSE,
+                          admin = FALSE, read = FALSE, ...) {
       body <- list(
         "username" = name,
         "permissions" = list(
@@ -132,9 +139,9 @@ Project <- setRefClass(
 
     # file ---------------------------------------------------------------------
     file = function(name = NULL,
-                        id = NULL,
-                        exact = FALSE,
-                        detail = FALSE, ...) {
+                    id = NULL,
+                    exact = FALSE,
+                    detail = FALSE, ...) {
       res <- auth$file(
         name = name,
         id = id,
@@ -146,9 +153,9 @@ Project <- setRefClass(
     },
 
     upload = function(filename = NULL, name = NULL, metadata = list(),
-                          overwrite = FALSE, manifest_file = NULL,
-                          manifest_metadata = TRUE, subset, select,
-                          verbal = NULL, ...) {
+                      overwrite = FALSE, manifest_file = NULL,
+                      manifest_metadata = TRUE, subset, select,
+                      verbal = NULL, ...) {
 
       # upload via a manifest
       if (!is.null(manifest_file)) {
@@ -241,8 +248,8 @@ Project <- setRefClass(
             upload(x[, 1], metadata = .m, overwrite = overwrite, verbal = verbal, ...)
           } else {
             suppressMessages(upload(x[, 1],
-              metadata = .m, overwrite = overwrite,
-              verbal = verbal, ...
+                                    metadata = .m, overwrite = overwrite,
+                                    verbal = verbal, ...
             ))
             setTxtProgressBar(pb, i)
           }
@@ -269,8 +276,8 @@ Project <- setRefClass(
             message(fl)
             if (file.info(fl)$size > 0) {
               upload(fl,
-                metadata = metadata,
-                overwrite = overwrite, verbal = verbal, ...
+                     metadata = metadata,
+                     overwrite = overwrite, verbal = verbal, ...
               )
             } else {
               warning("skip uploading: empty file")
@@ -278,8 +285,8 @@ Project <- setRefClass(
           } else {
             if (file.info(fl)$size > 0) {
               upload(fl,
-                metadata = metadata,
-                overwrite = overwrite, verbal = verbal, ...
+                     metadata = metadata,
+                     overwrite = overwrite, verbal = verbal, ...
               )
               setTxtProgressBar(pb, i)
             }
@@ -296,8 +303,8 @@ Project <- setRefClass(
         message("Upload all files in the folder: ", filename)
         fls <- list.files(filename, recursive = TRUE, full.names = TRUE)
         upload(fls,
-          metadata = metadata,
-          overwrite = overwrite, verbal = verbal, ...
+               metadata = metadata,
+               overwrite = overwrite, verbal = verbal, ...
         )
         return(invisible())
       }
@@ -437,10 +444,10 @@ Project <- setRefClass(
     },
 
     task_add = function(name = NULL, description = NULL, batch = NULL,
-                            app = NULL, inputs = NULL,
-                            input_check = getOption("sevenbridges")$input_check,
-                            use_interruptible_instances = NULL,
-                            execution_settings = NULL, ...) {
+                        app = NULL, inputs = NULL,
+                        input_check = getOption("sevenbridges")$input_check,
+                        use_interruptible_instances = NULL,
+                        execution_settings = NULL, ...) {
 
       # spot instance logic:
       # if it's NULL, then follow the project settings (if project set it to TRUE, then use TRUE, and vice versa)
@@ -538,6 +545,9 @@ Project <- setRefClass(
     billing_group_id = x$billing_group,
     settings = x$settings,
     root_folder = x$root_folder,
+    created_by = x$created_by,
+    created_on = x$created_on,
+    modified_on = x$modified_on,
     response = response(x)
   )
 }
