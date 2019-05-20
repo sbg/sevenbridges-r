@@ -1,7 +1,5 @@
 ---
 title: "Complete Guide for Seven Bridges API R Client"
-author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>> <br>
-         Nan Xiao <<nan.xiao@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:

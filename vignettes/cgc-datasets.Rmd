@@ -1,6 +1,5 @@
 ---
 title: "Find Data on CGC via Data Browser and Datasets API"
-author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:

@@ -104,7 +104,6 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
-                        <h4 class="author">Tengfei Yin &lt;<a href="mailto:tengfei.yin@sevenbridges.com" class="email">tengfei.yin@sevenbridges.com</a>&gt;</h4>
             
             <h4 class="date">2019-05-20</h4>
       
@@ -438,7 +437,7 @@ auth_token = token_for_this_user</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
+LABEL maintainer="nan.xiao@sevenbridges.com"
 
 RUN Rscript -e 'source("http://bioconductor.org/workflows.R"); workflowInstall("rnaseqGene")'
 
@@ -1497,7 +1496,7 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 <a class="sourceLine" id="cb49-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
+LABEL maintainer="nan.xiao@sevenbridges.com"
 
 RUN rm -f /var/lib/dpkg/available \
     &amp;&amp; rm -rf  /var/cache/apt/* \

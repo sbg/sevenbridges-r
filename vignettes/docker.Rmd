@@ -1,6 +1,5 @@
 ---
 title: "Creating Your Docker Container and Command Line Interface (with docopt)"
-author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:

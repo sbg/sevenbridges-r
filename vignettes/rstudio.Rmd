@@ -1,6 +1,5 @@
 ---
 title: "IDE Container: RStudio Server, Shiny Server, and More"
-author: "Tengfei Yin <<tengfei.yin@sevenbridges.com>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:

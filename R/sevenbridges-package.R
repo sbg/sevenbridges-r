@@ -12,7 +12,7 @@
 #' @docType package
 #' @author
 #' Nan Xiao <\email{nan.xiao@@sevenbridges.com}>
-#' Tengfei Yin <\email{tengfei.yin@@sevenbridges.com}>
+#' Tengfei Yin
 #' Dusan Randjelovic
 #' Emile Young
 #'

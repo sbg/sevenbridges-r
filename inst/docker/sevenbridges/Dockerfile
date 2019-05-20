@@ -1,5 +1,6 @@
 FROM rocker/tidyverse
-MAINTAINER "Tengfei Yin" tengfei.yin@sevenbridges.com
+
+LABEL maintainer="nan.xiao@sevenbridges.com"
 
 ## Install common dependencies
 RUN apt-get update && apt-get install -y  \
