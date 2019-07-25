@@ -105,7 +105,7 @@
     <div class="page-header toc-ignore">
       <h1>Creating Your Docker Container and Command Line Interface (with docopt)</h1>
             
-            <h4 class="date">2019-05-20</h4>
+            <h4 class="date">2019-07-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/docker.Rmd"><code>vignettes/docker.Rmd</code></a></small>
       <div class="hidden name"><code>docker.Rmd</code></div>
@@ -242,11 +242,11 @@
 <h1 class="hasAnchor">
 <a href="#tutorial-random-number-generator" class="anchor"></a>Tutorial: Random Number Generator</h1>
 <p>Our goal here is to making a CWL app to generate uniform random numbers, yes, the core function is <code><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif()</a></code>, it’s a native function in R.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput</a></span>(runif)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput</a></span>(runif)</span></code></pre></div>
 <pre><code>## function (n, min = 0, max = 1) 
 ## .Call(C_runif, n, min, max)</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1001</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1001</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 0.985688783 0.412628483 0.429539246 0.419172236 0.426506559
 ##  [6] 0.887797565 0.006096034 0.081215761 0.288657362 0.765342145</code></pre>
 <div id="using-docopt-package" class="section level2">
@@ -268,11 +268,11 @@ min, max
 lower and upper limits of the distribution. Must be finite.</code></pre>
 <p>I will add one more parameter to set seed, here is the R script file called <code>runif.R</code>.</p>
 <p>At the beginning of the command line script, I use the docopt standard to write my tool help.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</a>
-<a class="sourceLine" id="cb6-2" title="2"></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</span></code></pre></div>
 <p>Let’s first do some testing in your R session before you make it a full functional command line tool.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc) <span class="co"># with no argumetns provided</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc) <span class="co"># with no argumetns provided</span></span></code></pre></div>
 <pre><code>## List of 8
 ##  $ --n   : chr "1"
 ##  $ --min : chr "0"
@@ -283,7 +283,7 @@ lower and upper limits of the distribution. Must be finite.</code></pre>
 ##  $ max   : chr "1"
 ##  $ seed  : chr "1"
 ## NULL</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc, <span class="st">"--n 10 --min=3 --max=5"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc, <span class="st">"--n 10 --min=3 --max=5"</span>)</span></code></pre></div>
 <pre><code>## List of 8
 ##  $ --n   : chr "10"
 ##  $ --min : chr "3"
@@ -295,26 +295,26 @@ lower and upper limits of the distribution. Must be finite.</code></pre>
 ##  $ seed  : chr "1"
 ## NULL</code></pre>
 <p>Looks like it works, now let’s add main function script for this command line tool.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</a>
-<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</a>
-<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</a>
-<a class="sourceLine" id="cb11-6" title="6">  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</a>
-<a class="sourceLine" id="cb11-7" title="7">)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>)</span></code></pre></div>
 <pre><code>## [1] 0.2655087</code></pre>
 <p>Add Shebang at the top of the file, this is a complete example for <code>runif.R</code> command line will be like this</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co">#!/usr/bin/Rscript</span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</a>
-<a class="sourceLine" id="cb13-3" title="3"></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</a>
-<a class="sourceLine" id="cb13-5" title="5">opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</a>
-<a class="sourceLine" id="cb13-8" title="8">  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</a>
-<a class="sourceLine" id="cb13-9" title="9">  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</a>
-<a class="sourceLine" id="cb13-10" title="10">  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</a>
-<a class="sourceLine" id="cb13-11" title="11">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">#!/usr/bin/Rscript</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
+<span id="cb13-11"><a href="#cb13-11"></a>)</span></code></pre></div>
 <p>Let’s test this command line.</p>
 <pre><code>$ runif.R --help
 Loading required package: methods
@@ -347,8 +347,8 @@ Loading required package: methods
 <li><code>min</code></li>
 <li><code>max</code></li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -373,43 +373,43 @@ hist(r)</code></pre>
 <p>Ignore the comment part, I will introduce spin/stich later. My base command will be something like</p>
 <pre><code>Rscript runif2spin.R 10 30 50</code></pre>
 <p>I just describe my tool in this way</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2"></a>
-<a class="sourceLine" id="cb18-3" title="3">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
-<a class="sourceLine" id="cb18-4" title="4">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb18-5" title="5">  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
-<a class="sourceLine" id="cb18-6" title="6">)</a>
-<a class="sourceLine" id="cb18-7" title="7"></a>
-<a class="sourceLine" id="cb18-8" title="8">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb18-9" title="9">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb18-10" title="10">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb18-11" title="11">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb18-12" title="12">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb18-13" title="13">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb18-14" title="14">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb18-15" title="15">  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb18-16" title="16">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb18-17" title="17">      <span class="dt">id =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb18-18" title="18">      <span class="dt">type =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb18-19" title="19">      <span class="dt">position =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb18-20" title="20">    ),</a>
-<a class="sourceLine" id="cb18-21" title="21">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb18-22" title="22">      <span class="dt">id =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb18-23" title="23">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb18-24" title="24">      <span class="dt">position =</span> <span class="dv">2</span></a>
-<a class="sourceLine" id="cb18-25" title="25">    ),</a>
-<a class="sourceLine" id="cb18-26" title="26">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb18-27" title="27">      <span class="dt">id =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb18-28" title="28">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb18-29" title="29">      <span class="dt">position =</span> <span class="dv">3</span></a>
-<a class="sourceLine" id="cb18-30" title="30">    )</a>
-<a class="sourceLine" id="cb18-31" title="31">  ),</a>
-<a class="sourceLine" id="cb18-32" title="32">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
-<a class="sourceLine" id="cb18-33" title="33">)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</span>
+<span id="cb18-6"><a href="#cb18-6"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7"></a></span>
+<span id="cb18-8"><a href="#cb18-8"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
+<span id="cb18-9"><a href="#cb18-9"></a>  <span class="dt">id =</span> <span class="st">"runif"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10"></a>  <span class="dt">label =</span> <span class="st">"runif"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11"></a>  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</span>
+<span id="cb18-12"><a href="#cb18-12"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
+<span id="cb18-13"><a href="#cb18-13"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb18-16"><a href="#cb18-16"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb18-17"><a href="#cb18-17"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19"></a>      <span class="dt">position =</span> <span class="dv">1</span></span>
+<span id="cb18-20"><a href="#cb18-20"></a>    ),</span>
+<span id="cb18-21"><a href="#cb18-21"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb18-22"><a href="#cb18-22"></a>      <span class="dt">id =</span> <span class="st">"min"</span>,</span>
+<span id="cb18-23"><a href="#cb18-23"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb18-24"><a href="#cb18-24"></a>      <span class="dt">position =</span> <span class="dv">2</span></span>
+<span id="cb18-25"><a href="#cb18-25"></a>    ),</span>
+<span id="cb18-26"><a href="#cb18-26"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb18-27"><a href="#cb18-27"></a>      <span class="dt">id =</span> <span class="st">"max"</span>,</span>
+<span id="cb18-28"><a href="#cb18-28"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb18-29"><a href="#cb18-29"></a>      <span class="dt">position =</span> <span class="dv">3</span></span>
+<span id="cb18-30"><a href="#cb18-30"></a>    )</span>
+<span id="cb18-31"><a href="#cb18-31"></a>  ),</span>
+<span id="cb18-32"><a href="#cb18-32"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</span>
+<span id="cb18-33"><a href="#cb18-33"></a>)</span></code></pre></div>
 <p>Now copy-paste the JSON into your project app and run it in the cloud to test it</p>
 <p>How about named arguments? I will still recommend use “docopt” package, but for simple way.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -447,47 +447,47 @@ hist(r)
 write.csv(r, file = "out.csv")</code></pre>
 <pre><code>Rscript runif_args.R --n=10 --min=30 --max=50</code></pre>
 <p>I just describe my tool in this way, note, I use <code>separate=FALSE</code> and add <code>=</code> to my prefix as a hack.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
-<a class="sourceLine" id="cb22-2" title="2">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb22-3" title="3">  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
-<a class="sourceLine" id="cb22-4" title="4">)</a>
-<a class="sourceLine" id="cb22-5" title="5"></a>
-<a class="sourceLine" id="cb22-6" title="6">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb22-7" title="7">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb22-8" title="8">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb22-9" title="9">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb22-10" title="10">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb22-11" title="11">  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</a>
-<a class="sourceLine" id="cb22-12" title="12">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb22-13" title="13">  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb22-14" title="14">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb22-15" title="15">      <span class="dt">id =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb22-16" title="16">      <span class="dt">type =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb22-17" title="17">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb22-18" title="18">      <span class="dt">prefix =</span> <span class="st">"--n="</span></a>
-<a class="sourceLine" id="cb22-19" title="19">    ),</a>
-<a class="sourceLine" id="cb22-20" title="20">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb22-21" title="21">      <span class="dt">id =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb22-22" title="22">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb22-23" title="23">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb22-24" title="24">      <span class="dt">prefix =</span> <span class="st">"--min="</span></a>
-<a class="sourceLine" id="cb22-25" title="25">    ),</a>
-<a class="sourceLine" id="cb22-26" title="26">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb22-27" title="27">      <span class="dt">id =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb22-28" title="28">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb22-29" title="29">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb22-30" title="30">      <span class="dt">prefix =</span> <span class="st">"--max="</span></a>
-<a class="sourceLine" id="cb22-31" title="31">    )</a>
-<a class="sourceLine" id="cb22-32" title="32">  ),</a>
-<a class="sourceLine" id="cb22-33" title="33">  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</a>
-<a class="sourceLine" id="cb22-34" title="34">)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</span>
+<span id="cb22-4"><a href="#cb22-4"></a>)</span>
+<span id="cb22-5"><a href="#cb22-5"></a></span>
+<span id="cb22-6"><a href="#cb22-6"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="dt">id =</span> <span class="st">"runif"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="dt">label =</span> <span class="st">"runif"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/r-base"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb22-14"><a href="#cb22-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb22-15"><a href="#cb22-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb22-18"><a href="#cb22-18"></a>      <span class="dt">prefix =</span> <span class="st">"--n="</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a>    ),</span>
+<span id="cb22-20"><a href="#cb22-20"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb22-21"><a href="#cb22-21"></a>      <span class="dt">id =</span> <span class="st">"min"</span>,</span>
+<span id="cb22-22"><a href="#cb22-22"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb22-23"><a href="#cb22-23"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb22-24"><a href="#cb22-24"></a>      <span class="dt">prefix =</span> <span class="st">"--min="</span></span>
+<span id="cb22-25"><a href="#cb22-25"></a>    ),</span>
+<span id="cb22-26"><a href="#cb22-26"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb22-27"><a href="#cb22-27"></a>      <span class="dt">id =</span> <span class="st">"max"</span>,</span>
+<span id="cb22-28"><a href="#cb22-28"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb22-29"><a href="#cb22-29"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb22-30"><a href="#cb22-30"></a>      <span class="dt">prefix =</span> <span class="st">"--max="</span></span>
+<span id="cb22-31"><a href="#cb22-31"></a>    )</span>
+<span id="cb22-32"><a href="#cb22-32"></a>  ),</span>
+<span id="cb22-33"><a href="#cb22-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>)</span>
+<span id="cb22-34"><a href="#cb22-34"></a>)</span></code></pre></div>
 </div>
 <div id="quick-report-spin-and-stich" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quick-report-spin-and-stich" class="anchor"></a>Quick Report: Spin and Stich</h2>
 <p>Alternative, you can use spin/stich from knitr to generate report directly from an R script with special format. For example, let’s use the above example</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -526,44 +526,44 @@ write.csv(r, file = "out.csv")</code></pre>
 <p>You command is something like this</p>
 <pre><code>Rscript -e "rmarkdown::render(knitr::spin('runif_args.R', FALSE))" --args --n=100 --min=30 --max=50</code></pre>
 <p>And so I describe my tool like this with Docker image <code>rocker/hadleyverse</code> this contains knitr and rmarkdown package.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</a>
-<a class="sourceLine" id="cb26-2" title="2">  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</a>
-<a class="sourceLine" id="cb26-3" title="3">  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</a>
-<a class="sourceLine" id="cb26-4" title="4">)</a>
-<a class="sourceLine" id="cb26-5" title="5"></a>
-<a class="sourceLine" id="cb26-6" title="6">rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</a>
-<a class="sourceLine" id="cb26-7" title="7">  <span class="dt">id =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb26-8" title="8">  <span class="dt">label =</span> <span class="st">"runif"</span>,</a>
-<a class="sourceLine" id="cb26-9" title="9">  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/hadleyverse"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</a>
-<a class="sourceLine" id="cb26-10" title="10">  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</a>
-<a class="sourceLine" id="cb26-11" title="11">  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</a>
-<a class="sourceLine" id="cb26-12" title="12">  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</a>
-<a class="sourceLine" id="cb26-13" title="13">  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb26-14" title="14">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb26-15" title="15">      <span class="dt">id =</span> <span class="st">"number"</span>,</a>
-<a class="sourceLine" id="cb26-16" title="16">      <span class="dt">type =</span> <span class="st">"integer"</span>,</a>
-<a class="sourceLine" id="cb26-17" title="17">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb26-18" title="18">      <span class="dt">prefix =</span> <span class="st">"--n="</span></a>
-<a class="sourceLine" id="cb26-19" title="19">    ),</a>
-<a class="sourceLine" id="cb26-20" title="20">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb26-21" title="21">      <span class="dt">id =</span> <span class="st">"min"</span>,</a>
-<a class="sourceLine" id="cb26-22" title="22">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb26-23" title="23">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb26-24" title="24">      <span class="dt">prefix =</span> <span class="st">"--min="</span></a>
-<a class="sourceLine" id="cb26-25" title="25">    ),</a>
-<a class="sourceLine" id="cb26-26" title="26">    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</a>
-<a class="sourceLine" id="cb26-27" title="27">      <span class="dt">id =</span> <span class="st">"max"</span>,</a>
-<a class="sourceLine" id="cb26-28" title="28">      <span class="dt">type =</span> <span class="st">"float"</span>,</a>
-<a class="sourceLine" id="cb26-29" title="29">      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb26-30" title="30">      <span class="dt">prefix =</span> <span class="st">"--max="</span></a>
-<a class="sourceLine" id="cb26-31" title="31">    )</a>
-<a class="sourceLine" id="cb26-32" title="32">  ),</a>
-<a class="sourceLine" id="cb26-33" title="33">  <span class="dt">outputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb26-34" title="34">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</a>
-<a class="sourceLine" id="cb26-35" title="35">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</a>
-<a class="sourceLine" id="cb26-36" title="36">    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)</a>
-<a class="sourceLine" id="cb26-37" title="37">  )</a>
-<a class="sourceLine" id="cb26-38" title="38">)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="dt">content =</span> readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(fl)</span>
+<span id="cb26-4"><a href="#cb26-4"></a>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
+<span id="cb26-7"><a href="#cb26-7"></a>  <span class="dt">id =</span> <span class="st">"runif"</span>,</span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="dt">label =</span> <span class="st">"runif"</span>,</span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"rocker/hadleyverse"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb26-14"><a href="#cb26-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb26-15"><a href="#cb26-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
+<span id="cb26-16"><a href="#cb26-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
+<span id="cb26-17"><a href="#cb26-17"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb26-18"><a href="#cb26-18"></a>      <span class="dt">prefix =</span> <span class="st">"--n="</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a>    ),</span>
+<span id="cb26-20"><a href="#cb26-20"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb26-21"><a href="#cb26-21"></a>      <span class="dt">id =</span> <span class="st">"min"</span>,</span>
+<span id="cb26-22"><a href="#cb26-22"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb26-23"><a href="#cb26-23"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb26-24"><a href="#cb26-24"></a>      <span class="dt">prefix =</span> <span class="st">"--min="</span></span>
+<span id="cb26-25"><a href="#cb26-25"></a>    ),</span>
+<span id="cb26-26"><a href="#cb26-26"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
+<span id="cb26-27"><a href="#cb26-27"></a>      <span class="dt">id =</span> <span class="st">"max"</span>,</span>
+<span id="cb26-28"><a href="#cb26-28"></a>      <span class="dt">type =</span> <span class="st">"float"</span>,</span>
+<span id="cb26-29"><a href="#cb26-29"></a>      <span class="dt">separate =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb26-30"><a href="#cb26-30"></a>      <span class="dt">prefix =</span> <span class="st">"--max="</span></span>
+<span id="cb26-31"><a href="#cb26-31"></a>    )</span>
+<span id="cb26-32"><a href="#cb26-32"></a>  ),</span>
+<span id="cb26-33"><a href="#cb26-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb26-34"><a href="#cb26-34"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</span>
+<span id="cb26-35"><a href="#cb26-35"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</span>
+<span id="cb26-36"><a href="#cb26-36"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)</span>
+<span id="cb26-37"><a href="#cb26-37"></a>  )</span>
+<span id="cb26-38"><a href="#cb26-38"></a>)</span></code></pre></div>
 <p>You will get a report in the end.</p>
 </div>
 <div id="executable-report-with-r-markdown-advanced" class="section level2">
@@ -575,7 +575,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <p>Of course, we can figure out a way to do it in <code>liftr</code> or <code>knitr</code>. But R Markdown allow you to pass parameters to your R Markdown template, please read this tutorial <a href="http://rmarkdown.rstudio.com/developer_parameterized_reports.html">Parameterized Reports</a>. This doesn’t solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:</p>
 <p>Create an command line interface to pass <code>params</code> from docopt into <code><a href="https://www.rdocumentation.org/packages/rmarkdown/topics/render">rmarkdown::render()</a></code> function. In this way, we can pass as many as possible parameters from command line interface into our R Markdown template.</p>
 <p>So here we go, here is updated methods and it’s also what I use for another tutorial about RNA-seq workflow.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src/"</span>, <span class="st">"runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src/"</span>, <span class="st">"runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span></code></pre></div>
 <p>Here is the current content of command line interface</p>
 <pre><code>#!/usr/local/bin/Rscript
 'usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]
