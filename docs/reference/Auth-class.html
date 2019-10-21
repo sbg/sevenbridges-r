@@ -8,21 +8,32 @@
 
 <title>Class Auth — Auth-class • sevenbridges-r</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,12 +43,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
+
 <meta property="og:title" content="Class Auth — Auth-class" />
-
 <meta property="og:description" content="Auth object" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -60,6 +71,7 @@
 
   gtag('config', 'UA-87185344-1');
 </script>
+
 
   </head>
 
@@ -85,7 +97,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -123,11 +135,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,6 +149,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -149,28 +161,28 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Auth object</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Every object could be requested from this Auth object and any action
 could start from this object using cascading style. Please check
 <code><a href='../articles/api.html'>vignette("api")</a></code> for more information.</p>
-    
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>from</code></dt><dd><p>[character] Authentication method. Could be <code>"direct"</code>
 (pass the credential information to the arguments directly),
 <code>"env"</code> (read from pre-set system environment variables),
 or <code>"file"</code> (read configurations from a credentials file).
 Default is <code>"direct"</code>.</p></dd>
-    <dt><code>platform</code></dt><dd><p>[character] The platform to use.
+
+<dt><code>platform</code></dt><dd><p>[character] The platform to use.
 If <code>platform</code> and <code>url</code> are both not specified,
 the default is <code>"cgc"</code> (Cancer Genomics Cloud).
 Other possible values include
@@ -179,66 +191,94 @@ Other possible values include
 <code>"ali-cn"</code> (Seven Bridges Platform - China),
 <code>"cavatica"</code> (Cavatica), and
 <code>"f4c"</code> (DataSTAGE Powered by Seven Bridges).</p></dd>
-    <dt><code>url</code></dt><dd><p>[character] Base URL for API. Please only use this when you
+
+<dt><code>url</code></dt><dd><p>[character] Base URL for API. Please only use this when you
 want to specify a platform that is not in the <code>platform</code> list
 above, and also leaving <code>platform</code> unspecified.</p></dd>
-    <dt><code>token</code></dt><dd><p>[character] Your authentication token.</p></dd>
-    <dt><code>sysenv_url</code></dt><dd><p>Name of the system environment variable storing
+
+<dt><code>token</code></dt><dd><p>[character] Your authentication token.</p></dd>
+
+<dt><code>sysenv_url</code></dt><dd><p>Name of the system environment variable storing
 the API base URL. By default: <code>"SB_API_ENDPOINT"</code>.</p></dd>
-    <dt><code>sysenv_token</code></dt><dd><p>Name of the system environment variable storing
+
+<dt><code>sysenv_token</code></dt><dd><p>Name of the system environment variable storing
 the auth token. By default: <code>"SB_AUTH_TOKEN"</code>.</p></dd>
-    <dt><code>config_file</code></dt><dd><p>[character] Location of the user configuration file.
+
+<dt><code>config_file</code></dt><dd><p>[character] Location of the user configuration file.
 By default: <code>"~/.sevenbridges/credentials"</code>.</p></dd>
-    <dt><code>profile_name</code></dt><dd><p>[character] Profile name in the user configuration file.
+
+<dt><code>profile_name</code></dt><dd><p>[character] Profile name in the user configuration file.
 The default value is <code>"default"</code>.</p></dd>
-    <dt><code>fs</code></dt><dd><p>FS object, for mount and unmount file system.</p></dd>
+
+<dt><code>fs</code></dt><dd><p>FS object, for mount and unmount file system.</p></dd>
+
 </dl>
-    
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code><a href='api.html'>api(..., limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset, fields = NULL,
   complete = FALSE)</a></code></dt><dd><p>This call returns all API paths, and pass arguments to api() function with input token and url automatically</p></dd>
-    <dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.</p></dd>
-    <dt><code>bulk_file_copy(file_ids, project, ...)</code></dt><dd><p>Copy files between projects in a batch.</p></dd>
-    <dt><code>bulk_file_delete(file_ids, ...)</code></dt><dd><p>Delete multiple files.</p></dd>
-    <dt><code>bulk_file_edit(...)</code></dt><dd><p>Edit details of multiple files (preserving the omitted fields).</p></dd>
-    <dt><code>bulk_file_get(file_ids, ...)</code></dt><dd><p>Get details of multiple files.</p></dd>
-    <dt><code>bulk_file_update(...)</code></dt><dd><p>Update details of multiple files (removing the omitted fields).</p></dd>
-    <dt><code>bulk_task_get(task_ids, ...)</code></dt><dd><p>Get details of multiple tasks.</p></dd>
-    <dt><code>bulk_volume_export(...)</code></dt><dd><p>Bulk export to volumes.</p></dd>
-    <dt><code>bulk_volume_get_export(...)</code></dt><dd><p>Get details of a bulk export job.</p></dd>
-    <dt><code>bulk_volume_get_import(...)</code></dt><dd><p>Get details of a bulk import job.</p></dd>
-    <dt><code>bulk_volume_import(...)</code></dt><dd><p>Bulk import from volumes.</p></dd>
-    <dt><code>division(id = NULL, ...)</code></dt><dd><p>List all divisions or get details of a division.</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/connections'>file(name = NULL, id = NULL, project = NULL, exact = FALSE,
+
+<dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.</p></dd>
+
+<dt><code>bulk_file_copy(file_ids, project, ...)</code></dt><dd><p>Copy files between projects in a batch.</p></dd>
+
+<dt><code>bulk_file_delete(file_ids, ...)</code></dt><dd><p>Delete multiple files.</p></dd>
+
+<dt><code>bulk_file_edit(...)</code></dt><dd><p>Edit details of multiple files (preserving the omitted fields).</p></dd>
+
+<dt><code>bulk_file_get(file_ids, ...)</code></dt><dd><p>Get details of multiple files.</p></dd>
+
+<dt><code>bulk_file_update(...)</code></dt><dd><p>Update details of multiple files (removing the omitted fields).</p></dd>
+
+<dt><code>bulk_task_get(task_ids, ...)</code></dt><dd><p>Get details of multiple tasks.</p></dd>
+
+<dt><code>bulk_volume_export(...)</code></dt><dd><p>Bulk export to volumes.</p></dd>
+
+<dt><code>bulk_volume_get_export(...)</code></dt><dd><p>Get details of a bulk export job.</p></dd>
+
+<dt><code>bulk_volume_get_import(...)</code></dt><dd><p>Get details of a bulk import job.</p></dd>
+
+<dt><code>bulk_volume_import(...)</code></dt><dd><p>Bulk import from volumes.</p></dd>
+
+<dt><code>division(id = NULL, ...)</code></dt><dd><p>List all divisions or get details of a division.</p></dd>
+
+<dt><code><a href='https://rdrr.io/r/base/connections.html'>file(name = NULL, id = NULL, project = NULL, exact = FALSE,
   detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
   complete = FALSE, search.engine = c("server", "brute"), ...)</a></code></dt><dd><p>This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.</p></dd>
-    <dt><code>invoice(id = NULL, ...)</code></dt><dd><p>If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.</p></dd>
-    <dt><code>project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
+
+<dt><code>invoice(id = NULL, ...)</code></dt><dd><p>If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.</p></dd>
+
+<dt><code>project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, owner = NULL, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.</p></dd>
-    <dt><code>project_new(name = NULL, billing_group_id = NULL, description = name,
+
+<dt><code>project_new(name = NULL, billing_group_id = NULL, description = name,
   tags = list(), type = "v2", locked = FALSE,
   use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.</p></dd>
-    <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.</p></dd>
-    <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current rate limit. This is the number of API calls you can make in one hour.</p></dd>
-    <dt><code>send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
+
+<dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.</p></dd>
+
+<dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current rate limit. This is the number of API calls you can make in one hour.</p></dd>
+
+<dt><code>send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
   ...)</code></dt><dd><p>Send feedback to Seven Bridges.</p></dd>
-    <dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns information about the authenticated user.</p></dd>
-    <dt><code>volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
+
+<dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns information about the authenticated user.</p></dd>
+
+<dt><code>volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
   exact = FALSE, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.</p></dd>
+
 </dl>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Direct authentication (default)</span>
+    <pre class="examples"><span class='co'># Direct authentication (default)</span>
 <span class='co'># replace with your auth token</span>
 <span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>platform</span> <span class='kw'>=</span> <span class='st'>"cgc"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>)
-<span class='co'># }</span><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Authentication with environment variables</span>
 <span class='co'># This will read system environments variables</span>
 <span class='co'># `SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default</span>
@@ -248,23 +288,20 @@ The default value is <code>"default"</code>.</p></dd>
 <span class='co'># This will load profile `default` from config</span>
 <span class='co'># file `~/.sevenbridges/credentials` by default</span>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"file"</span>)
-<span class='co'># }</span></pre>
+}</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#fields">Fields</a></li>
-
       <li><a href="#methods">Methods</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -272,13 +309,16 @@ The default value is <code>"default"</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

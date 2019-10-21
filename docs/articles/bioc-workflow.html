@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Master Tutorial: Use R for Cancer Genomics Cloud • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Master Tutorial: Use R for Cancer Genomics Cloud">
 <meta property="og:description" content="">
@@ -46,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +94,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -100,12 +107,13 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
             
-            <h4 class="date">2019-07-25</h4>
+            <h4 class="date">2019-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -142,16 +150,16 @@
 <p>First download the <a href="https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd">R Markdown source</a> of this page, so you can load it to your RStudio or your favorite IDE to run through all examples and tweak setup.</p>
 <p>This package <code>sevenbridges</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/release/bioc/html/sevenbridges.html">release branch</a>, <a href="https://bioconductor.org/packages/devel/bioc/html/sevenbridges.html">development branch</a>). The latest development version is on <a href="https://github.com/sbg/sevenbridges-r">GitHub</a>.</p>
 <p>To install the latest development version from GitHub, run the following commands in R:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(</span>
 <span id="cb1-5"><a href="#cb1-5"></a>  <span class="st">"sbg/sevenbridges-r"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span>(),</span>
 <span id="cb1-7"><a href="#cb1-7"></a>  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>)</span></code></pre></div>
 <p>After the installation you can always browse the vignettes</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/browseVignettes">browseVignettes</a></span>(<span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span>(<span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span></code></pre></div>
 </div>
 <div id="register-on-cancer-genomics-cloud" class="section level2">
 <h2 class="hasAnchor">
@@ -430,11 +438,11 @@ auth_token = token_for_this_user</code></pre>
 <li>For advanced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level.</li>
 </ol>
 <p>Here is Dockerfile I used to generate the workflow I need</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,</span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,</span>
 <span id="cb15-2"><a href="#cb15-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>)</span></code></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
 LABEL maintainer="nan.xiao@sevenbridges.com"
@@ -466,11 +474,11 @@ RUN chmod a+x /usr/local/bin/performDE.R \
 <li>Test function inside container</li>
 </ol>
 <p>Here is the command line I am using it’s called “performDE.R”</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,</span>
 <span id="cb18-2"><a href="#cb18-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>)</span></code></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#!/usr/bin/Rscript
 "usage: performDE.R [options]
 
@@ -528,7 +536,7 @@ rmarkdown::render("/report/rnaseqGene.Rmd", .format,
 
 # For rabix execution in the cloud,
 # this is now a workaround to move intermediate files</code></pre>
-<p>I am using <code>docopt</code> package instead of <code>commandArgs</code> because it allows you to create a formal interface. For example, you have <code>'--help'</code> from command line for free. Feel free to use other methods like <code><a href="https://www.rdocumentation.org/packages/base/topics/commandArgs">commandArgs()</a></code> in R.</p>
+<p>I am using <code>docopt</code> package instead of <code>commandArgs</code> because it allows you to create a formal interface. For example, you have <code>'--help'</code> from command line for free. Feel free to use other methods like <code><a href="https://rdrr.io/r/base/commandArgs.html">commandArgs()</a></code> in R.</p>
 <pre><code>$./performDE.R --help
 Loading required package: methods
 usage: performDE.R [options]
@@ -543,12 +551,12 @@ options:
 <div id="step-4-add-default-report-template-to-your-app" class="section level3">
 <h3 class="hasAnchor">
 <a href="#step-4-add-default-report-template-to-your-app" class="anchor"></a>Step 4: Add default report template to your app</h3>
-<p>As a developer, if you always have a fixed report template provided for you tool, you can hard-code your template into your Docker container, like you noticed in the Dockerfile I created, I insert a report R Markdown template. And in the command line interface, in the end, I pass it to <code><a href="https://www.rdocumentation.org/packages/rmarkdown/topics/render">rmarkdown::render</a></code> function as parameters ‘param’. In this way, you define your input in the header of R Markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor’s RNA-Seq workflow <a href="https://www.bioconductor.org/help/workflows/rnaseqGene/">website</a>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,</span>
+<p>As a developer, if you always have a fixed report template provided for you tool, you can hard-code your template into your Docker container, like you noticed in the Dockerfile I created, I insert a report R Markdown template. And in the command line interface, in the end, I pass it to <code><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">rmarkdown::render</a></code> function as parameters ‘param’. In this way, you define your input in the header of R Markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor’s RNA-Seq workflow <a href="https://www.bioconductor.org/help/workflows/rnaseqGene/">website</a>.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,</span>
 <span id="cb22-2"><a href="#cb22-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>)</span></code></pre></div>
 <p>Here is the current content (first 50 lines of the whole report) of the template:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl, <span class="dt">n =</span> <span class="dv">50</span>), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl, <span class="dt">n =</span> <span class="dv">50</span>), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>---
 title: "Uniform random number generator example"
 date: "`r Sys.Date()`"
@@ -598,7 +606,7 @@ opts_chunk$set(message = FALSE, error = FALSE,
 ```
 
 # Contents</code></pre>
-<p>See the header, you will see ‘params’ which is passed from <code><a href="https://www.rdocumentation.org/packages/rmarkdown/topics/render">rmarkdown::render</a></code>, so you can use it directly in the report like <code>params$bamfiles</code>.</p>
+<p>See the header, you will see ‘params’ which is passed from <code><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">rmarkdown::render</a></code>, so you can use it directly in the report like <code>params$bamfiles</code>.</p>
 <p>Now you have</p>
 <ul>
 <li><code>Dockerfile</code></li>
@@ -630,7 +638,7 @@ opts_chunk$set(message = FALSE, error = FALSE,
 <span id="cb25-4"><a href="#cb25-4"></a>  <span class="dt">description =</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,</span>
 <span id="cb25-5"><a href="#cb25-5"></a>  <span class="dt">hints =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(<span class="kw"><a href="../reference/requirements.html">docker</a></span>(<span class="dt">pull =</span> <span class="st">"tengfei/rnaseqgene"</span>), <span class="kw"><a href="../reference/requirements.html">cpu</a></span>(<span class="dv">1</span>), <span class="kw"><a href="../reference/requirements.html">mem</a></span>(<span class="dv">2000</span>)),</span>
 <span id="cb25-6"><a href="#cb25-6"></a>  <span class="dt">baseCommand =</span> <span class="st">"performDE.R"</span>,</span>
-<span id="cb25-7"><a href="#cb25-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb25-8"><a href="#cb25-8"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb25-9"><a href="#cb25-9"></a>      <span class="dt">id =</span> <span class="st">"bamfiles"</span>, <span class="dt">label =</span> <span class="st">"bam files"</span>,</span>
 <span id="cb25-10"><a href="#cb25-10"></a>      <span class="dt">description =</span> <span class="st">"a list of bam files"</span>,</span>
@@ -650,11 +658,11 @@ opts_chunk$set(message = FALSE, error = FALSE,
 <span id="cb25-24"><a href="#cb25-24"></a>    ),</span>
 <span id="cb25-25"><a href="#cb25-25"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb25-26"><a href="#cb25-26"></a>      <span class="dt">id =</span> <span class="st">"format"</span>, <span class="dt">label =</span> <span class="st">"report foramt html or pdf"</span>,</span>
-<span id="cb25-27"><a href="#cb25-27"></a>      <span class="dt">type =</span> <span class="kw"><a href="../reference/Enum.html">enum</a></span>(<span class="st">"format"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pdf"</span>, <span class="st">"html"</span>)),</span>
+<span id="cb25-27"><a href="#cb25-27"></a>      <span class="dt">type =</span> <span class="kw"><a href="../reference/Enum.html">enum</a></span>(<span class="st">"format"</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pdf"</span>, <span class="st">"html"</span>)),</span>
 <span id="cb25-28"><a href="#cb25-28"></a>      <span class="dt">prefix =</span> <span class="st">"--format"</span></span>
 <span id="cb25-29"><a href="#cb25-29"></a>    )</span>
 <span id="cb25-30"><a href="#cb25-30"></a>  ),</span>
-<span id="cb25-31"><a href="#cb25-31"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb25-31"><a href="#cb25-31"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb25-32"><a href="#cb25-32"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</span>
 <span id="cb25-33"><a href="#cb25-33"></a>      <span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">label =</span> <span class="st">"report"</span>,</span>
 <span id="cb25-34"><a href="#cb25-34"></a>      <span class="dt">description =</span> <span class="st">"A reproducible report created by Rmarkdown"</span>,</span>
@@ -1008,31 +1016,31 @@ arguments: []</code></pre>
 <code>metadata</code>: a list of meta otherwise search for the same file name ended with “.meta”</li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb34-2"><a href="#cb34-2"></a>(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/quickstart"</span>))</span>
 <span id="cb34-3"><a href="#cb34-3"></a><span class="co"># by default load .meta for the file</span></span>
 <span id="cb34-4"><a href="#cb34-4"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb34-5"><a href="#cb34-5"></a><span class="co"># pass metadata</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</span>
+<span id="cb34-6"><a href="#cb34-6"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</span>
 <span id="cb34-7"><a href="#cb34-7"></a><span class="co"># rename</span></span>
 <span id="cb34-8"><a href="#cb34-8"></a>p<span class="op">$</span><span class="kw">upload</span>(fl,</span>
 <span id="cb34-9"><a href="#cb34-9"></a>  <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</span>
-<span id="cb34-10"><a href="#cb34-10"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</span>
+<span id="cb34-10"><a href="#cb34-10"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</span>
 <span id="cb34-11"><a href="#cb34-11"></a>)</span>
 <span id="cb34-12"><a href="#cb34-12"></a></span>
 <span id="cb34-13"><a href="#cb34-13"></a><span class="co"># upload folder</span></span>
-<span id="cb34-14"><a href="#cb34-14"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb34-14"><a href="#cb34-14"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb34-15"><a href="#cb34-15"></a>p<span class="op">$</span><span class="kw">upload</span>(dir.ext, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb34-16"><a href="#cb34-16"></a></span>
 <span id="cb34-17"><a href="#cb34-17"></a><span class="co"># upload file list</span></span>
-<span id="cb34-18"><a href="#cb34-18"></a>fls &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb34-18"><a href="#cb34-18"></a>fls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb34-19"><a href="#cb34-19"></a>p<span class="op">$</span><span class="kw">upload</span>(fls, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>For now try using our graphic user interface to import all files listed here:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>download.fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/download.txt"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(download.fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>download.fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/download.txt"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(download.fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>Warning in readLines(download.fl): incomplete final line found on '/
-Library/Frameworks/R.framework/Versions/3.6/Resources/library/sevenbridges/
-extdata/download.txt'</code></pre>
+private/var/folders/vf/2l7j4vgx75948wh6jfx6svmr0000gn/T/RtmplSFQvy/
+temp_libpath41546041a71/sevenbridges/extdata/download.txt'</code></pre>
 <pre><code>https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/example_report.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello-markdown.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello.tar
@@ -1048,32 +1056,32 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039520_subset.bam
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039521_subset.bam</code></pre>
 <p>To use the API to uplaod, let’s download it to a folder and upload via API.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>td &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>()</span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(td)</span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="cf">for</span> (f <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(download.fl)) {</span>
-<span id="cb38-4"><a href="#cb38-4"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(f, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(td, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(f)))</span>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>td &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>()</span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(td)</span>
+<span id="cb38-3"><a href="#cb38-3"></a><span class="cf">for</span> (f <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(download.fl)) {</span>
+<span id="cb38-4"><a href="#cb38-4"></a>  <span class="kw"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(f, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(td, <span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(f)))</span>
 <span id="cb38-5"><a href="#cb38-5"></a>}</span>
 <span id="cb38-6"><a href="#cb38-6"></a><span class="co"># double check</span></span>
-<span id="cb38-7"><a href="#cb38-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(td)</span>
+<span id="cb38-7"><a href="#cb38-7"></a><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(td)</span>
 <span id="cb38-8"><a href="#cb38-8"></a><span class="co"># upload to the project you created</span></span>
 <span id="cb38-9"><a href="#cb38-9"></a>p<span class="op">$</span><span class="kw">upload</span>(td)</span></code></pre></div>
 <p>Copy this list, and then in your project, click “add files”, and choose “import from ftp” (<a href="http://docs.cancergenomicscloud.org/docs/copy-files-to-a-project">tutorial</a>).</p>
 <p>When it’s finished, refresh your file page, you will be able to see all of them. The cool thing is that you can search file by ‘name’ not by id, it support fuzzy pattern match.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># get file id you need as inout</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>(bamfiles.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">".bam"</span>))</span>
-<span id="cb39-3"><a href="#cb39-3"></a>(design.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"sample_table.csv"</span>))</span>
-<span id="cb39-4"><a href="#cb39-4"></a>(gtf.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span>))</span></code></pre></div>
+<span id="cb39-2"><a href="#cb39-2"></a>(bamfiles.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">".bam"</span>))</span>
+<span id="cb39-3"><a href="#cb39-3"></a>(design.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"sample_table.csv"</span>))</span>
+<span id="cb39-4"><a href="#cb39-4"></a>(gtf.in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span>))</span></code></pre></div>
 <p>Note: you can also passed a list of files like this, to give exact file names</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>bam1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"SRR1039516_subset.bam"</span>)</span>
-<span id="cb40-2"><a href="#cb40-2"></a>bam2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"SRR1039512_subset.bam"</span>)</span>
-<span id="cb40-3"><a href="#cb40-3"></a>bamfiles.in2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(bam1, bam2)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>bam1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"SRR1039516_subset.bam"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2"></a>bam2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"SRR1039512_subset.bam"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3"></a>bamfiles.in2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(bam1, bam2)</span></code></pre></div>
 <p>Now create a new draft task in your project, don’t forget to pass input.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># add a new Task</span></span>
 <span id="cb41-2"><a href="#cb41-2"></a>(tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</span>
 <span id="cb41-3"><a href="#cb41-3"></a>  <span class="dt">name =</span> <span class="st">"RNA DE report new"</span>,</span>
 <span id="cb41-4"><a href="#cb41-4"></a>  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</span>
 <span id="cb41-5"><a href="#cb41-5"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
-<span id="cb41-6"><a href="#cb41-6"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb41-6"><a href="#cb41-6"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb41-7"><a href="#cb41-7"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb41-8"><a href="#cb41-8"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb41-9"><a href="#cb41-9"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -1099,7 +1107,7 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 <span id="cb45-4"><a href="#cb45-4"></a>  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</span>
 <span id="cb45-5"><a href="#cb45-5"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb45-6"><a href="#cb45-6"></a>  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</span>
-<span id="cb45-7"><a href="#cb45-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb45-7"><a href="#cb45-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb45-8"><a href="#cb45-8"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb45-9"><a href="#cb45-9"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb45-10"><a href="#cb45-10"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -1113,9 +1121,9 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 <span id="cb45-18"><a href="#cb45-18"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb45-19"><a href="#cb45-19"></a>  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</span>
 <span id="cb45-20"><a href="#cb45-20"></a>    <span class="dt">input =</span> <span class="st">"fastq"</span>,</span>
-<span id="cb45-21"><a href="#cb45-21"></a>    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
+<span id="cb45-21"><a href="#cb45-21"></a>    <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
 <span id="cb45-22"><a href="#cb45-22"></a>  ),</span>
-<span id="cb45-23"><a href="#cb45-23"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb45-23"><a href="#cb45-23"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb45-24"><a href="#cb45-24"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb45-25"><a href="#cb45-25"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb45-26"><a href="#cb45-26"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -1159,10 +1167,10 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 </ol>
 <p>If you are interested, you can still read my <code>Dockerfile</code>, command line, tool generator and JSON.</p>
 <p><em>I will suggest you directly copy the json into your project.</em> Just to try add an app in a different way.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/reporttool/rabix/reporttool.json"</span>,</span>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/rabix/reporttool.json"</span>,</span>
 <span id="cb46-2"><a href="#cb46-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb46-3"><a href="#cb46-3"></a>)</span>
-<span id="cb46-4"><a href="#cb46-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<span id="cb46-4"><a href="#cb46-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>{
   "sbg:id": "reporttool",
   "id": "#reporttool",
@@ -1490,10 +1498,10 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 <span id="cb48-2"><a href="#cb48-2"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"tengfei/hackathon"</span>)</span>
 <span id="cb48-3"><a href="#cb48-3"></a>(report.app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"report-tool"</span>, fl))</span></code></pre></div>
 <p>Checkout the Dockerfile</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/reporttool/Dockerfile"</span>,</span>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/Dockerfile"</span>,</span>
 <span id="cb49-2"><a href="#cb49-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb49-3"><a href="#cb49-3"></a>)</span>
-<span id="cb49-4"><a href="#cb49-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<span id="cb49-4"><a href="#cb49-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>FROM rocker/tidyverse
 
 LABEL maintainer="nan.xiao@sevenbridges.com"
@@ -1509,21 +1517,21 @@ ADD src/report.R /usr/local/bin/
 
 RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <p>Checkout the command line</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/reporttool/src/report.R"</span>,</span>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/src/report.R"</span>,</span>
 <span id="cb51-2"><a href="#cb51-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></span>
 <span id="cb51-3"><a href="#cb51-3"></a>)</span>
-<span id="cb51-4"><a href="#cb51-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<span id="cb51-4"><a href="#cb51-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <p>Checkout the tool generator</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/reporttool/rabix/generator.R"</span>,</span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/rabix/generator.R"</span>,</span>
 <span id="cb52-2"><a href="#cb52-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbriges"</span></span>
 <span id="cb52-3"><a href="#cb52-3"></a>)</span>
-<span id="cb52-4"><a href="#cb52-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<span id="cb52-4"><a href="#cb52-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="compose-a-full-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#compose-a-full-workflow" class="anchor"></a>Compose a full workflow</h2>
-<p>Even though in R with <code>sevenbridges</code> package you can use <code>%&gt;&gt;%</code> to connect two Tool object, but this only works for linear simple flow. For a complicated flow, we recommend you to use graphic user interface, it’s a lot of fun.</p>
+<p>Even though in R with <code>sevenbridges</code> package you can use <code><a href="../reference/Flow.html">%&gt;&gt;%</a></code> to connect two Tool object, but this only works for linear simple flow. For a complicated flow, we recommend you to use graphic user interface, it’s a lot of fun.</p>
 <p>Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial <a href="http://docs.cancergenomicscloud.org/docs/the-pipeline-editor">here</a>, then make a workflow like this:</p>
 <p><img src="https://i.imgur.com/dTKvLdt.png" width="100%" class="img-responsive" alt="cgc-workflow"></p>
 <p>And next run a task on the platform via UI like this:</p>
@@ -1539,12 +1547,13 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <h1 class="hasAnchor">
 <a href="#more-tutorials" class="anchor"></a>More tutorials</h1>
 <p>After you installed the package</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/browseVignettes">browseVignettes</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
 <p>or on the <a href="https://sbg.github.io/sevenbridges-r/articles/">vignettes page</a>.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -1576,17 +1585,20 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

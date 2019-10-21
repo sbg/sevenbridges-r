@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Describe and Execute CWL Tools/Workflows in R • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Describe and Execute CWL Tools/Workflows in R">
 <meta property="og:description" content="">
@@ -46,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +94,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -100,12 +107,13 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Describe and Execute CWL Tools/Workflows in R</h1>
             
-            <h4 class="date">2019-07-25</h4>
+            <h4 class="date">2019-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
       <div class="hidden name"><code>apps.Rmd</code></div>
@@ -152,8 +160,8 @@
 <h2 class="hasAnchor">
 <a href="#import-from-json-file" class="anchor"></a>Import from JSON file</h2>
 <p>Sometimes people share Tool in pure JSON text format. You can simply load it into R by using <code>convert_app</code> function, this will recognize your JSON file class (Tool or Workflow) automatically.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># # convert JSON file into a Tool object</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(t1)</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># # try print it out</span></span>
@@ -163,16 +171,16 @@
 <div id="utilitites-for-tool-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#utilitites-for-tool-object" class="anchor"></a>Utilitites for Tool object</h2>
-<p>We provide couple utitlities to help construct your own CWL tool quickly in R. For all availale utiles please check out <code><a href="https://www.rdocumentation.org/packages/utils/topics/help">help("Tool")</a></code></p>
+<p>We provide couple utitlities to help construct your own CWL tool quickly in R. For all availale utiles please check out <code><a href="https://rdrr.io/r/utils/help.html">help("Tool")</a></code></p>
 <p>Some utiles you will find it useful when you execute a task, you need to know what is the input type and what is the input id and if it’s required or not, so you can execute the task with parameters it need. Try play with <code>input_matrix</code> or <code>input_type</code> as shown below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># get input type information</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">input_type</span>())</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">input_type</span>())</span></code></pre></div>
 <pre><code>              reads  readMatesLengthsIn       readMapNumber 
           "File..."              "enum"               "int" 
   limitOutSJoneRead limitOutSJcollapsed    outReadsUnmapped 
               "int"               "int"              "enum" </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># get output type information</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">output_type</span>())</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">output_type</span>())</span></code></pre></div>
 <pre><code>              aligned_reads transcriptome_aligned_reads 
                      "File"                      "File" 
              reads_per_gene                   log_files 
@@ -180,7 +188,7 @@
            splice_junctions          chimeric_junctions 
                      "File"                      "File" </code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># return a input matrix with more informtion</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>())</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>())</span></code></pre></div>
 <pre><code>                     id                label    type required
 1                #reads        Read sequence File...     TRUE
 95         #sjdbGTFfile Splice junction file File...    FALSE
@@ -203,7 +211,7 @@
 3                                                       null
 4                                                       null</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># return only a few fields</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>, <span class="st">"required"</span>)))</span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>, <span class="st">"required"</span>)))</span></code></pre></div>
 <pre><code>                     id    type required
 1                #reads File...     TRUE
 95         #sjdbGTFfile File...    FALSE
@@ -232,7 +240,7 @@
 8         #intermediate_genome Intermediate genome files    File       TAR
 9         #chimeric_alignments       Chimeric alignments    File       SAM</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># return only a few fields</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>))</span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2"></a>t1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>))</span></code></pre></div>
 <pre><code>                            id    type
 1               #aligned_reads    File
 2 #transcriptome_aligned_reads    File
@@ -248,7 +256,7 @@
 <pre><code>    reads    genome 
 "File..."    "File" </code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># set new required input with ID, # or without #</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>t1<span class="op">$</span><span class="kw">set_required</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#reads"</span>, <span class="st">"winFlankNbins"</span>))</span></code></pre></div>
+<span id="cb18-2"><a href="#cb18-2"></a>t1<span class="op">$</span><span class="kw">set_required</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#reads"</span>, <span class="st">"winFlankNbins"</span>))</span></code></pre></div>
 <pre><code>not implemented yet!</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>t1<span class="op">$</span><span class="kw">get_required</span>()</span></code></pre></div>
 <pre><code>    reads    genome 
@@ -260,13 +268,13 @@
 <pre><code>    reads    genome 
 "File..."    "File" </code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># get input id</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">input_id</span>())</span></code></pre></div>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">input_id</span>())</span></code></pre></div>
 <pre><code>                 #STAR                  #STAR                  #STAR 
               "#reads"  "#readMatesLengthsIn"       "#readMapNumber" 
                  #STAR                  #STAR                  #STAR 
   "#limitOutSJoneRead" "#limitOutSJcollapsed"    "#outReadsUnmapped" </code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># get full input id with Tool name</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">input_id</span>(<span class="ot">TRUE</span>))</span></code></pre></div>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">input_id</span>(<span class="ot">TRUE</span>))</span></code></pre></div>
 <pre><code>                    File...                        enum 
               "#STAR.reads"  "#STAR.readMatesLengthsIn" 
                         int                         int 
@@ -274,7 +282,7 @@
                         int                        enum 
 "#STAR.limitOutSJcollapsed"    "#STAR.outReadsUnmapped" </code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># get output id</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">output_id</span>())</span></code></pre></div>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">output_id</span>())</span></code></pre></div>
 <pre><code>                         #STAR                          #STAR 
               "#aligned_reads" "#transcriptome_aligned_reads" 
                          #STAR                          #STAR 
@@ -282,7 +290,7 @@
                          #STAR                          #STAR 
            "#splice_junctions"          "#chimeric_junctions" </code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># get full output id</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(t1<span class="op">$</span><span class="kw">output_id</span>(<span class="ot">TRUE</span>))</span></code></pre></div>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(t1<span class="op">$</span><span class="kw">output_id</span>(<span class="ot">TRUE</span>))</span></code></pre></div>
 <pre><code>                               File                                File 
               "#STAR.aligned_reads" "#STAR.transcriptome_aligned_reads" 
                                File                             File... 
@@ -402,9 +410,9 @@ sbg:fileTypes: TAB</code></pre>
 <h3 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h3>
 <p>Before we continue, this is how it looks like for full tool description, you don’t always need to describe all those details, following section will walk you through simple examples to full examples like this one.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/rnaseqGene/rabix"</span>, <span class="st">"generator.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb42-2"><a href="#cb42-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library("sevenbridges")
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/rabix"</span>, <span class="st">"generator.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<pre><code><a href="https://rdrr.io/r/base/library.html">library("sevenbridges")
 
 rbx &lt;- Tool(
   id = "rnaseqGene",
@@ -493,7 +501,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <a href="#using-existing-docker-images-and-command" class="anchor"></a>Using existing Docker images and command</h3>
 <p>If you already have a Docker image in mind that provide the functionality you need, you can just use it. The <code>baseCommand</code> is the command line you want to execute in that container. <code>stdout</code> specify the output file you want to capture the standard output and collect it on the platform.</p>
 <p>In this simple example, we know Docker image <code>rocker/r-base</code> has a function called <code>runif</code> we can directly call in the command line with <code>Rscript -e</code>. Then we want the ouput to be collected in <code>stdout</code> and ask the file system to capture the output files that matches the pattern <code>*.txt</code>. Please pay attention to this, your tool may produce many intermediate files in the current folder, if you don’t tell which output you need, they will all be ignored, so make sure you collect those files via the <code>outputs</code> parameter.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb44-2"><a href="#cb44-2"></a></span>
 <span id="cb44-3"><a href="#cb44-3"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
 <span id="cb44-4"><a href="#cb44-4"></a>  <span class="dt">id =</span> <span class="st">"runif"</span>,</span>
@@ -581,7 +589,7 @@ stdout: output.txt</code></pre>
 <span id="cb54-5"><a href="#cb54-5"></a>)</span>
 <span id="cb54-6"><a href="#cb54-6"></a></span>
 <span id="cb54-7"><a href="#cb54-7"></a><span class="co"># read via reader</span></span>
-<span id="cb54-8"><a href="#cb54-8"></a>.srcfile &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src/runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb54-8"><a href="#cb54-8"></a>.srcfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src/runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb54-9"><a href="#cb54-9"></a></span>
 <span id="cb54-10"><a href="#cb54-10"></a>fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
 <span id="cb54-11"><a href="#cb54-11"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
@@ -600,7 +608,7 @@ stdout: output.txt</code></pre>
 <span id="cb54-24"><a href="#cb54-24"></a>)</span></code></pre></div>
 <p>How about multiple script?</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># or simply readLines</span></span>
-<span id="cb55-2"><a href="#cb55-2"></a>.srcfile &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src/runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb55-2"><a href="#cb55-2"></a>.srcfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src/runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb55-3"><a href="#cb55-3"></a></span>
 <span id="cb55-4"><a href="#cb55-4"></a>fd1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
 <span id="cb55-5"><a href="#cb55-5"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
@@ -654,7 +662,7 @@ stdout: output.txt</code></pre>
 </ul>
 <p>Output is similar, espeicaly when you want to collect file, you can use <code>glob</code> for pattern matching.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="co"># pass a input list</span></span>
-<span id="cb57-2"><a href="#cb57-2"></a>in.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb57-2"><a href="#cb57-2"></a>in.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb57-3"><a href="#cb57-3"></a>  <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb57-4"><a href="#cb57-4"></a>    <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb57-5"><a href="#cb57-5"></a>    <span class="dt">description =</span> <span class="st">"number of observations"</span>,</span>
@@ -692,7 +700,7 @@ stdout: output.txt</code></pre>
 <span id="cb57-37"><a href="#cb57-37"></a>)</span>
 <span id="cb57-38"><a href="#cb57-38"></a></span>
 <span id="cb57-39"><a href="#cb57-39"></a><span class="co"># the same method for outputs</span></span>
-<span id="cb57-40"><a href="#cb57-40"></a>out.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb57-40"><a href="#cb57-40"></a>out.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb57-41"><a href="#cb57-41"></a>  <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</span>
 <span id="cb57-42"><a href="#cb57-42"></a>    <span class="dt">id =</span> <span class="st">"random"</span>,</span>
 <span id="cb57-43"><a href="#cb57-43"></a>    <span class="dt">type =</span> <span class="st">"file"</span>,</span>
@@ -717,25 +725,25 @@ stdout: output.txt</code></pre>
 <span id="cb57-62"><a href="#cb57-62"></a>  <span class="dt">outputs =</span> out.lst</span>
 <span id="cb57-63"><a href="#cb57-63"></a>)</span></code></pre></div>
 <p>Alternatively you can use data.frame as example for input and output, but it’s less flexible.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>in.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</span>
-<span id="cb58-2"><a href="#cb58-2"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
-<span id="cb58-3"><a href="#cb58-3"></a>  <span class="dt">description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</span>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>in.df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</span>
+<span id="cb58-2"><a href="#cb58-2"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
+<span id="cb58-3"><a href="#cb58-3"></a>  <span class="dt">description =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</span>
 <span id="cb58-4"><a href="#cb58-4"></a>    <span class="st">"number of observation"</span>,</span>
 <span id="cb58-5"><a href="#cb58-5"></a>    <span class="st">"lower limits of the distribution"</span>,</span>
 <span id="cb58-6"><a href="#cb58-6"></a>    <span class="st">"upper limits of the distribution"</span>,</span>
 <span id="cb58-7"><a href="#cb58-7"></a>    <span class="st">"seed with set.seed"</span></span>
 <span id="cb58-8"><a href="#cb58-8"></a>  ),</span>
-<span id="cb58-9"><a href="#cb58-9"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"integer"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>),</span>
-<span id="cb58-10"><a href="#cb58-10"></a>  <span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
-<span id="cb58-11"><a href="#cb58-11"></a>  <span class="dt">prefix =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"--n"</span>, <span class="st">"--min"</span>, <span class="st">"--max"</span>, <span class="st">"--seed"</span>),</span>
-<span id="cb58-12"><a href="#cb58-12"></a>  <span class="dt">default =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">123</span>),</span>
-<span id="cb58-13"><a href="#cb58-13"></a>  <span class="dt">required =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)</span>
+<span id="cb58-9"><a href="#cb58-9"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"integer"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>),</span>
+<span id="cb58-10"><a href="#cb58-10"></a>  <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
+<span id="cb58-11"><a href="#cb58-11"></a>  <span class="dt">prefix =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"--n"</span>, <span class="st">"--min"</span>, <span class="st">"--max"</span>, <span class="st">"--seed"</span>),</span>
+<span id="cb58-12"><a href="#cb58-12"></a>  <span class="dt">default =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">123</span>),</span>
+<span id="cb58-13"><a href="#cb58-13"></a>  <span class="dt">required =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)</span>
 <span id="cb58-14"><a href="#cb58-14"></a>)</span>
 <span id="cb58-15"><a href="#cb58-15"></a></span>
-<span id="cb58-16"><a href="#cb58-16"></a>out.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</span>
-<span id="cb58-17"><a href="#cb58-17"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"random"</span>, <span class="st">"report"</span>),</span>
-<span id="cb58-18"><a href="#cb58-18"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"file"</span>, <span class="st">"file"</span>),</span>
-<span id="cb58-19"><a href="#cb58-19"></a>  <span class="dt">glob =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"*.txt"</span>, <span class="st">"*.html"</span>)</span>
+<span id="cb58-16"><a href="#cb58-16"></a>out.df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</span>
+<span id="cb58-17"><a href="#cb58-17"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"random"</span>, <span class="st">"report"</span>),</span>
+<span id="cb58-18"><a href="#cb58-18"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"file"</span>, <span class="st">"file"</span>),</span>
+<span id="cb58-19"><a href="#cb58-19"></a>  <span class="dt">glob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"*.txt"</span>, <span class="st">"*.html"</span>)</span>
 <span id="cb58-20"><a href="#cb58-20"></a>)</span>
 <span id="cb58-21"><a href="#cb58-21"></a></span>
 <span id="cb58-22"><a href="#cb58-22"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
@@ -760,10 +768,10 @@ stdout: output.txt</code></pre>
 <p>My base command will be somethine like</p>
 <pre><code>Rscript runif2spin.R 10 30 50</code></pre>
 <p>This is how you do in your R script</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>,</span>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>,</span>
 <span id="cb60-2"><a href="#cb60-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb60-3"><a href="#cb60-3"></a>)</span>
-<span id="cb60-4"><a href="#cb60-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<span id="cb60-4"><a href="#cb60-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -799,7 +807,7 @@ hist(r)</code></pre>
 <span id="cb62-10"><a href="#cb62-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb62-11"><a href="#cb62-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
 <span id="cb62-12"><a href="#cb62-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb62-13"><a href="#cb62-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb62-13"><a href="#cb62-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb62-14"><a href="#cb62-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb62-15"><a href="#cb62-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb62-16"><a href="#cb62-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -821,8 +829,8 @@ hist(r)</code></pre>
 <p>How about named argumentments? I will still recommend use “docopt” package, but for simple way. You want command line looks like this</p>
 <pre><code>Rscript runif_args.R --n=10 --min=30 --max=50</code></pre>
 <p>Here is how you do in R script.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb64-2"><a href="#cb64-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb64-2"><a href="#cb64-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -871,7 +879,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb66-10"><a href="#cb66-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb66-11"><a href="#cb66-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
 <span id="cb66-12"><a href="#cb66-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb66-13"><a href="#cb66-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb66-13"><a href="#cb66-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb66-14"><a href="#cb66-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb66-15"><a href="#cb66-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb66-16"><a href="#cb66-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -903,8 +911,8 @@ write.csv(r, file = "out.csv")</code></pre>
 <a href="#generate-reports" class="anchor"></a>Generate reports</h3>
 <p><strong>Quick report: Spin and Stich</strong></p>
 <p>You can use spin/stich from knitr to generate report directly from a Rscript with special format. For example, let’s use above example</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb67-2"><a href="#cb67-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb67-2"><a href="#cb67-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -955,7 +963,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb70-10"><a href="#cb70-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb70-11"><a href="#cb70-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</span>
 <span id="cb70-12"><a href="#cb70-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb70-13"><a href="#cb70-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb70-13"><a href="#cb70-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb70-14"><a href="#cb70-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb70-15"><a href="#cb70-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb70-16"><a href="#cb70-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -975,7 +983,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb70-30"><a href="#cb70-30"></a>      <span class="dt">prefix =</span> <span class="st">"--max="</span></span>
 <span id="cb70-31"><a href="#cb70-31"></a>    )</span>
 <span id="cb70-32"><a href="#cb70-32"></a>  ),</span>
-<span id="cb70-33"><a href="#cb70-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb70-33"><a href="#cb70-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb70-34"><a href="#cb70-34"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</span>
 <span id="cb70-35"><a href="#cb70-35"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</span>
 <span id="cb70-36"><a href="#cb70-36"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)</span>
@@ -988,7 +996,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <a href="#misc" class="anchor"></a>Misc</h3>
 <p><strong>Inherit metadata and additional metadata</strong></p>
 <p>Sometimes if you want your output files inherit from particular input file, just use <code>inheritMetadataFrom</code> in your output() call and pass the input file id. If you want to add additional metadata, you could pass <code>metadata</code> a list in your output() function call. For example, I want my output report inherit all metadata from my “bam_file” input node (which I don’t have in this example though) with two additional metadata fields.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>out.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>out.lst &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb71-2"><a href="#cb71-2"></a>  <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(</span>
 <span id="cb71-3"><a href="#cb71-3"></a>    <span class="dt">id =</span> <span class="st">"random"</span>,</span>
 <span id="cb71-4"><a href="#cb71-4"></a>    <span class="dt">type =</span> <span class="st">"file"</span>,</span>
@@ -1002,7 +1010,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb71-12"><a href="#cb71-12"></a>    <span class="dt">label =</span> <span class="st">"report"</span>,</span>
 <span id="cb71-13"><a href="#cb71-13"></a>    <span class="dt">glob =</span> <span class="st">"*.html"</span>,</span>
 <span id="cb71-14"><a href="#cb71-14"></a>    <span class="dt">inheritMetadataFrom =</span> <span class="st">"bam_file"</span>,</span>
-<span id="cb71-15"><a href="#cb71-15"></a>    <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb71-15"><a href="#cb71-15"></a>    <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb71-16"><a href="#cb71-16"></a>      <span class="dt">author =</span> <span class="st">"RFranklin"</span>,</span>
 <span id="cb71-17"><a href="#cb71-17"></a>      <span class="dt">sample =</span> <span class="st">"random"</span></span>
 <span id="cb71-18"><a href="#cb71-18"></a>    )</span>
@@ -1038,9 +1046,9 @@ outputBinding:
     author: RFranklin
     sample: random</code></pre>
 <p><strong>Example with file/files as input node</strong></p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/rnaseqGene/rabix"</span>, <span class="st">"generator.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb73-2"><a href="#cb73-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library("sevenbridges")
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/rabix"</span>, <span class="st">"generator.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb73-2"><a href="#cb73-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<pre><code><a href="https://rdrr.io/r/base/library.html">library("sevenbridges")
 
 rbx &lt;- Tool(
   id = "rnaseqGene",
@@ -1108,13 +1116,13 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>Note the stageInput example in the above script, you can set it to “copy” or “link”.</p>
 <p><strong>Input node batch mode</strong></p>
 <p>Batch by File (the long output has been omitted here):</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb75-2"><a href="#cb75-2"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(f1)</span>
 <span id="cb75-3"><a href="#cb75-3"></a>f1<span class="op">$</span><span class="kw">set_batch</span>(<span class="st">"sjdbGTFfile"</span>, <span class="dt">type =</span> <span class="st">"ITEM"</span>)</span></code></pre></div>
 <p>Batch by other critieria such as metadta, following example, is using <code>sample_id</code> and <code>library_id</code> (the long output has been omitted here):</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb76-2"><a href="#cb76-2"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(f1)</span>
-<span id="cb76-3"><a href="#cb76-3"></a>f1<span class="op">$</span><span class="kw">set_batch</span>(<span class="st">"sjdbGTFfile"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>))</span></code></pre></div>
+<span id="cb76-3"><a href="#cb76-3"></a>f1<span class="op">$</span><span class="kw">set_batch</span>(<span class="st">"sjdbGTFfile"</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>))</span></code></pre></div>
 <pre><code>criteria provided, convert type from ITEM to CRITERIA</code></pre>
 <p>When you push your app to the platform, you will see the batch available at task page or workflow editor.</p>
 </div>
@@ -1128,7 +1136,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <h2 class="hasAnchor">
 <a href="#import-from-a-json-file" class="anchor"></a>Import from a JSON file</h2>
 <p>Yes, you could use the same function <code>convert_app</code> to import JSON files.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb78-2"><a href="#cb78-2"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(f1)</span>
 <span id="cb78-3"><a href="#cb78-3"></a><span class="co"># show it</span></span>
 <span id="cb78-4"><a href="#cb78-4"></a><span class="co"># f1</span></span></code></pre></div>
@@ -1137,10 +1145,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <h2 class="hasAnchor">
 <a href="#utilities-for-flow-objects" class="anchor"></a>Utilities for <code>Flow</code> objects</h2>
 <p>Just like <code>Tool</code> object, you also have convenient utils for it, especially useful when you execute task.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb79-2"><a href="#cb79-2"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(f1)</span>
 <span id="cb79-3"><a href="#cb79-3"></a><span class="co"># input matrix</span></span>
-<span id="cb79-4"><a href="#cb79-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>())</span></code></pre></div>
+<span id="cb79-4"><a href="#cb79-4"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>())</span></code></pre></div>
 <pre><code>                               id               label    type required
 1                    #sjdbGTFfile         sjdbGTFfile File...    FALSE
 2                          #fastq               fastq File...     TRUE
@@ -1156,7 +1164,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 5      null
 6      null</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a><span class="co"># by name</span></span>
-<span id="cb81-2"><a href="#cb81-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>, <span class="st">"required"</span>)))</span></code></pre></div>
+<span id="cb81-2"><a href="#cb81-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>, <span class="st">"required"</span>)))</span></code></pre></div>
 <pre><code>                               id    type required
 1                    #sjdbGTFfile File...    FALSE
 2                          #fastq File...     TRUE
@@ -1165,12 +1173,12 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 5       #sjdbGTFtagExonParentGene  string    FALSE
 6          #winAnchorMultimapNmax     int    FALSE</code></pre>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1"></a><span class="co"># return only required</span></span>
-<span id="cb83-2"><a href="#cb83-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="dt">required =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<span id="cb83-2"><a href="#cb83-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="dt">required =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
 <pre><code>                 id            label    type required fileTypes
 2            #fastq            fastq File...     TRUE      null
 3 #genomeFastaFiles genomeFastaFiles    File     TRUE      null</code></pre>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a><span class="co"># return everything</span></span>
-<span id="cb85-2"><a href="#cb85-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="ot">NULL</span>))</span></code></pre></div>
+<span id="cb85-2"><a href="#cb85-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="ot">NULL</span>))</span></code></pre></div>
 <pre><code>                               id    type required fileTypes
 1                    #sjdbGTFfile File...    FALSE      null
 2                          #fastq File...     TRUE      null
@@ -1214,7 +1222,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 5        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 6                           #STAR.winAnchorMultimapNmax</code></pre>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a><span class="co"># return a output matrix with more informtion</span></span>
-<span id="cb87-2"><a href="#cb87-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>())</span></code></pre></div>
+<span id="cb87-2"><a href="#cb87-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>())</span></code></pre></div>
 <pre><code>                            id                       label    type
 1              #unmapped_reads              unmapped_reads File...
 2 #transcriptome_aligned_reads transcriptome_aligned_reads    File
@@ -1230,7 +1238,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 5      null
 6      null</code></pre>
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a><span class="co"># return only a few fields</span></span>
-<span id="cb89-2"><a href="#cb89-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>)))</span></code></pre></div>
+<span id="cb89-2"><a href="#cb89-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>)))</span></code></pre></div>
 <pre><code>                            id    type
 1              #unmapped_reads File...
 2 #transcriptome_aligned_reads    File
@@ -1239,7 +1247,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 5                   #log_files File...
 6          #chimeric_junctions    File</code></pre>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1"></a><span class="co"># return everything</span></span>
-<span id="cb91-2"><a href="#cb91-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="ot">NULL</span>))</span></code></pre></div>
+<span id="cb91-2"><a href="#cb91-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(f1<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(<span class="ot">NULL</span>))</span></code></pre></div>
 <pre><code>                            id                       label    type
 1              #unmapped_reads              unmapped_reads File...
 2 #transcriptome_aligned_reads transcriptome_aligned_reads    File
@@ -1301,7 +1309,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 3             #Picard_SortSam
 4                       #STAR</code></pre>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1"></a><span class="co"># f1$get_tool("STAR")</span></span></code></pre></div>
-<p>There are more utilities please check example at <code><a href="https://www.rdocumentation.org/packages/utils/topics/help">help(Flow)</a></code></p>
+<p>There are more utilities please check example at <code><a href="https://rdrr.io/r/utils/help.html">help(Flow)</a></code></p>
 </div>
 <div id="create-your-own-flow-in-r" class="section level2">
 <h2 class="hasAnchor">
@@ -1325,7 +1333,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <li>Tool 2 take log on it</li>
 <li>Tool 3 do a mean calculation of everything</li>
 </ol>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb100-2"><a href="#cb100-2"></a><span class="co"># A tool that generates 100 random numbers</span></span>
 <span id="cb100-3"><a href="#cb100-3"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
 <span id="cb100-4"><a href="#cb100-4"></a>  <span class="dt">id =</span> <span class="st">"runif new test 3"</span>, <span class="dt">label =</span> <span class="st">"random number"</span>,</span>
@@ -1429,10 +1437,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 </ol>
 <p>Checking potential mapping is easy with function <code>link_what</code>, it will print matched input and outputs. Then the generic function <code>link</code> will allow you to connect two <code>Tool</code> objects</p>
 <p>If you don’t specify which input/ouput to expose at flow level for new <code>Flow</code> object, it will expose all availabl ones and print the message, otherwise, please provide parameters for <code>flow_input</code> and <code>flow_output</code> with full id.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>,</span>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>,</span>
 <span id="cb106-2"><a href="#cb106-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb106-3"><a href="#cb106-3"></a>)</span>
-<span id="cb106-4"><a href="#cb106-4"></a>t2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>,</span>
+<span id="cb106-4"><a href="#cb106-4"></a>t2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>,</span>
 <span id="cb106-5"><a href="#cb106-5"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb106-6"><a href="#cb106-6"></a>)</span>
 <span id="cb106-7"><a href="#cb106-7"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(t1)</span>
@@ -1683,8 +1691,8 @@ $File...$to
 <div id="connecting-tool-with-workflow-by-input-and-output-id" class="section level3">
 <h3 class="hasAnchor">
 <a href="#connecting-tool-with-workflow-by-input-and-output-id" class="anchor"></a>Connecting tool with workflow by input and output id</h3>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a>tool.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb119-2"><a href="#cb119-2"></a>flow.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a>tool.in &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb119-2"><a href="#cb119-2"></a>flow.in &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb119-3"><a href="#cb119-3"></a></span>
 <span id="cb119-4"><a href="#cb119-4"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(tool.in)</span>
 <span id="cb119-5"><a href="#cb119-5"></a>f2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(flow.in)</span>
@@ -1736,7 +1744,7 @@ $File...$to
 21 #SBG_FASTQ_Quality_Detector.result output</code></pre>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1"></a><span class="co"># then link</span></span>
 <span id="cb121-2"><a href="#cb121-2"></a></span>
-<span id="cb121-3"><a href="#cb121-3"></a>f3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/link.html">link</a></span>(t1, f2, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"output_fastq_files"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#SBG_FASTQ_Quality_Detector.fastq"</span>))</span>
+<span id="cb121-3"><a href="#cb121-3"></a>f3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/link.html">link</a></span>(t1, f2, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"output_fastq_files"</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#SBG_FASTQ_Quality_Detector.fastq"</span>))</span>
 <span id="cb121-4"><a href="#cb121-4"></a></span>
 <span id="cb121-5"><a href="#cb121-5"></a><span class="kw"><a href="../reference/link_what.html">link_what</a></span>(f2, t1)</span></code></pre></div>
 <pre><code>$File
@@ -1765,7 +1773,7 @@ $File$to
 1 #input_archive_file Input archive file File     TRUE
                 prefix                                      fileTypes
 1 --input_archive_file TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP</code></pre>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a>f4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/link.html">link</a></span>(f2, t1, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#Picard_SortSam.sorted_bam"</span>, <span class="st">"#SBG_FASTQ_Quality_Detector.result"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#input_archive_file"</span>, <span class="st">"#input_archive_file"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a>f4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/link.html">link</a></span>(f2, t1, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#Picard_SortSam.sorted_bam"</span>, <span class="st">"#SBG_FASTQ_Quality_Detector.result"</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#input_archive_file"</span>, <span class="st">"#input_archive_file"</span>))</span></code></pre></div>
 <pre><code>flow_input: #SBG_Unpack_FASTQs.input_archive_file</code></pre>
 <pre><code>flow_output: #SBG_Unpack_FASTQs.output_fastq_files</code></pre>
 <div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1"></a><span class="co"># # </span><span class="al">TODO</span></span>
@@ -1796,7 +1804,7 @@ $File$to
 <span id="cb127-6"><a href="#cb127-6"></a>  <span class="dt">name =</span> <span class="st">"Draft runif simple"</span>,</span>
 <span id="cb127-7"><a href="#cb127-7"></a>  <span class="dt">description =</span> <span class="st">"Description for runif"</span>,</span>
 <span id="cb127-8"><a href="#cb127-8"></a>  <span class="dt">app =</span> aid,</span>
-<span id="cb127-9"><a href="#cb127-9"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</span>
+<span id="cb127-9"><a href="#cb127-9"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</span>
 <span id="cb127-10"><a href="#cb127-10"></a>)</span>
 <span id="cb127-11"><a href="#cb127-11"></a>tsk<span class="op">$</span><span class="kw">run</span>()</span></code></pre></div>
 </div>
@@ -1806,7 +1814,7 @@ $File$to
 <p><strong>1. From CLI</strong></p>
 <p>While developing tools it is useful to test them locally first. For that we can use rabix – reproducible analyses for bioinformatics, <a href="https://github.com/rabix" class="uri">https://github.com/rabix</a>. To test your tool with latest implementation of rabix in Java (called <strong>bunny</strong>) you could use the Docker image <code>RFranklin/testenv</code>:</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1"></a><span class="ex">docker</span> pull RFranklin/testenv</span></code></pre></div>
-<p>Dump your rabix tool as JSON into dir which also contains input data. <code><a href="https://www.rdocumentation.org/packages/base/topics/write">write(rbx$toJSON, file="&lt;data_dir&gt;/&lt;tool&gt;.json")</a></code>. Make <strong>inputs.json</strong> file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:</p>
+<p>Dump your rabix tool as JSON into dir which also contains input data. <code><a href="https://rdrr.io/r/base/write.html">write(rbx$toJSON, file="&lt;data_dir&gt;/&lt;tool&gt;.json")</a></code>. Make <strong>inputs.json</strong> file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1"></a><span class="ex">docker</span> run --privileged --name bunny -v <span class="op">&lt;</span>/path/to/data_dir<span class="op">&gt;</span>:/bunny_data -dit RFranklin/testenv</span></code></pre></div>
 <p>Execute tool</p>
 <div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1"></a><span class="ex">docker</span> exec bunny bash -c <span class="st">'cd /opt/bunny &amp;&amp; ./rabix.sh -e /bunny_data /bunny_data/&lt;tool&gt;.json /bunny_data/inputs.json'</span></span></code></pre></div>
@@ -1818,26 +1826,26 @@ $File$to
 <strong>Note 2</strong>: inputs.json can also be inputs.yaml if you find it easier to declare inputs in YAML.</li>
 </ul>
 <p><strong>2. From R</strong></p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb131-2"><a href="#cb131-2"></a></span>
-<span id="cb131-3"><a href="#cb131-3"></a>in.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</span>
-<span id="cb131-4"><a href="#cb131-4"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
-<span id="cb131-5"><a href="#cb131-5"></a>  <span class="dt">description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</span>
+<span id="cb131-3"><a href="#cb131-3"></a>in.df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</span>
+<span id="cb131-4"><a href="#cb131-4"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
+<span id="cb131-5"><a href="#cb131-5"></a>  <span class="dt">description =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</span>
 <span id="cb131-6"><a href="#cb131-6"></a>    <span class="st">"number of observation"</span>,</span>
 <span id="cb131-7"><a href="#cb131-7"></a>    <span class="st">"lower limits of the distribution"</span>,</span>
 <span id="cb131-8"><a href="#cb131-8"></a>    <span class="st">"upper limits of the distribution"</span>,</span>
 <span id="cb131-9"><a href="#cb131-9"></a>    <span class="st">"seed with set.seed"</span></span>
 <span id="cb131-10"><a href="#cb131-10"></a>  ),</span>
-<span id="cb131-11"><a href="#cb131-11"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"integer"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>),</span>
-<span id="cb131-12"><a href="#cb131-12"></a>  <span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
-<span id="cb131-13"><a href="#cb131-13"></a>  <span class="dt">prefix =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"--n"</span>, <span class="st">"--min"</span>, <span class="st">"--max"</span>, <span class="st">"--seed"</span>),</span>
-<span id="cb131-14"><a href="#cb131-14"></a>  <span class="dt">default =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">123</span>),</span>
-<span id="cb131-15"><a href="#cb131-15"></a>  <span class="dt">required =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)</span>
+<span id="cb131-11"><a href="#cb131-11"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"integer"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>, <span class="st">"float"</span>),</span>
+<span id="cb131-12"><a href="#cb131-12"></a>  <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"number"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"seed"</span>),</span>
+<span id="cb131-13"><a href="#cb131-13"></a>  <span class="dt">prefix =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"--n"</span>, <span class="st">"--min"</span>, <span class="st">"--max"</span>, <span class="st">"--seed"</span>),</span>
+<span id="cb131-14"><a href="#cb131-14"></a>  <span class="dt">default =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">123</span>),</span>
+<span id="cb131-15"><a href="#cb131-15"></a>  <span class="dt">required =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)</span>
 <span id="cb131-16"><a href="#cb131-16"></a>)</span>
-<span id="cb131-17"><a href="#cb131-17"></a>out.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(</span>
-<span id="cb131-18"><a href="#cb131-18"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"random"</span>, <span class="st">"report"</span>),</span>
-<span id="cb131-19"><a href="#cb131-19"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"file"</span>, <span class="st">"file"</span>),</span>
-<span id="cb131-20"><a href="#cb131-20"></a>  <span class="dt">glob =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"*.txt"</span>, <span class="st">"*.html"</span>)</span>
+<span id="cb131-17"><a href="#cb131-17"></a>out.df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</span>
+<span id="cb131-18"><a href="#cb131-18"></a>  <span class="dt">id =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"random"</span>, <span class="st">"report"</span>),</span>
+<span id="cb131-19"><a href="#cb131-19"></a>  <span class="dt">type =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"file"</span>, <span class="st">"file"</span>),</span>
+<span id="cb131-20"><a href="#cb131-20"></a>  <span class="dt">glob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"*.txt"</span>, <span class="st">"*.html"</span>)</span>
 <span id="cb131-21"><a href="#cb131-21"></a>)</span>
 <span id="cb131-22"><a href="#cb131-22"></a>rbx &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Tool-class.html">Tool</a></span>(</span>
 <span id="cb131-23"><a href="#cb131-23"></a>  <span class="dt">id =</span> <span class="st">"runif"</span>,</span>
@@ -1847,7 +1855,7 @@ $File$to
 <span id="cb131-27"><a href="#cb131-27"></a>  <span class="dt">inputs =</span> in.df, <span class="co"># or ins.df</span></span>
 <span id="cb131-28"><a href="#cb131-28"></a>  <span class="dt">outputs =</span> out.df</span>
 <span id="cb131-29"><a href="#cb131-29"></a>)</span>
-<span id="cb131-30"><a href="#cb131-30"></a>params &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">number =</span> <span class="dv">3</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span>
+<span id="cb131-30"><a href="#cb131-30"></a>params &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">number =</span> <span class="dv">3</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span>
 <span id="cb131-31"><a href="#cb131-31"></a></span>
 <span id="cb131-32"><a href="#cb131-32"></a><span class="kw"><a href="../reference/set_test_env.html">set_test_env</a></span>(<span class="st">"RFranklin/testenv"</span>, <span class="st">"mount_dir"</span>)</span>
 <span id="cb131-33"><a href="#cb131-33"></a><span class="kw">test_tool</span>(rbx, params)</span></code></pre></div>
@@ -1856,6 +1864,7 @@ $File$to
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -1889,17 +1898,20 @@ $File$to
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

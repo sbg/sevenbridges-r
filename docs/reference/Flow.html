@@ -8,21 +8,32 @@
 
 <title>Build workflow — SBGWorkflow-class • sevenbridges-r</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,12 +43,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
+
 <meta property="og:title" content="Build workflow — SBGWorkflow-class" />
-
 <meta property="og:description" content="Build workflow" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -60,6 +71,7 @@
 
   gtag('config', 'UA-87185344-1');
 </script>
+
 
   </head>
 
@@ -85,7 +97,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -123,11 +135,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,6 +149,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -149,9 +161,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Build workflow</p>
-    
     </div>
 
     <pre class="usage">Flow(..., graph = TRUE, x.width = 1000, y.width = 400,
@@ -189,7 +199,7 @@ e1 %>>% e2
 
 # S4 method for Workflow,App
 %&gt;&gt;%(e1, e2)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -239,55 +249,81 @@ used for flow visualization on Seven Bridges platforms.</p></td>
       <td><p>either Tool App or Workflow object</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a SBGWorkflow object.</p>
-    
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>copy_obj()</code></dt><dd><p>this is a hack to make copy of reference cwl object</p></dd>
-    <dt><code>get_input(ids, force = FALSE)</code></dt><dd><p>get input by pure input id from all steps</p></dd>
-    <dt><code>get_input_exposed()</code></dt><dd><p>exposed input id other than file</p></dd>
-    <dt><code>get_input_node()</code></dt><dd><p>get input file nodes id</p></dd>
-    <dt><code>get_input_port()</code></dt><dd><p>show included port of all inputs</p></dd>
-    <dt><code>get_output(ids, force = FALSE)</code></dt><dd><p>get output by pure output id from all steps</p></dd>
-    <dt><code>get_output_node()</code></dt><dd><p>get output file nodes id</p></dd>
-    <dt><code>get_required()</code></dt><dd><p>show flow required input id and types</p></dd>
-    <dt><code>get_step(name = NULL, id = NULL)</code></dt><dd><p>get step object by name or id, name support pattern match</p></dd>
-    <dt><code>get_tool(name = NULL, id = NULL)</code></dt><dd><p>get a tool object by name or id, name support pattern match</p></dd>
-    <dt><code>input_id()</code></dt><dd><p>show input id</p></dd>
-    <dt><code><a href='input_output_matrix.html'>input_matrix(new.order = c("id", "label", "type", "required", "prefix",
+
+<dt><code>get_input(ids, force = FALSE)</code></dt><dd><p>get input by pure input id from all steps</p></dd>
+
+<dt><code>get_input_exposed()</code></dt><dd><p>exposed input id other than file</p></dd>
+
+<dt><code>get_input_node()</code></dt><dd><p>get input file nodes id</p></dd>
+
+<dt><code>get_input_port()</code></dt><dd><p>show included port of all inputs</p></dd>
+
+<dt><code>get_output(ids, force = FALSE)</code></dt><dd><p>get output by pure output id from all steps</p></dd>
+
+<dt><code>get_output_node()</code></dt><dd><p>get output file nodes id</p></dd>
+
+<dt><code>get_required()</code></dt><dd><p>show flow required input id and types</p></dd>
+
+<dt><code>get_step(name = NULL, id = NULL)</code></dt><dd><p>get step object by name or id, name support pattern match</p></dd>
+
+<dt><code>get_tool(name = NULL, id = NULL)</code></dt><dd><p>get a tool object by name or id, name support pattern match</p></dd>
+
+<dt><code>input_id()</code></dt><dd><p>show input id</p></dd>
+
+<dt><code><a href='input_output_matrix.html'>input_matrix(new.order = c("id", "label", "type", "required", "prefix",
   "fileTypes"), required = NULL)</a></code></dt><dd><p>This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
-    <dt><code>input_type()</code></dt><dd><p>Show a vector of flow input type, names of them are input id.</p></dd>
-    <dt><code>link_map()</code></dt><dd><p>show a table of all linked nodes</p></dd>
-    <dt><code>linked_input_id()</code></dt><dd><p>input id that linked to an output</p></dd>
-    <dt><code>linked_output_id()</code></dt><dd><p>output id that linked to an input</p></dd>
-    <dt><code>list_tool()</code></dt><dd><p>list all tools included in this flow</p></dd>
-    <dt><code>output_id()</code></dt><dd><p>show output id</p></dd>
-    <dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
-    <dt><code>output_type()</code></dt><dd><p>Show a vector of flow output type, names of them are output id.</p></dd>
-    <dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.</p></dd>
-    <dt><code>set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))</code></dt><dd><p>Set a flow input node into a batch mode, this is now required before you execute a batch task on a batch-not-enabled flow.</p></dd>
-    <dt><code>set_flow_input(iid = NULL, add = TRUE)</code></dt><dd><p>Expose tool input node as flow input, default is additative, if add = FALSE, this will overwrite and only made provided id inputs of flow.</p></dd>
-    <dt><code>set_flow_output(oid = NULL, add = TRUE)</code></dt><dd><p>Expose tool output node as flow output, default is additative, if add = FALSE, this will overwrite and only made provided id outputs of flow.</p></dd>
-    <dt><code>set_input_port(ids, include = TRUE)</code></dt><dd><p>set included port for provided input id(s)</p></dd>
-    <dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set a input node required (TRUE) or not required (FALSE) this require full input id (with tool id prefix) such as #STAR.alignIntronMax</p></dd>
-    <dt><code>step_input_id(full = FALSE)</code></dt><dd><p>Show step input id, default names of them is tool id. When full = TRUE, show full name then names of vector is type.</p></dd>
-    <dt><code>step_output_id(full = FALSE)</code></dt><dd><p>Show step output id, default names of them is tool id. when full = TRUE, show full name then names of vector is type.</p></dd>
+
+<dt><code>input_type()</code></dt><dd><p>Show a vector of flow input type, names of them are input id.</p></dd>
+
+<dt><code>link_map()</code></dt><dd><p>show a table of all linked nodes</p></dd>
+
+<dt><code>linked_input_id()</code></dt><dd><p>input id that linked to an output</p></dd>
+
+<dt><code>linked_output_id()</code></dt><dd><p>output id that linked to an input</p></dd>
+
+<dt><code>list_tool()</code></dt><dd><p>list all tools included in this flow</p></dd>
+
+<dt><code>output_id()</code></dt><dd><p>show output id</p></dd>
+
+<dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
+
+<dt><code>output_type()</code></dt><dd><p>Show a vector of flow output type, names of them are output id.</p></dd>
+
+<dt><code>run(run_inputs = list(), engine = c("bunny", "rabix", "cwlrun"))</code></dt><dd><p>Run this tool with inputs locally. Engines supported: bunny, rabix, cwlrun. Inputs accept list or JSON.</p></dd>
+
+<dt><code>set_batch(input = NULL, criteria = NULL, type = c("ITEM", "CRITERIA"))</code></dt><dd><p>Set a flow input node into a batch mode, this is now required before you execute a batch task on a batch-not-enabled flow.</p></dd>
+
+<dt><code>set_flow_input(iid = NULL, add = TRUE)</code></dt><dd><p>Expose tool input node as flow input, default is additative, if add = FALSE, this will overwrite and only made provided id inputs of flow.</p></dd>
+
+<dt><code>set_flow_output(oid = NULL, add = TRUE)</code></dt><dd><p>Expose tool output node as flow output, default is additative, if add = FALSE, this will overwrite and only made provided id outputs of flow.</p></dd>
+
+<dt><code>set_input_port(ids, include = TRUE)</code></dt><dd><p>set included port for provided input id(s)</p></dd>
+
+<dt><code>set_required(ids, required = TRUE)</code></dt><dd><p>Set a input node required (TRUE) or not required (FALSE) this require full input id (with tool id prefix) such as #STAR.alignIntronMax</p></dd>
+
+<dt><code>step_input_id(full = FALSE)</code></dt><dd><p>Show step input id, default names of them is tool id. When full = TRUE, show full name then names of vector is type.</p></dd>
+
+<dt><code>step_output_id(full = FALSE)</code></dt><dd><p>Show step output id, default names of them is tool id. when full = TRUE, show full name then names of vector is type.</p></dd>
+
 </dl>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+    <pre class="examples"><span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
 <span class='co'># input matrix</span>
 <span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>()
 <span class='co'># by name</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"link_to"</span>))
+<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"link_to"</span>))
 <span class='co'># return only required</span>
 <span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='kw'>required</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># return everything</span>
@@ -295,7 +331,7 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 <span class='co'># return a output matrix with more informtion</span>
 <span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>()
 <span class='co'># return only a few fields</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>))
+<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>))
 <span class='co'># return everything</span>
 <span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>(<span class='kw'>NULL</span>)
 <span class='co'># flow inputs</span>
@@ -322,16 +358,16 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 <span class='no'>f1</span>$<span class='fu'>step_output_id</span>(<span class='fl'>TRUE</span>)
 <span class='co'># get inputs objects</span>
 <span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='st'>"#clip3pNbases"</span>)
-<span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>))
-<span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>, <span class='st'>"#STAR.outFilterMismatchNoverLmax"</span>))
+<span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>))
+<span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>, <span class='st'>"#STAR.outFilterMismatchNoverLmax"</span>))
 <span class='co'># get outputs objects</span>
 <span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='st'>"#log_files"</span>)
-<span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))
-<span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>, <span class='st'>"#STAR.unmapped_reads"</span>))
+<span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))
+<span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>, <span class='st'>"#STAR.unmapped_reads"</span>))
 <span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='st'>"#log_files"</span>)
 <span class='co'># set flow input</span>
 <span class='no'>f1</span>$<span class='fu'>set_flow_input</span>(<span class='st'>"#SBG_FASTQ_Quality_Detector.fastq"</span>)
-<span class='no'>f1</span>$<span class='fu'>set_flow_output</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))
+<span class='no'>f1</span>$<span class='fu'>set_flow_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))
 <span class='co'># get required node</span>
 <span class='no'>f1</span>$<span class='fu'>get_required</span>()
 <span class='co'># set required node</span>
@@ -348,9 +384,9 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 <span class='co'># get included input ports</span>
 <span class='no'>f1</span>$<span class='fu'>get_input_port</span>()
 <span class='co'># set included input ports</span>
-<span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>))
+<span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>))
 <span class='no'>f1</span>$<span class='fu'>get_input_port</span>()
-<span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>), <span class='fl'>FALSE</span>)
+<span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>), <span class='fl'>FALSE</span>)
 <span class='no'>f1</span>$<span class='fu'>get_input_port</span>()
 <span class='no'>f1</span>$<span class='fu'>get_input_node</span>()
 <span class='no'>f1</span>$<span class='fu'>get_output_node</span>()
@@ -360,28 +396,25 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 <span class='no'>f1</span>$<span class='fu'>set_flow_input</span>(<span class='st'>"#STAR.reads"</span>)
 <span class='no'>f1</span>$<span class='fu'>input_id</span>()
 <span class='co'># batch</span>
-<span class='no'>f1</span>$<span class='fu'>set_batch</span>(<span class='st'>"sjdbGTFfile"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"metadata.sample_id"</span>, <span class='st'>"metadata.library_id"</span>))
+<span class='no'>f1</span>$<span class='fu'>set_batch</span>(<span class='st'>"sjdbGTFfile"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"metadata.sample_id"</span>, <span class='st'>"metadata.library_id"</span>))
 <span class='no'>f1</span>$<span class='fu'>set_batch</span>(<span class='st'>"sjdbGTFfile"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"ITEM"</span>)
 <span class='co'># add source to id</span>
 <span class='no'>f1</span>$<span class='fu'>link_map</span>()
-<span class='no'>f1</span>$<span class='fu'>add_source_to_id</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"test1"</span>, <span class='st'>"test2"</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"#STAR.genome"</span>, <span class='st'>"#STAR.reads"</span>))
-<span class='no'>f1</span>$<span class='fu'>link_map</span>()
-<span class='co'># }</span></pre>
+<span class='no'>f1</span>$<span class='fu'>add_source_to_id</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"test1"</span>, <span class='st'>"test2"</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.genome"</span>, <span class='st'>"#STAR.reads"</span>))
+<span class='no'>f1</span>$<span class='fu'>link_map</span>()</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#methods">Methods</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -389,13 +422,16 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

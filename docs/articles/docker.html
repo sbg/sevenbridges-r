@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creating Your Docker Container and Command Line Interface (with docopt) • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Creating Your Docker Container and Command Line Interface (with docopt)">
 <meta property="og:description" content="">
@@ -46,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +94,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -100,12 +107,13 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Creating Your Docker Container and Command Line Interface (with docopt)</h1>
             
-            <h4 class="date">2019-07-25</h4>
+            <h4 class="date">2019-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/docker.Rmd"><code>vignettes/docker.Rmd</code></a></small>
       <div class="hidden name"><code>docker.Rmd</code></div>
@@ -241,12 +249,12 @@
 <div id="tutorial-random-number-generator" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tutorial-random-number-generator" class="anchor"></a>Tutorial: Random Number Generator</h1>
-<p>Our goal here is to making a CWL app to generate uniform random numbers, yes, the core function is <code><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif()</a></code>, it’s a native function in R.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput</a></span>(runif)</span></code></pre></div>
+<p>Our goal here is to making a CWL app to generate uniform random numbers, yes, the core function is <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code>, it’s a native function in R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(runif)</span></code></pre></div>
 <pre><code>## function (n, min = 0, max = 1) 
 ## .Call(C_runif, n, min, max)</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1001</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1001</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] 0.985688783 0.412628483 0.429539246 0.419172236 0.426506559
 ##  [6] 0.887797565 0.006096034 0.081215761 0.288657362 0.765342145</code></pre>
 <div id="using-docopt-package" class="section level2">
@@ -270,9 +278,9 @@ lower and upper limits of the distribution. Must be finite.</code></pre>
 <p>At the beginning of the command line script, I use the docopt standard to write my tool help.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"docopt"</span>)</span></code></pre></div>
 <p>Let’s first do some testing in your R session before you make it a full functional command line tool.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc) <span class="co"># with no argumetns provided</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/pkg/docopt/man/docopt.html">docopt</a></span>(doc) <span class="co"># with no argumetns provided</span></span></code></pre></div>
 <pre><code>## List of 8
 ##  $ --n   : chr "1"
 ##  $ --min : chr "0"
@@ -283,7 +291,7 @@ lower and upper limits of the distribution. Must be finite.</code></pre>
 ##  $ max   : chr "1"
 ##  $ seed  : chr "1"
 ## NULL</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc, <span class="st">"--n 10 --min=3 --max=5"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/pkg/docopt/man/docopt.html">docopt</a></span>(doc, <span class="st">"--n 10 --min=3 --max=5"</span>)</span></code></pre></div>
 <pre><code>## List of 8
 ##  $ --n   : chr "10"
 ##  $ --min : chr "3"
@@ -295,25 +303,25 @@ lower and upper limits of the distribution. Must be finite.</code></pre>
 ##  $ seed  : chr "1"
 ## NULL</code></pre>
 <p>Looks like it works, now let’s add main function script for this command line tool.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</span>
-<span id="cb11-5"><a href="#cb11-5"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
-<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/docopt/man/docopt.html">docopt</a></span>(doc)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(</span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(opts<span class="op">$</span>n),</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
 <span id="cb11-7"><a href="#cb11-7"></a>)</span></code></pre></div>
 <pre><code>## [1] 0.2655087</code></pre>
 <p>Add Shebang at the top of the file, this is a complete example for <code>runif.R</code> command line will be like this</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">#!/usr/bin/Rscript</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="st">"usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]</span><span class="ch">\n\n</span><span class="st">options:</span><span class="ch">\n</span><span class="st"> --n=&lt;int&gt;        number of observations. If length(n) &gt; 1, the length is taken to be the number required [default: 1].</span><span class="ch">\n</span><span class="st"> --min=&lt;float&gt;   lower limits of the distribution. Must be finite [default: 0].</span><span class="ch">\n</span><span class="st"> --max=&lt;float&gt;   upper limits of the distribution. Must be finite [default: 1].</span><span class="ch">\n</span><span class="st"> --seed=&lt;float&gt;  seed for set.seed() function [default: 1]"</span> -&gt;<span class="st"> </span>doc</span>
 <span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"docopt"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/docopt/topics/docopt">docopt</a></span>(doc)</span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(</span>
-<span id="cb13-8"><a href="#cb13-8"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(opts<span class="op">$</span>n),</span>
-<span id="cb13-9"><a href="#cb13-9"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
-<span id="cb13-10"><a href="#cb13-10"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"docopt"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>opts &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/docopt/man/docopt.html">docopt</a></span>(doc)</span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(opts<span class="op">$</span>seed)</span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(</span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="dt">n =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(opts<span class="op">$</span>n),</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="dt">min =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(opts<span class="op">$</span>min),</span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="dt">max =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(opts<span class="op">$</span>max)</span>
 <span id="cb13-11"><a href="#cb13-11"></a>)</span></code></pre></div>
 <p>Let’s test this command line.</p>
 <pre><code>$ runif.R --help
@@ -347,8 +355,8 @@ Loading required package: methods
 <li><code>min</code></li>
 <li><code>max</code></li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif2spin.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -373,7 +381,7 @@ hist(r)</code></pre>
 <p>Ignore the comment part, I will introduce spin/stich later. My base command will be something like</p>
 <pre><code>Rscript runif2spin.R 10 30 50</code></pre>
 <p>I just describe my tool in this way</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2"></a></span>
 <span id="cb18-3"><a href="#cb18-3"></a>fd &lt;-<span class="st"> </span><span class="kw"><a href="../reference/requirements.html">fileDef</a></span>(</span>
 <span id="cb18-4"><a href="#cb18-4"></a>  <span class="dt">name =</span> <span class="st">"runif.R"</span>,</span>
@@ -387,7 +395,7 @@ hist(r)</code></pre>
 <span id="cb18-12"><a href="#cb18-12"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb18-13"><a href="#cb18-13"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
 <span id="cb18-14"><a href="#cb18-14"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb18-15"><a href="#cb18-15"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb18-16"><a href="#cb18-16"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb18-17"><a href="#cb18-17"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb18-18"><a href="#cb18-18"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -408,8 +416,8 @@ hist(r)</code></pre>
 <span id="cb18-33"><a href="#cb18-33"></a>)</span></code></pre></div>
 <p>Now copy-paste the JSON into your project app and run it in the cloud to test it</p>
 <p>How about named arguments? I will still recommend use “docopt” package, but for simple way.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -459,7 +467,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb22-10"><a href="#cb22-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb22-11"><a href="#cb22-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
 <span id="cb22-12"><a href="#cb22-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb22-13"><a href="#cb22-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb22-13"><a href="#cb22-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb22-14"><a href="#cb22-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb22-15"><a href="#cb22-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb22-16"><a href="#cb22-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -486,8 +494,8 @@ write.csv(r, file = "out.csv")</code></pre>
 <h2 class="hasAnchor">
 <a href="#quick-report-spin-and-stich" class="anchor"></a>Quick Report: Spin and Stich</h2>
 <p>Alternative, you can use spin/stich from knitr to generate report directly from an R script with special format. For example, let’s use the above example</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src"</span>, <span class="st">"runif_args.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>#' ---
 #' title: "Uniform random number generator example"
 #' output:
@@ -538,7 +546,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb26-10"><a href="#cb26-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="../reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb26-11"><a href="#cb26-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript -e </span><span class="ch">\"</span><span class="st">rmarkdown::render(knitr::spin('runif.R', FALSE))</span><span class="ch">\"</span><span class="st"> --args"</span>,</span>
 <span id="cb26-12"><a href="#cb26-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb26-13"><a href="#cb26-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb26-13"><a href="#cb26-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb26-14"><a href="#cb26-14"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">input</a></span>(</span>
 <span id="cb26-15"><a href="#cb26-15"></a>      <span class="dt">id =</span> <span class="st">"number"</span>,</span>
 <span id="cb26-16"><a href="#cb26-16"></a>      <span class="dt">type =</span> <span class="st">"integer"</span>,</span>
@@ -558,7 +566,7 @@ write.csv(r, file = "out.csv")</code></pre>
 <span id="cb26-30"><a href="#cb26-30"></a>      <span class="dt">prefix =</span> <span class="st">"--max="</span></span>
 <span id="cb26-31"><a href="#cb26-31"></a>    )</span>
 <span id="cb26-32"><a href="#cb26-32"></a>  ),</span>
-<span id="cb26-33"><a href="#cb26-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb26-33"><a href="#cb26-33"></a>  <span class="dt">outputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb26-34"><a href="#cb26-34"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"stdout"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"output.txt"</span>),</span>
 <span id="cb26-35"><a href="#cb26-35"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"random"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.csv"</span>),</span>
 <span id="cb26-36"><a href="#cb26-36"></a>    <span class="kw"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="dt">id =</span> <span class="st">"report"</span>, <span class="dt">type =</span> <span class="st">"file"</span>, <span class="dt">glob =</span> <span class="st">"*.html"</span>)</span>
@@ -573,9 +581,9 @@ write.csv(r, file = "out.csv")</code></pre>
 <pre><code>#!/bin/bash/Rscript</code></pre>
 <p>In your markdown document.</p>
 <p>Of course, we can figure out a way to do it in <code>liftr</code> or <code>knitr</code>. But R Markdown allow you to pass parameters to your R Markdown template, please read this tutorial <a href="http://rmarkdown.rstudio.com/developer_parameterized_reports.html">Parameterized Reports</a>. This doesn’t solve my problem that I want to directly describe command line interface in the markdown template. However, here is alternative method:</p>
-<p>Create an command line interface to pass <code>params</code> from docopt into <code><a href="https://www.rdocumentation.org/packages/rmarkdown/topics/render">rmarkdown::render()</a></code> function. In this way, we can pass as many as possible parameters from command line interface into our R Markdown template.</p>
+<p>Create an command line interface to pass <code>params</code> from docopt into <code><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">rmarkdown::render()</a></code> function. In this way, we can pass as many as possible parameters from command line interface into our R Markdown template.</p>
 <p>So here we go, here is updated methods and it’s also what I use for another tutorial about RNA-seq workflow.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker/sevenbridges/src/"</span>, <span class="st">"runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/sevenbridges/src/"</span>, <span class="st">"runif.R"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span></code></pre></div>
 <p>Here is the current content of command line interface</p>
 <pre><code>#!/usr/local/bin/Rscript
 'usage: runif.R [--n=&lt;int&gt; --min=&lt;float&gt; --max=&lt;float&gt; --seed=&lt;float&gt;]
@@ -648,6 +656,7 @@ hist(r)
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -674,17 +683,20 @@ hist(r)
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

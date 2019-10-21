@@ -8,21 +8,32 @@
 
 <title>WorkflowStepInputList — WorkflowStepInput-class • sevenbridges-r</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,15 +43,15 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="WorkflowStepInputList — WorkflowStepInput-class" />
 
+<meta property="og:title" content="WorkflowStepInputList — WorkflowStepInput-class" />
 <meta property="og:description" content="A workflow step is an executable element of a workflow.
 It specifies the underlying process implementation (such as
 CommandLineTool) in the run field and connects the input and output
 parameters of the underlying process to workflow parameters." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -63,6 +74,7 @@ parameters of the underlying process to workflow parameters." />
 
   gtag('config', 'UA-87185344-1');
 </script>
+
 
   </head>
 
@@ -88,7 +100,7 @@ parameters of the underlying process to workflow parameters." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -126,11 +138,10 @@ parameters of the underlying process to workflow parameters." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,6 +152,7 @@ parameters of the underlying process to workflow parameters." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -152,12 +164,10 @@ parameters of the underlying process to workflow parameters." />
     </div>
 
     <div class="ref-description">
-    
     <p>A workflow step is an executable element of a workflow.
 It specifies the underlying process implementation (such as
 CommandLineTool) in the run field and connects the input and output
 parameters of the underlying process to workflow parameters.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>WorkflowStepInputList</span>(<span class='no'>...</span>)
@@ -165,108 +175,135 @@ parameters of the underlying process to workflow parameters.</p>
 <span class='fu'>WorkflowStepOutputList</span>(<span class='no'>...</span>)
 
 <span class='fu'>WorkflowStepList</span>(<span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>&#8230;</th>
+      <th>...</th>
       <td><p>element or list of the element.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a WorkflowStep object or subclass object.</p>
-    
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>id</code></dt><dd><p>[character] The unique identifier for this workflow step.</p></dd>
-    <dt><code>inputs</code></dt><dd><p>(WorkflowStepInputList) Defines the input parameters
+
+<dt><code>inputs</code></dt><dd><p>(WorkflowStepInputList) Defines the input parameters
 of the workflow step. The process is ready to run when all required
 input parameters are associated with concrete values. Input
 parameters include a schema for each parameter and is used to
 validate the input object, it may also be used build a user
 interface for constructing the input object.</p></dd>
-    <dt><code>outputs</code></dt><dd><p>(WorkflowStepOutputList) Defines the parameters
+
+<dt><code>outputs</code></dt><dd><p>(WorkflowStepOutputList) Defines the parameters
 representing the output of the process. May be used to generate
 and/or validate the output object.</p></dd>
-    <dt><code>requirements</code></dt><dd><p>[ProcessRequirement] Declares requirements that
+
+<dt><code>requirements</code></dt><dd><p>[ProcessRequirement] Declares requirements that
 apply to either the runtime environment or the workflow engine that
 must be met in order to execute this workflow step. If an
 implementation cannot satisfy all requirements, or a requirement is
 listed which is not recognized by the implementation, it is a fatal
 error and the implementation must not attempt to run the process,
 unless overridden at user option.</p></dd>
-    <dt><code>hints</code></dt><dd><p>[ANY] Declares hints applying to either the runtime
+
+<dt><code>hints</code></dt><dd><p>[ANY] Declares hints applying to either the runtime
 environment or the workflow engine that may be helpful in executing
 this workflow step. It is not an error if an implementation cannot
 satisfy all hints, however the implementation may report a warning.</p></dd>
-    <dt><code>label</code></dt><dd><p>[character] A short, human-readable label of this
+
+<dt><code>label</code></dt><dd><p>[character] A short, human-readable label of this
 process object.</p></dd>
-    <dt><code>description</code></dt><dd><p>[character] A long, human-readable description
+
+<dt><code>description</code></dt><dd><p>[character] A long, human-readable description
 of this process object.</p></dd>
-    <dt><code>run</code></dt><dd><p>(CommandLineToolORExpressionToolORWorkflow) Specifies
+
+<dt><code>run</code></dt><dd><p>(CommandLineToolORExpressionToolORWorkflow) Specifies
 the process to run.</p></dd>
-    <dt><code>scatter</code></dt><dd><p>[character]</p></dd>
-    <dt><code>scatterMethod</code></dt><dd><p>[ScatterMethod] Required if scatter is an array of more
+
+<dt><code>scatter</code></dt><dd><p>[character]</p></dd>
+
+<dt><code>scatterMethod</code></dt><dd><p>[ScatterMethod] Required if scatter is an array of more
 than one element.</p></dd>
+
 </dl>
-    
     <h2 class="hasAnchor" id="workflowstepinput-class"><a class="anchor" href="#workflowstepinput-class"></a>WorkflowStepInput Class</h2>
 
     
-    <dl class='dl-horizontal'>
-    The input of a workflow step connects an upstream parameter (from
+
+<dl class='dl-horizontal'>
+
+The input of a workflow step connects an upstream parameter (from
 the workflow inputs, or the outputs of other workflows steps) with
 the input parameters of the underlying process.
-    If the sink parameter is an array, or named in a workflow scatter
+
+If the sink parameter is an array, or named in a workflow scatter
 operation, there may be multiple inbound data links listed in the
 connect field. The values from the input links are merged depending
 on the method specified in the linkMerge field. If not specified,
 the default method is merge_nested:
-    <dt>merge_nested</dt><dd><p>The input shall be an array consisting of
+
+<dt>merge_nested</dt><dd><p>The input shall be an array consisting of
 exactly one entry for each input link. If merge_nested is specified
 with a single link, the value from the link is wrapped in a
 single-item list.</p></dd>
-    <dt>merge_flattened</dt><dd><p>1) The source and sink parameters must be
+
+<dt>merge_flattened</dt><dd><p>1) The source and sink parameters must be
 compatible types, or the source type must be compatible with single
 element from the "items" type of the destination array
 parameter. 2) Source parameters which are arrays are concatenated;
 source parameters which are single element types are appended as
 single elements.</p></dd>
-    Fields:
-    <dt><code>id</code></dt><dd><p>(character) A unique identifier for this workflow input
+
+Fields:
+
+<dt><code>id</code></dt><dd><p>(character) A unique identifier for this workflow input
 parameter.</p></dd>
-    <dt><code>source</code></dt><dd><p>[character] Specifies one or more workflow parameters
+
+<dt><code>source</code></dt><dd><p>[character] Specifies one or more workflow parameters
 that will provide input to the underlying process parameter.</p></dd>
-    <dt><code>linkMerge</code></dt><dd><p>[LineMergeMethod] The method to use to merge
+
+<dt><code>linkMerge</code></dt><dd><p>[LineMergeMethod] The method to use to merge
 multiple inbound links into a single array. If not specified, the
 default method is merge_nested:</p></dd>
-    <dt><code>default</code></dt><dd><p>[ANY] The default value for this parameter if there
+
+<dt><code>default</code></dt><dd><p>[ANY] The default value for this parameter if there
 is no source field.</p></dd>
+
 </dl>
-    
+
     <h2 class="hasAnchor" id="workflowstepoutput-class"><a class="anchor" href="#workflowstepoutput-class"></a>WorkflowStepOutput Class</h2>
 
     
-    <dl class='dl-horizontal'>
-    Associate an output parameter of the underlying process with a
+
+<dl class='dl-horizontal'>
+
+Associate an output parameter of the underlying process with a
 workflow parameter. The workflow parameter (given in the id field)
 be may be used as a source to connect with input parameters of
 other workflow steps, or with an output parameter of the process.
-    <dt><code>id</code></dt><dd><p>(character) A unique identifier for this workflow output
+
+<dt><code>id</code></dt><dd><p>(character) A unique identifier for this workflow output
 parameter. This is the identifier to use in the source field of
 WorkflowStepInput to connect the output value to downstream
 parameters.</p></dd>
-    </dl>
-    
+
+
+</dl>
+
     <h2 class="hasAnchor" id="scatter-gather"><a class="anchor" href="#scatter-gather"></a>Scatter/gather</h2>
 
     
-    <p>To use scatter/gather, ScatterFeatureRequirement must be specified
+
+
+<p>To use scatter/gather, ScatterFeatureRequirement must be specified
 in the workflow or workflow step requirements.</p>
 <p>A "scatter" operation specifies that the associated workflow step
 or subworkflow should execute separately over a list of input
@@ -297,49 +334,42 @@ inputs. The output arrays must be flattened to a single level, but
 otherwise listed in the order that the input arrays are listed in
 the scatter field.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="subworkflows"><a class="anchor" href="#subworkflows"></a>Subworkflows</h2>
 
     
-    <p>To specify a nested workflow as part of a workflow step,
+
+
+<p>To specify a nested workflow as part of a workflow step,
 SubworkflowFeatureRequirement must be specified in the workflow or
 workflow step requirements.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>ws</span> <span class='kw'>&lt;-</span> <span class='fu'>WorkflowStepList</span>(<span class='fu'>WorkflowStep</span>(
+    <pre class="examples"><span class='no'>ws</span> <span class='kw'>&lt;-</span> <span class='fu'>WorkflowStepList</span>(<span class='fu'>WorkflowStep</span>(
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"step1"</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"align-and-sort"</span>,
   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"align and sort"</span>,
   <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='fu'>WorkflowStepInputList</span>(
     <span class='fu'>WorkflowStepInput</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id1"</span>),
     <span class='fu'>WorkflowStepInput</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id2"</span>)
   )
-))
-<span class='co'># }</span></pre>
+))</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#fields">Fields</a></li>
-
       <li><a href="#workflowstepinput-class">WorkflowStepInput Class</a></li>
-
       <li><a href="#workflowstepoutput-class">WorkflowStepOutput Class</a></li>
-
       <li><a href="#scatter-gather">Scatter/gather</a></li>
-
       <li><a href="#subworkflows">Subworkflows</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -347,13 +377,16 @@ workflow step requirements.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

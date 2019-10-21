@@ -8,21 +8,32 @@
 
 <title>CommandLineTool Class — CommandLineTool-class • sevenbridges-r</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,8 +43,8 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="CommandLineTool Class — CommandLineTool-class" />
 
+<meta property="og:title" content="CommandLineTool Class — CommandLineTool-class" />
 <meta property="og:description" content="A CommandLineTool process is a process implementation for executing
 a non-interactive application in a POSIX environment. To help
 accomodate of the enormous variety in syntax and semantics for
@@ -42,9 +53,9 @@ programs, CommandLineTool provides the concept of &quot;input binding&quot;
 to describe how to translate input parameters to an actual program
 invocation, and &quot;output binding&quot; to describe how generate output
 parameters from program output." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,6 +78,7 @@ parameters from program output." />
 
   gtag('config', 'UA-87185344-1');
 </script>
+
 
   </head>
 
@@ -92,7 +104,7 @@ parameters from program output." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -130,11 +142,10 @@ parameters from program output." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -145,6 +156,7 @@ parameters from program output." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -156,7 +168,6 @@ parameters from program output." />
     </div>
 
     <div class="ref-description">
-    
     <p>A CommandLineTool process is a process implementation for executing
 a non-interactive application in a POSIX environment. To help
 accomodate of the enormous variety in syntax and semantics for
@@ -165,14 +176,15 @@ programs, CommandLineTool provides the concept of "input binding"
 to describe how to translate input parameters to an actual program
 invocation, and "output binding" to describe how generate output
 parameters from program output.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>baseCommand</code></dt><dd><p>(character) Specifies the program to execute. If
 the value is an array, the first element is the program to execute,
 and subsequent elements are placed at the beginning of the command
@@ -181,11 +193,14 @@ a path separator character it must be an absolute path, otherwise
 it is an error. If the program does not include a path separator,
 search the $PATH variable in the runtime environment find the
 absolute path of the executable.</p></dd>
-    <dt><code>arguments</code></dt><dd><p>[characterORCommandLineBinding] Command line
+
+<dt><code>arguments</code></dt><dd><p>[characterORCommandLineBinding] Command line
 bindings which are not directly associated with input parameters.</p></dd>
-    <dt><code>stdin</code></dt><dd><p>[characterORExpression] A path to a file whose
+
+<dt><code>stdin</code></dt><dd><p>[characterORExpression] A path to a file whose
 contents must be piped into the command's standard input stream.</p></dd>
-    <dt><code>stdout</code></dt><dd><p>[characterORExpression] Capture the command's
+
+<dt><code>stdout</code></dt><dd><p>[characterORExpression] Capture the command's
 standard output stream to a file written to the designated output
 directory. If stdout is a string, it specifies the file name to
 use.If stdout is an expression, the expression is evaluated and
@@ -193,22 +208,27 @@ must return a string with the file name to use to capture
 stdout. If the return value is not a string, or the resulting path
 contains illegal characters (such as the path separator /) it is an
 error.</p></dd>
-    <dt><code>successCodes</code></dt><dd><p>[integer] Exit codes that indicate the process
+
+<dt><code>successCodes</code></dt><dd><p>[integer] Exit codes that indicate the process
 completed successfully.</p></dd>
-    <dt><code>temporaryFailCodes</code></dt><dd><p>[integer] Exit codes that indicate the
+
+<dt><code>temporaryFailCodes</code></dt><dd><p>[integer] Exit codes that indicate the
 process failed due to a possibly temporary condition, where
 excuting the process with the same runtime environment and inputs
 may produce different results.</p></dd>
-    <dt><code>permanentFailCodes</code></dt><dd><p>[integer] Exit codes that indicate the
+
+<dt><code>permanentFailCodes</code></dt><dd><p>[integer] Exit codes that indicate the
 process failed due to a permanent logic error, where excuting the
 process with the same runtime environment and same inputs is
 expected to always fail.</p></dd>
+
 </dl>
-    
     <h2 class="hasAnchor" id="input-binding"><a class="anchor" href="#input-binding"></a>Input binding</h2>
 
     
-    <p>The tool command line is built by applying command line bindings to
+
+
+<p>The tool command line is built by applying command line bindings to
 the input object. Bindings are listed either as part of an input
 parameter using the inputBinding field, or separately using the
 arguments field of the CommandLineTool.</p>
@@ -239,11 +259,13 @@ elements.</p></li>
 <li><p>Insert elements from baseCommand at the beginning of the
 command line.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="runtime-environment"><a class="anchor" href="#runtime-environment"></a>Runtime environment</h2>
 
     
-    <p>All files listed in the input object must be made available in the
+
+
+<p>All files listed in the input object must be made available in the
 runtime environment. The implementation may use a shared or
 distributed file system or transfer files via explicit
 download. Implementations may choose not to provide access to files
@@ -264,18 +286,20 @@ implementation may provide read-only input files, and disallow
 in-place update of input files.</p>
 <p>The standard input stream and standard output stream may be
 redirected as described in the stdin and stdout fields.</p>
-    
     <h2 class="hasAnchor" id="extensions"><a class="anchor" href="#extensions"></a>Extensions</h2>
 
     
-    <p>DockerRequirement, CreateFileRequirement, and EnvVarRequirement,
+
+
+<p>DockerRequirement, CreateFileRequirement, and EnvVarRequirement,
 are available as standard extensions to core command line tool
 semantics for defining the runtime environment.</p>
-    
     <h2 class="hasAnchor" id="execution"><a class="anchor" href="#execution"></a>Execution</h2>
 
     
-    <p>Once the command line is built and the runtime environment is
+
+
+<p>Once the command line is built and the runtime environment is
 created, the actual tool is executed.</p>
 <p>The standard error stream and standard output stream (unless
 redirected by setting stdout) may be captured by platform logging
@@ -292,21 +316,20 @@ customized by providing the fields successCodes,
 temporaryFailCodes, and permanentFailCodes. An implementation may
 choose to default unspecified non-zero exit codes to either
 temporaryFailure or permanentFailure.</p>
-    
     <h2 class="hasAnchor" id="output-binding"><a class="anchor" href="#output-binding"></a>Output binding</h2>
 
     
-    <p>If the output directory contains a file called "cwl.output.json",
+
+
+<p>If the output directory contains a file called "cwl.output.json",
 that file must be loaded and used as the output object. Otherwise,
 the output object must be generated by walking the parameters
 listed in outputs and applying output bindings to the tool
 output. Output bindings are associated with output parameters using
 the outputBinding field. See CommandOutputBinding for details.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>ipl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Parameter.html'>InputParameterList</a></span>(
+    <pre class="examples"><span class='no'>ipl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Parameter.html'>InputParameterList</a></span>(
   <span class='fu'><a href='Parameter.html'>InputParameter</a></span>(
     <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"BAM"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"File"</span>,
     <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"input bam"</span>,
@@ -326,30 +349,23 @@ the outputBinding field. See CommandOutputBinding for details.</p>
   )
 )
 
-<span class='no'>clt</span> <span class='kw'>&lt;-</span> <span class='fu'>CommandLineTool</span>(<span class='kw'>inputs</span> <span class='kw'>=</span> <span class='no'>ipl</span>, <span class='kw'>baseCommand</span> <span class='kw'>=</span> <span class='st'>"samtools sort"</span>)
-<span class='co'># }</span></pre>
+<span class='no'>clt</span> <span class='kw'>&lt;-</span> <span class='fu'>CommandLineTool</span>(<span class='kw'>inputs</span> <span class='kw'>=</span> <span class='no'>ipl</span>, <span class='kw'>baseCommand</span> <span class='kw'>=</span> <span class='st'>"samtools sort"</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#fields">Fields</a></li>
-
       <li><a href="#input-binding">Input binding</a></li>
-
       <li><a href="#runtime-environment">Runtime environment</a></li>
-
       <li><a href="#extensions">Extensions</a></li>
-
       <li><a href="#execution">Execution</a></li>
-
       <li><a href="#output-binding">Output binding</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -357,13 +373,16 @@ the outputBinding field. See CommandOutputBinding for details.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

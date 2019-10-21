@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Data on CGC via Data Browser and Datasets API • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Find Data on CGC via Data Browser and Datasets API">
 <meta property="og:description" content="">
@@ -46,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +94,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -100,12 +107,13 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Find Data on CGC via Data Browser and Datasets API</h1>
             
-            <h4 class="date">2019-07-25</h4>
+            <h4 class="date">2019-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/cgc-datasets.Rmd"><code>vignettes/cgc-datasets.Rmd</code></a></small>
       <div class="hidden name"><code>cgc-datasets.Rmd</code></div>
@@ -145,7 +153,7 @@
 <li><code>https://cgc-datasets-api.sbgenomics.com/</code></li>
 </ul>
 <p>use <code>Auth$api()</code> method so there is no need to type base URL or token again.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co"># create an Auth object</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(</span>
 <span id="cb1-4"><a href="#cb1-4"></a>  <span class="dt">url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/"</span>,</span>
@@ -163,7 +171,7 @@
 <span id="cb2-4"><a href="#cb2-4"></a>)</span>
 <span id="cb2-5"><a href="#cb2-5"></a>(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>()) <span class="co"># default method is GET</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co"># list all resources/entities</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(res<span class="op">$</span><span class="st">"_links"</span>)</span></code></pre></div>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(res<span class="op">$</span><span class="st">"_links"</span>)</span></code></pre></div>
 </div>
 <div id="interpreting-the-list-of-all-entities" class="section level3">
 <h3 class="hasAnchor">
@@ -180,7 +188,7 @@
 <pre><code>"HTTP Status 403: Insufficient privileges to access the requested file."</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>(res &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"files"</span>))</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</span>
 <span id="cb6-4"><a href="#cb6-4"></a>ids &lt;-<span class="st"> </span><span class="kw">get_id</span>(res)</span>
 <span id="cb6-5"><a href="#cb6-5"></a></span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="co"># create CGC auth</span></span>
@@ -195,7 +203,7 @@
 <div id="find-samples-connected-to-a-case" class="section level3">
 <h3 class="hasAnchor">
 <a href="#find-samples-connected-to-a-case" class="anchor"></a>Find samples connected to a case</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">entity =</span> <span class="st">"samples"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">hasCase =</span> <span class="st">"0004D251-3F70-4395-B175-C94C2F5B1B81"</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a>)</span>
@@ -204,7 +212,7 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query/total"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</span></code></pre></div>
 <p>Issuing a <code>GET</code> request to the href path will return the following data:</p>
 <p>Note: <code>api</code> function is a light layer of httr package, it’s different from <code>Auth$api</code> call.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(</span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="../reference/api.html">api</a></span>(</span>
 <span id="cb9-3"><a href="#cb9-3"></a>    <span class="dt">token =</span> a<span class="op">$</span>token,</span>
 <span id="cb9-4"><a href="#cb9-4"></a>    <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"</span></span>
@@ -216,10 +224,10 @@
 <a href="#find-cases-with-given-age-at-diagnosis" class="anchor"></a>Find cases with given age at diagnosis</h3>
 <p>Suppose you want to see all cases for which the age at diagnosis is between 10 and 50. Then, you use the following query.</p>
 <p>Note that the value of the metadata field hasAgeAtDiagnosis is a dictionary containing the keyfilter, whose value is a further dictionary with keysgt(greater than) and lt (less than) for the upper and lower bounds to filter by.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb10-5"><a href="#cb10-5"></a>      <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</span>
 <span id="cb10-6"><a href="#cb10-6"></a>      <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></span>
 <span id="cb10-7"><a href="#cb10-7"></a>    )</span>
@@ -231,10 +239,10 @@
 <h3 class="hasAnchor">
 <a href="#find-cases-with-a-given-age-at-diagnosis-and-disease" class="anchor"></a>Find cases with a given age at diagnosis and disease</h3>
 <p>Suppose you want to see all cases that, as in the example, (<a href="#find-cases-with-given-age-at-diagnosis">Find cases with given age at diagnosis</a>)(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease “Kidney Chromophobe”. Then, use the following query:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb11-2"><a href="#cb11-2"></a>  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="st">"hasAgeAtDiagnosis"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb11-5"><a href="#cb11-5"></a>      <span class="st">"gt"</span> =<span class="st"> </span><span class="dv">10</span>,</span>
 <span id="cb11-6"><a href="#cb11-6"></a>      <span class="st">"lt"</span> =<span class="st"> </span><span class="dv">50</span></span>
 <span id="cb11-7"><a href="#cb11-7"></a>    )</span>
@@ -246,18 +254,18 @@
 <div id="complex-example-for-filtering-tcga-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complex-example-for-filtering-tcga-data" class="anchor"></a>Complex example for filtering TCGA data</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-4"><a href="#cb12-4"></a>    <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5"></a>    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb12-5"><a href="#cb12-5"></a>    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-6"><a href="#cb12-6"></a>      <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span></span>
 <span id="cb12-7"><a href="#cb12-7"></a>    )</span>
 <span id="cb12-8"><a href="#cb12-8"></a>  ),</span>
-<span id="cb12-9"><a href="#cb12-9"></a>  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
-<span id="cb12-10"><a href="#cb12-10"></a>    <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Liver"</span>, <span class="st">"Pancreas"</span>),</span>
-<span id="cb12-11"><a href="#cb12-11"></a>    <span class="st">"hasNewTumorEventType"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
-<span id="cb12-12"><a href="#cb12-12"></a>      <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb12-9"><a href="#cb12-9"></a>  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
+<span id="cb12-10"><a href="#cb12-10"></a>    <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Liver"</span>, <span class="st">"Pancreas"</span>),</span>
+<span id="cb12-11"><a href="#cb12-11"></a>    <span class="st">"hasNewTumorEventType"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
+<span id="cb12-12"><a href="#cb12-12"></a>      <span class="st">"filter"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-13"><a href="#cb12-13"></a>        <span class="st">"contains"</span> =<span class="st"> "Recurrence"</span></span>
 <span id="cb12-14"><a href="#cb12-14"></a>      )</span>
 <span id="cb12-15"><a href="#cb12-15"></a>    )</span>
@@ -265,7 +273,7 @@
 <span id="cb12-17"><a href="#cb12-17"></a>)</span>
 <span id="cb12-18"><a href="#cb12-18"></a>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"query"</span>, <span class="dt">body =</span> body, <span class="dt">method =</span> <span class="st">"POST"</span>)</span></code></pre></div>
 <p>Issuing a <code>GET</code> request to the href path</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(</span>
 <span id="cb13-2"><a href="#cb13-2"></a>  <span class="kw"><a href="../reference/api.html">api</a></span>(</span>
 <span id="cb13-3"><a href="#cb13-3"></a>    <span class="dt">token =</span> a<span class="op">$</span>token,</span>
 <span id="cb13-4"><a href="#cb13-4"></a>    <span class="dt">base_url =</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"</span></span>
@@ -275,19 +283,19 @@
 <div id="query-with-multiple-filters-on-a-case" class="section level3">
 <h3 class="hasAnchor">
 <a href="#query-with-multiple-filters-on-a-case" class="anchor"></a>Query with multiple filters on a case</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(res)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>get_id &lt;-<span class="st"> </span><span class="cf">function</span>(obj) <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(obj<span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span>files, <span class="cf">function</span>(x) x<span class="op">$</span>id)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(res)</span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb14-4"><a href="#cb14-4"></a>body &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb14-5"><a href="#cb14-5"></a>  <span class="st">"entity"</span> =<span class="st"> "cases"</span>,</span>
-<span id="cb14-6"><a href="#cb14-6"></a>  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb14-6"><a href="#cb14-6"></a>  <span class="st">"hasSample"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb14-7"><a href="#cb14-7"></a>    <span class="st">"hasSampleType"</span> =<span class="st"> "Primary Tumor"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8"></a>    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb14-8"><a href="#cb14-8"></a>    <span class="st">"hasPortion"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb14-9"><a href="#cb14-9"></a>      <span class="st">"hasPortionNumber"</span> =<span class="st"> </span><span class="dv">11</span>,</span>
 <span id="cb14-10"><a href="#cb14-10"></a>      <span class="st">"hasID"</span> =<span class="st"> "TCGA-DD-AAVP-01A-11"</span></span>
 <span id="cb14-11"><a href="#cb14-11"></a>    )</span>
 <span id="cb14-12"><a href="#cb14-12"></a>  ),</span>
-<span id="cb14-13"><a href="#cb14-13"></a>  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb14-13"><a href="#cb14-13"></a>  <span class="st">"hasNewTumorEvent"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb14-14"><a href="#cb14-14"></a>    <span class="st">"hasNewTumorAnatomicSite"</span> =<span class="st"> "Liver"</span>,</span>
 <span id="cb14-15"><a href="#cb14-15"></a>    <span class="st">"hasNewTumorEventType"</span> =<span class="st"> "Intrahepatic Recurrence"</span></span>
 <span id="cb14-16"><a href="#cb14-16"></a>  )</span>
@@ -301,6 +309,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -320,17 +329,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -7,9 +7,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seven Bridges Platform API Client and Common Workflow Language Tool
     Builder in R • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Seven Bridges Platform API Client and Common Workflow Language Tool
     Builder in R">
@@ -49,7 +56,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -90,7 +97,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -103,6 +110,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 <div id="sevenbridges-r-" class="section level1">
@@ -168,32 +176,32 @@
 <a href="#bioconductor---release-branch" class="anchor"></a>Bioconductor - Release Branch</h3>
 <p>This is recommended for most users as it is the most stable version.</p>
 <p>You can install the package from the <code>release</code> branch on Bioconductor using <code>BiocManager</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
 </div>
 <div id="bioconductor---development-branch" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bioconductor---development-branch" class="anchor"></a>Bioconductor - Development Branch</h3>
 <p>If you are developing tools under the <code>devel</code> branch or use the development version of R and Bioconductor, install the package from the Bioconductor <code>devel</code> branch. You probably also want to install R-devel first by following the directions in <a href="https://bioconductor.org/developers/how-to/useDevel/">“Using the ‘Devel’ Version of Bioconductor”</a>.</p>
 <p>To install the <code>sevenbridges</code> package from the <code>devel</code> branch, use</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</span></code></pre></div>
 </div>
 <div id="latest-development-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#latest-development-version" class="anchor"></a>Latest Development Version</h3>
 <p>To try the latest features, please install the package directly from GitHub. We push to the Bioconductor branch (<code>release</code> and <code>devel</code>) regularly.</p>
 <p>Installing the <code>sevenbridges</code> package from GitHub requires you have the <code>devtools</code> package. If you do not have <code>devtools</code>, install it from CRAN first.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</span></code></pre></div>
 <p>You may get an error for missing system dependecies such as curl and ssl. You probably need to do the following first in order to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code> under Ubuntu.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">apt-get</span> update</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</span></code></pre></div>
 <p>After <code>devtools</code> is installed, install the latest version of <code>sevenbridges</code> from GitHub:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</span>
+<span id="cb6-3"><a href="#cb6-3"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(</span>
 <span id="cb6-4"><a href="#cb6-4"></a>  <span class="st">"sbg/sevenbridges-r"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span>(),</span>
 <span id="cb6-6"><a href="#cb6-6"></a>  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a>)</span></code></pre></div>
 <p>If you have trouble with <code>pandoc</code> and do not want to install it, set <code>build_vignettes = FALSE</code> to avoid building the vignettes.</p>
@@ -237,10 +245,10 @@
 <span id="cb10-5"><a href="#cb10-5"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"username/demo"</span>)</span>
 <span id="cb10-6"><a href="#cb10-6"></a></span>
 <span id="cb10-7"><a href="#cb10-7"></a><span class="co"># Delete files from a project</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"sample.tz"</span>)<span class="op">$</span><span class="kw"><a href="reference/delete-methods.html">delete</a></span>()</span>
+<span id="cb10-8"><a href="#cb10-8"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"sample.tz"</span>)<span class="op">$</span><span class="kw"><a href="reference/delete-methods.html">delete</a></span>()</span>
 <span id="cb10-9"><a href="#cb10-9"></a></span>
 <span id="cb10-10"><a href="#cb10-10"></a><span class="co"># Upload fies from a folder to a project and include file metadata</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"folder_path"</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">platform =</span> <span class="st">"Illumina"</span>))</span></code></pre></div>
+<span id="cb10-11"><a href="#cb10-11"></a>p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"folder_path"</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">platform =</span> <span class="st">"Illumina"</span>))</span></code></pre></div>
 </div>
 <div id="task-monitoring" class="section level3">
 <h3 class="hasAnchor">
@@ -261,7 +269,7 @@
 <span id="cb12-4"><a href="#cb12-4"></a>  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</span>
 <span id="cb12-5"><a href="#cb12-5"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb12-6"><a href="#cb12-6"></a>  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</span>
-<span id="cb12-7"><a href="#cb12-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-8"><a href="#cb12-8"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb12-9"><a href="#cb12-9"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb12-10"><a href="#cb12-10"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -276,9 +284,9 @@
 <span id="cb12-19"><a href="#cb12-19"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb12-20"><a href="#cb12-20"></a>  <span class="dt">batch =</span> <span class="kw"><a href="reference/batch.html">batch</a></span>(</span>
 <span id="cb12-21"><a href="#cb12-21"></a>    <span class="dt">input =</span> <span class="st">"fastq"</span>,</span>
-<span id="cb12-22"><a href="#cb12-22"></a>    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
+<span id="cb12-22"><a href="#cb12-22"></a>    <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
 <span id="cb12-23"><a href="#cb12-23"></a>  ),</span>
-<span id="cb12-24"><a href="#cb12-24"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb12-24"><a href="#cb12-24"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb12-25"><a href="#cb12-25"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb12-26"><a href="#cb12-26"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb12-27"><a href="#cb12-27"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -306,7 +314,7 @@
 <span id="cb13-10"><a href="#cb13-10"></a>  <span class="dt">requirements =</span> <span class="kw"><a href="reference/requirements.html">requirements</a></span>(fd),</span>
 <span id="cb13-11"><a href="#cb13-11"></a>  <span class="dt">baseCommand =</span> <span class="st">"Rscript runif.R"</span>,</span>
 <span id="cb13-12"><a href="#cb13-12"></a>  <span class="dt">stdout =</span> <span class="st">"output.txt"</span>,</span>
-<span id="cb13-13"><a href="#cb13-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb13-13"><a href="#cb13-13"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb13-14"><a href="#cb13-14"></a>    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"number"</span>, <span class="dt">type =</span> <span class="st">"integer"</span>, <span class="dt">position =</span> <span class="dv">1</span>),</span>
 <span id="cb13-15"><a href="#cb13-15"></a>    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"min"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">2</span>),</span>
 <span id="cb13-16"><a href="#cb13-16"></a>    <span class="kw"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="dt">id =</span> <span class="st">"max"</span>, <span class="dt">type =</span> <span class="st">"float"</span>, <span class="dt">position =</span> <span class="dv">3</span>)</span>
@@ -324,10 +332,10 @@
 <h3 class="hasAnchor">
 <a href="#utilities-for-tool-and-flow" class="anchor"></a>Utilities for Tool and Flow</h3>
 <p>Utilities for <code>Tool</code> and <code>Flow</code>, for example</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="co"># convert a SBG CWL JSON file</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb14-5"><a href="#cb14-5"></a></span>
 <span id="cb14-6"><a href="#cb14-6"></a><span class="co"># convert json file into a Tool object</span></span>
 <span id="cb14-7"><a href="#cb14-7"></a>t1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/convert_app.html">convert_app</a></span>(t1)</span>
@@ -398,8 +406,8 @@
 <p>In your browser, you can see where the RStudio server is located from the path <code>http://&lt;url&gt;:8787/</code>. For example, if 192.168.99.100 is returned, visit <code>http://192.168.99.100:8787/</code> for Rstudio.</p>
 <p>For the Shiny server, each app__ is hosted at <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code> for the Shiny server. For example, an app called <code>01_hello</code> owned by user <code>rstudio</code> (a default user) has the path <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny apps as an Rstudio user, you can login your RStudio server and create a folder in your home folder called <code>~/ShinyApps</code>. There, you can develop shiny apps in that folder. For example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Log into your RStudio at <code>http://&lt;url&gt;:8787</code>. Then, try to copy an app to your home folder, as follows:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files2">dir.create</a></span>(<span class="st">"~/ShinyApps"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.copy</a></span>(</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"~/ShinyApps"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span>(</span>
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,</span>
 <span id="cb18-4"><a href="#cb18-4"></a>  <span class="st">"~/ShinyApps/"</span>,</span>
 <span id="cb18-5"><a href="#cb18-5"></a>  <span class="dt">recursive =</span> <span class="ot">TRUE</span></span>
@@ -415,7 +423,7 @@
 <li><p><strong>Q</strong>: Does this package support Seven Bridges’ API v1 which was not CWL compatible?<br><strong>A</strong>: No. This package only supports API v2 +. For API v1, please check out the <a href="https://github.com/nanxstats/sbgr">sbgr</a> package. Note that API v1 and associated legacy project types will be deprecated eventually.</p></li>
 <li><p><strong>Q</strong>: Which version of the Common Workflow Language (CWL) is supported?<br><strong>A</strong>: We support draft 2 and are making progress on supporting draft 3.</p></li>
 <li><p><strong>Q</strong>: Is there a Python binding for the API?<br><strong>A</strong>: Yes, the official Python client is <a href="https://github.com/sbg/sevenbridges-python">here</a>. Recipes and tutorials using the Python bindings are <a href="https://github.com/sbg/okAPI">here</a>.</p></li>
-<li><p><strong>Q</strong>: Why do I get warning messages when I use the API R client?<br><strong>A</strong>: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use <code><a href="https://www.rdocumentation.org/packages/base/topics/options">options(warn = -1)</a></code></p></li>
+<li><p><strong>Q</strong>: Why do I get warning messages when I use the API R client?<br><strong>A</strong>: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use <code><a href="https://rdrr.io/r/base/options.html">options(warn = -1)</a></code></p></li>
 <li><p><strong>Q</strong>: I still have problems despite dismissing the messages.<br><strong>A</strong>: Please try to use the latest package on GitHub or <a href="https://bioconductor.org/install/#update-bioconductor-packages">update installed Bioconductor packages</a>. This usually includes the most recent bug fixes.</p></li>
 </ul>
 </div>
@@ -482,7 +490,7 @@
 <div id="copyright" class="section level2">
 <h2 class="hasAnchor">
 <a href="#copyright" class="anchor"></a>Copyright</h2>
-<p>© 2018 Seven Bridges Genomics, Inc. All rights reserved.</p>
+<p>© 2019 Seven Bridges Genomics, Inc. All rights reserved.</p>
 <p>This project is licensed under the terms of the <a href="LICENSE">Apache License 2.0</a>.</p>
 </div>
 </div>
@@ -530,17 +538,20 @@
 </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

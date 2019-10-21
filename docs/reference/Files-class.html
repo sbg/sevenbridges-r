@@ -8,21 +8,32 @@
 
 <title>Class Files — Files-class • sevenbridges-r</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,12 +43,12 @@
 
   <link href="../extra.css" rel="stylesheet">
   
+
 <meta property="og:title" content="Class Files — Files-class" />
-
 <meta property="og:description" content="Class Files" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -60,6 +71,7 @@
 
   gtag('config', 'UA-87185344-1');
 </script>
+
 
   </head>
 
@@ -85,7 +97,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -123,11 +135,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,6 +149,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -149,13 +161,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Class Files</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>FilesList</span>(<span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -164,97 +174,119 @@
       <td><p>one or more <code>Files</code> objects</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Files object</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>Files</code> (with "<code>s</code>") class is usally returned by the API call
 which returns Files. A group of <code>Files</code> is defined as <code>FilesList</code>.
 Users do not usually need to construct <code>Files</code> or <code>FilesList</code>
 manually, they are generated from a API call most of the time.</p>
-    
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>id</code></dt><dd><p>character used as file id</p></dd>
-    <dt><code>name</code></dt><dd><p>string used as file name</p></dd>
-    <dt><code>size</code></dt><dd><p>file size</p></dd>
-    <dt><code>project</code></dt><dd><p>project id if any, when returned by a API call,
+
+<dt><code>name</code></dt><dd><p>string used as file name</p></dd>
+
+<dt><code>size</code></dt><dd><p>file size</p></dd>
+
+<dt><code>project</code></dt><dd><p>project id if any, when returned by a API call,
 it usually return the project id and stored with the object.</p></dd>
-    <dt><code>created_on</code></dt><dd><p>date created on</p></dd>
-    <dt><code>modified_on</code></dt><dd><p>date modified on</p></dd>
-    <dt><code>storage</code></dt><dd><p>list as storage type</p></dd>
-    <dt><code>origin</code></dt><dd><p>list as origin</p></dd>
-    <dt><code>tags</code></dt><dd><p>list as tags</p></dd>
-    <dt><code>metadata</code></dt><dd><p>a list for metadata associated with the file</p></dd>
-    <dt><code>url</code></dt><dd><p>file download url</p></dd>
-    <dt><code>parent</code></dt><dd><p>parent folder ID</p></dd>
-    <dt><code>type</code></dt><dd><p><code>"FILE"</code> or <code>"FOLDER"</code></p></dd>
-    <dt><code>description</code></dt><dd><p>file description</p></dd>
+
+<dt><code>created_on</code></dt><dd><p>date created on</p></dd>
+
+<dt><code>modified_on</code></dt><dd><p>date modified on</p></dd>
+
+<dt><code>storage</code></dt><dd><p>list as storage type</p></dd>
+
+<dt><code>origin</code></dt><dd><p>list as origin</p></dd>
+
+<dt><code>tags</code></dt><dd><p>list as tags</p></dd>
+
+<dt><code>metadata</code></dt><dd><p>a list for metadata associated with the file</p></dd>
+
+<dt><code>url</code></dt><dd><p>file download url</p></dd>
+
+<dt><code>parent</code></dt><dd><p>parent folder ID</p></dd>
+
+<dt><code>type</code></dt><dd><p><code>"FILE"</code> or <code>"FOLDER"</code></p></dd>
+
+<dt><code>description</code></dt><dd><p>file description</p></dd>
+
 </dl>
-    
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code><a href='tag-methods.html'>add_tag(x, ...)</a></code></dt><dd><p>add new tags while keeping old tags</p></dd>
-    <dt><code>copy_to(project = NULL, name = NULL)</code></dt><dd><p>copy a file to a project (id) with new name</p></dd>
-    <dt><code>copy_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Copy a file to a folder.</p></dd>
-    <dt><code>create_folder(name, ...)</code></dt><dd><p>Create a new folder under the parent folder.</p></dd>
-    <dt><code>create_marker(name = NULL, start = NULL, end = NULL, chromosome = NULL,
+
+<dt><code>copy_to(project = NULL, name = NULL)</code></dt><dd><p>copy a file to a project (id) with new name</p></dd>
+
+<dt><code>copy_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Copy a file to a folder.</p></dd>
+
+<dt><code>create_folder(name, ...)</code></dt><dd><p>Create a new folder under the parent folder.</p></dd>
+
+<dt><code>create_marker(name = NULL, start = NULL, end = NULL, chromosome = NULL,
   private = TRUE, ...)</code></dt><dd><p>Create a marker.</p></dd>
-    <dt><code><a href='download-methods.html'>download(destfile, ..., method = "curl")</a></code></dt><dd><p>see `help(download.file)` for more options</p></dd>
-    <dt><code>get_parent_folder()</code></dt><dd><p>Get the parent folder object of the current file/folder.</p></dd>
-    <dt><code>get_parent_folder_id()</code></dt><dd><p>Get the parent folder ID of the current file/folder.</p></dd>
-    <dt><code>list_folder_contents(type = c("file", "folder"), ...)</code></dt><dd><p>List folder contents (return files, folders, or both).</p></dd>
-    <dt><code>marker(id = NULL, ...)</code></dt><dd><p>List markers available on a file or get details for a marker.</p></dd>
-    <dt><code>meta()</code></dt><dd><p>get metadata from a file</p></dd>
-    <dt><code>move_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Move a file to a folder.</p></dd>
-    <dt><code>setMeta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
-    <dt><code>set_meta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
-    <dt><code><a href='tag-methods.html'>set_tag(x = NULL, overwrite = TRUE, ...)</a></code></dt><dd><p>set a tag for a file, your tag need to be a list or vector</p></dd>
-    <dt><code>tag()</code></dt><dd><p>get tag from a file</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/base/topics/typeof'>typeof()</a></code></dt><dd><p>Get object type ("file" or "folder").</p></dd>
-    <dt><code><a href='https://www.rdocumentation.org/packages/stats/topics/update'>update(name = NULL, metadata = NULL, tags = NULL)</a></code></dt><dd><p>This call updates the name, the full set metadata, and tags for a specified file.</p></dd>
+
+<dt><code><a href='download-methods.html'>download(destfile, ..., method = "curl")</a></code></dt><dd><p>see `help(download.file)` for more options</p></dd>
+
+<dt><code>get_parent_folder()</code></dt><dd><p>Get the parent folder object of the current file/folder.</p></dd>
+
+<dt><code>get_parent_folder_id()</code></dt><dd><p>Get the parent folder ID of the current file/folder.</p></dd>
+
+<dt><code>list_folder_contents(type = c("file", "folder"), ...)</code></dt><dd><p>List folder contents (return files, folders, or both).</p></dd>
+
+<dt><code>marker(id = NULL, ...)</code></dt><dd><p>List markers available on a file or get details for a marker.</p></dd>
+
+<dt><code>meta()</code></dt><dd><p>get metadata from a file</p></dd>
+
+<dt><code>move_to_folder(folder_id, name_new = NULL, ...)</code></dt><dd><p>Move a file to a folder.</p></dd>
+
+<dt><code>setMeta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
+
+<dt><code>set_meta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
+
+<dt><code><a href='tag-methods.html'>set_tag(x = NULL, overwrite = TRUE, ...)</a></code></dt><dd><p>set a tag for a file, your tag need to be a list or vector</p></dd>
+
+<dt><code>tag()</code></dt><dd><p>get tag from a file</p></dd>
+
+<dt><code><a href='https://rdrr.io/r/base/typeof.html'>typeof()</a></code></dt><dd><p>Get object type ("file" or "folder").</p></dd>
+
+<dt><code><a href='https://rdrr.io/r/stats/update.html'>update(name = NULL, metadata = NULL, tags = NULL)</a></code></dt><dd><p>This call updates the name, the full set metadata, and tags for a specified file.</p></dd>
+
 </dl>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>In the sevenbridges package version &lt;= 1.5.4, the <code>Files</code> class
 inherited from the <code>File</code> class defined in CWL. To avoid confusion,
 in the current implementation, they are defined separately and not
 coupled anymore.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>Files</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"test_id"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"test.bam"</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"><span class='fu'>Files</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"test_id"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"test.bam"</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#fields">Fields</a></li>
-
       <li><a href="#methods">Methods</a></li>
-
       <li><a href="#note">Note</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -262,13 +294,16 @@ coupled anymore.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

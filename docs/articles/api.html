@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Complete Guide for Seven Bridges API R Client • sevenbridges-r</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Complete Guide for Seven Bridges API R Client">
 <meta property="og:description" content="">
@@ -46,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +94,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/sbg/sevenbridges-r">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -100,12 +107,13 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Complete Guide for Seven Bridges API R Client</h1>
             
-            <h4 class="date">2019-07-25</h4>
+            <h4 class="date">2019-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -125,7 +133,7 @@
 <a href="#r-client-for-seven-bridges-api" class="anchor"></a>R Client for Seven Bridges API</h2>
 <p>The <code>sevenbridges</code> package only supports v2+ versions of the API, since versions prior to V2 are not compatible with the Common Workflow Language (CWL). This package provides a simple interface for accessing and trying out various methods.</p>
 <p>There are two ways of constructing API calls. For instance, you can use low-level API calls which use arguments like <code>path</code>, <code>query</code>, and <code>body</code>. These are documented in the API reference libraries for the <a href="https://docs.sevenbridges.com/reference#list-all-api-paths">Seven Bridges Platform</a> and the <a href="http://docs.cancergenomicscloud.org/docs/new-1">CGC</a>. An example of a low-level request to “list all projects” is shown below. In this request, you can also pass <code>query</code> and <code>body</code> as a list.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">token =</span> <span class="st">"your_token"</span>, <span class="dt">platform =</span> <span class="st">"aws-us"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>a<span class="op">$</span><span class="kw"><a href="../reference/api.html">api</a></span>(<span class="dt">path =</span> <span class="st">"projects"</span>, <span class="dt">method =</span> <span class="st">"GET"</span>)</span></code></pre></div>
 <p><strong><em>(Advanced user option)</em></strong> The second way of constructing an API request is to directly use the <code>httr</code> package to make your API calls, as shown below.</p>
@@ -152,26 +160,26 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The <code>sevenbridges</code> package is available on both the <code>release</code> and <code>devel</code> branch from Bioconductor.</p>
 <p>To install it from the <code>release</code> branch, use:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
 <p>To install it from the <code>devel</code> branch, use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</span></code></pre></div>
 <p>Since we are constantly improving our API and client libraries, please also visit our <a href="https://github.com/sbg/sevenbridges-r">GitHub repository</a> for the most recent news and the latest version of the package.</p>
 <p><strong>If you do not have <code>devtools</code></strong></p>
 <p>This installation requires that you have the <code>devtools</code> package. If you do not have this package, you can install it from CRAN.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</span></code></pre></div>
 <p>You may get an error for missing system dependencies such as <code>curl</code> and <code>openssl</code>. For example, in Ubuntu, you probably need to do the following first to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">apt-get</span> update</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</span></code></pre></div>
 <p><strong>If <code>devtools</code> is already installed</strong></p>
 <p>Install the latest version for <code>sevenbridges</code> from GitHub with the following:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"readr"</span>)</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"readr"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(</span>
+<span id="cb7-4"><a href="#cb7-4"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(</span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="st">"sbg/sevenbridges-r"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/repositories">repositories</a></span>(),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">repos =</span> BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span>(),</span>
 <span id="cb7-7"><a href="#cb7-7"></a>  <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>, <span class="dt">dependencies =</span> <span class="ot">TRUE</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a>)</span></code></pre></div>
 <p>If you have trouble with <code>pandoc</code> and do not want to install it, set <code>build_vignettes = FALSE</code> to avoid the vignettes build.</p>
@@ -186,7 +194,7 @@
 <a href="#create-auth-object" class="anchor"></a>Create <code>Auth</code> Object</h2>
 <p>Before you can access your account via the API, you have to provide your credentials. You can obtain your credentials in the form of an <a href="https://docs.sevenbridges.com/v1.0/docs/get-your-authentication-token">“authentication token”</a> from the <strong>Developer Tab</strong> under <strong>Account Settings</strong> on the visual interface. Once you’ve obtained this, create an <code>Auth</code> object, so it remembers your authentication token and the path for the API. All subsequent requests will draw upon these two pieces of information.</p>
 <p>Let’s load the package first:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span></code></pre></div>
 <p>You have three different ways to provide your token. Choose from one method below:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -420,7 +428,7 @@ revision : 0</code></pre>
 <p>You can also upload your own Common Workflow Language JSON file which describes your app to your project.</p>
 <p><strong><em>Note:</em></strong> Alternatively, you can directly describe your CWL tool in R with this package. Please read the vignette on “Describe CWL Tools/Workflows in R and Execution”.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># add an CWL file to your project</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>f.star &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2"></a>f.star &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb30-3"><a href="#cb30-3"></a>app &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"starlocal"</span>, fl.runif)</span>
 <span id="cb30-4"><a href="#cb30-4"></a>(aid &lt;-<span class="st"> </span>app<span class="op">$</span>id)</span></code></pre></div>
 <p>You will get an app <code>id</code>, like the one below:</p>
@@ -438,11 +446,11 @@ revision : 0</code></pre>
 </li>
 </ol>
 <p>Alternatively, you can describe tools in R directly, as shown below:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"docker"</span>, <span class="st">"sevenbridges/rabix/generator.R"</span>,</span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker"</span>, <span class="st">"sevenbridges/rabix/generator.R"</span>,</span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="dt">package =</span> <span class="st">"sevenbridges"</span></span>
 <span id="cb32-3"><a href="#cb32-3"></a>)</span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library("sevenbridges")
+<span id="cb32-4"><a href="#cb32-4"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(fl), <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
+<pre><code><a href="https://rdrr.io/r/base/library.html">library("sevenbridges")
 
 in.lst &lt;- list(
   input(
@@ -536,11 +544,11 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>app &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar"</span>)</span>
 <span id="cb35-2"><a href="#cb35-2"></a><span class="co"># get input matrix</span></span>
 <span id="cb35-3"><a href="#cb35-3"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>()</span>
-<span id="cb35-4"><a href="#cb35-4"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>))</span>
+<span id="cb35-4"><a href="#cb35-4"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>))</span>
 <span id="cb35-5"><a href="#cb35-5"></a><span class="co"># get required node only</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>), <span class="dt">required =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb35-6"><a href="#cb35-6"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>), <span class="dt">required =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Conversely, you can load the app from a CWL JSON and convert it into an R object first, as shown below.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>f1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb36-2"><a href="#cb36-2"></a>app &lt;-<span class="st"> </span><span class="kw"><a href="../reference/convert_app.html">convert_app</a></span>(f1)</span>
 <span id="cb36-3"><a href="#cb36-3"></a><span class="co"># get input matrix</span></span>
 <span id="cb36-4"><a href="#cb36-4"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>()</span></code></pre></div>
@@ -560,7 +568,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 ## 5    FALSE      null
 ## 6    FALSE      null
 ## 7    FALSE      null</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>))</span></code></pre></div>
 <pre><code>##                                id                    label    type
 ## 1                    #sjdbGTFfile              sjdbGTFfile File...
 ## 2                          #fastq                    fastq File...
@@ -569,17 +577,17 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 ## 5       #sjdbGTFtagExonParentGene                Gene name  string
 ## 6          #winAnchorMultimapNmax         Max loci anchors     int
 ## 7             #winAnchorDistNbins Max bins between anchors     int</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>), <span class="dt">required =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>app<span class="op">$</span><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"label"</span>, <span class="st">"type"</span>), <span class="dt">required =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>##                  id            label    type
 ## 2            #fastq            fastq File...
 ## 3 #genomeFastaFiles genomeFastaFiles    File</code></pre>
 <p>Note that <code>input_matrix</code> and <code>output_matrix</code> are useful accessors for <code>Tool</code>, <code>Flow</code>, you can call these two function on a JSON file directly as well.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>tool.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb42-2"><a href="#cb42-2"></a>flow.in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>tool.in &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_unpack_fastq.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2"></a>flow.in &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"flow_star.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb42-3"><a href="#cb42-3"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(tool.in)</span>
 <span id="cb42-4"><a href="#cb42-4"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(tool.in, <span class="dt">required =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb42-5"><a href="#cb42-5"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(flow.in)</span>
-<span id="cb42-6"><a href="#cb42-6"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(flow.in, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>))</span>
+<span id="cb42-6"><a href="#cb42-6"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(flow.in, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"type"</span>))</span>
 <span id="cb42-7"><a href="#cb42-7"></a><span class="kw"><a href="../reference/input_output_matrix.html">input_matrix</a></span>(flow.in, <span class="dt">required =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb42-8"><a href="#cb42-8"></a><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(tool.in)</span>
 <span id="cb42-9"><a href="#cb42-9"></a><span class="kw"><a href="../reference/input_output_matrix.html">output_matrix</a></span>(flow.in)</span></code></pre></div>
@@ -611,18 +619,18 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div id="get-your-input-files-ready" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-your-input-files-ready" class="anchor"></a>Get your input files ready</h3>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>fastqs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>)</span>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>fastqs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>)</span>
 <span id="cb43-2"><a href="#cb43-2"></a></span>
 <span id="cb43-3"><a href="#cb43-3"></a><span class="co"># get all 2 exact files</span></span>
-<span id="cb43-4"><a href="#cb43-4"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb43-4"><a href="#cb43-4"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb43-5"><a href="#cb43-5"></a></span>
 <span id="cb43-6"><a href="#cb43-6"></a><span class="co"># get a single file</span></span>
-<span id="cb43-7"><a href="#cb43-7"></a>fasta_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(</span>
+<span id="cb43-7"><a href="#cb43-7"></a>fasta_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(</span>
 <span id="cb43-8"><a href="#cb43-8"></a>  <span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.dna.primary_assembly.fa"</span>,</span>
 <span id="cb43-9"><a href="#cb43-9"></a>  <span class="dt">exact =</span> <span class="ot">TRUE</span></span>
 <span id="cb43-10"><a href="#cb43-10"></a>)</span>
 <span id="cb43-11"><a href="#cb43-11"></a><span class="co"># get all single file</span></span>
-<span id="cb43-12"><a href="#cb43-12"></a>gtf_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(</span>
+<span id="cb43-12"><a href="#cb43-12"></a>gtf_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(</span>
 <span id="cb43-13"><a href="#cb43-13"></a>  <span class="dt">name =</span> <span class="st">"Homo_sapiens.GRCh38.84.gtf"</span>,</span>
 <span id="cb43-14"><a href="#cb43-14"></a>  <span class="dt">exact =</span> <span class="ot">TRUE</span></span>
 <span id="cb43-15"><a href="#cb43-15"></a>)</span></code></pre></div>
@@ -634,40 +642,40 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <h3 class="hasAnchor">
 <a href="#create-a-new-draft-task" class="anchor"></a>Create a new draft task</h3>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># add new tasks</span></span>
-<span id="cb44-2"><a href="#cb44-2"></a>taskName &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"RFranklin-star-alignment "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/date">date</a></span>())</span>
+<span id="cb44-2"><a href="#cb44-2"></a>taskName &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"RFranklin-star-alignment "</span>, <span class="kw"><a href="https://rdrr.io/r/base/date.html">date</a></span>())</span>
 <span id="cb44-3"><a href="#cb44-3"></a></span>
 <span id="cb44-4"><a href="#cb44-4"></a>tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</span>
 <span id="cb44-5"><a href="#cb44-5"></a>  <span class="dt">name =</span> taskName,</span>
 <span id="cb44-6"><a href="#cb44-6"></a>  <span class="dt">description =</span> <span class="st">"star test"</span>,</span>
 <span id="cb44-7"><a href="#cb44-7"></a>  <span class="dt">app =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar/0"</span>,</span>
-<span id="cb44-8"><a href="#cb44-8"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb44-8"><a href="#cb44-8"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb44-9"><a href="#cb44-9"></a>    <span class="dt">sjdbGTFfile =</span> gtf_in,</span>
 <span id="cb44-10"><a href="#cb44-10"></a>    <span class="dt">fastq =</span> fastq_in,</span>
 <span id="cb44-11"><a href="#cb44-11"></a>    <span class="dt">genomeFastaFiles =</span> fasta_in</span>
 <span id="cb44-12"><a href="#cb44-12"></a>  )</span>
 <span id="cb44-13"><a href="#cb44-13"></a>)</span></code></pre></div>
 <p>Remember the <code>fastq</code> input expects a list of files. You can also do something as follows:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>f1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508_1.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb45-2"><a href="#cb45-2"></a>f2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508_2.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>f1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508_1.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb45-2"><a href="#cb45-2"></a>f2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508_2.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb45-3"><a href="#cb45-3"></a><span class="co"># get all 2 exact files</span></span>
-<span id="cb45-4"><a href="#cb45-4"></a>fastq_in &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(f1, f2)</span>
+<span id="cb45-4"><a href="#cb45-4"></a>fastq_in &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(f1, f2)</span>
 <span id="cb45-5"><a href="#cb45-5"></a></span>
 <span id="cb45-6"><a href="#cb45-6"></a><span class="co"># or if you know you only have 2 files whose names match SRR924146*.fastq</span></span>
-<span id="cb45-7"><a href="#cb45-7"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508*.fastq"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb45-7"><a href="#cb45-7"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"SRR1039508*.fastq"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Use <code>complete = TRUE</code> when the number of items is over 100.</p>
 </div>
 <div id="draft-a-batch-task" class="section level3">
 <h3 class="hasAnchor">
 <a href="#draft-a-batch-task" class="anchor"></a>Draft a batch task</h3>
 <p>Now let’s do a batch with 8 files in 4 groups, which is batched by metadata <code>sample_id</code> and <code>library_id</code>. We will assume each file has these two metadata fields entered. Since these files can be evenly grouped into 4, we will have a single parent batch task with 4 child tasks.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fastqs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(</span>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fastqs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</span>
 <span id="cb46-2"><a href="#cb46-2"></a>  <span class="st">"SRR1039508_1.fastq"</span>, <span class="st">"SRR1039508_2.fastq"</span>, <span class="st">"SRR1039509_1.fastq"</span>,</span>
 <span id="cb46-3"><a href="#cb46-3"></a>  <span class="st">"SRR1039509_2.fastq"</span>, <span class="st">"SRR1039512_1.fastq"</span>, <span class="st">"SRR1039512_2.fastq"</span>,</span>
 <span id="cb46-4"><a href="#cb46-4"></a>  <span class="st">"SRR1039513_1.fastq"</span>, <span class="st">"SRR1039513_2.fastq"</span></span>
 <span id="cb46-5"><a href="#cb46-5"></a>)</span>
 <span id="cb46-6"><a href="#cb46-6"></a></span>
 <span id="cb46-7"><a href="#cb46-7"></a><span class="co"># get all 8 files</span></span>
-<span id="cb46-8"><a href="#cb46-8"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb46-8"><a href="#cb46-8"></a>fastq_in &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> fastqs, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb46-9"><a href="#cb46-9"></a><span class="co"># can also try to returned all SRR*.fastq files</span></span>
 <span id="cb46-10"><a href="#cb46-10"></a><span class="co"># fastq_in &lt;- p$file(name= "SRR*.fastq", complete = TRUE)</span></span>
 <span id="cb46-11"><a href="#cb46-11"></a></span>
@@ -677,9 +685,9 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <span id="cb46-15"><a href="#cb46-15"></a>  <span class="dt">app =</span> <span class="st">"RFranklin/api-testing-2/newcopyofstar/0"</span>,</span>
 <span id="cb46-16"><a href="#cb46-16"></a>  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</span>
 <span id="cb46-17"><a href="#cb46-17"></a>    <span class="dt">input =</span> <span class="st">"fastq"</span>,</span>
-<span id="cb46-18"><a href="#cb46-18"></a>    <span class="dt">criteria =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.noexist_id"</span>)</span>
+<span id="cb46-18"><a href="#cb46-18"></a>    <span class="dt">criteria =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.noexist_id"</span>)</span>
 <span id="cb46-19"><a href="#cb46-19"></a>  ),</span>
-<span id="cb46-20"><a href="#cb46-20"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb46-20"><a href="#cb46-20"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb46-21"><a href="#cb46-21"></a>    <span class="dt">sjdbGTFfile =</span> gtf_in,</span>
 <span id="cb46-22"><a href="#cb46-22"></a>    <span class="dt">fastq =</span> fastqs_in,</span>
 <span id="cb46-23"><a href="#cb46-23"></a>    <span class="dt">genomeFastaFiles =</span> fasta_in</span>
@@ -707,7 +715,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>If you want to update your task and then re-run it, follow the example below.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>tsk<span class="op">$</span><span class="kw">getInputs</span>()</span>
 <span id="cb50-2"><a href="#cb50-2"></a><span class="co"># missing number input, only update number</span></span>
-<span id="cb50-3"><a href="#cb50-3"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(<span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">sjdbGTFfile =</span> <span class="st">"some new file"</span>))</span>
+<span id="cb50-3"><a href="#cb50-3"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">sjdbGTFfile =</span> <span class="st">"some new file"</span>))</span>
 <span id="cb50-4"><a href="#cb50-4"></a><span class="co"># double check</span></span>
 <span id="cb50-5"><a href="#cb50-5"></a>tsk<span class="op">$</span><span class="kw">getInputs</span>()</span></code></pre></div>
 <div align="right">
@@ -726,10 +734,10 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>Then all the new tasks created under this project will use on-demand instances to run <strong>by default</strong>, unless an argument <code>use_interruptible_instances</code> is specifically set to <code>TRUE</code> when drafting the new task using <code>task_add()</code>.</p>
 <p>For example, if <code>p</code> is the above spot disabled project, to draft a task that will use spot instances to run:</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</span>
-<span id="cb52-2"><a href="#cb52-2"></a>  <span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"spot enabled task in a spot disabled project"</span>),</span>
+<span id="cb52-2"><a href="#cb52-2"></a>  <span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"spot enabled task in a spot disabled project"</span>),</span>
 <span id="cb52-3"><a href="#cb52-3"></a>  <span class="dt">description =</span> <span class="st">"spot enabled task"</span>,</span>
 <span id="cb52-4"><a href="#cb52-4"></a>  <span class="dt">app =</span> ...,</span>
-<span id="cb52-5"><a href="#cb52-5"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(...),</span>
+<span id="cb52-5"><a href="#cb52-5"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(...),</span>
 <span id="cb52-6"><a href="#cb52-6"></a>  <span class="dt">use_interruptible_instances =</span> <span class="ot">TRUE</span></span>
 <span id="cb52-7"><a href="#cb52-7"></a>)</span></code></pre></div>
 <p>Conversely, you can have a spot instance enabled project, but draft and run specific tasks using on-demand instances, by setting <code>use_interruptible_instances = FALSE</code> in <code>task_add()</code> explicitly.</p>
@@ -741,7 +749,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>The Seven Bridges API allows setting specific task execution parameters by using <code>execution_settings</code>. It includes the instance type (<code>instance_type</code>) and the maximum number of parallel instances (<code>max_parallel_instances</code>):</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task_add</span>(</span>
 <span id="cb53-2"><a href="#cb53-2"></a>  ...,</span>
-<span id="cb53-3"><a href="#cb53-3"></a>  <span class="dt">execution_settings =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb53-3"><a href="#cb53-3"></a>  <span class="dt">execution_settings =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb53-4"><a href="#cb53-4"></a>    <span class="dt">instance_type =</span> <span class="st">"c4.2xlarge;ebs-gp2;2000"</span>,</span>
 <span id="cb53-5"><a href="#cb53-5"></a>    <span class="dt">max_parallel_instances =</span> <span class="dv">2</span></span>
 <span id="cb53-6"><a href="#cb53-6"></a>  )</span>
@@ -752,7 +760,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <h2 class="hasAnchor">
 <a href="#task-monitoring" class="anchor"></a>Task Monitoring</h2>
 <p>To monitor your task as it runs, you can always request a task <code>update</code> to ask your task to report its status. Or, you can monitor a running task with a hook function, which triggers the function when that status is “completed”. Please check the details in <a href="#hooktask">section</a> below.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>()</span></code></pre></div>
 <p>By default, your task alerts you by email when it has been completed.</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># Monitor your task (skip this part)</span></span>
 <span id="cb55-2"><a href="#cb55-2"></a><span class="co"># tsk$monitor()</span></span></code></pre></div>
@@ -760,16 +768,17 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</span></code></pre></div>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</span></code></pre></div>
-<pre><code>## function(...) {
-##           cat("\r", "completed")
-##           return(TRUE)
-##         }
-## &lt;environment: 0x7fce46aa2878&gt;</code></pre>
+<pre><code>## function (...) 
+## {
+##     cat("\r", "completed")
+##     return(TRUE)
+## }
+## &lt;environment: 0x7ffaf9b942a8&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code>, it means the monitoring will continue for the next iteration of checking, e.g., when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="cf">function</span>() {</span>
 <span id="cb59-2"><a href="#cb59-2"></a>  tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</span>
-<span id="cb59-3"><a href="#cb59-3"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">TRUE</span>)</span>
+<span id="cb59-3"><a href="#cb59-3"></a>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="ot">TRUE</span>)</span>
 <span id="cb59-4"><a href="#cb59-4"></a>})</span>
 <span id="cb59-5"><a href="#cb59-5"></a>tsk<span class="op">$</span><span class="kw">monitor</span>()</span></code></pre></div>
 <div align="right">
@@ -838,8 +847,8 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <p>To create an <code>Auth</code> object:</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">from =</span> <span class="st">"env"</span>)</span></code></pre></div>
 <p>To unset the two environment variables:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.unsetenv</a></span>(<span class="st">"SB_API_ENDPOINT"</span>)</span>
-<span id="cb66-2"><a href="#cb66-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.unsetenv</a></span>(<span class="st">"SB_AUTH_TOKEN"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.unsetenv</a></span>(<span class="st">"SB_API_ENDPOINT"</span>)</span>
+<span id="cb66-2"><a href="#cb66-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.unsetenv</a></span>(<span class="st">"SB_AUTH_TOKEN"</span>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -905,8 +914,8 @@ auth_token = token_for_this_user</code></pre>
 <code>limit</code> defines the number of items you want to get.</li>
 </ul>
 <p>By default, <code>offset</code> is set to <code>0</code> and <code>limit</code> is set to <code>50</code>. As such, your API request returns the <strong>first 100 items</strong> when you list items or search for items by name. To search and list all items, use <code>complete = TRUE</code> in your API request.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>offset</span>
-<span id="cb72-2"><a href="#cb72-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>limit</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>offset</span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>limit</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -929,10 +938,10 @@ auth_token = token_for_this_user</code></pre>
 <span id="cb73-3"><a href="#cb73-3"></a></span>
 <span id="cb73-4"><a href="#cb73-4"></a><span class="co"># show 100 items from public</span></span>
 <span id="cb73-5"><a href="#cb73-5"></a>x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</span>
-<span id="cb73-6"><a href="#cb73-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x) <span class="co"># 100</span></span>
+<span id="cb73-6"><a href="#cb73-6"></a><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x) <span class="co"># 100</span></span>
 <span id="cb73-7"><a href="#cb73-7"></a></span>
 <span id="cb73-8"><a href="#cb73-8"></a>x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb73-9"><a href="#cb73-9"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x) <span class="co"># 272 by Nov 2016</span></span>
+<span id="cb73-9"><a href="#cb73-9"></a><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x) <span class="co"># 272 by Nov 2016</span></span>
 <span id="cb73-10"><a href="#cb73-10"></a><span class="co"># this return nothing, because it is not in the first 100 returned names</span></span>
 <span id="cb73-11"><a href="#cb73-11"></a>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">name =</span> <span class="st">"bed converter"</span>)</span>
 <span id="cb73-12"><a href="#cb73-12"></a><span class="co"># this return an app, because it pulls *all* app names and did search</span></span>
@@ -946,8 +955,8 @@ auth_token = token_for_this_user</code></pre>
 <a href="#experiment-with-advance-access-features" class="anchor"></a>Experiment with Advance Access features</h3>
 <p>Similar to <code>offset</code> and <code>limit</code>, every API call accepts an argument named <code>advance_access</code>. This argument was first introduced in August 2017 and controls if a special field in the HTTP request header will be sent, which can enable the access to the “Advance Access” features in the Seven Bridges API. Note that the Advance Access features in the API are <strong>not officially released yet</strong>, therefore the API usages are subject to change, so please use with discretion.</p>
 <p>In addition to modifying each API call that uses Advance Access features, the option can also be set globally at the beginning of your API script. This offers a one-button switch for users who want to experiment with the Advance Access features. The option is disabled by default:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
-<span id="cb74-2"><a href="#cb74-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<span id="cb74-2"><a href="#cb74-2"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>For example, the Markers API is in Advance Access as of November 2018. If we try to use the Markers API to list markers available on a BAM file with the <code>advance_access</code> option disabled, it will return an error message:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</span>
@@ -955,14 +964,14 @@ auth_token = token_for_this_user</code></pre>
 <span id="cb76-3"><a href="#cb76-3"></a>  <span class="dt">method =</span> <span class="st">"GET"</span></span>
 <span id="cb76-4"><a href="#cb76-4"></a>)</span>
 <span id="cb76-5"><a href="#cb76-5"></a></span>
-<span id="cb76-6"><a href="#cb76-6"></a>httr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></span></code></pre></div>
+<span id="cb76-6"><a href="#cb76-6"></a>httr<span class="op">::</span><span class="kw"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(req)<span class="op">$</span><span class="st">"message"</span></span></code></pre></div>
 <pre><code>## [1] "Advance access feature needs X-SBG-Advance-Access: advance header."</code></pre>
 <p>To enable the Advance Access features, one can use</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>opt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>opt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb78-2"><a href="#cb78-2"></a>opt<span class="op">$</span>advance_access &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
-<span id="cb78-3"><a href="#cb78-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">sevenbridges =</span> opt)</span></code></pre></div>
+<span id="cb78-3"><a href="#cb78-3"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">sevenbridges =</span> opt)</span></code></pre></div>
 <p>at the beginning of their scripts. Let’s check if the option has been enabled:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)<span class="op">$</span>advance_access</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Send the API call again:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>req &lt;-<span class="st"> </span><span class="kw"><a href="../reference/api.html">api</a></span>(</span>
@@ -970,7 +979,7 @@ auth_token = token_for_this_user</code></pre>
 <span id="cb81-3"><a href="#cb81-3"></a>  <span class="dt">method =</span> <span class="st">"GET"</span></span>
 <span id="cb81-4"><a href="#cb81-4"></a>)</span></code></pre></div>
 <p>The information of the markers available on that BAM file will be returned:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/httr/topics/content">content</a></span>(req)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>httr<span class="op">::</span><span class="kw"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(req)</span></code></pre></div>
 <pre><code>$href
 [1] "https://api.sbgenomics.com/v2/genome/markers?file={bam_file_id}&amp;offset=0&amp;limit=2"
 
@@ -1019,13 +1028,13 @@ list()</code></pre>
 </ol>
 <p>Please try the following examples.</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="co">## default fields id, name, project</span></span>
-<span id="cb84-2"><a href="#cb84-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span>
+<span id="cb84-2"><a href="#cb84-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span>
 <span id="cb84-3"><a href="#cb84-3"></a><span class="co">## return file(s) with id, name, siae information</span></span>
-<span id="cb84-4"><a href="#cb84-4"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">fields =</span> <span class="st">"id,name,size"</span>)</span>
+<span id="cb84-4"><a href="#cb84-4"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">fields =</span> <span class="st">"id,name,size"</span>)</span>
 <span id="cb84-5"><a href="#cb84-5"></a><span class="co">## return file(s) with all available info</span></span>
-<span id="cb84-6"><a href="#cb84-6"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb84-6"><a href="#cb84-6"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">detail =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb84-7"><a href="#cb84-7"></a><span class="co">## same as above</span></span>
-<span id="cb84-8"><a href="#cb84-8"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">fields =</span> <span class="st">"_all"</span>)</span></code></pre></div>
+<span id="cb84-8"><a href="#cb84-8"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">fields =</span> <span class="st">"_all"</span>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1117,16 +1126,16 @@ list()</code></pre>
 <span id="cb93-2"><a href="#cb93-2"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"wgs"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb93-3"><a href="#cb93-3"></a></span>
 <span id="cb93-4"><a href="#cb93-4"></a><span class="co"># filter by project creators</span></span>
-<span id="cb93-5"><a href="#cb93-5"></a>creators &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"created_by"</span>)</span>
-<span id="cb93-6"><a href="#cb93-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(creator <span class="op">==</span><span class="st"> "RFranklin"</span>)</span>
+<span id="cb93-5"><a href="#cb93-5"></a>creators &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"created_by"</span>)</span>
+<span id="cb93-6"><a href="#cb93-6"></a><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(creator <span class="op">==</span><span class="st"> "RFranklin"</span>)</span>
 <span id="cb93-7"><a href="#cb93-7"></a></span>
 <span id="cb93-8"><a href="#cb93-8"></a><span class="co"># filter by project creation date</span></span>
-<span id="cb93-9"><a href="#cb93-9"></a>create_date &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"created_on"</span>))</span>
-<span id="cb93-10"><a href="#cb93-10"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(create_date) <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="st">"2019-01-01"</span>))</span>
+<span id="cb93-9"><a href="#cb93-9"></a>create_date &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"created_on"</span>))</span>
+<span id="cb93-10"><a href="#cb93-10"></a><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(create_date) <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019-01-01"</span>))</span>
 <span id="cb93-11"><a href="#cb93-11"></a></span>
 <span id="cb93-12"><a href="#cb93-12"></a><span class="co"># filter by project modification date</span></span>
-<span id="cb93-13"><a href="#cb93-13"></a>modify_date &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"modified_on"</span>))</span>
-<span id="cb93-14"><a href="#cb93-14"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(modify_date) <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.Date">as.Date</a></span>(<span class="st">"2019-01-01"</span>))</span></code></pre></div>
+<span id="cb93-13"><a href="#cb93-13"></a>modify_date &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(p, <span class="st">"[["</span>, <span class="st">"modified_on"</span>))</span>
+<span id="cb93-14"><a href="#cb93-14"></a><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(modify_date) <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019-01-01"</span>))</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1159,7 +1168,7 @@ list()</code></pre>
 <a href="#create-a-new-project-with-tcga-controlled-data-on-cgc" class="anchor"></a>Create a new project with TCGA controlled data on CGC</h3>
 <p>Follow the directions above, but pass <code>tcga</code> as a value for <code>tags</code>.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1"></a>a<span class="op">$</span><span class="kw">project_new</span>(<span class="st">"controlled_project"</span>, b<span class="op">$</span>id,</span>
-<span id="cb95-2"><a href="#cb95-2"></a>  <span class="dt">description =</span> <span class="st">"Test for API"</span>, <span class="dt">tags =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"tcga"</span>)</span>
+<span id="cb95-2"><a href="#cb95-2"></a>  <span class="dt">description =</span> <span class="st">"Test for API"</span>, <span class="dt">tags =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"tcga"</span>)</span>
 <span id="cb95-3"><a href="#cb95-3"></a>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1188,7 +1197,7 @@ list()</code></pre>
 <li><code>billing_group_id</code></li>
 </ul>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/helloworld"</span>)</span>
-<span id="cb97-2"><a href="#cb97-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/helloworld"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(</span>
+<span id="cb97-2"><a href="#cb97-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/helloworld"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(</span>
 <span id="cb97-3"><a href="#cb97-3"></a>  <span class="dt">name =</span> <span class="st">"Hello World Update"</span>,</span>
 <span id="cb97-4"><a href="#cb97-4"></a>  <span class="dt">description =</span> <span class="st">"Update description"</span></span>
 <span id="cb97-5"><a href="#cb97-5"></a>)</span></code></pre></div>
@@ -1228,7 +1237,7 @@ list()</code></pre>
 <p>This call edits a user’s permissions in the specified project. It can only be made by a user who has admin permissions in the project.</p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a>m &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span></span>
 <span id="cb100-2"><a href="#cb100-2"></a><span class="st">  </span><span class="kw">member</span>(<span class="dt">username =</span> <span class="st">"Rosalind.Franklin"</span>)</span>
-<span id="cb100-3"><a href="#cb100-3"></a>m<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(<span class="dt">copy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb100-3"><a href="#cb100-3"></a>m<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="dt">copy =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>== Member ==
 username : Rosalind.Franklin
 -- Permission --
@@ -1258,7 +1267,7 @@ admin : FALSE</code></pre>
 <a href="#list-all-files" class="anchor"></a>List all files</h3>
 <p>To list all files belonging to a project, use the following request:</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)</span>
-<span id="cb103-2"><a href="#cb103-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span></code></pre></div>
+<span id="cb103-2"><a href="#cb103-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1272,12 +1281,12 @@ admin : FALSE</code></pre>
 <a href="#list-all-files-1" class="anchor"></a>List all files</h3>
 <p>A better way to list files in a project uses the following:</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1"></a><span class="co"># first 100 files, default offset = 0, limit = 100</span></span>
-<span id="cb104-2"><a href="#cb104-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span>
+<span id="cb104-2"><a href="#cb104-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span>
 <span id="cb104-3"><a href="#cb104-3"></a><span class="co"># list all files</span></span>
-<span id="cb104-4"><a href="#cb104-4"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb104-4"><a href="#cb104-4"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Alternatively, you can get files from the <code>Auth</code> object.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1"></a>a<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">project =</span> p<span class="op">$</span>id)</span>
-<span id="cb105-2"><a href="#cb105-2"></a>a<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"omni"</span>, <span class="dt">project =</span> p<span class="op">$</span>id, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1"></a>a<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">project =</span> p<span class="op">$</span>id)</span>
+<span id="cb105-2"><a href="#cb105-2"></a>a<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"omni"</span>, <span class="dt">project =</span> p<span class="op">$</span>id, <span class="dt">detail =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1295,13 +1304,13 @@ admin : FALSE</code></pre>
 </ol>
 <p>As a quick example, the following code gives us all files in the project <code>RFranklin/demo</code> that with metadata sample_id “Sample1” <strong>OR</strong> “Sample2”, <strong>AND</strong> the library id has to be “EXAMPLE”, <strong>AND</strong> tags has either “hello” <strong>OR</strong> “world”.</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</span>
-<span id="cb106-2"><a href="#cb106-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(</span>
-<span id="cb106-3"><a href="#cb106-3"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb106-2"><a href="#cb106-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(</span>
+<span id="cb106-3"><a href="#cb106-3"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb106-4"><a href="#cb106-4"></a>    <span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</span>
 <span id="cb106-5"><a href="#cb106-5"></a>    <span class="dt">sample_id =</span> <span class="st">"Sample2"</span>,</span>
 <span id="cb106-6"><a href="#cb106-6"></a>    <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span></span>
 <span id="cb106-7"><a href="#cb106-7"></a>  ),</span>
-<span id="cb106-8"><a href="#cb106-8"></a>  <span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"hello"</span>, <span class="st">"world"</span>)</span>
+<span id="cb106-8"><a href="#cb106-8"></a>  <span class="dt">tag =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"hello"</span>, <span class="st">"world"</span>)</span>
 <span id="cb106-9"><a href="#cb106-9"></a>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1314,25 +1323,25 @@ admin : FALSE</code></pre>
 <p><strong><em>For advanced users:</em></strong> When searching by name with <code>exact = TRUE</code>, it directly uses our public API call to match the exact name and return the object with a single query. When you turn off <code>exact</code>, it will <code>grep</code> all files or files defined with <code>limit</code> and <code>offset</code> first, then match by name, which could be slow.</p>
 <p>To get the file id, you can check the URL on the web interface from the file details page.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1"></a><span class="co"># return single object id is "some_file_id"</span></span>
-<span id="cb107-2"><a href="#cb107-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> <span class="st">"some_file_id"</span>)</span>
+<span id="cb107-2"><a href="#cb107-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> <span class="st">"some_file_id"</span>)</span>
 <span id="cb107-3"><a href="#cb107-3"></a><span class="co"># return a single object named a.fastq</span></span>
-<span id="cb107-4"><a href="#cb107-4"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"a.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb107-4"><a href="#cb107-4"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"a.fastq"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb107-5"><a href="#cb107-5"></a><span class="co"># public file search using Auth object</span></span>
 <span id="cb107-6"><a href="#cb107-6"></a>a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb107-7"><a href="#cb107-7"></a>a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">id =</span> <span class="st">"578cf94a507c17681a3117e8"</span>)</span></code></pre></div>
 <p>To get more than one object, the arguments <code>id</code> and <code>name</code> both accept vectors, so you can pass more than one <code>id</code> or <code>name</code> to it.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1"></a><span class="co"># get two files</span></span>
-<span id="cb108-2"><a href="#cb108-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"test1.fastq"</span>, <span class="st">"test2.fastq"</span>), <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb108-2"><a href="#cb108-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"test1.fastq"</span>, <span class="st">"test2.fastq"</span>), <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb108-3"><a href="#cb108-3"></a><span class="co"># get two files from public files using shorthand</span></span>
 <span id="cb108-4"><a href="#cb108-4"></a>a<span class="op">$</span><span class="kw">public_file</span>(</span>
-<span id="cb108-5"><a href="#cb108-5"></a>  <span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="st">"ucsc.hg19.fasta"</span>),</span>
+<span id="cb108-5"><a href="#cb108-5"></a>  <span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ucsc.hg19.fasta.fai"</span>, <span class="st">"ucsc.hg19.fasta"</span>),</span>
 <span id="cb108-6"><a href="#cb108-6"></a>  <span class="dt">exact =</span> <span class="ot">TRUE</span></span>
 <span id="cb108-7"><a href="#cb108-7"></a>)</span></code></pre></div>
 <p>If you did not use <code>exact = TRUE</code>, the API would assume it is pattern grep and use partial matching.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1"></a><span class="co"># get matchd the pattern for searching first 100 files</span></span>
-<span id="cb109-2"><a href="#cb109-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>))</span>
+<span id="cb109-2"><a href="#cb109-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>))</span>
 <span id="cb109-3"><a href="#cb109-3"></a><span class="co"># get all matched files from the project</span></span>
-<span id="cb109-4"><a href="#cb109-4"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>), <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb109-4"><a href="#cb109-4"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gz"</span>, <span class="st">"fastq"</span>), <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb109-5"><a href="#cb109-5"></a><span class="co"># get all files matched ucsc</span></span>
 <span id="cb109-6"><a href="#cb109-6"></a>a<span class="op">$</span><span class="kw">public_file</span>(<span class="dt">name =</span> <span class="st">"ucsc.hg19"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <div align="right">
@@ -1345,7 +1354,7 @@ admin : FALSE</code></pre>
 <p>When you specify different metadata fields, the values use an <strong>AND</strong> operation, and when you specify the same metadata fields, the values use an <strong>OR</strong> operation.</p>
 <p>To list all files in project <code>RFranklin/demo</code>, that have a <code>sample_id</code> of “Sample1” <strong>OR</strong> “Sample2” <strong>AND</strong> another metadata field library_id set to “EXAMPLE”, make the following request.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</span>
-<span id="cb110-2"><a href="#cb110-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb110-2"><a href="#cb110-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb110-3"><a href="#cb110-3"></a>  <span class="dt">sample_id =</span> <span class="st">"Sample1"</span>,</span>
 <span id="cb110-4"><a href="#cb110-4"></a>  <span class="dt">sample_id =</span> <span class="st">"Sample2"</span>,</span>
 <span id="cb110-5"><a href="#cb110-5"></a>  <span class="dt">library_id =</span> <span class="st">"EXAMPLE"</span></span>
@@ -1360,7 +1369,7 @@ admin : FALSE</code></pre>
 <p>Tags are more flexible than metadata. You can search with multiple tags using an <strong>OR</strong> operation.</p>
 <p>This example shows how to return all files with the tag “s1” <strong>OR</strong> “s2”.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</span>
-<span id="cb111-2"><a href="#cb111-2"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>))</span></code></pre></div>
+<span id="cb111-2"><a href="#cb111-2"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>))</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1374,11 +1383,11 @@ admin : FALSE</code></pre>
 <li>Use the filter criteria.</li>
 </ol>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1"></a><span class="co"># list all outputs file from a task id</span></span>
-<span id="cb112-2"><a href="#cb112-2"></a>a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span>
+<span id="cb112-2"><a href="#cb112-2"></a>a<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span>
 <span id="cb112-3"><a href="#cb112-3"></a></span>
 <span id="cb112-4"><a href="#cb112-4"></a><span class="co"># OR</span></span>
 <span id="cb112-5"><a href="#cb112-5"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo"</span>)</span>
-<span id="cb112-6"><a href="#cb112-6"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">origin.task =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)</span></code></pre></div>
+<span id="cb112-6"><a href="#cb112-6"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">origin.task =</span> <span class="st">"53020538-6936-422f-80de-02fa65ae4b39"</span>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1403,11 +1412,11 @@ admin : FALSE</code></pre>
 <span id="cb113-2"><a href="#cb113-2"></a>fid &lt;-<span class="st"> "561e1b33e4b0aa6ec48167d7"</span></span>
 <span id="cb113-3"><a href="#cb113-3"></a>fid2 &lt;-<span class="st"> "561e1b33e4b0aa6ec48167d3"</span></span>
 <span id="cb113-4"><a href="#cb113-4"></a>pid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span>id</span>
-<span id="cb113-5"><a href="#cb113-5"></a>a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(fid, fid2), <span class="dt">project =</span> pid)</span>
-<span id="cb113-6"><a href="#cb113-6"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> pid)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span></code></pre></div>
+<span id="cb113-5"><a href="#cb113-5"></a>a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(fid, fid2), <span class="dt">project =</span> pid)</span>
+<span id="cb113-6"><a href="#cb113-6"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> pid)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span></code></pre></div>
 <p><strong>NOTE:</strong> To copy a group of files, you need the <code>Auth$copyFile()</code> interface. The <code>id</code> of the files in your project will be different from their <code>id</code> in the Public Files repository.</p>
 <p>Alternatively, you copy a <strong>single file</strong> as shown below.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"hello"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw">copyTo</span>(pid)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"hello"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw">copyTo</span>(pid)</span></code></pre></div>
 <p>Notably, if you have many files to copy between projects, we would always recommend using the <code>Auth$bulk_file_copy()</code> method described in the Actions API section below, to batch copy the files in a single API call and save the number of API calls.</p>
 <div align="right">
 <a href="#top">top</a>
@@ -1417,15 +1426,15 @@ admin : FALSE</code></pre>
 <h3 class="hasAnchor">
 <a href="#delete-files" class="anchor"></a>Delete file(s)</h3>
 <p><strong><em>Note:</em></strong> The <code>delete</code> action only works for one file at a time. Be sure your <code>file</code> call returns a single file rather than a file list.</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
 <span id="cb115-2"><a href="#cb115-2"></a><span class="co">## confirm the deletion</span></span>
-<span id="cb115-3"><a href="#cb115-3"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span></code></pre></div>
+<span id="cb115-3"><a href="#cb115-3"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span></code></pre></div>
 <p>You can also delete a group of files or <code>FilesList</code> object, just <strong>be careful</strong> when using this function.</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1"></a><span class="co">## return 5 files</span></span>
-<span id="cb116-2"><a href="#cb116-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"phase1"</span>)</span>
+<span id="cb116-2"><a href="#cb116-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"phase1"</span>)</span>
 <span id="cb116-3"><a href="#cb116-3"></a><span class="co">## delete all of them</span></span>
-<span id="cb116-4"><a href="#cb116-4"></a><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>(a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"phase1"</span>))</span>
-<span id="cb116-5"><a href="#cb116-5"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"phase1"</span>)</span></code></pre></div>
+<span id="cb116-4"><a href="#cb116-4"></a><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>(a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"phase1"</span>))</span>
+<span id="cb116-5"><a href="#cb116-5"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"phase1"</span>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1434,12 +1443,12 @@ admin : FALSE</code></pre>
 <h3 class="hasAnchor">
 <a href="#download-files" class="anchor"></a>Download files</h3>
 <p>To get the download information, please use the following:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</span></code></pre></div>
 <p>To download directly from R, use the <code>download</code> call directly from a single <code>File</code> object.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1"></a>fid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</span>
-<span id="cb118-2"><a href="#cb118-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1"></a>fid &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span>id</span>
+<span id="cb118-2"><a href="#cb118-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</span></code></pre></div>
 <p>I also created a <code>download</code> function for <code>FilesList</code> object to save your time, as follows:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a>fls &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a>fls &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span>
 <span id="cb119-2"><a href="#cb119-2"></a><span class="kw"><a href="../reference/download-methods.html">download</a></span>(fls, <span class="st">"~/Downloads/"</span>)</span></code></pre></div>
 <p>To download all files from a project, use the following:</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</span></code></pre></div>
@@ -1462,33 +1471,33 @@ admin : FALSE</code></pre>
 <h4 class="hasAnchor">
 <a href="#upload-single-file" class="anchor"></a>Upload single file</h4>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1"></a>a &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="dt">username =</span> <span class="st">"RFranklin"</span>, <span class="dt">platform =</span> <span class="st">"cgc"</span>)</span>
-<span id="cb121-2"><a href="#cb121-2"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb121-2"><a href="#cb121-2"></a>fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb121-3"><a href="#cb121-3"></a></span>
 <span id="cb121-4"><a href="#cb121-4"></a>(p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/quickstart"</span>))</span>
 <span id="cb121-5"><a href="#cb121-5"></a></span>
 <span id="cb121-6"><a href="#cb121-6"></a><span class="co"># by default load .meta for the file</span></span>
 <span id="cb121-7"><a href="#cb121-7"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb121-8"><a href="#cb121-8"></a><span class="co"># pass metadata</span></span>
-<span id="cb121-9"><a href="#cb121-9"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</span>
+<span id="cb121-9"><a href="#cb121-9"></a>p<span class="op">$</span><span class="kw">upload</span>(fl, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">library_id =</span> <span class="st">"testid2"</span>, <span class="dt">platform =</span> <span class="st">"Illumina x11"</span>))</span>
 <span id="cb121-10"><a href="#cb121-10"></a><span class="co"># rename</span></span>
 <span id="cb121-11"><a href="#cb121-11"></a>p<span class="op">$</span><span class="kw">upload</span>(fl,</span>
 <span id="cb121-12"><a href="#cb121-12"></a>  <span class="dt">overwrite =</span> <span class="ot">TRUE</span>, <span class="dt">name =</span> <span class="st">"sample_new_name.fastq"</span>,</span>
-<span id="cb121-13"><a href="#cb121-13"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</span>
+<span id="cb121-13"><a href="#cb121-13"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">library_id =</span> <span class="st">"new_id"</span>)</span>
 <span id="cb121-14"><a href="#cb121-14"></a>)</span></code></pre></div>
 </div>
 <div id="upload-a-folder" class="section level4">
 <h4 class="hasAnchor">
 <a href="#upload-a-folder" class="anchor"></a>Upload a folder</h4>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
-<span id="cb122-2"><a href="#cb122-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(dir.ext)</span>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb122-2"><a href="#cb122-2"></a><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(dir.ext)</span>
 <span id="cb122-3"><a href="#cb122-3"></a>p<span class="op">$</span><span class="kw">upload</span>(dir.ext, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="upload-a-list-of-files" class="section level4">
 <h4 class="hasAnchor">
 <a href="#upload-a-list-of-files" class="anchor"></a>Upload a list of files</h4>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a>dir.ext &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb123-2"><a href="#cb123-2"></a><span class="co"># enable full name</span></span>
-<span id="cb123-3"><a href="#cb123-3"></a>fls &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">list.files</a></span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb123-3"><a href="#cb123-3"></a>fls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(dir.ext, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb123-4"><a href="#cb123-4"></a>p<span class="op">$</span><span class="kw">upload</span>(fls, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb123-5"><a href="#cb123-5"></a>p<span class="op">$</span><span class="kw">upload</span>(<span class="st">"~/Documents/Data/sbgtest/1000G_phase1.snps.high_confidence.b37.vcf"</span>)</span></code></pre></div>
 </div>
@@ -1523,7 +1532,7 @@ admin : FALSE</code></pre>
 <span id="cb124-13"><a href="#cb124-13"></a><span class="co"># attach all meta except "bad_field" and "sample_id"</span></span>
 <span id="cb124-14"><a href="#cb124-14"></a>p<span class="op">$</span><span class="kw">upload</span>(</span>
 <span id="cb124-15"><a href="#cb124-15"></a>  <span class="dt">manifest_file =</span> <span class="st">"~/manifest.csv"</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb124-16"><a href="#cb124-16"></a>  <span class="dt">subset =</span> score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dt">select =</span> <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(bad_field, sample_id)</span>
+<span id="cb124-16"><a href="#cb124-16"></a>  <span class="dt">subset =</span> score <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dt">select =</span> <span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(bad_field, sample_id)</span>
 <span id="cb124-17"><a href="#cb124-17"></a>)</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
@@ -1565,13 +1574,13 @@ admin : FALSE</code></pre>
 <div id="update-a-file" class="section level3">
 <h3 class="hasAnchor">
 <a href="#update-a-file" class="anchor"></a>Update a file</h3>
-<p>You can call the <code><a href="https://www.rdocumentation.org/packages/stats/topics/update">update()</a></code> function from the Files object. With this call, the following can be updated:</p>
+<p>You can call the <code><a href="https://rdrr.io/r/stats/update.html">update()</a></code> function from the Files object. With this call, the following can be updated:</p>
 <ul>
 <li>The file’s <code>name</code>.</li>
 <li>The file’s <code>metadata</code>. The metadata is in the form of a list. Note that as this call overwrites all the metadata for a given file, please supply a full list of all the metadata for the file. Conversely, you can use the <a href="#set_metadata"><code>set_meta()</code> function</a> to patch but not overwrite the metadata for a file.</li>
 </ul>
 <p>If no parameters were provided, this call will get the details of that file and update the object itself.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1"></a>(fl &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1"></a>(fl &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/demo-project"</span>)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">"sample.fastq"</span>))</span></code></pre></div>
 <pre><code>== File ==
 id : 56c7916ae4b03b56a7d7
 name : sample.fastq
@@ -1580,9 +1589,9 @@ project : RFranklin/demo-project</code></pre>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1"></a><span class="co"># show metadata</span></span>
 <span id="cb131-2"><a href="#cb131-2"></a>fl<span class="op">$</span><span class="kw">meta</span>()</span></code></pre></div>
 <p><strong>Update meta</strong></p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a>fl<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(</span>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a>fl<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(</span>
 <span id="cb132-2"><a href="#cb132-2"></a>  <span class="dt">name =</span> <span class="st">"sample.fastq"</span>,</span>
-<span id="cb132-3"><a href="#cb132-3"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb132-3"><a href="#cb132-3"></a>  <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb132-4"><a href="#cb132-4"></a>    <span class="dt">new_item1 =</span> <span class="st">"item1"</span>,</span>
 <span id="cb132-5"><a href="#cb132-5"></a>    <span class="dt">new_item2 =</span> <span class="st">"item2"</span>,</span>
 <span id="cb132-6"><a href="#cb132-6"></a>    <span class="dt">file_extension =</span> <span class="st">"fastq"</span></span>
@@ -1607,7 +1616,7 @@ project : RFranklin/demo-project</code></pre>
 <span id="cb133-4"><a href="#cb133-4"></a>fl<span class="op">$</span>metadata</span></code></pre></div>
 <p><a name="set_metadata"></a> <strong>Set metadata</strong></p>
 <p>Files from curated datasets on Seven Bridges environments have a defined set of metadata which is visible on the visual interface of each environment. However, you can also pass additional metadata for each file which is stored with your copy of the file in your project.</p>
-<p>To set metadata but not overwrite all previously stored metadata, call the <code>set_meta()</code> function from the Files object. Unlike the <code><a href="https://www.rdocumentation.org/packages/stats/topics/update">update()</a></code> function for the Files object, the <code>set_meta()</code> function doesn’t overwrite the metadata field. To overwrite the metadata field, use the <code><a href="https://www.rdocumentation.org/packages/stats/topics/update">update()</a></code> function or pass the optional argument <code>overwrite = TRUE</code> for the <code>set_meta()</code> call.</p>
+<p>To set metadata but not overwrite all previously stored metadata, call the <code>set_meta()</code> function from the Files object. Unlike the <code><a href="https://rdrr.io/r/stats/update.html">update()</a></code> function for the Files object, the <code>set_meta()</code> function doesn’t overwrite the metadata field. To overwrite the metadata field, use the <code><a href="https://rdrr.io/r/stats/update.html">update()</a></code> function or pass the optional argument <code>overwrite = TRUE</code> for the <code>set_meta()</code> call.</p>
 <div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1"></a>fl<span class="op">$</span><span class="kw">set_meta</span>(<span class="dt">new_item3 =</span> <span class="st">"item3"</span>)</span>
 <span id="cb134-2"><a href="#cb134-2"></a>fl</span>
 <span id="cb134-3"><a href="#cb134-3"></a><span class="co"># oops it removed rest of the meta</span></span>
@@ -1642,7 +1651,7 @@ project : RFranklin/demo-project</code></pre>
 <p>To completely overwrite the tags for a file, use the <code>obj$set_tag()</code> method, which contains the default argument <code>overwrite = TRUE</code>.</p>
 <p>Let’s use a file called <code>sample.bam</code> and play with its tags.</p>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/s3tutorial"</span>)</span>
-<span id="cb137-2"><a href="#cb137-2"></a>fl &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"sample.bam"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb137-2"><a href="#cb137-2"></a>fl &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"sample.bam"</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb137-3"><a href="#cb137-3"></a><span class="co"># show tags for single file</span></span>
 <span id="cb137-4"><a href="#cb137-4"></a>fl<span class="op">$</span><span class="kw">tag</span>()</span>
 <span id="cb137-5"><a href="#cb137-5"></a><span class="co"># add new tags</span></span>
@@ -1650,25 +1659,25 @@ project : RFranklin/demo-project</code></pre>
 <span id="cb137-7"><a href="#cb137-7"></a><span class="co"># equavilent to</span></span>
 <span id="cb137-8"><a href="#cb137-8"></a>fl<span class="op">$</span><span class="kw"><a href="../reference/tag-methods.html">set_tag</a></span>(<span class="st">"new tag 2"</span>, <span class="dt">overwrite =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb137-9"><a href="#cb137-9"></a><span class="co"># set tags to overwrite existing</span></span>
-<span id="cb137-10"><a href="#cb137-10"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"this"</span>, <span class="st">"is"</span>, <span class="dv">1234</span>)</span>
+<span id="cb137-10"><a href="#cb137-10"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"this"</span>, <span class="st">"is"</span>, <span class="dv">1234</span>)</span>
 <span id="cb137-11"><a href="#cb137-11"></a>fl<span class="op">$</span><span class="kw"><a href="../reference/tag-methods.html">set_tag</a></span>(x)</span>
 <span id="cb137-12"><a href="#cb137-12"></a><span class="co"># filter by tags</span></span>
-<span id="cb137-13"><a href="#cb137-13"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1234"</span>, <span class="st">"new"</span>))</span>
-<span id="cb137-14"><a href="#cb137-14"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"1234"</span>, <span class="st">"new"</span>))</span>
-<span id="cb137-15"><a href="#cb137-15"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="st">"1234"</span>)</span></code></pre></div>
+<span id="cb137-13"><a href="#cb137-13"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1234"</span>, <span class="st">"new"</span>))</span>
+<span id="cb137-14"><a href="#cb137-14"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"1234"</span>, <span class="st">"new"</span>))</span>
+<span id="cb137-15"><a href="#cb137-15"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="st">"1234"</span>)</span></code></pre></div>
 <p>Below, find convenient methods for <code>FilesList</code>. Let’s add the tag “s1” to a group files matching “Sample1” and add the tag “s2” to a group of files that match “s2”. Then, we will filter by these tags to obtain specific files.</p>
 <div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1"></a><span class="co"># work on a group of files</span></span>
 <span id="cb138-2"><a href="#cb138-2"></a><span class="co"># add tag "s2" to a group of files named with "Sample2" in it</span></span>
-<span id="cb138-3"><a href="#cb138-3"></a>fl2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"Sample2"</span>)</span>
+<span id="cb138-3"><a href="#cb138-3"></a>fl2 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"Sample2"</span>)</span>
 <span id="cb138-4"><a href="#cb138-4"></a><span class="kw"><a href="../reference/tag-methods.html">add_tag</a></span>(fl2, <span class="st">"s2"</span>)</span>
 <span id="cb138-5"><a href="#cb138-5"></a><span class="co"># add tag "s2" to a group of files named with "Sample1" in it</span></span>
-<span id="cb138-6"><a href="#cb138-6"></a>fl1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="st">"Sample1"</span>)</span>
+<span id="cb138-6"><a href="#cb138-6"></a>fl1 &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"Sample1"</span>)</span>
 <span id="cb138-7"><a href="#cb138-7"></a><span class="kw"><a href="../reference/tag-methods.html">add_tag</a></span>(fl1, <span class="st">"s1"</span>)</span>
 <span id="cb138-8"><a href="#cb138-8"></a><span class="co"># filter by tag s1 or s2</span></span>
-<span id="cb138-9"><a href="#cb138-9"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="st">"s1"</span>)</span>
-<span id="cb138-10"><a href="#cb138-10"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="st">"s2"</span>)</span>
+<span id="cb138-9"><a href="#cb138-9"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="st">"s1"</span>)</span>
+<span id="cb138-10"><a href="#cb138-10"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="st">"s2"</span>)</span>
 <span id="cb138-11"><a href="#cb138-11"></a><span class="co"># get files tagged with s2 and 1234</span></span>
-<span id="cb138-12"><a href="#cb138-12"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"s2"</span>, <span class="st">"s1"</span>))</span></code></pre></div>
+<span id="cb138-12"><a href="#cb138-12"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">tag =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"s2"</span>, <span class="st">"s1"</span>))</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -1766,10 +1775,10 @@ type : file</code></pre>
 <h3 class="hasAnchor">
 <a href="#get-file-and-folder-details" class="anchor"></a>Get file and folder details</h3>
 <p>Get the type of a single file/folder object:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/typeof">typeof</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1"></a>contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>()</span></code></pre></div>
 <pre><code>[1] "folder"</code></pre>
 <p>Or, get the type(s) for all objects in the folder:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(contents_root, <span class="cf">function</span>(x) x<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/typeof">typeof</a></span>())</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1"></a><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(contents_root, <span class="cf">function</span>(x) x<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>())</span></code></pre></div>
 <pre><code>[1] "folder" "file"</code></pre>
 <p>Sometimes, it’s convenient to get the parent folder ID for a file or folder:</p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1"></a>contents_root[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">get_parent_folder_id</span>()</span></code></pre></div>
@@ -1841,11 +1850,11 @@ type : file</code></pre>
 <p>To list all public apps, use the <code>visibility</code> argument.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1"></a><span class="co"># show 100 items from public</span></span>
 <span id="cb166-2"><a href="#cb166-2"></a>x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</span>
-<span id="cb166-3"><a href="#cb166-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x)</span>
+<span id="cb166-3"><a href="#cb166-3"></a><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x)</span>
 <span id="cb166-4"><a href="#cb166-4"></a>x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb166-5"><a href="#cb166-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x)</span>
+<span id="cb166-5"><a href="#cb166-5"></a><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x)</span>
 <span id="cb166-6"><a href="#cb166-6"></a>x &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">project =</span> <span class="st">"RFranklin/helloworld"</span>, <span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb166-7"><a href="#cb166-7"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x)</span>
+<span id="cb166-7"><a href="#cb166-7"></a><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x)</span>
 <span id="cb166-8"><a href="#cb166-8"></a>a<span class="op">$</span><span class="kw">app</span>(<span class="dt">visibility =</span> <span class="st">"public"</span>, <span class="dt">limit =</span> <span class="dv">5</span>, <span class="dt">offset =</span> <span class="dv">150</span>)</span></code></pre></div>
 <p><strong>Search through all public apps in all locations</strong></p>
 <p>To search for a public app cross all locations, make the following call. Note that this may take a bit of time.</p>
@@ -1904,7 +1913,7 @@ type : file</code></pre>
 <li>
 <code>filename</code>: The name of the JSON file containing the CWL.</li>
 </ul>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a>cwl.fl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"bam_index.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1"></a>cwl.fl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"bam_index.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb171-2"><a href="#cb171-2"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">filename =</span> cwl.fl)</span>
 <span id="cb171-3"><a href="#cb171-3"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="dt">short_name =</span> <span class="st">"new_bam_index_app"</span>, <span class="dt">revision =</span> <span class="dv">2</span>, <span class="dt">filename =</span> cwl.fl)</span></code></pre></div>
 <p>Note: If you provide the same <code>short_name</code>, this will add a new revision.</p>
@@ -1934,9 +1943,9 @@ type : file</code></pre>
 <span id="cb172-8"><a href="#cb172-8"></a>  <span class="dt">baseCommand =</span> <span class="st">"runif.R"</span>,</span>
 <span id="cb172-9"><a href="#cb172-9"></a>  <span class="dt">inputs =</span> in.lst,</span>
 <span id="cb172-10"><a href="#cb172-10"></a>  <span class="dt">outputs =</span> out.lst,</span>
-<span id="cb172-11"><a href="#cb172-11"></a>  <span class="st">"sbg:job"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
-<span id="cb172-12"><a href="#cb172-12"></a>    <span class="dt">allocatedResources =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</span>
-<span id="cb172-13"><a href="#cb172-13"></a>    <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)</span>
+<span id="cb172-11"><a href="#cb172-11"></a>  <span class="st">"sbg:job"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
+<span id="cb172-12"><a href="#cb172-12"></a>    <span class="dt">allocatedResources =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mem =</span> <span class="dv">9000</span>, <span class="dt">cpu =</span> <span class="dv">1</span>),</span>
+<span id="cb172-13"><a href="#cb172-13"></a>    <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">150</span>)</span>
 <span id="cb172-14"><a href="#cb172-14"></a>  )</span>
 <span id="cb172-15"><a href="#cb172-15"></a>)</span>
 <span id="cb172-16"><a href="#cb172-16"></a>p<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"random"</span>, rbx)</span></code></pre></div>
@@ -2005,7 +2014,7 @@ type : file</code></pre>
 <code>inputs</code>: A list of inputs for this task</li>
 </ul>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1"></a><span class="co"># push an app first</span></span>
-<span id="cb178-2"><a href="#cb178-2"></a>fl.runif &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"runif.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
+<span id="cb178-2"><a href="#cb178-2"></a>fl.runif &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"runif.json"</span>, <span class="dt">package =</span> <span class="st">"sevenbridges"</span>)</span>
 <span id="cb178-3"><a href="#cb178-3"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">app_add</span>(<span class="st">"runif_draft"</span>, fl.runif)</span>
 <span id="cb178-4"><a href="#cb178-4"></a>runif_id &lt;-<span class="st"> "RFranklin/demo-project/runif_draft"</span></span>
 <span id="cb178-5"><a href="#cb178-5"></a><span class="co"># create a draft task</span></span>
@@ -2013,7 +2022,7 @@ type : file</code></pre>
 <span id="cb178-7"><a href="#cb178-7"></a>  <span class="dt">name =</span> <span class="st">"Draft runif 3"</span>,</span>
 <span id="cb178-8"><a href="#cb178-8"></a>  <span class="dt">description =</span> <span class="st">"Description for runif 3"</span>,</span>
 <span id="cb178-9"><a href="#cb178-9"></a>  <span class="dt">app =</span> runif_id,</span>
-<span id="cb178-10"><a href="#cb178-10"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</span>
+<span id="cb178-10"><a href="#cb178-10"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)</span>
 <span id="cb178-11"><a href="#cb178-11"></a>)</span>
 <span id="cb178-12"><a href="#cb178-12"></a><span class="co"># confirm</span></span>
 <span id="cb178-13"><a href="#cb178-13"></a>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> <span class="st">"draft"</span>)</span></code></pre></div>
@@ -2034,10 +2043,10 @@ type : file</code></pre>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1"></a><span class="co"># get the single task you want to update</span></span>
 <span id="cb179-2"><a href="#cb179-2"></a>tsk &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="st">"demo"</span>)<span class="op">$</span><span class="kw">task</span>(<span class="st">"Draft runif 3"</span>)</span>
 <span id="cb179-3"><a href="#cb179-3"></a>tsk</span>
-<span id="cb179-4"><a href="#cb179-4"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(</span>
+<span id="cb179-4"><a href="#cb179-4"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(</span>
 <span id="cb179-5"><a href="#cb179-5"></a>  <span class="dt">name =</span> <span class="st">"Draft runif update"</span>,</span>
 <span id="cb179-6"><a href="#cb179-6"></a>  <span class="dt">description =</span> <span class="st">"draft 2"</span>,</span>
-<span id="cb179-7"><a href="#cb179-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">max =</span> <span class="dv">100</span>)</span>
+<span id="cb179-7"><a href="#cb179-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">max =</span> <span class="dv">100</span>)</span>
 <span id="cb179-8"><a href="#cb179-8"></a>)</span>
 <span id="cb179-9"><a href="#cb179-9"></a><span class="co"># alternative way to check all inputs</span></span>
 <span id="cb179-10"><a href="#cb179-10"></a>tsk<span class="op">$</span><span class="kw">getInputs</span>()</span></code></pre></div>
@@ -2051,7 +2060,7 @@ type : file</code></pre>
 <p>This call runs (“executes”) the specified task. Only tasks with a “DRAFT” status may be run.</p>
 <div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1"></a>tsk<span class="op">$</span><span class="kw">run</span>()</span>
 <span id="cb180-2"><a href="#cb180-2"></a><span class="co"># run update without information just return latest information</span></span>
-<span id="cb180-3"><a href="#cb180-3"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>()</span></code></pre></div>
+<span id="cb180-3"><a href="#cb180-3"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>()</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2067,8 +2076,8 @@ type : file</code></pre>
 <div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1"></a><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</span>
 <span id="cb182-2"><a href="#cb182-2"></a><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</span>
 <span id="cb182-3"><a href="#cb182-3"></a><span class="kw"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"draft"</span>, <span class="cf">function</span>() {</span>
-<span id="cb182-4"><a href="#cb182-4"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"never happens"</span>)</span>
-<span id="cb182-5"><a href="#cb182-5"></a>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">TRUE</span>)</span>
+<span id="cb182-4"><a href="#cb182-4"></a>  <span class="kw"><a href="https://rdrr.io/r/base/message.html">message</a></span>(<span class="st">"never happens"</span>)</span>
+<span id="cb182-5"><a href="#cb182-5"></a>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="ot">TRUE</span>)</span>
 <span id="cb182-6"><a href="#cb182-6"></a>})</span>
 <span id="cb182-7"><a href="#cb182-7"></a><span class="kw"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"draft"</span>)</span></code></pre></div>
 <div align="right">
@@ -2082,7 +2091,7 @@ type : file</code></pre>
 <div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1"></a><span class="co"># abort</span></span>
 <span id="cb183-2"><a href="#cb183-2"></a>tsk<span class="op">$</span><span class="kw">abort</span>()</span>
 <span id="cb183-3"><a href="#cb183-3"></a><span class="co"># check</span></span>
-<span id="cb183-4"><a href="#cb183-4"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>()</span></code></pre></div>
+<span id="cb183-4"><a href="#cb183-4"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>()</span></code></pre></div>
 <div align="right">
 <a href="#top">top</a>
 </div>
@@ -2120,7 +2129,7 @@ type : file</code></pre>
 <span id="cb186-4"><a href="#cb186-4"></a>  <span class="dt">description =</span> <span class="st">"RNA DE analysis report"</span>,</span>
 <span id="cb186-5"><a href="#cb186-5"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb186-6"><a href="#cb186-6"></a>  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(<span class="dt">input =</span> <span class="st">"bamfiles"</span>),</span>
-<span id="cb186-7"><a href="#cb186-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb186-7"><a href="#cb186-7"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb186-8"><a href="#cb186-8"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb186-9"><a href="#cb186-9"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb186-10"><a href="#cb186-10"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -2134,9 +2143,9 @@ type : file</code></pre>
 <span id="cb186-18"><a href="#cb186-18"></a>  <span class="dt">app =</span> rna.app<span class="op">$</span>id,</span>
 <span id="cb186-19"><a href="#cb186-19"></a>  <span class="dt">batch =</span> <span class="kw"><a href="../reference/batch.html">batch</a></span>(</span>
 <span id="cb186-20"><a href="#cb186-20"></a>    <span class="dt">input =</span> <span class="st">"fastq"</span>,</span>
-<span id="cb186-21"><a href="#cb186-21"></a>    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
+<span id="cb186-21"><a href="#cb186-21"></a>    <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)</span>
 <span id="cb186-22"><a href="#cb186-22"></a>  ),</span>
-<span id="cb186-23"><a href="#cb186-23"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</span>
+<span id="cb186-23"><a href="#cb186-23"></a>  <span class="dt">inputs =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</span>
 <span id="cb186-24"><a href="#cb186-24"></a>    <span class="dt">bamfiles =</span> bamfiles.in,</span>
 <span id="cb186-25"><a href="#cb186-25"></a>    <span class="dt">design =</span> design.in,</span>
 <span id="cb186-26"><a href="#cb186-26"></a>    <span class="dt">gtffile =</span> gtf.in</span>
@@ -2299,13 +2308,13 @@ type : file</code></pre>
 <a href="#copy-files-between-projects" class="anchor"></a>Copy files between projects</h3>
 <p>This call allows you to copy files between projects. Unlike <code>a$copyFile()</code> or <code>file(...)$copyTo(...)</code> which only copy one file with each API call, this call lets you batch the copy operation and copy a list of files at a time.</p>
 <div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/source-project"</span>)</span>
-<span id="cb195-2"><a href="#cb195-2"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb195-2"><a href="#cb195-2"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb195-3"><a href="#cb195-3"></a><span class="co"># get all file IDs</span></span>
-<span id="cb195-4"><a href="#cb195-4"></a>file_ids &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(f, <span class="st">"[["</span>, <span class="st">"id"</span>)</span>
+<span id="cb195-4"><a href="#cb195-4"></a>file_ids &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(f, <span class="st">"[["</span>, <span class="st">"id"</span>)</span>
 <span id="cb195-5"><a href="#cb195-5"></a><span class="co"># bulk copy files to the target project</span></span>
 <span id="cb195-6"><a href="#cb195-6"></a>req &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">bulk_file_copy</span>(file_ids, <span class="st">"RFranklin/target-project"</span>)</span>
 <span id="cb195-7"><a href="#cb195-7"></a><span class="co"># print the response list</span></span>
-<span id="cb195-8"><a href="#cb195-8"></a>(req &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unname">unname</a></span>(req))</span></code></pre></div>
+<span id="cb195-8"><a href="#cb195-8"></a>(req &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>(req))</span></code></pre></div>
 <pre><code>[[1]]
 [[1]]$status
 [1] "OK"
@@ -2318,11 +2327,11 @@ type : file</code></pre>
 
 ...</code></pre>
 <p>We can use <code>sapply</code> to get the copy operation status, new file IDs, and (new) file names for the copied files:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"status"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1"></a><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"status"</span>)</span></code></pre></div>
 <pre><code>[1] "OK" "OK" "OK" "OK"</code></pre>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"new_file_id"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1"></a><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"new_file_id"</span>)</span></code></pre></div>
 <pre><code>[1] "5bf31316e4b09b8ff39f9df7" "5bf31316e4b09b8ff39f9dfa" "5bf31316e4b09b8ff39f9df4" "5bf31316e4b09b8ff39f9df1"</code></pre>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"new_file_name"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1"></a><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(req, <span class="st">"[["</span>, <span class="st">"new_file_name"</span>)</span></code></pre></div>
 <pre><code>[1] "merged-tumor.converted.pe_1.fastq"  "merged-tumor.converted.pe_2.fastq"  "merged-normal.converted.pe_2.fastq"
 [4] "merged-normal.converted.pe_1.fastq"</code></pre>
 <p>Note that a file’s ID is dependent on the project it is contained in. So, when you copy files from one project to another, their IDs will be different in the target project. The file names, however, do not change by copying, except where copying would yield non-unique file names in the target project.</p>
@@ -2492,9 +2501,9 @@ name : Another Team Name</code></pre>
 <a href="#markers" class="anchor"></a>Markers</h2>
 <p>The Markers API allows you to add, get, modify, and delete genetic markers on BAM files. These genetic markers can be then examined in the <a href="https://docs.sevenbridges.com/v1.0/docs/seven-bridges-genome-browser">Seven Bridges Genome Browser</a>.</p>
 <p>As of November 2018, the Markers API is still an Advance Access feature. To use this API, set the <code>advance_access</code> option to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1"></a>opt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption</a></span>(<span class="st">"sevenbridges"</span>)</span>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1"></a>opt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">getOption</a></span>(<span class="st">"sevenbridges"</span>)</span>
 <span id="cb221-2"><a href="#cb221-2"></a>opt<span class="op">$</span>advance_access &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
-<span id="cb221-3"><a href="#cb221-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">sevenbridges =</span> opt)</span></code></pre></div>
+<span id="cb221-3"><a href="#cb221-3"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">sevenbridges =</span> opt)</span></code></pre></div>
 <div id="create-a-marker" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-marker" class="anchor"></a>Create a marker</h3>
@@ -2502,9 +2511,9 @@ name : Another Team Name</code></pre>
 <div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="#cb222-1"></a><span class="co"># locate the project</span></span>
 <span id="cb222-2"><a href="#cb222-2"></a>p &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">project</span>(<span class="dt">id =</span> <span class="st">"RFranklin/api-markers"</span>)</span>
 <span id="cb222-3"><a href="#cb222-3"></a><span class="co"># search for files with `.bam` in their names</span></span>
-<span id="cb222-4"><a href="#cb222-4"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">name =</span> <span class="st">".bam"</span>)</span>
+<span id="cb222-4"><a href="#cb222-4"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">name =</span> <span class="st">".bam"</span>)</span>
 <span id="cb222-5"><a href="#cb222-5"></a><span class="co"># use the first BAM file</span></span>
-<span id="cb222-6"><a href="#cb222-6"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> f[[<span class="dv">1</span>]]<span class="op">$</span>id)</span>
+<span id="cb222-6"><a href="#cb222-6"></a>f &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> f[[<span class="dv">1</span>]]<span class="op">$</span>id)</span>
 <span id="cb222-7"><a href="#cb222-7"></a></span>
 <span id="cb222-8"><a href="#cb222-8"></a><span class="co"># create two markers</span></span>
 <span id="cb222-9"><a href="#cb222-9"></a>m1 &lt;-<span class="st"> </span>f<span class="op">$</span><span class="kw">create_marker</span>(<span class="st">"The First Marker"</span>, <span class="dt">start =</span> <span class="dv">21631232</span>, <span class="dt">end =</span> <span class="dv">21631232</span>)</span>
@@ -2640,37 +2649,37 @@ private : FALSE</code></pre>
 <span id="cb230-42"><a href="#cb230-42"></a>p<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
 <span id="cb230-43"><a href="#cb230-43"></a></span>
 <span id="cb230-44"><a href="#cb230-44"></a><span class="co"># update</span></span>
-<span id="cb230-45"><a href="#cb230-45"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</span>
+<span id="cb230-45"><a href="#cb230-45"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="dt">name =</span> ..., <span class="dt">description =</span> ...)</span>
 <span id="cb230-46"><a href="#cb230-46"></a></span>
 <span id="cb230-47"><a href="#cb230-47"></a><span class="co"># members</span></span>
 <span id="cb230-48"><a href="#cb230-48"></a>p<span class="op">$</span><span class="kw">member</span>()</span>
 <span id="cb230-49"><a href="#cb230-49"></a>p<span class="op">$</span><span class="kw">member_add</span>(<span class="dt">username =</span> ...)</span>
-<span id="cb230-50"><a href="#cb230-50"></a>p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</span>
+<span id="cb230-50"><a href="#cb230-50"></a>p<span class="op">$</span><span class="kw">member</span>(<span class="dt">username =</span> ...)<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="dt">write =</span> ..., <span class="dt">copy =</span> ..., <span class="dt">execute =</span> ...)</span>
 <span id="cb230-51"><a href="#cb230-51"></a>p<span class="op">$</span><span class="kw">memeber</span>(<span class="dt">usrname =</span> ...)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
 <span id="cb230-52"><a href="#cb230-52"></a></span>
 <span id="cb230-53"><a href="#cb230-53"></a><span class="co"># 05 - File --------------------------------------------------------------------</span></span>
 <span id="cb230-54"><a href="#cb230-54"></a></span>
 <span id="cb230-55"><a href="#cb230-55"></a><span class="co"># list all files in this project</span></span>
-<span id="cb230-56"><a href="#cb230-56"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()</span>
+<span id="cb230-56"><a href="#cb230-56"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()</span>
 <span id="cb230-57"><a href="#cb230-57"></a></span>
 <span id="cb230-58"><a href="#cb230-58"></a><span class="co"># list all public files</span></span>
-<span id="cb230-59"><a href="#cb230-59"></a>a<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</span>
+<span id="cb230-59"><a href="#cb230-59"></a>a<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">visibility =</span> <span class="st">"public"</span>)</span>
 <span id="cb230-60"><a href="#cb230-60"></a></span>
 <span id="cb230-61"><a href="#cb230-61"></a><span class="co"># copy</span></span>
-<span id="cb230-62"><a href="#cb230-62"></a>a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(fid, fid2), <span class="dt">project =</span> pid)</span>
+<span id="cb230-62"><a href="#cb230-62"></a>a<span class="op">$</span><span class="kw">copyFile</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(fid, fid2), <span class="dt">project =</span> pid)</span>
 <span id="cb230-63"><a href="#cb230-63"></a></span>
 <span id="cb230-64"><a href="#cb230-64"></a><span class="co"># delete</span></span>
-<span id="cb230-65"><a href="#cb230-65"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
+<span id="cb230-65"><a href="#cb230-65"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> fid)<span class="op">$</span><span class="kw"><a href="../reference/delete-methods.html">delete</a></span>()</span>
 <span id="cb230-66"><a href="#cb230-66"></a></span>
 <span id="cb230-67"><a href="#cb230-67"></a><span class="co"># download</span></span>
-<span id="cb230-68"><a href="#cb230-68"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</span>
-<span id="cb230-69"><a href="#cb230-69"></a>p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</span>
+<span id="cb230-68"><a href="#cb230-68"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>()[[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">download_url</span>()</span>
+<span id="cb230-69"><a href="#cb230-69"></a>p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="dt">id =</span> fid3)<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads/"</span>)</span>
 <span id="cb230-70"><a href="#cb230-70"></a></span>
 <span id="cb230-71"><a href="#cb230-71"></a><span class="co"># download all</span></span>
-<span id="cb230-72"><a href="#cb230-72"></a><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>())</span>
+<span id="cb230-72"><a href="#cb230-72"></a><span class="kw"><a href="../reference/download-methods.html">download</a></span>(p<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>())</span>
 <span id="cb230-73"><a href="#cb230-73"></a></span>
 <span id="cb230-74"><a href="#cb230-74"></a><span class="co"># update a file</span></span>
-<span id="cb230-75"><a href="#cb230-75"></a>fl<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</span>
+<span id="cb230-75"><a href="#cb230-75"></a>fl<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="dt">name =</span> ..., <span class="dt">metadata =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">a =</span> ..., <span class="dt">b =</span> ..., ...))</span>
 <span id="cb230-76"><a href="#cb230-76"></a></span>
 <span id="cb230-77"><a href="#cb230-77"></a><span class="co"># metadata</span></span>
 <span id="cb230-78"><a href="#cb230-78"></a>fl<span class="op">$</span><span class="kw">meta</span>()</span>
@@ -2700,7 +2709,7 @@ private : FALSE</code></pre>
 <span id="cb230-102"><a href="#cb230-102"></a>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">status =</span> ...)</span>
 <span id="cb230-103"><a href="#cb230-103"></a></span>
 <span id="cb230-104"><a href="#cb230-104"></a>tsk &lt;-<span class="st"> </span>p<span class="op">$</span><span class="kw">task</span>(<span class="dt">id =</span> ...)</span>
-<span id="cb230-105"><a href="#cb230-105"></a>tsk<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>()</span>
+<span id="cb230-105"><a href="#cb230-105"></a>tsk<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/update.html">update</a></span>()</span>
 <span id="cb230-106"><a href="#cb230-106"></a>tsk<span class="op">$</span><span class="kw">abort</span>()</span>
 <span id="cb230-107"><a href="#cb230-107"></a>tsk<span class="op">$</span><span class="kw">run</span>()</span>
 <span id="cb230-108"><a href="#cb230-108"></a>tsk<span class="op">$</span><span class="kw"><a href="../reference/download-methods.html">download</a></span>()</span>
@@ -2717,6 +2726,7 @@ private : FALSE</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -2776,17 +2786,20 @@ private : FALSE</code></pre>
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
