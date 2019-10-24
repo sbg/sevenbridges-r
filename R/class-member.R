@@ -59,7 +59,8 @@ Member <- setRefClass(
           "/members/", username,
           "/permissions"
         ),
-        body = body, method = "PATCH", ...
+        body = body, method = "PATCH",
+        authorization = auth$authorization, ...
       )
 
       res <- status_check(req)
@@ -89,7 +90,8 @@ Member <- setRefClass(
           "projects/", pid,
           "/members/", username
         ),
-        method = "DELETE", ...
+        method = "DELETE",
+        authorization = auth$authorization, ...
       )
       res <- status_check(req)
     },

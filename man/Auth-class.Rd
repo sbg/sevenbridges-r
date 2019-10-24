@@ -51,6 +51,10 @@ By default: \code{"~/.sevenbridges/credentials"}.}
 The default value is \code{"default"}.}
 
 \item{\code{fs}}{FS object, for mount and unmount file system.}
+
+\item{\code{authorization}}{Logical. Is the \code{token} an API
+auth token (\code{FALSE}) or an access token from the
+Seven Bridges single sign-on (\code{TRUE})?}
 }}
 
 \section{Methods}{

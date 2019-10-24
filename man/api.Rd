@@ -10,11 +10,12 @@ api(token = NULL, version = "v2", path = NULL, method = c("GET",
   limit = getOption("sevenbridges")$limit,
   offset = getOption("sevenbridges")$offset,
   advance_access = getOption("sevenbridges")$advance_access,
-  fields = NULL, base_url = paste0("https://api.sbgenomics.com/",
-  version, "/"), ...)
+  authorization = FALSE, fields = NULL,
+  base_url = paste0("https://api.sbgenomics.com/", version, "/"), ...)
 }
 \arguments{
-\item{token}{authenticate token string.}
+\item{token}{API auth token or \code{access_token} for
+Seven Bridges single sign-on.}
 
 \item{version}{API version number, default is \code{v2}.}
 
@@ -46,6 +47,10 @@ a length 1 vector as a vector, wrap in \code{I()}.}
 
 \item{advance_access}{Enable advance access features?
 Default is \code{FALSE}.}
+
+\item{authorization}{Logical. Is the \code{token} an API
+auth token (\code{FALSE}) or an access token from the
+Seven Bridges single sign-on (\code{TRUE})?}
 
 \item{fields}{All API calls take the optional query parameter fields.
 This parameter enables you to specify the fields you want to be returned

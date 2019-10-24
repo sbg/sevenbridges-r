@@ -33,6 +33,9 @@
 #' @field profile_name [character] Profile name in the user configuration file.
 #' The default value is \code{"default"}.
 #' @field fs FS object, for mount and unmount file system.
+#' @field authorization Logical. Is the \code{token} an API
+#' auth token (\code{FALSE}) or an access token from the
+#' Seven Bridges single sign-on (\code{TRUE})?
 #'
 #' @importFrom stringr str_match
 #'
@@ -65,7 +68,8 @@ Auth <- setRefClass(
     sysenv_token = "characterORNULL",
     config_file = "characterORNULL",
     profile_name = "characterORNULL",
-    fs = "FSORNULL"
+    fs = "FSORNULL",
+    authorization = "logical"
   ),
 
   methods = list(
@@ -74,7 +78,8 @@ Auth <- setRefClass(
     initialize =
       function(from = c("direct", "env", "file"), platform = NULL, url = NULL,
                      token = NULL, sysenv_url = NULL, sysenv_token = NULL,
-                     config_file = NULL, profile_name = NULL, fs = NULL, ...) {
+                     config_file = NULL, profile_name = NULL, fs = NULL,
+                     authorization = FALSE, ...) {
 
         # Authentication Logic
         #
@@ -122,6 +127,7 @@ Auth <- setRefClass(
         }
 
         fs <<- fs
+        authorization <<- authorization
 
         .from <- match.arg(from)
         from <<- .from
@@ -288,9 +294,10 @@ Auth <- setRefClass(
                        fields = NULL, complete = FALSE) {
       "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
 
-      req <- sevenbridges::api(token,
+      req <- sevenbridges::api(
+        token,
         base_url = url, limit = limit,
-        offset = offset, fields = fields, ...
+        offset = offset, fields = fields, authorization = authorization, ...
       )
       req <- status_check(req)
 
@@ -308,7 +315,7 @@ Auth <- setRefClass(
               token,
               base_url = url,
               limit = .limit, offset = .offset,
-              fields = fields, ...
+              fields = fields, authorization = authorization, ...
             )
             req <- status_check(req)
             res$items <- c(res$items, req$items)

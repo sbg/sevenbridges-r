@@ -75,7 +75,8 @@ Project <- setRefClass(
         token = auth$token,
         base_url = auth$url,
         path = paste0("projects/", id),
-        body = body, method = "PATCH", ...
+        body = body, method = "PATCH",
+        authorization = auth$authorization, ...
       )
 
       res <- status_check(req)
@@ -94,7 +95,8 @@ Project <- setRefClass(
         token = auth$token,
         base_url = auth$url,
         path = paste0("projects/", id, "/members"),
-        method = "GET", ...
+        method = "GET",
+        authorization = auth$authorization, ...
       )
       res <- status_check(req)
       ms <- .asMemberList(res, pid = id)
@@ -130,7 +132,8 @@ Project <- setRefClass(
         token = auth$token,
         base_url = auth$url,
         path = paste0("projects/", id, "/members"),
-        body = body, method = "POST", ...
+        body = body, method = "POST",
+        authorization = auth$authorization, ...
       )
 
       res <- status_check(req)

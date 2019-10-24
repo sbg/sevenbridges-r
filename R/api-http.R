@@ -6,7 +6,8 @@
 #' in this package, please refer to the easy api vignette and
 #' additional vignettes pages for more convenient usage.
 #'
-#' @param token authenticate token string.
+#' @param token API auth token or \code{access_token} for
+#' Seven Bridges single sign-on.
 #' @param version API version number, default is \code{v2}.
 #' @param path path connected with \code{base_url}.
 #' @param method one of \code{"GET"}, \code{"POST"},
@@ -29,6 +30,9 @@
 #' @param offset The point at which to start displaying them
 #' @param advance_access Enable advance access features?
 #' Default is \code{FALSE}.
+#' @param authorization Logical. Is the \code{token} an API
+#' auth token (\code{FALSE}) or an access token from the
+#' Seven Bridges single sign-on (\code{TRUE})?
 #' @param fields All API calls take the optional query parameter fields.
 #' This parameter enables you to specify the fields you want to be returned
 #' when listing resources (e.g. all your projects) or getting details of a
@@ -56,6 +60,7 @@ api <- function(token = NULL, version = "v2", path = NULL,
                 limit = getOption("sevenbridges")$limit,
                 offset = getOption("sevenbridges")$offset,
                 advance_access = getOption("sevenbridges")$advance_access,
+                authorization = FALSE,
                 fields = NULL,
                 base_url = paste0("https://api.sbgenomics.com/", version, "/"),
                 ...) {
@@ -64,11 +69,15 @@ api <- function(token = NULL, version = "v2", path = NULL,
   method <- match.arg(method)
   encode <- match.arg(encode)
 
-  headers <- c(
-    "X-SBG-Auth-Token" = token
-    # 'Accept' = 'application/json',
-    # 'Content-type' = 'application/json'
-  )
+  if (authorization) {
+    headers <- c("Authorization" = paste("Bearer", token, sep = " "))
+  } else {
+    headers <- c(
+      "X-SBG-Auth-Token" = token
+      # "Accept" = "application/json",
+      # "Content-type" = "application/json"
+    )
+  }
 
   # add optional advance access flag
   if (advance_access) headers <- c(headers, "X-SBG-advance-access" = "advance")

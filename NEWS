@@ -1,3 +1,9 @@
+# sevenbridges 1.15.2
+
+## Improvements
+
+- Added a new argument `authorization` in `Auth` and `api()` to allow specifying the `token` as the access token from Seven Bridges single sign-on (SSO).
+
 # sevenbridges 1.15.1
 
 ## Improvements
