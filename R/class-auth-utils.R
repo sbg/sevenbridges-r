@@ -5,7 +5,7 @@
   "aws-eu" = "https://eu-api.sbgenomics.com/v2/",
   "ali-cn" = "https://api.sevenbridges.cn/v2/",
   "cavatica" = "https://cavatica-api.sbgenomics.com/v2/",
-  "f4c" = "https://f4c-api.sbgenomics.com/v2/"
+  "f4c" = "https://api.sb.biodatacatalyst.nhlbi.nih.gov/v2/"
 )
 
 # default platform

@@ -19,7 +19,7 @@
 #' \code{"aws-eu"} (Seven Bridges Platform - EU),
 #' \code{"ali-cn"} (Seven Bridges Platform - China),
 #' \code{"cavatica"} (Cavatica), and
-#' \code{"f4c"} (DataSTAGE Powered by Seven Bridges).
+#' \code{"f4c"} (BioData Catalyst Powered by Seven Bridges).
 #' @field url [character] Base URL for API. Please only use this when you
 #' want to specify a platform that is not in the \code{platform} list
 #' above, and also leaving \code{platform} unspecified.

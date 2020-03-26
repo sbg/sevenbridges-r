@@ -244,9 +244,9 @@ auth_token = token_for_this_user</code></pre>
 <p><strong><em>Note:</em></strong> API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are:</p>
 <table class="table">
 <colgroup>
-<col width="38%">
-<col width="44%">
-<col width="16%">
+<col width="39%">
+<col width="46%">
+<col width="14%">
 </colgroup>
 <thead><tr class="header">
 <th>Platform Name</th>
@@ -280,8 +280,8 @@ auth_token = token_for_this_user</code></pre>
 <td><code>"cavatica"</code></td>
 </tr>
 <tr class="even">
-<td>DataSTAGE Powered by Seven Bridges</td>
-<td><code>https://f4c-api.sbgenomics.com/v2</code></td>
+<td>BioData Catalyst Powered by Seven Bridges</td>
+<td><code>https://api.sb.biodatacatalyst.nhlbi.nih.gov/v2</code></td>
 <td><code>"f4c"</code></td>
 </tr>
 </tbody>
@@ -773,7 +773,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 ##     cat("\r", "completed")
 ##     return(TRUE)
 ## }
-## &lt;environment: 0x7f85dfc6af08&gt;</code></pre>
+## &lt;environment: 0x7fd498e9bcf8&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code>, it means the monitoring will continue for the next iteration of checking, e.g., when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><html><body><pre class="r"><span class="fu"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="kw">function</span>() {

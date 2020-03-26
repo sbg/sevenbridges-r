@@ -211,21 +211,21 @@ a <- Auth(from = "file")
 
 ***Note:*** API paths (base URLs) differ for each Seven Bridges environment. Be sure to provide the correct path for the environment you are using. API paths for some of the environments are:
 
-+------------------------------------+------------------------------------------+---------------+
-| Platform Name                      | API Base URL                             | Short Name    |
-+====================================+==========================================+===============+
-| Seven Bridges Platform (US)        | `https://api.sbgenomics.com/v2`          | `"aws-us"`    |
-+------------------------------------+------------------------------------------+---------------+
-| Seven Bridges Platform (EU)        | `https://eu-api.sbgenomics.com/v2`       | `"aws-eu"`    |
-+------------------------------------+------------------------------------------+---------------+
-| Seven Bridges Platform (China)     | `https://api.sevenbridges.cn/v2`         | `"ali-cn"`    |
-+------------------------------------+------------------------------------------+---------------+
-| Cancer Genomics Cloud (CGC)        | `https://cgc-api.sbgenomics.com/v2`      | `"cgc"`       |
-+------------------------------------+------------------------------------------+---------------+
-| Cavatica                           | `https://cavatica-api.sbgenomics.com/v2` | `"cavatica"`  |
-+------------------------------------+------------------------------------------+---------------+
-| DataSTAGE Powered by Seven Bridges | `https://f4c-api.sbgenomics.com/v2`      | `"f4c"`       |
-+------------------------------------+------------------------------------------+---------------+
++-------------------------------------------+---------------------------------------------------+---------------+
+| Platform Name                             | API Base URL                                      | Short Name    |
++===========================================+===================================================+===============+
+| Seven Bridges Platform (US)               | `https://api.sbgenomics.com/v2`                   | `"aws-us"`    |
++-------------------------------------------+---------------------------------------------------+---------------+
+| Seven Bridges Platform (EU)               | `https://eu-api.sbgenomics.com/v2`                | `"aws-eu"`    |
++-------------------------------------------+---------------------------------------------------+---------------+
+| Seven Bridges Platform (China)            | `https://api.sevenbridges.cn/v2`                  | `"ali-cn"`    |
++-------------------------------------------+---------------------------------------------------+---------------+
+| Cancer Genomics Cloud (CGC)               | `https://cgc-api.sbgenomics.com/v2`               | `"cgc"`       |
++-------------------------------------------+---------------------------------------------------+---------------+
+| Cavatica                                  | `https://cavatica-api.sbgenomics.com/v2`          | `"cavatica"`  |
++-------------------------------------------+---------------------------------------------------+---------------+
+| BioData Catalyst Powered by Seven Bridges | `https://api.sb.biodatacatalyst.nhlbi.nih.gov/v2` | `"f4c"`       |
++-------------------------------------------+---------------------------------------------------+---------------+
 
 Please refer to the [API reference section](#auth-reference) for more usage and technical details about the three authentication methods.
 

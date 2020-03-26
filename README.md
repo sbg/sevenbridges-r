@@ -10,7 +10,7 @@
 
 ## Overview
 
-sevenbridges-r is an [R](https://www.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sevenbridges.com/) (US, EU, China), [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/), [Cavatica](http://www.cavatica.org/), and [DataSTAGE Powered by Seven Bridges](https://f4c.sbgenomics.com) public APIs.
+sevenbridges-r is an [R](https://www.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sevenbridges.com/) (US, EU, China), [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/), [Cavatica](http://www.cavatica.org/), and [BioData Catalyst Powered by Seven Bridges](https://platform.sb.biodatacatalyst.nhlbi.nih.gov/) public APIs.
 
 The [Seven Bridges Platform](https://www.sevenbridges.com/) is a cloud-based environment for conducting bioinformatics analysis. It is a central hub for teams to store, analyze, and jointly interpret their bioinformatic data. The Platform co-locates analysis pipelines alongside the largest genomic datasets to optimize processing, allocating storage, and compute resources on demand.
 
@@ -20,26 +20,28 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Installation](#installation)
-  - [Check R version](#check-r-version)
-  - [Bioconductor - Release Branch](#bioconductor---release-branch)
-  - [Bioconductor - Development Branch](#bioconductor---development-branch)
-  - [Latest Development Version](#latest-development-version)
-- [Features](#features)
-  - [Flexible Authentication Methods](#flexible-authentication-methods)
-  - [Complete API R Client](#complete-api-r-client)
-  - [Task Monitoring](#task-monitoring)
-  - [Batch Tasks Support](#batch-tasks-support)
-  - [Cross Environment Support](#cross-environment-support)
-  - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
-  - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
-- [Tutorials](#tutorials)
-- [IDE Docker Image](#ide-docker-image)
-- [FAQ](#faq)
-- [Events](#events)
-- [Contribute](#contribute)
-- [Copyright](#copyright)
+- [sevenbridges-r  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>](#sevenbridges-r-img-src%22logopng%22-align%22right%22-alt%22logo%22-height%22128%22-width%22128%22)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Check R version](#check-r-version)
+    - [Bioconductor - Release Branch](#bioconductor---release-branch)
+    - [Bioconductor - Development Branch](#bioconductor---development-branch)
+    - [Latest Development Version](#latest-development-version)
+  - [Features](#features)
+    - [Flexible Authentication Methods](#flexible-authentication-methods)
+    - [Complete API R Client](#complete-api-r-client)
+    - [Task Monitoring](#task-monitoring)
+    - [Batch Tasks Support](#batch-tasks-support)
+    - [Cross Environment Support](#cross-environment-support)
+    - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
+    - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
+  - [Tutorials](#tutorials)
+  - [IDE Docker Image](#ide-docker-image)
+  - [FAQ](#faq)
+  - [Events](#events)
+  - [Contribute](#contribute)
+  - [Copyright](#copyright)
 
 ## Installation
 
