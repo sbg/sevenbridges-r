@@ -19,10 +19,19 @@
 \alias{anyReq}
 \title{Rabix specifc Requirements}
 \usage{
-docker(pull = NULL, imageId = NULL, load = NULL, file = NULL,
-  output = NULL, dockerPull = pull, dockerImageId = imageId,
-  dockerLoad = load, dockerFile = file,
-  dockerOutputDirectory = output, ...)
+docker(
+  pull = NULL,
+  imageId = NULL,
+  load = NULL,
+  file = NULL,
+  output = NULL,
+  dockerPull = pull,
+  dockerImageId = imageId,
+  dockerLoad = load,
+  dockerFile = file,
+  dockerOutputDirectory = output,
+  ...
+)
 
 requirements(...)
 

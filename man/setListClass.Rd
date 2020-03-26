@@ -4,8 +4,12 @@
 \alias{setListClass}
 \title{List Class generator.}
 \usage{
-setListClass(elementType = NULL, suffix = "List", contains = NULL,
-  where = topenv(parent.frame()))
+setListClass(
+  elementType = NULL,
+  suffix = "List",
+  contains = NULL,
+  where = topenv(parent.frame())
+)
 }
 \arguments{
 \item{elementType}{[character]}

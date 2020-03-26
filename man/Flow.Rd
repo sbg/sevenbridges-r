@@ -29,9 +29,17 @@
 \alias{"\%>>\%",Workflow,App-method}
 \title{Build workflow}
 \usage{
-Flow(..., graph = TRUE, x.width = 1000, y.width = 400,
-  x.start = 100, y.start = 200, canvas_zoom = 1, canvas_x = 40,
-  canvas_y = 130)
+Flow(
+  ...,
+  graph = TRUE,
+  x.width = 1000,
+  y.width = 400,
+  x.start = 100,
+  y.start = 200,
+  canvas_zoom = 1,
+  canvas_x = 40,
+  canvas_y = 130
+)
 
 \S4method{+}{Tool,Tool}(e1, e2)
 
@@ -110,8 +118,10 @@ Build workflow
 
 \item{\code{input_id()}}{show input id}
 
-\item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
+\item{\code{input_matrix(
+  new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+  required = NULL
+)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
 
 \item{\code{input_type()}}{Show a vector of flow input type, names of them are input id.}
 

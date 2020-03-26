@@ -4,8 +4,11 @@
 \alias{set_test_env}
 \title{Set testing env}
 \usage{
-set_test_env(type = "host", docker_image = "tengfei/testenv",
-  data_dir = getwd())
+set_test_env(
+  type = "host",
+  docker_image = "tengfei/testenv",
+  data_dir = getwd()
+)
 }
 \arguments{
 \item{type}{"dind" or "host"}

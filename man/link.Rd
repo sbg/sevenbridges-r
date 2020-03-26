@@ -13,14 +13,38 @@
 \usage{
 link(from, to, ...)
 
-\S4method{link}{Tool,Tool}(from, to, id1, id2, flow_id = NULL,
-  flow_label = NULL, flow_input = NULL, flow_output = NULL)
+\S4method{link}{Tool,Tool}(
+  from,
+  to,
+  id1,
+  id2,
+  flow_id = NULL,
+  flow_label = NULL,
+  flow_input = NULL,
+  flow_output = NULL
+)
 
-\S4method{link}{Tool,Workflow}(from, to, id1, id2, flow_id = NULL,
-  flow_label = NULL, flow_input = NULL, flow_output = NULL)
+\S4method{link}{Tool,Workflow}(
+  from,
+  to,
+  id1,
+  id2,
+  flow_id = NULL,
+  flow_label = NULL,
+  flow_input = NULL,
+  flow_output = NULL
+)
 
-\S4method{link}{Workflow,Tool}(from, to, id1, id2, flow_id = NULL,
-  flow_label = NULL, flow_input = NULL, flow_output = NULL)
+\S4method{link}{Workflow,Tool}(
+  from,
+  to,
+  id1,
+  id2,
+  flow_id = NULL,
+  flow_label = NULL,
+  flow_input = NULL,
+  flow_output = NULL
+)
 
 \S4method{link}{Workflow,Workflow}(from, to, id1, id2)
 

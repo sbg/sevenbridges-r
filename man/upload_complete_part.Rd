@@ -4,8 +4,13 @@
 \alias{upload_complete_part}
 \title{Reports the completion of the part upload}
 \usage{
-upload_complete_part(token = NULL, upload_id = NULL,
-  part_number = NULL, e_tag = NULL, ...)
+upload_complete_part(
+  token = NULL,
+  upload_id = NULL,
+  part_number = NULL,
+  e_tag = NULL,
+  ...
+)
 }
 \arguments{
 \item{token}{auth token}

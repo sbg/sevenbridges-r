@@ -4,6 +4,7 @@
 \name{SchemaList}
 \alias{SchemaList}
 \alias{SchemaList-class}
+\alias{ScehmaList}
 \alias{Schema-class}
 \alias{Schema}
 \alias{SchemaDef-class}

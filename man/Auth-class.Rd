@@ -60,9 +60,13 @@ Seven Bridges single sign-on (\code{TRUE})?}
 \section{Methods}{
 
 \describe{
-\item{\code{api(..., limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset, fields = NULL,
-  complete = FALSE)}}{This call returns all API paths, and pass arguments to api() function with input token and url automatically}
+\item{\code{api(
+  ...,
+  limit = getOption("sevenbridges")$limit,
+  offset = getOption("sevenbridges")$offset,
+  fields = NULL,
+  complete = FALSE
+)}}{This call returns all API paths, and pass arguments to api() function with input token and url automatically}
 
 \item{\code{billing(id = NULL, breakdown = FALSE, ...)}}{If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.}
 
@@ -88,30 +92,66 @@ Seven Bridges single sign-on (\code{TRUE})?}
 
 \item{\code{division(id = NULL, ...)}}{List all divisions or get details of a division.}
 
-\item{\code{file(name = NULL, id = NULL, project = NULL, exact = FALSE,
-  detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
-  complete = FALSE, search.engine = c("server", "brute"), ...)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
+\item{\code{file(
+  name = NULL,
+  id = NULL,
+  project = NULL,
+  exact = FALSE,
+  detail = FALSE,
+  metadata = list(),
+  origin.task = NULL,
+  tag = NULL,
+  complete = FALSE,
+  search.engine = c("server", "brute"),
+  ...
+)}}{This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.}
 
 \item{\code{invoice(id = NULL, ...)}}{If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.}
 
-\item{\code{project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, owner = NULL, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.}
+\item{\code{project(
+  name = NULL,
+  id = NULL,
+  index = NULL,
+  ignore.case = TRUE,
+  exact = FALSE,
+  owner = NULL,
+  detail = FALSE,
+  ...
+)}}{If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.}
 
-\item{\code{project_new(name = NULL, billing_group_id = NULL, description = name,
-  tags = list(), type = "v2", locked = FALSE,
-  use_interruptible_instances = FALSE, ...)}}{Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.}
+\item{\code{project_new(
+  name = NULL,
+  billing_group_id = NULL,
+  description = name,
+  tags = list(),
+  type = "v2",
+  locked = FALSE,
+  use_interruptible_instances = FALSE,
+  ...
+)}}{Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.}
 
 \item{\code{project_owner(owner = NULL, ...)}}{List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.}
 
 \item{\code{rate_limit(...)}}{This call returns information about your current rate limit. This is the number of API calls you can make in one hour.}
 
-\item{\code{send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
-  ...)}}{Send feedback to Seven Bridges.}
+\item{\code{send_feedback(
+  text,
+  type = c("idea", "thought", "problem"),
+  referrer = NULL,
+  ...
+)}}{Send feedback to Seven Bridges.}
 
 \item{\code{user(username = NULL, ...)}}{This call returns information about the authenticated user.}
 
-\item{\code{volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, detail = FALSE, ...)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.}
+\item{\code{volume(
+  name = NULL,
+  id = NULL,
+  index = NULL,
+  ignore.case = TRUE,
+  exact = FALSE,
+  detail = FALSE,
+  ...
+)}}{If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.}
 }}
 
 \examples{

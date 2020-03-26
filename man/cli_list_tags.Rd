@@ -4,8 +4,7 @@
 \alias{cli_list_tags}
 \title{List all the tags in project using Seven Bridges command line uploader}
 \usage{
-cli_list_tags(token = NULL, uploader = NULL, project = NULL,
-  proxy = NULL)
+cli_list_tags(token = NULL, uploader = NULL, project = NULL, proxy = NULL)
 }
 \arguments{
 \item{token}{Authentication token.}

@@ -41,8 +41,10 @@ with more seven bridges flabored fields the \code{SBG} class.
 
 \item{\code{input_id(full = FALSE, requiredOnly = FALSE)}}{Get input id from a Tool, when full = TRUE, connect tool id with input id. e.g. If requiredOnly = TRUE, return required field only.}
 
-\item{\code{input_matrix(new.order = c("id", "label", "type", "required", "prefix",
-  "fileTypes"), required = NULL)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
+\item{\code{input_matrix(
+  new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+  required = NULL
+)}}{This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.}
 
 \item{\code{input_type()}}{this return a vector of types, names of them are input id}
 

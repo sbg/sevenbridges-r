@@ -69,8 +69,14 @@ it usually return the project id and stored with the object.}
 
 \item{\code{create_folder(name, ...)}}{Create a new folder under the parent folder.}
 
-\item{\code{create_marker(name = NULL, start = NULL, end = NULL, chromosome = NULL,
-  private = TRUE, ...)}}{Create a marker.}
+\item{\code{create_marker(
+  name = NULL,
+  start = NULL,
+  end = NULL,
+  chromosome = NULL,
+  private = TRUE,
+  ...
+)}}{Create a marker.}
 
 \item{\code{download(destfile, ..., method = "curl")}}{see `help(download.file)` for more options}
 

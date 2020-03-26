@@ -4,8 +4,14 @@
 \alias{upload_init}
 \title{Initializes the upload of the specified file}
 \usage{
-upload_init(token = NULL, project_id = NULL, name = NULL,
-  size = NULL, part_size = NULL, ...)
+upload_init(
+  token = NULL,
+  project_id = NULL,
+  name = NULL,
+  size = NULL,
+  part_size = NULL,
+  ...
+)
 }
 \arguments{
 \item{token}{auth token}

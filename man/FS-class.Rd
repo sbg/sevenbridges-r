@@ -26,8 +26,13 @@ FS class
 \describe{
 \item{\code{file(id = NULL)}}{given project id, show all files in it}
 
-\item{\code{mount(mount_point = NULL, project_id = NULL, ignore.stdout = TRUE,
-  sudo = TRUE, ...)}}{mount a specific project if project_id is provided, otherwise mount all projects}
+\item{\code{mount(
+  mount_point = NULL,
+  project_id = NULL,
+  ignore.stdout = TRUE,
+  sudo = TRUE,
+  ...
+)}}{mount a specific project if project_id is provided, otherwise mount all projects}
 
 \item{\code{path(id = NULL)}}{List path for all mounted projects, for easy copy/paste of file path. If project id is provoded, show project path and files path.}
 

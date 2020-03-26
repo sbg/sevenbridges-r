@@ -5,8 +5,11 @@
 \alias{output_matrix}
 \title{Get input/output matrix out of JSON CWL file directly}
 \usage{
-input_matrix(from, new.order = c("id", "label", "type", "required",
-  "prefix", "fileTypes"), required = NULL)
+input_matrix(
+  from,
+  new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
+  required = NULL
+)
 
 output_matrix(from, new.order = c("id", "label", "type", "fileTypes"))
 }
