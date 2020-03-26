@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -47,7 +51,6 @@
 <meta property="og:title" content="Class Auth — Auth-class" />
 <meta property="og:description" content="Auth object" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -75,7 +78,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -89,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.15.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.17.1</span>
       </span>
     </div>
 
@@ -137,7 +140,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/sbg/sevenbridges-r">
+  <a href="https://github.com/sbg/sevenbridges-r/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -175,7 +178,7 @@ could start from this object using cascading style. Please check
 
     
 
-<dl class='dl-horizontal'>
+<dl'>
 <dt><code>from</code></dt><dd><p>[character] Authentication method. Could be <code>"direct"</code>
 (pass the credential information to the arguments directly),
 <code>"env"</code> (read from pre-set system environment variables),
@@ -212,15 +215,23 @@ The default value is <code>"default"</code>.</p></dd>
 
 <dt><code>fs</code></dt><dd><p>FS object, for mount and unmount file system.</p></dd>
 
+<dt><code>authorization</code></dt><dd><p>Logical. Is the <code>token</code> an API
+auth token (<code>FALSE</code>) or an access token from the
+Seven Bridges single sign-on (<code>TRUE</code>)?</p></dd>
+
 </dl>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 
-<dl class='dl-horizontal'>
-<dt><code><a href='api.html'>api(..., limit = getOption("sevenbridges")$limit,
-  offset = getOption("sevenbridges")$offset, fields = NULL,
-  complete = FALSE)</a></code></dt><dd><p>This call returns all API paths, and pass arguments to api() function with input token and url automatically</p></dd>
+<dl'>
+<dt><code><a href='api.html'>api(
+  ...,
+  limit = getOption("sevenbridges")$limit,
+  offset = getOption("sevenbridges")$offset,
+  fields = NULL,
+  complete = FALSE
+)</a></code></dt><dd><p>This call returns all API paths, and pass arguments to api() function with input token and url automatically</p></dd>
 
 <dt><code>billing(id = NULL, breakdown = FALSE, ...)</code></dt><dd><p>If no id provided, This call returns a list of paths used to access billing information via the API. else, This call lists all your billing groups, including groups that are pending or have been disabled. If breakdown = TRUE, This call returns a breakdown of spending per-project for the billing group specified by billing_group. For each project that the billing group is associated with, information is shown on the tasks run, including their initiating user (the runner), start and end times, and cost.</p></dd>
 
@@ -246,30 +257,66 @@ The default value is <code>"default"</code>.</p></dd>
 
 <dt><code>division(id = NULL, ...)</code></dt><dd><p>List all divisions or get details of a division.</p></dd>
 
-<dt><code><a href='https://rdrr.io/r/base/connections.html'>file(name = NULL, id = NULL, project = NULL, exact = FALSE,
-  detail = FALSE, metadata = list(), origin.task = NULL, tag = NULL,
-  complete = FALSE, search.engine = c("server", "brute"), ...)</a></code></dt><dd><p>This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.</p></dd>
+<dt><code><a href='https://rdrr.io/r/base/connections.html'>file(
+  name = NULL,
+  id = NULL,
+  project = NULL,
+  exact = FALSE,
+  detail = FALSE,
+  metadata = list(),
+  origin.task = NULL,
+  tag = NULL,
+  complete = FALSE,
+  search.engine = c("server", "brute"),
+  ...
+)</a></code></dt><dd><p>This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call.</p></dd>
 
 <dt><code>invoice(id = NULL, ...)</code></dt><dd><p>If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period.</p></dd>
 
-<dt><code>project(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, owner = NULL, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.</p></dd>
+<dt><code>project(
+  name = NULL,
+  id = NULL,
+  index = NULL,
+  ignore.case = TRUE,
+  exact = FALSE,
+  owner = NULL,
+  detail = FALSE,
+  ...
+)</code></dt><dd><p>If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list.</p></dd>
 
-<dt><code>project_new(name = NULL, billing_group_id = NULL, description = name,
-  tags = list(), type = "v2", locked = FALSE,
-  use_interruptible_instances = FALSE, ...)</code></dt><dd><p>Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.</p></dd>
+<dt><code>project_new(
+  name = NULL,
+  billing_group_id = NULL,
+  description = name,
+  tags = list(),
+  type = "v2",
+  locked = FALSE,
+  use_interruptible_instances = FALSE,
+  ...
+)</code></dt><dd><p>Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings.</p></dd>
 
 <dt><code>project_owner(owner = NULL, ...)</code></dt><dd><p>List the projects owned by and accessible to a particular user. Each project's ID and URL will be returned.</p></dd>
 
 <dt><code>rate_limit(...)</code></dt><dd><p>This call returns information about your current rate limit. This is the number of API calls you can make in one hour.</p></dd>
 
-<dt><code>send_feedback(text, type = c("idea", "thought", "problem"), referrer = NULL,
-  ...)</code></dt><dd><p>Send feedback to Seven Bridges.</p></dd>
+<dt><code>send_feedback(
+  text,
+  type = c("idea", "thought", "problem"),
+  referrer = NULL,
+  ...
+)</code></dt><dd><p>Send feedback to Seven Bridges.</p></dd>
 
 <dt><code>user(username = NULL, ...)</code></dt><dd><p>This call returns information about the authenticated user.</p></dd>
 
-<dt><code>volume(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-  exact = FALSE, detail = FALSE, ...)</code></dt><dd><p>If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.</p></dd>
+<dt><code>volume(
+  name = NULL,
+  id = NULL,
+  index = NULL,
+  ignore.case = TRUE,
+  exact = FALSE,
+  detail = FALSE,
+  ...
+)</code></dt><dd><p>If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list.</p></dd>
 
 </dl>
 
@@ -290,15 +337,10 @@ The default value is <code>"default"</code>.</p></dd>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"file"</span>)
 }</pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -309,7 +351,7 @@ The default value is <code>"default"</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>
