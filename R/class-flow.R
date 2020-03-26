@@ -283,7 +283,8 @@ SBGWorkflow <- setRefClass(
             data.frame(
               id = unname(ii$id),
               source = as.character(ii$source),
-              type = "input"
+              type = "input",
+              stringsAsFactors = TRUE
             )
           } else {
             NULL
@@ -303,7 +304,8 @@ SBGWorkflow <- setRefClass(
         data.frame(
           id = unname(o$id),
           source = as.character(o$source),
-          type = "output"
+          type = "output",
+          stringsAsFactors = TRUE
         )
       })
       r2 <- do.call(rbind, lst)
@@ -337,7 +339,8 @@ SBGWorkflow <- setRefClass(
         data.frame(
           label = x$run$label,
           sbgid = x$run$id,
-          id = x$id
+          id = x$id,
+          stringsAsFactors = TRUE
         )
       })
       res <- do.call(rbind, res)
@@ -1381,7 +1384,7 @@ setMethod(
         idx <- grepl(f, res[[i]]$to$id)
         if (sum(idx)) {
           for (id in idx) {
-            .s <- rbind(data.frame(from = f, to = res[[i]]$to$id[id]))
+            .s <- rbind(data.frame(from = f, to = res[[i]]$to$id[id], stringsAsFactors = TRUE))
             message("  ", f, " --> ", " ", res[[i]]$to$id[id])
           }
         }
@@ -1390,7 +1393,7 @@ setMethod(
         idx <- grepl(.t, res[[i]]$from$id)
         if (sum(idx)) {
           for (id in idx) {
-            .s <- rbind(data.frame(from = res[[i]]$from$id[id], to = .t))
+            .s <- rbind(data.frame(from = res[[i]]$from$id[id], to = .t, stringsAsFactors = TRUE))
             message("  ", res[[i]]$from$id[id], " --> ", " ", .t)
           }
         }
