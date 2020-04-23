@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="Meta schema — misc_make_metadata" />
 <meta property="og:description" content="Meta schema" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -178,20 +177,90 @@
     <p>V2 version for meta data schema</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># show schema (you can still provide customized one)</span>
+    <pre class="examples"><div class='input'><span class='co'># show schema (you can still provide customized one)</span>
 <span class='co'># empty beause they are all NULL</span>
 <span class='fu'>Metadata</span>()
 <span class='co'># show schema</span>
-<span class='fu'>Metadata</span>()$<span class='fu'>show</span>(<span class='fl'>TRUE</span>)
-<span class='co'># or</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>Metadata</span>()$<span class='fu'><a href='as-methods.html'>asList</a></span>(<span class='fl'>TRUE</span>))
-<span class='co'># returned meta field is actually define as function too, direclty</span>
+<span class='fu'>Metadata</span>()$<span class='fu'>show</span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; experimental_strategy : 
+#&gt; library_id : 
+#&gt; platform : 
+#&gt; platform_unit_id : 
+#&gt; file_segment_number : 
+#&gt; quality_scale : 
+#&gt; paired_end : 
+#&gt; data_format : 
+#&gt; file_extension : 
+#&gt; reference_genome : 
+#&gt; data_type : 
+#&gt; data_subtype : 
+#&gt; analysis_uuid : 
+#&gt; gdc_file_uuid : 
+#&gt; access_level : 
+#&gt; investigation : 
+#&gt; case_id : 
+#&gt; case_uuid : 
+#&gt; gender : 
+#&gt; race : 
+#&gt; ethnicity : 
+#&gt; primary_site : 
+#&gt; disease_type : 
+#&gt; age_at_diagnosis : 
+#&gt; vital_status : 
+#&gt; days_to_death : 
+#&gt; sample_id : 
+#&gt; sample_uuid : 
+#&gt; sample_type : 
+#&gt; aliquot_id : 
+#&gt; aliquot_uuid : </div><div class='input'><span class='co'># or</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>Metadata</span>()$<span class='fu'><a href='as-methods.html'>asList</a></span>(<span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "experimental_strategy" "library_id"            "platform"             
+#&gt;  [4] "platform_unit_id"      "file_segment_number"   "quality_scale"        
+#&gt;  [7] "paired_end"            "data_format"           "file_extension"       
+#&gt; [10] "reference_genome"      "data_type"             "data_subtype"         
+#&gt; [13] "analysis_uuid"         "gdc_file_uuid"         "access_level"         
+#&gt; [16] "investigation"         "case_id"               "case_uuid"            
+#&gt; [19] "gender"                "race"                  "ethnicity"            
+#&gt; [22] "primary_site"          "disease_type"          "age_at_diagnosis"     
+#&gt; [25] "vital_status"          "days_to_death"         "sample_id"            
+#&gt; [28] "sample_uuid"           "sample_type"           "aliquot_id"           
+#&gt; [31] "aliquot_uuid"         </div><div class='input'><span class='co'># returned meta field is actually define as function too, direclty</span>
 <span class='co'># call them will give you details</span>
-<span class='fu'>platform</span>()
-<span class='fu'>paired_end</span>()
-<span class='fu'>quality_scale</span>()
-<span class='co'># check their suggested value and construct your metadata</span>
-<span class='fu'>Metadata</span>(<span class='kw'>platform</span>  <span class='kw'>=</span> <span class='st'>"Affymetrix SNP Array 6.0"</span>, <span class='kw'>paired_end</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>quality_scale</span> <span class='kw'>=</span> <span class='st'>"sanger"</span>)</pre>
+<span class='fu'>platform</span>()</div><div class='output co'>#&gt; -- Platform --
+#&gt; data : NA
+#&gt; name : Platform
+#&gt; description : The version (manufacturer, model, etc.) of the 
+#&gt;     technology that was used sequencing or assaying. 
+#&gt;     See NCI Thesaurus Code: C45378.
+#&gt; category : File
+#&gt; locked : FALSE
+#&gt; type : 
+#&gt; suggested_values : Affymetrix SNP Array 6.0 / Illumina HiSeq / Illumina Human Methylation 450 / Illumina GA / MDA_RPPA_Core / BCR Record / Hospital Record / Illumina Human Methylation 27 / ABI capillary sequencer / AgilentG4502A_07_3 / HG-CGH-244A / HG-CGH-415K_G4124A / CGH-1x1M_G4447A / Illumina MiSeq / HT_HG-U133A / Illumina Human 1M Duo / H-miRNA_8x15Kv2 / Illumina HumanHap550 / H-miRNA_8x15K / AgilentG4502A_07_2 / HuEx-1_0-st-v2 / ABI SOLiD / Complete Genomics / HG-U133_Plus_2 / Illumina DNA Methylation OMA003 CPI / Illumina DNA Methylation OMA002 CPI / AgilentG4502A_07_1 / Ion Torrent PGM / Affymetrix U133 Plus 2 / LS 454 / HiSeq X Ten / Mixed platforms / Illumina / Helicos / PacBio
+#&gt; regex : ^.{0,128}$
+#&gt; regexErrMsg : The Platform can contain maximum 128 characters</div><div class='input'><span class='fu'>paired_end</span>()</div><div class='output co'>#&gt; -- Paired-end --
+#&gt; data : NA
+#&gt; name : Paired-end
+#&gt; description : For paired-end sequencing, this value determines the 
+#&gt;     end of the fragment sequenced. For single-end 
+#&gt;     sequencing no value is needed.
+#&gt; category : File
+#&gt; locked : FALSE
+#&gt; type : 
+#&gt; suggested_values : NA / 1 / 2
+#&gt; regex : 
+#&gt; regexErrMsg : </div><div class='input'><span class='fu'>quality_scale</span>()</div><div class='output co'>#&gt; -- Quality scale --
+#&gt; data : NA
+#&gt; name : Quality scale
+#&gt; description : For raw reads, this value denotes the sequencing"
+#&gt;     technology and quality format. For BAM and SAM
+#&gt;     files, this value should always be 'Sanger'.
+#&gt; category : File
+#&gt; locked : FALSE
+#&gt; type : 
+#&gt; suggested_values : NA / sanger / illumina13 / illumina15 / illumina18 / solexa
+#&gt; regex : 
+#&gt; regexErrMsg : </div><div class='input'><span class='co'># check their suggested value and construct your metadata</span>
+<span class='fu'>Metadata</span>(<span class='kw'>platform</span>  <span class='kw'>=</span> <span class='st'>"Affymetrix SNP Array 6.0"</span>, <span class='kw'>paired_end</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>quality_scale</span> <span class='kw'>=</span> <span class='st'>"sanger"</span>)</div><div class='output co'>#&gt; platform : Affymetrix SNP Array 6.0
+#&gt; quality_scale : sanger
+#&gt; paired_end : 1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -207,7 +276,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

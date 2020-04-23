@@ -1,4 +1,4 @@
-# sevenbridges-r  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>
+# sevenbridges-r <!-- omit in toc -->
 
 [![Build Status](https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master)](https://travis-ci.org/sbg/sevenbridges-r)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&svg=true)](https://ci.appveyor.com/project/nanxstats/sevenbridges-r)
@@ -20,28 +20,27 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 ## Table of Contents
 
-- [sevenbridges-r  <a href="https://www.sevenbridges.com"><img src="logo.png" align="right" alt="logo" height="128" width="128" /></a>](#sevenbridges-r-img-src%22logopng%22-align%22right%22-alt%22logo%22-height%22128%22-width%22128%22)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Check R version](#check-r-version)
-    - [Bioconductor - Release Branch](#bioconductor---release-branch)
-    - [Bioconductor - Development Branch](#bioconductor---development-branch)
-    - [Latest Development Version](#latest-development-version)
-  - [Features](#features)
-    - [Flexible Authentication Methods](#flexible-authentication-methods)
-    - [Complete API R Client](#complete-api-r-client)
-    - [Task Monitoring](#task-monitoring)
-    - [Batch Tasks Support](#batch-tasks-support)
-    - [Cross Environment Support](#cross-environment-support)
-    - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
-    - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
-  - [Tutorials](#tutorials)
-  - [IDE Docker Image](#ide-docker-image)
-  - [FAQ](#faq)
-  - [Events](#events)
-  - [Contribute](#contribute)
-  - [Copyright](#copyright)
+- [Overview](#overview)
+- [Table of Contents](#table-of-contents)
+- [Installation](#installation)
+  - [Check R version](#check-r-version)
+  - [Bioconductor - Release Branch](#bioconductor---release-branch)
+  - [Bioconductor - Development Branch](#bioconductor---development-branch)
+  - [Latest Development Version](#latest-development-version)
+- [Features](#features)
+  - [Flexible Authentication Methods](#flexible-authentication-methods)
+  - [Complete API R Client](#complete-api-r-client)
+  - [Task Monitoring](#task-monitoring)
+  - [Batch Tasks Support](#batch-tasks-support)
+  - [Cross Environment Support](#cross-environment-support)
+  - [Common Workflow Language Tool Interface](#common-workflow-language-tool-interface)
+  - [Utilities for Tool and Flow](#utilities-for-tool-and-flow)
+- [Tutorials](#tutorials)
+- [IDE Docker Image](#ide-docker-image)
+- [FAQ](#faq)
+- [Events](#events)
+- [Contribute](#contribute)
+- [Copyright](#copyright)
 
 ## Installation
 
@@ -349,6 +348,6 @@ Contributors should read the [Seven Bridges Notice to Contributors](https://driv
 
 ## Copyright
 
-© 2019 Seven Bridges Genomics, Inc. All rights reserved.
+© 2020 Seven Bridges Genomics, Inc. All rights reserved.
 
 This project is licensed under the terms of the [Apache License 2.0](LICENSE).

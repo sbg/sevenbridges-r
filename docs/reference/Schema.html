@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="SchemaList — SchemaList" />
 <meta property="og:description" content="A schema defines a parameter type." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -208,7 +207,26 @@ such as command line parameters.</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'>Schema</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>SchemaList</span>(<span class='fu'>SchemaDef</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"schema"</span>)))</pre>
+    <pre class="examples"><div class='input'><span class='fu'>Schema</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>SchemaList</span>(<span class='fu'>SchemaDef</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"schema"</span>)))</div><div class='output co'>#&gt; type:
+#&gt; - ''
+#&gt; fields:
+#&gt; - type:
+#&gt;   - ''
+#&gt;   fields: []
+#&gt;   items:
+#&gt;     field: items
+#&gt;     className: ANY
+#&gt;   values:
+#&gt;     field: values
+#&gt;     className: ANY
+#&gt;   name: schema
+#&gt; items:
+#&gt;   field: items
+#&gt;   className: ANY
+#&gt; values:
+#&gt;   field: values
+#&gt;   className: ANY
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,7 +242,7 @@ such as command line parameters.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

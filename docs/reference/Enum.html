@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="Pre-defiend enums — PrimitiveSingleEnum-class" />
 <meta property="og:description" content="Please check cwl:::.CWL.Pritimive, cwl:::.CWL.Complex." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -171,10 +170,26 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'>PrimitiveEnum</span>()
-<span class='fu'>PrimitiveEnum</span>(<span class='st'>"boolean"</span>)
-<span class='fu'>ComplexEnum</span>(<span class='st'>"record"</span>)
-<span class='fu'>DatatypeEnum</span>(<span class='st'>"map"</span>)</pre>
+    <pre class="examples"><div class='input'><span class='fu'>PrimitiveEnum</span>()</div><div class='output co'>#&gt; An object of class "PrimitiveSingleEnum"
+#&gt; [1] "null"
+#&gt; Slot "levels":
+#&gt; [1] "null"    "boolean" "int"     "long"    "float"   "double"  "bytes"  
+#&gt; [8] "string" 
+#&gt; </div><div class='input'><span class='fu'>PrimitiveEnum</span>(<span class='st'>"boolean"</span>)</div><div class='output co'>#&gt; An object of class "PrimitiveSingleEnum"
+#&gt; [1] "boolean"
+#&gt; Slot "levels":
+#&gt; [1] "null"    "boolean" "int"     "long"    "float"   "double"  "bytes"  
+#&gt; [8] "string" 
+#&gt; </div><div class='input'><span class='fu'>ComplexEnum</span>(<span class='st'>"record"</span>)</div><div class='output co'>#&gt; An object of class "ComplexSingleEnum"
+#&gt; [1] "record"
+#&gt; Slot "levels":
+#&gt; [1] "record" "enum"   "array"  "map"   
+#&gt; </div><div class='input'><span class='fu'>DatatypeEnum</span>(<span class='st'>"map"</span>)</div><div class='output co'>#&gt; An object of class "DatatypeSingleEnum"
+#&gt; [1] "map"
+#&gt; Slot "levels":
+#&gt;  [1] "null"    "boolean" "int"     "long"    "float"   "double"  "bytes"  
+#&gt;  [8] "string"  "record"  "enum"    "array"   "map"     "File"   
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -190,7 +205,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

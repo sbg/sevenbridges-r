@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="set task function hook — setTaskHook" />
 <meta property="og:description" content="set task function hook according to" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -198,11 +197,14 @@ to terminate task monitoring process.</p></td>
     <p>object from setHook and getHook.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'>getTaskHook</span>(<span class='st'>"completed"</span>)
-<span class='fu'>setTaskHook</span>(<span class='st'>"completed"</span>, <span class='kw'>function</span>() {
+    <pre class="examples"><div class='input'><span class='fu'>getTaskHook</span>(<span class='st'>"completed"</span>)</div><div class='output co'>#&gt; function(...) {
+#&gt;           cat("\r", "completed")
+#&gt;           return(TRUE)
+#&gt;         }
+#&gt; &lt;environment: 0x7f8de4e3cd20&gt;</div><div class='input'><span class='fu'>setTaskHook</span>(<span class='st'>"completed"</span>, <span class='kw'>function</span>() {
   <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span>(<span class='st'>"completed"</span>)
   <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='fl'>TRUE</span>)
-})</pre>
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -218,7 +220,7 @@ to terminate task monitoring process.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

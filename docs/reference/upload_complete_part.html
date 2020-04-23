@@ -52,7 +52,6 @@
 <meta property="og:description" content="The ETag is provided for the correctness check upon completion of the
 whole upload. Value for the ETag is provided by AWS S3 service when
 uploading the file in the ETag header." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -210,12 +209,12 @@ part of the file.</p></td>
     <p>parsed list of the returned json</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
+    <pre class="examples"><div class='input'><span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>req</span> <span class='kw'>&lt;-</span> <span class='fu'>upload_complete_part</span>(
   <span class='no'>token</span>, <span class='kw'>upload_id</span> <span class='kw'>=</span> <span class='st'>"your_upload_id"</span>,
   <span class='kw'>part_number</span> <span class='kw'>=</span> <span class='st'>"1"</span>, <span class='kw'>e_tag</span> <span class='kw'>=</span> <span class='st'>"your_e_tag"</span>
-)}</pre>
+)}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +230,7 @@ part of the file.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

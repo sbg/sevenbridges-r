@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="link two nodes to form a new Workflow — link" />
 <meta property="og:description" content="link two nodes to form a new Workflow" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -263,20 +262,31 @@
     <p>Flexible enought to allow users to connect two objects by ids</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+    <pre class="examples"><div class='input'><span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
 <span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t2</span>)
 <span class='co'># check possible link</span>
-<span class='fu'><a href='link_what.html'>link_what</a></span>(<span class='no'>t1</span>, <span class='no'>t2</span>)
-<span class='co'># link</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>)
-<span class='co'># link</span>
+<span class='fu'><a href='link_what.html'>link_what</a></span>(<span class='no'>t1</span>, <span class='no'>t2</span>)</div><div class='output co'>#&gt; $File...
+#&gt; $File...$from
+#&gt;                    id              label    type fileTypes          full.name
+#&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ #SBG_Unpack_FASTQs
+#&gt; 
+#&gt; $File...$to
+#&gt;              id                label    type required prefix
+#&gt; 1        #reads        Read sequence File...     TRUE   &lt;NA&gt;
+#&gt; 95 #sjdbGTFfile Splice junction file File...    FALSE   &lt;NA&gt;
+#&gt;                                                   fileTypes full.name
+#&gt; 1  FASTA, FASTQ, FA, FQ, FASTQ.GZ, FQ.GZ, FASTQ.BZ2, FQ.BZ2     #STAR
+#&gt; 95                                            GTF, GFF, TXT     #STAR
+#&gt; 
+#&gt; </div><div class='input'><span class='co'># link</span>
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>)</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.sjdbGTFfile / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.aligned_reads / #STAR.transcriptome_aligned_reads / #STAR.reads_per_gene / #STAR.log_files / #STAR.splice_junctions / #STAR.chimeric_junctions / #STAR.unmapped_reads / #STAR.intermediate_genome / #STAR.chimeric_alignments</span></div><div class='input'><span class='co'># link</span>
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(
   <span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>,
   <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='st'>"#SBG_Unpack_FASTQs.input_archive_file"</span>,
   <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='st'>"#STAR.log_files"</span>
-)</pre>
+)</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.log_files</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -292,7 +302,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

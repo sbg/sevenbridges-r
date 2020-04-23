@@ -20,7 +20,6 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Master Tutorial: Use R for Cancer Genomics Cloud">
 <meta property="og:description" content="sevenbridges">
-<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -113,7 +112,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
             
-            <h4 class="date">2020-03-26</h4>
+            <h4 class="date">2020-04-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -994,7 +993,8 @@ arguments: []</code></pre>
 <div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">rbx</span>$<span class="fu">toJSON</span>()</pre></body></html></div>
 <pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"tengfei/rnaseqgene"},{"class":"sbg:CPURequirement","value":1},{"class":"sbg:MemRequirement","value":2000}],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
 <div class="sourceCode" id="cb32"><html><body><pre class="r"># # or write to an external file
-# fl </pre></body></html></div>
+# fl &lt;- "~/Downloads/rnaseqGene.json"
+# write(rbx$toJSON(pretty = TRUE), fl)</pre></body></html></div>
 <p>Now you want to add app to your project <code>p</code>, by calling <code>app_add</code> method, the first argument is name, the second is either a CWL JSON file, <code>Tool</code> object, or <code>Workflow</code> object.</p>
 <div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="co"># add App you just created</span>
 (<span class="no">rna.app</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">app_add</span>(<span class="st">"rnaseqgene"</span>, <span class="no">rbx</span>))</pre></body></html></div>
@@ -1037,9 +1037,9 @@ arguments: []</code></pre>
 <p>For now try using our graphic user interface to import all files listed here:</p>
 <div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">download.fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/download.txt"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">download.fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
-<pre><code>Warning in readLines(download.fl): incomplete final line found on '/
-private/var/folders/w4/h1qfny1d0bq5qx4r80pq1xnm0000gn/T/RtmpbWIN1m/
-temp_libpath147807f814bb5/sevenbridges/extdata/download.txt'</code></pre>
+<pre><code>Warning in readLines(download.fl): incomplete final line found on '/Library/
+Frameworks/R.framework/Versions/3.6/Resources/library/sevenbridges/extdata/
+download.txt'</code></pre>
 <pre><code>https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/example_report.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello-markdown.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello.tar
@@ -1566,7 +1566,7 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

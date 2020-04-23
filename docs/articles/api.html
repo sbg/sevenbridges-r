@@ -20,7 +20,6 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Complete Guide for Seven Bridges API R Client">
 <meta property="og:description" content="sevenbridges">
-<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -113,7 +112,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Complete Guide for Seven Bridges API R Client</h1>
             
-            <h4 class="date">2020-03-26</h4>
+            <h4 class="date">2020-04-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/api.Rmd"><code>vignettes/api.Rmd</code></a></small>
       <div class="hidden name"><code>api.Rmd</code></div>
@@ -768,12 +767,11 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 <div class="sourceCode" id="cb56"><html><body><pre class="r"><span class="no">tsk</span>$<span class="fu"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</pre></body></html></div>
 <p><a name="hooktask"></a>Instead of the default task monitor action, you can use <code>setTaskHook</code> to connect a function call to the status of a task. When you run <code>tsk$monitor(time = 30)</code> it will check your task every 30 seconds to see if the current task status matches one of the following statuses: “queued”, “draft”, “running”, “completed”, “aborted”, and “failed”. When it finds a match for the task status, <code>getTaskHook</code> returns the function call for the specific status.</p>
 <div class="sourceCode" id="cb57"><html><body><pre class="r"><span class="fu"><a href="../reference/TaskHook.html">getTaskHook</a></span>(<span class="st">"completed"</span>)</pre></body></html></div>
-<pre><code>## function (...) 
-## {
-##     cat("\r", "completed")
-##     return(TRUE)
-## }
-## &lt;environment: 0x7fd498e9bcf8&gt;</code></pre>
+<pre><code>## function(...) {
+##           cat("\r", "completed")
+##           return(TRUE)
+##         }
+## &lt;environment: 0x7fce24c54950&gt;</code></pre>
 <p>If you want to customize the monitor function, you can adjust the following requirement. Your function must return <code>TRUE</code> or <code>FALSE</code> in the end. When it is <code>TRUE</code> (or non-logical value) it means the monitoring will be terminated after it finds a status matched and the function executes, such as when the task is completed. When it is <code>FALSE</code>, it means the monitoring will continue for the next iteration of checking, e.g., when it is “running”, you want to keep tracking.</p>
 <p>Follow the example below to set a new function to monitor the status “completed”. Then, when the task is completed, it will download all task output files to the local folder.</p>
 <div class="sourceCode" id="cb59"><html><body><pre class="r"><span class="fu"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="kw">function</span>() {
@@ -2740,7 +2738,7 @@ private : FALSE</code></pre>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

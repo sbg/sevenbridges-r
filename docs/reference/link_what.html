@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="List possible linking methods — link_what" />
 <meta property="og:description" content="List possible linking methods" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -206,22 +205,73 @@
     <p>Given two object of Tool, Flow or App, list all possible input/output match.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+    <pre class="examples"><div class='input'><span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
 <span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t2</span>)
 <span class='co'># check possible link</span>
-<span class='fu'>link_what</span>(<span class='no'>t1</span>, <span class='no'>t2</span>)
-<span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='fu'>link_what</span>(<span class='no'>t1</span>, <span class='no'>t2</span>)</div><div class='output co'>#&gt; $File...
+#&gt; $File...$from
+#&gt;                    id              label    type fileTypes          full.name
+#&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ #SBG_Unpack_FASTQs
+#&gt; 
+#&gt; $File...$to
+#&gt;              id                label    type required prefix
+#&gt; 1        #reads        Read sequence File...     TRUE   &lt;NA&gt;
+#&gt; 95 #sjdbGTFfile Splice junction file File...    FALSE   &lt;NA&gt;
+#&gt;                                                   fileTypes full.name
+#&gt; 1  FASTA, FASTQ, FA, FQ, FASTQ.GZ, FQ.GZ, FASTQ.BZ2, FQ.BZ2     #STAR
+#&gt; 95                                            GTF, GFF, TXT     #STAR
+#&gt; 
+#&gt; </div><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>tool.in</span>)
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>flow.in</span>)
-<span class='fu'>link_what</span>(<span class='no'>t1</span>, <span class='no'>f2</span>)
-<span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+<span class='fu'>link_what</span>(<span class='no'>t1</span>, <span class='no'>f2</span>)</div><div class='output co'>#&gt; $File...
+#&gt; $File...$from
+#&gt;                    id              label    type fileTypes
+#&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ
+#&gt; 
+#&gt; $File...$to
+#&gt;             id       label    type required fileTypes
+#&gt; 1 #sjdbGTFfile sjdbGTFfile File...    FALSE      null
+#&gt; 2       #fastq       fastq File...     TRUE      null
+#&gt;                                                 link_to
+#&gt; 1 #STAR_Genome_Generate.sjdbGTFfile | #STAR.sjdbGTFfile
+#&gt; 2                     #SBG_FASTQ_Quality_Detector.fastq
+#&gt; 
+#&gt; </div><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>tool.in</span>)
 <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>flow.in</span>)
-<span class='fu'>link_what</span>(<span class='no'>f2</span>, <span class='no'>t1</span>)</pre>
+<span class='fu'>link_what</span>(<span class='no'>f2</span>, <span class='no'>t1</span>)</div><div class='output co'>#&gt; $File
+#&gt; $File$from
+#&gt;                              id                       label type required
+#&gt; 2  #transcriptome_aligned_reads transcriptome_aligned_reads File    FALSE
+#&gt; 3             #splice_junctions            splice_junctions File    FALSE
+#&gt; 4               #reads_per_gene              reads_per_gene File    FALSE
+#&gt; 6           #chimeric_junctions          chimeric_junctions File    FALSE
+#&gt; 7          #intermediate_genome         intermediate_genome File    FALSE
+#&gt; 8          #chimeric_alignments         chimeric_alignments File    FALSE
+#&gt; 9                   #sorted_bam                  sorted_bam File    FALSE
+#&gt; 10                      #result                      result File    FALSE
+#&gt;    fileTypes                            link_to
+#&gt; 2       null  #STAR.transcriptome_aligned_reads
+#&gt; 3       null             #STAR.splice_junctions
+#&gt; 4       null               #STAR.reads_per_gene
+#&gt; 6       null           #STAR.chimeric_junctions
+#&gt; 7       null          #STAR.intermediate_genome
+#&gt; 8       null          #STAR.chimeric_alignments
+#&gt; 9       null         #Picard_SortSam.sorted_bam
+#&gt; 10      null #SBG_FASTQ_Quality_Detector.result
+#&gt; 
+#&gt; $File$to
+#&gt;                    id              label type required               prefix
+#&gt; 1 #input_archive_file Input archive file File     TRUE --input_archive_file
+#&gt;                                        fileTypes
+#&gt; 1 TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP
+#&gt; 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -237,7 +287,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

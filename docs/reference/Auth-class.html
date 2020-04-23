@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="Class Auth — Auth-class" />
 <meta property="og:description" content="Auth object" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -321,11 +320,10 @@ Seven Bridges single sign-on (<code>TRUE</code>)?</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># Direct authentication (default)</span>
+    <pre class="examples"><div class='input'><span class='co'># Direct authentication (default)</span>
 <span class='co'># replace with your auth token</span>
 <span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>platform</span> <span class='kw'>=</span> <span class='st'>"cgc"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>platform</span> <span class='kw'>=</span> <span class='st'>"cgc"</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>)</div><div class='output co'>#&gt; <span class='message'>Using platform: cgc</span></div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Authentication with environment variables</span>
 <span class='co'># This will read system environments variables</span>
 <span class='co'># `SB_API_ENDPOINT` and `SB_AUTH_TOKEN` by default</span>
@@ -335,7 +333,7 @@ Seven Bridges single sign-on (<code>TRUE</code>)?</p></dd>
 <span class='co'># This will load profile `default` from config</span>
 <span class='co'># file `~/.sevenbridges/credentials` by default</span>
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>Auth</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"file"</span>)
-}</pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -351,7 +349,7 @@ Seven Bridges single sign-on (<code>TRUE</code>)?</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

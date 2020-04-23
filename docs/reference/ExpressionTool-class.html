@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="ExpressionTool Class — ExpressionTool-class" />
 <meta property="og:description" content="Execute an expression as a process step." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -181,13 +180,23 @@ parameters of the ExpressionTool.</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'>ExpressionTool</span>(
+    <pre class="examples"><div class='input'><span class='fu'>ExpressionTool</span>(
   <span class='kw'>expression</span> <span class='kw'>=</span>
     <span class='fu'><a href='Expression-class.html'>Expression</a></span>(
       <span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"cwl:JsonPointer"</span>,
       <span class='kw'>script</span> <span class='kw'>=</span> <span class='st'>"$job.inputs['threads']"</span>
     )
-)</pre>
+)</div><div class='output co'>#&gt; id: '#'
+#&gt; inputs: []
+#&gt; outputs: []
+#&gt; requirements: []
+#&gt; hints: []
+#&gt; class: ExpressionTool
+#&gt; expression:
+#&gt;   engine: cwl:JsonPointer
+#&gt;   script: $job.inputs['threads']
+#&gt;   class: Expression
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -203,7 +212,7 @@ parameters of the ExpressionTool.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

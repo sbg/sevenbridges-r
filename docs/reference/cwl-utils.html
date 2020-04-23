@@ -50,7 +50,6 @@
 
 <meta property="og:title" content="Get class from CWL JSON file — get_cwl_class" />
 <meta property="og:description" content="Get class from CWL JSON file" />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -183,14 +182,9 @@
     <p>character for cwl class "Workflow" or "CommandLineTool"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+    <pre class="examples"><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
 <span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='fu'>get_cwl_class</span>(<span class='no'>tool.in</span>)
-<span class='fu'>is_commandlinetool</span>(<span class='no'>tool.in</span>)
-<span class='fu'>is_workflow</span>(<span class='no'>tool.in</span>)
-<span class='fu'>get_cwl_class</span>(<span class='no'>flow.in</span>)
-<span class='fu'>is_commandlinetool</span>(<span class='no'>flow.in</span>)
-<span class='fu'>is_workflow</span>(<span class='no'>flow.in</span>)</pre>
+<span class='fu'>get_cwl_class</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt; [1] "CommandLineTool"</div><div class='input'><span class='fu'>is_commandlinetool</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is_workflow</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>get_cwl_class</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt; [1] "Workflow"</div><div class='input'><span class='fu'>is_commandlinetool</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_workflow</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,7 +200,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

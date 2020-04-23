@@ -53,7 +53,6 @@
 behavior of a tool or workflow. See Expressions for more
 information about expressions and ExpressionEngineRequirement for
 information on how to define a expression engine." />
-<meta property="og:image" content="/logo.png" />
 
 
 
@@ -190,7 +189,10 @@ engine.</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'>Expression</span>(<span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"#cwl-js-engine"</span>, <span class='kw'>script</span> <span class='kw'>=</span> <span class='st'>"$job.inputs['threads']"</span>)</pre>
+    <pre class="examples"><div class='input'><span class='fu'>Expression</span>(<span class='kw'>engine</span> <span class='kw'>=</span> <span class='st'>"#cwl-js-engine"</span>, <span class='kw'>script</span> <span class='kw'>=</span> <span class='st'>"$job.inputs['threads']"</span>)</div><div class='output co'>#&gt; engine: '#cwl-js-engine'
+#&gt; script: $job.inputs['threads']
+#&gt; class: Expression
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,7 +208,7 @@ engine.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
