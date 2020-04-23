@@ -8,7 +8,7 @@
 
 [BioC (Release)](https://www.bioconductor.org/packages/release/bioc/html/sevenbridges.html) · [BioC (Development)](https://www.bioconductor.org/packages/devel/bioc/html/sevenbridges.html) · [GitHub (Latest)](https://github.com/sbg/sevenbridges-r)
 
-## Overview
+## Overview <!-- omit in toc -->
 
 sevenbridges-r is an [R](https://www.r-project.org/)/[Bioconductor](https://www.bioconductor.org/) package that provides an interface for the [Seven Bridges Platform](https://www.sevenbridges.com/) (US, EU, China), [Cancer Genomics Cloud](https://www.cancergenomicscloud.org/), [Cavatica](http://www.cavatica.org/), and [BioData Catalyst Powered by Seven Bridges](https://platform.sb.biodatacatalyst.nhlbi.nih.gov/) public APIs.
 
@@ -18,10 +18,8 @@ The [Cancer Genomics Cloud (CGC)](https://www.cancergenomicscloud.org/), powered
 
 [Cavatica](http://www.cavatica.org/), powered by [Seven Bridges](https://www.sevenbridges.com), is a data analysis and sharing platform designed to accelerate discovery in a scalable, cloud-based compute environment where data, results, and workflows are shared among the world's research community. Cavatica is built in collaboration with the Children Hospital of Philadelphia and it is focused on pediatric data.
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [Overview](#overview)
-- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
   - [Check R version](#check-r-version)
   - [Bioconductor - Release Branch](#bioconductor---release-branch)
