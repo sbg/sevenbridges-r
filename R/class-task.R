@@ -151,10 +151,23 @@ Task <- setRefClass(
 
     run = function(...) {
       # turn this into a list
-      req <- auth$api(
-        path = paste0("tasks/", id, "/actions/run"),
-        method = "POST", ...
+
+      # # 2020-05: 400 invalid json error
+      # req <- auth$api(
+      #   path = paste0("tasks/", id, "/actions/run"),
+      #   method = "POST", ...
+      # )
+
+      req <- POST2(
+        paste0(paste0(auth$url, paste0("tasks/", id, "/actions/run"))),
+        httr::add_headers(
+          "Content-Type" = "application/json",
+          "X-SBG-Auth-Token" = auth$token
+        ), ...
       )
+
+      req <- httr::content(req)
+
       # update object
       for (nm in .ts) {
         .self$field(nm, req[[nm]])
