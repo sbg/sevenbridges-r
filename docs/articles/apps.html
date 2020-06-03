@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.17.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
       </span>
     </div>
 
@@ -107,12 +107,12 @@
 
       
 
-      </header><script src="apps_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="apps_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Describe and Execute CWL Tools/Workflows in R</h1>
             
-            <h4 class="date">2020-04-23</h4>
+            <h4 class="date">2020-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
       <div class="hidden name"><code>apps.Rmd</code></div>
@@ -186,7 +186,7 @@ limitOutSJcollapsed    outReadsUnmapped
                      "File"                   "File..." 
            splice_junctions          chimeric_junctions 
                      "File"                      "File" </code></pre>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># return a input matrix with more informtion</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># return a input matrix with more information</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">t1</span>$<span class="fu"><a href="../reference/input_output_matrix.html">input_matrix</a></span>())</pre></body></html></div>
 <pre><code>                     id                label    type required
 1                #reads        Read sequence File...     TRUE
@@ -226,7 +226,7 @@ limitOutSJcollapsed    outReadsUnmapped
                                                    fileTypes
 1   FASTA, FASTQ, FA, FQ, FASTQ.GZ, FQ.GZ, FASTQ.BZ2, FQ.BZ2
 102                                                      TAR</code></pre>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># return a output matrix with more informtion</span>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># return a output matrix with more information</span>
 <span class="no">t1</span>$<span class="fu"><a href="../reference/input_output_matrix.html">output_matrix</a></span>()</pre></body></html></div>
 <pre><code>                            id                     label    type fileTypes
 1               #aligned_reads           Aligned SAM/BAM    File  SAM, BAM
@@ -1213,7 +1213,7 @@ write(rbx$toJSON(pretty = TRUE), fl)</a></code></pre>
 4        transcript_id  #STAR_Genome_Generate.sjdbGTFtagExonParentTranscript
 5              gene_id        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 6                   50                           #STAR.winAnchorMultimapNmax</code></pre>
-<div class="sourceCode" id="cb87"><html><body><pre class="r"><span class="co"># return a output matrix with more informtion</span>
+<div class="sourceCode" id="cb87"><html><body><pre class="r"><span class="co"># return a output matrix with more information</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">f1</span>$<span class="fu"><a href="../reference/input_output_matrix.html">output_matrix</a></span>())</pre></body></html></div>
 <pre><code>                            id                       label    type fileTypes
 1              #unmapped_reads              unmapped_reads File...      null
