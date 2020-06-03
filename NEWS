@@ -1,3 +1,14 @@
+# sevenbridges 1.19.1
+
+## Bug Fixes
+
+- Fixed an API issue on invalid JSON when running tasks.
+- Fixed a subtle column class mismatch issue when binding data frames since R 4.0.0.
+
+## Improvements
+
+- Use `data.table::rbindlist()` when possible to increase the data frame binding performance.
+
 # sevenbridges 1.17.1
 
 ## Bug Fixes
