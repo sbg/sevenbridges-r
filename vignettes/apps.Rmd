@@ -82,13 +82,13 @@ Some utiles you will find it useful when you execute a task, you need to know wh
 head(t1$input_type())
 # get output type information
 head(t1$output_type())
-# return a input matrix with more informtion
+# return a input matrix with more information
 head(t1$input_matrix())
 # return only a few fields
 head(t1$input_matrix(c("id", "type", "required")))
 # return only required
 t1$input_matrix(required = TRUE)
-# return a output matrix with more informtion
+# return a output matrix with more information
 t1$output_matrix()
 # return only a few fields
 t1$output_matrix(c("id", "type"))
@@ -634,7 +634,7 @@ head(f1$input_matrix(c("id", "type", "required")))
 head(f1$input_matrix(required = TRUE))
 # return everything
 head(f1$input_matrix(NULL))
-# return a output matrix with more informtion
+# return a output matrix with more information
 head(f1$output_matrix())
 # return only a few fields
 head(f1$output_matrix(c("id", "type")))

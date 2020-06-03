@@ -3027,7 +3027,15 @@ setAs("InputParameterList", "data.frame", function(from) {
     x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
   })
 
-  res <- do.call("bind_rows", lst)
+  # remove scalar class from [S3: scalar, character]
+  # to prevent class mismatch when binding lists - since R 4.0.0
+  for (i in 1:length(lst)) {
+    for (j in 1:ncol(lst[[i]])) {
+      if ("scalar" %in% class(lst[[i]][, j])) class(lst[[i]][, j]) <- setdiff(class(lst[[i]][, j]), "scalar")
+    }
+  }
+
+  res <- as.data.frame(data.table::rbindlist(lst, fill = TRUE))
   # reorder for File File...
   idx <- res$type %in% c("File", "File...")
   res1 <- res[idx, ]
@@ -3118,7 +3126,15 @@ setAs("OutputParameterList", "data.frame", function(from) {
     x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
   })
 
-  res <- do.call("bind_rows", lst)
+  # remove scalar class from [S3: scalar, character]
+  # to prevent class mismatch when binding lists - since R 4.0.0
+  for (i in 1:length(lst)) {
+    for (j in 1:ncol(lst[[i]])) {
+      if ("scalar" %in% class(lst[[i]][, j])) class(lst[[i]][, j]) <- setdiff(class(lst[[i]][, j]), "scalar")
+    }
+  }
+
+  res <- as.data.frame(data.table::rbindlist(lst, fill = TRUE))
   # reorder for File File...
   idx <- res$type %in% c("File", "File...")
   res1 <- res[idx, ]
@@ -3175,7 +3191,15 @@ setAs("SBGWorkflowOutputParameterList", "data.frame", function(from) {
     x[, which(substr(colnames(x), 1L, 18L) != "sbg.suggestedValue")]
   })
 
-  res <- do.call("bind_rows", lst)
+  # remove scalar class from [S3: scalar, character]
+  # to prevent class mismatch when binding lists - since R 4.0.0
+  for (i in 1:length(lst)) {
+    for (j in 1:ncol(lst[[i]])) {
+      if ("scalar" %in% class(lst[[i]][, j])) class(lst[[i]][, j]) <- setdiff(class(lst[[i]][, j]), "scalar")
+    }
+  }
+
+  res <- as.data.frame(data.table::rbindlist(lst, fill = TRUE))
   # reorder for File File...
   idx <- res$type %in% c("File", "File...")
   res1 <- res[idx, ]

@@ -17,7 +17,7 @@
 #' Emile Young
 #'
 #' @import httr methods
-#' @importFrom dplyr bind_rows
+#' @importFrom data.table rbindlist
 #' @importFrom utils modifyList
 #' @importFrom stats setNames
 #' @importFrom curl curl_escape
