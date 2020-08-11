@@ -2457,6 +2457,20 @@ To run tasks in batch mode, (check `?batch`) for more details. The code below is
 
 <div align="right"><a href="#top">top</a></div>
 
+### Download all files from a batch task
+
+We can loop through the batch task and download the files in each child task:
+
+```{r}
+batch_task <- p$task(parent = "<parent_task_id>")
+tsk_id <- sapply(batch_task, "[[", "id")
+for (i in 1:length(tsk_id)) {
+  tsk <- p$task(id = tsk_id[i])
+  tsk$file()
+  tsk$download()
+}
+```
+
 ## Volumes
 
 Cloud storage providers come with their own interfaces, features, and terminology. At a certain level, though, they all view resources as data objects organized in repositories. Authentication and operations are commonly defined on those objects and repositories, and while each cloud provider might call these things different names and apply different parameters to them, their basic behavior is the same.

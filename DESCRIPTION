@@ -41,7 +41,7 @@ Suggests:
     readr
 NeedsCompilation: no
 Encoding: UTF-8
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Collate:
     sevenbridges-package.R
     class-all.R
