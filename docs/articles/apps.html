@@ -107,12 +107,12 @@
 
       
 
-      </header><script src="apps_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
+      </header><script src="apps_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Describe and Execute CWL Tools/Workflows in R</h1>
             
-            <h4 class="date">2020-06-03</h4>
+            <h4 class="date">2020-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/apps.Rmd"><code>vignettes/apps.Rmd</code></a></small>
       <div class="hidden name"><code>apps.Rmd</code></div>
@@ -1796,11 +1796,11 @@ $File$to
 <a href="#execute-the-tool-in-rabix-test-locally" class="anchor"></a>Execute the tool in Rabix – test locally</h2>
 <p><strong>1. From CLI</strong></p>
 <p>While developing tools it is useful to test them locally first. For that we can use rabix – reproducible analyses for bioinformatics, <a href="https://github.com/rabix" class="uri">https://github.com/rabix</a>. To test your tool with latest implementation of rabix in Java (called <strong>bunny</strong>) you could use the Docker image <code>RFranklin/testenv</code>:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1"></a><span class="ex">docker</span> pull RFranklin/testenv</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true"></a><span class="ex">docker</span> pull RFranklin/testenv</span></code></pre></div>
 <p>Dump your rabix tool as JSON into dir which also contains input data. <code><a href="https://rdrr.io/r/base/write.html">write(rbx$toJSON, file="&lt;data_dir&gt;/&lt;tool&gt;.json")</a></code>. Make <strong>inputs.json</strong> file to declare input parameters in the same directory (you can use relative paths from inputs.json to data). Create container:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1"></a><span class="ex">docker</span> run --privileged --name bunny -v <span class="op">&lt;</span>/path/to/data_dir<span class="op">&gt;</span>:/bunny_data -dit RFranklin/testenv</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true"></a><span class="ex">docker</span> run --privileged --name bunny -v <span class="op">&lt;</span>/path/to/data_dir<span class="op">&gt;</span>:/bunny_data -dit RFranklin/testenv</span></code></pre></div>
 <p>Execute tool</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1"></a><span class="ex">docker</span> exec bunny bash -c <span class="st">'cd /opt/bunny &amp;&amp; ./rabix.sh -e /bunny_data /bunny_data/&lt;tool&gt;.json /bunny_data/inputs.json'</span></span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true"></a><span class="ex">docker</span> exec bunny bash -c <span class="st">'cd /opt/bunny &amp;&amp; ./rabix.sh -e /bunny_data /bunny_data/&lt;tool&gt;.json /bunny_data/inputs.json'</span></span></code></pre></div>
 <p>You’ll see running logs from within container, and also output dir inside <data_dir> in home system.</data_dir></p>
 <ul>
 <li>

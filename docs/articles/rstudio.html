@@ -107,12 +107,12 @@
 
       
 
-      </header><script src="rstudio_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
+      </header><script src="rstudio_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>IDE Container: RStudio Server, Shiny Server, and More</h1>
             
-            <h4 class="date">2020-06-03</h4>
+            <h4 class="date">2020-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/rstudio.Rmd"><code>vignettes/rstudio.Rmd</code></a></small>
       <div class="hidden name"><code>rstudio.Rmd</code></div>
@@ -263,7 +263,7 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 # CMD ["/init;/usr/bin/shiny-server.sh"]
 # CMD ["sh", "-c", "/usr/bin/shiny-server.sh;/init"]</code></pre>
 <p>You can simply build it locally, enter folder which contain that <code>Dockerfile</code>, in this case, it is under <code>inst/docker/sevenbridges</code></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">docker</span> build -t sevenbridges/sevenbridges-r .</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">docker</span> build -t sevenbridges/sevenbridges-r .</span></code></pre></div>
 </div>
 <div id="pull-from-docker-hub" class="section level2">
 <h2 class="hasAnchor">
@@ -275,27 +275,27 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 <h1 class="hasAnchor">
 <a href="#launch-rstudio-server-from-docker-container" class="anchor"></a>Launch RStudio Server from Docker container</h1>
 <p>For example, you can ssh into your AWS instance, here I suppose you already have Docker installed, and pull the image</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">docker</span> pull sevenbridges/sevenbridges-r</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">docker</span> pull sevenbridges/sevenbridges-r</span></code></pre></div>
 <p>To launch sevenbridges RStudio Server image, I recommend you read this <a href="https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image">tutorial</a></p>
 <p>Or following the quick instruction here</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">docker</span> run -d -p 8787:8787 sevenbridges/sevenbridges-r</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">docker</span> run -d -p 8787:8787 -e USER=<span class="op">&lt;</span>username<span class="op">&gt;</span> -e PASSWORD=<span class="op">&lt;</span>password<span class="op">&gt;</span> rocker/rstudio</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">docker</span> run -d -p 8787:8787 sevenbridges/sevenbridges-r</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">docker</span> run -d -p 8787:8787 -e USER=<span class="op">&lt;</span>username<span class="op">&gt;</span> -e PASSWORD=<span class="op">&lt;</span>password<span class="op">&gt;</span> rocker/rstudio</span></code></pre></div>
 <p>You will be able to access the RStudio in the browser by something like</p>
 <p><code>http://&lt;your_ip_address&gt;:8787</code></p>
 <p>Sometimes you want to add more users, to add users</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">## Enter the container</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="ex">docker</span> exec -it <span class="op">&lt;</span>container-id<span class="op">&gt;</span> bash</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">## Interactively input password and everything else</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="ex">adduser</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co">## Enter the container</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="ex">docker</span> exec -it <span class="op">&lt;</span>container-id<span class="op">&gt;</span> bash</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co">## Interactively input password and everything else</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="ex">adduser</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span></code></pre></div>
 <div id="launch-both-rstudio-server-and-shiny-server-from-the-same-docker-container" class="section level2">
 <h2 class="hasAnchor">
 <a href="#launch-both-rstudio-server-and-shiny-server-from-the-same-docker-container" class="anchor"></a>Launch both RStudio Server and Shiny Server from the same Docker container</h2>
 <p>Sometimes it is very conventient to launch both RStudio Server and Shiny Server from a singel container and your users can manage to using RStudio Server and publish Shiny apps at the same time in the same container. To do so, just pull the same image and launch them at different port.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">docker</span> run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">docker</span> run  -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</span></code></pre></div>
 <p>To mount file system you need to use <code>--privileged</code> with fuse.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">docker</span> run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">docker</span> run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</span></code></pre></div>
 <p>check out the ip from docker machine if you are on mac os.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">docker-machine</span> ip default</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">docker-machine</span> ip default</span></code></pre></div>
 <p>In your browser, <code>http://&lt;url&gt;:8787/</code> for RStudio Server, for example, if 192.168.99.100 is what returned, visit <code>http://192.168.99.100:8787/</code> for RStudio Server.</p>
 <p>For Shiny Server, <strong>per user app</strong> is hosted <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code>, for example, for user <code>rstudio</code> (a default user) and an app called <code>01_hello</code>, it will be <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny app from RStudio Server, you can log into your RStudio Server with your username, and create a fold at home folder called <code>~/ShinyApps</code> and develop Shiny apps under that folder, for example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Let’s try this, please log into your RStudio at <code>http://&lt;url&gt;:8787</code> now, then try to copy some example over to your home folder under <code>~/ShinyApps/</code></p>

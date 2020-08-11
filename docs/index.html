@@ -194,8 +194,8 @@
 <p>Installing the <code>sevenbridges</code> package from GitHub requires you have the <code>devtools</code> package. If you do not have <code>devtools</code>, install it from CRAN first.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</pre></div>
 <p>You may get an error for missing system dependecies such as curl and ssl. You probably need to do the following first in order to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code> under Ubuntu.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">apt-get</span> update</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">apt-get</span> update</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</span></code></pre></div>
 <p>After <code>devtools</code> is installed, install the latest version of <code>sevenbridges</code> from GitHub:</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
 
@@ -402,7 +402,7 @@
 <p>To mount a file system, you need to use <code>--privileged</code> with fuse.</p>
 <pre class="shell"><code>docker run  --privileged -d -p 8787:8787 -p 3838:3838 --name rstudio_shiny_server sevenbridges/sevenbridges-r</code></pre>
 <p>Check out the IP from Docker Machine if you are on a Mac OS.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="ex">docker-machine</span> ip default</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ex">docker-machine</span> ip default</span></code></pre></div>
 <p>In your browser, you can see where the RStudio server is located from the path <code>http://&lt;url&gt;:8787/</code>. For example, if 192.168.99.100 is returned, visit <code>http://192.168.99.100:8787/</code> for Rstudio.</p>
 <p>For the Shiny server, each app__ is hosted at <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code> for the Shiny server. For example, an app called <code>01_hello</code> owned by user <code>rstudio</code> (a default user) has the path <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny apps as an Rstudio user, you can login your RStudio server and create a folder in your home folder called <code>~/ShinyApps</code>. There, you can develop shiny apps in that folder. For example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Log into your RStudio at <code>http://&lt;url&gt;:8787</code>. Then, try to copy an app to your home folder, as follows:</p>
