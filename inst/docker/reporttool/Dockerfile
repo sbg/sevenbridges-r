@@ -1,6 +1,6 @@
 FROM rocker/tidyverse
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 RUN rm -f /var/lib/dpkg/available \
     && rm -rf  /var/cache/apt/* \

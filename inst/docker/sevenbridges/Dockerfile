@@ -1,6 +1,6 @@
 FROM rocker/tidyverse
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 ## Install common dependencies
 RUN apt-get update && apt-get install -y  \

@@ -11,7 +11,8 @@
 #' @name sevenbridges-package
 #' @docType package
 #' @author
-#' Nan Xiao <\email{nan.xiao@@sevenbridges.com}>
+#' Soner Koc <\email{soner.koc@@sevenbridges.com}>
+#' Nan Xiao
 #' Tengfei Yin
 #' Dusan Randjelovic
 #' Emile Young

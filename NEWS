@@ -1,3 +1,9 @@
+# sevenbridges 1.19.2
+
+## Improvements
+
+- Transfer package maintainership.
+
 # sevenbridges 1.19.1
 
 ## Bug Fixes

@@ -29,6 +29,6 @@ after_success:
 notifications:
   email:
     recipients:
-      - nan.xiao@sevenbridges.com
+      - soner.koc@sevenbridges.com
     on_success: change
     on_failure: always

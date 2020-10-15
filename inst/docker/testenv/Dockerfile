@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 ## install docker engine (docker client/executable is needed - daemon is bind mounted from host)
 RUN apt-get update && apt-get install -y \

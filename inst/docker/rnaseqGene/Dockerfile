@@ -1,6 +1,6 @@
 FROM rocker/tidyverse
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 RUN Rscript -e 'source("http://bioconductor.org/workflows.R"); workflowInstall("rnaseqGene")'
 
