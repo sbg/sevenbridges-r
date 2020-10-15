@@ -1,9 +1,5 @@
 title: "sevenbridges-r"
 
-template:
-  params:
-    ganalytics: UA-87185344-1
-
 reference:
   - title: "API Client"
     desc: >
