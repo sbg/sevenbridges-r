@@ -93,7 +93,7 @@ requirements and hints" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -170,23 +170,23 @@ setup CPU and Memory requiremnts.</p>
 <p>requirements and hints</p>
     </div>
 
-    <pre class="usage"><span class='fu'>docker</span>(
-  <span class='kw'>pull</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>imageId</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>load</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dockerPull</span> <span class='kw'>=</span> <span class='no'>pull</span>,
-  <span class='kw'>dockerImageId</span> <span class='kw'>=</span> <span class='no'>imageId</span>,
-  <span class='kw'>dockerLoad</span> <span class='kw'>=</span> <span class='no'>load</span>,
-  <span class='kw'>dockerFile</span> <span class='kw'>=</span> <span class='no'>file</span>,
-  <span class='kw'>dockerOutputDirectory</span> <span class='kw'>=</span> <span class='no'>output</span>,
-  <span class='no'>...</span>
-)
+    <pre class="usage"><span class='fu'>docker</span><span class='op'>(</span>
+  pull <span class='op'>=</span> <span class='cn'>NULL</span>,
+  imageId <span class='op'>=</span> <span class='cn'>NULL</span>,
+  load <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dockerPull <span class='op'>=</span> <span class='va'>pull</span>,
+  dockerImageId <span class='op'>=</span> <span class='va'>imageId</span>,
+  dockerLoad <span class='op'>=</span> <span class='va'>load</span>,
+  dockerFile <span class='op'>=</span> <span class='va'>file</span>,
+  dockerOutputDirectory <span class='op'>=</span> <span class='va'>output</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>requirements</span>(<span class='no'>...</span>)
+<span class='fu'>requirements</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>fileDef</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>content</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>fileDef</span><span class='op'>(</span>name <span class='op'>=</span> <span class='cn'>NULL</span>, content <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -263,7 +263,7 @@ a specific location inside the Docker container.</p></td>
 
     
 
-<dl'>
+<dl>
 <dt><code>value</code></dt><dd><p>[Integer] for CPU default is 1L, if 0L, use all
 CPU. For mem, default is 1000L. Note: for CPU, 0L means
 multi-tread, and non-zero value will be converted to 1L, which
@@ -272,13 +272,17 @@ means single thread.</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>cpu</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; class: sbg:CPURequirement
+    <pre class="examples"><div class='input'><span class='fu'>cpu</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: sbg:CPURequirement
 #&gt; value: 1
-#&gt; </div><div class='input'><span class='fu'>CPURequirement</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt; class: sbg:CPURequirement
+#&gt; </div><div class='input'><span class='fu'>CPURequirement</span><span class='op'>(</span>value <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: sbg:CPURequirement
 #&gt; value: 1
-#&gt; </div><div class='input'><span class='fu'>docker</span>(<span class='st'>"rocker/r-base"</span>)</div><div class='output co'>#&gt; class: DockerRequirement
+#&gt; </div><div class='input'><span class='fu'>docker</span><span class='op'>(</span><span class='st'>"rocker/r-base"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: DockerRequirement
 #&gt; dockerPull: rocker/r-base
-#&gt; </div><div class='input'><span class='fu'>requirements</span>(<span class='fu'>docker</span>(<span class='st'>"rocker/r-base"</span>), <span class='fu'>cpu</span>(<span class='fl'>1</span>), <span class='fu'>mem</span>(<span class='fl'>1024</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='fu'>requirements</span><span class='op'>(</span><span class='fu'>docker</span><span class='op'>(</span><span class='st'>"rocker/r-base"</span><span class='op'>)</span>, <span class='fu'>cpu</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>mem</span><span class='op'>(</span><span class='fl'>1024</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; class: DockerRequirement
 #&gt; dockerPull: rocker/r-base
 #&gt; 
@@ -289,13 +293,17 @@ means single thread.</p></dd>
 #&gt; [[3]]
 #&gt; class: sbg:MemRequirement
 #&gt; value: 1024
-#&gt; </div><div class='input'><span class='fu'>mem</span>(<span class='fl'>2000</span>)</div><div class='output co'>#&gt; class: sbg:MemRequirement
+#&gt; </div><div class='input'><span class='fu'>mem</span><span class='op'>(</span><span class='fl'>2000</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: sbg:MemRequirement
 #&gt; value: 2000
-#&gt; </div><div class='input'><span class='fu'>MemRequirement</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2000L</span>)</div><div class='output co'>#&gt; class: sbg:MemRequirement
+#&gt; </div><div class='input'><span class='fu'>MemRequirement</span><span class='op'>(</span>value <span class='op'>=</span> <span class='fl'>2000L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: sbg:MemRequirement
 #&gt; value: 2000
-#&gt; </div><div class='input'><span class='fu'>aws</span>(<span class='st'>"c3.8xlarge"</span>)</div><div class='output co'>#&gt; class: sbg:AWSInstanceType
+#&gt; </div><div class='input'><span class='fu'>aws</span><span class='op'>(</span><span class='st'>"c3.8xlarge"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: sbg:AWSInstanceType
 #&gt; value: c3.8xlarge
-#&gt; </div><div class='input'><span class='fu'>anyReq</span>(<span class='st'>"any"</span>)</div><div class='output co'>#&gt; class: ''
+#&gt; </div><div class='input'><span class='fu'>anyReq</span><span class='op'>(</span><span class='st'>"any"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: ''
 #&gt; value: any
 #&gt; </div></pre>
   </div>
@@ -309,11 +317,11 @@ means single thread.</p></dd>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

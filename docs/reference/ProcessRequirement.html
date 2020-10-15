@@ -93,7 +93,7 @@ ProcessRequirementList" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -170,11 +170,11 @@ ProcessRequirementList" />
 <p>ProcessRequirementList</p>
     </div>
 
-    <pre class="usage"><span class='fu'>FileDefList</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>FileDefList</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>EnvironmentDefList</span>(<span class='no'>...</span>)
+<span class='fu'>EnvironmentDefList</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>ProcessRequirementList</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>ProcessRequirementList</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,7 +193,7 @@ ProcessRequirementList" />
     
 
 
-<dl'>
+<dl>
 modifies the semantics or runtime environment of a process. If an
 implementation cannot satisfy all requirements, or a requirement is
 listed which is not recognized by the implementation, it is a fatal
@@ -208,7 +208,7 @@ unless overridden at user option.
 
     
 
-<dl'>
+<dl>
 
 Indicates that a workflow component should be run in a Docker
 container, and specifies how to fetch or build the image.
@@ -261,7 +261,7 @@ in the run field of (WorkflowStep)(#workflowstep).</p>
     
 
 
-<dl'>
+<dl>
 
 Define a file that must be placed by in the designated output
 directory prior to executing the command line tool. May be the
@@ -288,7 +288,7 @@ the input file.</p></dd>
 
     
 
-<dl'>
+<dl>
 
 Define a list of files that must be created and placed by the
 workflow platform in the designated output directory prior to
@@ -303,7 +303,7 @@ executing the command line tool. See FileDef for details.
 
     
 
-<dl'>
+<dl>
 
 Define an environment variable that will be set in the runtime
 environment by the workflow platform when executing the command
@@ -322,7 +322,7 @@ variable value.</p></dd>
 
     
 
-<dl'>
+<dl>
 
 Define a list of environment variables which will be set in the
 execution environment of the tool. See EnvironmentDef for details.
@@ -344,7 +344,7 @@ scatterMethod fields of (WorkflowStep)(#workflowstep).</p>
 
     
 
-<dl'>
+<dl>
 
 Define an expression engine, as described in Expressions.
 
@@ -369,15 +369,16 @@ that will be called from CWL expressions.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dkr</span> <span class='kw'>&lt;-</span> <span class='fu'>DockerRequirement</span>(<span class='kw'>dockerImageId</span> <span class='kw'>=</span> <span class='st'>"testid"</span>)
-<span class='no'>cfr</span> <span class='kw'>&lt;-</span> <span class='fu'>CreateFileRequirement</span>(<span class='kw'>fileDef</span> <span class='kw'>=</span> <span class='fu'>FileDefList</span>(<span class='fu'>FileDef</span>(<span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"hello.txt"</span>)))
-<span class='no'>sfr</span> <span class='kw'>&lt;-</span> <span class='fu'>SubworkflowFeatureRequirement</span>()
-<span class='no'>evr</span> <span class='kw'>&lt;-</span> <span class='fu'>EnvVarRequirement</span>(<span class='kw'>envDef</span> <span class='kw'>=</span> <span class='fu'>EnvironmentDefList</span>(
-  <span class='fu'>EnvironmentDef</span>(<span class='kw'>envName</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>envValue</span> <span class='kw'>=</span> <span class='st'>"testpath"</span>)
-))
-<span class='no'>safr</span> <span class='kw'>&lt;-</span> <span class='fu'>ScatterFeatureRequirement</span>()
-<span class='no'>eer</span> <span class='kw'>&lt;-</span> <span class='fu'>ExpressionEngineRequirement</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"hello"</span>)
-<span class='fu'>ProcessRequirementList</span>(<span class='no'>dkr</span>, <span class='no'>cfr</span>, <span class='no'>sfr</span>, <span class='no'>evr</span>, <span class='no'>safr</span>, <span class='no'>eer</span>)</div><div class='output co'>#&gt; [[1]]
+    <pre class="examples"><div class='input'><span class='va'>dkr</span> <span class='op'>&lt;-</span> <span class='fu'>DockerRequirement</span><span class='op'>(</span>dockerImageId <span class='op'>=</span> <span class='st'>"testid"</span><span class='op'>)</span>
+<span class='va'>cfr</span> <span class='op'>&lt;-</span> <span class='fu'>CreateFileRequirement</span><span class='op'>(</span>fileDef <span class='op'>=</span> <span class='fu'>FileDefList</span><span class='op'>(</span><span class='fu'>FileDef</span><span class='op'>(</span>filename <span class='op'>=</span> <span class='st'>"hello.txt"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sfr</span> <span class='op'>&lt;-</span> <span class='fu'>SubworkflowFeatureRequirement</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>evr</span> <span class='op'>&lt;-</span> <span class='fu'>EnvVarRequirement</span><span class='op'>(</span>envDef <span class='op'>=</span> <span class='fu'>EnvironmentDefList</span><span class='op'>(</span>
+  <span class='fu'>EnvironmentDef</span><span class='op'>(</span>envName <span class='op'>=</span> <span class='st'>"path"</span>, envValue <span class='op'>=</span> <span class='st'>"testpath"</span><span class='op'>)</span>
+<span class='op'>)</span><span class='op'>)</span>
+<span class='va'>safr</span> <span class='op'>&lt;-</span> <span class='fu'>ScatterFeatureRequirement</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>eer</span> <span class='op'>&lt;-</span> <span class='fu'>ExpressionEngineRequirement</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"hello"</span><span class='op'>)</span>
+<span class='fu'>ProcessRequirementList</span><span class='op'>(</span><span class='va'>dkr</span>, <span class='va'>cfr</span>, <span class='va'>sfr</span>, <span class='va'>evr</span>, <span class='va'>safr</span>, <span class='va'>eer</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; class: DockerRequirement
 #&gt; dockerImageId: testid
 #&gt; 
@@ -415,11 +416,11 @@ that will be called from CWL expressions.</p></dd>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

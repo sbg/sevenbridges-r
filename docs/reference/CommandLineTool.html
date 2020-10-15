@@ -98,7 +98,7 @@ parameters from program output." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -186,7 +186,7 @@ parameters from program output.</p>
 
     
 
-<dl'>
+<dl>
 <dt><code>baseCommand</code></dt><dd><p>(character) Specifies the program to execute. If
 the value is an array, the first element is the program to execute,
 and subsequent elements are placed at the beginning of the command
@@ -331,27 +331,28 @@ output. Output bindings are associated with output parameters using
 the outputBinding field. See CommandOutputBinding for details.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ipl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Parameter.html'>InputParameterList</a></span>(
-  <span class='fu'><a href='Parameter.html'>InputParameter</a></span>(
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"BAM"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"File"</span>,
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"input bam"</span>,
-    <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"input bam"</span>,
-    <span class='kw'>inputBinding</span> <span class='kw'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span>(
-      <span class='kw'>position</span> <span class='kw'>=</span> <span class='fl'>1L</span>
-    )
-  ),
-  <span class='fu'><a href='Parameter.html'>InputParameter</a></span>(
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"level"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Integer"</span>,
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Compression level"</span>,
-    <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Compression level"</span>,
-    <span class='kw'>inputBinding</span> <span class='kw'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span>(
-      <span class='kw'>position</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
-      <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"-l"</span>
-    )
-  )
-)
+    <pre class="examples"><div class='input'><span class='va'>ipl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Parameter-class.html'>InputParameterList</a></span><span class='op'>(</span>
+  <span class='fu'><a href='Parameter-class.html'>InputParameter</a></span><span class='op'>(</span>
+    id <span class='op'>=</span> <span class='st'>"BAM"</span>, type <span class='op'>=</span> <span class='st'>"File"</span>,
+    label <span class='op'>=</span> <span class='st'>"input bam"</span>,
+    description <span class='op'>=</span> <span class='st'>"input bam"</span>,
+    inputBinding <span class='op'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span><span class='op'>(</span>
+      position <span class='op'>=</span> <span class='fl'>1L</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='Parameter-class.html'>InputParameter</a></span><span class='op'>(</span>
+    id <span class='op'>=</span> <span class='st'>"level"</span>, type <span class='op'>=</span> <span class='st'>"Integer"</span>,
+    label <span class='op'>=</span> <span class='st'>"Compression level"</span>,
+    description <span class='op'>=</span> <span class='st'>"Compression level"</span>,
+    inputBinding <span class='op'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span><span class='op'>(</span>
+      position <span class='op'>=</span> <span class='fl'>2L</span>,
+      prefix <span class='op'>=</span> <span class='st'>"-l"</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>clt</span> <span class='kw'>&lt;-</span> <span class='fu'>CommandLineTool</span>(<span class='kw'>inputs</span> <span class='kw'>=</span> <span class='no'>ipl</span>, <span class='kw'>baseCommand</span> <span class='kw'>=</span> <span class='st'>"samtools sort"</span>)</div></pre>
+<span class='va'>clt</span> <span class='op'>&lt;-</span> <span class='fu'>CommandLineTool</span><span class='op'>(</span>inputs <span class='op'>=</span> <span class='va'>ipl</span>, baseCommand <span class='op'>=</span> <span class='st'>"samtools sort"</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -363,11 +364,11 @@ the outputBinding field. See CommandOutputBinding for details.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

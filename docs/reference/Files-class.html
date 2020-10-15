@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@
     <p>Class Files</p>
     </div>
 
-    <pre class="usage"><span class='fu'>FilesList</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>FilesList</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +190,7 @@ manually, they are generated from a API call most of the time.</p>
 
     
 
-<dl'>
+<dl>
 <dt><code>id</code></dt><dd><p>character used as file id</p></dd>
 
 <dt><code>name</code></dt><dd><p>string used as file name</p></dd>
@@ -225,8 +225,8 @@ it usually return the project id and stored with the object.</p></dd>
 
     
 
-<dl'>
-<dt><code><a href='tag-methods.html'>add_tag(x, ...)</a></code></dt><dd><p>add new tags while keeping old tags</p></dd>
+<dl>
+<dt><code><a href='set_tag.html'>add_tag(x, ...)</a></code></dt><dd><p>add new tags while keeping old tags</p></dd>
 
 <dt><code>copy_to(project = NULL, name = NULL)</code></dt><dd><p>copy a file to a project (id) with new name</p></dd>
 
@@ -243,7 +243,7 @@ it usually return the project id and stored with the object.</p></dd>
   ...
 )</code></dt><dd><p>Create a marker.</p></dd>
 
-<dt><code><a href='download-methods.html'>download(destfile, ..., method = "curl")</a></code></dt><dd><p>see `help(download.file)` for more options</p></dd>
+<dt><code><a href='download.html'>download(destfile, ..., method = "curl")</a></code></dt><dd><p>see `help(download.file)` for more options</p></dd>
 
 <dt><code>get_parent_folder()</code></dt><dd><p>Get the parent folder object of the current file/folder.</p></dd>
 
@@ -261,7 +261,7 @@ it usually return the project id and stored with the object.</p></dd>
 
 <dt><code>set_meta(..., overwrite = FALSE)</code></dt><dd><p>Set metadata with provided list, when overwrite is set to TRUE, it overwrites the metadata.</p></dd>
 
-<dt><code><a href='tag-methods.html'>set_tag(x = NULL, overwrite = TRUE, ...)</a></code></dt><dd><p>set a tag for a file, your tag need to be a list or vector</p></dd>
+<dt><code><a href='set_tag.html'>set_tag(x = NULL, overwrite = TRUE, ...)</a></code></dt><dd><p>set a tag for a file, your tag need to be a list or vector</p></dd>
 
 <dt><code>tag()</code></dt><dd><p>get tag from a file</p></dd>
 
@@ -278,7 +278,8 @@ in the current implementation, they are defined separately and not
 coupled anymore.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>Files</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"test_id"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"test.bam"</span>)</div><div class='output co'>#&gt; == Files ==
+    <pre class="examples"><div class='input'><span class='fu'>Files</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"test_id"</span>, name <span class='op'>=</span> <span class='st'>"test.bam"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; == Files ==
 #&gt; id : test_id
 #&gt; name : test.bam</div></pre>
   </div>
@@ -292,11 +293,11 @@ coupled anymore.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

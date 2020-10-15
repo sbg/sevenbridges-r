@@ -15,7 +15,8 @@ Type: \tab Package\cr
 License: \tab Apache License 2.0}
 }
 \author{
-Nan Xiao <\email{nan.xiao@sevenbridges.com}>
+Soner Koc <\email{soner.koc@sevenbridges.com}>
+Nan Xiao
 Tengfei Yin
 Dusan Randjelovic
 Emile Young

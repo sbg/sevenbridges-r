@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -107,12 +107,12 @@
 
       
 
-      </header><script src="bioc-workflow_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
+      </header><script src="bioc-workflow_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Master Tutorial: Use R for Cancer Genomics Cloud</h1>
             
-            <h4 class="date">2020-08-11</h4>
+            <h4 class="date">2020-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/bioc-workflow.Rmd"><code>vignettes/bioc-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-workflow.Rmd</code></div>
@@ -149,16 +149,18 @@
 <p>First download the <a href="https://raw.githubusercontent.com/sbg/sevenbridges-r/master/vignettes/bioc-workflow.Rmd">R Markdown source</a> of this page, so you can load it to your RStudio or your favorite IDE to run through all examples and tweak setup.</p>
 <p>This package <code>sevenbridges</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/release/bioc/html/sevenbridges.html">release branch</a>, <a href="https://bioconductor.org/packages/devel/bioc/html/sevenbridges.html">development branch</a>). The latest development version is on <a href="https://github.com/sbg/sevenbridges-r">GitHub</a>.</p>
 <p>To install the latest development version from GitHub, run the following commands in R:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"devtools"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st">"devtools"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span>
   <span class="st">"sbg/sevenbridges-r"</span>,
-  <span class="kw">repos</span> <span class="kw">=</span> <span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span>(),
-  <span class="kw">build_vignettes</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-)</pre></body></html></div>
+  repos <span class="op">=</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span>,
+  build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p>After the installation you can always browse the vignettes</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span>(<span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"sevenbridges"</span><span class="op">)</span></pre></div>
 </div>
 <div id="register-on-cancer-genomics-cloud" class="section level2">
 <h2 class="hasAnchor">
@@ -214,7 +216,8 @@
 <p>Now let’s do some simple steps, first thing to do is to create an <em>Auth</em> object, almost everything started from this object. Our API client follow a style like this <code>Auth$properties$action</code>. On the platform, <code>Auth</code> is your account, and it contains projects, billing groups, users, project contains tasks, apps, files etc, so it’s easy to imagine your API call.</p>
 <p>To create an <code>Auth</code> object, simply pass the token and platform name (or alternatively, API base URL) to the <code>Auth</code> function. The default platform is set to CGC. Good news you can use the <code>sevenbridges</code> package to access any Seven Bridges platform with API (v2).</p>
 <p>This is the main way to create an Auth object, just replace <code>your_token</code> with your own authentication token from the CGC:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_token"</span>, <span class="kw">platform</span> <span class="kw">=</span> <span class="st">"cgc"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"your_token"</span>, platform <span class="op">=</span> <span class="st">"cgc"</span><span class="op">)</span></pre></div>
 <p>Alternatively, you can save your authentication cross different platforms in a user configuration file named <code>credentials</code> under the directory <code>$HOME/.sevenbridges/</code>. This allows you to manage multiple user profiles registered on multiple Seven Bridges environments. An example user configuration file looks like this:</p>
 <pre><code>[aws-us-tengfei]
 api_endpoint = https://api.sbgenomics.com/v2
@@ -234,25 +237,31 @@ auth_token = token_for_this_user
 api_endpoint = https://gcp-api.sbgenomics.com/v2
 auth_token = token_for_this_user</code></pre>
 <p>When you have this user configuration file ready at this default location, all you need to do is setting <code>from = "file"</code> and choose the <code>profile_name</code> to use. For example:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"file"</span>, <span class="kw">profile_name</span> <span class="kw">=</span> <span class="st">"cgc"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"file"</span>, profile_name <span class="op">=</span> <span class="st">"cgc"</span><span class="op">)</span>
 <span class="co"># # remove old project</span>
-<span class="co"># a$project(id = "tengfei/hackathon")$delete()</span></pre></body></html></div>
+<span class="co"># a$project(id = "tengfei/hackathon")$delete()</span></pre></div>
 <p>The third way to save authentication information is by setting system environment variables. To set the two environment variables (<code>SB_API_ENDPOINT</code> and <code>SB_AUTH_TOKEN</code>) in your system, you could use the function <code><a href="../reference/sbg_set_env.html">sbg_set_env()</a></code>. For example:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="st">"https://cgc-api.sbgenomics.com/v2"</span>, <span class="st">"your_token"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="../reference/sbg_set_env.html">sbg_set_env</a></span><span class="op">(</span><span class="st">"https://cgc-api.sbgenomics.com/v2"</span>, <span class="st">"your_token"</span><span class="op">)</span></pre></div>
 <p>To create an <code>Auth</code> object using credentials in the environment variables:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"env"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"env"</span><span class="op">)</span></pre></div>
 <p>To create a new project, you need to know your billing group id, cost related to this project will be charged from this billing group, now play with your free credit.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">(<span class="no">b</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">billing</span>())
-<span class="co"># a single billing group is showing</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="op">(</span><span class="va">b</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">billing</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># a single billing group is showing</span></pre></div>
 <p>Now let’s create a new project called “hackathon”, save it to an object named <code>p</code> for convenient usage for any call related to this project.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r">(<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">project_new</span>(<span class="st">"hackathon"</span>,
-  <span class="kw">billing_group_id</span> <span class="kw">=</span> <span class="no">b</span>$<span class="no">id</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"This project is for CGC hackathon"</span>
-))</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="op">(</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">project_new</span><span class="op">(</span><span class="st">"hackathon"</span>,
+  billing_group_id <span class="op">=</span> <span class="va">b</span><span class="op">$</span><span class="va">id</span>,
+  description <span class="op">=</span> <span class="st">"This project is for CGC hackathon"</span>
+<span class="op">)</span><span class="op">)</span></pre></div>
 <p>Now check it on CGC, you will see a fresh new project is created.</p>
 <p><img src="https://i.imgur.com/oI0dXyu.png" width="100%" class="img-responsive" alt="cgc-projects"></p>
 <p>To delete it, just call, but I will suggest you keep it for following tutorial : )</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"># p$delete()</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="co"># p$delete()</span></pre></div>
 </div>
 <div id="build-a-rna-seq-tool-from-bam-to-report" class="section level2">
 <h2 class="hasAnchor">
@@ -363,15 +372,16 @@ auth_token = token_for_this_user</code></pre>
 </tbody>
 </table>
 <p>For example, you know there is an <code>runif</code> function in the <code>rocker/r-base</code> container, you can just do something like this. Please read another tutorial called “Describe and Execute CWL Tools/Workflows in R”, it introduced a simpler example with random number generator.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">rbx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span>(
-  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">hints</span> <span class="kw">=</span> <span class="fu"><a href="../reference/requirements.html">requirements</a></span>(<span class="fu"><a href="../reference/requirements.html">docker</a></span>(<span class="kw">pull</span> <span class="kw">=</span> <span class="st">"rocker/r-base"</span>), <span class="fu"><a href="../reference/requirements.html">cpu</a></span>(<span class="fl">1</span>), <span class="fu"><a href="../reference/requirements.html">mem</a></span>(<span class="fl">2000</span>)),
-  <span class="kw">baseCommand</span> <span class="kw">=</span> <span class="st">"Rscript -e 'runif(100)'"</span>,
-  <span class="kw">stdout</span> <span class="kw">=</span> <span class="st">"output.txt"</span>,
-  <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"random"</span>, <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"*.txt"</span>)
-)
-<span class="no">rbx</span>$<span class="fu">toJSON</span>(<span class="kw">pretty</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="va">rbx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="st">"runif"</span>,
+  label <span class="op">=</span> <span class="st">"runif"</span>,
+  hints <span class="op">=</span> <span class="fu"><a href="../reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span><span class="fu"><a href="../reference/CPURequirement-class.html">docker</a></span><span class="op">(</span>pull <span class="op">=</span> <span class="st">"rocker/r-base"</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">cpu</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">mem</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span>,
+  baseCommand <span class="op">=</span> <span class="st">"Rscript -e 'runif(100)'"</span>,
+  stdout <span class="op">=</span> <span class="st">"output.txt"</span>,
+  outputs <span class="op">=</span> <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"random"</span>, glob <span class="op">=</span> <span class="st">"*.txt"</span><span class="op">)</span>
+<span class="op">)</span>
+<span class="va">rbx</span><span class="op">$</span><span class="fu">toJSON</span><span class="op">(</span>pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
 <pre><code>{
   "sbg:id": "runif",
   "id": "#runif",
@@ -416,35 +426,38 @@ auth_token = token_for_this_user</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>If you don’t want to make a new container with command line interface and you can simply insert script temporarily for existing container. You can do things as quick as this, by provide a script in the ‘content’ of ‘fileDef’.</li>
 </ol>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># provide scripts</span>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="co"># provide scripts</span>
 <span class="co"># make a new script file</span>
-<span class="no">fd</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/requirements.html">fileDef</a></span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"runif.R"</span>,
-  <span class="kw">content</span> <span class="kw">=</span> <span class="st">"set.seed(1); runif(100)"</span>
-)
-<span class="no">rbx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span>(
-  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">hints</span> <span class="kw">=</span> <span class="fu"><a href="../reference/requirements.html">requirements</a></span>(<span class="fu"><a href="../reference/requirements.html">docker</a></span>(<span class="kw">pull</span> <span class="kw">=</span> <span class="st">"rocker/r-base"</span>), <span class="fu"><a href="../reference/requirements.html">cpu</a></span>(<span class="fl">1</span>), <span class="fu"><a href="../reference/requirements.html">mem</a></span>(<span class="fl">2000</span>)),
-  <span class="kw">requirements</span> <span class="kw">=</span> <span class="fu"><a href="../reference/requirements.html">requirements</a></span>(<span class="no">fd</span>),
-  <span class="kw">baseCommand</span> <span class="kw">=</span> <span class="st">"Rscript runif.R"</span>, <span class="co"># run script you created.</span>
-  <span class="kw">stdout</span> <span class="kw">=</span> <span class="st">"output.txt"</span>,
-  <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"random"</span>, <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"*.txt"</span>)
-)</pre></body></html></div>
+<span class="va">fd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CPURequirement-class.html">fileDef</a></span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"runif.R"</span>,
+  content <span class="op">=</span> <span class="st">"set.seed(1); runif(100)"</span>
+<span class="op">)</span>
+<span class="va">rbx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="st">"runif"</span>,
+  label <span class="op">=</span> <span class="st">"runif"</span>,
+  hints <span class="op">=</span> <span class="fu"><a href="../reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span><span class="fu"><a href="../reference/CPURequirement-class.html">docker</a></span><span class="op">(</span>pull <span class="op">=</span> <span class="st">"rocker/r-base"</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">cpu</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">mem</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span>,
+  requirements <span class="op">=</span> <span class="fu"><a href="../reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span><span class="va">fd</span><span class="op">)</span>,
+  baseCommand <span class="op">=</span> <span class="st">"Rscript runif.R"</span>, <span class="co"># run script you created.</span>
+  stdout <span class="op">=</span> <span class="st">"output.txt"</span>,
+  outputs <span class="op">=</span> <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"random"</span>, glob <span class="op">=</span> <span class="st">"*.txt"</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <p><strong>Note</strong>: in the above example, I made a mistake on purpose, so try to debug on the platform if the task fails : )</p>
 <p>I will introduce “Tool” function, in the later section, don’t worry.</p>
 <ol start="3" style="list-style-type: decimal">
 <li>For advanced developer/users: if you think a cool command line interface is worth doing, and convenient in any case, then go ahead and make one and create our own container will always be a better idea. this allow you to provide much formal interface at both command line level or container level.</li>
 </ol>
 <p>Here is Dockerfile I used to generate the workflow I need</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/rnaseqGene"</span>, <span class="st">"Dockerfile"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbridges"</span>
+<span class="op">)</span></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 RUN Rscript -e 'source("http://bioconductor.org/workflows.R"); workflowInstall("rnaseqGene")'
 
@@ -473,11 +486,13 @@ RUN chmod a+x /usr/local/bin/performDE.R \
 <li>Test function inside container</li>
 </ol>
 <p>Here is the command line I am using it’s called “performDE.R”</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/rnaseqGene/src"</span>, <span class="st">"performDE.R"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbridges"</span>
+<span class="op">)</span></pre></div>
 <p>Here is the current content of the <code>Dockerfile</code>:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <pre><code>#!/usr/bin/Rscript
 "usage: performDE.R [options]
 
@@ -551,11 +566,13 @@ options:
 <h3 class="hasAnchor">
 <a href="#step-4-add-default-report-template-to-your-app" class="anchor"></a>Step 4: Add default report template to your app</h3>
 <p>As a developer, if you always have a fixed report template provided for you tool, you can hard-code your template into your Docker container, like you noticed in the Dockerfile I created, I insert a report R Markdown template. And in the command line interface, in the end, I pass it to <code><a href="https://rdrr.io/pkg/rmarkdown/man/render.html">rmarkdown::render</a></code> function as parameters ‘param’. In this way, you define your input in the header of R Markdown. Examples like this, this template I used here, is exactly the same report on Bioconductor’s RNA-Seq workflow <a href="https://www.bioconductor.org/help/workflows/rnaseqGene/">website</a>.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/rnaseqGene/report"</span>, <span class="st">"rnaseqGene.Rmd"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbridges"</span>
+<span class="op">)</span></pre></div>
 <p>Here is the current content (first 50 lines of the whole report) of the template:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="fl">50</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <pre><code>---
 title: "Uniform random number generator example"
 date: "`r Sys.Date()`"
@@ -631,64 +648,66 @@ opts_chunk$set(message = FALSE, error = FALSE,
 <li>Expression to specify the javascript expression (note:it’s convenient to do it with graphic user interface, because you can directly see the result of the expression)</li>
 <li>Enum: call ‘enum’.</li>
 </ul>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">rbx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span>(
-  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"rnaseqGene"</span>,
-  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"rnaseqgene"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,
-  <span class="kw">hints</span> <span class="kw">=</span> <span class="fu"><a href="../reference/requirements.html">requirements</a></span>(<span class="fu"><a href="../reference/requirements.html">docker</a></span>(<span class="kw">pull</span> <span class="kw">=</span> <span class="st">"tengfei/rnaseqgene"</span>), <span class="fu"><a href="../reference/requirements.html">cpu</a></span>(<span class="fl">1</span>), <span class="fu"><a href="../reference/requirements.html">mem</a></span>(<span class="fl">2000</span>)),
-  <span class="kw">baseCommand</span> <span class="kw">=</span> <span class="st">"performDE.R"</span>,
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="fu"><a href="../reference/shorthand-cwl.html">input</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"bamfiles"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"bam files"</span>,
-      <span class="kw">description</span> <span class="kw">=</span> <span class="st">"a list of bam files"</span>,
-      <span class="kw">type</span> <span class="kw">=</span> <span class="st">"File..."</span>, <span class="co">## or type = ItemArray("File")</span>
-      <span class="kw">prefix</span> <span class="kw">=</span> <span class="st">"--bamfiles"</span>,
-      <span class="kw">itemSeparator</span> <span class="kw">=</span> <span class="st">","</span>
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">input</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"design"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"design matrix"</span>,
-      <span class="kw">type</span> <span class="kw">=</span> <span class="st">"File"</span>,
-      <span class="kw">prefix</span> <span class="kw">=</span> <span class="st">"--design"</span>
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">input</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"gtffile"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"gene feature files"</span>,
-      <span class="kw">type</span> <span class="kw">=</span> <span class="st">"File"</span>,
-      <span class="kw">prefix</span> <span class="kw">=</span> <span class="st">"--gtffile"</span>
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">input</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"format"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"report foramt html or pdf"</span>,
-      <span class="kw">type</span> <span class="kw">=</span> <span class="fu"><a href="../reference/Enum.html">enum</a></span>(<span class="st">"format"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pdf"</span>, <span class="st">"html"</span>)),
-      <span class="kw">prefix</span> <span class="kw">=</span> <span class="st">"--format"</span>
-    )
-  ),
-  <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"report"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"report"</span>,
-      <span class="kw">description</span> <span class="kw">=</span> <span class="st">"A reproducible report created by Rmarkdown"</span>,
-      <span class="kw">glob</span> <span class="kw">=</span> <span class="fu"><a href="../reference/Expression-class.html">Expression</a></span>(
-        <span class="kw">engine</span> <span class="kw">=</span> <span class="st">"#cwl-js-engine"</span>,
-        <span class="kw">script</span> <span class="kw">=</span> <span class="st">"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x"</span>
-      )
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"heatmap"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"heatmap"</span>,
-      <span class="kw">description</span> <span class="kw">=</span> <span class="st">"A heatmap plot to show the Euclidean distance between samples"</span>,
-      <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"heatmap.pdf"</span>
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"count"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"count"</span>,
-      <span class="kw">description</span> <span class="kw">=</span> <span class="st">"Reads counts matrix"</span>,
-      <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"count.csv"</span>
-    ),
-    <span class="fu"><a href="../reference/shorthand-cwl.html">output</a></span>(
-      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"de"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Differential expression table"</span>,
-      <span class="kw">description</span> <span class="kw">=</span> <span class="st">"Differential expression table"</span>,
-      <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"de.csv"</span>
-    )
-  )
-)</pre></body></html></div>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="va">rbx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Tool-class.html">Tool</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="st">"rnaseqGene"</span>,
+  label <span class="op">=</span> <span class="st">"rnaseqgene"</span>,
+  description <span class="op">=</span> <span class="st">"A RNA-seq Differiencial Expression Flow and Report"</span>,
+  hints <span class="op">=</span> <span class="fu"><a href="../reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span><span class="fu"><a href="../reference/CPURequirement-class.html">docker</a></span><span class="op">(</span>pull <span class="op">=</span> <span class="st">"tengfei/rnaseqgene"</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">cpu</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/CPURequirement-class.html">mem</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span>,
+  baseCommand <span class="op">=</span> <span class="st">"performDE.R"</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/CLB.html">input</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"bamfiles"</span>, label <span class="op">=</span> <span class="st">"bam files"</span>,
+      description <span class="op">=</span> <span class="st">"a list of bam files"</span>,
+      type <span class="op">=</span> <span class="st">"File..."</span>, <span class="co">## or type = ItemArray("File")</span>
+      prefix <span class="op">=</span> <span class="st">"--bamfiles"</span>,
+      itemSeparator <span class="op">=</span> <span class="st">","</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">input</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"design"</span>, label <span class="op">=</span> <span class="st">"design matrix"</span>,
+      type <span class="op">=</span> <span class="st">"File"</span>,
+      prefix <span class="op">=</span> <span class="st">"--design"</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">input</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"gtffile"</span>, label <span class="op">=</span> <span class="st">"gene feature files"</span>,
+      type <span class="op">=</span> <span class="st">"File"</span>,
+      prefix <span class="op">=</span> <span class="st">"--gtffile"</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">input</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"format"</span>, label <span class="op">=</span> <span class="st">"report foramt html or pdf"</span>,
+      type <span class="op">=</span> <span class="fu"><a href="../reference/PrimitiveSingleEnum-class.html">enum</a></span><span class="op">(</span><span class="st">"format"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pdf"</span>, <span class="st">"html"</span><span class="op">)</span><span class="op">)</span>,
+      prefix <span class="op">=</span> <span class="st">"--format"</span>
+    <span class="op">)</span>
+  <span class="op">)</span>,
+  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"report"</span>, label <span class="op">=</span> <span class="st">"report"</span>,
+      description <span class="op">=</span> <span class="st">"A reproducible report created by Rmarkdown"</span>,
+      glob <span class="op">=</span> <span class="fu"><a href="../reference/Expression-class.html">Expression</a></span><span class="op">(</span>
+        engine <span class="op">=</span> <span class="st">"#cwl-js-engine"</span>,
+        script <span class="op">=</span> <span class="st">"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x"</span>
+      <span class="op">)</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"heatmap"</span>, label <span class="op">=</span> <span class="st">"heatmap"</span>,
+      description <span class="op">=</span> <span class="st">"A heatmap plot to show the Euclidean distance between samples"</span>,
+      glob <span class="op">=</span> <span class="st">"heatmap.pdf"</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"count"</span>, label <span class="op">=</span> <span class="st">"count"</span>,
+      description <span class="op">=</span> <span class="st">"Reads counts matrix"</span>,
+      glob <span class="op">=</span> <span class="st">"count.csv"</span>
+    <span class="op">)</span>,
+    <span class="fu"><a href="../reference/CLB.html">output</a></span><span class="op">(</span>
+      id <span class="op">=</span> <span class="st">"de"</span>, label <span class="op">=</span> <span class="st">"Differential expression table"</span>,
+      description <span class="op">=</span> <span class="st">"Differential expression table"</span>,
+      glob <span class="op">=</span> <span class="st">"de.csv"</span>
+    <span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span></pre></div>
 <p>By default it output YAML, but you can print it into JSON as well.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">rbx</span></pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="va">rbx</span></pre></div>
 <pre><code>sbg:id: rnaseqGene
 id: '#rnaseqGene'
 inputs:
@@ -825,7 +844,8 @@ class: CommandLineTool
 baseCommand:
 - performDE.R
 arguments: []</code></pre>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">rbx</span>$<span class="fu">toJSON</span>(<span class="kw">pretty</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="va">rbx</span><span class="op">$</span><span class="fu">toJSON</span><span class="op">(</span>pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
 <pre><code>{
   "sbg:id": "rnaseqGene",
   "id": "#rnaseqGene",
@@ -990,14 +1010,17 @@ arguments: []</code></pre>
   ],
   "arguments": []
 } </code></pre>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">rbx</span>$<span class="fu">toJSON</span>()</pre></body></html></div>
+<div class="sourceCode" id="cb30"><pre class="downlit">
+<span class="va">rbx</span><span class="op">$</span><span class="fu">toJSON</span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>{"sbg:id":"rnaseqGene","id":"#rnaseqGene","inputs":[{"type":["null",{"items":"File","type":"array"}],"label":"bam files","description":"a list of bam files","streamable":false,"default":"","id":"#bamfiles","inputBinding":{"position":0,"prefix":"--bamfiles","separate":true,"itemSeparator":",","shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"design matrix","description":"","streamable":false,"default":"","id":"#design","inputBinding":{"position":0,"prefix":"--design","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null","File"],"label":"gene feature files","description":"","streamable":false,"default":"","id":"#gtffile","inputBinding":{"position":0,"prefix":"--gtffile","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false},{"type":["null",{"name":"format","symbols":["pdf","html"],"type":"enum"}],"label":"report foramt html or pdf","description":"","streamable":false,"default":"","id":"#format","inputBinding":{"position":0,"prefix":"--format","separate":true,"shellQuote":false,"sbg:cmdInclude":true,"streamable":false,"separator":" "},"required":false}],"outputs":[{"type":["null","File"],"label":"report","description":"A reproducible report created by Rmarkdown","streamable":false,"default":"","id":"#report","outputBinding":{"glob":{"engine":"#cwl-js-engine","script":"x = $job[['inputs']][['format']]; if(x == 'undefined' || x == null){x = 'html';};'rnaseqGene.' +  x","class":"Expression"}}},{"type":["null","File"],"label":"heatmap","description":"A heatmap plot to show the Euclidean distance between samples","streamable":false,"default":"","id":"#heatmap","outputBinding":{"glob":"heatmap.pdf"}},{"type":["null","File"],"label":"count","description":"Reads counts matrix","streamable":false,"default":"","id":"#count","outputBinding":{"glob":"count.csv"}},{"type":["null","File"],"label":"Differential expression table","description":"Differential expression table","streamable":false,"default":"","id":"#de","outputBinding":{"glob":"de.csv"}}],"requirements":[],"hints":[{"class":"DockerRequirement","dockerPull":"tengfei/rnaseqgene"},{"class":"sbg:CPURequirement","value":1},{"class":"sbg:MemRequirement","value":2000}],"label":"rnaseqgene","description":"A RNA-seq Differiencial Expression Flow and Report","class":"CommandLineTool","baseCommand":["performDE.R"],"arguments":[]} </code></pre>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"># # or write to an external file
-# fl &lt;- "~/Downloads/rnaseqGene.json"
-# write(rbx$toJSON(pretty = TRUE), fl)</pre></body></html></div>
+<div class="sourceCode" id="cb32"><pre class="downlit">
+<span class="co"># # or write to an external file</span>
+<span class="co"># fl &lt;- "~/Downloads/rnaseqGene.json"</span>
+<span class="co"># write(rbx$toJSON(pretty = TRUE), fl)</span></pre></div>
 <p>Now you want to add app to your project <code>p</code>, by calling <code>app_add</code> method, the first argument is name, the second is either a CWL JSON file, <code>Tool</code> object, or <code>Workflow</code> object.</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="co"># add App you just created</span>
-(<span class="no">rna.app</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">app_add</span>(<span class="st">"rnaseqgene"</span>, <span class="no">rbx</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb33"><pre class="downlit">
+<span class="co"># add App you just created</span>
+<span class="op">(</span><span class="va">rna.app</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">app_add</span><span class="op">(</span><span class="st">"rnaseqgene"</span>, <span class="va">rbx</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Please go check your app in your project, check input output and how it maps to the UI.</p>
 </div>
 <div id="step-6-execute-your-tool-with-a-new-task-via-r-api" class="section level3">
@@ -1015,30 +1038,32 @@ arguments: []</code></pre>
 <code>metadata</code>: a list of meta otherwise search for the same file name ended with “.meta”</li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)
-(<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">project</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"tengfei/quickstart"</span>))
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample1.fastq"</span>, package <span class="op">=</span> <span class="st">"sevenbridges"</span><span class="op">)</span>
+<span class="op">(</span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">project</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"tengfei/quickstart"</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># by default load .meta for the file</span>
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">fl</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">fl</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co"># pass metadata</span>
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">fl</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">metadata</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">library_id</span> <span class="kw">=</span> <span class="st">"testid2"</span>, <span class="kw">platform</span> <span class="kw">=</span> <span class="st">"Illumina x11"</span>))
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">fl</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>library_id <span class="op">=</span> <span class="st">"testid2"</span>, platform <span class="op">=</span> <span class="st">"Illumina x11"</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># rename</span>
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">fl</span>,
-  <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">name</span> <span class="kw">=</span> <span class="st">"sample_new_name.fastq"</span>,
-  <span class="kw">metadata</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">library_id</span> <span class="kw">=</span> <span class="st">"new_id"</span>)
-)
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">fl</span>,
+  overwrite <span class="op">=</span> <span class="cn">TRUE</span>, name <span class="op">=</span> <span class="st">"sample_new_name.fastq"</span>,
+  metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>library_id <span class="op">=</span> <span class="st">"new_id"</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># upload folder</span>
-<span class="no">dir.ext</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">dir.ext</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="va">dir.ext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"sevenbridges"</span><span class="op">)</span>
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">dir.ext</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># upload file list</span>
-<span class="no">fls</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="no">dir.ext</span>, <span class="kw">recursive</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">fls</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir.ext</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">fls</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
 <p>For now try using our graphic user interface to import all files listed here:</p>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">download.fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/download.txt"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">download.fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
-<pre><code>Warning in readLines(download.fl): incomplete final line found on '/Users/nanx/
-rpkgs/sevenbridges/extdata/download.txt'</code></pre>
+<div class="sourceCode" id="cb35"><pre class="downlit">
+<span class="va">download.fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/download.txt"</span>, package <span class="op">=</span> <span class="st">"sevenbridges"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">download.fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
+<pre><code>Warning in readLines(download.fl): incomplete final line found on '/Users/
+c02sn03cfvh6/rpkgs/sevenbridges/extdata/download.txt'</code></pre>
 <pre><code>https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/example_report.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello-markdown.Rmd
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/hello.tar
@@ -1054,79 +1079,87 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039520_subset.bam
 https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/data/SRR1039521_subset.bam</code></pre>
 <p>To use the API to uplaod, let’s download it to a folder and upload via API.</p>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">td</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="no">td</span>)
-<span class="kw">for</span> (<span class="no">f</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">download.fl</span>)) {
-  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="no">f</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">td</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(<span class="no">f</span>)))
-}
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">f</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">download.fl</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span><span class="va">f</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>
 <span class="co"># double check</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="no">td</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">td</span><span class="op">)</span>
 <span class="co"># upload to the project you created</span>
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="no">td</span>)</pre></body></html></div>
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="va">td</span><span class="op">)</span></pre></div>
 <p>Copy this list, and then in your project, click “add files”, and choose “import from ftp” (<a href="http://docs.cancergenomicscloud.org/docs/copy-files-to-a-project">tutorial</a>).</p>
 <p>When it’s finished, refresh your file page, you will be able to see all of them. The cool thing is that you can search file by ‘name’ not by id, it support fuzzy pattern match.</p>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="co"># get file id you need as inout</span>
-(<span class="no">bamfiles.in</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">".bam"</span>))
-(<span class="no">design.in</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"sample_table.csv"</span>))
-(<span class="no">gtf.in</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb39"><pre class="downlit">
+<span class="co"># get file id you need as inout</span>
+<span class="op">(</span><span class="va">bamfiles.in</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">".bam"</span><span class="op">)</span><span class="op">)</span>
+<span class="op">(</span><span class="va">design.in</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">"sample_table.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="op">(</span><span class="va">gtf.in</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">"Homo_sapiens.GRCh37.75_subset.gtf"</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Note: you can also passed a list of files like this, to give exact file names</p>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="no">bam1</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"SRR1039516_subset.bam"</span>)
-<span class="no">bam2</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"SRR1039512_subset.bam"</span>)
-<span class="no">bamfiles.in2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">bam1</span>, <span class="no">bam2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb40"><pre class="downlit">
+<span class="va">bam1</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">"SRR1039516_subset.bam"</span><span class="op">)</span>
+<span class="va">bam2</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">"SRR1039512_subset.bam"</span><span class="op">)</span>
+<span class="va">bamfiles.in2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">bam1</span>, <span class="va">bam2</span><span class="op">)</span></pre></div>
 <p>Now create a new draft task in your project, don’t forget to pass input.</p>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="co"># add a new Task</span>
-(<span class="no">tsk</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">task_add</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"RNA DE report new"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"RNA DE analysis report"</span>,
-  <span class="kw">app</span> <span class="kw">=</span> <span class="no">rna.app</span>$<span class="no">id</span>,
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">bamfiles</span> <span class="kw">=</span> <span class="no">bamfiles.in</span>,
-    <span class="kw">design</span> <span class="kw">=</span> <span class="no">design.in</span>,
-    <span class="kw">gtffile</span> <span class="kw">=</span> <span class="no">gtf.in</span>
-  )
-))
+<div class="sourceCode" id="cb41"><pre class="downlit">
+<span class="co"># add a new Task</span>
+<span class="op">(</span><span class="va">tsk</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">task_add</span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"RNA DE report new"</span>,
+  description <span class="op">=</span> <span class="st">"RNA DE analysis report"</span>,
+  app <span class="op">=</span> <span class="va">rna.app</span><span class="op">$</span><span class="va">id</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    bamfiles <span class="op">=</span> <span class="va">bamfiles.in</span>,
+    design <span class="op">=</span> <span class="va">design.in</span>,
+    gtffile <span class="op">=</span> <span class="va">gtf.in</span>
+  <span class="op">)</span>
+<span class="op">)</span><span class="op">)</span>
 
 <span class="co"># don't forget to run a draft task</span>
-<span class="no">tsk</span>$<span class="fu">run</span>()</pre></body></html></div>
+<span class="va">tsk</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>To monitor the task, run following command, it will tell you when it’s finished, but this is not running in the background now.</p>
-<div class="sourceCode" id="cb42"><html><body><pre class="r"># # monitor the task
-# tsk$monitor()</pre></body></html></div>
+<div class="sourceCode" id="cb42"><pre class="downlit">
+<span class="co"># # monitor the task</span>
+<span class="co"># tsk$monitor()</span></pre></div>
 <p>A better way is to use the Task hook function, it’s flexible, you can hook any function to a task status. For example, when it’s complete download the files. Now try to send your self a text message : )</p>
-<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="fu"><a href="../reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="kw">function</span>() {
-  <span class="no">tsk</span>$<span class="fu"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)
-})
-<span class="no">tsk</span>$<span class="fu">monitor</span>()</pre></body></html></div>
+<div class="sourceCode" id="cb43"><pre class="downlit">
+<span class="fu"><a href="../reference/setTaskHook.html">setTaskHook</a></span><span class="op">(</span><span class="st">"completed"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">tsk</span><span class="op">$</span><span class="fu">download</span><span class="op">(</span><span class="st">"~/Downloads"</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="va">tsk</span><span class="op">$</span><span class="fu">monitor</span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>To download all files from a completed tasks</p>
-<div class="sourceCode" id="cb44"><html><body><pre class="r"><span class="no">tsk</span>$<span class="fu"><a href="../reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb44"><pre class="downlit">
+<span class="va">tsk</span><span class="op">$</span><span class="fu">download</span><span class="op">(</span><span class="st">"~/Downloads"</span><span class="op">)</span></pre></div>
 <p>To run task in batch mode, check <code><a href="../reference/batch.html">?batch</a></code> for more details. Here is an mock running:</p>
-<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="co"># batch by items</span>
-(<span class="no">tsk</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">task_add</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"RNA DE report new batch 2"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"RNA DE analysis report"</span>,
-  <span class="kw">app</span> <span class="kw">=</span> <span class="no">rna.app</span>$<span class="no">id</span>,
-  <span class="kw">batch</span> <span class="kw">=</span> <span class="fu"><a href="../reference/batch.html">batch</a></span>(<span class="kw">input</span> <span class="kw">=</span> <span class="st">"bamfiles"</span>),
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">bamfiles</span> <span class="kw">=</span> <span class="no">bamfiles.in</span>,
-    <span class="kw">design</span> <span class="kw">=</span> <span class="no">design.in</span>,
-    <span class="kw">gtffile</span> <span class="kw">=</span> <span class="no">gtf.in</span>
-  )
-))
+<div class="sourceCode" id="cb45"><pre class="downlit">
+<span class="co"># batch by items</span>
+<span class="op">(</span><span class="va">tsk</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">task_add</span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"RNA DE report new batch 2"</span>,
+  description <span class="op">=</span> <span class="st">"RNA DE analysis report"</span>,
+  app <span class="op">=</span> <span class="va">rna.app</span><span class="op">$</span><span class="va">id</span>,
+  batch <span class="op">=</span> <span class="fu"><a href="../reference/batch.html">batch</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"bamfiles"</span><span class="op">)</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    bamfiles <span class="op">=</span> <span class="va">bamfiles.in</span>,
+    design <span class="op">=</span> <span class="va">design.in</span>,
+    gtffile <span class="op">=</span> <span class="va">gtf.in</span>
+  <span class="op">)</span>
+<span class="op">)</span><span class="op">)</span>
 
 <span class="co"># batch by metadata, input files has to have metadata fields specified</span>
-(<span class="no">tsk</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">task_add</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"RNA DE report new batch 3"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"RNA DE analysis report"</span>,
-  <span class="kw">app</span> <span class="kw">=</span> <span class="no">rna.app</span>$<span class="no">id</span>,
-  <span class="kw">batch</span> <span class="kw">=</span> <span class="fu"><a href="../reference/batch.html">batch</a></span>(
-    <span class="kw">input</span> <span class="kw">=</span> <span class="st">"fastq"</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)
-  ),
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">bamfiles</span> <span class="kw">=</span> <span class="no">bamfiles.in</span>,
-    <span class="kw">design</span> <span class="kw">=</span> <span class="no">design.in</span>,
-    <span class="kw">gtffile</span> <span class="kw">=</span> <span class="no">gtf.in</span>
-  )
-))</pre></body></html></div>
+<span class="op">(</span><span class="va">tsk</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">task_add</span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"RNA DE report new batch 3"</span>,
+  description <span class="op">=</span> <span class="st">"RNA DE analysis report"</span>,
+  app <span class="op">=</span> <span class="va">rna.app</span><span class="op">$</span><span class="va">id</span>,
+  batch <span class="op">=</span> <span class="fu"><a href="../reference/batch.html">batch</a></span><span class="op">(</span>
+    input <span class="op">=</span> <span class="st">"fastq"</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span><span class="op">)</span>
+  <span class="op">)</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    bamfiles <span class="op">=</span> <span class="va">bamfiles.in</span>,
+    design <span class="op">=</span> <span class="va">design.in</span>,
+    gtffile <span class="op">=</span> <span class="va">gtf.in</span>
+  <span class="op">)</span>
+<span class="op">)</span><span class="op">)</span></pre></div>
 <p>For more details, check R API tutorial.</p>
 </div>
 </div>
@@ -1165,10 +1198,11 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
 </ol>
 <p>If you are interested, you can still read my <code>Dockerfile</code>, command line, tool generator and JSON.</p>
 <p><em>I will suggest you directly copy the json into your project.</em> Just to try add an app in a different way.</p>
-<div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/rabix/reporttool.json"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb46"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/reporttool/rabix/reporttool.json"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbridges"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <pre><code>{
   "sbg:id": "reporttool",
   "id": "#reporttool",
@@ -1492,17 +1526,19 @@ https://raw.githubusercontent.com/tengfei/resource/master/2016/04-01-hackathon/d
   "context": ""
 }</code></pre>
 <p>Or just use API to add the raw JSON file</p>
-<div class="sourceCode" id="cb48"><html><body><pre class="r"><span class="co"># directly add json file</span>
-<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">project</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"tengfei/hackathon"</span>)
-(<span class="no">report.app</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">app_add</span>(<span class="st">"report-tool"</span>, <span class="no">fl</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb48"><pre class="downlit">
+<span class="co"># directly add json file</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">project</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"tengfei/hackathon"</span><span class="op">)</span>
+<span class="op">(</span><span class="va">report.app</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">app_add</span><span class="op">(</span><span class="st">"report-tool"</span>, <span class="va">fl</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Checkout the Dockerfile</p>
-<div class="sourceCode" id="cb49"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/Dockerfile"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb49"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/reporttool/Dockerfile"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbridges"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <pre><code>FROM rocker/tidyverse
 
-LABEL maintainer="nan.xiao@sevenbridges.com"
+LABEL maintainer="soner.koc@sevenbridges.com"
 
 RUN rm -f /var/lib/dpkg/available \
     &amp;&amp; rm -rf  /var/cache/apt/* \
@@ -1515,21 +1551,23 @@ ADD src/report.R /usr/local/bin/
 
 RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <p>Checkout the command line</p>
-<div class="sourceCode" id="cb51"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/src/report.R"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbriges"</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb51"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/reporttool/src/report.R"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbriges"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 <p>Checkout the tool generator</p>
-<div class="sourceCode" id="cb52"><html><body><pre class="r"><span class="no">fl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"docker/reporttool/rabix/generator.R"</span>,
-  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbriges"</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="no">fl</span>), <span class="kw">sep</span> <span class="kw">=</span> <span class="st">"\n"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb52"><pre class="downlit">
+<span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"docker/reporttool/rabix/generator.R"</span>,
+  package <span class="op">=</span> <span class="st">"sevenbriges"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></pre></div>
 </div>
 </div>
 <div id="compose-a-full-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#compose-a-full-workflow" class="anchor"></a>Compose a full workflow</h2>
-<p>Even though in R with <code>sevenbridges</code> package you can use <code><a href="../reference/Flow.html">%&gt;&gt;%</a></code> to connect two Tool object, but this only works for linear simple flow. For a complicated flow, we recommend you to use graphic user interface, it’s a lot of fun.</p>
+<p>Even though in R with <code>sevenbridges</code> package you can use <code><a href="../reference/SBGWorkflow-class.html">%&gt;&gt;%</a></code> to connect two Tool object, but this only works for linear simple flow. For a complicated flow, we recommend you to use graphic user interface, it’s a lot of fun.</p>
 <p>Now connect your RNA-seq tool with the report tool you just add it to your project, follow the tutorial <a href="http://docs.cancergenomicscloud.org/docs/the-pipeline-editor">here</a>, then make a workflow like this:</p>
 <p><img src="https://i.imgur.com/dTKvLdt.png" width="100%" class="img-responsive" alt="cgc-workflow"></p>
 <p>And next run a task on the platform via UI like this:</p>
@@ -1545,7 +1583,8 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 <h1 class="hasAnchor">
 <a href="#more-tutorials" class="anchor"></a>More tutorials</h1>
 <p>After you installed the package</p>
-<div class="sourceCode" id="cb53"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span>(<span class="st">"sevenbridges"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb53"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes</a></span><span class="op">(</span><span class="st">"sevenbridges"</span><span class="op">)</span></pre></div>
 <p>or on the <a href="https://sbg.github.io/sevenbridges-r/articles/">vignettes page</a>.</p>
 </div>
   </div>
@@ -1561,11 +1600,11 @@ RUN chmod a+x /usr/local/bin/report.R</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,21 +166,21 @@
     <p>Upload files using Seven Bridges command line uploader.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cli_upload</span>(
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>uploader</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>project</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>proxy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>manifest_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>manifest_metadata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"none"</span>, <span class='st'>"partial"</span>),
-  <span class='kw'>metadata_fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dry_run</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dry_run_fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>cli_upload</span><span class='op'>(</span>
+  token <span class='op'>=</span> <span class='cn'>NULL</span>,
+  uploader <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  project <span class='op'>=</span> <span class='cn'>NULL</span>,
+  proxy <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tag <span class='op'>=</span> <span class='cn'>NULL</span>,
+  manifest_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  manifest_metadata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"all"</span>, <span class='st'>"none"</span>, <span class='st'>"partial"</span><span class='op'>)</span>,
+  metadata_fields <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dry_run <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dry_run_fields <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>misc_upload_cli</span>()</pre>
+<span class='fu'>misc_upload_cli</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -267,13 +267,14 @@ See <code><a href='cli_list_projects.html'>cli_list_projects</a></code> and <cod
 for listing available projects or tags with the command line uploader.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>token</span> <span class='kw'>&lt;-</span> <span class='st'>"your_token"</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>cli_upload</span>(
-  <span class='kw'>token</span> <span class='kw'>=</span> <span class='no'>token</span>,
-  <span class='kw'>uploader</span> <span class='kw'>=</span> <span class='st'>"~/Downloads/cgc-uploader/"</span>,
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>"~/example.fastq"</span>, <span class='kw'>project</span> <span class='kw'>=</span> <span class='st'>"username/project-name"</span>
-)}</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>token</span> <span class='op'>&lt;-</span> <span class='st'>"your_token"</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>cli_upload</span><span class='op'>(</span>
+  token <span class='op'>=</span> <span class='va'>token</span>,
+  uploader <span class='op'>=</span> <span class='st'>"~/Downloads/cgc-uploader/"</span>,
+  file <span class='op'>=</span> <span class='st'>"~/example.fastq"</span>, project <span class='op'>=</span> <span class='st'>"username/project-name"</span>
+<span class='op'>)</span><span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,11 +286,11 @@ for listing available projects or tags with the command line uploader.</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

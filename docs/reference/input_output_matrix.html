@@ -93,7 +93,7 @@ list parsed from JSON file. Compare to convert_app, it is much faster." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -170,13 +170,13 @@ list parsed from JSON file. Compare to convert_app, it is much faster." />
 list parsed from JSON file. Compare to <code>convert_app</code>, it is much faster.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>input_matrix</span>(
-  <span class='no'>from</span>,
-  <span class='kw'>new.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"label"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"prefix"</span>, <span class='st'>"fileTypes"</span>),
-  <span class='kw'>required</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>input_matrix</span><span class='op'>(</span>
+  <span class='va'>from</span>,
+  new.order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='st'>"label"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"prefix"</span>, <span class='st'>"fileTypes"</span><span class='op'>)</span>,
+  required <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>output_matrix</span>(<span class='no'>from</span>, <span class='kw'>new.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"label"</span>, <span class='st'>"type"</span>, <span class='st'>"fileTypes"</span>))</pre>
+<span class='fu'>output_matrix</span><span class='op'>(</span><span class='va'>from</span>, new.order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='st'>"label"</span>, <span class='st'>"type"</span>, <span class='st'>"fileTypes"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,15 +203,18 @@ list parsed from JSON file. Compare to <code>convert_app</code>, it is much fast
     <p>A data frame of input/output information.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='fu'>input_matrix</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt;                    id              label type required               prefix
+    <pre class="examples"><div class='input'><span class='va'>tool.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>flow.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='fu'>input_matrix</span><span class='op'>(</span><span class='va'>tool.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                    id              label type required               prefix
 #&gt; 1 #input_archive_file Input archive file File     TRUE --input_archive_file
 #&gt;                                        fileTypes
-#&gt; 1 TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP</div><div class='input'><span class='fu'>input_matrix</span>(<span class='no'>tool.in</span>, <span class='kw'>required</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                    id              label type required               prefix
+#&gt; 1 TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP</div><div class='input'><span class='fu'>input_matrix</span><span class='op'>(</span><span class='va'>tool.in</span>, required <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                    id              label type required               prefix
 #&gt; 1 #input_archive_file Input archive file File     TRUE --input_archive_file
 #&gt;                                        fileTypes
-#&gt; 1 TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP</div><div class='input'><span class='fu'>input_matrix</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt;                                id                    label    type required
+#&gt; 1 TAR, TAR.GZ, TGZ, TAR.BZ2, TBZ2,  GZ, BZ2, ZIP</div><div class='input'><span class='fu'>input_matrix</span><span class='op'>(</span><span class='va'>flow.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                id                    label    type required
 #&gt; 1                    #sjdbGTFfile              sjdbGTFfile File...    FALSE
 #&gt; 2                          #fastq                    fastq File...     TRUE
 #&gt; 3               #genomeFastaFiles         genomeFastaFiles    File     TRUE
@@ -226,19 +229,23 @@ list parsed from JSON file. Compare to <code>convert_app</code>, it is much fast
 #&gt; 4      null
 #&gt; 5      null
 #&gt; 6      null
-#&gt; 7      null</div><div class='input'><span class='fu'>input_matrix</span>(<span class='no'>flow.in</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>))</div><div class='output co'>#&gt;                                id    type
+#&gt; 7      null</div><div class='input'><span class='fu'>input_matrix</span><span class='op'>(</span><span class='va'>flow.in</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='st'>"type"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                id    type
 #&gt; 1                    #sjdbGTFfile File...
 #&gt; 2                          #fastq File...
 #&gt; 3               #genomeFastaFiles    File
 #&gt; 4 #sjdbGTFtagExonParentTranscript  string
 #&gt; 5       #sjdbGTFtagExonParentGene  string
 #&gt; 6          #winAnchorMultimapNmax     int
-#&gt; 7             #winAnchorDistNbins     int</div><div class='input'><span class='fu'>input_matrix</span>(<span class='no'>flow.in</span>, <span class='kw'>required</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                  id            label    type required fileTypes
+#&gt; 7             #winAnchorDistNbins     int</div><div class='input'><span class='fu'>input_matrix</span><span class='op'>(</span><span class='va'>flow.in</span>, required <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                  id            label    type required fileTypes
 #&gt; 2            #fastq            fastq File...     TRUE      null
-#&gt; 3 #genomeFastaFiles genomeFastaFiles    File     TRUE      null</div><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='fu'>output_matrix</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt;                    id              label    type fileTypes
-#&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ</div><div class='input'><span class='fu'>output_matrix</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt;                              id                       label    type fileTypes
+#&gt; 3 #genomeFastaFiles genomeFastaFiles    File     TRUE      null</div><div class='input'><span class='va'>tool.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>flow.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='fu'>output_matrix</span><span class='op'>(</span><span class='va'>tool.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                    id              label    type fileTypes
+#&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ</div><div class='input'><span class='fu'>output_matrix</span><span class='op'>(</span><span class='va'>flow.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                              id                       label    type fileTypes
 #&gt; 1               #unmapped_reads              unmapped_reads File...      null
 #&gt; 2  #transcriptome_aligned_reads transcriptome_aligned_reads    File      null
 #&gt; 3             #splice_junctions            splice_junctions    File      null
@@ -260,11 +267,11 @@ list parsed from JSON file. Compare to <code>convert_app</code>, it is much fast
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -92,7 +92,7 @@ prepare a object to be conveted to YAML/JSON." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -168,22 +168,22 @@ prepare a object to be conveted to YAML/JSON." />
 prepare a object to be conveted to YAML/JSON.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ANY</span>
-<span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for CWL</span>
-<span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for SingleEnum</span>
-<span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for SimpleList</span>
-<span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for DSCList</span>
-<span class='fu'>asList</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,37 +205,42 @@ For example, class CWL, SimpleList.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># define a S4 object</span>
-<span class='no'>A</span> <span class='kw'>&lt;-</span> <span class='fu'>setClass</span>(<span class='st'>"A"</span>, <span class='kw'>slots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"character"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>))
+<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='kw'>setClass</span><span class='op'>(</span><span class='st'>"A"</span>, slots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='st'>"character"</span>, b <span class='op'>=</span> <span class='st'>"numeric"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># define a reference object which extends 'CWL' class</span>
-<span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'>setRefClass</span>(<span class='st'>"B"</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"character"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"A"</span>), <span class='kw'>contains</span> <span class='kw'>=</span> <span class='st'>"CWL"</span>)
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='kw'>setRefClass</span><span class='op'>(</span><span class='st'>"B"</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"character"</span>, y <span class='op'>=</span> <span class='st'>"A"</span><span class='op'>)</span>, contains <span class='op'>=</span> <span class='st'>"CWL"</span><span class='op'>)</span>
 <span class='co'># new instances</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>A</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"hello"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>123</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>B</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"world"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>a</span>)
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'>A</span><span class='op'>(</span>a <span class='op'>=</span> <span class='st'>"hello"</span>, b <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
+<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'>B</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"world"</span>, y <span class='op'>=</span> <span class='va'>a</span><span class='op'>)</span>
 
 <span class='co'># show</span>
-<span class='no'>b</span></div><div class='output co'>#&gt; x: world
+<span class='va'>b</span>
+</div><div class='output co'>#&gt; x: world
 #&gt; 'y':
 #&gt;   a: hello
 #&gt;   b: 123.0
-#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'>show</span>(<span class='st'>"JSON"</span>)</div><div class='output co'>#&gt; {
+#&gt; </div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span><span class='st'>"JSON"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {
 #&gt;     "x": "world",
 #&gt;     "y": {
 #&gt;         "a": "hello",
 #&gt;         "b": 123
 #&gt;     }
 #&gt; }
-#&gt;  </div><div class='input'><span class='no'>b</span>$<span class='fu'>show</span>(<span class='st'>"YAML"</span>)</div><div class='output co'>#&gt; x: world
+#&gt;  </div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span><span class='st'>"YAML"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; x: world
 #&gt; 'y':
 #&gt;   a: hello
 #&gt;   b: 123.0
 #&gt; </div><div class='input'>
 <span class='co'># You can convert slots/fields into a list</span>
-<span class='fu'>asList</span>(<span class='no'>a</span>)</div><div class='output co'>#&gt; $a
+<span class='fu'>asList</span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $a
 #&gt; [1] "hello"
 #&gt; 
 #&gt; $b
 #&gt; [1] 123
-#&gt; </div><div class='input'><span class='fu'>asList</span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; $x
+#&gt; </div><div class='input'><span class='fu'>asList</span><span class='op'>(</span><span class='va'>b</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $x
 #&gt; [x] "world"
 #&gt; 
 #&gt; $y
@@ -245,7 +250,8 @@ For example, class CWL, SimpleList.</p></td>
 #&gt; $y$b
 #&gt; [x] 123
 #&gt; 
-#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'>toList</span>()</div><div class='output co'>#&gt; $x
+#&gt; </div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>toList</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $x
 #&gt; [x] "world"
 #&gt; 
 #&gt; $y
@@ -255,7 +261,9 @@ For example, class CWL, SimpleList.</p></td>
 #&gt; $y$b
 #&gt; [x] 123
 #&gt; 
-#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'>toYAML</span>()</div><div class='output co'>#&gt; [1] "x: world\n'y':\n  a: hello\n  b: 123.0\n"</div><div class='input'><span class='no'>b</span>$<span class='fu'>toJSON</span>()</div><div class='output co'>#&gt; {"x":"world","y":{"a":"hello","b":123}} </div></pre>
+#&gt; </div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>toYAML</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "x: world\n'y':\n  a: hello\n  b: 123.0\n"</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>toJSON</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {"x":"world","y":{"a":"hello","b":123}} </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -267,11 +275,11 @@ For example, class CWL, SimpleList.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

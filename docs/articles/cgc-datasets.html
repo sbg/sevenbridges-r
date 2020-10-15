@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -107,12 +107,12 @@
 
       
 
-      </header><script src="cgc-datasets_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
+      </header><script src="cgc-datasets_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Find Data on CGC via Data Browser and Datasets API</h1>
             
-            <h4 class="date">2020-08-11</h4>
+            <h4 class="date">2020-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sbg/sevenbridges-r/blob/master/vignettes/cgc-datasets.Rmd"><code>vignettes/cgc-datasets.Rmd</code></a></small>
       <div class="hidden name"><code>cgc-datasets.Rmd</code></div>
@@ -152,47 +152,52 @@
 <li><code>https://cgc-datasets-api.sbgenomics.com/</code></li>
 </ul>
 <p>use <code>Auth$api()</code> method so there is no need to type base URL or token again.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.sevenbridges.com">"sevenbridges"</a></span><span class="op">)</span>
 <span class="co"># create an Auth object</span>
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(
-  <span class="kw">url</span> <span class="kw">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/"</span>,
-  <span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_cgc_token"</span>
-)
-<span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"datasets"</span>)</pre></body></html></div>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>
+  url <span class="op">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/"</span>,
+  token <span class="op">=</span> <span class="st">"your_cgc_token"</span>
+<span class="op">)</span>
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"datasets"</span><span class="op">)</span></pre></div>
 </div>
 <div id="return-list-of-all-tcga-entities" class="section level3">
 <h3 class="hasAnchor">
 <a href="#return-list-of-all-tcga-entities" class="anchor"></a>Return list of all TCGA entities</h3>
 <p>You can issue another <code>GET</code> request to the href of the tcga object, if you want to access TCGA data.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(
-  <span class="kw">url</span> <span class="kw">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0"</span>,
-  <span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_cgc_token"</span>
-)
-(<span class="no">res</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>()) <span class="co"># default method is GET</span>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>
+  url <span class="op">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0"</span>,
+  token <span class="op">=</span> <span class="st">"your_cgc_token"</span>
+<span class="op">)</span>
+<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># default method is GET</span>
 <span class="co"># list all resources/entities</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">res</span>$<span class="st">"_links"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="st">"_links"</span><span class="op">)</span></pre></div>
 </div>
 <div id="interpreting-the-list-of-all-entities" class="section level3">
 <h3 class="hasAnchor">
 <a href="#interpreting-the-list-of-all-entities" class="anchor"></a>Interpreting the list of all entities</h3>
 <p>For example, to see a list of all TCGA files, send the request:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">(<span class="no">res</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"files"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"files"</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>For example, to see the <strong>metadata schema</strong> for files send the request:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"files/schema"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"files/schema"</span><span class="op">)</span></pre></div>
 </div>
 <div id="copy-files-to-you-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#copy-files-to-you-project" class="anchor"></a>Copy files to you project</h3>
 <p>Get file id from Datasets API, then use public API to copy files. Make sure your project is “TCGA” compatible, otherwise if you are trying to copy controlled access data to your non-TCGA project, you will get</p>
 <pre><code>"HTTP Status 403: Insufficient privileges to access the requested file."</code></pre>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">(<span class="no">res</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"files"</span>))
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"files"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">get_id</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">obj</span>) <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">obj</span>$<span class="st">"_embedded"</span>$<span class="no">files</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
-<span class="no">ids</span> <span class="kw">&lt;-</span> <span class="fu">get_id</span>(<span class="no">res</span>)
+<span class="va">get_id</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span><span class="va">files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
+<span class="va">ids</span> <span class="op">&lt;-</span> <span class="fu">get_id</span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
 
 <span class="co"># create CGC auth</span>
-<span class="no">a_cgc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span>(<span class="kw">platform</span> <span class="kw">=</span> <span class="st">"cgc"</span>, <span class="kw">token</span> <span class="kw">=</span> <span class="no">a</span>$<span class="no">token</span>)
-<span class="no">a_cgc</span>$<span class="fu">copyFile</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="no">ids</span>, <span class="kw">project</span> <span class="kw">=</span> <span class="st">"RFranklin/tcga-demo"</span>)</pre></body></html></div>
+<span class="va">a_cgc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Auth-class.html">Auth</a></span><span class="op">(</span>platform <span class="op">=</span> <span class="st">"cgc"</span>, token <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">token</span><span class="op">)</span>
+<span class="va">a_cgc</span><span class="op">$</span><span class="fu">copyFile</span><span class="op">(</span>id <span class="op">=</span> <span class="va">ids</span>, project <span class="op">=</span> <span class="st">"RFranklin/tcga-demo"</span><span class="op">)</span></pre></div>
 </div>
 </div>
 <div id="post-with-query" class="section level2">
@@ -202,106 +207,114 @@
 <div id="find-samples-connected-to-a-case" class="section level3">
 <h3 class="hasAnchor">
 <a href="#find-samples-connected-to-a-case" class="anchor"></a>Find samples connected to a case</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">body</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="kw">entity</span> <span class="kw">=</span> <span class="st">"samples"</span>,
-  <span class="kw">hasCase</span> <span class="kw">=</span> <span class="st">"0004D251-3F70-4395-B175-C94C2F5B1B81"</span>
-)
-<span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"query"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"POST"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">body</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  entity <span class="op">=</span> <span class="st">"samples"</span>,
+  hasCase <span class="op">=</span> <span class="st">"0004D251-3F70-4395-B175-C94C2F5B1B81"</span>
+<span class="op">)</span>
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"query"</span>, body <span class="op">=</span> <span class="va">body</span>, method <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></pre></div>
 <p>Count samples connected to a case</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"query/total"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"POST"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"query/total"</span>, body <span class="op">=</span> <span class="va">body</span>, method <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></pre></div>
 <p>Issuing a <code>GET</code> request to the href path will return the following data:</p>
 <p>Note: <code>api</code> function is a light layer of httr package, it’s different from <code>Auth$api</code> call.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">httr</span><span class="kw ns">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(
-  <span class="fu"><a href="../reference/api.html">api</a></span>(
-    <span class="kw">token</span> <span class="kw">=</span> <span class="no">a</span>$<span class="no">token</span>,
-    <span class="kw">base_url</span> <span class="kw">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"</span>
-  )
-)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/api.html">api</a></span><span class="op">(</span>
+    token <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">token</span>,
+    base_url <span class="op">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/samples/9259E9EE-7279-4B62-8512-509CB705029C"</span>
+  <span class="op">)</span>
+<span class="op">)</span></pre></div>
 </div>
 <div id="find-cases-with-given-age-at-diagnosis" class="section level3">
 <h3 class="hasAnchor">
 <a href="#find-cases-with-given-age-at-diagnosis" class="anchor"></a>Find cases with given age at diagnosis</h3>
 <p>Suppose you want to see all cases for which the age at diagnosis is between 10 and 50. Then, you use the following query.</p>
 <p>Note that the value of the metadata field hasAgeAtDiagnosis is a dictionary containing the keyfilter, whose value is a further dictionary with keysgt(greater than) and lt (less than) for the upper and lower bounds to filter by.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">body</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="st">"entity"</span> <span class="kw">=</span> <span class="st">"cases"</span>,
-  <span class="st">"hasAgeAtDiagnosis"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"filter"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="st">"gt"</span> <span class="kw">=</span> <span class="fl">10</span>,
-      <span class="st">"lt"</span> <span class="kw">=</span> <span class="fl">50</span>
-    )
-  )
-)
-<span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"query"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"POST"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="va">body</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"entity"</span> <span class="op">=</span> <span class="st">"cases"</span>,
+  <span class="st">"hasAgeAtDiagnosis"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"filter"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="st">"gt"</span> <span class="op">=</span> <span class="fl">10</span>,
+      <span class="st">"lt"</span> <span class="op">=</span> <span class="fl">50</span>
+    <span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span>
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"query"</span>, body <span class="op">=</span> <span class="va">body</span>, method <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></pre></div>
 </div>
 <div id="find-cases-with-a-given-age-at-diagnosis-and-disease" class="section level3">
 <h3 class="hasAnchor">
 <a href="#find-cases-with-a-given-age-at-diagnosis-and-disease" class="anchor"></a>Find cases with a given age at diagnosis and disease</h3>
 <p>Suppose you want to see all cases that, as in the example, (<a href="#find-cases-with-given-age-at-diagnosis">Find cases with given age at diagnosis</a>)(doc:find-all-cases-with-a-given-age-at-diagnosis), have an age at diagnosis of between 10 and 50, but that also have the disease “Kidney Chromophobe”. Then, use the following query:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">body</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="st">"entity"</span> <span class="kw">=</span> <span class="st">"cases"</span>,
-  <span class="st">"hasAgeAtDiagnosis"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"filter"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="st">"gt"</span> <span class="kw">=</span> <span class="fl">10</span>,
-      <span class="st">"lt"</span> <span class="kw">=</span> <span class="fl">50</span>
-    )
-  ),
-  <span class="st">"hasDiseaseType"</span> <span class="kw">=</span> <span class="st">"Kidney Chromophobe"</span>
-)
-<span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"query"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"POST"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="va">body</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"entity"</span> <span class="op">=</span> <span class="st">"cases"</span>,
+  <span class="st">"hasAgeAtDiagnosis"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"filter"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="st">"gt"</span> <span class="op">=</span> <span class="fl">10</span>,
+      <span class="st">"lt"</span> <span class="op">=</span> <span class="fl">50</span>
+    <span class="op">)</span>
+  <span class="op">)</span>,
+  <span class="st">"hasDiseaseType"</span> <span class="op">=</span> <span class="st">"Kidney Chromophobe"</span>
+<span class="op">)</span>
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"query"</span>, body <span class="op">=</span> <span class="va">body</span>, method <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></pre></div>
 </div>
 <div id="complex-example-for-filtering-tcga-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complex-example-for-filtering-tcga-data" class="anchor"></a>Complex example for filtering TCGA data</h3>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">body</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="st">"entity"</span> <span class="kw">=</span> <span class="st">"cases"</span>,
-  <span class="st">"hasSample"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"hasSampleType"</span> <span class="kw">=</span> <span class="st">"Primary Tumor"</span>,
-    <span class="st">"hasPortion"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="st">"hasPortionNumber"</span> <span class="kw">=</span> <span class="fl">11</span>
-    )
-  ),
-  <span class="st">"hasNewTumorEvent"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"hasNewTumorAnatomicSite"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Liver"</span>, <span class="st">"Pancreas"</span>),
-    <span class="st">"hasNewTumorEventType"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="st">"filter"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-        <span class="st">"contains"</span> <span class="kw">=</span> <span class="st">"Recurrence"</span>
-      )
-    )
-  )
-)
-<span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"query"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"POST"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="va">body</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"entity"</span> <span class="op">=</span> <span class="st">"cases"</span>,
+  <span class="st">"hasSample"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"hasSampleType"</span> <span class="op">=</span> <span class="st">"Primary Tumor"</span>,
+    <span class="st">"hasPortion"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="st">"hasPortionNumber"</span> <span class="op">=</span> <span class="fl">11</span>
+    <span class="op">)</span>
+  <span class="op">)</span>,
+  <span class="st">"hasNewTumorEvent"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"hasNewTumorAnatomicSite"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Liver"</span>, <span class="st">"Pancreas"</span><span class="op">)</span>,
+    <span class="st">"hasNewTumorEventType"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="st">"filter"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        <span class="st">"contains"</span> <span class="op">=</span> <span class="st">"Recurrence"</span>
+      <span class="op">)</span>
+    <span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span>
+<span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"query"</span>, body <span class="op">=</span> <span class="va">body</span>, method <span class="op">=</span> <span class="st">"POST"</span><span class="op">)</span></pre></div>
 <p>Issuing a <code>GET</code> request to the href path</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="kw pkg">httr</span><span class="kw ns">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span>(
-  <span class="fu"><a href="../reference/api.html">api</a></span>(
-    <span class="kw">token</span> <span class="kw">=</span> <span class="no">a</span>$<span class="no">token</span>,
-    <span class="kw">base_url</span> <span class="kw">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"</span>
-  )
-)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/api.html">api</a></span><span class="op">(</span>
+    token <span class="op">=</span> <span class="va">a</span><span class="op">$</span><span class="va">token</span>,
+    base_url <span class="op">=</span> <span class="st">"https://cgc-datasets-api.sbgenomics.com/datasets/tcga/v0/cases/0004D251-3F70-4395-B175-C94C2F5B1B81"</span>
+  <span class="op">)</span>
+<span class="op">)</span></pre></div>
 </div>
 <div id="query-with-multiple-filters-on-a-case" class="section level3">
 <h3 class="hasAnchor">
 <a href="#query-with-multiple-filters-on-a-case" class="anchor"></a>Query with multiple filters on a case</h3>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">get_id</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">obj</span>) <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">obj</span>$<span class="st">"_embedded"</span>$<span class="no">files</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>$<span class="no">id</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">res</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">get_id</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">obj</span><span class="op">$</span><span class="st">"_embedded"</span><span class="op">$</span><span class="va">files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
 
-<span class="no">body</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="st">"entity"</span> <span class="kw">=</span> <span class="st">"cases"</span>,
-  <span class="st">"hasSample"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"hasSampleType"</span> <span class="kw">=</span> <span class="st">"Primary Tumor"</span>,
-    <span class="st">"hasPortion"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="st">"hasPortionNumber"</span> <span class="kw">=</span> <span class="fl">11</span>,
-      <span class="st">"hasID"</span> <span class="kw">=</span> <span class="st">"TCGA-DD-AAVP-01A-11"</span>
-    )
-  ),
-  <span class="st">"hasNewTumorEvent"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"hasNewTumorAnatomicSite"</span> <span class="kw">=</span> <span class="st">"Liver"</span>,
-    <span class="st">"hasNewTumorEventType"</span> <span class="kw">=</span> <span class="st">"Intrahepatic Recurrence"</span>
-  )
-)
+<span class="va">body</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"entity"</span> <span class="op">=</span> <span class="st">"cases"</span>,
+  <span class="st">"hasSample"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"hasSampleType"</span> <span class="op">=</span> <span class="st">"Primary Tumor"</span>,
+    <span class="st">"hasPortion"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="st">"hasPortionNumber"</span> <span class="op">=</span> <span class="fl">11</span>,
+      <span class="st">"hasID"</span> <span class="op">=</span> <span class="st">"TCGA-DD-AAVP-01A-11"</span>
+    <span class="op">)</span>
+  <span class="op">)</span>,
+  <span class="st">"hasNewTumorEvent"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"hasNewTumorAnatomicSite"</span> <span class="op">=</span> <span class="st">"Liver"</span>,
+    <span class="st">"hasNewTumorEventType"</span> <span class="op">=</span> <span class="st">"Intrahepatic Recurrence"</span>
+  <span class="op">)</span>
+<span class="op">)</span>
 
-(<span class="no">res</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu"><a href="../reference/api.html">api</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="st">"files"</span>, <span class="kw">body</span> <span class="kw">=</span> <span class="no">body</span>))
-<span class="fu">get_id</span>(<span class="no">res</span>)</pre></body></html></div>
+<span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">api</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"files"</span>, body <span class="op">=</span> <span class="va">body</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">get_id</span><span class="op">(</span><span class="va">res</span><span class="op">)</span></pre></div>
 </div>
 </div>
 </div>
@@ -318,11 +331,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

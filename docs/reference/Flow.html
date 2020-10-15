@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -267,7 +267,7 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 
     
 
-<dl'>
+<dl>
 <dt><code>copy_obj()</code></dt><dd><p>this is a hack to make copy of reference cwl object</p></dd>
 
 <dt><code>get_input(ids, force = FALSE)</code></dt><dd><p>get input by pure input id from all steps</p></dd>
@@ -290,7 +290,7 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 
 <dt><code>input_id()</code></dt><dd><p>show input id</p></dd>
 
-<dt><code><a href='input_output_matrix.html'>input_matrix(
+<dt><code><a href='input_matrix.html'>input_matrix(
   new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
   required = NULL
 )</a></code></dt><dd><p>This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
@@ -307,7 +307,7 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 
 <dt><code>output_id()</code></dt><dd><p>show output id</p></dd>
 
-<dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
+<dt><code><a href='input_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
 
 <dt><code>output_type()</code></dt><dd><p>Show a vector of flow output type, names of them are output id.</p></dd>
 
@@ -330,10 +330,11 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>f1</span>)
+    <pre class="examples"><div class='input'><span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span>
 <span class='co'># input matrix</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>()</div><div class='output co'>#&gt;                                id                    label    type required
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_matrix</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                id                    label    type required
 #&gt; 1                    #sjdbGTFfile              sjdbGTFfile File...    FALSE
 #&gt; 2                          #fastq                    fastq File...     TRUE
 #&gt; 3               #genomeFastaFiles         genomeFastaFiles    File     TRUE
@@ -349,7 +350,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 5      null
 #&gt; 6      null
 #&gt; 7      null</div><div class='input'><span class='co'># by name</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"link_to"</span>))</div><div class='output co'>#&gt;                                id    type required
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_matrix</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='st'>"type"</span>, <span class='st'>"required"</span>, <span class='st'>"link_to"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                id    type required
 #&gt; 1                    #sjdbGTFfile File...    FALSE
 #&gt; 2                          #fastq File...     TRUE
 #&gt; 3               #genomeFastaFiles    File     TRUE
@@ -365,10 +367,12 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 5        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 #&gt; 6                           #STAR.winAnchorMultimapNmax
 #&gt; 7                              #STAR.winAnchorDistNbins</div><div class='input'><span class='co'># return only required</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='kw'>required</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                  id            label    type required fileTypes
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_matrix</span><span class='op'>(</span>required <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                  id            label    type required fileTypes
 #&gt; 2            #fastq            fastq File...     TRUE      null
 #&gt; 3 #genomeFastaFiles genomeFastaFiles    File     TRUE      null</div><div class='input'><span class='co'># return everything</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>input_matrix</a></span>(<span class='kw'>NULL</span>)</div><div class='output co'>#&gt;                                id    type required fileTypes
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_matrix</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                id    type required fileTypes
 #&gt; 1                    #sjdbGTFfile File...    FALSE      null
 #&gt; 2                          #fastq File...     TRUE      null
 #&gt; 3               #genomeFastaFiles    File     TRUE      null
@@ -408,7 +412,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 5              gene_id        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 #&gt; 6                   50                           #STAR.winAnchorMultimapNmax
 #&gt; 7                    9                              #STAR.winAnchorDistNbins</div><div class='input'><span class='co'># return a output matrix with more informtion</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>()</div><div class='output co'>#&gt;                              id                       label    type fileTypes
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>output_matrix</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                              id                       label    type fileTypes
 #&gt; 1               #unmapped_reads              unmapped_reads File...      null
 #&gt; 2  #transcriptome_aligned_reads transcriptome_aligned_reads    File      null
 #&gt; 3             #splice_junctions            splice_junctions    File      null
@@ -419,7 +424,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 8          #chimeric_alignments         chimeric_alignments    File      null
 #&gt; 9                   #sorted_bam                  sorted_bam    File      null
 #&gt; 10                      #result                      result    File      null</div><div class='input'><span class='co'># return only a few fields</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id"</span>, <span class='st'>"type"</span>))</div><div class='output co'>#&gt;                              id    type
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>output_matrix</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='st'>"type"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                              id    type
 #&gt; 1               #unmapped_reads File...
 #&gt; 2  #transcriptome_aligned_reads    File
 #&gt; 3             #splice_junctions    File
@@ -430,7 +436,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 8          #chimeric_alignments    File
 #&gt; 9                   #sorted_bam    File
 #&gt; 10                      #result    File</div><div class='input'><span class='co'># return everything</span>
-<span class='no'>f1</span>$<span class='fu'><a href='input_output_matrix.html'>output_matrix</a></span>(<span class='kw'>NULL</span>)</div><div class='output co'>#&gt;                              id                       label    type fileTypes
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>output_matrix</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                              id                       label    type fileTypes
 #&gt; 1               #unmapped_reads              unmapped_reads File...      null
 #&gt; 2  #transcriptome_aligned_reads transcriptome_aligned_reads    File      null
 #&gt; 3             #splice_junctions            splice_junctions    File      null
@@ -463,7 +470,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 8  1147.5831 503.24993          #STAR.chimeric_alignments
 #&gt; 9   934.2498 557.24984         #Picard_SortSam.sorted_bam
 #&gt; 10 1431.6667 644.99999 #SBG_FASTQ_Quality_Detector.result</div><div class='input'><span class='co'># flow inputs</span>
-<span class='no'>f1</span>$<span class='fu'>input_type</span>()</div><div class='output co'>#&gt;                    sjdbGTFfile                          fastq 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_type</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                    sjdbGTFfile                          fastq 
 #&gt;                      "File..."                      "File..." 
 #&gt;               genomeFastaFiles sjdbGTFtagExonParentTranscript 
 #&gt;                         "File"                       "string" 
@@ -471,7 +479,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                       "string"                          "int" 
 #&gt;             winAnchorDistNbins 
 #&gt;                          "int" </div><div class='input'><span class='co'># flow outouts</span>
-<span class='no'>f1</span>$<span class='fu'>output_type</span>()</div><div class='output co'>#&gt;              unmapped_reads transcriptome_aligned_reads 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>output_type</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              unmapped_reads transcriptome_aligned_reads 
 #&gt;                   "File..."                      "File" 
 #&gt;            splice_junctions              reads_per_gene 
 #&gt;                      "File"                      "File" 
@@ -481,11 +490,13 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                      "File"                      "File" 
 #&gt;                  sorted_bam                      result 
 #&gt;                      "File"                      "File" </div><div class='input'><span class='co'># flow input id</span>
-<span class='no'>f1</span>$<span class='fu'>input_id</span>()</div><div class='output co'>#&gt; [1] "#sjdbGTFfile"                    "#fastq"                         
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "#sjdbGTFfile"                    "#fastq"                         
 #&gt; [3] "#genomeFastaFiles"               "#sjdbGTFtagExonParentTranscript"
 #&gt; [5] "#sjdbGTFtagExonParentGene"       "#winAnchorMultimapNmax"         
 #&gt; [7] "#winAnchorDistNbins"            </div><div class='input'><span class='co'># linked input id</span>
-<span class='no'>f1</span>$<span class='fu'>linked_input_id</span>()</div><div class='output co'>#&gt;  [1] "#STAR_Genome_Generate.sjdbGTFtagExonParentTranscript"
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>linked_input_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "#STAR_Genome_Generate.sjdbGTFtagExonParentTranscript"
 #&gt;  [2] "#STAR_Genome_Generate.sjdbGTFtagExonParentGene"      
 #&gt;  [3] "#STAR_Genome_Generate.sjdbGTFfile"                   
 #&gt;  [4] "#STAR_Genome_Generate.genomeFastaFiles"              
@@ -496,14 +507,17 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;  [9] "#STAR.sjdbGTFfile"                                   
 #&gt; [10] "#STAR.reads"                                         
 #&gt; [11] "#STAR.genome"                                        </div><div class='input'><span class='co'># flow output id</span>
-<span class='no'>f1</span>$<span class='fu'>output_id</span>()</div><div class='output co'>#&gt;  [1] "#unmapped_reads"              "#transcriptome_aligned_reads"
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>output_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "#unmapped_reads"              "#transcriptome_aligned_reads"
 #&gt;  [3] "#splice_junctions"            "#reads_per_gene"             
 #&gt;  [5] "#log_files"                   "#chimeric_junctions"         
 #&gt;  [7] "#intermediate_genome"         "#chimeric_alignments"        
 #&gt;  [9] "#sorted_bam"                  "#result"                     </div><div class='input'><span class='co'># linked output id</span>
-<span class='no'>f1</span>$<span class='fu'>linked_output_id</span>()</div><div class='output co'>#&gt; [1] "#STAR.aligned_reads"                "#SBG_FASTQ_Quality_Detector.result"
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>linked_output_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "#STAR.aligned_reads"                "#SBG_FASTQ_Quality_Detector.result"
 #&gt; [3] "#STAR_Genome_Generate.genome"      </div><div class='input'><span class='co'># link_map</span>
-<span class='no'>f1</span>$<span class='fu'>link_map</span>()</div><div class='output co'>#&gt;                                                      id
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>link_map</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                                      id
 #&gt; 1  #STAR_Genome_Generate.sjdbGTFtagExonParentTranscript
 #&gt; 2        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 #&gt; 3                     #STAR_Genome_Generate.sjdbGTFfile
@@ -547,7 +561,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 19          #STAR.chimeric_alignments output
 #&gt; 20         #Picard_SortSam.sorted_bam output
 #&gt; 21 #SBG_FASTQ_Quality_Detector.result output</div><div class='input'><span class='co'># all step input id</span>
-<span class='no'>f1</span>$<span class='fu'>step_input_id</span>()</div><div class='output co'>#&gt;               #STAR_Genome_Generate               #STAR_Genome_Generate 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>step_input_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;               #STAR_Genome_Generate               #STAR_Genome_Generate 
 #&gt;                        "#sjdbScore"                     "#sjdbOverhang" 
 #&gt;               #STAR_Genome_Generate               #STAR_Genome_Generate 
 #&gt;   "#sjdbGTFtagExonParentTranscript"         "#sjdbGTFtagExonParentGene" 
@@ -673,7 +688,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                 "#alignMatesGapMax"                   "#alignIntronMin" 
 #&gt;                               #STAR                               #STAR 
 #&gt;                   "#alignIntronMax"                    "#alignEndsType" </div><div class='input'><span class='co'># all step input full id with type</span>
-<span class='no'>f1</span>$<span class='fu'>step_input_id</span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                                                    int 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>step_input_id</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                                    int 
 #&gt;                      "#STAR_Genome_Generate.sjdbScore" 
 #&gt;                                                    int 
 #&gt;                   "#STAR_Genome_Generate.sjdbOverhang" 
@@ -925,7 +941,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                                 "#STAR.alignIntronMax" 
 #&gt;                                                   enum 
 #&gt;                                  "#STAR.alignEndsType" </div><div class='input'><span class='co'># all step output id</span>
-<span class='no'>f1</span>$<span class='fu'>step_output_id</span>()</div><div class='output co'>#&gt;          #STAR_Genome_Generate    #SBG_FASTQ_Quality_Detector 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>step_output_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          #STAR_Genome_Generate    #SBG_FASTQ_Quality_Detector 
 #&gt;                      "#genome"                      "#result" 
 #&gt;                #Picard_SortSam                          #STAR 
 #&gt;                  "#sorted_bam"              "#unmapped_reads" 
@@ -937,7 +954,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;         "#intermediate_genome"          "#chimeric_junctions" 
 #&gt;                          #STAR                          #STAR 
 #&gt;         "#chimeric_alignments"               "#aligned_reads" </div><div class='input'><span class='co'># all step output full id with type</span>
-<span class='no'>f1</span>$<span class='fu'>step_output_id</span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                                 File                                 File 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>step_output_id</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                 File                                 File 
 #&gt;       "#STAR_Genome_Generate.genome" "#SBG_FASTQ_Quality_Detector.result" 
 #&gt;                                 File                              File... 
 #&gt;         "#Picard_SortSam.sorted_bam"               "#STAR.unmapped_reads" 
@@ -949,7 +967,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;          "#STAR.intermediate_genome"           "#STAR.chimeric_junctions" 
 #&gt;                                 File                                 File 
 #&gt;          "#STAR.chimeric_alignments"                "#STAR.aligned_reads" </div><div class='input'><span class='co'># get inputs objects</span>
-<span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='st'>"#clip3pNbases"</span>)</div><div class='output co'>#&gt; type:
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input</span><span class='op'>(</span><span class='st'>"#clip3pNbases"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; type:
 #&gt; - 'null'
 #&gt; - items: int
 #&gt;   type: array
@@ -970,7 +989,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:category: Read parameters
 #&gt; sbg:toolDefaultValue: '0'
 #&gt; required: no
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; type:
 #&gt; - 'null'
 #&gt; - items: int
@@ -1012,7 +1032,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:category: Chimeric Alignments
 #&gt; sbg:toolDefaultValue: '0'
 #&gt; required: no
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_input</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>, <span class='st'>"#STAR.outFilterMismatchNoverLmax"</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#clip3pNbases"</span>, <span class='st'>"#chimScoreMin"</span>, <span class='st'>"#STAR.outFilterMismatchNoverLmax"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; type:
 #&gt; - 'null'
 #&gt; - float
@@ -1076,7 +1097,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:toolDefaultValue: '0'
 #&gt; required: no
 #&gt; </div><div class='input'><span class='co'># get outputs objects</span>
-<span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='st'>"#log_files"</span>)</div><div class='output co'>#&gt; type:
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_output</span><span class='op'>(</span><span class='st'>"#log_files"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; type:
 #&gt; - 'null'
 #&gt; - items: File
 #&gt;   type: array
@@ -1087,7 +1109,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; outputBinding:
 #&gt;   glob: '*Log*.out'
 #&gt; sbg:fileTypes: OUT
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_output</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; type:
 #&gt; - 'null'
 #&gt; - items: File
@@ -1112,7 +1135,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; outputBinding:
 #&gt;   glob: '*_STARgenome.tar'
 #&gt; sbg:fileTypes: TAR
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>, <span class='st'>"#STAR.unmapped_reads"</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_output</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>, <span class='st'>"#STAR.unmapped_reads"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; type:
 #&gt; - 'null'
 #&gt; - items: File
@@ -1150,7 +1174,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; outputBinding:
 #&gt;   glob: '*_STARgenome.tar'
 #&gt; sbg:fileTypes: TAR
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_output</span>(<span class='st'>"#log_files"</span>)</div><div class='output co'>#&gt; type:
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_output</span><span class='op'>(</span><span class='st'>"#log_files"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; type:
 #&gt; - 'null'
 #&gt; - items: File
 #&gt;   type: array
@@ -1162,7 +1187,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;   glob: '*Log*.out'
 #&gt; sbg:fileTypes: OUT
 #&gt; </div><div class='input'><span class='co'># set flow input</span>
-<span class='no'>f1</span>$<span class='fu'>set_flow_input</span>(<span class='st'>"#SBG_FASTQ_Quality_Detector.fastq"</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_flow_input</span><span class='op'>(</span><span class='st'>"#SBG_FASTQ_Quality_Detector.fastq"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -4885,7 +4911,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:canvas_zoom: 0.6
 #&gt; sbg:canvas_y: -16
 #&gt; sbg:canvas_x: -41
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>set_flow_output</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span>))</div><div class='output co'>#&gt; sbg:validationErrors: []
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_flow_output</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#log_files"</span>, <span class='st'>"intermediate_genome"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -8641,12 +8668,18 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:canvas_y: -16
 #&gt; sbg:canvas_x: -41
 #&gt; </div><div class='input'><span class='co'># get required node</span>
-<span class='no'>f1</span>$<span class='fu'>get_required</span>()</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_required</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
 #&gt;        "File..."           "File" </div><div class='input'><span class='co'># set required node</span>
-<span class='no'>f1</span>$<span class='no'>steps</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>run</span>$<span class='fu'>set_required</span>(<span class='st'>"genomeChrBinNbits"</span>)</div><div class='output co'>#&gt; <span class='message'>not implemented yet!</span></div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_required</span>()</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
-#&gt;        "File..."           "File" </div><div class='input'><span class='no'>f1</span>$<span class='no'>steps</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>run</span>$<span class='fu'>set_required</span>(<span class='st'>"genomeChrBinNbits"</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>not implemented yet!</span></div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_required</span>()</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
+<span class='va'>f1</span><span class='op'>$</span><span class='va'>steps</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>run</span><span class='op'>$</span><span class='fu'>set_required</span><span class='op'>(</span><span class='st'>"genomeChrBinNbits"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>not implemented yet!</span></div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_required</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
+#&gt;        "File..."           "File" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='va'>steps</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>run</span><span class='op'>$</span><span class='fu'>set_required</span><span class='op'>(</span><span class='st'>"genomeChrBinNbits"</span>, <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>not implemented yet!</span></div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_required</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            fastq genomeFastaFiles 
 #&gt;        "File..."           "File" </div><div class='input'><span class='co'># get Tool object from Flow by id and name</span>
-<span class='no'>f1</span>$<span class='fu'>list_tool</span>()</div><div class='output co'>#&gt;                        label
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>list_tool</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                        label
 #&gt; 1       STAR Genome Generate
 #&gt; 2 SBG FASTQ Quality Detector
 #&gt; 3             Picard SortSam
@@ -8661,7 +8694,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 2 #SBG_FASTQ_Quality_Detector
 #&gt; 3             #Picard_SortSam
 #&gt; 4                       #STAR</div><div class='input'><span class='co'># return two</span>
-<span class='no'>f1</span>$<span class='fu'>get_tool</span>(<span class='st'>"STAR"</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_tool</span><span class='op'>(</span><span class='st'>"STAR"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 1
@@ -11502,7 +11536,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 'y': 323
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># return one</span>
-<span class='no'>f1</span>$<span class='fu'>get_tool</span>(<span class='st'>"^STAR$"</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_tool</span><span class='op'>(</span><span class='st'>"^STAR$"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 4
 #&gt; sbg:job:
@@ -13988,20 +14023,25 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; x: 624.0
 #&gt; 'y': 323
 #&gt; </div><div class='input'><span class='co'># get included input ports</span>
-<span class='no'>f1</span>$<span class='fu'>get_input_port</span>()</div><div class='output co'>#&gt; #STAR_Genome_Generate #STAR_Genome_Generate                 #STAR 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input_port</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; #STAR_Genome_Generate #STAR_Genome_Generate                 #STAR 
 #&gt;          "#sjdbScore"       "#sjdbOverhang"      "#winFlankNbins" 
 #&gt;                 #STAR 
 #&gt;        "#winBinNbits" </div><div class='input'><span class='co'># set included input ports</span>
-<span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>))
-<span class='no'>f1</span>$<span class='fu'>get_input_port</span>()</div><div class='output co'>#&gt;   #STAR_Genome_Generate   #STAR_Genome_Generate                   #STAR 
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_input_port</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input_port</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   #STAR_Genome_Generate   #STAR_Genome_Generate                   #STAR 
 #&gt;            "#sjdbScore"         "#sjdbOverhang"        "#winFlankNbins" 
 #&gt;                   #STAR                   #STAR                   #STAR 
-#&gt;          "#winBinNbits"  "#chimScoreSeparation" "#alignSJDBoverhangMin" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>set_input_port</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span>), <span class='fl'>FALSE</span>)
-<span class='no'>f1</span>$<span class='fu'>get_input_port</span>()</div><div class='output co'>#&gt; #STAR_Genome_Generate #STAR_Genome_Generate                 #STAR 
+#&gt;          "#winBinNbits"  "#chimScoreSeparation" "#alignSJDBoverhangMin" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_input_port</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#STAR.alignSJDBoverhangMin"</span>, <span class='st'>"chimScoreSeparation"</span><span class='op'>)</span>, <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input_port</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; #STAR_Genome_Generate #STAR_Genome_Generate                 #STAR 
 #&gt;          "#sjdbScore"       "#sjdbOverhang"      "#winFlankNbins" 
 #&gt;                 #STAR 
-#&gt;        "#winBinNbits" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_input_node</span>()</div><div class='output co'>#&gt;         sjdbGTFfile               fastq    genomeFastaFiles 
-#&gt;      "#sjdbGTFfile"            "#fastq" "#genomeFastaFiles" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_output_node</span>()</div><div class='output co'>#&gt;                 unmapped_reads    transcriptome_aligned_reads 
+#&gt;        "#winBinNbits" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input_node</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         sjdbGTFfile               fastq    genomeFastaFiles 
+#&gt;      "#sjdbGTFfile"            "#fastq" "#genomeFastaFiles" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_output_node</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                 unmapped_reads    transcriptome_aligned_reads 
 #&gt;              "#unmapped_reads" "#transcriptome_aligned_reads" 
 #&gt;               splice_junctions                 reads_per_gene 
 #&gt;            "#splice_junctions"              "#reads_per_gene" 
@@ -14012,10 +14052,12 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                     sorted_bam                         result 
 #&gt;                  "#sorted_bam"                      "#result" 
 #&gt;            intermediate_genome 
-#&gt;         "#intermediate_genome" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>get_input_exposed</span>()</div><div class='output co'>#&gt;    sjdbGTFtagExonParentTranscript          sjdbGTFtagExonParentGene 
+#&gt;         "#intermediate_genome" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>get_input_exposed</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    sjdbGTFtagExonParentTranscript          sjdbGTFtagExonParentGene 
 #&gt; "#sjdbGTFtagExonParentTranscript"       "#sjdbGTFtagExonParentGene" 
 #&gt;             winAnchorMultimapNmax                winAnchorDistNbins 
-#&gt;          "#winAnchorMultimapNmax"             "#winAnchorDistNbins" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>step_input_id</span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                                                    int 
+#&gt;          "#winAnchorMultimapNmax"             "#winAnchorDistNbins" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>step_input_id</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                                    int 
 #&gt;                      "#STAR_Genome_Generate.sjdbScore" 
 #&gt;                                                    int 
 #&gt;                   "#STAR_Genome_Generate.sjdbOverhang" 
@@ -14266,10 +14308,12 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;                                                    int 
 #&gt;                                 "#STAR.alignIntronMax" 
 #&gt;                                                   enum 
-#&gt;                                  "#STAR.alignEndsType" </div><div class='input'><span class='no'>f1</span>$<span class='fu'>input_id</span>()</div><div class='output co'>#&gt; [1] "#sjdbGTFfile"                    "#fastq"                         
+#&gt;                                  "#STAR.alignEndsType" </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "#sjdbGTFfile"                    "#fastq"                         
 #&gt; [3] "#genomeFastaFiles"               "#sjdbGTFtagExonParentTranscript"
 #&gt; [5] "#sjdbGTFtagExonParentGene"       "#winAnchorMultimapNmax"         
-#&gt; [7] "#winAnchorDistNbins"            </div><div class='input'><span class='no'>f1</span>$<span class='fu'>set_flow_input</span>(<span class='st'>"#STAR.reads"</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+#&gt; [7] "#winAnchorDistNbins"            </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_flow_input</span><span class='op'>(</span><span class='st'>"#STAR.reads"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -18070,11 +18114,13 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:canvas_zoom: 0.6
 #&gt; sbg:canvas_y: -16
 #&gt; sbg:canvas_x: -41
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>input_id</span>()</div><div class='output co'>#&gt; [1] "#reads"                          "#sjdbGTFfile"                   
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>input_id</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "#reads"                          "#sjdbGTFfile"                   
 #&gt; [3] "#fastq"                          "#genomeFastaFiles"              
 #&gt; [5] "#sjdbGTFtagExonParentTranscript" "#sjdbGTFtagExonParentGene"      
 #&gt; [7] "#winAnchorMultimapNmax"          "#winAnchorDistNbins"            </div><div class='input'><span class='co'># batch</span>
-<span class='no'>f1</span>$<span class='fu'>set_batch</span>(<span class='st'>"sjdbGTFfile"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"metadata.sample_id"</span>, <span class='st'>"metadata.library_id"</span>))</div><div class='output co'>#&gt; <span class='message'>criteria provided, convert type from ITEM to CRITERIA</span></div><div class='output co'>#&gt; sbg:validationErrors: []
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_batch</span><span class='op'>(</span><span class='st'>"sjdbGTFfile"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"metadata.sample_id"</span>, <span class='st'>"metadata.library_id"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>criteria provided, convert type from ITEM to CRITERIA</span></div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -21882,7 +21928,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt;   criteria:
 #&gt;   - metadata.sample_id
 #&gt;   - metadata.library_id
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>set_batch</span>(<span class='st'>"sjdbGTFfile"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"ITEM"</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>set_batch</span><span class='op'>(</span><span class='st'>"sjdbGTFfile"</span>, type <span class='op'>=</span> <span class='st'>"ITEM"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -25687,7 +25734,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:batchBy:
 #&gt;   type: item
 #&gt; </div><div class='input'><span class='co'># add source to id</span>
-<span class='no'>f1</span>$<span class='fu'>link_map</span>()</div><div class='output co'>#&gt;                                                      id
+<span class='va'>f1</span><span class='op'>$</span><span class='fu'>link_map</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                                      id
 #&gt; 1  #STAR_Genome_Generate.sjdbGTFtagExonParentTranscript
 #&gt; 2        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 #&gt; 3                     #STAR_Genome_Generate.sjdbGTFfile
@@ -25736,7 +25784,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; 21                     #sorted_bam output
 #&gt; 22                         #result output
 #&gt; 23            #intermediate_genome output
-#&gt; 24             intermediate_genome output</div><div class='input'><span class='no'>f1</span>$<span class='fu'>add_source_to_id</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"test1"</span>, <span class='st'>"test2"</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#STAR.genome"</span>, <span class='st'>"#STAR.reads"</span>))</div><div class='output co'>#&gt; sbg:validationErrors: []
+#&gt; 24             intermediate_genome output</div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>add_source_to_id</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1"</span>, <span class='st'>"test2"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#STAR.genome"</span>, <span class='st'>"#STAR.reads"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -29544,7 +29593,8 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 #&gt; sbg:batchInput: '#sjdbGTFfile'
 #&gt; sbg:batchBy:
 #&gt;   type: item
-#&gt; </div><div class='input'><span class='no'>f1</span>$<span class='fu'>link_map</span>()</div><div class='output co'>#&gt;                                                      id
+#&gt; </div><div class='input'><span class='va'>f1</span><span class='op'>$</span><span class='fu'>link_map</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                                      id
 #&gt; 1  #STAR_Genome_Generate.sjdbGTFtagExonParentTranscript
 #&gt; 2        #STAR_Genome_Generate.sjdbGTFtagExonParentGene
 #&gt; 3                     #STAR_Genome_Generate.sjdbGTFfile
@@ -29609,11 +29659,11 @@ used for flow visualization on Seven Bridges platforms.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

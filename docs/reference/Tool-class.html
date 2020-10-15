@@ -95,7 +95,7 @@ Tool object into a text JSON/YAML file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -183,7 +183,7 @@ with more seven bridges flabored fields the <code>SBG</code> class.
 
     
 
-<dl'>
+<dl>
 <dt><code>context</code></dt><dd><p>[character] by default:
 <a href='http://www.commonwl.org/draft-2/'>http://www.commonwl.org/draft-2/</a></p></dd>
 
@@ -196,7 +196,7 @@ with more seven bridges flabored fields the <code>SBG</code> class.
 
     
 
-<dl'>
+<dl>
 <dt><code>copy_obj()</code></dt><dd><p>this is a hack to make copy of reference cwl object</p></dd>
 
 <dt><code>get_input(name = NULL, id = NULL)</code></dt><dd><p>get input objects by names or id</p></dd>
@@ -209,7 +209,7 @@ with more seven bridges flabored fields the <code>SBG</code> class.
 
 <dt><code>input_id(full = FALSE, requiredOnly = FALSE)</code></dt><dd><p>Get input id from a Tool, when full = TRUE, connect tool id with input id. e.g. If requiredOnly = TRUE, return required field only.</p></dd>
 
-<dt><code><a href='input_output_matrix.html'>input_matrix(
+<dt><code><a href='input_matrix.html'>input_matrix(
   new.order = c("id", "label", "type", "required", "prefix", "fileTypes"),
   required = NULL
 )</a></code></dt><dd><p>This return a matrix of input parameters, by default, following the order id, label, type, required, prefix, fileTypes. new.order accept names of column you want to print, but it has to be a field of inputs. When its set to NULL, it prints all fields. When required = TRUE, only print required field.</p></dd>
@@ -218,7 +218,7 @@ with more seven bridges flabored fields the <code>SBG</code> class.
 
 <dt><code>output_id(full = FALSE)</code></dt><dd><p>Get output id from a Tool, when full = TRUE, connect tool id with input id.</p></dd>
 
-<dt><code><a href='input_output_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when required = TRUE, only print required field.</p></dd>
+<dt><code><a href='input_matrix.html'>output_matrix(new.order = c("id", "label", "type", "fileTypes"))</a></code></dt><dd><p>This return a matrix of output parameters, by default, following the order id, label, type, fileTypes. new.order accept names of column you want to print, but it has to be a field of outputs. When its set to NULL, it prints all fields. when required = TRUE, only print required field.</p></dd>
 
 <dt><code>output_type()</code></dt><dd><p>this return a vector of types, names of them are output id</p></dd>
 
@@ -243,11 +243,11 @@ with more seven bridges flabored fields the <code>SBG</code> class.
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

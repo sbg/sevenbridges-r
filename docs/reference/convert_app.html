@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,9 +166,9 @@
     <p>Convert App or a CWL JSON file to Tool or Flow object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convert_app</span>(<span class='no'>from</span>)
+    <pre class="usage"><span class='fu'>convert_app</span><span class='op'>(</span><span class='va'>from</span><span class='op'>)</span>
 
-<span class='fu'>appType</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>appType</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,16 +194,17 @@ or Worklfow to relevant object in R, Tool object or Flow object.</p>
 
     
 
-<dl'>
+<dl>
  this function return class of a App object.
 </dl>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tool.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>flow.in</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
+    <pre class="examples"><div class='input'><span class='va'>tool.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>flow.in</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"flow_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
 <span class='co'># convert to Tool object</span>
-<span class='fu'>convert_app</span>(<span class='no'>tool.in</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+<span class='fu'>convert_app</span><span class='op'>(</span><span class='va'>tool.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 4
 #&gt; sbg:job:
@@ -2683,7 +2684,8 @@ or Worklfow to relevant object in R, Tool object or Flow object.</p>
 #&gt; successCodes: []
 #&gt; temporaryFailCodes: []
 #&gt; </div><div class='input'><span class='co'># convert to Flow object</span>
-<span class='fu'>convert_app</span>(<span class='no'>flow.in</span>)</div><div class='output co'>#&gt; sbg:validationErrors: []
+<span class='fu'>convert_app</span><span class='op'>(</span><span class='va'>flow.in</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; sbg:validationErrors: []
 #&gt; sbg:sbgMaintained: no
 #&gt; sbg:latestRevision: 2
 #&gt; sbg:toolAuthor: Seven Bridges Genomics
@@ -6412,11 +6414,11 @@ or Worklfow to relevant object in R, Tool object or Flow object.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

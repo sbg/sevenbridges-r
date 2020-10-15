@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,14 +166,14 @@
     <p>set task function hook according to</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setTaskHook</span>(
-  <span class='kw'>status</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"queued"</span>, <span class='st'>"draft"</span>, <span class='st'>"running"</span>, <span class='st'>"completed"</span>, <span class='st'>"aborted"</span>, <span class='st'>"failed"</span>),
-  <span class='no'>fun</span>
-)
+    <pre class="usage"><span class='fu'>setTaskHook</span><span class='op'>(</span>
+  status <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"queued"</span>, <span class='st'>"draft"</span>, <span class='st'>"running"</span>, <span class='st'>"completed"</span>, <span class='st'>"aborted"</span>, <span class='st'>"failed"</span><span class='op'>)</span>,
+  <span class='va'>fun</span>
+<span class='op'>)</span>
 
-<span class='fu'>getTaskHook</span>(
-  <span class='kw'>status</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"queued"</span>, <span class='st'>"draft"</span>, <span class='st'>"running"</span>, <span class='st'>"completed"</span>, <span class='st'>"aborted"</span>, <span class='st'>"failed"</span>)
-)</pre>
+<span class='fu'>getTaskHook</span><span class='op'>(</span>
+  status <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"queued"</span>, <span class='st'>"draft"</span>, <span class='st'>"running"</span>, <span class='st'>"completed"</span>, <span class='st'>"aborted"</span>, <span class='st'>"failed"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,14 +197,16 @@ to terminate task monitoring process.</p></td>
     <p>object from setHook and getHook.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>getTaskHook</span>(<span class='st'>"completed"</span>)</div><div class='output co'>#&gt; function(...) {
+    <pre class="examples"><div class='input'><span class='fu'>getTaskHook</span><span class='op'>(</span><span class='st'>"completed"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; function(...) {
 #&gt;           cat("\r", "completed")
 #&gt;           return(TRUE)
 #&gt;         }
-#&gt; &lt;environment: 0x7fcd4d1d2f98&gt;</div><div class='input'><span class='fu'>setTaskHook</span>(<span class='st'>"completed"</span>, <span class='kw'>function</span>() {
-  <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span>(<span class='st'>"completed"</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='fl'>TRUE</span>)
-})</div></pre>
+#&gt; &lt;environment: 0x7fe5de588080&gt;</div><div class='input'><span class='fu'>setTaskHook</span><span class='op'>(</span><span class='st'>"completed"</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='st'>"completed"</span><span class='op'>)</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,11 +218,11 @@ to terminate task monitoring process.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

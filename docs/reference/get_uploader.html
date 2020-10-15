@@ -94,7 +94,7 @@ extract the .tgz archive to a specified directory." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -171,13 +171,13 @@ a specified directory</h1>
 extract the <code>.tgz</code> archive to a specified directory.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_uploader</span>(
-  <span class='kw'>platform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"cgc"</span>, <span class='st'>"aws-us"</span>, <span class='st'>"aws-eu"</span>, <span class='st'>"gcp"</span>),
-  <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>get_uploader</span><span class='op'>(</span>
+  platform <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cgc"</span>, <span class='st'>"aws-us"</span>, <span class='st'>"aws-eu"</span>, <span class='st'>"gcp"</span><span class='op'>)</span>,
+  destdir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>misc_get_uploader</span>()</pre>
+<span class='fu'>misc_get_uploader</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,9 +214,10 @@ downloaded and unarchived.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download CGC CLI uploader to `~/Downloads`</span>
-<span class='no'>dir</span> <span class='kw'>&lt;-</span> <span class='st'>"~/Downloads/"</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>get_uploader</span>(<span class='st'>"cgc"</span>, <span class='no'>dir</span>)}</div></pre>
+<span class='va'>dir</span> <span class='op'>&lt;-</span> <span class='st'>"~/Downloads/"</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>get_uploader</span><span class='op'>(</span><span class='st'>"cgc"</span>, <span class='va'>dir</span><span class='op'>)</span><span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -228,11 +229,11 @@ downloaded and unarchived.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

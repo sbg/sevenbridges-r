@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@
     <p>Meta schema</p>
     </div>
 
-    <pre class="usage"><span class='fu'>misc_make_metadata</span>()</pre>
+    <pre class="usage"><span class='fu'>misc_make_metadata</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -179,9 +179,10 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># show schema (you can still provide customized one)</span>
 <span class='co'># empty beause they are all NULL</span>
-<span class='fu'>Metadata</span>()
+<span class='fu'>Metadata</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># show schema</span>
-<span class='fu'>Metadata</span>()$<span class='fu'>show</span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; experimental_strategy : 
+<span class='fu'>Metadata</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; experimental_strategy : 
 #&gt; library_id : 
 #&gt; platform : 
 #&gt; platform_unit_id : 
@@ -212,7 +213,8 @@
 #&gt; sample_type : 
 #&gt; aliquot_id : 
 #&gt; aliquot_uuid : </div><div class='input'><span class='co'># or</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>Metadata</span>()$<span class='fu'><a href='as-methods.html'>asList</a></span>(<span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "experimental_strategy" "library_id"            "platform"             
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>Metadata</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>asList</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "experimental_strategy" "library_id"            "platform"             
 #&gt;  [4] "platform_unit_id"      "file_segment_number"   "quality_scale"        
 #&gt;  [7] "paired_end"            "data_format"           "file_extension"       
 #&gt; [10] "reference_genome"      "data_type"             "data_subtype"         
@@ -224,7 +226,8 @@
 #&gt; [28] "sample_uuid"           "sample_type"           "aliquot_id"           
 #&gt; [31] "aliquot_uuid"         </div><div class='input'><span class='co'># returned meta field is actually define as function too, direclty</span>
 <span class='co'># call them will give you details</span>
-<span class='fu'>platform</span>()</div><div class='output co'>#&gt; -- Platform --
+<span class='fu'>platform</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; -- Platform --
 #&gt; data : NA
 #&gt; name : Platform
 #&gt; description : The version (manufacturer, model, etc.) of the 
@@ -235,7 +238,8 @@
 #&gt; type : 
 #&gt; suggested_values : Affymetrix SNP Array 6.0 / Illumina HiSeq / Illumina Human Methylation 450 / Illumina GA / MDA_RPPA_Core / BCR Record / Hospital Record / Illumina Human Methylation 27 / ABI capillary sequencer / AgilentG4502A_07_3 / HG-CGH-244A / HG-CGH-415K_G4124A / CGH-1x1M_G4447A / Illumina MiSeq / HT_HG-U133A / Illumina Human 1M Duo / H-miRNA_8x15Kv2 / Illumina HumanHap550 / H-miRNA_8x15K / AgilentG4502A_07_2 / HuEx-1_0-st-v2 / ABI SOLiD / Complete Genomics / HG-U133_Plus_2 / Illumina DNA Methylation OMA003 CPI / Illumina DNA Methylation OMA002 CPI / AgilentG4502A_07_1 / Ion Torrent PGM / Affymetrix U133 Plus 2 / LS 454 / HiSeq X Ten / Mixed platforms / Illumina / Helicos / PacBio
 #&gt; regex : ^.{0,128}$
-#&gt; regexErrMsg : The Platform can contain maximum 128 characters</div><div class='input'><span class='fu'>paired_end</span>()</div><div class='output co'>#&gt; -- Paired-end --
+#&gt; regexErrMsg : The Platform can contain maximum 128 characters</div><div class='input'><span class='fu'>paired_end</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; -- Paired-end --
 #&gt; data : NA
 #&gt; name : Paired-end
 #&gt; description : For paired-end sequencing, this value determines the 
@@ -246,7 +250,8 @@
 #&gt; type : 
 #&gt; suggested_values : NA / 1 / 2
 #&gt; regex : 
-#&gt; regexErrMsg : </div><div class='input'><span class='fu'>quality_scale</span>()</div><div class='output co'>#&gt; -- Quality scale --
+#&gt; regexErrMsg : </div><div class='input'><span class='fu'>quality_scale</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; -- Quality scale --
 #&gt; data : NA
 #&gt; name : Quality scale
 #&gt; description : For raw reads, this value denotes the sequencing"
@@ -258,7 +263,8 @@
 #&gt; suggested_values : NA / sanger / illumina13 / illumina15 / illumina18 / solexa
 #&gt; regex : 
 #&gt; regexErrMsg : </div><div class='input'><span class='co'># check their suggested value and construct your metadata</span>
-<span class='fu'>Metadata</span>(<span class='kw'>platform</span>  <span class='kw'>=</span> <span class='st'>"Affymetrix SNP Array 6.0"</span>, <span class='kw'>paired_end</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>quality_scale</span> <span class='kw'>=</span> <span class='st'>"sanger"</span>)</div><div class='output co'>#&gt; platform : Affymetrix SNP Array 6.0
+<span class='fu'>Metadata</span><span class='op'>(</span>platform  <span class='op'>=</span> <span class='st'>"Affymetrix SNP Array 6.0"</span>, paired_end <span class='op'>=</span> <span class='fl'>1</span>, quality_scale <span class='op'>=</span> <span class='st'>"sanger"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; platform : Affymetrix SNP Array 6.0
 #&gt; quality_scale : sanger
 #&gt; paired_end : 1</div></pre>
   </div>
@@ -272,11 +278,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,16 +166,16 @@
     <p>Delete files or folders</p>
     </div>
 
-    <pre class="usage"><span class='fu'>delete</span>(<span class='no'>obj</span>)
+    <pre class="usage"><span class='fu'>delete</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
 
 <span class='co'># S4 method for SimpleList</span>
-<span class='fu'>delete</span>(<span class='no'>obj</span>)
+<span class='fu'>delete</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Files</span>
-<span class='fu'>delete</span>(<span class='no'>obj</span>)
+<span class='fu'>delete</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Task</span>
-<span class='fu'>delete</span>(<span class='no'>obj</span>)</pre>
+<span class='fu'>delete</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,10 +191,11 @@
     <p>system message</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>a</span>$<span class='fu'>project</span>(<span class='st'>"demo"</span>)$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>file</a></span>(<span class='st'>"omni"</span>)$<span class='fu'>delete</span>()
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>a</span><span class='op'>$</span><span class='fu'>project</span><span class='op'>(</span><span class='st'>"demo"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>file</span><span class='op'>(</span><span class='st'>"omni"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>delete</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># or</span>
-<span class='fu'>delete</span>(<span class='no'>a</span>$<span class='fu'>project</span>(<span class='st'>"demo"</span>)$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>file</a></span>(<span class='st'>"omni"</span>))}</div></pre>
+<span class='fu'>delete</span><span class='op'>(</span><span class='va'>a</span><span class='op'>$</span><span class='fu'>project</span><span class='op'>(</span><span class='st'>"demo"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>file</span><span class='op'>(</span><span class='st'>"omni"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,11 +207,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

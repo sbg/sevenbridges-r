@@ -91,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -166,52 +166,52 @@
     <p>link two nodes to form a new Workflow</p>
     </div>
 
-    <pre class="usage"><span class='fu'>link</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>link</span><span class='op'>(</span><span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Tool,Tool</span>
-<span class='fu'>link</span>(
-  <span class='no'>from</span>,
-  <span class='no'>to</span>,
-  <span class='no'>id1</span>,
-  <span class='no'>id2</span>,
-  <span class='kw'>flow_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+<span class='fu'>link</span><span class='op'>(</span>
+  <span class='va'>from</span>,
+  <span class='va'>to</span>,
+  <span class='va'>id1</span>,
+  <span class='va'>id2</span>,
+  flow_id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_input <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_output <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for Tool,Workflow</span>
-<span class='fu'>link</span>(
-  <span class='no'>from</span>,
-  <span class='no'>to</span>,
-  <span class='no'>id1</span>,
-  <span class='no'>id2</span>,
-  <span class='kw'>flow_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+<span class='fu'>link</span><span class='op'>(</span>
+  <span class='va'>from</span>,
+  <span class='va'>to</span>,
+  <span class='va'>id1</span>,
+  <span class='va'>id2</span>,
+  flow_id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_input <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_output <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for Workflow,Tool</span>
-<span class='fu'>link</span>(
-  <span class='no'>from</span>,
-  <span class='no'>to</span>,
-  <span class='no'>id1</span>,
-  <span class='no'>id2</span>,
-  <span class='kw'>flow_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+<span class='fu'>link</span><span class='op'>(</span>
+  <span class='va'>from</span>,
+  <span class='va'>to</span>,
+  <span class='va'>id1</span>,
+  <span class='va'>id2</span>,
+  flow_id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_input <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flow_output <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
 <span class='co'># S4 method for Workflow,Workflow</span>
-<span class='fu'>link</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>id1</span>, <span class='no'>id2</span>)
+<span class='fu'>link</span><span class='op'>(</span><span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>id1</span>, <span class='va'>id2</span><span class='op'>)</span>
 
 <span class='co'># S4 method for App,ToolORWorkflow</span>
-<span class='fu'>link</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>id1</span>, <span class='no'>id2</span>)
+<span class='fu'>link</span><span class='op'>(</span><span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>id1</span>, <span class='va'>id2</span><span class='op'>)</span>
 
 <span class='co'># S4 method for ToolORWorkflow,App</span>
-<span class='fu'>link</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>id1</span>, <span class='no'>id2</span>)</pre>
+<span class='fu'>link</span><span class='op'>(</span><span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>id1</span>, <span class='va'>id2</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,12 +262,13 @@
     <p>Flexible enought to allow users to connect two objects by ids</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sevenbridges"</span>)
-<span class='no'>t1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t1</span>)
-<span class='no'>t2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span>(<span class='no'>t2</span>)
+    <pre class="examples"><div class='input'><span class='va'>t1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"tool_unpack_fastq.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>t2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/app"</span>, <span class='st'>"tool_star.json"</span>, package <span class='op'>=</span> <span class='st'>"sevenbridges"</span><span class='op'>)</span>
+<span class='va'>t1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span><span class='op'>(</span><span class='va'>t1</span><span class='op'>)</span>
+<span class='va'>t2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert_app.html'>convert_app</a></span><span class='op'>(</span><span class='va'>t2</span><span class='op'>)</span>
 <span class='co'># check possible link</span>
-<span class='fu'><a href='link_what.html'>link_what</a></span>(<span class='no'>t1</span>, <span class='no'>t2</span>)</div><div class='output co'>#&gt; $File...
+<span class='fu'><a href='link_what.html'>link_what</a></span><span class='op'>(</span><span class='va'>t1</span>, <span class='va'>t2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $File...
 #&gt; $File...$from
 #&gt;                    id              label    type fileTypes          full.name
 #&gt; 1 #output_fastq_files Output FASTQ files File...     FASTQ #SBG_Unpack_FASTQs
@@ -281,12 +282,14 @@
 #&gt; 95                                            GTF, GFF, TXT     #STAR
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># link</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(<span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>)</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.sjdbGTFfile / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.aligned_reads / #STAR.transcriptome_aligned_reads / #STAR.reads_per_gene / #STAR.log_files / #STAR.splice_junctions / #STAR.chimeric_junctions / #STAR.unmapped_reads / #STAR.intermediate_genome / #STAR.chimeric_alignments</span></div><div class='input'><span class='co'># link</span>
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>link</span>(
-  <span class='no'>t1</span>, <span class='no'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>,
-  <span class='kw'>flow_input</span> <span class='kw'>=</span> <span class='st'>"#SBG_Unpack_FASTQs.input_archive_file"</span>,
-  <span class='kw'>flow_output</span> <span class='kw'>=</span> <span class='st'>"#STAR.log_files"</span>
-)</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.log_files</span></div></pre>
+<span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='fu'>link</span><span class='op'>(</span><span class='va'>t1</span>, <span class='va'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.sjdbGTFfile / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.aligned_reads / #STAR.transcriptome_aligned_reads / #STAR.reads_per_gene / #STAR.log_files / #STAR.splice_junctions / #STAR.chimeric_junctions / #STAR.unmapped_reads / #STAR.intermediate_genome / #STAR.chimeric_alignments</span></div><div class='input'><span class='co'># link</span>
+<span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='fu'>link</span><span class='op'>(</span>
+  <span class='va'>t1</span>, <span class='va'>t2</span>, <span class='st'>"output_fastq_files"</span>, <span class='st'>"reads"</span>,
+  flow_input <span class='op'>=</span> <span class='st'>"#SBG_Unpack_FASTQs.input_archive_file"</span>,
+  flow_output <span class='op'>=</span> <span class='st'>"#STAR.log_files"</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>flow_input: #SBG_Unpack_FASTQs.input_archive_file / #STAR.genome</span></div><div class='output co'>#&gt; <span class='message'>flow_output: #STAR.log_files</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -298,11 +301,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

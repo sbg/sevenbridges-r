@@ -47,7 +47,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -168,7 +168,8 @@
 <h3 class="hasAnchor">
 <a href="#check-r-version" class="anchor"></a>Check R version</h3>
 <p>First, check the version of R you are using with the following command (in R):</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="no">R.version.string</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="va">R.version.string</span></pre></div>
 <p>If you are not running the latest release version of R, install or upgrade with <a href="https://www.bioconductor.org/install/#install-R">these instructions</a>. If you are using RStudio, restart RStudio after installing R. RStudio will detect the new installation.</p>
 </div>
 <div id="bioconductor---release-branch" class="section level3">
@@ -176,34 +177,38 @@
 <a href="#bioconductor---release-branch" class="anchor"></a>Bioconductor - Release Branch</h3>
 <p>This is recommended for most users as it is the most stable version.</p>
 <p>You can install the package from the <code>release</code> branch on Bioconductor using <code>BiocManager</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
-<span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"sevenbridges"</span><span class="op">)</span></pre></div>
 </div>
 <div id="bioconductor---development-branch" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bioconductor---development-branch" class="anchor"></a>Bioconductor - Development Branch</h3>
 <p>If you are developing tools under the <code>devel</code> branch or use the development version of R and Bioconductor, install the package from the Bioconductor <code>devel</code> branch. You probably also want to install R-devel first by following the directions in <a href="https://bioconductor.org/developers/how-to/useDevel/">“Using the ‘Devel’ Version of Bioconductor”</a>.</p>
 <p>To install the <code>sevenbridges</code> package from the <code>devel</code> branch, use</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
-<span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"sevenbridges"</span>, <span class="kw">version</span> <span class="kw">=</span> <span class="st">"devel"</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"sevenbridges"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></pre></div>
 </div>
 <div id="latest-development-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#latest-development-version" class="anchor"></a>Latest Development Version</h3>
 <p>To try the latest features, please install the package directly from GitHub. We push to the Bioconductor branch (<code>release</code> and <code>devel</code>) regularly.</p>
 <p>Installing the <code>sevenbridges</code> package from GitHub requires you have the <code>devtools</code> package. If you do not have <code>devtools</code>, install it from CRAN first.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></pre></div>
 <p>You may get an error for missing system dependecies such as curl and ssl. You probably need to do the following first in order to install <code>devtools</code> and to build vignettes since you need <code>pandoc</code> under Ubuntu.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">apt-get</span> update</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">apt-get</span> install libcurl4-gnutls-dev libssl-dev pandoc pandoc-citeproc</span></code></pre></div>
 <p>After <code>devtools</code> is installed, install the latest version of <code>sevenbridges</code> from GitHub:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span>
   <span class="st">"sbg/sevenbridges-r"</span>,
-  <span class="kw">repos</span> <span class="kw">=</span> <span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span>(),
-  <span class="kw">build_vignettes</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-)</pre></div>
+  repos <span class="op">=</span> <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/repositories.html">repositories</a></span><span class="op">(</span><span class="op">)</span>,
+  build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p>If you have trouble with <code>pandoc</code> and do not want to install it, set <code>build_vignettes = FALSE</code> to avoid building the vignettes.</p>
 </div>
 </div>
@@ -218,80 +223,86 @@
 <ul>
 <li>Direct authentication:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="co"># Direct authentication</span>
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_token"</span>, <span class="kw">platform</span> <span class="kw">=</span> <span class="st">"cgc"</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="co"># Direct authentication</span>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"your_token"</span>, platform <span class="op">=</span> <span class="st">"cgc"</span><span class="op">)</span>
 
 <span class="co"># or use base url</span>
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_token"</span>, <span class="kw">url</span> <span class="kw">=</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)</pre></div>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"your_token"</span>, url <span class="op">=</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span><span class="op">)</span></pre></div>
 <ul>
 <li>Authentication via system environment variables:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="reference/sbg_set_env.html">sbg_set_env</a></span>(<span class="kw">token</span> <span class="kw">=</span> <span class="st">"your_token"</span>, <span class="kw">url</span> <span class="kw">=</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span>)
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"env"</span>)</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="reference/sbg_set_env.html">sbg_set_env</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"your_token"</span>, url <span class="op">=</span> <span class="st">"https://cgc-api.sbgenomics.com/v2"</span><span class="op">)</span>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"env"</span><span class="op">)</span></pre></div>
 <ul>
 <li>Authentication via a user configuration file, collect and manage your credentials for multiple accounts across various Seven Bridges environments:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"file"</span>, <span class="kw">profile_name</span> <span class="kw">=</span> <span class="st">"aws-us-username"</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Auth-class.html">Auth</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"file"</span>, profile_name <span class="op">=</span> <span class="st">"aws-us-username"</span><span class="op">)</span></pre></div>
 <p>Please check <code><a href="articles/api.html">vignette("api", package = "sevenbridges")</a></code> for technical details about all available authentication methods.</p>
 </div>
 <div id="complete-api-r-client" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complete-api-r-client" class="anchor"></a>Complete API R Client</h3>
 <p>A complete API R client with a user-friendly, object-oriented API with printing and support operations for API requests relating to users, billing, projects, files, apps, and tasks. Short examples are also included, as shown below:</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># Get a project by pattern-matching its name</span>
-<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">project</span>(<span class="st">"demo"</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co"># Get a project by pattern-matching its name</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">project</span><span class="op">(</span><span class="st">"demo"</span><span class="op">)</span>
 
 <span class="co"># Get a project by its id</span>
-<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">a</span>$<span class="fu">project</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"username/demo"</span>)
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">$</span><span class="fu">project</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"username/demo"</span><span class="op">)</span>
 
 <span class="co"># Delete files from a project</span>
-<span class="no">p</span>$<span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(<span class="st">"sample.tz"</span>)$<span class="fu"><a href="reference/delete-methods.html">delete</a></span>()
+<span class="va">p</span><span class="op">$</span><span class="fu">file</span><span class="op">(</span><span class="st">"sample.tz"</span><span class="op">)</span><span class="op">$</span><span class="fu">delete</span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Upload fies from a folder to a project and include file metadata</span>
-<span class="no">p</span>$<span class="fu">upload</span>(<span class="st">"folder_path"</span>, <span class="kw">metadata</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">platform</span> <span class="kw">=</span> <span class="st">"Illumina"</span>))</pre></div>
+<span class="va">p</span><span class="op">$</span><span class="fu">upload</span><span class="op">(</span><span class="st">"folder_path"</span>, metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>platform <span class="op">=</span> <span class="st">"Illumina"</span><span class="op">)</span><span class="op">)</span></pre></div>
 </div>
 <div id="task-monitoring" class="section level3">
 <h3 class="hasAnchor">
 <a href="#task-monitoring" class="anchor"></a>Task Monitoring</h3>
 <p>A task monitoring hook which allows you to add a hook function to specific task statuses as you monitor a task. For example, you can opt to receive an email when the task is completed or specify to download all files produced by the task, as shown below:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="reference/TaskHook.html">setTaskHook</a></span>(<span class="st">"completed"</span>, <span class="kw">function</span>() {
-  <span class="no">tsk</span>$<span class="fu"><a href="reference/download-methods.html">download</a></span>(<span class="st">"~/Downloads"</span>)
-})
-<span class="no">tsk</span>$<span class="fu">monitor</span>()</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="reference/setTaskHook.html">setTaskHook</a></span><span class="op">(</span><span class="st">"completed"</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">tsk</span><span class="op">$</span><span class="fu">download</span><span class="op">(</span><span class="st">"~/Downloads"</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="va">tsk</span><span class="op">$</span><span class="fu">monitor</span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 <div id="batch-tasks-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#batch-tasks-support" class="anchor"></a>Batch Tasks Support</h3>
 <p>Batch tasks by metadata and by item.</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="co"># Batch by item</span>
-(<span class="no">tsk</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">task_add</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"RNA DE report new batch 2"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"RNA DE analysis report"</span>,
-  <span class="kw">app</span> <span class="kw">=</span> <span class="no">rna.app</span>$<span class="no">id</span>,
-  <span class="kw">batch</span> <span class="kw">=</span> <span class="fu"><a href="reference/batch.html">batch</a></span>(<span class="kw">input</span> <span class="kw">=</span> <span class="st">"bamfiles"</span>),
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">bamfiles</span> <span class="kw">=</span> <span class="no">bamfiles.in</span>,
-    <span class="kw">design</span> <span class="kw">=</span> <span class="no">design.in</span>,
-    <span class="kw">gtffile</span> <span class="kw">=</span> <span class="no">gtf.in</span>
-  )
-))
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="co"># Batch by item</span>
+<span class="op">(</span><span class="va">tsk</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">task_add</span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"RNA DE report new batch 2"</span>,
+  description <span class="op">=</span> <span class="st">"RNA DE analysis report"</span>,
+  app <span class="op">=</span> <span class="va">rna.app</span><span class="op">$</span><span class="va">id</span>,
+  batch <span class="op">=</span> <span class="fu"><a href="reference/batch.html">batch</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"bamfiles"</span><span class="op">)</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    bamfiles <span class="op">=</span> <span class="va">bamfiles.in</span>,
+    design <span class="op">=</span> <span class="va">design.in</span>,
+    gtffile <span class="op">=</span> <span class="va">gtf.in</span>
+  <span class="op">)</span>
+<span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Batch by metadata. Note that input files must</span>
 <span class="co"># have relevant metadata fields specified.</span>
-(<span class="no">tsk</span> <span class="kw">&lt;-</span> <span class="no">p</span>$<span class="fu">task_add</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"RNA DE report new batch 3"</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="st">"RNA DE analysis report"</span>,
-  <span class="kw">app</span> <span class="kw">=</span> <span class="no">rna.app</span>$<span class="no">id</span>,
-  <span class="kw">batch</span> <span class="kw">=</span> <span class="fu"><a href="reference/batch.html">batch</a></span>(
-    <span class="kw">input</span> <span class="kw">=</span> <span class="st">"fastq"</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span>)
-  ),
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">bamfiles</span> <span class="kw">=</span> <span class="no">bamfiles.in</span>,
-    <span class="kw">design</span> <span class="kw">=</span> <span class="no">design.in</span>,
-    <span class="kw">gtffile</span> <span class="kw">=</span> <span class="no">gtf.in</span>
-  )
-))</pre></div>
+<span class="op">(</span><span class="va">tsk</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">$</span><span class="fu">task_add</span><span class="op">(</span>
+  name <span class="op">=</span> <span class="st">"RNA DE report new batch 3"</span>,
+  description <span class="op">=</span> <span class="st">"RNA DE analysis report"</span>,
+  app <span class="op">=</span> <span class="va">rna.app</span><span class="op">$</span><span class="va">id</span>,
+  batch <span class="op">=</span> <span class="fu"><a href="reference/batch.html">batch</a></span><span class="op">(</span>
+    input <span class="op">=</span> <span class="st">"fastq"</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"metadata.sample_id"</span>, <span class="st">"metadata.library_id"</span><span class="op">)</span>
+  <span class="op">)</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    bamfiles <span class="op">=</span> <span class="va">bamfiles.in</span>,
+    design <span class="op">=</span> <span class="va">design.in</span>,
+    gtffile <span class="op">=</span> <span class="va">gtf.in</span>
+  <span class="op">)</span>
+<span class="op">)</span><span class="op">)</span></pre></div>
 </div>
 <div id="cross-environment-support" class="section level3">
 <h3 class="hasAnchor">
@@ -302,46 +313,48 @@
 <h3 class="hasAnchor">
 <a href="#common-workflow-language-tool-interface" class="anchor"></a>Common Workflow Language Tool Interface</h3>
 <p>A <a href="http://www.commonwl.org/">Common Workflow Language (CWL)</a> Tool interface to directly describe your tool in R, export it to JSON or YAML, or add it to your online project. This package defines a complete set of CWL object, so you can describe tools as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="no">fd</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/requirements.html">fileDef</a></span>(<span class="kw">name</span> <span class="kw">=</span> <span class="st">"runif.R"</span>, <span class="kw">content</span> <span class="kw">=</span> <span class="kw pkg">readr</span><span class="kw ns">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span>(<span class="no">fl</span>))
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">fd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/CPURequirement-class.html">fileDef</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"runif.R"</span>, content <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html">read_file</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">rbx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/Tool-class.html">Tool</a></span>(
-  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"runif"</span>,
-  <span class="kw">hints</span> <span class="kw">=</span> <span class="fu"><a href="reference/requirements.html">requirements</a></span>(
-    <span class="fu"><a href="reference/requirements.html">docker</a></span>(<span class="kw">pull</span> <span class="kw">=</span> <span class="st">"rocker/r-base"</span>),
-    <span class="fu"><a href="reference/requirements.html">cpu</a></span>(<span class="fl">1</span>), <span class="fu"><a href="reference/requirements.html">mem</a></span>(<span class="fl">2000</span>)
-  ),
-  <span class="kw">requirements</span> <span class="kw">=</span> <span class="fu"><a href="reference/requirements.html">requirements</a></span>(<span class="no">fd</span>),
-  <span class="kw">baseCommand</span> <span class="kw">=</span> <span class="st">"Rscript runif.R"</span>,
-  <span class="kw">stdout</span> <span class="kw">=</span> <span class="st">"output.txt"</span>,
-  <span class="kw">inputs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="fu"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"number"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"integer"</span>, <span class="kw">position</span> <span class="kw">=</span> <span class="fl">1</span>),
-    <span class="fu"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"min"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"float"</span>, <span class="kw">position</span> <span class="kw">=</span> <span class="fl">2</span>),
-    <span class="fu"><a href="reference/shorthand-cwl.html">input</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"max"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"float"</span>, <span class="kw">position</span> <span class="kw">=</span> <span class="fl">3</span>)
-  ),
-  <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu"><a href="reference/shorthand-cwl.html">output</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"random"</span>, <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"output.txt"</span>)
-)
+<span class="va">rbx</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Tool-class.html">Tool</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="st">"runif"</span>,
+  label <span class="op">=</span> <span class="st">"runif"</span>,
+  hints <span class="op">=</span> <span class="fu"><a href="reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span>
+    <span class="fu"><a href="reference/CPURequirement-class.html">docker</a></span><span class="op">(</span>pull <span class="op">=</span> <span class="st">"rocker/r-base"</span><span class="op">)</span>,
+    <span class="fu"><a href="reference/CPURequirement-class.html">cpu</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="reference/CPURequirement-class.html">mem</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span>
+  <span class="op">)</span>,
+  requirements <span class="op">=</span> <span class="fu"><a href="reference/CPURequirement-class.html">requirements</a></span><span class="op">(</span><span class="va">fd</span><span class="op">)</span>,
+  baseCommand <span class="op">=</span> <span class="st">"Rscript runif.R"</span>,
+  stdout <span class="op">=</span> <span class="st">"output.txt"</span>,
+  inputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="reference/CLB.html">input</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"number"</span>, type <span class="op">=</span> <span class="st">"integer"</span>, position <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+    <span class="fu"><a href="reference/CLB.html">input</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"min"</span>, type <span class="op">=</span> <span class="st">"float"</span>, position <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
+    <span class="fu"><a href="reference/CLB.html">input</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"max"</span>, type <span class="op">=</span> <span class="st">"float"</span>, position <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+  <span class="op">)</span>,
+  outputs <span class="op">=</span> <span class="fu"><a href="reference/CLB.html">output</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"random"</span>, glob <span class="op">=</span> <span class="st">"output.txt"</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># Print CWL JSON</span>
-<span class="no">rbx</span>$<span class="fu">toJSON</span>(<span class="kw">pretty</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="va">rbx</span><span class="op">$</span><span class="fu">toJSON</span><span class="op">(</span>pretty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Print CWL YAML</span>
-<span class="no">rbx</span>$<span class="fu">toYAML</span>()</pre></div>
+<span class="va">rbx</span><span class="op">$</span><span class="fu">toYAML</span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 <div id="utilities-for-tool-and-flow" class="section level3">
 <h3 class="hasAnchor">
 <a href="#utilities-for-tool-and-flow" class="anchor"></a>Utilities for Tool and Flow</h3>
 <p>Utilities for <code>Tool</code> and <code>Flow</code>, for example</p>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sevenbridges"</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.sevenbridges.com">"sevenbridges"</a></span><span class="op">)</span>
 
 <span class="co"># convert a SBG CWL JSON file</span>
-<span class="no">t1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"sevenbridges"</span>)
+<span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/app"</span>, <span class="st">"tool_star.json"</span>, package <span class="op">=</span> <span class="st">"sevenbridges"</span><span class="op">)</span>
 
 <span class="co"># convert json file into a Tool object</span>
-<span class="no">t1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/convert_app.html">convert_app</a></span>(<span class="no">t1</span>)
+<span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/convert_app.html">convert_app</a></span><span class="op">(</span><span class="va">t1</span><span class="op">)</span>
 
 <span class="co"># shows all input matrix</span>
-<span class="no">t1</span>$<span class="fu"><a href="reference/input_output_matrix.html">input_matrix</a></span>()</pre></div>
+<span class="va">t1</span><span class="op">$</span><span class="fu">input_matrix</span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 </div>
 <div id="tutorials" class="section level2">
@@ -406,12 +419,13 @@
 <p>In your browser, you can see where the RStudio server is located from the path <code>http://&lt;url&gt;:8787/</code>. For example, if 192.168.99.100 is returned, visit <code>http://192.168.99.100:8787/</code> for Rstudio.</p>
 <p>For the Shiny server, each app__ is hosted at <code>http://&lt;url&gt;:3838/users/&lt;username of rstudio&gt;/&lt;app_dir&gt;</code> for the Shiny server. For example, an app called <code>01_hello</code> owned by user <code>rstudio</code> (a default user) has the path <code>http://&lt;url&gt;:3838/users/rstudio/01_hello/</code>. To develop your Shiny apps as an Rstudio user, you can login your RStudio server and create a folder in your home folder called <code>~/ShinyApps</code>. There, you can develop shiny apps in that folder. For example, you can create an app called <code>02_text</code> at <code>~/ShinyApps/02_text/</code>.</p>
 <p>Log into your RStudio at <code>http://&lt;url&gt;:8787</code>. Then, try to copy an app to your home folder, as follows:</p>
-<div class="sourceCode" id="cb18"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"~/ShinyApps"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span>(
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"~/ShinyApps"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span><span class="op">(</span>
   <span class="st">"/usr/local/lib/R/site-library/shiny/examples/01_hello/"</span>,
   <span class="st">"~/ShinyApps/"</span>,
-  <span class="kw">recursive</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-)</pre></div>
+  recursive <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p>If you are logged in as user <code>rstudio</code>, visit <code>http://192.168.99.100:3838/rstudio/01_hello</code>. You should be able to see the “hello” example.</p>
 <p><em>Note</em>: Generic Shiny apps can also be hosted at <code>http://&lt;url&gt;:3838/</code> or, for a particular app, at <code>http://&lt;url&gt;:3838/&lt;app_dir&gt;</code>. Inside the Docker container, it’s hosted under <code>/srv/shiny-server/</code>.</p>
 </div>
@@ -420,7 +434,6 @@
 <a href="#faq" class="anchor"></a>FAQ</h2>
 <p>The best place to ask questions about the <code>sevenbridges</code> package is the <a href="https://groups.google.com/forum/#!forum/sevenbridges-r">mailing list</a>.</p>
 <ul>
-<li><p><strong>Q</strong>: Does this package support Seven Bridges’ API v1 which was not CWL compatible?<br><strong>A</strong>: No. This package only supports API v2 +. For API v1, please check out the <a href="https://github.com/nanxstats/sbgr">sbgr</a> package. Note that API v1 and associated legacy project types will be deprecated eventually.</p></li>
 <li><p><strong>Q</strong>: Which version of the Common Workflow Language (CWL) is supported?<br><strong>A</strong>: We support draft 2 and are making progress on supporting draft 3.</p></li>
 <li><p><strong>Q</strong>: Is there a Python binding for the API?<br><strong>A</strong>: Yes, the official Python client is <a href="https://github.com/sbg/sevenbridges-python">here</a>. Recipes and tutorials using the Python bindings are <a href="https://github.com/sbg/okAPI">here</a>.</p></li>
 <li><p><strong>Q</strong>: Why do I get warning messages when I use the API R client?<br><strong>A</strong>: The warning only exists in Rstudio and is potentially a bug in Rstudio. To ignore, it use <code><a href="https://rdrr.io/r/base/options.html">options(warn = -1)</a></code></p></li>
@@ -518,7 +531,8 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Nan Xiao <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Soner Koc <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Nan Xiao <br><small class="roles"> Author </small>  </li>
 <li>Tengfei Yin <br><small class="roles"> Author </small>  </li>
 <li>Seven Bridges Genomics <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
@@ -529,7 +543,6 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/sbg/sevenbridges-r"><img src="https://travis-ci.org/sbg/sevenbridges-r.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/nanxstats/sevenbridges-r"><img src="https://ci.appveyor.com/api/projects/status/github/sbg/sevenbridges-r?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://bioconductor.org/packages/release/bioc/html/sevenbridges.html#since"><img src="https://www.bioconductor.org/shields/years-in-bioc/sevenbridges.svg" alt="BioC"></a></li>
 <li><a href="https://bioconductor.org/packages/stats/bioc/sevenbridges/"><img src="https://www.bioconductor.org/shields/downloads/sevenbridges.svg" alt="Downloads"></a></li>
 <li><a href="https://hub.docker.com/r/sevenbridges/sevenbridges-r/"><img src="https://img.shields.io/docker/pulls/sevenbridges/sevenbridges-r.svg" alt="Docker Pulls"></a></li>
@@ -540,11 +553,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

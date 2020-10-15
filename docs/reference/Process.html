@@ -93,7 +93,7 @@ be directly executed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sevenbridges-r</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.19.2</span>
       </span>
     </div>
 
@@ -176,7 +176,7 @@ be directly executed.</p>
 
     
 
-<dl'>
+<dl>
 <dt><code>id</code></dt><dd><p>[character] The unique identifier for this process
 object.</p></dd>
 
@@ -213,26 +213,27 @@ of this process object.</p></dd>
 </dl>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ipl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='Parameter.html'>InputParameterList</a></span>(
-  <span class='fu'><a href='Parameter.html'>InputParameter</a></span>(
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"BAM"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"File"</span>,
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"input bam"</span>,
-    <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"input bam"</span>,
-    <span class='kw'>inputBinding</span> <span class='kw'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span>(
-      <span class='kw'>position</span> <span class='kw'>=</span> <span class='fl'>1L</span>
-    )
-  ),
-  <span class='fu'><a href='Parameter.html'>InputParameter</a></span>(
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"level"</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Integer"</span>,
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Compression level"</span>,
-    <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Compression level"</span>,
-    <span class='kw'>inputBinding</span> <span class='kw'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span>(
-      <span class='kw'>position</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
-      <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"-l"</span>
-    )
-  )
-)
-<span class='no'>ipl</span></div><div class='output co'>#&gt; [[1]]
+    <pre class="examples"><div class='input'><span class='va'>ipl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Parameter-class.html'>InputParameterList</a></span><span class='op'>(</span>
+  <span class='fu'><a href='Parameter-class.html'>InputParameter</a></span><span class='op'>(</span>
+    id <span class='op'>=</span> <span class='st'>"BAM"</span>, type <span class='op'>=</span> <span class='st'>"File"</span>,
+    label <span class='op'>=</span> <span class='st'>"input bam"</span>,
+    description <span class='op'>=</span> <span class='st'>"input bam"</span>,
+    inputBinding <span class='op'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span><span class='op'>(</span>
+      position <span class='op'>=</span> <span class='fl'>1L</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='Parameter-class.html'>InputParameter</a></span><span class='op'>(</span>
+    id <span class='op'>=</span> <span class='st'>"level"</span>, type <span class='op'>=</span> <span class='st'>"Integer"</span>,
+    label <span class='op'>=</span> <span class='st'>"Compression level"</span>,
+    description <span class='op'>=</span> <span class='st'>"Compression level"</span>,
+    inputBinding <span class='op'>=</span> <span class='fu'><a href='CommandLineBinding-class.html'>CommandLineBinding</a></span><span class='op'>(</span>
+      position <span class='op'>=</span> <span class='fl'>2L</span>,
+      prefix <span class='op'>=</span> <span class='st'>"-l"</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>ipl</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; type:
 #&gt; - File
 #&gt; label: input bam
@@ -254,8 +255,9 @@ of this process object.</p></dd>
 #&gt;   position: 2
 #&gt;   prefix: -l
 #&gt;   separate: yes
-#&gt; </div><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>Process</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"process"</span>, <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='no'>ipl</span>)
-<span class='no'>p</span></div><div class='output co'>#&gt; id: '#process'
+#&gt; </div><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>Process</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"process"</span>, inputs <span class='op'>=</span> <span class='va'>ipl</span><span class='op'>)</span>
+<span class='va'>p</span>
+</div><div class='output co'>#&gt; id: '#process'
 #&gt; inputs:
 #&gt; - type:
 #&gt;   - File
@@ -291,11 +293,11 @@ of this process object.</p></dd>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
+  <p>Developed by Soner Koc, Nan Xiao, Tengfei Yin, Seven Bridges Genomics.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
