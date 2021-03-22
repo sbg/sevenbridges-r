@@ -27,14 +27,6 @@ Project <- setRefClass(
                           root_folder = "", created_by = "",
                           created_on = "", modified_on = "", ...) {
       if (is.null(id)) stop("id is required")
-
-      # FIXME in the future
-      if (length(tags)) {
-        if (tags != "tcga") {
-          stop("tags has to be empty list() (default) or 'tcga' for now")
-        }
-      }
-
       id <<- id
       name <<- name
       billing_group_id <<- billing_group_id
