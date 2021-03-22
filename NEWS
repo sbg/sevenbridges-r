@@ -1,3 +1,9 @@
+# sevenbridges 1.19.3
+
+## Bug Fixes
+
+- Fixed issue of stoping when fetching project with tags
+
 # sevenbridges 1.19.2
 
 ## Improvements
