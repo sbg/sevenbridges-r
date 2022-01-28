@@ -48,8 +48,10 @@ secondaryFiles for which the same rules apply.}
 library(jsonlite)
 library(yaml)
 f1 <- File()
-f2 <- File(path = "./out.bam", checksum = "test",
-           size = 3L, secondaryFile = FileList(File(path = "./out.bai")))
+f2 <- File(
+  path = "./out.bam", checksum = "test",
+  size = 3L, secondaryFile = FileList(File(path = "./out.bai"))
+)
 fl <- FileList(f1, f2)
 asList(fl)
 f1

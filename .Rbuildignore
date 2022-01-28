@@ -9,3 +9,4 @@
 ^_NEWS\.md$
 ^.*~$
 hooks
+^.idea$

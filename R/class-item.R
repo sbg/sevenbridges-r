@@ -31,14 +31,16 @@ Item <- setRefClass(
 #' @rdname response-methods
 #' @examples
 #' \dontrun{
-#' response(x)}
+#' response(x)
+#' }
 setGeneric("response", function(x) standardGeneric("response"))
 
 #' @export
 #' @docType methods
 #' @rdname response-methods
-setGeneric("response<-", function(x, value)
-  standardGeneric("response<-"))
+setGeneric("response<-", function(x, value) {
+  standardGeneric("response<-")
+})
 
 #' @rdname response-methods
 #' @aliases response,ANY-method

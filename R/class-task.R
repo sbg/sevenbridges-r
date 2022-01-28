@@ -4,14 +4,13 @@
   "app", "type", "created_by", "created_time", "executed_by",
   "start_time", "end_time", "execution_status", "price",
   "inputs", "outputs", "project", "batch", "batch_input", "batch_by",
-  "parent", "batch_group", "errors", "warnings"
+  "parent", "batch_group", "errors", "warnings", "output_location", "message"
 )
 
 Task <- setRefClass(
 
   "Task",
   contains = "Item",
-
   fields = list(
     id = "characterORNULL",
     name = "characterORNULL",
@@ -37,9 +36,10 @@ Task <- setRefClass(
     parent = "characterORNULL",
     batch_group = "listORNULL",
     errors = "listORNULL",
-    warnings = "listORNULL"
+    warnings = "listORNULL",
+    output_location = "listORNULL",
+    message = "characterORNULL"
   ),
-
   methods = list(
     # initialize = function(execution_status = NULL, ...) {
     #   if (!is.null(execution_status)) {
@@ -79,25 +79,21 @@ Task <- setRefClass(
       for (nm in .ts) .self$field(nm, res[[nm]])
       .asTask(res)
     },
-
     getInputs = function(...) {
       auth$api(
         path = paste0("tasks/", id, "/inputs"),
         method = "GET", ...
       )
     },
-
     get_input = function(...) {
       getInputs(...)
     },
-
     delete = function(...) {
       auth$api(
         path = paste0("tasks/", id),
         method = "DELETE", ...
       )
     },
-
     abort = function(...) {
       # turn this into a list
       req <- auth$api(
@@ -109,7 +105,6 @@ Task <- setRefClass(
       for (nm in .ts) .self$field(nm, req[[nm]])
       .asTask(req)
     },
-
     monitor = function(time = 30, ...) {
       # TODO:
       # set hook function
@@ -127,11 +122,9 @@ Task <- setRefClass(
         Sys.sleep(time)
       }
     },
-
     file = function(...) {
       auth$file(project = project, origin.task = id, ...)
     },
-
     download = function(destfile, ..., method = "curl") {
       if (is.null(outputs)) update()
 
@@ -148,7 +141,6 @@ Task <- setRefClass(
         fl$download(destfile, ..., method = method)
       }
     },
-
     run = function(...) {
       # turn this into a list
 
@@ -174,7 +166,6 @@ Task <- setRefClass(
       }
       .asTask(req)
     },
-
     show = function() {
       .showFields(.self, "== Task ==", .ts)
     }
@@ -208,14 +199,13 @@ TaskHook <- setRefClass(
     aborted = "function",
     failed = "function"
   ),
-
   methods = list(
     initialize = function(queued = NULL,
-                              draft = NULL,
-                              running = NULL,
-                              completed = NULL,
-                              aborted = NULL,
-                              failed = NULL, ...) {
+                          draft = NULL,
+                          running = NULL,
+                          completed = NULL,
+                          aborted = NULL,
+                          failed = NULL, ...) {
       if (is.null(completed)) {
         completed <<- function(...) {
           cat("\r", "completed")
@@ -259,13 +249,11 @@ TaskHook <- setRefClass(
         }
       }
     },
-
     setHook = function(status = c("queued", "draft", "running", "completed", "aborted", "failed"), fun) {
       stopifnot(is.function(fun))
       status <- match.arg(status)
       .self$field(status, fun)
     },
-
     getHook = function(status = c("queued", "draft", "running", "completed", "aborted", "failed")) {
       status <- match.arg(status)
       .self[[status]]

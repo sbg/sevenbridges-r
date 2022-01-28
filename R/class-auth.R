@@ -71,15 +71,14 @@ Auth <- setRefClass(
     fs = "FSORNULL",
     authorization = "logical"
   ),
-
   methods = list(
 
     # initialize ---------------------------------------------------------------
     initialize =
       function(from = c("direct", "env", "file"), platform = NULL, url = NULL,
-                     token = NULL, sysenv_url = NULL, sysenv_token = NULL,
-                     config_file = NULL, profile_name = NULL, fs = NULL,
-                     authorization = FALSE, ...) {
+               token = NULL, sysenv_url = NULL, sysenv_token = NULL,
+               config_file = NULL, profile_name = NULL, fs = NULL,
+               authorization = FALSE, ...) {
 
         # Authentication Logic
         #
@@ -290,8 +289,8 @@ Auth <- setRefClass(
 
     # api paths ----------------------------------------------------------------
     api = function(..., limit = getOption("sevenbridges")$"limit",
-                       offset = getOption("sevenbridges")$"offset",
-                       fields = NULL, complete = FALSE) {
+                   offset = getOption("sevenbridges")$"offset",
+                   fields = NULL, complete = FALSE) {
       "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
 
       req <- sevenbridges::api(
@@ -381,7 +380,6 @@ Auth <- setRefClass(
         return(req)
       }
     },
-
     invoice = function(id = NULL, ...) {
       "If no id provided, This call returns a list of invoices, with information about each, including whether or not the invoice is pending and the billing period it covers. The call returns information about all your available invoices, unless you use the query parameter bg_id to specify the ID of a particular billing group, in which case it will return the invoice incurred by that billing group only. If id was provided, This call retrieves information about a selected invoice, including the costs for analysis and storage, and the invoice period."
 
@@ -420,11 +418,10 @@ Auth <- setRefClass(
 
       obj <- setAuth(obj, .self, "Project")
     },
-
     project_new = function(name = NULL, billing_group_id = NULL,
-                               description = name, tags = list(),
-                               type = "v2", locked = FALSE,
-                               use_interruptible_instances = FALSE, ...) {
+                           description = name, tags = list(),
+                           type = "v2", locked = FALSE,
+                           use_interruptible_instances = FALSE, ...) {
       "Create new projects, required parameters: name, billing_group_id, optional parameteres: tags, description, type, and settings."
 
       if (is.null(name) || is.null(billing_group_id)) {
@@ -454,8 +451,8 @@ Auth <- setRefClass(
 
     # Project call
     project = function(name = NULL, id = NULL, index = NULL,
-                           ignore.case = TRUE, exact = FALSE,
-                           owner = NULL, detail = FALSE, ...) {
+                       ignore.case = TRUE, exact = FALSE,
+                       owner = NULL, detail = FALSE, ...) {
       "If no id or name provided, this call returns a list of all projects you are a member of. Each project's project_id and URL on the platform will be returned. If name or id provided, we do a match search the list."
 
       if (!is.null(id)) {
@@ -485,7 +482,9 @@ Auth <- setRefClass(
         ignore.case = ignore.case
       )
 
-      if (!length(res)) return(NULL)
+      if (!length(res)) {
+        return(NULL)
+      }
 
       # if (length(res) == 1) {
       #   .id = res$id
@@ -521,9 +520,9 @@ Auth <- setRefClass(
 
     # files --------------------------------------------------------------------
     file = function(name = NULL, id = NULL, project = NULL, exact = FALSE,
-                        detail = FALSE, metadata = list(), origin.task = NULL,
-                        tag = NULL, complete = FALSE,
-                        search.engine = c("server", "brute"), ...) {
+                    detail = FALSE, metadata = list(), origin.task = NULL,
+                    tag = NULL, complete = FALSE,
+                    search.engine = c("server", "brute"), ...) {
       "This call returns a list of all files in a specified project that you can access. For each file, the call returns: 1) Its ID 2) Its filename The project is specified as a query parameter in the call."
 
       search.engine <- match.arg(search.engine)
@@ -646,11 +645,9 @@ Auth <- setRefClass(
       res <- setAuth(res, .self, "Files")
       res
     },
-
     public_file = function(...) {
       file(project = "admin/sbg-public-data", ...)
     },
-
     copyFile = function(id, project = NULL, name = "") {
       if (is.null(project)) {
         stop("project ID need to be provided, to which the file is copied to")
@@ -676,16 +673,15 @@ Auth <- setRefClass(
         setAuth(res, .self, "Files")
       }
     },
-
     copy_file = function(id, project = NULL, name = "") {
       copyFile(id = id, project = project, name = name)
     },
 
     # apps ---------------------------------------------------------------------
     app = function(name = NULL, id = NULL, exact = FALSE, ignore.case = TRUE,
-                       detail = FALSE, project = NULL, query = NULL,
-                       visibility = c("project", "public"),
-                       revision = NULL, complete = FALSE, ...) {
+                   detail = FALSE, project = NULL, query = NULL,
+                   visibility = c("project", "public"),
+                   revision = NULL, complete = FALSE, ...) {
       visibility <- match.arg(visibility)
 
       if (visibility == "public") {
@@ -778,15 +774,15 @@ Auth <- setRefClass(
         res <- AppList(lst)
       }
 
-      if (!length(res)) return(NULL)
+      if (!length(res)) {
+        return(NULL)
+      }
 
       setAuth(res, .self, "App")
     },
-
     public_app = function(...) {
       app(visibility = "public", ...)
     },
-
     copyApp = function(id, project = NULL, name = "") {
       if (is.null(project)) {
         stop("project ID need to be provided, to which the file is copied to")
@@ -812,15 +808,14 @@ Auth <- setRefClass(
         setAuth(res, .self, "App")
       }
     },
-
     copy_app = function(id, project = NULL, name = "") {
       copyApp(id = id, project = project, name = name)
     },
 
     # tasks --------------------------------------------------------------------
     task = function(name = NULL, id = NULL, project = NULL, parent = NULL,
-                        exact = FALSE, detail = FALSE,
-                        status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"), ...) {
+                    exact = FALSE, detail = FALSE,
+                    status = c("all", "queued", "draft", "running", "completed", "aborted", "failed"), ...) {
       status <- match.arg(status)
 
       if (!is.null(id)) {
@@ -904,7 +899,7 @@ Auth <- setRefClass(
 
     # volumes ------------------------------------------------------------------
     mount = function(mountPoint = NULL, projectId = NULL,
-                         ignore.stdout = TRUE, sudo = TRUE, ...) {
+                     ignore.stdout = TRUE, sudo = TRUE, ...) {
       fs <<- FS(authToken = token, ...)
       fs$mount(
         mountPoint = mountPoint,
@@ -913,11 +908,9 @@ Auth <- setRefClass(
         sudo = sudo
       )
     },
-
     unmount = function(...) {
       fs$unmount(...)
     },
-
     get_id_from_path = function(p) {
       ids <- a$api(
         path = "action/files/get_ids",
@@ -935,12 +928,11 @@ Auth <- setRefClass(
       }
       id.valid
     },
-
     add_volume = function(name = NULL, type = c("s3", "gcs"), root_url = NULL,
-                              bucket = NULL, prefix = "", access_key_id = NULL,
-                              secret_access_key = NULL, client_email = NULL,
-                              private_key = NULL, sse_algorithm = "AES256",
-                              aws_canned_acl = NULL, access_mode = c("RW", "RO")) {
+                          bucket = NULL, prefix = "", access_key_id = NULL,
+                          secret_access_key = NULL, client_email = NULL,
+                          private_key = NULL, sse_algorithm = "AES256",
+                          aws_canned_acl = NULL, access_mode = c("RW", "RO")) {
       if (is.null(name)) {
         stop("Please provide name, the name of the volume. It must be unique from all other volumes for this user.")
       }
@@ -987,9 +979,8 @@ Auth <- setRefClass(
       res <- setAuth(res, .self, "Volume")
       res
     },
-
     volume = function(name = NULL, id = NULL, index = NULL, ignore.case = TRUE,
-                          exact = FALSE, detail = FALSE, ...) {
+                      exact = FALSE, detail = FALSE, ...) {
       "If no id or name provided, this call returns a list of all volumes you are a member of. If name or id provided, we did a match search the list."
 
       if (!is.null(id)) {
@@ -1012,7 +1003,9 @@ Auth <- setRefClass(
         ignore.case = ignore.case
       )
 
-      if (!length(res)) return(NULL)
+      if (!length(res)) {
+        return(NULL)
+      }
 
       if (detail && length(res)) {
         if (is(res, "SimpleList")) {
@@ -1047,7 +1040,6 @@ Auth <- setRefClass(
         method = "POST", ...
       )
     },
-
     send_feedback = function(text, type = c("idea", "thought", "problem"), referrer = NULL, ...) {
       "Send feedback to Seven Bridges."
       text <- paste0(as.character(text), collapse = " ")
@@ -1129,17 +1121,14 @@ Auth <- setRefClass(
 
       res
     },
-
     bulk_file_edit = function(...) {
       "Edit details of multiple files (preserving the omitted fields)."
       NULL
     },
-
     bulk_file_update = function(...) {
       "Update details of multiple files (removing the omitted fields)."
       NULL
     },
-
     bulk_file_delete = function(file_ids, ...) {
       "Delete multiple files."
       if (length(file_ids) <= 100L) {
@@ -1172,7 +1161,6 @@ Auth <- setRefClass(
 
       res
     },
-
     bulk_task_get = function(task_ids, ...) {
       "Get details of multiple tasks."
       if (length(task_ids) <= 100L) {
@@ -1205,22 +1193,18 @@ Auth <- setRefClass(
 
       res
     },
-
     bulk_volume_import = function(...) {
       "Bulk import from volumes."
       NULL
     },
-
     bulk_volume_export = function(...) {
       "Bulk export to volumes."
       NULL
     },
-
     bulk_volume_get_import = function(...) {
       "Get details of a bulk import job."
       NULL
     },
-
     bulk_volume_get_export = function(...) {
       "Get details of a bulk export job."
       NULL
